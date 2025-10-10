@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "654145881639",
+    "project_id": "moonforge-bc",
+    "storage_bucket": "moonforge-bc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654145881639:android:30ec344d665f22c7417002",
+        "android_client_info": {
+          "package_name": "de.bruckcode.moonforge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654145881639-jm7g5ons351iof13dpnvefbu99j33glh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFvEFiyUiaMrOzTFxigK1oMF0yFZM7eTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654145881639-jm7g5ons351iof13dpnvefbu99j33glh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "654145881639-iftev2vvfhsft8v9aldpqrjp2l1cv123.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.bruckcode.moonforge"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
