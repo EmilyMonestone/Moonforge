@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="add initial project structure and configuration files for moonforge">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor workspace configuration and update task summaries for clarity">
+      <change afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760091281167</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactor workspace configuration and update task summaries for clarity">
+      <option name="closed" value="true" />
+      <created>1760365146289</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760365146289</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -119,7 +131,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add initial screens and routing for campaign, chapter, adventure, and encounter features" />
     <MESSAGE value="add initial project structure and configuration files for moonforge" />
-    <option name="LAST_COMMIT_MESSAGE" value="add initial project structure and configuration files for moonforge" />
+    <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor workspace configuration and update task summaries for clarity" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -136,6 +149,12 @@
           <option name="totalLines" value="915136" />
           <option name="info" value="add initial project structure and configuration fi" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760365146544" />
+          <option name="linesCode" value="5578" />
+          <option name="totalLines" value="915136" />
+          <option name="info" value="refactor workspace configuration and update task s" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -145,6 +164,12 @@
           <option name="linesCode" value="5578" />
           <option name="totalLines" value="915136" />
           <option name="info" value="Oct 10, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760365146544" />
+          <option name="linesCode" value="5578" />
+          <option name="totalLines" value="915136" />
+          <option name="info" value="Oct 13, 2025" />
         </TimePoint>
       </list>
     </option>
