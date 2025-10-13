@@ -10,71 +10,94 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
+    AutoRoute(
+      path: '/',
+      page: LayoutShell.page,
+      initial: true,
+      children: [
+        // Tabs
+        AutoRoute(
+          path: '',
+          page: HomeRoute.page,
+          children: [
+            // Feature routes inside Home tab
+            AutoRoute(path: 'campaign/:campaignId', page: CampaignRoute.page),
+            AutoRoute(
+              path: 'campaign/:campaignId/edit',
+              page: CampaignEditRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/chapter/:chapterId',
+              page: ChapterRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/chapter/:chapterId/edit',
+              page: ChapterEditRoute.page,
+            ),
+            AutoRoute(
+              path:
+                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId',
+              page: AdventureRoute.page,
+            ),
+            AutoRoute(
+              path:
+                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/edit',
+              page: AdventureEditRoute.page,
+            ),
+            AutoRoute(
+              path:
+                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId',
+              page: SceneRoute.page,
+            ),
+            AutoRoute(
+              path:
+                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId/edit',
+              page: SceneEditRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/encoutner/:encoutnerId',
+              page: EncounterRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/encoutner/:encoutnerId/edit',
+              page: EncounterEditRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/entity/:entityId',
+              page: EntityRoute.page,
+            ),
+            AutoRoute(
+              path: 'campaign/:campaignId/entity/:entityId/edit',
+              page: EntityEditRoute.page,
+            ),
+
+            // Parties: nest member/session under a party for TwoPane support
+            AutoRoute(
+              path: 'party/:partyId',
+              page: PartyRoute.page,
+              children: [
+                AutoRoute(path: 'member/:memberId', page: MemberRoute.page),
+                AutoRoute(
+                  path: 'member/:memberId/edit',
+                  page: MemberEditRoute.page,
+                ),
+                AutoRoute(path: 'session/:sessionId', page: SessionRoute.page),
+                AutoRoute(
+                  path: 'session/:sessionId/edit',
+                  page: SessionEditRoute.page,
+                ),
+              ],
+            ),
+
+            AutoRoute(path: 'login', page: LoginRoute.page),
+          ],
+        ),
+        AutoRoute(path: 'settings', page: SettingsRoute.page),
+      ],
+    ),
+
+    // Unknown/fallback — keep last at top level
     AutoRoute(path: '*', page: UnknownPathRoute.page),
-    AutoRoute(path: '', initial: true, page: HomeRoute.page),
-    AutoRoute(path: '/campaign/:campaignId', page: CampaignRoute.page),
-    AutoRoute(path: '/campaign/:campaignId/edit', page: CampaignEditRoute.page),
-    AutoRoute(
-      path: '/campaign/:campaignId/chapter/:chapterId',
-      page: ChapterRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/chapter/:chapterId/edit',
-      page: ChapterEditRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/chapter/:chapterId/adventure/:adventureId',
-      page: AdventureRoute.page,
-    ),
-    AutoRoute(
-      path:
-          '/campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/edit',
-      page: AdventureEditRoute.page,
-    ),
-    AutoRoute(
-      path:
-          '/campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId',
-      page: SceneRoute.page,
-    ),
-    AutoRoute(
-      path:
-          '/campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId/edit',
-      page: SceneEditRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/encoutner/:encoutnerId',
-      page: EncounterRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/encoutner/:encoutnerId/edit',
-      page: EncounterEditRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/entity/:entityId',
-      page: EntityRoute.page,
-    ),
-    AutoRoute(
-      path: '/campaign/:campaignId/entity/:entityId/edit',
-      page: EntityEditRoute.page,
-    ),
-    AutoRoute(path: '/party/:partyId', page: PartyRoute.page),
-    AutoRoute(path: '/party/:partyId/edit', page: PartyEditRoute.page),
-    AutoRoute(path: '/party/:partyId/member/:memberId', page: MemberRoute.page),
-    AutoRoute(
-      path: '/party/:partyId/member/:memberId/edit',
-      page: MemberEditRoute.page,
-    ),
-    AutoRoute(
-      path: '/party/:partyId/session/:sessionId',
-      page: SessionRoute.page,
-    ),
-    AutoRoute(
-      path: '/party/:partyId/session/:sessionId/edit',
-      page: SessionEditRoute.page,
-    ),
-    AutoRoute(path: '/login', page: LoginRoute.page),
-    AutoRoute(path: '/register', page: RegisterRoute.page),
-    AutoRoute(path: '/settings', page: SettingsRoute.page),
   ];
 
   @override

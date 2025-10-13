@@ -13,8 +13,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-            title: 'Moonforge',
+      title: 'Moonforge',
       theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: _appRouter.config(),
