@@ -4,6 +4,8 @@ library;
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/services/app_router.dart';
 
 class App extends StatelessWidget {
@@ -35,6 +37,12 @@ class App extends StatelessWidget {
             useMaterial3: true,
             brightness: Brightness.dark,
           ),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+          ],
           routerConfig: _appRouter.config(),
         );
       },

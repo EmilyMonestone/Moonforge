@@ -181,28 +181,30 @@ Notes:
 - Presets are templates; when starting a session, the initiative tracker copies a preset into the session state (see
   Sessions below).
 
-### 4) Sessions (ephemeral runtime state)
+### 4) Sessions
 
 Path: `/campaigns/{cid}/sessions/{sid}`
 
 ```jsonc
 {
-  "status": "active",          // inactive | active | paused | ended
-  "round": 3,
-  "turnIndex": 1,               // index into order[]
-  "order": ["c1", "c2", "c3"], // list of combatant ids in turn order
-  "visibleSceneId": "scene_abc", // DM-selected scene visible to players
-  "updatesRev": 42,             // incremented on any player-visible change
-  "dmUid": "uid_123",          // controlling DM
   "createdAt": "<timestamp>"
+  "info": {
+    "type": "doc",
+    "nodes": [/* ... */]
+   }
+  "datetime": "<timestamp>",
+  "log": {
+    "type": "doc",
+    "nodes": [/* ... */]
+   }
 }
 ```
 
 Notes:
 
-- Session documents are treated as ephemeral and may be pruned.
-- Only minimal, player-relevant state should live here; full encounter state can be derived or embedded depending on UX
-  needs.
+- session can be planed for a party where they wil play a part of the campaign
+- session including a info for players before it starts
+- session including a log for DM and players after the session
 
 ### 5) Media
 
@@ -343,3 +345,38 @@ If using a mapping doc instead of claims:
   owner.
 - Use small, targeted composite indexes; inspect Firestore error logs for suggested index definitions as features roll
   out.
+
+### 7) Parties
+
+Parties let you group player characters (and related entities) within a campaign.
+
+Path: `/campaigns/{cid}/parties/{partyId}`
+
+```jsonc
+{
+  "name": "The Fellowship",
+  "summary": "Primary adventuring group",
+  "memberEntityIds": ["eid_frodo", "eid_sam"],
+  "createdAt": "<timestamp>",
+  "updatedAt": "<timestamp>",
+  "rev": 1
+}
+```
+
+### 8) Players
+
+Path: `/campaigns/{cid}/players/{playerId}`
+
+```jsonc
+{
+  "name": "Frodo",
+  "partyId": "party_123",
+  "class": "fighter",
+  "level": 1,
+  "species": "human",
+  "info": { /* rich text document */ },
+  "createdAt": "<timestamp>",
+  "updatedAt": "<timestamp>",
+  "rev": 1
+}
+```

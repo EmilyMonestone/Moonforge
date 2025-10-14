@@ -64,7 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '654145881639',
     projectId: 'moonforge-bc',
     storageBucket: 'moonforge-bc.firebasestorage.app',
-    iosClientId: '654145881639-iftev2vvfhsft8v9aldpqrjp2l1cv123.apps.googleusercontent.com',
+    iosClientId:
+        '654145881639-iftev2vvfhsft8v9aldpqrjp2l1cv123.apps.googleusercontent.com',
     iosBundleId: 'de.bruckcode.moonforge',
   );
 
@@ -74,7 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '654145881639',
     projectId: 'moonforge-bc',
     storageBucket: 'moonforge-bc.firebasestorage.app',
-    iosClientId: '654145881639-iftev2vvfhsft8v9aldpqrjp2l1cv123.apps.googleusercontent.com',
+    iosClientId:
+        '654145881639-iftev2vvfhsft8v9aldpqrjp2l1cv123.apps.googleusercontent.com',
     iosBundleId: 'de.bruckcode.moonforge',
   );
 

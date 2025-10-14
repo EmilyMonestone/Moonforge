@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'campaign.dart';
+part of 'adventure.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Campaign _$CampaignFromJson(Map<String, dynamic> json) => _Campaign(
+_Adventure _$AdventureFromJson(Map<String, dynamic> json) => _Adventure(
   id: json['id'] as String,
   name: json['name'] as String,
-  description: json['description'] as String,
+  order: (json['order'] as num?)?.toInt() ?? 0,
+  summary: json['summary'] as String?,
   content: json['content'] as String?,
-  ownerUid: json['ownerUid'] as String?,
-  memberUids: (json['memberUids'] as List<dynamic>?)
-      ?.map((e) => e as String)
-      .toList(),
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -24,27 +21,27 @@ _Campaign _$CampaignFromJson(Map<String, dynamic> json) => _Campaign(
   rev: (json['rev'] as num?)?.toInt() ?? 0,
 );
 
-Map<String, dynamic> _$CampaignToJson(_Campaign instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'description': instance.description,
-  'content': instance.content,
-  'ownerUid': instance.ownerUid,
-  'memberUids': instance.memberUids,
-  'createdAt': instance.createdAt?.toIso8601String(),
-  'updatedAt': instance.updatedAt?.toIso8601String(),
-  'rev': instance.rev,
-};
+Map<String, dynamic> _$AdventureToJson(_Adventure instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'order': instance.order,
+      'summary': instance.summary,
+      'content': instance.content,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'rev': instance.rev,
+    };
 
 // **************************************************************************
 // ModelBuilderGenerator
 // **************************************************************************
 
-/// Patch builder for `Campaign` model
-class CampaignPatchBuilder<$$T extends Campaign?>
+/// Patch builder for `Adventure` model
+class AdventurePatchBuilder<$$T extends Adventure?>
     extends PatchBuilder<$$T, Map<String, dynamic>?> {
-  /// Creates a patch builder for `Campaign`
-  CampaignPatchBuilder({required super.toJson, super.field});
+  /// Creates a patch builder for `Adventure`
+  AdventurePatchBuilder({required super.toJson, super.field});
 
   /// Update id field `String`
   late final PatchBuilder<String, String> id = PatchBuilder(
@@ -58,10 +55,15 @@ class CampaignPatchBuilder<$$T extends Campaign?>
     toJson: (value) => (value as String),
   );
 
-  /// Update description field `String`
-  late final PatchBuilder<String, String> description = PatchBuilder(
-    field: path.append('description'),
-    toJson: (value) => (value as String),
+  /// Update order field `int`
+  late final NumericFieldUpdate<int> order = NumericFieldUpdate(
+    field: path.append('order'),
+  );
+
+  /// Update summary field `String?`
+  late final PatchBuilder<String?, String?> summary = PatchBuilder(
+    field: path.append('summary'),
+    toJson: (value) => (value as String?),
   );
 
   /// Update content field `String?`
@@ -69,19 +71,6 @@ class CampaignPatchBuilder<$$T extends Campaign?>
     field: path.append('content'),
     toJson: (value) => (value as String?),
   );
-
-  /// Update ownerUid field `String?`
-  late final PatchBuilder<String?, String?> ownerUid = PatchBuilder(
-    field: path.append('ownerUid'),
-    toJson: (value) => (value as String?),
-  );
-
-  /// Update memberUids field `List<String>?`
-  late final ListFieldUpdate<List<String>?, String, String> memberUids =
-      ListFieldUpdate(
-        field: path.append('memberUids'),
-        elementToJson: (value) => (value as String),
-      );
 
   /// Update createdAt field `DateTime?`
   late final DateTimeFieldUpdate<DateTime?> createdAt = DateTimeFieldUpdate(
@@ -99,10 +88,10 @@ class CampaignPatchBuilder<$$T extends Campaign?>
   );
 }
 
-/// Generated FilterBuilder for `Campaign`
-class CampaignFilterBuilder extends FilterBuilderNode {
-  /// Creates a filter selector for `Campaign`
-  CampaignFilterBuilder({super.field});
+/// Generated FilterBuilder for `Adventure`
+class AdventureFilterBuilder extends FilterBuilderNode {
+  /// Creates a filter selector for `Adventure`
+  AdventureFilterBuilder({super.field});
 
   /// Filter by id
   late final ComparableFilterField<String> id = ComparableFilterField<String>(
@@ -116,11 +105,17 @@ class CampaignFilterBuilder extends FilterBuilderNode {
     toJson: (value) => (value as String),
   );
 
-  /// Filter by description
-  late final ComparableFilterField<String> description =
-      ComparableFilterField<String>(
-        field: path.append('description'),
-        toJson: (value) => (value as String),
+  /// Filter by order
+  late final ComparableFilterField<int> order = ComparableFilterField<int>(
+    field: path.append('order'),
+    toJson: (value) => (value as int),
+  );
+
+  /// Filter by summary
+  late final ComparableFilterField<String?> summary =
+      ComparableFilterField<String?>(
+        field: path.append('summary'),
+        toJson: (value) => (value as String?),
       );
 
   /// Filter by content
@@ -128,23 +123,6 @@ class CampaignFilterBuilder extends FilterBuilderNode {
       ComparableFilterField<String?>(
         field: path.append('content'),
         toJson: (value) => (value as String?),
-      );
-
-  /// Filter by ownerUid
-  late final ComparableFilterField<String?> ownerUid =
-      ComparableFilterField<String?>(
-        field: path.append('ownerUid'),
-        toJson: (value) => (value as String?),
-      );
-
-  /// Filter by memberUids
-  late final ArrayFilterField<List<String>?, String, String> memberUids =
-      ArrayFilterField<List<String>?, String, String>(
-        field: path.append('memberUids'),
-        toJson: (value) => value == null
-            ? null
-            : listToJson(value!, (value) => (value as String)),
-        elementToJson: (value) => (value as String),
       );
 
   /// Filter by createdAt
@@ -170,17 +148,17 @@ class CampaignFilterBuilder extends FilterBuilderNode {
   );
 }
 
-/// Generated RootFilterBuilder for `Campaign`
-class CampaignFilterBuilderRoot extends CampaignFilterBuilder
+/// Generated RootFilterBuilder for `Adventure`
+class AdventureFilterBuilderRoot extends AdventureFilterBuilder
     with FilterBuilderRoot {
-  /// Creates a root filter selector for `Campaign`
-  CampaignFilterBuilderRoot();
+  /// Creates a root filter selector for `Adventure`
+  AdventureFilterBuilderRoot();
 }
 
-/// Generated OrderByBuilder for `Campaign`
-class CampaignOrderByBuilder extends OrderByFieldNode {
+/// Generated OrderByBuilder for `Adventure`
+class AdventureOrderByBuilder extends OrderByFieldNode {
   /// Constructor for OrderByBuilder
-  CampaignOrderByBuilder({required super.context, super.field});
+  AdventureOrderByBuilder({required super.context, super.field});
 
   /// Access nested id for ordering
   late final OrderByField<String> id = OrderByField<String>(
@@ -194,9 +172,15 @@ class CampaignOrderByBuilder extends OrderByFieldNode {
     context: $context,
   );
 
-  /// Access nested description for ordering
-  late final OrderByField<String> description = OrderByField<String>(
-    field: path.append('description'),
+  /// Access nested order for ordering
+  late final OrderByField<int> order = OrderByField<int>(
+    field: path.append('order'),
+    context: $context,
+  );
+
+  /// Access nested summary for ordering
+  late final OrderByField<String?> summary = OrderByField<String?>(
+    field: path.append('summary'),
     context: $context,
   );
 
@@ -205,19 +189,6 @@ class CampaignOrderByBuilder extends OrderByFieldNode {
     field: path.append('content'),
     context: $context,
   );
-
-  /// Access nested ownerUid for ordering
-  late final OrderByField<String?> ownerUid = OrderByField<String?>(
-    field: path.append('ownerUid'),
-    context: $context,
-  );
-
-  /// Access nested memberUids for ordering
-  late final OrderByField<List<String>?> memberUids =
-      OrderByField<List<String>?>(
-        field: path.append('memberUids'),
-        context: $context,
-      );
 
   /// Access nested createdAt for ordering
   late final OrderByField<DateTime?> createdAt = OrderByField<DateTime?>(
@@ -238,10 +209,16 @@ class CampaignOrderByBuilder extends OrderByFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Campaign`
-class CampaignAggregateFieldSelector extends AggregateFieldNode {
+/// Generated AggregateFieldSelector for `Adventure`
+class AdventureAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
-  CampaignAggregateFieldSelector({required super.context, super.field});
+  AdventureAggregateFieldSelector({required super.context, super.field});
+
+  /// order field for aggregation
+  late final AggregateField<int> order = AggregateField<int>(
+    field: path.append('order'),
+    context: $context,
+  );
 
   /// rev field for aggregation
   late final AggregateField<int> rev = AggregateField<int>(
@@ -250,10 +227,10 @@ class CampaignAggregateFieldSelector extends AggregateFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Campaign`
-class CampaignAggregateBuilderRoot extends CampaignAggregateFieldSelector
+/// Generated AggregateFieldSelector for `Adventure`
+class AdventureAggregateBuilderRoot extends AdventureAggregateFieldSelector
     with AggregateRootMixin
     implements AggregateBuilderRoot {
   /// Constructor for AggregateFieldSelector
-  CampaignAggregateBuilderRoot({required super.context, super.field});
+  AdventureAggregateBuilderRoot({required super.context, super.field});
 }

@@ -1,24 +1,23 @@
 import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'campaign.freezed.dart';
-part 'campaign.g.dart';
+part 'chapter.freezed.dart';
+part 'chapter.g.dart';
 
 @freezed
 @firestoreOdm
-abstract class Campaign with _$Campaign {
-  const factory Campaign({
+abstract class Chapter with _$Chapter {
+  const factory Chapter({
     @DocumentIdField() required String id,
     required String name,
-    required String description,
+    @Default(0) int order,
+    String? summary,
     String? content, // quill delta json
-    String? ownerUid,
-    List<String>? memberUids,
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(0) int rev,
-  }) = _Campaign;
+  }) = _Chapter;
 
-  factory Campaign.fromJson(Map<String, dynamic> json) =>
-      _$CampaignFromJson(json);
+  factory Chapter.fromJson(Map<String, dynamic> json) =>
+      _$ChapterFromJson(json);
 }

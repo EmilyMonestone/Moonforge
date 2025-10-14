@@ -4,39 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: simplify Campaign model by removing unused fields and updating JSON serialization">
+      <change afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/join_code.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/media_asset.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/firebase_schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/firebase_schema.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/json_converters.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.freezed.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/session.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760445648068</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: simplify Campaign model by removing unused fields and updating JSON serialization">
+      <option name="closed" value="true" />
+      <created>1760446602651</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760446602651</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -231,7 +223,8 @@
     <MESSAGE value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
     <MESSAGE value="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support" />
     <MESSAGE value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
+    <MESSAGE value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -272,6 +265,12 @@
           <option name="totalLines" value="1727137" />
           <option name="info" value="feat: add generated models and builders for JoinCo" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760446602872" />
+          <option name="linesCode" value="8604" />
+          <option name="totalLines" value="1714031" />
+          <option name="info" value="feat: simplify Campaign model by removing unused f" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -289,9 +288,9 @@
           <option name="info" value="Oct 13, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1760445648220" />
-          <option name="linesCode" value="14234" />
-          <option name="totalLines" value="1727137" />
+          <option name="timestamp" value="1760446602872" />
+          <option name="linesCode" value="8604" />
+          <option name="totalLines" value="1714031" />
           <option name="info" value="Oct 14, 2025" />
         </TimePoint>
       </list>

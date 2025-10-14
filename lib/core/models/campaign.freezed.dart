@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Campaign {
 
-@DocumentIdField() String get id; String get name; String get description;
+@DocumentIdField() String get id; String get name; String get description; String? get content;// quill delta json
+ String? get ownerUid; List<String>? get memberUids; DateTime? get createdAt; DateTime? get updatedAt; int get rev;
 /// Create a copy of Campaign
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $CampaignCopyWith<Campaign> get copyWith => _$CampaignCopyWithImpl<Campaign>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Campaign&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Campaign&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.content, content) || other.content == content)&&(identical(other.ownerUid, ownerUid) || other.ownerUid == ownerUid)&&const DeepCollectionEquality().equals(other.memberUids, memberUids)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description);
+int get hashCode => Object.hash(runtimeType,id,name,description,content,ownerUid,const DeepCollectionEquality().hash(memberUids),createdAt,updatedAt,rev);
 
 @override
 String toString() {
-  return 'Campaign(id: $id, name: $name, description: $description)';
+  return 'Campaign(id: $id, name: $name, description: $description, content: $content, ownerUid: $ownerUid, memberUids: $memberUids, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $CampaignCopyWith<$Res>  {
   factory $CampaignCopyWith(Campaign value, $Res Function(Campaign) _then) = _$CampaignCopyWithImpl;
 @useResult
 $Res call({
-@DocumentIdField() String id, String name, String description
+@DocumentIdField() String id, String name, String description, String? content, String? ownerUid, List<String>? memberUids, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 
@@ -65,12 +66,18 @@ class _$CampaignCopyWithImpl<$Res>
 
 /// Create a copy of Campaign
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? content = freezed,Object? ownerUid = freezed,Object? memberUids = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,ownerUid: freezed == ownerUid ? _self.ownerUid : ownerUid // ignore: cast_nullable_to_non_nullable
+as String?,memberUids: freezed == memberUids ? _self.memberUids : memberUids // ignore: cast_nullable_to_non_nullable
+as List<String>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,rev: null == rev ? _self.rev : rev // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -155,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String description)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String description,  String? content,  String? ownerUid,  List<String>? memberUids,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Campaign() when $default != null:
-return $default(_that.id,_that.name,_that.description);case _:
+return $default(_that.id,_that.name,_that.description,_that.content,_that.ownerUid,_that.memberUids,_that.createdAt,_that.updatedAt,_that.rev);case _:
   return orElse();
 
 }
@@ -176,10 +183,10 @@ return $default(_that.id,_that.name,_that.description);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String description)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String description,  String? content,  String? ownerUid,  List<String>? memberUids,  DateTime? createdAt,  DateTime? updatedAt,  int rev)  $default,) {final _that = this;
 switch (_that) {
 case _Campaign():
-return $default(_that.id,_that.name,_that.description);case _:
+return $default(_that.id,_that.name,_that.description,_that.content,_that.ownerUid,_that.memberUids,_that.createdAt,_that.updatedAt,_that.rev);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +203,10 @@ return $default(_that.id,_that.name,_that.description);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  String description)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  String description,  String? content,  String? ownerUid,  List<String>? memberUids,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,) {final _that = this;
 switch (_that) {
 case _Campaign() when $default != null:
-return $default(_that.id,_that.name,_that.description);case _:
+return $default(_that.id,_that.name,_that.description,_that.content,_that.ownerUid,_that.memberUids,_that.createdAt,_that.updatedAt,_that.rev);case _:
   return null;
 
 }
@@ -211,12 +218,27 @@ return $default(_that.id,_that.name,_that.description);case _:
 @JsonSerializable()
 
 class _Campaign implements Campaign {
-  const _Campaign({@DocumentIdField() required this.id, required this.name, required this.description});
+  const _Campaign({@DocumentIdField() required this.id, required this.name, required this.description, this.content, this.ownerUid, final  List<String>? memberUids, this.createdAt, this.updatedAt, this.rev = 0}): _memberUids = memberUids;
   factory _Campaign.fromJson(Map<String, dynamic> json) => _$CampaignFromJson(json);
 
 @override@DocumentIdField() final  String id;
 @override final  String name;
 @override final  String description;
+@override final  String? content;
+// quill delta json
+@override final  String? ownerUid;
+ final  List<String>? _memberUids;
+@override List<String>? get memberUids {
+  final value = _memberUids;
+  if (value == null) return null;
+  if (_memberUids is EqualUnmodifiableListView) return _memberUids;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+@override final  DateTime? createdAt;
+@override final  DateTime? updatedAt;
+@override@JsonKey() final  int rev;
 
 /// Create a copy of Campaign
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Campaign&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Campaign&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.content, content) || other.content == content)&&(identical(other.ownerUid, ownerUid) || other.ownerUid == ownerUid)&&const DeepCollectionEquality().equals(other._memberUids, _memberUids)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description);
+int get hashCode => Object.hash(runtimeType,id,name,description,content,ownerUid,const DeepCollectionEquality().hash(_memberUids),createdAt,updatedAt,rev);
 
 @override
 String toString() {
-  return 'Campaign(id: $id, name: $name, description: $description)';
+  return 'Campaign(id: $id, name: $name, description: $description, content: $content, ownerUid: $ownerUid, memberUids: $memberUids, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
 }
 
 
@@ -251,7 +273,7 @@ abstract mixin class _$CampaignCopyWith<$Res> implements $CampaignCopyWith<$Res>
   factory _$CampaignCopyWith(_Campaign value, $Res Function(_Campaign) _then) = __$CampaignCopyWithImpl;
 @override @useResult
 $Res call({
-@DocumentIdField() String id, String name, String description
+@DocumentIdField() String id, String name, String description, String? content, String? ownerUid, List<String>? memberUids, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 
@@ -268,12 +290,18 @@ class __$CampaignCopyWithImpl<$Res>
 
 /// Create a copy of Campaign
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? content = freezed,Object? ownerUid = freezed,Object? memberUids = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
   return _then(_Campaign(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,ownerUid: freezed == ownerUid ? _self.ownerUid : ownerUid // ignore: cast_nullable_to_non_nullable
+as String?,memberUids: freezed == memberUids ? _self._memberUids : memberUids // ignore: cast_nullable_to_non_nullable
+as List<String>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,rev: null == rev ? _self.rev : rev // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

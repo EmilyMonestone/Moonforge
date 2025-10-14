@@ -16,6 +16,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # Firebase packages
   firebase_core: ^3.15.2
@@ -33,13 +35,23 @@ dependencies:
   uuid: ^4.5.1
 
   # Other
-  flutter_quill: ^11.4.2
   cupertino_icons: ^1.0.8
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
   dynamic_color: ^1.8.1
   riverpod: ^3.0.3
   shared_preferences: ^2.3.2
+  flutter_quill: ^11.4.2
+  share_plus: ^12.0.0
+  logger: ^2.6.2
+  app_links: ^6.4.1
+  upgrader: ^12.1.0
+  showcaseview: ^5.0.0
+  toastification: ^3.0.3
+  file_selector: ^1.0.4
+  mask_text_input_formatter: ^2.9.0
+  skeletonizer: ^2.1.0+1
+  flutter_onboarding_slider: ^1.0.11
 
 
 dev_dependencies:

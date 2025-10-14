@@ -1,18 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'campaign.dart';
+part of 'party.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Campaign _$CampaignFromJson(Map<String, dynamic> json) => _Campaign(
+_Party _$PartyFromJson(Map<String, dynamic> json) => _Party(
   id: json['id'] as String,
   name: json['name'] as String,
-  description: json['description'] as String,
-  content: json['content'] as String?,
-  ownerUid: json['ownerUid'] as String?,
-  memberUids: (json['memberUids'] as List<dynamic>?)
+  summary: json['summary'] as String?,
+  memberEntityIds: (json['memberEntityIds'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
   createdAt: json['createdAt'] == null
@@ -24,13 +22,11 @@ _Campaign _$CampaignFromJson(Map<String, dynamic> json) => _Campaign(
   rev: (json['rev'] as num?)?.toInt() ?? 0,
 );
 
-Map<String, dynamic> _$CampaignToJson(_Campaign instance) => <String, dynamic>{
+Map<String, dynamic> _$PartyToJson(_Party instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
-  'description': instance.description,
-  'content': instance.content,
-  'ownerUid': instance.ownerUid,
-  'memberUids': instance.memberUids,
+  'summary': instance.summary,
+  'memberEntityIds': instance.memberEntityIds,
   'createdAt': instance.createdAt?.toIso8601String(),
   'updatedAt': instance.updatedAt?.toIso8601String(),
   'rev': instance.rev,
@@ -40,11 +36,11 @@ Map<String, dynamic> _$CampaignToJson(_Campaign instance) => <String, dynamic>{
 // ModelBuilderGenerator
 // **************************************************************************
 
-/// Patch builder for `Campaign` model
-class CampaignPatchBuilder<$$T extends Campaign?>
+/// Patch builder for `Party` model
+class PartyPatchBuilder<$$T extends Party?>
     extends PatchBuilder<$$T, Map<String, dynamic>?> {
-  /// Creates a patch builder for `Campaign`
-  CampaignPatchBuilder({required super.toJson, super.field});
+  /// Creates a patch builder for `Party`
+  PartyPatchBuilder({required super.toJson, super.field});
 
   /// Update id field `String`
   late final PatchBuilder<String, String> id = PatchBuilder(
@@ -58,28 +54,16 @@ class CampaignPatchBuilder<$$T extends Campaign?>
     toJson: (value) => (value as String),
   );
 
-  /// Update description field `String`
-  late final PatchBuilder<String, String> description = PatchBuilder(
-    field: path.append('description'),
-    toJson: (value) => (value as String),
-  );
-
-  /// Update content field `String?`
-  late final PatchBuilder<String?, String?> content = PatchBuilder(
-    field: path.append('content'),
+  /// Update summary field `String?`
+  late final PatchBuilder<String?, String?> summary = PatchBuilder(
+    field: path.append('summary'),
     toJson: (value) => (value as String?),
   );
 
-  /// Update ownerUid field `String?`
-  late final PatchBuilder<String?, String?> ownerUid = PatchBuilder(
-    field: path.append('ownerUid'),
-    toJson: (value) => (value as String?),
-  );
-
-  /// Update memberUids field `List<String>?`
-  late final ListFieldUpdate<List<String>?, String, String> memberUids =
+  /// Update memberEntityIds field `List<String>?`
+  late final ListFieldUpdate<List<String>?, String, String> memberEntityIds =
       ListFieldUpdate(
-        field: path.append('memberUids'),
+        field: path.append('memberEntityIds'),
         elementToJson: (value) => (value as String),
       );
 
@@ -99,10 +83,10 @@ class CampaignPatchBuilder<$$T extends Campaign?>
   );
 }
 
-/// Generated FilterBuilder for `Campaign`
-class CampaignFilterBuilder extends FilterBuilderNode {
-  /// Creates a filter selector for `Campaign`
-  CampaignFilterBuilder({super.field});
+/// Generated FilterBuilder for `Party`
+class PartyFilterBuilder extends FilterBuilderNode {
+  /// Creates a filter selector for `Party`
+  PartyFilterBuilder({super.field});
 
   /// Filter by id
   late final ComparableFilterField<String> id = ComparableFilterField<String>(
@@ -116,31 +100,17 @@ class CampaignFilterBuilder extends FilterBuilderNode {
     toJson: (value) => (value as String),
   );
 
-  /// Filter by description
-  late final ComparableFilterField<String> description =
-      ComparableFilterField<String>(
-        field: path.append('description'),
-        toJson: (value) => (value as String),
-      );
-
-  /// Filter by content
-  late final ComparableFilterField<String?> content =
+  /// Filter by summary
+  late final ComparableFilterField<String?> summary =
       ComparableFilterField<String?>(
-        field: path.append('content'),
+        field: path.append('summary'),
         toJson: (value) => (value as String?),
       );
 
-  /// Filter by ownerUid
-  late final ComparableFilterField<String?> ownerUid =
-      ComparableFilterField<String?>(
-        field: path.append('ownerUid'),
-        toJson: (value) => (value as String?),
-      );
-
-  /// Filter by memberUids
-  late final ArrayFilterField<List<String>?, String, String> memberUids =
+  /// Filter by memberEntityIds
+  late final ArrayFilterField<List<String>?, String, String> memberEntityIds =
       ArrayFilterField<List<String>?, String, String>(
-        field: path.append('memberUids'),
+        field: path.append('memberEntityIds'),
         toJson: (value) => value == null
             ? null
             : listToJson(value!, (value) => (value as String)),
@@ -170,17 +140,16 @@ class CampaignFilterBuilder extends FilterBuilderNode {
   );
 }
 
-/// Generated RootFilterBuilder for `Campaign`
-class CampaignFilterBuilderRoot extends CampaignFilterBuilder
-    with FilterBuilderRoot {
-  /// Creates a root filter selector for `Campaign`
-  CampaignFilterBuilderRoot();
+/// Generated RootFilterBuilder for `Party`
+class PartyFilterBuilderRoot extends PartyFilterBuilder with FilterBuilderRoot {
+  /// Creates a root filter selector for `Party`
+  PartyFilterBuilderRoot();
 }
 
-/// Generated OrderByBuilder for `Campaign`
-class CampaignOrderByBuilder extends OrderByFieldNode {
+/// Generated OrderByBuilder for `Party`
+class PartyOrderByBuilder extends OrderByFieldNode {
   /// Constructor for OrderByBuilder
-  CampaignOrderByBuilder({required super.context, super.field});
+  PartyOrderByBuilder({required super.context, super.field});
 
   /// Access nested id for ordering
   late final OrderByField<String> id = OrderByField<String>(
@@ -194,28 +163,16 @@ class CampaignOrderByBuilder extends OrderByFieldNode {
     context: $context,
   );
 
-  /// Access nested description for ordering
-  late final OrderByField<String> description = OrderByField<String>(
-    field: path.append('description'),
+  /// Access nested summary for ordering
+  late final OrderByField<String?> summary = OrderByField<String?>(
+    field: path.append('summary'),
     context: $context,
   );
 
-  /// Access nested content for ordering
-  late final OrderByField<String?> content = OrderByField<String?>(
-    field: path.append('content'),
-    context: $context,
-  );
-
-  /// Access nested ownerUid for ordering
-  late final OrderByField<String?> ownerUid = OrderByField<String?>(
-    field: path.append('ownerUid'),
-    context: $context,
-  );
-
-  /// Access nested memberUids for ordering
-  late final OrderByField<List<String>?> memberUids =
+  /// Access nested memberEntityIds for ordering
+  late final OrderByField<List<String>?> memberEntityIds =
       OrderByField<List<String>?>(
-        field: path.append('memberUids'),
+        field: path.append('memberEntityIds'),
         context: $context,
       );
 
@@ -238,10 +195,10 @@ class CampaignOrderByBuilder extends OrderByFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Campaign`
-class CampaignAggregateFieldSelector extends AggregateFieldNode {
+/// Generated AggregateFieldSelector for `Party`
+class PartyAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
-  CampaignAggregateFieldSelector({required super.context, super.field});
+  PartyAggregateFieldSelector({required super.context, super.field});
 
   /// rev field for aggregation
   late final AggregateField<int> rev = AggregateField<int>(
@@ -250,10 +207,10 @@ class CampaignAggregateFieldSelector extends AggregateFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Campaign`
-class CampaignAggregateBuilderRoot extends CampaignAggregateFieldSelector
+/// Generated AggregateFieldSelector for `Party`
+class PartyAggregateBuilderRoot extends PartyAggregateFieldSelector
     with AggregateRootMixin
     implements AggregateBuilderRoot {
   /// Constructor for AggregateFieldSelector
-  CampaignAggregateBuilderRoot({required super.context, super.field});
+  PartyAggregateBuilderRoot({required super.context, super.field});
 }
