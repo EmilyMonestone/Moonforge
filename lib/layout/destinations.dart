@@ -15,13 +15,21 @@ class TabSpec {
   });
 }
 
-/// Central list of primary destinations (in order). Keep ≤5 for phones.
-/// You can add more later (overflow handled on phones).
 final List<TabSpec> kPrimaryTabs = <TabSpec>[
   TabSpec(
     label: 'Home',
     icon: Icons.home_outlined,
     routeFactory: () => const HomeRoute(),
+  ),
+  TabSpec(
+    label: 'Campaign',
+    icon: Icons.book_outlined,
+    routeFactory: () => CampaignRoute(campaignId: ''),
+  ),
+  TabSpec(
+    label: 'Party',
+    icon: Icons.group_outlined,
+    routeFactory: () => PartyRoute(partyId: ''),
   ),
   TabSpec(
     label: 'Settings',

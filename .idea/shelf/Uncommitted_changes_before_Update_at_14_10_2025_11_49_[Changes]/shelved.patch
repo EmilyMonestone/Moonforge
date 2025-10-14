@@ -1,0 +1,94 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"fcd2fc98-015c-486b-a6cf-950839cda9cb\" name=\"Changes\" comment=\"refactor workspace configuration and update task summaries for clarity\">\r\n      <change afterPath=\"$PROJECT_DIR$/CONTRIBUTING.md\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/LICENSE\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/README.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/README.md\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileEditorManager\">\r\n    <leaf>\r\n      <file leaf-file-name=\"main.dart\" pinned=\"false\" current-in-tab=\"true\">\r\n        <entry file=\"file://$PROJECT_DIR$/lib/main.dart\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"0\">\r\n              <caret line=\"0\" column=\"0\" lean-forward=\"false\" selection-start-line=\"0\" selection-start-column=\"0\" selection-end-line=\"0\" selection-end-column=\"0\" />\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n    </leaf>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"dart - stateful widget\" />\r\n        <option value=\"dart - stateless page\" />\r\n        <option value=\"Dart File\" />\r\n        <option value=\"dart - stateful page \" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;customColor&quot;: &quot;&quot;,\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"33jhjEZr9i9M4jo3w5CZPReF1c0\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectView\">\r\n    <navigator currentView=\"ProjectPane\" proportions=\"\" version=\"1\" />\r\n    <panes>\r\n      <pane id=\"ProjectPane\">\r\n        <option name=\"show-excluded-files\" value=\"false\" />\r\n      </pane>\r\n    </panes>\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,\r\n    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,\r\n    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\Nextcloud\\04 BruckCode\\Projekte\\Moonforge\\lib\\features\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\Nextcloud\\04 BruckCode\\Projekte\\Moonforge\\lib\\core\\models\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"fcd2fc98-015c-486b-a6cf-950839cda9cb\" name=\"Changes\" comment=\"\" />\r\n      <created>1759836522774</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1759836522774</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"add initial screens and routing for campaign, chapter, adventure, and encounter features\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1760091264982</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1760091264982</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"add initial project structure and configuration files for moonforge\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1760091281167</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1760091281167</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"refactor workspace configuration and update task summaries for clarity\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1760365146289</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1760365146289</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"ToolWindowManager\">\r\n    <editor active=\"true\" />\r\n    <layout>\r\n      <window_info id=\"Project\" active=\"false\" anchor=\"left\" auto_hide=\"false\" internal_type=\"DOCKED\" type=\"DOCKED\" visible=\"true\" show_stripe_button=\"true\" weight=\"0.25\" sideWeight=\"0.5\" order=\"0\" side_tool=\"false\" content_ui=\"combo\" />\r\n    </layout>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add initial screens and routing for campaign, chapter, adventure, and encounter features\" />\r\n    <MESSAGE value=\"add initial project structure and configuration files for moonforge\" />\r\n    <MESSAGE value=\"refactor workspace configuration and update task summaries for clarity\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"refactor workspace configuration and update task summaries for clarity\" />\r\n  </component>\r\n  <component name=\"com.gk646.codestats.settings.Save\">\r\n    <option name=\"commitTimePoints\">\r\n      <list>\r\n        <TimePoint>\r\n          <option name=\"timestamp\" value=\"1760091265138\" />\r\n          <option name=\"linesCode\" value=\"5578\" />\r\n          <option name=\"totalLines\" value=\"915136\" />\r\n          <option name=\"info\" value=\"add initial screens and routing for campaign, chap\" />\r\n        </TimePoint>\r\n        <TimePoint>\r\n          <option name=\"timestamp\" value=\"1760091281281\" />\r\n          <option name=\"linesCode\" value=\"5578\" />\r\n          <option name=\"totalLines\" value=\"915136\" />\r\n          <option name=\"info\" value=\"add initial project structure and configuration fi\" />\r\n        </TimePoint>\r\n        <TimePoint>\r\n          <option name=\"timestamp\" value=\"1760365146544\" />\r\n          <option name=\"linesCode\" value=\"5578\" />\r\n          <option name=\"totalLines\" value=\"915136\" />\r\n          <option name=\"info\" value=\"refactor workspace configuration and update task s\" />\r\n        </TimePoint>\r\n      </list>\r\n    </option>\r\n    <option name=\"genericTimePoints\">\r\n      <list>\r\n        <TimePoint>\r\n          <option name=\"timestamp\" value=\"1760091281281\" />\r\n          <option name=\"linesCode\" value=\"5578\" />\r\n          <option name=\"totalLines\" value=\"915136\" />\r\n          <option name=\"info\" value=\"Oct 10, 2025\" />\r\n        </TimePoint>\r\n        <TimePoint>\r\n          <option name=\"timestamp\" value=\"1760365146544\" />\r\n          <option name=\"linesCode\" value=\"5578\" />\r\n          <option name=\"totalLines\" value=\"915136\" />\r\n          <option name=\"info\" value=\"Oct 13, 2025\" />\r\n        </TimePoint>\r\n      </list>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision cadf94f8004a8f1db7affbbfb7ad1174f5374b4b)
++++ b/.idea/workspace.xml	(date 1760366108826)
+@@ -4,13 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor workspace configuration and update task summaries for clarity">
+-      <change afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" afterDir="false" />
+-    </list>
++    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -119,7 +113,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1760365146289</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="docs: add contributing guide and license information">
++      <option name="closed" value="true" />
++      <created>1760366076842</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1760366076842</updated>
++    </task>
++    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="ToolWindowManager">
+@@ -127,12 +129,24 @@
+     <layout>
+       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+     </layout>
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="add initial screens and routing for campaign, chapter, adventure, and encounter features" />
+     <MESSAGE value="add initial project structure and configuration files for moonforge" />
+     <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
+-    <option name="LAST_COMMIT_MESSAGE" value="refactor workspace configuration and update task summaries for clarity" />
++    <MESSAGE value="docs: add contributing guide and license information" />
++    <option name="LAST_COMMIT_MESSAGE" value="docs: add contributing guide and license information" />
+   </component>
+   <component name="com.gk646.codestats.settings.Save">
+     <option name="commitTimePoints">
+@@ -154,6 +168,12 @@
+           <option name="linesCode" value="5578" />
+           <option name="totalLines" value="915136" />
+           <option name="info" value="refactor workspace configuration and update task s" />
++        </TimePoint>
++        <TimePoint>
++          <option name="timestamp" value="1760366076976" />
++          <option name="linesCode" value="5647" />
++          <option name="totalLines" value="915239" />
++          <option name="info" value="docs: add contributing guide and license informati" />
+         </TimePoint>
+       </list>
+     </option>
+@@ -166,9 +186,9 @@
+           <option name="info" value="Oct 10, 2025" />
+         </TimePoint>
+         <TimePoint>
+-          <option name="timestamp" value="1760365146544" />
+-          <option name="linesCode" value="5578" />
+-          <option name="totalLines" value="915136" />
++          <option name="timestamp" value="1760366076976" />
++          <option name="linesCode" value="5647" />
++          <option name="totalLines" value="915239" />
+           <option name="info" value="Oct 13, 2025" />
+         </TimePoint>
+       </list>

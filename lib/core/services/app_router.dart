@@ -13,11 +13,12 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: '/',
       page: LayoutShell.page,
-      initial: true,
+      //initial: true,
       children: [
         // Tabs
         AutoRoute(
           path: '',
+          initial: true,
           page: HomeRoute.page,
           children: [
             // Feature routes inside Home tab
@@ -71,7 +72,6 @@ class AppRouter extends RootStackRouter {
               page: EntityEditRoute.page,
             ),
 
-            // Parties: nest member/session under a party for TwoPane support
             AutoRoute(
               path: 'party/:partyId',
               page: PartyRoute.page,

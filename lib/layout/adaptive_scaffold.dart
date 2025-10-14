@@ -36,47 +36,41 @@ class AdaptiveScaffold extends StatelessWidget {
 
   void _onSelect(int index) => tabsRouter.setActiveIndex(index);
 
-  // Phones: NavigationBar + optional modal drawer for overflow (>5)
+  // Phones: NavigationBar + optional persistent side NavigationRail for overflow (>5)
   Widget _buildCompact(BuildContext context) {
     final primary = tabs.length <= 5 ? tabs : tabs.take(5).toList();
     final overflow = tabs.length > 5
         ? tabs.skip(5).toList()
         : const <TabSpec>[];
 
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        title: appBarTitle,
-        centerTitle: false,
-        leading: overflow.isEmpty
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () => scaffoldKey.currentState?.openDrawer(),
+      appBar: AppBar(title: appBarTitle, centerTitle: false),
+      body: SafeArea(
+        child: overflow.isEmpty
+            ? body
+            : Row(
+                children: [
+                  NavigationRail(
+                    // Show selection only when an overflow tab is active.
+                    selectedIndex: _selectedIndex >= 5
+                        ? _selectedIndex - 5
+                        : null,
+                    onDestinationSelected: (i) => _onSelect(5 + i),
+                    labelType: NavigationRailLabelType.all,
+                    scrollable: true,
+                    destinations: [
+                      for (final tab in overflow)
+                        NavigationRailDestination(
+                          icon: Icon(tab.icon),
+                          label: Text(tab.label),
+                        ),
+                    ],
+                  ),
+                  const VerticalDivider(width: 1),
+                  Expanded(child: body),
+                ],
               ),
       ),
-      drawer: overflow.isEmpty
-          ? null
-          : NavigationDrawer(
-              children: [
-                ...overflow.asMap().entries.map((entry) {
-                  final index = 5 + entry.key;
-                  final tab = entry.value;
-                  return ListTile(
-                    leading: Icon(tab.icon),
-                    title: Text(tab.label),
-                    selected: _selectedIndex == index,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      _onSelect(index);
-                    },
-                  );
-                }),
-              ],
-            ),
-      body: SafeArea(child: body),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex.clamp(0, primary.length - 1),
         onDestinationSelected: (i) => _onSelect(i),
@@ -102,6 +96,7 @@ class AdaptiveScaffold extends StatelessWidget {
               selectedIndex: _selectedIndex,
               onDestinationSelected: _onSelect,
               labelType: isExpanded ? null : NavigationRailLabelType.all,
+              scrollable: true,
               destinations: [
                 for (final tab in tabs)
                   NavigationRailDestination(

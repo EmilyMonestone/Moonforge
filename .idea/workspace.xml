@@ -5,29 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor workspace configuration and update task summaries for clarity">
-      <change afterPath="$PROJECT_DIR$/docs/responsive layout/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/responsive layout/auto_route_integration.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/responsive layout/breakpoints.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/responsive layout/navigation.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/responsive layout/two_pane.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/layout/breakpoints.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/layout/destinations.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/layout/layout_shell.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/layout/two_pane_layout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/providers/auth_providers.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/providers/campaign_providers.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/providers/firebase_providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/analysis_options.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/views/unknown_path_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/views/unknown_path_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/destinations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/destinations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,29 +90,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.main.dart.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "io.flutter.reload.alreadyRun": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "dart.settings",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
@@ -191,10 +185,6 @@
     <MESSAGE value="add initial project structure and configuration files for moonforge" />
     <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
     <option name="LAST_COMMIT_MESSAGE" value="refactor workspace configuration and update task summaries for clarity" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
