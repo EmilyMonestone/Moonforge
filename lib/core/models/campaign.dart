@@ -1,7 +1,5 @@
 import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:moonforge/core/models/json_converters.dart';
-import 'package:moonforge/core/models/model_support.dart';
 
 part 'campaign.freezed.dart';
 part 'campaign.g.dart';
@@ -9,19 +7,11 @@ part 'campaign.g.dart';
 @freezed
 @firestoreOdm
 abstract class Campaign with _$Campaign {
-  @JsonSerializable(explicitToJson: true)
   const factory Campaign({
     @DocumentIdField() required String id,
     required String name,
     required String description,
-    RichTextDoc? content,
-    String? ownerUid,
-    @Default([]) List<String> memberUids,
-    @TimestampConverter() DateTime? createdAt,
-    @TimestampConverter() DateTime? updatedAt,
-    @Default(0) int rev,
   }) = _Campaign;
 
-  factory Campaign.fromJson(Map<String, dynamic> json) =>
-      _$CampaignFromJson(json);
+  factory Campaign.fromJson(Map<String, dynamic> json) => _$CampaignFromJson(json);
 }

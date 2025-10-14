@@ -4,27 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support">
-      <change afterPath="$PROJECT_DIR$/docs/firebase_schema.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/adventure.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/chapter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/encounter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/join_code.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/json_converters.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/media_asset.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/model_support.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/scene.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/session.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.g.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/json_converters.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/model_support.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.g.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/session.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +126,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "dart.settings",
+    "settings.editor.selected.configurable": "actions.on.save",
     "show.migrate.to.gradle.popup": "false",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -129,14 +141,6 @@
       <recent name="C:\Users\emily\IdeaProjects\Moonforge\docs" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\models" />
     </key>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.27812.49" />
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.27812.49" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -181,7 +185,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760439811052</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support">
+      <option name="closed" value="true" />
+      <created>1760445637964</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760445637964</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support">
+      <option name="closed" value="true" />
+      <created>1760445648067</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760445648068</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -193,12 +213,25 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add initial screens and routing for campaign, chapter, adventure, and encounter features" />
     <MESSAGE value="add initial project structure and configuration files for moonforge" />
     <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
     <MESSAGE value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
+    <MESSAGE value="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support" />
+    <MESSAGE value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -227,6 +260,18 @@
           <option name="totalLines" value="1713643" />
           <option name="info" value="feat: integrate Firebase authentication and Firest" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760445638175" />
+          <option name="linesCode" value="14234" />
+          <option name="totalLines" value="1727137" />
+          <option name="info" value="feat: add Firestore ODM models for campaign, chapt" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760445648220" />
+          <option name="linesCode" value="14234" />
+          <option name="totalLines" value="1727137" />
+          <option name="info" value="feat: add generated models and builders for JoinCo" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -244,9 +289,9 @@
           <option name="info" value="Oct 13, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1760439811326" />
-          <option name="linesCode" value="8330" />
-          <option name="totalLines" value="1713643" />
+          <option name="timestamp" value="1760445648220" />
+          <option name="linesCode" value="14234" />
+          <option name="totalLines" value="1727137" />
           <option name="info" value="Oct 14, 2025" />
         </TimePoint>
       </list>
