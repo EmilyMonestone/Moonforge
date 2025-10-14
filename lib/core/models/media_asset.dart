@@ -3,25 +3,26 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moonforge/core/models/json_converters.dart';
 import 'package:moonforge/core/models/model_support.dart';
 
-part 'campaign.freezed.dart';
-part 'campaign.g.dart';
+part 'media_asset.freezed.dart';
+part 'media_asset.g.dart';
 
 @freezed
 @firestoreOdm
-abstract class Campaign with _$Campaign {
+class MediaAssetDoc with _$MediaAssetDoc {
   @JsonSerializable(explicitToJson: true)
-  const factory Campaign({
+  const factory MediaAssetDoc({
     @DocumentIdField() required String id,
-    required String name,
-    required String description,
-    RichTextDoc? content,
-    String? ownerUid,
-    @Default([]) List<String> memberUids,
+    required String filename,
+    int? size,
+    String? mime,
+    @Default(<String>[]) List<String> captions,
+    String? alt,
+    @Default(<MediaVariant>[]) List<MediaVariant> variants,
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? updatedAt,
     @Default(0) int rev,
-  }) = _Campaign;
+  }) = _MediaAssetDoc;
 
-  factory Campaign.fromJson(Map<String, dynamic> json) =>
-      _$CampaignFromJson(json);
+  factory MediaAssetDoc.fromJson(Map<String, dynamic> json) =>
+      _$MediaAssetDocFromJson(json);
 }

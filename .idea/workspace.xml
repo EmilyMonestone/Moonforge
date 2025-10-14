@@ -4,22 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor workspace configuration and update task summaries for clarity">
-      <change afterPath="$PROJECT_DIR$/lib/core/providers/auth_providers.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/providers/campaign_providers.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/providers/firebase_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support">
+      <change afterPath="$PROJECT_DIR$/docs/firebase_schema.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/adventure.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/chapter.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/encounter.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/entity.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/join_code.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/json_converters.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/media_asset.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/model_support.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/scene.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/models/session.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/analysis_options.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/destinations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/destinations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/layout_wrapper.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760365146289</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support">
+      <option name="closed" value="true" />
+      <created>1760439811052</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1760439811052</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -184,7 +197,8 @@
     <MESSAGE value="add initial screens and routing for campaign, chapter, adventure, and encounter features" />
     <MESSAGE value="add initial project structure and configuration files for moonforge" />
     <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor workspace configuration and update task summaries for clarity" />
+    <MESSAGE value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -207,6 +221,12 @@
           <option name="totalLines" value="915136" />
           <option name="info" value="refactor workspace configuration and update task s" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760439811326" />
+          <option name="linesCode" value="8330" />
+          <option name="totalLines" value="1713643" />
+          <option name="info" value="feat: integrate Firebase authentication and Firest" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -222,6 +242,12 @@
           <option name="linesCode" value="5578" />
           <option name="totalLines" value="915136" />
           <option name="info" value="Oct 13, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760439811326" />
+          <option name="linesCode" value="8330" />
+          <option name="totalLines" value="1713643" />
+          <option name="info" value="Oct 14, 2025" />
         </TimePoint>
       </list>
     </option>

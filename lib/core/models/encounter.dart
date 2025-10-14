@@ -3,25 +3,25 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moonforge/core/models/json_converters.dart';
 import 'package:moonforge/core/models/model_support.dart';
 
-part 'campaign.freezed.dart';
-part 'campaign.g.dart';
+part 'encounter.freezed.dart';
+part 'encounter.g.dart';
 
 @freezed
 @firestoreOdm
-abstract class Campaign with _$Campaign {
+class EncounterDoc with _$EncounterDoc {
   @JsonSerializable(explicitToJson: true)
-  const factory Campaign({
+  const factory EncounterDoc({
     @DocumentIdField() required String id,
     required String name,
-    required String description,
-    RichTextDoc? content,
-    String? ownerUid,
-    @Default([]) List<String> memberUids,
+    @Default(false) bool preset,
+    String? notes,
+    String? loot,
+    @Default(<Combatant>[]) List<Combatant> combatants,
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? updatedAt,
     @Default(0) int rev,
-  }) = _Campaign;
+  }) = _EncounterDoc;
 
-  factory Campaign.fromJson(Map<String, dynamic> json) =>
-      _$CampaignFromJson(json);
+  factory EncounterDoc.fromJson(Map<String, dynamic> json) =>
+      _$EncounterDocFromJson(json);
 }
