@@ -45,6 +45,7 @@ dependencies:
   share_plus: ^12.0.0
   logger: ^2.6.2
   app_links: ^6.4.1
+  google_sign_in: ^6.2.1
   upgrader: ^12.1.0
   showcaseview: ^5.0.0
   toastification: ^3.0.3
@@ -52,6 +53,8 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
   skeletonizer: ^2.1.0+1
   flutter_onboarding_slider: ^1.0.11
+  flutter_breadcrumb: ^1.0.1
+  flutter_launcher_icons: ^0.14.4
 
 
 dev_dependencies:
@@ -68,3 +71,22 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+    background_color: "#4e3847"
+    theme_color: "#e8a6d4"
+  windows:
+    generate: true
+    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+    icon_size: 256 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"

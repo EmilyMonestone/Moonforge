@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class CampaignEditScreen extends StatelessWidget {
-  const CampaignEditScreen({super.key, @pathParam required this.campaignId});
-
-  final String campaignId;
+  const CampaignEditScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

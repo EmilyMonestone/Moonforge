@@ -18,7 +18,7 @@ class LayoutShell extends StatelessWidget {
         return AdaptiveScaffold(
           tabsRouter: tabsRouter,
           tabs: kPrimaryTabs,
-          appBarTitle: Text(title),
+          appBarTitleText: Text(title),
           body: child,
         );
       },

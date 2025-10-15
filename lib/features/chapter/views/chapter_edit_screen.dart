@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class ChapterEditScreen extends StatelessWidget {
-  const ChapterEditScreen({
-    super.key,
-    @pathParam required this.campaignId,
-    @pathParam required this.chapterId,
-  });
+  const ChapterEditScreen({super.key, @pathParam required this.chapterId});
 
-  final String campaignId;
   final String chapterId;
 
   @override

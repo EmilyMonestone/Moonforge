@@ -4,23 +4,64 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: simplify Campaign model by removing unused fields and updating JSON serialization">
-      <change afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/join_code.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/models/media_asset.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/core/constants/path_names.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/utils/logger.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/firebase_schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/firebase_schema.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/schema.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/adventure/views/adventure_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/views/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/encounters/views/encounter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/encounters/views/encounter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/entities/views/entity_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/scene/views/scene_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/scene/views/scene_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/destinations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/destinations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/layout_shell.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/layout_shell.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/web/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/web/icons/Icon-192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/web/icons/Icon-512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/web/icons/Icon-maskable-192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/web/icons/Icon-maskable-512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/resources/app_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/windows/runner/resources/app_icon.ico" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +89,8 @@
       <list>
         <option value="dart - stateful widget" />
         <option value="dart - stateless page" />
-        <option value="Dart File" />
         <option value="dart - stateful page " />
+        <option value="Dart File" />
       </list>
     </option>
   </component>
@@ -110,7 +151,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "settings.editor.selected.configurable": "terminal",
     "show.migrate.to.gradle.popup": "false",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -121,6 +162,7 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\assets\icon" />
       <recent name="C:\Users\emily\IdeaProjects\Moonforge\docs\responsive layout" />
       <recent name="C:\Users\emily\IdeaProjects\Moonforge\docs" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\models" />
@@ -193,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760446602651</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support">
+      <option name="closed" value="true" />
+      <created>1760457703828</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760457703828</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -224,7 +274,8 @@
     <MESSAGE value="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support" />
     <MESSAGE value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
     <MESSAGE value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
+    <MESSAGE value="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -271,6 +322,12 @@
           <option name="totalLines" value="1714031" />
           <option name="info" value="feat: simplify Campaign model by removing unused f" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760457704089" />
+          <option name="linesCode" value="13785" />
+          <option name="totalLines" value="1725802" />
+          <option name="info" value="feat: add Firestore ODM models for JoinCode, Sessi" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -288,9 +345,9 @@
           <option name="info" value="Oct 13, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1760446602872" />
-          <option name="linesCode" value="8604" />
-          <option name="totalLines" value="1714031" />
+          <option name="timestamp" value="1760457704089" />
+          <option name="linesCode" value="13785" />
+          <option name="totalLines" value="1725802" />
           <option name="info" value="Oct 14, 2025" />
         </TimePoint>
       </list>

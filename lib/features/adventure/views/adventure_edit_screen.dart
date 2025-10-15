@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 class AdventureEditScreen extends StatelessWidget {
   const AdventureEditScreen({
     super.key,
-    @pathParam required this.campaignId,
     @pathParam required this.chapterId,
     @pathParam required this.adventureId,
   });
 
-  final String campaignId;
   final String chapterId;
   final String adventureId;
 

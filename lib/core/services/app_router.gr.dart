@@ -51,7 +51,6 @@ import 'package:moonforge/layout/layout_shell.dart' as _i12;
 class AdventureEditRoute extends _i25.PageRouteInfo<AdventureEditRouteArgs> {
   AdventureEditRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     required String adventureId,
     List<_i25.PageRouteInfo>? children,
@@ -59,15 +58,10 @@ class AdventureEditRoute extends _i25.PageRouteInfo<AdventureEditRouteArgs> {
          AdventureEditRoute.name,
          args: AdventureEditRouteArgs(
            key: key,
-           campaignId: campaignId,
            chapterId: chapterId,
            adventureId: adventureId,
          ),
-         rawPathParams: {
-           'campaignId': campaignId,
-           'chapterId': chapterId,
-           'adventureId': adventureId,
-         },
+         rawPathParams: {'chapterId': chapterId, 'adventureId': adventureId},
          initialChildren: children,
        );
 
@@ -79,14 +73,12 @@ class AdventureEditRoute extends _i25.PageRouteInfo<AdventureEditRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<AdventureEditRouteArgs>(
         orElse: () => AdventureEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
           chapterId: pathParams.getString('chapterId'),
           adventureId: pathParams.getString('adventureId'),
         ),
       );
       return _i1.AdventureEditScreen(
         key: args.key,
-        campaignId: args.campaignId,
         chapterId: args.chapterId,
         adventureId: args.adventureId,
       );
@@ -97,14 +89,11 @@ class AdventureEditRoute extends _i25.PageRouteInfo<AdventureEditRouteArgs> {
 class AdventureEditRouteArgs {
   const AdventureEditRouteArgs({
     this.key,
-    required this.campaignId,
     required this.chapterId,
     required this.adventureId,
   });
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
@@ -112,7 +101,7 @@ class AdventureEditRouteArgs {
 
   @override
   String toString() {
-    return 'AdventureEditRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId, adventureId: $adventureId}';
+    return 'AdventureEditRouteArgs{key: $key, chapterId: $chapterId, adventureId: $adventureId}';
   }
 
   @override
@@ -120,17 +109,12 @@ class AdventureEditRouteArgs {
     if (identical(this, other)) return true;
     if (other is! AdventureEditRouteArgs) return false;
     return key == other.key &&
-        campaignId == other.campaignId &&
         chapterId == other.chapterId &&
         adventureId == other.adventureId;
   }
 
   @override
-  int get hashCode =>
-      key.hashCode ^
-      campaignId.hashCode ^
-      chapterId.hashCode ^
-      adventureId.hashCode;
+  int get hashCode => key.hashCode ^ chapterId.hashCode ^ adventureId.hashCode;
 }
 
 /// generated route for
@@ -138,7 +122,6 @@ class AdventureEditRouteArgs {
 class AdventureRoute extends _i25.PageRouteInfo<AdventureRouteArgs> {
   AdventureRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     required String adventureId,
     List<_i25.PageRouteInfo>? children,
@@ -146,15 +129,10 @@ class AdventureRoute extends _i25.PageRouteInfo<AdventureRouteArgs> {
          AdventureRoute.name,
          args: AdventureRouteArgs(
            key: key,
-           campaignId: campaignId,
            chapterId: chapterId,
            adventureId: adventureId,
          ),
-         rawPathParams: {
-           'campaignId': campaignId,
-           'chapterId': chapterId,
-           'adventureId': adventureId,
-         },
+         rawPathParams: {'chapterId': chapterId, 'adventureId': adventureId},
          initialChildren: children,
        );
 
@@ -166,14 +144,12 @@ class AdventureRoute extends _i25.PageRouteInfo<AdventureRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<AdventureRouteArgs>(
         orElse: () => AdventureRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
           chapterId: pathParams.getString('chapterId'),
           adventureId: pathParams.getString('adventureId'),
         ),
       );
       return _i2.AdventureScreen(
         key: args.key,
-        campaignId: args.campaignId,
         chapterId: args.chapterId,
         adventureId: args.adventureId,
       );
@@ -184,14 +160,11 @@ class AdventureRoute extends _i25.PageRouteInfo<AdventureRouteArgs> {
 class AdventureRouteArgs {
   const AdventureRouteArgs({
     this.key,
-    required this.campaignId,
     required this.chapterId,
     required this.adventureId,
   });
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
@@ -199,7 +172,7 @@ class AdventureRouteArgs {
 
   @override
   String toString() {
-    return 'AdventureRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId, adventureId: $adventureId}';
+    return 'AdventureRouteArgs{key: $key, chapterId: $chapterId, adventureId: $adventureId}';
   }
 
   @override
@@ -207,122 +180,44 @@ class AdventureRouteArgs {
     if (identical(this, other)) return true;
     if (other is! AdventureRouteArgs) return false;
     return key == other.key &&
-        campaignId == other.campaignId &&
         chapterId == other.chapterId &&
         adventureId == other.adventureId;
   }
 
   @override
-  int get hashCode =>
-      key.hashCode ^
-      campaignId.hashCode ^
-      chapterId.hashCode ^
-      adventureId.hashCode;
+  int get hashCode => key.hashCode ^ chapterId.hashCode ^ adventureId.hashCode;
 }
 
 /// generated route for
 /// [_i3.CampaignEditScreen]
-class CampaignEditRoute extends _i25.PageRouteInfo<CampaignEditRouteArgs> {
-  CampaignEditRoute({
-    _i26.Key? key,
-    required String campaignId,
-    List<_i25.PageRouteInfo>? children,
-  }) : super(
-         CampaignEditRoute.name,
-         args: CampaignEditRouteArgs(key: key, campaignId: campaignId),
-         rawPathParams: {'campaignId': campaignId},
-         initialChildren: children,
-       );
+class CampaignEditRoute extends _i25.PageRouteInfo<void> {
+  const CampaignEditRoute({List<_i25.PageRouteInfo>? children})
+    : super(CampaignEditRoute.name, initialChildren: children);
 
   static const String name = 'CampaignEditRoute';
 
   static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      final pathParams = data.inheritedPathParams;
-      final args = data.argsAs<CampaignEditRouteArgs>(
-        orElse: () => CampaignEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-        ),
-      );
-      return _i3.CampaignEditScreen(key: args.key, campaignId: args.campaignId);
+      return const _i3.CampaignEditScreen();
     },
   );
 }
 
-class CampaignEditRouteArgs {
-  const CampaignEditRouteArgs({this.key, required this.campaignId});
-
-  final _i26.Key? key;
-
-  final String campaignId;
-
-  @override
-  String toString() {
-    return 'CampaignEditRouteArgs{key: $key, campaignId: $campaignId}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! CampaignEditRouteArgs) return false;
-    return key == other.key && campaignId == other.campaignId;
-  }
-
-  @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode;
-}
-
 /// generated route for
 /// [_i4.CampaignScreen]
-class CampaignRoute extends _i25.PageRouteInfo<CampaignRouteArgs> {
-  CampaignRoute({
-    _i26.Key? key,
-    required String campaignId,
-    List<_i25.PageRouteInfo>? children,
-  }) : super(
-         CampaignRoute.name,
-         args: CampaignRouteArgs(key: key, campaignId: campaignId),
-         rawPathParams: {'campaignId': campaignId},
-         initialChildren: children,
-       );
+class CampaignRoute extends _i25.PageRouteInfo<void> {
+  const CampaignRoute({List<_i25.PageRouteInfo>? children})
+    : super(CampaignRoute.name, initialChildren: children);
 
   static const String name = 'CampaignRoute';
 
   static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      final pathParams = data.inheritedPathParams;
-      final args = data.argsAs<CampaignRouteArgs>(
-        orElse: () =>
-            CampaignRouteArgs(campaignId: pathParams.getString('campaignId')),
-      );
-      return _i4.CampaignScreen(key: args.key, campaignId: args.campaignId);
+      return const _i4.CampaignScreen();
     },
   );
-}
-
-class CampaignRouteArgs {
-  const CampaignRouteArgs({this.key, required this.campaignId});
-
-  final _i26.Key? key;
-
-  final String campaignId;
-
-  @override
-  String toString() {
-    return 'CampaignRouteArgs{key: $key, campaignId: $campaignId}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! CampaignRouteArgs) return false;
-    return key == other.key && campaignId == other.campaignId;
-  }
-
-  @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode;
 }
 
 /// generated route for
@@ -330,17 +225,12 @@ class CampaignRouteArgs {
 class ChapterEditRoute extends _i25.PageRouteInfo<ChapterEditRouteArgs> {
   ChapterEditRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          ChapterEditRoute.name,
-         args: ChapterEditRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           chapterId: chapterId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'chapterId': chapterId},
+         args: ChapterEditRouteArgs(key: key, chapterId: chapterId),
+         rawPathParams: {'chapterId': chapterId},
          initialChildren: children,
        );
 
@@ -351,49 +241,35 @@ class ChapterEditRoute extends _i25.PageRouteInfo<ChapterEditRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<ChapterEditRouteArgs>(
-        orElse: () => ChapterEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          chapterId: pathParams.getString('chapterId'),
-        ),
+        orElse: () =>
+            ChapterEditRouteArgs(chapterId: pathParams.getString('chapterId')),
       );
-      return _i5.ChapterEditScreen(
-        key: args.key,
-        campaignId: args.campaignId,
-        chapterId: args.chapterId,
-      );
+      return _i5.ChapterEditScreen(key: args.key, chapterId: args.chapterId);
     },
   );
 }
 
 class ChapterEditRouteArgs {
-  const ChapterEditRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.chapterId,
-  });
+  const ChapterEditRouteArgs({this.key, required this.chapterId});
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
   @override
   String toString() {
-    return 'ChapterEditRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId}';
+    return 'ChapterEditRouteArgs{key: $key, chapterId: $chapterId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ChapterEditRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        chapterId == other.chapterId;
+    return key == other.key && chapterId == other.chapterId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ chapterId.hashCode;
+  int get hashCode => key.hashCode ^ chapterId.hashCode;
 }
 
 /// generated route for
@@ -401,17 +277,12 @@ class ChapterEditRouteArgs {
 class ChapterRoute extends _i25.PageRouteInfo<ChapterRouteArgs> {
   ChapterRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          ChapterRoute.name,
-         args: ChapterRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           chapterId: chapterId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'chapterId': chapterId},
+         args: ChapterRouteArgs(key: key, chapterId: chapterId),
+         rawPathParams: {'chapterId': chapterId},
          initialChildren: children,
        );
 
@@ -422,49 +293,35 @@ class ChapterRoute extends _i25.PageRouteInfo<ChapterRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<ChapterRouteArgs>(
-        orElse: () => ChapterRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          chapterId: pathParams.getString('chapterId'),
-        ),
+        orElse: () =>
+            ChapterRouteArgs(chapterId: pathParams.getString('chapterId')),
       );
-      return _i6.ChapterScreen(
-        key: args.key,
-        campaignId: args.campaignId,
-        chapterId: args.chapterId,
-      );
+      return _i6.ChapterScreen(key: args.key, chapterId: args.chapterId);
     },
   );
 }
 
 class ChapterRouteArgs {
-  const ChapterRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.chapterId,
-  });
+  const ChapterRouteArgs({this.key, required this.chapterId});
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
   @override
   String toString() {
-    return 'ChapterRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId}';
+    return 'ChapterRouteArgs{key: $key, chapterId: $chapterId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! ChapterRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        chapterId == other.chapterId;
+    return key == other.key && chapterId == other.chapterId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ chapterId.hashCode;
+  int get hashCode => key.hashCode ^ chapterId.hashCode;
 }
 
 /// generated route for
@@ -472,17 +329,12 @@ class ChapterRouteArgs {
 class EncounterEditRoute extends _i25.PageRouteInfo<EncounterEditRouteArgs> {
   EncounterEditRoute({
     _i26.Key? key,
-    required String campaignId,
-    required String encoutnerId,
+    required String encounterId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          EncounterEditRoute.name,
-         args: EncounterEditRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           encoutnerId: encoutnerId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'encoutnerId': encoutnerId},
+         args: EncounterEditRouteArgs(key: key, encounterId: encounterId),
+         rawPathParams: {'encounterId': encounterId},
          initialChildren: children,
        );
 
@@ -494,48 +346,38 @@ class EncounterEditRoute extends _i25.PageRouteInfo<EncounterEditRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<EncounterEditRouteArgs>(
         orElse: () => EncounterEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          encoutnerId: pathParams.getString('encoutnerId'),
+          encounterId: pathParams.getString('encounterId'),
         ),
       );
       return _i7.EncounterEditScreen(
         key: args.key,
-        campaignId: args.campaignId,
-        encoutnerId: args.encoutnerId,
+        encounterId: args.encounterId,
       );
     },
   );
 }
 
 class EncounterEditRouteArgs {
-  const EncounterEditRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.encoutnerId,
-  });
+  const EncounterEditRouteArgs({this.key, required this.encounterId});
 
   final _i26.Key? key;
 
-  final String campaignId;
-
-  final String encoutnerId;
+  final String encounterId;
 
   @override
   String toString() {
-    return 'EncounterEditRouteArgs{key: $key, campaignId: $campaignId, encoutnerId: $encoutnerId}';
+    return 'EncounterEditRouteArgs{key: $key, encounterId: $encounterId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EncounterEditRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        encoutnerId == other.encoutnerId;
+    return key == other.key && encounterId == other.encounterId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ encoutnerId.hashCode;
+  int get hashCode => key.hashCode ^ encounterId.hashCode;
 }
 
 /// generated route for
@@ -543,17 +385,12 @@ class EncounterEditRouteArgs {
 class EncounterRoute extends _i25.PageRouteInfo<EncounterRouteArgs> {
   EncounterRoute({
     _i26.Key? key,
-    required String campaignId,
-    required String encoutnerId,
+    required String encounterId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          EncounterRoute.name,
-         args: EncounterRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           encoutnerId: encoutnerId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'encoutnerId': encoutnerId},
+         args: EncounterRouteArgs(key: key, encounterId: encounterId),
+         rawPathParams: {'encounterId': encounterId},
          initialChildren: children,
        );
 
@@ -565,48 +402,35 @@ class EncounterRoute extends _i25.PageRouteInfo<EncounterRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<EncounterRouteArgs>(
         orElse: () => EncounterRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          encoutnerId: pathParams.getString('encoutnerId'),
+          encounterId: pathParams.getString('encounterId'),
         ),
       );
-      return _i8.EncounterScreen(
-        key: args.key,
-        campaignId: args.campaignId,
-        encoutnerId: args.encoutnerId,
-      );
+      return _i8.EncounterScreen(key: args.key, encounterId: args.encounterId);
     },
   );
 }
 
 class EncounterRouteArgs {
-  const EncounterRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.encoutnerId,
-  });
+  const EncounterRouteArgs({this.key, required this.encounterId});
 
   final _i26.Key? key;
 
-  final String campaignId;
-
-  final String encoutnerId;
+  final String encounterId;
 
   @override
   String toString() {
-    return 'EncounterRouteArgs{key: $key, campaignId: $campaignId, encoutnerId: $encoutnerId}';
+    return 'EncounterRouteArgs{key: $key, encounterId: $encounterId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EncounterRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        encoutnerId == other.encoutnerId;
+    return key == other.key && encounterId == other.encounterId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ encoutnerId.hashCode;
+  int get hashCode => key.hashCode ^ encounterId.hashCode;
 }
 
 /// generated route for
@@ -614,17 +438,12 @@ class EncounterRouteArgs {
 class EntityEditRoute extends _i25.PageRouteInfo<EntityEditRouteArgs> {
   EntityEditRoute({
     _i26.Key? key,
-    required String campaignId,
     required String entityId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          EntityEditRoute.name,
-         args: EntityEditRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           entityId: entityId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'entityId': entityId},
+         args: EntityEditRouteArgs(key: key, entityId: entityId),
+         rawPathParams: {'entityId': entityId},
          initialChildren: children,
        );
 
@@ -635,49 +454,35 @@ class EntityEditRoute extends _i25.PageRouteInfo<EntityEditRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<EntityEditRouteArgs>(
-        orElse: () => EntityEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          entityId: pathParams.getString('entityId'),
-        ),
+        orElse: () =>
+            EntityEditRouteArgs(entityId: pathParams.getString('entityId')),
       );
-      return _i9.EntityEditScreen(
-        key: args.key,
-        campaignId: args.campaignId,
-        entityId: args.entityId,
-      );
+      return _i9.EntityEditScreen(key: args.key, entityId: args.entityId);
     },
   );
 }
 
 class EntityEditRouteArgs {
-  const EntityEditRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.entityId,
-  });
+  const EntityEditRouteArgs({this.key, required this.entityId});
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String entityId;
 
   @override
   String toString() {
-    return 'EntityEditRouteArgs{key: $key, campaignId: $campaignId, entityId: $entityId}';
+    return 'EntityEditRouteArgs{key: $key, entityId: $entityId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EntityEditRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        entityId == other.entityId;
+    return key == other.key && entityId == other.entityId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ entityId.hashCode;
+  int get hashCode => key.hashCode ^ entityId.hashCode;
 }
 
 /// generated route for
@@ -685,17 +490,12 @@ class EntityEditRouteArgs {
 class EntityRoute extends _i25.PageRouteInfo<EntityRouteArgs> {
   EntityRoute({
     _i26.Key? key,
-    required String campaignId,
     required String entityId,
     List<_i25.PageRouteInfo>? children,
   }) : super(
          EntityRoute.name,
-         args: EntityRouteArgs(
-           key: key,
-           campaignId: campaignId,
-           entityId: entityId,
-         ),
-         rawPathParams: {'campaignId': campaignId, 'entityId': entityId},
+         args: EntityRouteArgs(key: key, entityId: entityId),
+         rawPathParams: {'entityId': entityId},
          initialChildren: children,
        );
 
@@ -706,49 +506,35 @@ class EntityRoute extends _i25.PageRouteInfo<EntityRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<EntityRouteArgs>(
-        orElse: () => EntityRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
-          entityId: pathParams.getString('entityId'),
-        ),
+        orElse: () =>
+            EntityRouteArgs(entityId: pathParams.getString('entityId')),
       );
-      return _i10.EntityScreen(
-        key: args.key,
-        campaignId: args.campaignId,
-        entityId: args.entityId,
-      );
+      return _i10.EntityScreen(key: args.key, entityId: args.entityId);
     },
   );
 }
 
 class EntityRouteArgs {
-  const EntityRouteArgs({
-    this.key,
-    required this.campaignId,
-    required this.entityId,
-  });
+  const EntityRouteArgs({this.key, required this.entityId});
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String entityId;
 
   @override
   String toString() {
-    return 'EntityRouteArgs{key: $key, campaignId: $campaignId, entityId: $entityId}';
+    return 'EntityRouteArgs{key: $key, entityId: $entityId}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EntityRouteArgs) return false;
-    return key == other.key &&
-        campaignId == other.campaignId &&
-        entityId == other.entityId;
+    return key == other.key && entityId == other.entityId;
   }
 
   @override
-  int get hashCode => key.hashCode ^ campaignId.hashCode ^ entityId.hashCode;
+  int get hashCode => key.hashCode ^ entityId.hashCode;
 }
 
 /// generated route for
@@ -1061,7 +847,6 @@ class RegisterRoute extends _i25.PageRouteInfo<void> {
 class SceneEditRoute extends _i25.PageRouteInfo<SceneEditRouteArgs> {
   SceneEditRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     required String adventureId,
     required String sceneId,
@@ -1070,13 +855,11 @@ class SceneEditRoute extends _i25.PageRouteInfo<SceneEditRouteArgs> {
          SceneEditRoute.name,
          args: SceneEditRouteArgs(
            key: key,
-           campaignId: campaignId,
            chapterId: chapterId,
            adventureId: adventureId,
            sceneId: sceneId,
          ),
          rawPathParams: {
-           'campaignId': campaignId,
            'chapterId': chapterId,
            'adventureId': adventureId,
            'sceneId': sceneId,
@@ -1092,7 +875,6 @@ class SceneEditRoute extends _i25.PageRouteInfo<SceneEditRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<SceneEditRouteArgs>(
         orElse: () => SceneEditRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
           chapterId: pathParams.getString('chapterId'),
           adventureId: pathParams.getString('adventureId'),
           sceneId: pathParams.getString('sceneId'),
@@ -1100,7 +882,6 @@ class SceneEditRoute extends _i25.PageRouteInfo<SceneEditRouteArgs> {
       );
       return _i19.SceneEditScreen(
         key: args.key,
-        campaignId: args.campaignId,
         chapterId: args.chapterId,
         adventureId: args.adventureId,
         sceneId: args.sceneId,
@@ -1112,15 +893,12 @@ class SceneEditRoute extends _i25.PageRouteInfo<SceneEditRouteArgs> {
 class SceneEditRouteArgs {
   const SceneEditRouteArgs({
     this.key,
-    required this.campaignId,
     required this.chapterId,
     required this.adventureId,
     required this.sceneId,
   });
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
@@ -1130,7 +908,7 @@ class SceneEditRouteArgs {
 
   @override
   String toString() {
-    return 'SceneEditRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId, adventureId: $adventureId, sceneId: $sceneId}';
+    return 'SceneEditRouteArgs{key: $key, chapterId: $chapterId, adventureId: $adventureId, sceneId: $sceneId}';
   }
 
   @override
@@ -1138,7 +916,6 @@ class SceneEditRouteArgs {
     if (identical(this, other)) return true;
     if (other is! SceneEditRouteArgs) return false;
     return key == other.key &&
-        campaignId == other.campaignId &&
         chapterId == other.chapterId &&
         adventureId == other.adventureId &&
         sceneId == other.sceneId;
@@ -1147,7 +924,6 @@ class SceneEditRouteArgs {
   @override
   int get hashCode =>
       key.hashCode ^
-      campaignId.hashCode ^
       chapterId.hashCode ^
       adventureId.hashCode ^
       sceneId.hashCode;
@@ -1158,7 +934,6 @@ class SceneEditRouteArgs {
 class SceneRoute extends _i25.PageRouteInfo<SceneRouteArgs> {
   SceneRoute({
     _i26.Key? key,
-    required String campaignId,
     required String chapterId,
     required String adventureId,
     required String sceneId,
@@ -1167,13 +942,11 @@ class SceneRoute extends _i25.PageRouteInfo<SceneRouteArgs> {
          SceneRoute.name,
          args: SceneRouteArgs(
            key: key,
-           campaignId: campaignId,
            chapterId: chapterId,
            adventureId: adventureId,
            sceneId: sceneId,
          ),
          rawPathParams: {
-           'campaignId': campaignId,
            'chapterId': chapterId,
            'adventureId': adventureId,
            'sceneId': sceneId,
@@ -1189,7 +962,6 @@ class SceneRoute extends _i25.PageRouteInfo<SceneRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<SceneRouteArgs>(
         orElse: () => SceneRouteArgs(
-          campaignId: pathParams.getString('campaignId'),
           chapterId: pathParams.getString('chapterId'),
           adventureId: pathParams.getString('adventureId'),
           sceneId: pathParams.getString('sceneId'),
@@ -1197,7 +969,6 @@ class SceneRoute extends _i25.PageRouteInfo<SceneRouteArgs> {
       );
       return _i20.SceneScreen(
         key: args.key,
-        campaignId: args.campaignId,
         chapterId: args.chapterId,
         adventureId: args.adventureId,
         sceneId: args.sceneId,
@@ -1209,15 +980,12 @@ class SceneRoute extends _i25.PageRouteInfo<SceneRouteArgs> {
 class SceneRouteArgs {
   const SceneRouteArgs({
     this.key,
-    required this.campaignId,
     required this.chapterId,
     required this.adventureId,
     required this.sceneId,
   });
 
   final _i26.Key? key;
-
-  final String campaignId;
 
   final String chapterId;
 
@@ -1227,7 +995,7 @@ class SceneRouteArgs {
 
   @override
   String toString() {
-    return 'SceneRouteArgs{key: $key, campaignId: $campaignId, chapterId: $chapterId, adventureId: $adventureId, sceneId: $sceneId}';
+    return 'SceneRouteArgs{key: $key, chapterId: $chapterId, adventureId: $adventureId, sceneId: $sceneId}';
   }
 
   @override
@@ -1235,7 +1003,6 @@ class SceneRouteArgs {
     if (identical(this, other)) return true;
     if (other is! SceneRouteArgs) return false;
     return key == other.key &&
-        campaignId == other.campaignId &&
         chapterId == other.chapterId &&
         adventureId == other.adventureId &&
         sceneId == other.sceneId;
@@ -1244,7 +1011,6 @@ class SceneRouteArgs {
   @override
   int get hashCode =>
       key.hashCode ^
-      campaignId.hashCode ^
       chapterId.hashCode ^
       adventureId.hashCode ^
       sceneId.hashCode;

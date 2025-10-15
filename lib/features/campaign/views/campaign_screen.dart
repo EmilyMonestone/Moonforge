@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class CampaignScreen extends StatefulWidget {
-  const CampaignScreen({super.key, @pathParam required this.campaignId});
-
-  final String campaignId;
+  const CampaignScreen({super.key});
 
   @override
   State<CampaignScreen> createState() => _CampaignScreenState();

@@ -22,53 +22,48 @@ class AppRouter extends RootStackRouter {
           page: HomeRoute.page,
           children: [
             // Feature routes inside Home tab
-            AutoRoute(path: 'campaign/:campaignId', page: CampaignRoute.page),
+            AutoRoute(path: 'campaign', page: CampaignRoute.page),
+            AutoRoute(path: 'campaign/edit', page: CampaignEditRoute.page),
             AutoRoute(
-              path: 'campaign/:campaignId/edit',
-              page: CampaignEditRoute.page,
-            ),
-            AutoRoute(
-              path: 'campaign/:campaignId/chapter/:chapterId',
+              path: 'campaign/chapter/:chapterId',
               page: ChapterRoute.page,
             ),
             AutoRoute(
-              path: 'campaign/:campaignId/chapter/:chapterId/edit',
+              path: 'campaign/chapter/:chapterId/edit',
               page: ChapterEditRoute.page,
             ),
             AutoRoute(
-              path:
-                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId',
+              path: 'campaign/chapter/:chapterId/adventure/:adventureId',
               page: AdventureRoute.page,
             ),
             AutoRoute(
-              path:
-                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/edit',
+              path: 'campaign/chapter/:chapterId/adventure/:adventureId/edit',
               page: AdventureEditRoute.page,
             ),
             AutoRoute(
               path:
-                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId',
+                  'campaign/chapter/:chapterId/adventure/:adventureId/scene/:sceneId',
               page: SceneRoute.page,
             ),
             AutoRoute(
               path:
-                  'campaign/:campaignId/chapter/:chapterId/adventure/:adventureId/scene/:sceneId/edit',
+                  'campaign/chapter/:chapterId/adventure/:adventureId/scene/:sceneId/edit',
               page: SceneEditRoute.page,
             ),
             AutoRoute(
-              path: 'campaign/:campaignId/encoutner/:encoutnerId',
+              path: 'campaign/encounter/:encounterId',
               page: EncounterRoute.page,
             ),
             AutoRoute(
-              path: 'campaign/:campaignId/encoutner/:encoutnerId/edit',
+              path: 'campaign/encounter/:encounterId/edit',
               page: EncounterEditRoute.page,
             ),
             AutoRoute(
-              path: 'campaign/:campaignId/entity/:entityId',
+              path: 'campaign/entity/:entityId',
               page: EntityRoute.page,
             ),
             AutoRoute(
-              path: 'campaign/:campaignId/entity/:entityId/edit',
+              path: 'campaign/entity/:entityId/edit',
               page: EntityEditRoute.page,
             ),
 

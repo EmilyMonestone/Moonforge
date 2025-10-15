@@ -24,7 +24,7 @@ final List<TabSpec> kPrimaryTabs = <TabSpec>[
   TabSpec(
     label: 'Campaign',
     icon: Icons.book_outlined,
-    routeFactory: () => CampaignRoute(campaignId: ''),
+    routeFactory: () => CampaignRoute(),
   ),
   TabSpec(
     label: 'Party',

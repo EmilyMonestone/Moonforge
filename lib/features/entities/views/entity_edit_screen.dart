@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class EntityEditScreen extends StatelessWidget {
-  const EntityEditScreen({
-    super.key,
-    @pathParam required this.campaignId,
-    @pathParam required this.entityId,
-  });
+  const EntityEditScreen({super.key, @pathParam required this.entityId});
 
-  final String campaignId;
   final String entityId;
 
   @override

@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class EncounterEditScreen extends StatelessWidget {
-  const EncounterEditScreen({
-    super.key,
-    @pathParam required this.campaignId,
-    @pathParam required this.encoutnerId,
-  });
+  const EncounterEditScreen({super.key, @pathParam required this.encounterId});
 
-  final String campaignId;
-  final String encoutnerId;
+  final String encounterId;
 
   @override
   Widget build(BuildContext context) {

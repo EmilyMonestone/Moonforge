@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:moonforge/core/constants/path_names.dart';
+import 'package:moonforge/core/services/app_router.gr.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
+
+import '../core/providers/auth_providers.dart';
 
 /// AdaptiveScaffold builds a responsive Scaffold that switches between
 /// NavigationBar (compact) and NavigationRail (medium/expanded).
@@ -11,24 +17,40 @@ class AdaptiveScaffold extends StatelessWidget {
     required this.tabsRouter,
     required this.tabs,
     required this.body,
-    this.appBarTitle,
+    this.appBarTitleText,
   });
 
   final TabsRouter tabsRouter;
   final List<TabSpec> tabs;
   final Widget body;
-  final Widget? appBarTitle;
+  final Widget? appBarTitleText;
 
   @override
   Widget build(BuildContext context) {
     final size = AppSizeClass.of(context);
+    int pathCount = tabsRouter.currentSegments.length;
+    List<RouteMatch<dynamic>> segments = tabsRouter.currentSegments.toList();
+    if (segments[0].name == 'HomeRoute' && pathCount > 1) {
+      pathCount -= 1;
+      segments = segments.sublist(1);
+    }
+    Widget breadcrumbs = BreadCrumb.builder(
+      itemCount: pathCount,
+      builder: (int index) {
+        return BreadCrumbItem(
+          content: getPathName(segments[index].name),
+          onTap: () => tabsRouter.navigatePath(segments[index].path),
+        );
+      },
+      divider: Icon(Icons.chevron_right),
+    );
 
     switch (size) {
       case SizeClass.compact:
-        return _buildCompact(context);
+        return _buildCompact(context, breadcrumbs);
       case SizeClass.medium:
       case SizeClass.expanded:
-        return _buildWide(context);
+        return _buildWide(context, breadcrumbs);
     }
   }
 
@@ -37,14 +59,23 @@ class AdaptiveScaffold extends StatelessWidget {
   void _onSelect(int index) => tabsRouter.setActiveIndex(index);
 
   // Phones: NavigationBar + optional persistent side NavigationRail for overflow (>5)
-  Widget _buildCompact(BuildContext context) {
+  Widget _buildCompact(BuildContext context, Widget breadcrumbs) {
     final primary = tabs.length <= 5 ? tabs : tabs.take(5).toList();
     final overflow = tabs.length > 5
         ? tabs.skip(5).toList()
         : const <TabSpec>[];
 
     return Scaffold(
-      appBar: AppBar(title: appBarTitle, centerTitle: false),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            appBarTitleText ?? Text('Moonforge'),
+            const SizedBox(width: 16),
+            breadcrumbs,
+          ],
+        ),
+        centerTitle: false,
+      ),
       body: SafeArea(
         child: overflow.isEmpty
             ? body
@@ -83,11 +114,19 @@ class AdaptiveScaffold extends StatelessWidget {
   }
 
   // Tablets/Desktops: NavigationRail (extended on expanded)
-  Widget _buildWide(BuildContext context) {
+  Widget _buildWide(BuildContext context, Widget breadcrumbs) {
     final isExpanded = AppSizeClass.of(context) == SizeClass.expanded;
 
     return Scaffold(
-      appBar: AppBar(title: appBarTitle, centerTitle: false),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            SizedBox(width: 256, child: appBarTitleText ?? Text('Moonforge')),
+            breadcrumbs,
+          ],
+        ),
+        centerTitle: false,
+      ),
       body: SafeArea(
         child: Row(
           children: [
@@ -104,6 +143,22 @@ class AdaptiveScaffold extends StatelessWidget {
                     label: Text(tab.label),
                   ),
               ],
+              trailingAtBottom: true,
+              trailing: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: currentUserProvider.name != null
+                    ? FilledButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          tabsRouter.navigate(HomeRoute());
+                        },
+                        child: Text('Logout'),
+                      )
+                    : FilledButton(
+                        onPressed: () => tabsRouter.navigate(LoginRoute()),
+                        child: Text('Login'),
+                      ),
+              ),
             ),
             const VerticalDivider(width: 1),
             Expanded(child: body),
