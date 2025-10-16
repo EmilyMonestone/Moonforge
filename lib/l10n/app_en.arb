@@ -1,0 +1,100 @@
+{
+  "appTitle": "Moonforge",
+  "@appTitle": {
+    "description": "The localized application title"
+  },
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  
+  "home": "Home",
+  "@home": {"description": "Label for Home tab and breadcrumb root"},
+
+  "campaign": "Campaign",
+  "@campaign": {"description": "Label for Campaign feature"},
+
+  "party": "Party",
+  "@party": {"description": "Label for Party feature"},
+
+  "settings": "Settings",
+  "@settings": {"description": "Label for Settings feature"},
+
+  "edit": "Edit",
+  "@edit": {"description": "Generic edit label"},
+
+  "chapter": "Chapter",
+  "@chapter": {"description": "Label for Chapter feature"},
+
+  "adventure": "Adventure",
+  "@adventure": {"description": "Label for Adventure feature"},
+
+  "scene": "Scene",
+  "@scene": {"description": "Label for Scene feature"},
+
+  "encounter": "Encounter",
+  "@encounter": {"description": "Label for Encounter feature"},
+
+  "entity": "Entity",
+  "@entity": {"description": "Label for Entity feature"},
+
+  "member": "Member",
+  "@member": {"description": "Label for Member feature"},
+
+  "session": "Session",
+  "@session": {"description": "Label for Session feature"},
+
+  "login": "Login",
+  "@login": {"description": "Label for Login screen"},
+
+  "register": "Register",
+  "@register": {"description": "Label for Register screen"},
+
+  "forgotPassword": "Forgot Password",
+  "@forgotPassword": {"description": "Label for Forgot Password screen"},
+
+  "profile": "Profile",
+  "@profile": {"description": "Label for Profile screen"},
+
+  "notFound": "Not Found",
+  "@notFound": {"description": "Label for Not Found screen"},
+
+  "ellipsis": "...",
+  "@ellipsis": {"description": "Fallback label when name unknown"},
+
+  "versionWithNumber": "v{version}",
+  "@versionWithNumber": {
+    "description": "Version label with prefix and value",
+    "placeholders": { "version": { "type": "String", "example": "1.2.3" } }
+  },
+  
+  "appearance": "Appearance",
+  "@appearance": {"description": "Tab label for Appearance settings"},
+
+  "hotkeys": "Hotkeys",
+  "@hotkeys": {"description": "Tab label for Hotkeys settings"},
+
+  "more": "More",
+  "@more": {"description": "Tab label for additional settings"},
+
+  "language": "Language",
+  "@language": {"description": "Label for language selection"},
+
+  "theme": "Theme",
+  "@theme": {"description": "Label for theme mode selection"},
+
+  "system": "System",
+  "@system": {"description": "System default option label"},
+
+  "light": "Light",
+  "@light": {"description": "Light theme option label"},
+
+  "dark": "Dark",
+  "@dark": {"description": "Dark theme option label"},
+
+  "english": "English",
+  "@english": {"description": "Language name: English"},
+
+  "german": "German",
+  "@german": {"description": "Language name: German"}
+}

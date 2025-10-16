@@ -1,56 +1,91 @@
-// an json of path and thir display name. for example HomeRoute : 'Home'
+// Path display name localization helper.
 
 import 'package:flutter/material.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 
 import '../utils/logger.dart';
 
-Map<String, Widget> pathNames = {
-  // GoRouter path segments
-  'campaign': const Text('Campaign'),
-  'edit': const Text('Edit'),
-  'chapter': const Text('Chapter'),
-  'adventure': const Text('Adventure'),
-  'scene': const Text('Scene'),
-  'encounter': const Text('Encounter'),
-  'entity': const Text('Entity'),
-  'party': const Text('Party'),
-  'member': const Text('Member'),
-  'session': const Text('Session'),
-  'settings': const Text('Settings'),
-  'login': const Text('Login'),
-  'register': const Text('Register'),
+/// Returns a localized widget for a given route or path segment name.
+Widget getPathName(BuildContext context, String routeName) {
+  final l10n = AppLocalizations.of(context)!;
 
-  // Legacy auto_route names (kept for compatibility if referenced elsewhere)
-  'HomeRoute': const Icon(Icons.home_outlined),
-  'CampaignRoute': const Text('Campaign'),
-  'CampaignEditRoute': const Text('Edit Campaign'),
-  'ChapterRoute': const Text('Chapter'),
-  'ChapterEditRoute': const Text('Edit Chapter'),
-  'AdventureRoute': const Text('Adventure'),
-  'AdventureEditRoute': const Text('Edit Adventure'),
-  'SceneRoute': const Text('Scene'),
-  'SceneEditRoute': const Text('Edit Scene'),
-  'EncounterRoute': const Text('Encounter'),
-  'EncounterEditRoute': const Text('Edit Encounter'),
-  'EntityRoute': const Text('Entity'),
-  'EntityEditRoute': const Text('Edit Entity'),
-  'PartyRoute': const Text('Party'),
-  'SettingsRoute': const Text('Settings'),
-  'LoginRoute': const Text('Login'),
-  'RegisterRoute': const Text('Register'),
-  'ForgotPasswordRoute': const Text('Forgot Password'),
-  'ProfileRoute': const Text('Profile'),
-  'NotFoundRoute': const Text('Not Found'),
-};
-
-// a typesafe way to get the path name
-Widget getPathName(String routeName) {
   if (routeName.isEmpty) {
-    return const Text('...');
-  } else if (pathNames.containsKey(routeName)) {
-    return pathNames[routeName]!;
-  } else {
-    logger.w('No path name found for route: $routeName');
-    return Text('...');
+    return Text(l10n.ellipsis);
+  }
+
+  switch (routeName) {
+    // GoRouter path segments
+    case 'campaign':
+      return Text(l10n.campaign);
+    case 'edit':
+      return Text(l10n.edit);
+    case 'chapter':
+      return Text(l10n.chapter);
+    case 'adventure':
+      return Text(l10n.adventure);
+    case 'scene':
+      return Text(l10n.scene);
+    case 'encounter':
+      return Text(l10n.encounter);
+    case 'entity':
+      return Text(l10n.entity);
+    case 'party':
+      return Text(l10n.party);
+    case 'member':
+      return Text(l10n.member);
+    case 'session':
+      return Text(l10n.session);
+    case 'settings':
+      return Text(l10n.settings);
+    case 'login':
+      return Text(l10n.login);
+    case 'register':
+      return Text(l10n.register);
+
+    // Legacy auto_route names (kept for compatibility if referenced elsewhere)
+    case 'HomeRoute':
+      return const Icon(Icons.home_outlined);
+    case 'CampaignRoute':
+      return Text(l10n.campaign);
+    case 'CampaignEditRoute':
+      return Text('${l10n.edit} ${l10n.campaign}');
+    case 'ChapterRoute':
+      return Text(l10n.chapter);
+    case 'ChapterEditRoute':
+      return Text('${l10n.edit} ${l10n.chapter}');
+    case 'AdventureRoute':
+      return Text(l10n.adventure);
+    case 'AdventureEditRoute':
+      return Text('${l10n.edit} ${l10n.adventure}');
+    case 'SceneRoute':
+      return Text(l10n.scene);
+    case 'SceneEditRoute':
+      return Text('${l10n.edit} ${l10n.scene}');
+    case 'EncounterRoute':
+      return Text(l10n.encounter);
+    case 'EncounterEditRoute':
+      return Text('${l10n.edit} ${l10n.encounter}');
+    case 'EntityRoute':
+      return Text(l10n.entity);
+    case 'EntityEditRoute':
+      return Text('${l10n.edit} ${l10n.entity}');
+    case 'PartyRoute':
+      return Text(l10n.party);
+    case 'SettingsRoute':
+      return Text(l10n.settings);
+    case 'LoginRoute':
+      return Text(l10n.login);
+    case 'RegisterRoute':
+      return Text(l10n.register);
+    case 'ForgotPasswordRoute':
+      return Text(l10n.forgotPassword);
+    case 'ProfileRoute':
+      return Text(l10n.profile);
+    case 'NotFoundRoute':
+      return Text(l10n.notFound);
+
+    default:
+      logger.w('No path name found for route: $routeName');
+      return Text(l10n.ellipsis);
   }
 }

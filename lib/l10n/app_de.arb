@@ -1,0 +1,100 @@
+{
+  "appTitle": "Moonforge",
+  "@appTitle": {
+    "description": "Der lokalisierte Anwendungstitel"
+  },
+  "helloWorld": "Hallo Welt!",
+  "@helloWorld": {
+    "description": "Die traditionelle Begrüßung eines Programmieranfängers"
+  },
+
+  "home": "Startseite",
+  "@home": {"description": "Beschriftung für die Startseite und Breadcrumb-Wurzel"},
+
+  "campaign": "Kampagne",
+  "@campaign": {"description": "Beschriftung für den Bereich Kampagne"},
+
+  "party": "Gruppe",
+  "@party": {"description": "Beschriftung für den Bereich Gruppe"},
+
+  "settings": "Einstellungen",
+  "@settings": {"description": "Beschriftung für den Bereich Einstellungen"},
+
+  "edit": "Bearbeiten",
+  "@edit": {"description": "Allgemeines Label für Bearbeiten"},
+
+  "chapter": "Kapitel",
+  "@chapter": {"description": "Beschriftung für den Bereich Kapitel"},
+
+  "adventure": "Abenteuer",
+  "@adventure": {"description": "Beschriftung für den Bereich Abenteuer"},
+
+  "scene": "Szene",
+  "@scene": {"description": "Beschriftung für den Bereich Szene"},
+
+  "encounter": "Begegnung",
+  "@encounter": {"description": "Beschriftung für den Bereich Begegnung"},
+
+  "entity": "Entität",
+  "@entity": {"description": "Beschriftung für den Bereich Entität"},
+
+  "member": "Mitglied",
+  "@member": {"description": "Beschriftung für den Bereich Mitglied"},
+
+  "session": "Sitzung",
+  "@session": {"description": "Beschriftung für den Bereich Sitzung"},
+
+  "login": "Anmelden",
+  "@login": {"description": "Beschriftung für den Anmeldebildschirm"},
+
+  "register": "Registrieren",
+  "@register": {"description": "Beschriftung für den Registrierungsbildschirm"},
+
+  "forgotPassword": "Passwort vergessen",
+  "@forgotPassword": {"description": "Beschriftung für Passwort vergessen"},
+
+  "profile": "Profil",
+  "@profile": {"description": "Beschriftung für Profil"},
+
+  "notFound": "Nicht gefunden",
+  "@notFound": {"description": "Beschriftung für Nicht gefunden"},
+
+  "ellipsis": "...",
+  "@ellipsis": {"description": "Fallback-Beschriftung, wenn Name unbekannt"},
+
+  "versionWithNumber": "v{version}",
+  "@versionWithNumber": {
+    "description": "Versionslabel mit Präfix und Versionsnummer",
+    "placeholders": { "version": { "type": "String", "example": "1.2.3" } }
+  },
+  
+  "appearance": "Erscheinungsbild",
+  "@appearance": {"description": "Tab-Bezeichnung für Erscheinungsbild"},
+
+  "hotkeys": "Tastenkürzel",
+  "@hotkeys": {"description": "Tab-Bezeichnung für Tastenkürzel"},
+
+  "more": "Mehr",
+  "@more": {"description": "Tab-Bezeichnung für weitere Einstellungen"},
+
+  "language": "Sprache",
+  "@language": {"description": "Beschriftung für Sprachauswahl"},
+
+  "theme": "Design",
+  "@theme": {"description": "Beschriftung für Design-/Themenauswahl"},
+
+  "system": "System",
+  "@system": {"description": "Option für systemweite Standardeinstellung"},
+
+  "light": "Hell",
+  "@light": {"description": "Option für helles Design"},
+
+  "dark": "Dunkel",
+  "@dark": {"description": "Option für dunkles Design"},
+
+  "english": "Englisch",
+  "@english": {"description": "Sprachname: Englisch"},
+
+  "german": "Deutsch",
+  "@german": {"description": "Sprachname: Deutsch"}
+}

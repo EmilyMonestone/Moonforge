@@ -1,11 +1,12 @@
-import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/constants/path_names.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
 
@@ -25,6 +26,23 @@ class AdaptiveScaffold extends StatelessWidget {
   final Widget body;
   final Widget? appBarTitleText;
 
+  String _localizedTabLabel(BuildContext context, String raw) {
+    final l10n = AppLocalizations.of(context);
+    if (l10n == null) return raw;
+    switch (raw) {
+      case 'Home':
+        return l10n.home;
+      case 'Campaign':
+        return l10n.campaign;
+      case 'Party':
+        return l10n.party;
+      case 'Settings':
+        return l10n.settings;
+      default:
+        return raw;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = AppSizeClass.of(context);
@@ -38,7 +56,7 @@ class AdaptiveScaffold extends StatelessWidget {
       breadcrumbs = BreadCrumb(
         items: [
           BreadCrumbItem(
-            content: const Text('Home'),
+            content: Text(AppLocalizations.of(context)!.home),
             onTap: () => const HomeRoute().go(context),
           ),
         ],
@@ -51,7 +69,7 @@ class AdaptiveScaffold extends StatelessWidget {
           final labelKey = segments[index];
           final path = '/${segments.take(index + 1).join('/')}';
           return BreadCrumbItem(
-            content: getPathName(labelKey),
+            content: getPathName(context, labelKey),
             onTap: () => context.go(path),
           );
         },
@@ -105,7 +123,7 @@ class AdaptiveScaffold extends StatelessWidget {
                       for (final tab in overflow)
                         NavigationRailDestination(
                           icon: Icon(tab.icon),
-                          label: Text(tab.label),
+                          label: Text(_localizedTabLabel(context, tab.label)),
                         ),
                     ],
                   ),
@@ -119,7 +137,10 @@ class AdaptiveScaffold extends StatelessWidget {
         onDestinationSelected: (i) => _onSelect(context, i),
         destinations: [
           for (final tab in primary)
-            NavigationDestination(icon: Icon(tab.icon), label: tab.label),
+            NavigationDestination(
+              icon: Icon(tab.icon),
+              label: _localizedTabLabel(context, tab.label),
+            ),
         ],
       ),
     );
@@ -150,7 +171,7 @@ class AdaptiveScaffold extends StatelessWidget {
                 for (final tab in tabs)
                   NavigationRailDestination(
                     icon: Icon(tab.icon),
-                    label: Text(tab.label),
+                    label: Text(_localizedTabLabel(context, tab.label)),
                   ),
               ],
               trailingAtBottom: true,
@@ -164,7 +185,9 @@ class AdaptiveScaffold extends StatelessWidget {
                         const AuthUserButton(),
                         const SizedBox(height: 8),
                         Text(
-                          'v$appVersion',
+                          AppLocalizations.of(
+                            context,
+                          )!.versionWithNumber(appVersion),
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ],
