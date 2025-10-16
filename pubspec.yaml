@@ -60,6 +60,7 @@ dependencies:
   package_info_plus: ^9.0.0
   hotkey_manager: ^0.2.3
   command_palette: ^0.7.6
+  intl: ^0.20.2
 
 
 dev_dependencies:
@@ -79,27 +80,33 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
     - assets/icon/
+    - assets/icon/Moonforge-Icon-colored.appiconset/
+    - assets/icon/Moonforge-Icon-dark.appiconset/
+    - assets/icon/Moonforge-Icon-light.appiconset/
+    - assets/icon/Moonforge-Logo-colored.appiconset/
+    - assets/icon/Moonforge-Logo-dark.appiconset/
+    - assets/icon/Moonforge-Logo-light.appiconset/
+    - assets/images/
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+  image_path: "assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+    image_path: "assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png"
     background_color: "#4e3847"
     theme_color: "#e8a6d4"
   windows:
     generate: true
-    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+    image_path: "assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png"
     icon_size: 256 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/icon/MoonForge-Logo-Icon_512.png"
+    image_path: "assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png"
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)

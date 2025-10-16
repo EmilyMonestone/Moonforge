@@ -17,8 +17,8 @@ mixin _$Entity {
 
 @DocumentIdField() String get id; String get kind;// npc | monster | group | place | item | handout | journal
  String get name; String? get summary; List<String>? get tags;// Optional union-specific fields
- Map<String, dynamic>? get statblock; String? get placeType;// world | continent | region | city | village | place | other
- String? get parentPlaceId; Map<String, dynamic>? get coords;// { lat, lng }
+ Map<String, dynamic> get statblock; String? get placeType;// world | continent | region | city | village | place | other
+ String? get parentPlaceId; Map<String, dynamic> get coords;// { lat, lng }
 // Optional rich content
  String? get content;// quill delta json
  List<Map<String, dynamic>>? get images;// [{ assetId, kind }]
@@ -57,7 +57,7 @@ abstract mixin class $EntityCopyWith<$Res>  {
   factory $EntityCopyWith(Entity value, $Res Function(Entity) _then) = _$EntityCopyWithImpl;
 @useResult
 $Res call({
-@DocumentIdField() String id, String kind, String name, String? summary, List<String>? tags, Map<String, dynamic>? statblock, String? placeType, String? parentPlaceId, Map<String, dynamic>? coords, String? content, List<Map<String, dynamic>>? images, DateTime? createdAt, DateTime? updatedAt, int rev, bool deleted, List<String>? members
+@DocumentIdField() String id, String kind, String name, String? summary, List<String>? tags, Map<String, dynamic> statblock, String? placeType, String? parentPlaceId, Map<String, dynamic> coords, String? content, List<Map<String, dynamic>>? images, DateTime? createdAt, DateTime? updatedAt, int rev, bool deleted, List<String>? members
 });
 
 
@@ -74,18 +74,18 @@ class _$EntityCopyWithImpl<$Res>
 
 /// Create a copy of Entity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? kind = null,Object? name = null,Object? summary = freezed,Object? tags = freezed,Object? statblock = freezed,Object? placeType = freezed,Object? parentPlaceId = freezed,Object? coords = freezed,Object? content = freezed,Object? images = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,Object? deleted = null,Object? members = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? kind = null,Object? name = null,Object? summary = freezed,Object? tags = freezed,Object? statblock = null,Object? placeType = freezed,Object? parentPlaceId = freezed,Object? coords = null,Object? content = freezed,Object? images = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,Object? deleted = null,Object? members = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String?,tags: freezed == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>?,statblock: freezed == statblock ? _self.statblock : statblock // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,placeType: freezed == placeType ? _self.placeType : placeType // ignore: cast_nullable_to_non_nullable
+as List<String>?,statblock: null == statblock ? _self.statblock : statblock // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,placeType: freezed == placeType ? _self.placeType : placeType // ignore: cast_nullable_to_non_nullable
 as String?,parentPlaceId: freezed == parentPlaceId ? _self.parentPlaceId : parentPlaceId // ignore: cast_nullable_to_non_nullable
-as String?,coords: freezed == coords ? _self.coords : coords // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,coords: null == coords ? _self.coords : coords // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -177,7 +177,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic>? statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic>? coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic> statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic> coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Entity() when $default != null:
 return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.statblock,_that.placeType,_that.parentPlaceId,_that.coords,_that.content,_that.images,_that.createdAt,_that.updatedAt,_that.rev,_that.deleted,_that.members);case _:
@@ -198,7 +198,7 @@ return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.st
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic>? statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic>? coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic> statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic> coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)  $default,) {final _that = this;
 switch (_that) {
 case _Entity():
 return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.statblock,_that.placeType,_that.parentPlaceId,_that.coords,_that.content,_that.images,_that.createdAt,_that.updatedAt,_that.rev,_that.deleted,_that.members);case _:
@@ -218,7 +218,7 @@ return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.st
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic>? statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic>? coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String kind,  String name,  String? summary,  List<String>? tags,  Map<String, dynamic> statblock,  String? placeType,  String? parentPlaceId,  Map<String, dynamic> coords,  String? content,  List<Map<String, dynamic>>? images,  DateTime? createdAt,  DateTime? updatedAt,  int rev,  bool deleted,  List<String>? members)?  $default,) {final _that = this;
 switch (_that) {
 case _Entity() when $default != null:
 return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.statblock,_that.placeType,_that.parentPlaceId,_that.coords,_that.content,_that.images,_that.createdAt,_that.updatedAt,_that.rev,_that.deleted,_that.members);case _:
@@ -233,7 +233,7 @@ return $default(_that.id,_that.kind,_that.name,_that.summary,_that.tags,_that.st
 @JsonSerializable()
 
 class _Entity implements Entity {
-  const _Entity({@DocumentIdField() required this.id, required this.kind, required this.name, this.summary, final  List<String>? tags, final  Map<String, dynamic>? statblock, this.placeType, this.parentPlaceId, final  Map<String, dynamic>? coords, this.content, final  List<Map<String, dynamic>>? images, this.createdAt, this.updatedAt, this.rev = 0, this.deleted = false, final  List<String>? members}): _tags = tags,_statblock = statblock,_coords = coords,_images = images,_members = members;
+  const _Entity({@DocumentIdField() required this.id, required this.kind, required this.name, this.summary, final  List<String>? tags, final  Map<String, dynamic> statblock = const <String, dynamic>{}, this.placeType, this.parentPlaceId, final  Map<String, dynamic> coords = const <String, dynamic>{}, this.content, final  List<Map<String, dynamic>>? images, this.createdAt, this.updatedAt, this.rev = 0, this.deleted = false, final  List<String>? members}): _tags = tags,_statblock = statblock,_coords = coords,_images = images,_members = members;
   factory _Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 
 @override@DocumentIdField() final  String id;
@@ -251,26 +251,22 @@ class _Entity implements Entity {
 }
 
 // Optional union-specific fields
- final  Map<String, dynamic>? _statblock;
+ final  Map<String, dynamic> _statblock;
 // Optional union-specific fields
-@override Map<String, dynamic>? get statblock {
-  final value = _statblock;
-  if (value == null) return null;
+@override@JsonKey() Map<String, dynamic> get statblock {
   if (_statblock is EqualUnmodifiableMapView) return _statblock;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(value);
+  return EqualUnmodifiableMapView(_statblock);
 }
 
 @override final  String? placeType;
 // world | continent | region | city | village | place | other
 @override final  String? parentPlaceId;
- final  Map<String, dynamic>? _coords;
-@override Map<String, dynamic>? get coords {
-  final value = _coords;
-  if (value == null) return null;
+ final  Map<String, dynamic> _coords;
+@override@JsonKey() Map<String, dynamic> get coords {
   if (_coords is EqualUnmodifiableMapView) return _coords;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(value);
+  return EqualUnmodifiableMapView(_coords);
 }
 
 // { lat, lng }
@@ -338,7 +334,7 @@ abstract mixin class _$EntityCopyWith<$Res> implements $EntityCopyWith<$Res> {
   factory _$EntityCopyWith(_Entity value, $Res Function(_Entity) _then) = __$EntityCopyWithImpl;
 @override @useResult
 $Res call({
-@DocumentIdField() String id, String kind, String name, String? summary, List<String>? tags, Map<String, dynamic>? statblock, String? placeType, String? parentPlaceId, Map<String, dynamic>? coords, String? content, List<Map<String, dynamic>>? images, DateTime? createdAt, DateTime? updatedAt, int rev, bool deleted, List<String>? members
+@DocumentIdField() String id, String kind, String name, String? summary, List<String>? tags, Map<String, dynamic> statblock, String? placeType, String? parentPlaceId, Map<String, dynamic> coords, String? content, List<Map<String, dynamic>>? images, DateTime? createdAt, DateTime? updatedAt, int rev, bool deleted, List<String>? members
 });
 
 
@@ -355,18 +351,18 @@ class __$EntityCopyWithImpl<$Res>
 
 /// Create a copy of Entity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? kind = null,Object? name = null,Object? summary = freezed,Object? tags = freezed,Object? statblock = freezed,Object? placeType = freezed,Object? parentPlaceId = freezed,Object? coords = freezed,Object? content = freezed,Object? images = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,Object? deleted = null,Object? members = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? kind = null,Object? name = null,Object? summary = freezed,Object? tags = freezed,Object? statblock = null,Object? placeType = freezed,Object? parentPlaceId = freezed,Object? coords = null,Object? content = freezed,Object? images = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,Object? deleted = null,Object? members = freezed,}) {
   return _then(_Entity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String?,tags: freezed == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>?,statblock: freezed == statblock ? _self._statblock : statblock // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,placeType: freezed == placeType ? _self.placeType : placeType // ignore: cast_nullable_to_non_nullable
+as List<String>?,statblock: null == statblock ? _self._statblock : statblock // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,placeType: freezed == placeType ? _self.placeType : placeType // ignore: cast_nullable_to_non_nullable
 as String?,parentPlaceId: freezed == parentPlaceId ? _self.parentPlaceId : parentPlaceId // ignore: cast_nullable_to_non_nullable
-as String?,coords: freezed == coords ? _self._coords : coords // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String?,coords: null == coords ? _self._coords : coords // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,images: freezed == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable

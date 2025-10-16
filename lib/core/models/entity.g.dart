@@ -12,10 +12,11 @@ _Entity _$EntityFromJson(Map<String, dynamic> json) => _Entity(
   name: json['name'] as String,
   summary: json['summary'] as String?,
   tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  statblock: json['statblock'] as Map<String, dynamic>?,
+  statblock:
+      json['statblock'] as Map<String, dynamic>? ?? const <String, dynamic>{},
   placeType: json['placeType'] as String?,
   parentPlaceId: json['parentPlaceId'] as String?,
-  coords: json['coords'] as Map<String, dynamic>?,
+  coords: json['coords'] as Map<String, dynamic>? ?? const <String, dynamic>{},
   content: json['content'] as String?,
   images: (json['images'] as List<dynamic>?)
       ?.map((e) => e as Map<String, dynamic>)
@@ -93,8 +94,8 @@ class EntityPatchBuilder<$$T extends Entity?>
         elementToJson: (value) => (value as String),
       );
 
-  /// Update statblock field `Map<String, dynamic>?`
-  late final DartMapFieldUpdate<Map<String, dynamic>?, String, dynamic, dynamic>
+  /// Update statblock field `Map<String, dynamic>`
+  late final DartMapFieldUpdate<Map<String, dynamic>, String, dynamic, dynamic>
   statblock = DartMapFieldUpdate(
     field: path.append('statblock'),
     keyToJson: (value) => (value as String),
@@ -113,8 +114,8 @@ class EntityPatchBuilder<$$T extends Entity?>
     toJson: (value) => (value as String?),
   );
 
-  /// Update coords field `Map<String, dynamic>?`
-  late final DartMapFieldUpdate<Map<String, dynamic>?, String, dynamic, dynamic>
+  /// Update coords field `Map<String, dynamic>`
+  late final DartMapFieldUpdate<Map<String, dynamic>, String, dynamic, dynamic>
   coords = DartMapFieldUpdate(
     field: path.append('coords'),
     keyToJson: (value) => (value as String),
@@ -212,16 +213,14 @@ class EntityFilterBuilder extends FilterBuilderNode {
       );
 
   /// Filter by statblock
-  late final MapFilterField<Map<String, dynamic>?, String, dynamic, dynamic>
-  statblock = MapFilterField<Map<String, dynamic>?, String, dynamic, dynamic>(
+  late final MapFilterField<Map<String, dynamic>, String, dynamic, dynamic>
+  statblock = MapFilterField<Map<String, dynamic>, String, dynamic, dynamic>(
     field: path.append('statblock'),
-    toJson: (value) => value == null
-        ? null
-        : mapToJson(
-            value!,
-            (value) => (value as String),
-            (value) => (value as dynamic),
-          ),
+    toJson: (value) => mapToJson(
+      value,
+      (value) => (value as String),
+      (value) => (value as dynamic),
+    ),
     keyToJson: (value) => (value as String),
     valueToJson: (value) => (value as dynamic),
   );
@@ -241,16 +240,14 @@ class EntityFilterBuilder extends FilterBuilderNode {
       );
 
   /// Filter by coords
-  late final MapFilterField<Map<String, dynamic>?, String, dynamic, dynamic>
-  coords = MapFilterField<Map<String, dynamic>?, String, dynamic, dynamic>(
+  late final MapFilterField<Map<String, dynamic>, String, dynamic, dynamic>
+  coords = MapFilterField<Map<String, dynamic>, String, dynamic, dynamic>(
     field: path.append('coords'),
-    toJson: (value) => value == null
-        ? null
-        : mapToJson(
-            value!,
-            (value) => (value as String),
-            (value) => (value as dynamic),
-          ),
+    toJson: (value) => mapToJson(
+      value,
+      (value) => (value as String),
+      (value) => (value as dynamic),
+    ),
     keyToJson: (value) => (value as String),
     valueToJson: (value) => (value as dynamic),
   );
@@ -374,8 +371,8 @@ class EntityOrderByBuilder extends OrderByFieldNode {
   );
 
   /// Access nested statblock for ordering
-  late final OrderByField<Map<String, dynamic>?> statblock =
-      OrderByField<Map<String, dynamic>?>(
+  late final OrderByField<Map<String, dynamic>> statblock =
+      OrderByField<Map<String, dynamic>>(
         field: path.append('statblock'),
         context: $context,
       );
@@ -393,8 +390,8 @@ class EntityOrderByBuilder extends OrderByFieldNode {
   );
 
   /// Access nested coords for ordering
-  late final OrderByField<Map<String, dynamic>?> coords =
-      OrderByField<Map<String, dynamic>?>(
+  late final OrderByField<Map<String, dynamic>> coords =
+      OrderByField<Map<String, dynamic>>(
         field: path.append('coords'),
         context: $context,
       );

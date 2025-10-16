@@ -6,3 +6,4 @@ targets:
           explicit_to_json: true
       flutter_gen_runner:
         options:
+

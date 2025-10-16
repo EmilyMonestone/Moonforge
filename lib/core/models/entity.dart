@@ -16,11 +16,11 @@ abstract class Entity with _$Entity {
     List<String>? tags,
 
     // Optional union-specific fields
-    Map<String, dynamic>? statblock,
+    @Default(<String, dynamic>{}) Map<String, dynamic> statblock,
     String?
     placeType, // world | continent | region | city | village | place | other
     String? parentPlaceId,
-    Map<String, dynamic>? coords, // { lat, lng }
+    @Default(<String, dynamic>{}) Map<String, dynamic> coords, // { lat, lng }
     // Optional rich content
     String? content, // quill delta json
     List<Map<String, dynamic>>? images, // [{ assetId, kind }]

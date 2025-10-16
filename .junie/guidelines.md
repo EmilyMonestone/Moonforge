@@ -25,6 +25,7 @@ media assets) and feature-specific UI flows. Data schemas and JSON serialization
 - The Layout (scaffold) is defined in lib/layout/app_scaffold.dart.
 - For notification use package toastification.
 - For logging use package logger with util lib/core/utils/logger.dart
+- routes are using the package go_router and are typesafe implemented.
 
 ## Generated Code
 

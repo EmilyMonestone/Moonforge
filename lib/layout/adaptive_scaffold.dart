@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
@@ -158,31 +158,10 @@ class AdaptiveScaffold extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Builder(
                   builder: (context) {
-                    User? user;
-                    try {
-                      user = FirebaseAuth.instance.currentUser;
-                    } catch (_) {
-                      user = null; // Firebase not initialized (e.g., in tests)
-                    }
                     String appVersion = AppVersion.getVersion();
                     return Column(
                       children: [
-                        user != null
-                            ? OutlinedButton(
-                                onPressed: () async {
-                                  try {
-                                    await FirebaseAuth.instance.signOut();
-                                  } catch (_) {}
-                                  if (context.mounted) {
-                                    const HomeRoute().go(context);
-                                  }
-                                },
-                                child: const Text('Logout'),
-                              )
-                            : FilledButton(
-                                onPressed: () => const LoginRoute().go(context),
-                                child: const Text('Login'),
-                              ),
+                        const AuthUserButton(),
                         const SizedBox(height: 8),
                         Text(
                           'v$appVersion',

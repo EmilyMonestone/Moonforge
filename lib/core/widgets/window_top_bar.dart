@@ -155,7 +155,11 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                         child: Row(
                           children: [
                             Image.asset(
-                              Assets.icon.moonForgeLogoW256.path,
+                              Assets
+                                  .icon
+                                  .moonforgeLogoLightAppiconset
+                                  .moonforgeLogoLight256
+                                  .path,
                               height: 40,
                             ),
                             if (widget.title != null) ...[

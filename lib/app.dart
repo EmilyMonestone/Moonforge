@@ -43,6 +43,10 @@ class App extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               FlutterQuillLocalizations.delegate,
             ],
+            supportedLocales: const [
+              Locale('en', ''), // English, no country code
+              Locale('de', ''), // German, no country code
+            ],
             routerConfig: AppRouter.router,
           );
         },
