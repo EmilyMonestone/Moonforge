@@ -5,6 +5,22 @@ import 'package:flutter/material.dart';
 import '../utils/logger.dart';
 
 Map<String, Widget> pathNames = {
+  // GoRouter path segments
+  'campaign': const Text('Campaign'),
+  'edit': const Text('Edit'),
+  'chapter': const Text('Chapter'),
+  'adventure': const Text('Adventure'),
+  'scene': const Text('Scene'),
+  'encounter': const Text('Encounter'),
+  'entity': const Text('Entity'),
+  'party': const Text('Party'),
+  'member': const Text('Member'),
+  'session': const Text('Session'),
+  'settings': const Text('Settings'),
+  'login': const Text('Login'),
+  'register': const Text('Register'),
+
+  // Legacy auto_route names (kept for compatibility if referenced elsewhere)
   'HomeRoute': const Icon(Icons.home_outlined),
   'CampaignRoute': const Text('Campaign'),
   'CampaignEditRoute': const Text('Edit Campaign'),

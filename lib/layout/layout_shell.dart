@@ -1,27 +1,27 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moonforge/core/services/hotkey/hotkey_global_wrapper.dart';
+import 'package:moonforge/core/widgets/command_palette.dart';
 import 'package:moonforge/layout/adaptive_scaffold.dart';
 import 'package:moonforge/layout/destinations.dart';
 
-@RoutePage()
 class LayoutShell extends StatelessWidget {
-  const LayoutShell({super.key});
+  const LayoutShell({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      // The order controls the initial tab and bottom/rail order.
-      routes: [for (final tab in kPrimaryTabs) tab.routeFactory()],
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        final title = kPrimaryTabs[tabsRouter.activeIndex].label;
-        return AdaptiveScaffold(
-          tabsRouter: tabsRouter,
+    final title = kPrimaryTabs[navigationShell.currentIndex].label;
+    return HotkeyGlobalWrapper(
+      child: CommandPalette(
+        child: AdaptiveScaffold(
+          navigationShell: navigationShell,
           tabs: kPrimaryTabs,
           appBarTitleText: Text(title),
-          body: child,
-        );
-      },
+          body: navigationShell,
+        ),
+      ),
     );
   }
 }

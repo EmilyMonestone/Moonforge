@@ -12,7 +12,7 @@ abstract class Player with _$Player {
     @DocumentIdField() required String id,
     required String name,
     String? partyId,
-    String? playerClass,
+    @JsonKey(name: 'class') String? playerClass,
     @Default(1) int level,
     String? species,
     String? info, // quill delta json

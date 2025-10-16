@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Player {
 
-@DocumentIdField() String get id; String get name; String? get partyId; String? get playerClass; int get level; String? get species; String? get info;// quill delta json
+@DocumentIdField() String get id; String get name; String? get partyId;@JsonKey(name: 'class') String? get playerClass; int get level; String? get species; String? get info;// quill delta json
  DateTime? get createdAt; DateTime? get updatedAt; int get rev;
 /// Create a copy of Player
 /// with the given fields replaced by the non-null parameter values.
@@ -49,7 +49,7 @@ abstract mixin class $PlayerCopyWith<$Res>  {
   factory $PlayerCopyWith(Player value, $Res Function(Player) _then) = _$PlayerCopyWithImpl;
 @useResult
 $Res call({
-@DocumentIdField() String id, String name, String? partyId, String? playerClass, int level, String? species, String? info, DateTime? createdAt, DateTime? updatedAt, int rev
+@DocumentIdField() String id, String name, String? partyId,@JsonKey(name: 'class') String? playerClass, int level, String? species, String? info, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 
@@ -163,7 +163,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String? partyId,  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String? partyId, @JsonKey(name: 'class')  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Player() when $default != null:
 return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,_that.species,_that.info,_that.createdAt,_that.updatedAt,_that.rev);case _:
@@ -184,7 +184,7 @@ return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String? partyId,  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  String? partyId, @JsonKey(name: 'class')  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)  $default,) {final _that = this;
 switch (_that) {
 case _Player():
 return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,_that.species,_that.info,_that.createdAt,_that.updatedAt,_that.rev);case _:
@@ -204,7 +204,7 @@ return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  String? partyId,  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  String? partyId, @JsonKey(name: 'class')  String? playerClass,  int level,  String? species,  String? info,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,) {final _that = this;
 switch (_that) {
 case _Player() when $default != null:
 return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,_that.species,_that.info,_that.createdAt,_that.updatedAt,_that.rev);case _:
@@ -219,13 +219,13 @@ return $default(_that.id,_that.name,_that.partyId,_that.playerClass,_that.level,
 @JsonSerializable()
 
 class _Player implements Player {
-  const _Player({@DocumentIdField() required this.id, required this.name, this.partyId, this.playerClass, this.level = 1, this.species, this.info, this.createdAt, this.updatedAt, this.rev = 0});
+  const _Player({@DocumentIdField() required this.id, required this.name, this.partyId, @JsonKey(name: 'class') this.playerClass, this.level = 1, this.species, this.info, this.createdAt, this.updatedAt, this.rev = 0});
   factory _Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
 
 @override@DocumentIdField() final  String id;
 @override final  String name;
 @override final  String? partyId;
-@override final  String? playerClass;
+@override@JsonKey(name: 'class') final  String? playerClass;
 @override@JsonKey() final  int level;
 @override final  String? species;
 @override final  String? info;
@@ -267,7 +267,7 @@ abstract mixin class _$PlayerCopyWith<$Res> implements $PlayerCopyWith<$Res> {
   factory _$PlayerCopyWith(_Player value, $Res Function(_Player) _then) = __$PlayerCopyWithImpl;
 @override @useResult
 $Res call({
-@DocumentIdField() String id, String name, String? partyId, String? playerClass, int level, String? species, String? info, DateTime? createdAt, DateTime? updatedAt, int rev
+@DocumentIdField() String id, String name, String? partyId,@JsonKey(name: 'class') String? playerClass, int level, String? species, String? info, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 

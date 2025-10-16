@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
 class EncounterScreen extends StatelessWidget {
-  const EncounterScreen({super.key, @pathParam required this.encounterId});
+  const EncounterScreen({super.key, required this.encounterId});
 
   final String encounterId;
 

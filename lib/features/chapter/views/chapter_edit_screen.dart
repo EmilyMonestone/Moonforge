@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
 class ChapterEditScreen extends StatelessWidget {
-  const ChapterEditScreen({super.key, @pathParam required this.chapterId});
+  const ChapterEditScreen({super.key, required this.chapterId});
 
   final String chapterId;
 

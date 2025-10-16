@@ -1,11 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:moonforge/core/services/app_router.gr.dart';
+import 'package:toastification/toastification.dart';
 
-@RoutePage()
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -40,26 +39,29 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Signed in successfully')));
+      toastification.show(
+        type: ToastificationType.success,
+        title: const Text('Signed in successfully'),
+      );
       // Let auth listeners react; optionally pop if possible
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        context.router.replace(const HomeRoute());
+        context.go('/');
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(message)));
+        toastification.show(
+          type: ToastificationType.error,
+          title: Text(message),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('An unknown error occurred')),
+        toastification.show(
+          type: ToastificationType.error,
+          title: const Text('An unknown error occurred'),
         );
       }
     } finally {
@@ -87,25 +89,28 @@ class _LoginScreenState extends State<LoginScreen> {
         await FirebaseAuth.instance.signInWithCredential(credential);
       }
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Signed in with Google')));
+      toastification.show(
+        type: ToastificationType.success,
+        title: const Text('Signed in with Google'),
+      );
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        context.router.replace(const HomeRoute());
+        context.go('/');
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(message)));
+        toastification.show(
+          type: ToastificationType.error,
+          title: Text(message),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to sign in with Google')),
+        toastification.show(
+          type: ToastificationType.error,
+          title: const Text('Failed to sign in with Google'),
         );
       }
     } finally {
@@ -131,13 +136,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _goToRegister() {
-    context.router.push(const RegisterRoute());
+    context.go('/login/register');
   }
 
   void _goToForgotPassword() {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()));
+    context.push('/login/forgot');
   }
 
   @override
@@ -213,12 +216,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         : const Text('Sign in'),
                   ),
                   const SizedBox(height: 8),
-                  OutlinedButton.icon(
+                  // package google sign-in does not support desktop platforms yet
+                  /*                  OutlinedButton.icon(
                     onPressed: _isLoading ? null : _signInWithGoogle,
                     icon: const Icon(Icons.login),
                     label: const Text('Continue with Google'),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 8),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -233,106 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
-
-  @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final _emailController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool _sending = false;
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _sendReset() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() => _sending = true);
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: _emailController.text.trim(),
-      );
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent')),
-      );
-      Navigator.of(context).pop();
-    } on FirebaseAuthException catch (e) {
-      final message = e.message ?? 'Failed to send reset email';
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(message)));
-      }
-    } finally {
-      if (mounted) setState(() => _sending = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Reset password')),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: Card(
-            margin: const EdgeInsets.all(16),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      'Enter your account email to receive a password reset link.',
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
-                      validator: (v) {
-                        final value = v?.trim() ?? '';
-                        if (value.isEmpty) return 'Email required';
-                        if (!value.contains('@')) return 'Enter a valid email';
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    FilledButton(
-                      onPressed: _sending ? null : _sendReset,
-                      child: _sending
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('Send reset link'),
-                    ),
-                  ],
-                ),
               ),
             ),
           ),

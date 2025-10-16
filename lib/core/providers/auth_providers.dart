@@ -18,3 +18,48 @@ final currentUserProvider = Provider<User?>((ref) {
 final isAuthenticatedProvider = Provider<bool>((ref) {
   return ref.watch(currentUserProvider) != null;
 });
+
+/// Login with email and password.
+final signInProvider =
+    Provider<Future<UserCredential> Function(String email, String password)>((
+      ref,
+    ) {
+      return (String email, String password) {
+        final auth = FirebaseAuth.instance;
+        return auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      };
+    });
+
+/// Register a new user with email and password.
+final registerProvider =
+    Provider<Future<UserCredential> Function(String email, String password)>((
+      ref,
+    ) {
+      return (String email, String password) {
+        final auth = FirebaseAuth.instance;
+        return auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      };
+    });
+
+/// Sign out the current user.
+final signOutProvider = Provider<Future<void> Function()>((ref) {
+  return () {
+    final auth = FirebaseAuth.instance;
+    return auth.signOut();
+  };
+});
+
+/// Send a password reset email.
+final sendPasswordResetEmailProvider =
+    Provider<Future<void> Function(String email)>((ref) {
+      return (String email) {
+        final auth = FirebaseAuth.instance;
+        return auth.sendPasswordResetEmail(email: email);
+      };
+    });

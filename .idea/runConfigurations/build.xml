@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="build" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\build.ps1" executablePath="C:/Program Files/PowerShell/7/pwsh.exe">
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,26 +1,25 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/constants/path_names.dart';
-import 'package:moonforge/core/services/app_router.gr.dart';
+import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/widgets/window_top_bar.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
-
-import '../core/providers/auth_providers.dart';
 
 /// AdaptiveScaffold builds a responsive Scaffold that switches between
 /// NavigationBar (compact) and NavigationRail (medium/expanded).
 class AdaptiveScaffold extends StatelessWidget {
   const AdaptiveScaffold({
     super.key,
-    required this.tabsRouter,
+    required this.navigationShell,
     required this.tabs,
     required this.body,
     this.appBarTitleText,
   });
 
-  final TabsRouter tabsRouter;
+  final StatefulNavigationShell navigationShell;
   final List<TabSpec> tabs;
   final Widget body;
   final Widget? appBarTitleText;
@@ -28,22 +27,36 @@ class AdaptiveScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = AppSizeClass.of(context);
-    int pathCount = tabsRouter.currentSegments.length;
-    List<RouteMatch<dynamic>> segments = tabsRouter.currentSegments.toList();
-    if (segments[0].name == 'HomeRoute' && pathCount > 1) {
-      pathCount -= 1;
-      segments = segments.sublist(1);
+
+    // Build breadcrumbs from the current location.
+    final uri = GoRouterState.of(context).uri;
+    final segments = uri.pathSegments;
+
+    Widget breadcrumbs;
+    if (segments.isEmpty) {
+      breadcrumbs = BreadCrumb(
+        items: [
+          BreadCrumbItem(
+            content: const Text('Home'),
+            onTap: () => context.go('/'),
+          ),
+        ],
+        divider: const Icon(Icons.chevron_right),
+      );
+    } else {
+      breadcrumbs = BreadCrumb.builder(
+        itemCount: segments.length,
+        builder: (int index) {
+          final labelKey = segments[index];
+          final path = '/${segments.take(index + 1).join('/')}';
+          return BreadCrumbItem(
+            content: getPathName(labelKey),
+            onTap: () => context.go(path),
+          );
+        },
+        divider: const Icon(Icons.chevron_right),
+      );
     }
-    Widget breadcrumbs = BreadCrumb.builder(
-      itemCount: pathCount,
-      builder: (int index) {
-        return BreadCrumbItem(
-          content: getPathName(segments[index].name),
-          onTap: () => tabsRouter.navigatePath(segments[index].path),
-        );
-      },
-      divider: Icon(Icons.chevron_right),
-    );
 
     switch (size) {
       case SizeClass.compact:
@@ -54,9 +67,10 @@ class AdaptiveScaffold extends StatelessWidget {
     }
   }
 
-  int get _selectedIndex => tabsRouter.activeIndex;
+  int get _selectedIndex => navigationShell.currentIndex;
 
-  void _onSelect(int index) => tabsRouter.setActiveIndex(index);
+  void _onSelect(BuildContext context, int index) =>
+      navigationShell.goBranch(index);
 
   // Phones: NavigationBar + optional persistent side NavigationRail for overflow (>5)
   Widget _buildCompact(BuildContext context, Widget breadcrumbs) {
@@ -67,12 +81,9 @@ class AdaptiveScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            appBarTitleText ?? Text('Moonforge'),
-            const SizedBox(width: 16),
-            breadcrumbs,
-          ],
+        title: WindowTopBar(
+          /*title: appBarTitleText ?? const Text('Moonforge'),*/
+          leading: breadcrumbs,
         ),
         centerTitle: false,
       ),
@@ -86,7 +97,7 @@ class AdaptiveScaffold extends StatelessWidget {
                     selectedIndex: _selectedIndex >= 5
                         ? _selectedIndex - 5
                         : null,
-                    onDestinationSelected: (i) => _onSelect(5 + i),
+                    onDestinationSelected: (i) => _onSelect(context, 5 + i),
                     labelType: NavigationRailLabelType.all,
                     scrollable: true,
                     destinations: [
@@ -104,7 +115,7 @@ class AdaptiveScaffold extends StatelessWidget {
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex.clamp(0, primary.length - 1),
-        onDestinationSelected: (i) => _onSelect(i),
+        onDestinationSelected: (i) => _onSelect(context, i),
         destinations: [
           for (final tab in primary)
             NavigationDestination(icon: Icon(tab.icon), label: tab.label),
@@ -119,11 +130,9 @@ class AdaptiveScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            SizedBox(width: 256, child: appBarTitleText ?? Text('Moonforge')),
-            breadcrumbs,
-          ],
+        title: WindowTopBar(
+          /*title: appBarTitleText ?? const Text('Moonforge'),*/
+          leading: breadcrumbs,
         ),
         centerTitle: false,
       ),
@@ -133,7 +142,7 @@ class AdaptiveScaffold extends StatelessWidget {
             NavigationRail(
               extended: isExpanded,
               selectedIndex: _selectedIndex,
-              onDestinationSelected: _onSelect,
+              onDestinationSelected: (i) => _onSelect(context, i),
               labelType: isExpanded ? null : NavigationRailLabelType.all,
               scrollable: true,
               destinations: [
@@ -146,21 +155,42 @@ class AdaptiveScaffold extends StatelessWidget {
               trailingAtBottom: true,
               trailing: Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: currentUserProvider.name != null
-                    ? FilledButton(
-                        onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                          tabsRouter.navigate(HomeRoute());
-                        },
-                        child: Text('Logout'),
-                      )
-                    : FilledButton(
-                        onPressed: () => tabsRouter.navigate(LoginRoute()),
-                        child: Text('Login'),
-                      ),
+                child: Builder(
+                  builder: (context) {
+                    User? user;
+                    try {
+                      user = FirebaseAuth.instance.currentUser;
+                    } catch (_) {
+                      user = null; // Firebase not initialized (e.g., in tests)
+                    }
+                    String appVersion = AppVersion.getVersion();
+                    return Column(
+                      children: [
+                        user != null
+                            ? OutlinedButton(
+                                onPressed: () async {
+                                  try {
+                                    await FirebaseAuth.instance.signOut();
+                                  } catch (_) {}
+                                  if (context.mounted) context.go('/');
+                                },
+                                child: const Text('Logout'),
+                              )
+                            : FilledButton(
+                                onPressed: () => context.go('/login'),
+                                child: const Text('Login'),
+                              ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'v$appVersion',
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-            const VerticalDivider(width: 1),
             Expanded(child: body),
           ],
         ),

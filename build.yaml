@@ -4,3 +4,5 @@ targets:
       json_serializable:
         options:
           explicit_to_json: true
+      flutter_gen_runner:
+        options:

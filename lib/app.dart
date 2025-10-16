@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:toastification/toastification.dart';
 
 class App extends StatelessWidget {
-  final _appRouter = AppRouter();
-
-  App({super.key});
+  const App({super.key});
 
   static final _defaultLightColorScheme = ColorScheme.fromSwatch(
     primarySwatch: Colors.purple,
@@ -24,28 +23,30 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(
-      builder: (lightDynamic, darkDynamic) {
-        return MaterialApp.router(
-          title: 'Moonforge',
-          theme: ThemeData(
-            colorScheme: lightDynamic ?? _defaultLightColorScheme,
-            useMaterial3: true,
-          ),
-          darkTheme: ThemeData(
-            colorScheme: darkDynamic ?? _defaultDarkColorScheme,
-            useMaterial3: true,
-            brightness: Brightness.dark,
-          ),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            FlutterQuillLocalizations.delegate,
-          ],
-          routerConfig: _appRouter.config(),
-        );
-      },
+    return ToastificationWrapper(
+      child: DynamicColorBuilder(
+        builder: (lightDynamic, darkDynamic) {
+          return MaterialApp.router(
+            title: 'Moonforge',
+            theme: ThemeData(
+              colorScheme: lightDynamic ?? _defaultLightColorScheme,
+              useMaterial3: true,
+            ),
+            darkTheme: ThemeData(
+              colorScheme: darkDynamic ?? _defaultDarkColorScheme,
+              useMaterial3: true,
+              brightness: Brightness.dark,
+            ),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
+            ],
+            routerConfig: AppRouter.router,
+          );
+        },
+      ),
     );
   }
 }

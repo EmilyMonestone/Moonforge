@@ -1,12 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
 class SessionEditScreen extends StatelessWidget {
   const SessionEditScreen({
     super.key,
-    @pathParam required this.partyId,
-    @pathParam required this.sessionId,
+    required this.partyId,
+    required this.sessionId,
   });
 
   final String partyId;

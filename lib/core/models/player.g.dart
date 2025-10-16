@@ -10,7 +10,7 @@ _Player _$PlayerFromJson(Map<String, dynamic> json) => _Player(
   id: json['id'] as String,
   name: json['name'] as String,
   partyId: json['partyId'] as String?,
-  playerClass: json['playerClass'] as String?,
+  playerClass: json['class'] as String?,
   level: (json['level'] as num?)?.toInt() ?? 1,
   species: json['species'] as String?,
   info: json['info'] as String?,
@@ -27,7 +27,7 @@ Map<String, dynamic> _$PlayerToJson(_Player instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
   'partyId': instance.partyId,
-  'playerClass': instance.playerClass,
+  'class': instance.playerClass,
   'level': instance.level,
   'species': instance.species,
   'info': instance.info,
@@ -66,7 +66,7 @@ class PlayerPatchBuilder<$$T extends Player?>
 
   /// Update playerClass field `String?`
   late final PatchBuilder<String?, String?> playerClass = PatchBuilder(
-    field: path.append('playerClass'),
+    field: path.append('class'),
     toJson: (value) => (value as String?),
   );
 
@@ -130,7 +130,7 @@ class PlayerFilterBuilder extends FilterBuilderNode {
   /// Filter by playerClass
   late final ComparableFilterField<String?> playerClass =
       ComparableFilterField<String?>(
-        field: path.append('playerClass'),
+        field: path.append('class'),
         toJson: (value) => (value as String?),
       );
 
@@ -209,7 +209,7 @@ class PlayerOrderByBuilder extends OrderByFieldNode {
 
   /// Access nested playerClass for ordering
   late final OrderByField<String?> playerClass = OrderByField<String?>(
-    field: path.append('playerClass'),
+    field: path.append('class'),
     context: $context,
   );
 
