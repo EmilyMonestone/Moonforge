@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:toastification/toastification.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -47,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        context.go('/');
+        const HomeRoute().go(context);
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);
@@ -69,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  /*  Future<void> _signInWithGoogle() async {
     setState(() => _isLoading = true);
     try {
       if (kIsWeb) {
@@ -96,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        context.go('/');
+        const HomeRoute().go(context);
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);
@@ -116,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
-  }
+  }*/
 
   String _mapAuthError(FirebaseAuthException e) {
     switch (e.code) {
@@ -136,11 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _goToRegister() {
-    context.go('/login/register');
+    const RegisterRoute().go(context);
   }
 
   void _goToForgotPassword() {
-    context.push('/login/forgot');
+    const ForgotPasswordRoute().push(context);
   }
 
   @override

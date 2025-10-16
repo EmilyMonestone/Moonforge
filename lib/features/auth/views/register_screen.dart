@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:toastification/toastification.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        context.go('/');
+        const HomeRoute().go(context);
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:moonforge/core/services/app_router.dart';
 
 class PartyScreen extends StatelessWidget {
   const PartyScreen({super.key, required this.partyId});
@@ -14,20 +14,21 @@ class PartyScreen extends StatelessWidget {
           leading: const Icon(Icons.person_outline),
           title: const Text('Member A'),
           subtitle: Text('party $partyId'),
-          onTap: () => context.go('/party/$partyId/member/a'),
+          onTap: () => MemberRoute(partyId: partyId, memberId: 'a').go(context),
         ),
         ListTile(
           leading: const Icon(Icons.person_outline),
           title: const Text('Member B'),
           subtitle: Text('party $partyId'),
-          onTap: () => context.go('/party/$partyId/member/b'),
+          onTap: () => MemberRoute(partyId: partyId, memberId: 'b').go(context),
         ),
         const Divider(),
         ListTile(
           leading: const Icon(Icons.event_note_outlined),
           title: const Text('Session 1'),
           subtitle: Text('party $partyId'),
-          onTap: () => context.go('/party/$partyId/session/1'),
+          onTap: () =>
+              SessionRoute(partyId: partyId, sessionId: '1').go(context),
         ),
       ],
     );

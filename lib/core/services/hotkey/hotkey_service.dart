@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/hotkey/hotkey_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
@@ -313,6 +314,182 @@ class HotkeyManagerService {
     return null;
   }
 
+  /// Navigate using typed routes when possible; fallback to raw path.
+  void _navigateTyped(BuildContext context, String route) {
+    try {
+      // Simple exact matches
+      switch (route) {
+        case '/':
+          const HomeRoute().go(context);
+          return;
+        case '/login':
+          const LoginRoute().go(context);
+          return;
+        case '/login/register':
+          const RegisterRoute().go(context);
+          return;
+        case '/login/forgot':
+          const ForgotPasswordRoute().go(context);
+          return;
+        case '/campaign':
+          const CampaignRoute().go(context);
+          return;
+        case '/campaign/edit':
+          const CampaignEditRoute().go(context);
+          return;
+        case '/party':
+          const PartyRootRoute().go(context);
+          return;
+        case '/settings':
+          const SettingsRoute().go(context);
+          return;
+      }
+
+      // Entity routes
+      final entityEdit = RegExp(r'^/campaign/entity/([^/]+)/edit$');
+      final entity = RegExp(r'^/campaign/entity/([^/]+)$');
+      final entityEditMatch = entityEdit.firstMatch(route);
+      if (entityEditMatch != null) {
+        EntityEditRoute(entityId: entityEditMatch.group(1)!).go(context);
+        return;
+      }
+      final entityMatch = entity.firstMatch(route);
+      if (entityMatch != null) {
+        EntityRoute(entityId: entityMatch.group(1)!).go(context);
+        return;
+      }
+
+      // Encounter routes
+      final encounterEdit = RegExp(r'^/campaign/encounter/([^/]+)/edit$');
+      final encounter = RegExp(r'^/campaign/encounter/([^/]+)$');
+      final encounterEditMatch = encounterEdit.firstMatch(route);
+      if (encounterEditMatch != null) {
+        EncounterEditRoute(
+          encounterId: encounterEditMatch.group(1)!,
+        ).go(context);
+        return;
+      }
+      final encounterMatch = encounter.firstMatch(route);
+      if (encounterMatch != null) {
+        EncounterRoute(encounterId: encounterMatch.group(1)!).go(context);
+        return;
+      }
+
+      // Chapter/Adventure/Scene (+ edit) routes
+      final chapterEdit = RegExp(r'^/campaign/chapter/([^/]+)/edit$');
+      final chapter = RegExp(r'^/campaign/chapter/([^/]+)$');
+      final adventureEdit = RegExp(
+        r'^/campaign/chapter/([^/]+)/adventure/([^/]+)/edit$',
+      );
+      final adventure = RegExp(
+        r'^/campaign/chapter/([^/]+)/adventure/([^/]+)$',
+      );
+      final sceneEdit = RegExp(
+        r'^/campaign/chapter/([^/]+)/adventure/([^/]+)/scene/([^/]+)/edit$',
+      );
+      final scene = RegExp(
+        r'^/campaign/chapter/([^/]+)/adventure/([^/]+)/scene/([^/]+)$',
+      );
+
+      final mChapterEdit = chapterEdit.firstMatch(route);
+      if (mChapterEdit != null) {
+        ChapterEditRoute(chapterId: mChapterEdit.group(1)!).go(context);
+        return;
+      }
+      final mChapter = chapter.firstMatch(route);
+      if (mChapter != null) {
+        ChapterRoute(chapterId: mChapter.group(1)!).go(context);
+        return;
+      }
+      final mAdventureEdit = adventureEdit.firstMatch(route);
+      if (mAdventureEdit != null) {
+        AdventureEditRoute(
+          chapterId: mAdventureEdit.group(1)!,
+          adventureId: mAdventureEdit.group(2)!,
+        ).go(context);
+        return;
+      }
+      final mAdventure = adventure.firstMatch(route);
+      if (mAdventure != null) {
+        AdventureRoute(
+          chapterId: mAdventure.group(1)!,
+          adventureId: mAdventure.group(2)!,
+        ).go(context);
+        return;
+      }
+      final mSceneEdit = sceneEdit.firstMatch(route);
+      if (mSceneEdit != null) {
+        SceneEditRoute(
+          chapterId: mSceneEdit.group(1)!,
+          adventureId: mSceneEdit.group(2)!,
+          sceneId: mSceneEdit.group(3)!,
+        ).go(context);
+        return;
+      }
+      final mScene = scene.firstMatch(route);
+      if (mScene != null) {
+        SceneRoute(
+          chapterId: mScene.group(1)!,
+          adventureId: mScene.group(2)!,
+          sceneId: mScene.group(3)!,
+        ).go(context);
+        return;
+      }
+
+      // Party/member/session (+ edit)
+      final party = RegExp(r'^/party/([^/]+)$');
+      final memberEdit = RegExp(r'^/party/([^/]+)/member/([^/]+)/edit$');
+      final member = RegExp(r'^/party/([^/]+)/member/([^/]+)$');
+      final sessionEdit = RegExp(r'^/party/([^/]+)/session/([^/]+)/edit$');
+      final session = RegExp(r'^/party/([^/]+)/session/([^/]+)$');
+
+      final mParty = party.firstMatch(route);
+      if (mParty != null) {
+        PartyRoute(partyId: mParty.group(1)!).go(context);
+        return;
+      }
+      final mMemberEdit = memberEdit.firstMatch(route);
+      if (mMemberEdit != null) {
+        MemberEditRoute(
+          partyId: mMemberEdit.group(1)!,
+          memberId: mMemberEdit.group(2)!,
+        ).go(context);
+        return;
+      }
+      final mMember = member.firstMatch(route);
+      if (mMember != null) {
+        MemberRoute(
+          partyId: mMember.group(1)!,
+          memberId: mMember.group(2)!,
+        ).go(context);
+        return;
+      }
+      final mSessionEdit = sessionEdit.firstMatch(route);
+      if (mSessionEdit != null) {
+        SessionEditRoute(
+          partyId: mSessionEdit.group(1)!,
+          sessionId: mSessionEdit.group(2)!,
+        ).go(context);
+        return;
+      }
+      final mSession = session.firstMatch(route);
+      if (mSession != null) {
+        SessionRoute(
+          partyId: mSession.group(1)!,
+          sessionId: mSession.group(2)!,
+        ).go(context);
+        return;
+      }
+
+      // Fallback to raw go for unknown routes
+      // This preserves behavior for deep links or not-yet-updated paths
+      context.go(route);
+    } catch (e) {
+      logger.e('[Hotkeys] Typed navigation error: $e; falling back to raw go');
+      context.go(route);
+    }
+  }
+
   /// Execute the action associated with a shortcut
   void _executeAction(BuildContext context, HotkeyConfig shortcut) {
     logger.d('[Hotkeys] Executing action for shortcut: ${shortcut.id}');
@@ -351,7 +528,7 @@ class HotkeyManagerService {
         final actionId = shortcut.action.commandPaletteActionId;
         if (actionId != null) {
           // Programmatic palette open is not wired here; log for now.
-          logger.i('[Hotkeys] Open Command Palette action: ' + actionId);
+          logger.i('[Hotkeys] Open Command Palette action: $actionId');
         } else {
           logger.e('[Hotkeys] commandPaletteActionId is null');
         }
@@ -359,7 +536,7 @@ class HotkeyManagerService {
       case HotkeyActionType.navigate:
         logger.d('[Hotkeys] navigate action route: ${shortcut.action.route}');
         if (shortcut.action.route != null) {
-          context.go(shortcut.action.route!);
+          _navigateTyped(context, shortcut.action.route!);
         } else {
           logger.e('[Hotkeys] route is null');
         }
@@ -433,8 +610,9 @@ class HotkeyManagerService {
       if (keyString.contains('alt')) return 'alt';
       if (keyString.contains('meta') ||
           keyString.contains('command') ||
-          keyString.contains('super'))
+          keyString.contains('super')) {
         return 'meta';
+      }
 
       // Handle arrow keys
       if (keyString.contains('arrow')) {

@@ -4,78 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: implement user authentication with email/password and Google sign-in, add login and password reset screens">
-      <change afterPath="$PROJECT_DIR$/build.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config_app.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/constants/app_config.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/constants/ui_constants.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/database/odm.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_config.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_global.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_global_wrapper.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_service.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/services/notification_service.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/utils/app_version.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/widgets/command_palette.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/widgets/error_boundary.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/widgets/surface_container.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/core/widgets/window_top_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add hotkey system, forgot password screen, and generated asset management files with logo icons">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.junie/guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/.junie/guidelines.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/build.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/responsive layout/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/responsive layout/auto_route_integration.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/responsive layout/breakpoints.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/responsive layout/navigation.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/responsive layout/two_pane.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/constants/path_names.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/path_names.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/adventure.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/adventure.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/adventure.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/chapter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/chapter.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/chapter.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/player.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/player.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/player.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/player.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/player.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/player.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/scene.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/models/scene.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/providers/auth_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/providers/auth_providers.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/app_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.gr.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/adventure/views/adventure_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/services/hotkey/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/command_palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/command_palette.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/views/forgot_password_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/views/forgot_password_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/auth/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/views/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/auth/views/register_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/views/register_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/encounters/views/encounter_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/encounters/views/encounter_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/entities/views/entity_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/views/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/views/unknown_path_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/views/unknown_path_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/member_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/parties/views/member_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/member_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/parties/views/member_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/party_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/parties/views/party_edit_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/parties/views/party_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/parties/views/party_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/scene/views/scene_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/scene/views/scene_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/session/views/session_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/session/views/session_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/session/views/session_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/session/views/session_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/settings/views/settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/settings/views/settings_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/destinations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/destinations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/layout_shell.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/layout_shell.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -185,7 +127,7 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\services\hotkey" />
     </key>
   </component>
-  <component name="RunManager" selected="PowerShell.build">
+  <component name="RunManager" selected="Flutter.main.dart">
     <list>
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="PowerShell.build" />
@@ -266,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760457703828</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feat: add hotkey system, forgot password screen, and generated asset management files with logo icons">
+      <option name="closed" value="true" />
+      <created>1760611293126</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1760611293126</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -298,7 +248,8 @@
     <MESSAGE value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
     <MESSAGE value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
     <MESSAGE value="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support" />
+    <MESSAGE value="feat: add hotkey system, forgot password screen, and generated asset management files with logo icons" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add hotkey system, forgot password screen, and generated asset management files with logo icons" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -351,6 +302,12 @@
           <option name="totalLines" value="1725802" />
           <option name="info" value="feat: add Firestore ODM models for JoinCode, Sessi" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760611293497" />
+          <option name="linesCode" value="16070" />
+          <option name="totalLines" value="2421652" />
+          <option name="info" value="feat: add hotkey system, forgot password screen, a" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -372,6 +329,12 @@
           <option name="linesCode" value="13785" />
           <option name="totalLines" value="1725802" />
           <option name="info" value="Oct 14, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760611293497" />
+          <option name="linesCode" value="16070" />
+          <option name="totalLines" value="2421652" />
+          <option name="info" value="Oct 16, 2025" />
         </TimePoint>
       </list>
     </option>

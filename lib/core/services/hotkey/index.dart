@@ -91,6 +91,8 @@
 ///   scope or choose a different combination.
 ///
 /// Re-exports (public API of the module)
+library;
+
 export 'hotkey_config.dart';
 export 'hotkey_global.dart';
 export 'hotkey_global_wrapper.dart';

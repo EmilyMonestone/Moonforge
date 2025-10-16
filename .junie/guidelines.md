@@ -71,3 +71,4 @@ Junie guidance: If you modify Dart code, run flutter analyze and flutter test be
 - Use specialized tools for search and edits; avoid modifying generated files.
 - When editing, prefer the minimal changes necessary to satisfy the issue.
 - Communicate plan and progress via update_status, and submit once verified.
+- don't change package versions.

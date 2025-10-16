@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/constants/path_names.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart';
 import 'package:moonforge/layout/breakpoints.dart';
@@ -38,7 +39,7 @@ class AdaptiveScaffold extends StatelessWidget {
         items: [
           BreadCrumbItem(
             content: const Text('Home'),
-            onTap: () => context.go('/'),
+            onTap: () => const HomeRoute().go(context),
           ),
         ],
         divider: const Icon(Icons.chevron_right),
@@ -172,12 +173,14 @@ class AdaptiveScaffold extends StatelessWidget {
                                   try {
                                     await FirebaseAuth.instance.signOut();
                                   } catch (_) {}
-                                  if (context.mounted) context.go('/');
+                                  if (context.mounted) {
+                                    const HomeRoute().go(context);
+                                  }
                                 },
                                 child: const Text('Logout'),
                               )
                             : FilledButton(
-                                onPressed: () => context.go('/login'),
+                                onPressed: () => const LoginRoute().go(context),
                                 child: const Text('Login'),
                               ),
                         const SizedBox(height: 8),
