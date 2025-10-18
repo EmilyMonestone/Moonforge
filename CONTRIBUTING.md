@@ -3,7 +3,7 @@
 Thanks for your interest in contributing! This guide helps you get set up and submit high‑quality pull requests with minimal friction.
 
 - Project type: Flutter (Dart), multi‑platform (Windows, Linux, macOS, Web, Android, iOS)
-- Key libs: Riverpod, AutoRoute, Freezed, json_serializable, Firebase (Auth, Firestore, Storage, Remote Config), Firestore ODM
+- Key libs: Riverpod, go_router (typesafe), Freezed, Firebase (Auth, Firestore, Storage, Remote Config), Firestore ODM
 - Structure: see docs/folder_structure.md
 
 ## Quick start
@@ -19,7 +19,7 @@ Install and run:
 flutter --version
 flutter pub get
 
-:: Generate code for freezed/json_serializable/auto_route/odm
+:: Generate code for freezed/json_serializable/i18n/odm
 dart run build_runner build -d
 
 :: Run tests
