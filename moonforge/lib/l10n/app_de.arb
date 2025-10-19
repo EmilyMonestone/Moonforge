@@ -1,0 +1,176 @@
+{
+  "appTitle": "Moonforge",
+  "@appTitle": {
+    "description": "Der lokalisierte Anwendungstitel"
+  },
+  "helloWorld": "Hallo Welt!",
+  "@helloWorld": {
+    "description": "Die traditionelle Begrüßung eines Programmieranfängers"
+  },
+  "home": "Startseite",
+  "@home": {
+    "description": "Beschriftung für die Startseite und Breadcrumb-Wurzel"
+  },
+  "campaign": "Kampagne",
+  "@campaign": {
+    "description": "Beschriftung für den Bereich Kampagne"
+  },
+  "party": "Gruppe",
+  "@party": {
+    "description": "Beschriftung für den Bereich Gruppe"
+  },
+  "settings": "Einstellungen",
+  "@settings": {
+    "description": "Beschriftung für den Bereich Einstellungen"
+  },
+  "edit": "Bearbeiten",
+  "@edit": {
+    "description": "Allgemeines Label für Bearbeiten"
+  },
+  "chapter": "Kapitel",
+  "@chapter": {
+    "description": "Beschriftung für den Bereich Kapitel"
+  },
+  "adventure": "Abenteuer",
+  "@adventure": {
+    "description": "Beschriftung für den Bereich Abenteuer"
+  },
+  "scene": "Szene",
+  "@scene": {
+    "description": "Beschriftung für den Bereich Szene"
+  },
+  "encounter": "Begegnung",
+  "@encounter": {
+    "description": "Beschriftung für den Bereich Begegnung"
+  },
+  "entity": "Entität",
+  "@entity": {
+    "description": "Beschriftung für den Bereich Entität"
+  },
+  "member": "Mitglied",
+  "@member": {
+    "description": "Beschriftung für den Bereich Mitglied"
+  },
+  "session": "Sitzung",
+  "@session": {
+    "description": "Beschriftung für den Bereich Sitzung"
+  },
+  "login": "Anmelden",
+  "@login": {
+    "description": "Beschriftung für den Anmeldebildschirm"
+  },
+  "register": "Registrieren",
+  "@register": {
+    "description": "Beschriftung für den Registrierungsbildschirm"
+  },
+  "forgotPassword": "Passwort vergessen",
+  "@forgotPassword": {
+    "description": "Beschriftung für Passwort vergessen"
+  },
+  "profile": "Profil",
+  "@profile": {
+    "description": "Beschriftung für Profil"
+  },
+  "notFound": "Nicht gefunden",
+  "@notFound": {
+    "description": "Beschriftung für Nicht gefunden"
+  },
+  "ellipsis": "...",
+  "@ellipsis": {
+    "description": "Fallback-Beschriftung, wenn Name unbekannt"
+  },
+  "versionWithNumber": "v{version}",
+  "@versionWithNumber": {
+    "description": "Versionslabel mit Präfix und Versionsnummer",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.2.3"
+      }
+    }
+  },
+  "appearance": "Erscheinungsbild",
+  "@appearance": {
+    "description": "Tab-Bezeichnung für Erscheinungsbild"
+  },
+  "hotkeys": "Tastenkürzel",
+  "@hotkeys": {
+    "description": "Tab-Bezeichnung für Tastenkürzel"
+  },
+  "more": "Mehr",
+  "@more": {
+    "description": "Tab-Bezeichnung für weitere Einstellungen"
+  },
+  "language": "Sprache",
+  "@language": {
+    "description": "Beschriftung für Sprachauswahl"
+  },
+  "theme": "Design",
+  "@theme": {
+    "description": "Beschriftung für Design-/Themenauswahl"
+  },
+  "system": "System",
+  "@system": {
+    "description": "Option für systemweite Standardeinstellung"
+  },
+  "light": "Hell",
+  "@light": {
+    "description": "Option für helles Design"
+  },
+  "dark": "Dunkel",
+  "@dark": {
+    "description": "Option für dunkles Design"
+  },
+  "english": "Englisch",
+  "@english": {
+    "description": "Sprachname: Englisch"
+  },
+  "german": "Deutsch",
+  "@german": {
+    "description": "Sprachname: Deutsch"
+  },
+  "continueWhereLeft": "Weitermachen, wo du aufgehört hast",
+  "@continueWhereLeft": {
+    "description": "Schaltflächenbeschriftung zum Fortsetzen, wo der Benutzer aufgehört hat"
+  },
+  "recentCampaigns": "Zuletzt verwendete Kampagnen",
+  "@recentCampaigns": {
+    "description": "Abschnittstitel für Liste der letzten Kampagnen"
+  },
+  "recentSessions": "Letzte Sitzungen",
+  "@recentSessions": {
+    "description": "Abschnittstitel für Liste der letzten Sitzungen"
+  },
+  "recentParties": "Zuletzt verwendete Gruppen",
+  "@recentParties": {
+    "description": "Abschnittstitel für Liste der letzten Gruppen"
+  },
+  "createNewCampaign": "Neue Kampagne erstellen",
+  "@createNewCampaign": {
+    "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Kampagne"
+  },
+  "createParty": "Gruppe erstellen",
+  "@createParty": {
+    "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Gruppe"
+  },
+  "createCustomMonster": "Benutzerdefiniertes Monster erstellen",
+  "@createCustomMonster": {
+    "description": "Schaltflächenbeschriftung zum Erstellen eines benutzerdefinierten Monsters"
+  },
+  "menuContinue": "Weiter",
+  "@menuContinue": {
+    "description": "Kurzes Label für Weiter-Aktion im Menü"
+  },
+  "menuNewCampaign": "Neue Kampagne",
+  "@menuNewCampaign": {
+    "description": "Kurzes Label für Neue Kampagne im Menü"
+  },
+  "menuNewParty": "Neue Gruppe",
+  "@menuNewParty": {
+    "description": "Kurzes Label für Neue Gruppe im Menü"
+  },
+  "menuNewMonster": "Neues Monster",
+  "@menuMonster": {
+    "description": "Kurzes Label für Benutzerdefiniertes Monster im Menü"
+  }
+}

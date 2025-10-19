@@ -73,20 +73,22 @@ entities, sessions, media, and more — all synchronized across devices.
 
 High-level layout:
 
-- lib/
-    - core/
-        - models/ — Domain models, schema annotations, converters (generated *.g.dart committed)
-        - providers/, repositories/, services/, utils/, widgets/ — App foundation
-    - features/
-        - adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings — Feature modules
-    - layout/ — App-level scaffolding and navigation shells
-    - gen/ — Generated asset accessors via FlutterGen
-    - l10n/ — App localization ARB files
-- docs/ — Developer documentation (e.g., firebase_schema.md, app_router.md)
-- test/ — Unit/widget tests
-- platform folders — android/, ios/, macos/, linux/, windows/, web/
+- moonforge/ — Flutter application (app root)
+    - lib/
+        - core/ — models, repositories, services, utils, widgets (generated *.g.dart committed)
+        - features/ — adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings
+        - layout/ — App-level scaffolding and navigation shells
+        - gen/ — Generated asset accessors via FlutterGen
+        - l10n/ — App localization ARB files
+    - platform folders — android/, ios/, macos/, linux/, windows/, web/
+    - test/ — Unit/widget tests
+    - pubspec.yaml, analysis_options.yaml, l10n.yaml, firebase_options.dart
+- docs/ — Developer documentation (e.g., docs/firebase_schema.md, docs/app_router.md)
+- tools/ — Scripts/CI helpers (optional)
+- .github/workflows/ — CI definitions (optional)
+- README.md, LICENSE, CONTRIBUTING.md
 
-See also: analysis_options.yaml for lints and code style.
+See also: moonforge/analysis_options.yaml for lints and code style.
 
 ## Getting Started
 
@@ -100,6 +102,7 @@ Prerequisites:
 **1\. Install dependencies**
 
 ```sh
+cd moonforge
 flutter pub get
 ```
 
@@ -151,9 +154,9 @@ dart run build_runner build --delete-conflicting-outputs
 ## Internationalization (i18n)
 
 - All user-facing text is internationalized
-- ARB source files live under lib/l10n (e.g., app_de.arb)
-- After adding new strings, run: flutter pub get (to regenerate l10n delegates)
-- See l10n.yaml for configuration
+- ARB source files live under moonforge/lib/l10n (e.g., app_de.arb)
+- After adding new strings, run: flutter pub get (from moonforge/, to regenerate l10n delegates)
+- See moonforge/l10n.yaml for configuration
 
 ## Routing
 
@@ -163,8 +166,8 @@ Moonforge uses go_router with type-safe route definitions. Start with the develo
 
 Key files:
 
-- lib/core/services/app_router.dart (annotations and configuration)
-- lib/core/services/app_router.g.dart (generated; do not edit)
+- moonforge/lib/core/services/app_router.dart (annotations and configuration)
+- moonforge/lib/core/services/app_router.g.dart (generated; do not edit)
 
 ## Data & Firebase Schema
 
@@ -175,8 +178,8 @@ The canonical Firestore and Storage layout, index recommendations, and security 
 ## Assets
 
 - Asset management is powered by FlutterGen
-- Access assets via generated helpers (e.g., lib/gen/assets.gen.dart)
-- Configure assets in pubspec.yaml under flutter/assets and flutter_gen
+- Access assets via generated helpers (e.g., moonforge/lib/gen/assets.gen.dart)
+- Configure assets in moonforge/pubspec.yaml under flutter/assets and flutter_gen
 
 ## Contributing
 
@@ -187,6 +190,7 @@ Contributions are welcome! Please read the contributing guide for setup, coding 
 Quick start for contributors:
 
 - Ensure Flutter (stable) is installed
+- cd moonforge
 - flutter pub get
 - dart run build_runner build --delete-conflicting-outputs
 - flutter test

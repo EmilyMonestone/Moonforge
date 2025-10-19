@@ -102,4 +102,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get german => 'German';
+
+  @override
+  String get continueWhereLeft => 'Continue where you left off';
+
+  @override
+  String get recentCampaigns => 'Recent Campaigns';
+
+  @override
+  String get recentSessions => 'Recent Sessions';
+
+  @override
+  String get recentParties => 'Recent Parties';
+
+  @override
+  String get createNewCampaign => 'Create New Campaign';
+
+  @override
+  String get createParty => 'Create Party';
+
+  @override
+  String get createCustomMonster => 'Create Custom Monster';
+
+  @override
+  String get menuContinue => 'Continue';
+
+  @override
+  String get menuNewCampaign => 'New campaign';
+
+  @override
+  String get menuNewParty => 'New party';
+
+  @override
+  String get menuNewMonster => 'New Monster';
 }

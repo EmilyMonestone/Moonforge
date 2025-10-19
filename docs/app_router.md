@@ -5,8 +5,8 @@ This document explains how Moonforge configures navigation with go_router and ty
 
 ## Overview
 
-- The app’s router lives at: lib/core/services/app_router.dart
-- go_router_builder generates a companion file: lib/core/services/app_router.g.dart (do not edit)
+- The app’s router lives at: moonforge/lib/core/services/app_router.dart
+- go_router_builder generates a companion file: moonforge/lib/core/services/app_router.g.dart (do not edit)
 - The generated file exports:
   - $appRoutes: the route list used to initialize GoRouter
   - Typed helper mixins (e.g., _$HomeRoute), giving you:
@@ -17,7 +17,7 @@ This document explains how Moonforge configures navigation with go_router and ty
 
 ## Where the router is initialized
 
-lib/core/services/app_router.dart:
+moonforge/lib/core/services/app_router.dart:
 
 - part 'app_router.g.dart' links the generated output.
 - AppRouter.router is the global router configured with routes: $appRoutes and an errorBuilder that shows UnknownPathScreen.
@@ -119,10 +119,11 @@ Note: push<T>(context) returns a Future<T?> so you can await a result when the p
 - Use path parameters with :name and map them to constructor fields.
 
 3) Generate the code
+- (Run from app dir: moonforge/)
 - flutter pub get
 - dart run build_runner build --delete-conflicting-outputs
 
-This creates/updates lib/core/services/app_router.g.dart with $appRoutes and the _$YourRoute mixin.
+This creates/updates moonforge/lib/core/services/app_router.g.dart with $appRoutes and the _$YourRoute mixin.
 
 4) Use the new typed helpers
 - Import the route type and call const YourRoute(...).go(context) or .push(context).
@@ -140,7 +141,7 @@ AppRouter is configured with an errorBuilder that shows UnknownPathScreen if a r
 
 ## Code generation notes
 
-- Do not edit lib/core/services/app_router.g.dart. Modify app_router.dart annotations and run build_runner instead.
+- Do not edit moonforge/lib/core/services/app_router.g.dart. Modify app_router.dart annotations and run build_runner instead.
 - If you see: "Target of URI hasn't been generated: 'app_router.g.dart'" or missing _$YourRoute mixins:
   - Ensure the part directive exists: part 'app_router.g.dart';
   - Run: dart run build_runner build --delete-conflicting-outputs

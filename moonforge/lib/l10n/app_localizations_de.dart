@@ -102,4 +102,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get german => 'Deutsch';
+
+  @override
+  String get continueWhereLeft => 'Weitermachen, wo du aufgehört hast';
+
+  @override
+  String get recentCampaigns => 'Zuletzt verwendete Kampagnen';
+
+  @override
+  String get recentSessions => 'Letzte Sitzungen';
+
+  @override
+  String get recentParties => 'Zuletzt verwendete Gruppen';
+
+  @override
+  String get createNewCampaign => 'Neue Kampagne erstellen';
+
+  @override
+  String get createParty => 'Gruppe erstellen';
+
+  @override
+  String get createCustomMonster => 'Benutzerdefiniertes Monster erstellen';
+
+  @override
+  String get menuContinue => 'Weiter';
+
+  @override
+  String get menuNewCampaign => 'Neue Kampagne';
+
+  @override
+  String get menuNewParty => 'Neue Gruppe';
+
+  @override
+  String get menuNewMonster => 'Neues Monster';
 }

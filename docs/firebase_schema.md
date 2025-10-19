@@ -333,8 +333,8 @@ If using a mapping doc instead of claims:
 ## Alignment with Current Code
 
 - The Flutter app currently defines a `Campaign` model with fields `{ id, name, description }` and uses the `campaigns`
-  collection directly (see `lib/core/models/campaign.dart`, `lib/core/models/schema.dart`, and
-  `lib/core/providers/campaign_providers.dart`).
+  collection directly (see `moonforge/lib/core/models/campaign.dart`, `moonforge/lib/core/models/schema.dart`, and
+  `moonforge/lib/core/providers/campaign_providers.dart`).
 - This schema adds recommended fields (`ownerUid`, `memberUids`, timestamps, `rev`) that you can adopt incrementally
   without breaking existing reads. Writes should start populating them for new documents.
 

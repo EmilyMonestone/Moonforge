@@ -64,7 +64,7 @@ class _AppearanceSettingsTab extends ConsumerWidget {
           Text(l10n.language, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           DropdownButtonFormField<Locale?>(
-            value: settings.locale,
+            initialValue: settings.locale,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: l10n.language,
@@ -89,7 +89,7 @@ class _AppearanceSettingsTab extends ConsumerWidget {
                   value: locale,
                   child: Text(name),
                 );
-              }).toList(),
+              }),
             ],
             onChanged: (locale) => notifier.setLocale(locale),
           ),
@@ -97,7 +97,7 @@ class _AppearanceSettingsTab extends ConsumerWidget {
           Text(l10n.theme, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           DropdownButtonFormField<ThemeMode>(
-            value: settings.themeMode,
+            initialValue: settings.themeMode,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: l10n.theme,

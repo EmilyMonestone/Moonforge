@@ -4,9 +4,308 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file">
+      <change afterPath="$PROJECT_DIR$/moonforge/moonforge.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.junie/guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/.junie/guidelines.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.metadata" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/.metadata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CONTRIBUTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/de/bruckcode/moonforge/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable/launch_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/launcher_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/launcher_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values-night/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/xml/file_paths.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/moonforge_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/MoonForge-Logo2-Icon.afdesign" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-colored.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-dark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Icon-light.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-colored.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/Moonforge-Logo-light.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/tools/build.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/build.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_app.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/tools/config_app.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/devtools_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/devtools_options.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/app_router.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/app_router.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/firebase_schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/firebase_schema.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/folder_structure.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/folder_structure.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firebase.json" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/firebase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Base.lproj/LaunchScreen.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Base.lproj/Main.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Runner-Bridging-Header.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/RunnerTests/RunnerTests.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/l10n.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/constants/app_config.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/constants/path_names.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/constants/ui_constants.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/database/odm.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/adventure.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/campaign.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/chapter.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/encounter.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/entity.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/join_code.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/media_asset.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/party.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/party.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/party.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/player.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/player.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/player.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/scene.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/schema.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/session.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/session.freezed.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/models/session.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/providers/auth_providers.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/providers/campaign_providers.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/providers/firebase_providers.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/providers/settings_provider.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/app_router.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_config.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_global.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_global_wrapper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/hotkey_service.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/index.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/hotkey/page_hotkeys.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/services/notification_service.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/app_version.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/logger.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/auth_user_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/command_palette.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/error_boundary.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/surface_container.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/window_top_bar.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/adventure/views/adventure_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/views/forgot_password_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/views/login_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/views/register_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/encounters/views/encounter_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/entities/views/entity_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/home/views/home_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/home/views/unknown_path_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/member_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/member_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/party_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/parties/views/party_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/scene/views/scene_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/session/views/session_edit_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/session/views/session_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/settings/views/settings_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gen/assets.gen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_de.arb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_en.arb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/adaptive_scaffold.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/breakpoints.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/destinations.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/layout_shell.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/two_pane_layout.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/main.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/my_application.cc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/runner/my_application.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/Flutter-Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Base.lproj/MainMenu.xib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/AppInfo.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Configs/Warnings.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/DebugProfile.entitlements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/MainFlutterWindow.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Runner/Release.entitlements" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/RunnerTests/RunnerTests.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/icons/Icon-maskable-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/Runner.rc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/flutter_window.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/flutter_window.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/resource.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/resources/app_icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/runner.exe.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/utils.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/win32_window.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/runner/win32_window.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,44 +376,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "junie.project.settings",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;junie.mcp&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\tools" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\models\data" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\models" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\widgets" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\services" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\constants" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\core\services\hotkey" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="PowerShell.build">
     <list>
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="PowerShell.build" />
@@ -235,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760657986478</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file">
+      <option name="closed" value="true" />
+      <created>1760658504813</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1760658504813</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -274,7 +581,8 @@
     <MESSAGE value="feat: add internationalization support with localized strings for app titles and navigation" />
     <MESSAGE value="feat: add localization support with German and English translations, and implement theme and language settings in the UI" />
     <MESSAGE value="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines" />
-    <option name="LAST_COMMIT_MESSAGE" value="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines" />
+    <MESSAGE value="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -357,6 +665,12 @@
           <option name="totalLines" value="2459529" />
           <option name="info" value="docs: expand README with detailed platform support" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1760658505032" />
+          <option name="linesCode" value="18197" />
+          <option name="totalLines" value="2459558" />
+          <option name="info" value="feat: integrate `flutter_dotenv` for environment v" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -386,9 +700,9 @@
           <option name="info" value="Oct 16, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1760657986696" />
-          <option name="linesCode" value="18182" />
-          <option name="totalLines" value="2459529" />
+          <option name="timestamp" value="1760658505032" />
+          <option name="linesCode" value="18197" />
+          <option name="totalLines" value="2459558" />
           <option name="info" value="Oct 17, 2025" />
         </TimePoint>
       </list>

@@ -1,5 +1,24 @@
 # Folder Structure
-This is a rough example of the project structure. The actual structure may differ, depending on technical decisions and project requirements.
+Repository layout and app folder structure.
+
+Repo layout (root):
+```
+/ (repo root)
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── docs/
+├── tools/
+└── moonforge/
+    ├── pubspec.yaml
+    ├── analysis_options.yaml
+    ├── lib/
+    ├── test/
+    ├── android/ ios/ linux/ macos/ windows/ web/
+    └── assets/
+```
+
+App folder structure (moonforge/):
 ```
 lib/
 ├───  main.dart

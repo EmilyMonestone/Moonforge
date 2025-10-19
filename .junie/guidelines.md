@@ -9,16 +9,17 @@ media assets) and feature-specific UI flows. Data schemas and JSON serialization
 
 ## Project Structure (high-level)
 
-- lib/
-    - core/
-        - models/ — Domain models, schema, and converters (beware of generated files like *.g.dart).
+- moonforge/ — Flutter app
+    - lib/
+        - core/ — Domain models, schema, and converters (beware of generated files like *.g.dart).
         - providers/, repositories/, services/, utils/, widgets/ — App foundation and cross-cutting utilities.
-    - features/
-        - adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings — Feature modules containing views, controllers, and state.
-    - layout/ — App-level layout and navigation scaffolding.
-- test/ — Dart/Flutter unit and widget tests.
+        - features/ — adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings — Feature modules containing views, controllers, and state.
+        - layout/ — App-level layout and navigation scaffolding.
+    - test/ — Dart/Flutter unit and widget tests.
+    - platform folders (android/, ios/, macos/, linux/, windows/, web/) — Platform-specific runners and configs.
+    - pubspec.yaml, analysis_options.yaml, l10n.yaml, firebase_options.dart
 - docs/ — Project documentation (e.g., firebase_schema.md, responsive layout notes).
-- platform folders (android/, ios/, macos/, linux/, windows/, web/) — Platform-specific runners and configs.
+- tools/ — Scripts/CI helpers (optional).
 
 ## Project Information
 
@@ -27,6 +28,7 @@ media assets) and feature-specific UI flows. Data schemas and JSON serialization
 - For logging use package logger with util lib/core/utils/logger.dart
 - Routes are using the package go_router and are typesafe implemented.
 - All text, which is displayed to the user, is internationalized. After adding new strings, run `flutter pub get`.
+- The Design Language ist Material 3 Expressive (not old Material 3).
 
 ## Generated Code
 

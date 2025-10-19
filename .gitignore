@@ -34,14 +34,14 @@ analysis_benchmark.json
 
 # Flutter/Dart/Pub related
 **/doc/api/
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
+/moonforge/.dart_tool/
+/moonforge/.flutter-plugins
+/moonforge/.flutter-plugins-dependencies
 **/generated_plugin_registrant.dart
-.packages
-.pub-preload-cache/
-.pub/
-build/
+/moonforge/.packages
+/moonforge/.pub-preload-cache/
+/moonforge/.pub/
+/moonforge/build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
@@ -106,7 +106,7 @@ unlinked_spec.ds
 **/linux/flutter/generated_plugins.cmake
 
 # Coverage
-coverage/
+/moonforge/coverage/
 
 # Symbols
 app.*.symbols
@@ -118,3 +118,6 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+# Flutter project metadata
+/moonforge/.metadata

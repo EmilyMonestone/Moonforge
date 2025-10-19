@@ -13,7 +13,7 @@ import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'core/models/schema.dart';
+import 'core/models/data/schema.dart';
 
 const kWindowsScheme = 'moonforge';
 

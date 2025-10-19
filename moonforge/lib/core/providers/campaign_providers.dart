@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moonforge/core/models/campaign.dart';
+import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/providers/firebase_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

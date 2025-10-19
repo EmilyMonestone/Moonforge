@@ -283,6 +283,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'German'**
   String get german;
+
+  /// Button label to continue where the user left off
+  ///
+  /// In en, this message translates to:
+  /// **'Continue where you left off'**
+  String get continueWhereLeft;
+
+  /// Section title for recent campaigns list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Campaigns'**
+  String get recentCampaigns;
+
+  /// Section title for recent sessions list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Sessions'**
+  String get recentSessions;
+
+  /// Section title for recent parties list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Parties'**
+  String get recentParties;
+
+  /// Button label to create a new campaign
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Campaign'**
+  String get createNewCampaign;
+
+  /// Button label to create a new party
+  ///
+  /// In en, this message translates to:
+  /// **'Create Party'**
+  String get createParty;
+
+  /// Button label to create a custom monster
+  ///
+  /// In en, this message translates to:
+  /// **'Create Custom Monster'**
+  String get createCustomMonster;
+
+  /// Short label for continue action in menu
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get menuContinue;
+
+  /// Short label for create new campaign action in menu
+  ///
+  /// In en, this message translates to:
+  /// **'New campaign'**
+  String get menuNewCampaign;
+
+  /// Short label for create new party action in menu
+  ///
+  /// In en, this message translates to:
+  /// **'New party'**
+  String get menuNewParty;
+
+  /// No description provided for @menuNewMonster.
+  ///
+  /// In en, this message translates to:
+  /// **'New Monster'**
+  String get menuNewMonster;
 }
 
 class _AppLocalizationsDelegate

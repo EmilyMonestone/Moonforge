@@ -3,7 +3,7 @@
 Thanks for your interest in contributing! This guide helps you get set up and submit high‑quality pull requests with minimal friction.
 
 - Project type: Flutter (Dart), multi‑platform (Windows, Linux, macOS, Web, Android, iOS)
-- Key libs: Riverpod, AutoRoute, Freezed, json_serializable, Firebase (Auth, Firestore, Storage, Remote Config), Firestore ODM
+- Key libs: Riverpod, go_router (+ go_router_builder), Freezed, json_serializable, Firebase (Auth, Firestore, Storage, Remote Config), Firestore ODM, dynamic_color, toastification, logger
 - Structure: see docs/folder_structure.md
 
 ## Quick start
@@ -17,10 +17,11 @@ Install and run:
 
 ```cmd
 flutter --version
+cd moonforge
 flutter pub get
 
-:: Generate code for freezed/json_serializable/auto_route/odm
-dart run build_runner build -d
+:: Generate code for freezed/json_serializable/go_router/odm
+dart run build_runner build --delete-conflicting-outputs
 
 :: Run tests
 flutter test
@@ -32,7 +33,7 @@ flutter run -d windows
 Tip: For iterative development with generators, use a file watcher:
 
 ```cmd
-dart run build_runner watch -d
+dart run build_runner watch --delete-conflicting-outputs
 ```
 
 ## Development workflow
@@ -49,17 +50,17 @@ dart run build_runner watch -d
 
 3) Code style and quality
 - Format: `dart format .`
-- Lint: `dart analyze`
+- Lint: `flutter analyze`
 - Tests: `flutter test`
 - Keep PRs focused and reasonably small; add unit/widget tests for new behavior when practical.
 
 4) Code generation
 - When you edit models/routes/odm annotations, run:
-  - `dart run build_runner build -d` (one‑off) or `watch -d` (continuous)
+  - `dart run build_runner build --delete-conflicting-outputs` (one‑off) or `dart run build_runner watch --delete-conflicting-outputs` (continuous)
 - Don’t commit `.g.dart` files if the project ignores them; otherwise commit generated files to keep CI green.
 
 5) Firebase configuration
-- The repo contains `lib/firebase_options.dart` and platform configs for development.
+- The repo contains `moonforge/lib/firebase_options.dart` and platform configs under moonforge/ for development.
 - If you use your own Firebase project, run `firebase login` and `flutterfire configure` to regenerate options.
 - Avoid committing private keys or project‑specific secrets.
 
@@ -77,9 +78,9 @@ dart run build_runner watch -d
 - Link related issues (e.g., Closes #123)
 
 ### PR checklist
-- [ ] Code formatted and lints pass (`dart format .` and `dart analyze`)
+- [ ] Code formatted and lints pass (`dart format .` and `flutter analyze`)
 - [ ] Tests pass (`flutter test`) and new tests added where it makes sense
-- [ ] Ran codegen if needed (`dart run build_runner build -d`)
+- [ ] Ran codegen if needed (`dart run build_runner build --delete-conflicting-outputs`)
 - [ ] No secrets or private configs committed
 - [ ] Updated docs (README/inline) when changing behavior or adding features
 
