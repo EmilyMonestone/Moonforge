@@ -93,6 +93,7 @@ dependencies:
   uuid: ^4.5.1
   logger: ^2.6.2
   get_storage: ^2.1.1
+  flutter_quill_extensions: ^11.0.0
 
 
 dev_dependencies:

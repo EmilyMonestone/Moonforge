@@ -9,6 +9,7 @@ import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -200,81 +201,62 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text('Campaign Details', style: theme.textTheme.titleLarge),
-                    const SizedBox(height: 24),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Campaign Name',
-                        prefixIcon: Icon(Icons.campaign_outlined),
-                        helperText: 'Give your campaign a memorable name',
-                      ),
-                      validator: (v) {
-                        final value = v?.trim() ?? '';
-                        if (value.isEmpty) return 'Name is required';
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    Text('Description', style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _descriptionTextController,
-                      decoration: const InputDecoration(
-                        labelText: 'Short description',
-                        hintText: 'Enter a brief summary',
-                      ),
-                      maxLines: 3,
-                    ),
-                    const SizedBox(height: 24),
-                    Text('Content', style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Rich text content of the campaign',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    // Quill Toolbar
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: theme.colorScheme.outline),
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(4),
-                        ),
-                      ),
-                      child: QuillSimpleToolbar(
-                        controller: _contentController,
-                        config: const QuillSimpleToolbarConfig(
-                          multiRowsDisplay: false,
-                        ),
-                      ),
-                    ),
-                    // Quill Editor
-                    Container(
-                      height: 300,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: theme.colorScheme.outline),
-                        borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(4),
-                        ),
-                      ),
-                      child: QuillEditor.basic(
-                        controller: _contentController,
-                        config: const QuillEditorConfig(
-                          padding: EdgeInsets.all(16),
-                        ),
-                      ),
-                    ),
-                  ],
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Campaign Name',
+                prefixIcon: Icon(Icons.campaign_outlined),
+                helperText: 'Give your campaign a memorable name',
+              ),
+              validator: (v) {
+                final value = v?.trim() ?? '';
+                if (value.isEmpty) return 'Name is required';
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+            Text('Description', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _descriptionTextController,
+              decoration: const InputDecoration(
+                labelText: 'Short description',
+                hintText: 'Enter a brief summary',
+              ),
+              maxLines: 3,
+            ),
+            const SizedBox(height: 24),
+            Text('Content', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Text(
+              'Rich text content of the campaign',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Quill Toolbar
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4),
                 ),
+              ),
+              child: QuillCustomToolbar(controller: _contentController),
+            ),
+            // Quill Editor
+            Container(
+              height: 400,
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(4),
+                ),
+              ),
+              child: QuillEditor.basic(
+                controller: _contentController,
+                config: const QuillEditorConfig(padding: EdgeInsets.all(16)),
               ),
             ),
           ],
