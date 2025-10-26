@@ -77,12 +77,12 @@ CustomQuillViewer(
 
 ## Entity Types Supported
 
-### @ Mentions (NPC, Group, Monster)
+### @ Mentions (NPCs, Groups, Monsters)
 - `npc`: Non-player characters
 - `group`: Groups of entities
 - `monster`: Monster entities
 
-### # Hashtags (Place, Item, Handout, Journal)
+### # Hashtags (Places, Items, Handouts, Journals)
 - `place`: Locations and places
 - `item`: Items and equipment
 - `handout`: Handouts and documents
