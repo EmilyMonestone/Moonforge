@@ -16,7 +16,7 @@ void main() {
         expect(isValidDateTime(DateTime.fromMicrosecondsSinceEpoch(0)), isFalse);
       });
 
-      test('returns true for valid dates after 1900', () {
+      test('returns true for valid dates from 1900 onwards', () {
         expect(isValidDateTime(DateTime(1900, 1, 1)), isTrue);
         expect(isValidDateTime(DateTime(2000)), isTrue);
         expect(isValidDateTime(DateTime(2024)), isTrue);

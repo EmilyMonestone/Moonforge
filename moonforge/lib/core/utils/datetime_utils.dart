@@ -15,7 +15,7 @@ bool isValidDateTime(DateTime? dateTime) {
   
   // Filter out dates before January 1, 1900 (likely sentinel/invalid values)
   final minValidDate = DateTime(1900);
-  return dateTime.isAfter(minValidDate);
+  return !dateTime.isBefore(minValidDate);
 }
 
 /// Formats a DateTime for display, returning a placeholder for invalid dates
