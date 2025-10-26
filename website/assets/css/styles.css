@@ -11,6 +11,8 @@
     --color-purple-light: #c084fc;
     --color-purple-dark: #7c3aed;
     --color-purple-glow: rgba(168, 85, 247, 0.4);
+    --color-purple-glow-light: rgba(168, 85, 247, 0.15);
+    --color-purple-glow-dark: rgba(124, 58, 237, 0.2);
     
     --color-text-primary: #ffffff;
     --color-text-secondary: #b4b4b8;
@@ -384,6 +386,9 @@ a:hover {
     height: 90%;
     background: radial-gradient(circle at center, var(--color-purple-glow) 0%, transparent 70%);
     pointer-events: none;
+    animation: float 15s ease-in-out infinite;
+    opacity: 0.8;
+    will-change: transform, opacity;
 }
 
 .hero-decoration-2 {
@@ -394,6 +399,97 @@ a:hover {
     height: 60%;
     background: radial-gradient(circle at center, var(--color-purple-glow) 0%, transparent 70%);
     pointer-events: none;
+    animation: float-reverse 12s ease-in-out infinite;
+    opacity: 0.6;
+    will-change: transform, opacity;
+}
+
+/* Additional animated background layers for depth */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at center, var(--color-purple-glow-light) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse-glow 10s ease-in-out infinite;
+    filter: blur(60px);
+    will-change: transform, filter;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    right: 15%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at center, var(--color-purple-glow-dark) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse-glow-reverse 13s ease-in-out infinite;
+    filter: blur(70px);
+    will-change: transform, filter;
+}
+
+/* Keyframe animations for smooth, organic movement */
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(30px, -40px) scale(1.05);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+}
+
+@keyframes float-reverse {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(-40px, 30px) scale(1.08);
+    }
+    66% {
+        transform: translate(25px, -25px) scale(0.92);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes pulse-glow-reverse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.2;
+        transform: scale(0.9);
+    }
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .hero-decoration,
+    .hero-decoration-2,
+    .hero::before,
+    .hero::after {
+        animation: none;
+    }
 }
 
 .hero-logo {
@@ -983,6 +1079,24 @@ a:hover {
     
     .hero-badges {
         flex-wrap: wrap;
+    }
+    
+    /* Optimize animated backgrounds for mobile performance */
+    .hero::before,
+    .hero::after {
+        width: 300px;
+        height: 300px;
+        filter: blur(50px);
+    }
+    
+    .hero-decoration {
+        width: 70%;
+        height: 70%;
+    }
+    
+    .hero-decoration-2 {
+        width: 50%;
+        height: 50%;
     }
     
     h2 {
