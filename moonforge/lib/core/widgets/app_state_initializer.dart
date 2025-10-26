@@ -18,8 +18,6 @@ class AppStateInitializer extends StatefulWidget {
 }
 
 class _AppStateInitializerState extends State<AppStateInitializer> {
-  bool _initialized = false;
-
   @override
   void initState() {
     super.initState();
@@ -55,12 +53,6 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       }
     } catch (e) {
       logger.e('Error initializing app state: $e');
-    } finally {
-      if (mounted) {
-        setState(() {
-          _initialized = true;
-        });
-      }
     }
   }
 

@@ -13,11 +13,17 @@ import 'package:moonforge/core/utils/logger.dart';
 /// final autosave = QuillAutosave(
 ///   controller: _quillController,
 ///   storageKey: 'campaign_${campaignId}_content',
+///   autoRestore: false, // Set to true to auto-restore saved content
 ///   onSave: (content) async {
 ///     // Optional: Save to remote storage
 ///     await saveToCampaign(content);
 ///   },
 /// );
+/// 
+/// // Manually restore autosaved content if needed
+/// if (autosave.hasAutosavedContent()) {
+///   // Show dialog or restore automatically
+/// }
 /// 
 /// // Start autosaving
 /// autosave.start();
@@ -31,9 +37,11 @@ class QuillAutosave {
   final Duration delay;
   final Future<void> Function(String content)? onSave;
   final VoidCallback? onError;
+  final bool autoRestore;
   
   final PersistenceService _persistence = PersistenceService();
   Timer? _debounceTimer;
+  StreamSubscription<DocChange>? _changeSubscription;
   String? _lastSavedContent;
   bool _isDisposed = false;
 
@@ -43,13 +51,16 @@ class QuillAutosave {
     this.delay = const Duration(seconds: 2),
     this.onSave,
     this.onError,
+    this.autoRestore = false,
   }) {
-    _loadFromStorage();
+    if (autoRestore) {
+      _loadFromStorage();
+    }
   }
 
   /// Start listening to document changes and autosave
   void start() {
-    controller.document.changes.listen(_onDocumentChange);
+    _changeSubscription = controller.document.changes.listen(_onDocumentChange);
     logger.i('QuillAutosave started for key: $storageKey');
   }
 
@@ -143,6 +154,7 @@ class QuillAutosave {
   void dispose() {
     _isDisposed = true;
     _debounceTimer?.cancel();
+    _changeSubscription?.cancel();
     logger.i('QuillAutosave disposed for key: $storageKey');
   }
 }

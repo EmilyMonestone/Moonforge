@@ -8,7 +8,7 @@ class PersistenceService {
   PersistenceService._internal();
 
   static const String _boxName = 'moonforge_storage';
-  late final GetStorage _box;
+  GetStorage? _box;
 
   /// Initialize the persistence service
   /// Must be called before using any persistence features
@@ -24,13 +24,8 @@ class PersistenceService {
 
   /// Get the storage box instance
   GetStorage get box {
-    try {
-      _box = GetStorage(_boxName);
-      return _box;
-    } catch (e) {
-      logger.e('Failed to get storage box: $e');
-      rethrow;
-    }
+    _box ??= GetStorage(_boxName);
+    return _box!;
   }
 
   /// Save a value to storage
