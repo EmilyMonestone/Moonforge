@@ -192,4 +192,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error => 'Error';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get noDescriptionProvided => 'No description';
+
+  @override
+  String get content => 'Content';
+
+  @override
+  String get noContentProvided => 'No content provided';
 }

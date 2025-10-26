@@ -463,6 +463,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get error;
+
+  /// Label for description input field
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// Shown when no description is provided
+  ///
+  /// In en, this message translates to:
+  /// **'No description'**
+  String get noDescriptionProvided;
+
+  /// Label for content input field
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
+  /// Shown when no content is provided
+  ///
+  /// In en, this message translates to:
+  /// **'No content provided'**
+  String get noContentProvided;
 }
 
 class _AppLocalizationsDelegate

@@ -18,9 +18,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update project dependencies and exclude unnecessary folders from build">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update project dependencies and reorganize workspace configuration for improved clarity">
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/title_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/wrap_layout.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/surface_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/surface_container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +57,7 @@
         <option value="dart - stateful widget" />
         <option value="dart - stateless page" />
         <option value="dart - stateful page " />
+        <option value="dart - stateless widget" />
         <option value="Dart File" />
       </list>
     </option>
@@ -427,7 +436,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761468857302</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization">
+      <option name="closed" value="true" />
+      <created>1761469843680</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1761469843680</updated>
+    </task>
+    <task id="LOCAL-00037" summary="feat: update project dependencies and reorganize workspace configuration for improved clarity">
+      <option name="closed" value="true" />
+      <created>1761469850525</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1761469850525</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -454,8 +479,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add internationalization support with localized strings for app titles and navigation" />
-    <MESSAGE value="feat: add localization support with German and English translations, and implement theme and language settings in the UI" />
     <MESSAGE value="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines" />
     <MESSAGE value="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file" />
     <MESSAGE value="chore: moved app to subfolder moonforge/" />
@@ -479,7 +502,9 @@
     <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
     <MESSAGE value="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper" />
     <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update project dependencies and exclude unnecessary folders from build" />
+    <MESSAGE value="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization" />
+    <MESSAGE value="feat: update project dependencies and reorganize workspace configuration for improved clarity" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update project dependencies and reorganize workspace configuration for improved clarity" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -670,6 +695,12 @@
           <option name="totalLines" value="19801386" />
           <option name="info" value="feat: update project dependencies and exclude unne" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761469856428" />
+          <option name="linesCode" value="29610" />
+          <option name="totalLines" value="19802111" />
+          <option name="info" value="feat: update project dependencies and reorganize w" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -699,9 +730,9 @@
           <option name="info" value="Oct 16, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761468863738" />
-          <option name="linesCode" value="29204" />
-          <option name="totalLines" value="19801386" />
+          <option name="timestamp" value="1761469856428" />
+          <option name="linesCode" value="29610" />
+          <option name="totalLines" value="19802111" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>

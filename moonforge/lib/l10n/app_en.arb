@@ -248,5 +248,21 @@
   "error": "Error",
   "@error": {
     "description": "Generic error label"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Label for description input field"
+  },
+  "noDescriptionProvided": "No description",
+  "@noDescriptionProvided": {
+    "description": "Shown when no description is provided"
+  },
+  "content": "Content",
+  "@content": {
+    "description": "Label for content input field"
+  },
+  "noContentProvided": "No content provided",
+  "@noContentProvided": {
+    "description": "Shown when no content is provided"
   }
 }
