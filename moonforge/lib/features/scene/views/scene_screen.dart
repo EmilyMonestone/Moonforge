@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/features/scene/views/scene_screen_impl.dart';
 
 class SceneScreen extends StatelessWidget {
   const SceneScreen({
@@ -14,6 +15,10 @@ class SceneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SceneScreenImpl(
+      chapterId: chapterId,
+      adventureId: adventureId,
+      sceneId: sceneId,
+    );
   }
 }
