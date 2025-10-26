@@ -18,9 +18,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add initial project files including configuration and asset manifests">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance hero section with new decorations and adjust logo size">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/assets/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,14 +149,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00010" summary="feat: update routing to use typed routes and add new dependencies for improved navigation">
-      <option name="closed" value="true" />
-      <created>1760614734134</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1760614734134</updated>
     </task>
     <task id="LOCAL-00011" summary="feat: add support for multiple app icons and logos with updated asset management">
       <option name="closed" value="true" />
@@ -543,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761507046168</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="feat: enhance hero section with new decorations and adjust logo size">
+      <option name="closed" value="true" />
+      <created>1761510862497</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1761510862497</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -570,7 +569,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: implement recent sections for campaigns, sessions, and parties in HomeScreen" />
     <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
     <MESSAGE value="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper" />
     <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
@@ -595,7 +593,8 @@
     <MESSAGE value="feat: update Vercel configuration for static site deployment paths" />
     <MESSAGE value="feat: update .gitignore to exclude build directory while including web subdirectory" />
     <MESSAGE value="feat: add initial project files including configuration and asset manifests" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add initial project files including configuration and asset manifests" />
+    <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance hero section with new decorations and adjust logo size" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -882,6 +881,12 @@
           <option name="totalLines" value="16572862" />
           <option name="info" value="feat: add initial project files including configur" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761510875969" />
+          <option name="linesCode" value="341021" />
+          <option name="totalLines" value="16573088" />
+          <option name="info" value="feat: enhance hero section with new decorations an" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -917,9 +922,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761507058718" />
-          <option name="linesCode" value="340904" />
-          <option name="totalLines" value="16572862" />
+          <option name="timestamp" value="1761510875969" />
+          <option name="linesCode" value="341021" />
+          <option name="totalLines" value="16573088" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>
