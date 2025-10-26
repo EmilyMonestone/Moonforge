@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#151520;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a0f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c084fc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Glow effect -->
+  <ellipse cx="900" cy="200" rx="400" ry="300" fill="url(#glow)"/>
+  
+  <!-- Logo Icon -->
+  <g transform="translate(250, 180)">
+    <path d="M50 0L0 25L50 50L100 25L50 0Z" fill="url(#logoGrad)" stroke="none"/>
+    <path d="M0 65L50 90L100 65" fill="none" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M0 40L50 65L100 40" fill="none" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="400" y="270" font-family="sans-serif" font-size="72" font-weight="bold" fill="#ffffff">Moonforge</text>
+  <text x="400" y="330" font-family="sans-serif" font-size="32" fill="#b4b4b8">Multi-Platform D&amp;D Campaign Manager</text>
+  
+  <!-- Features badges -->
+  <g transform="translate(400, 380)">
+    <rect x="0" y="0" width="120" height="40" rx="8" fill="#1e1e2e" stroke="#a855f7" stroke-width="2"/>
+    <text x="60" y="26" font-family="sans-serif" font-size="18" fill="#c084fc" text-anchor="middle">Desktop</text>
+    
+    <rect x="135" y="0" width="120" height="40" rx="8" fill="#1e1e2e" stroke="#a855f7" stroke-width="2"/>
+    <text x="195" y="26" font-family="sans-serif" font-size="18" fill="#c084fc" text-anchor="middle">Mobile</text>
+    
+    <rect x="270" y="0" width="120" height="40" rx="8" fill="#1e1e2e" stroke="#a855f7" stroke-width="2"/>
+    <text x="330" y="26" font-family="sans-serif" font-size="18" fill="#c084fc" text-anchor="middle">Web</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="600" y="580" font-family="sans-serif" font-size="20" fill="#868691" text-anchor="middle">Open Source • MIT License • Built with Flutter</text>
+</svg>
