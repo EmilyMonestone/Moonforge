@@ -10,6 +10,7 @@ import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -113,10 +114,11 @@ class _AdventureScreenState extends State<AdventureScreen> {
                         Text(adventure.summary!),
                       ],
                     ),
-                  QuillEditor(
+                  CustomQuillViewer(
                     controller: _controller,
-                    scrollController: ScrollController(),
-                    focusNode: FocusNode(),
+                    onMentionTap: (entityId, mentionType) async {
+                      EntityRoute(entityId: entityId).push(context);
+                    },
                   ),
                 ],
               ),
