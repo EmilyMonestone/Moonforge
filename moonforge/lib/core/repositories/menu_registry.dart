@@ -37,26 +37,38 @@ class MenuRegistry {
 
   /// Resolve menu items for a given [uri].
   ///
-  /// Strategy: match by top-level path prefix and detect sub-routes for context-specific menus.
-  /// For example, chapter routes get chapter-specific actions.
+  /// Strategy: match by top-level path prefix; if no match, fall back to root.
+  /// For nested routes like adventure, check for specific patterns.
   static List<MenuBarAction>? resolve(BuildContext context, Uri uri) {
     final segments = uri.pathSegments;
     if (segments.isEmpty) {
       return _registry['/']?.call(context);
     }
-
-    // Check for chapter context: /campaign/chapter/:chapterId
-    if (segments.length >= 3 &&
+    
+        // Check for chapter context: /campaign/chapter/:chapterId
+    if (segments.length == 3 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter') {
       final chapterId = segments[2];
       return _chapterMenu(context, chapterId);
     }
+    
+    // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
+    if (segments.length == 5 &&
+        segments[0] == 'campaign' &&
+        segments[1] == 'chapter' &&
+        segments[3] == 'adventure') {
+      return _adventureMenu(context);
+    }
+   
+
 
     final top = '/${segments.first}';
     final builder = _registry[top] ?? _registry['/'];
     return builder?.call(context);
   }
+  
+  // ------ Menus ------
 
   /// Menu for the Home route ('/').
   static List<MenuBarAction> _homeMenu(BuildContext context) {
@@ -69,8 +81,6 @@ class MenuRegistry {
     ];
   }
 
-  // ------ MenuBarActions ------
-
   /// Menu for the Campaign route ('/campaign').
   static List<MenuBarAction> _campaignMenu(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -82,8 +92,8 @@ class MenuRegistry {
       newEntity(l10n),
     ];
   }
-
-  /// Menu for the Chapter route ('/campaign/chapter/:chapterId').
+  
+    /// Menu for the Chapter route ('/campaign/chapter/:chapterId').
   static List<MenuBarAction> _chapterMenu(
       BuildContext context, String chapterId) {
     final l10n = AppLocalizations.of(context)!;
@@ -94,6 +104,17 @@ class MenuRegistry {
       newEntity(l10n),
     ];
   }
+
+  /// Menu for the Adventure route ('/campaign/chapter/:chapterId/adventure/:adventureId').
+  static List<MenuBarAction> _adventureMenu(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return <MenuBarAction>[
+      continueWhereLeft(l10n),
+      newScene(l10n),
+    ];
+  }
+
+  // ------ MenuBarActions ------
 
   static MenuBarAction continueWhereLeft(AppLocalizations l10n) {
     return MenuBarAction(
