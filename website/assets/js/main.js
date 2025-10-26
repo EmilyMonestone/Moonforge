@@ -61,13 +61,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar Background on Scroll
+// Navbar Background on Scroll and Show/Hide
 const navbar = document.querySelector('.navbar');
 let lastScrollY = window.scrollY;
+const scrollThreshold = 100; // Show navbar after scrolling 100px
+
+// Show navbar immediately if page is already scrolled
+if (window.scrollY > scrollThreshold) {
+    navbar.classList.add('visible');
+}
 
 window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
     
+    // Show/hide navbar based on scroll position
+    if (currentScrollY > scrollThreshold) {
+        navbar.classList.add('visible');
+    } else {
+        navbar.classList.remove('visible');
+    }
+    
+    // Update background opacity based on scroll
     if (currentScrollY > 50) {
         navbar.style.background = 'rgba(10, 10, 15, 0.95)';
         navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.5)';
@@ -356,4 +370,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load roadmap from markdown file
     loadRoadmap();
+    
+    // Fetch GitHub stars
+    fetchGitHubStars();
 });
+
+// Fetch GitHub stars count
+async function fetchGitHubStars() {
+    const starsCountElement = document.getElementById('stars-count');
+    if (!starsCountElement) return;
+    
+    try {
+        const response = await fetch('https://api.github.com/repos/EmilyMoonstone/Moonforge');
+        if (response.ok) {
+            const data = await response.json();
+            const stars = data.stargazers_count;
+            starsCountElement.textContent = stars > 0 ? stars : 'Star';
+        }
+    } catch (error) {
+        console.warn('Could not fetch GitHub stars:', error);
+        // Keep default "Star" text
+    }
+}
