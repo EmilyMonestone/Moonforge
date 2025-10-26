@@ -12,20 +12,20 @@ class CommandPalette extends StatefulWidget {
   const CommandPalette({super.key, required this.child});
 
   @override
-  State<CommandPalette> createState() => _CommandPaletteState();
+  State<CommandPalette> createState() => CommandPaletteState();
 }
 
 /// Global key to access the AppCommandPalette state.
-final GlobalKey<_CommandPaletteState> appCommandPaletteKey =
-    GlobalKey<_CommandPaletteState>();
+final GlobalKey<CommandPaletteState> appCommandPaletteKey =
+    GlobalKey<CommandPaletteState>();
 
 /// Programmatically execute a command palette action by ID.
 void openCommandPalette(String actionId) {
   appCommandPaletteKey.currentState?.openWithAction(actionId);
 }
 
-class _CommandPaletteState extends State<CommandPalette> {
-  static _CommandPaletteState? _instance;
+class CommandPaletteState extends State<CommandPalette> {
+  static CommandPaletteState? _instance;
 
   late List<cp.CommandPaletteAction> _actions;
 

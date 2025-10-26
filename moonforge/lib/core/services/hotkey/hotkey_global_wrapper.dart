@@ -25,7 +25,6 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
   @override
   void initState() {
     super.initState();
-    logger.d('[Hotkeys] HotkeyGlobalWrapper.initState');
 
     // Add listener to track focus changes
     _focusNode.addListener(_onFocusChange);
@@ -36,9 +35,6 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
 
     // Request focus when the widget is first built
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      logger.d(
-        '[Hotkeys] HotkeyGlobalWrapper post-frame callback - requesting focus',
-      );
       _focusNode.requestFocus();
     });
   }
@@ -57,33 +53,20 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
         await _shortcutService.saveShortcuts(_shortcuts);
       }
 
-      debugPrint('[DEBUG_LOG] Loaded ${_shortcuts.length} shortcuts');
-
       // We'll register the hotkeys in the build method when we have a BuildContext
     } catch (e) {
-      debugPrint('[DEBUG_LOG] Error initializing hotkeys: $e');
+      logger.e('[Hotkeys] Error initializing hotkeys: $e');
     }
   }
 
-  void _onFocusChange() {
-    logger.d(
-      '[Hotkeys] HotkeyGlobalWrapper focus changed - hasFocus: ${_focusNode.hasFocus}',
-    );
-  }
+  void _onFocusChange() {}
 
   @override
   void dispose() {
-    logger.d('[Hotkeys] HotkeyGlobalWrapper.dispose');
-
     // Unregister all hotkeys
-    _hotkeyService
-        .unregisterAll()
-        .then((_) {
-          logger.d('[Hotkeys] All hotkeys unregistered');
-        })
-        .catchError((error) {
-          logger.e('[Hotkeys] Error unregistering hotkeys: $error');
-        });
+    _hotkeyService.unregisterAll().catchError((error) {
+      logger.e('[Hotkeys] Error unregistering hotkeys: $error');
+    });
 
     _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
@@ -92,8 +75,6 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[Hotkeys] HotkeyGlobalWrapper.build');
-
     // Register hotkeys with the HotkeyManagerService
     _registerHotkeys(context);
 
@@ -106,19 +87,10 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
     _hotkeyService
         .unregisterAll()
         .then((_) {
-          logger.d(
-            '[Hotkeys] Unregistered existing hotkeys before registering new ones',
-          );
-
           // Register each shortcut
           for (final shortcut in _shortcuts) {
             _hotkeyService
                 .registerShortcut(shortcut, context: context)
-                .then((_) {
-                  logger.i(
-                    '[Hotkeys] Registered hotkey: ${shortcut.id} (${shortcut.keys.join('+')})',
-                  );
-                })
                 .catchError((error) {
                   logger.e(
                     '[Hotkeys] Error registering hotkey ${shortcut.id}: $error',

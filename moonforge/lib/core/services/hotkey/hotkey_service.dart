@@ -38,7 +38,6 @@ class HotkeyManagerService {
   Future<void> initialize() async {
     // Must add this line to initialize the hotkey manager
     await hotKeyManager.unregisterAll();
-    logger.i('[Hotkeys] HotkeyManagerService initialized');
   }
 
   /// Register a Shortcut configuration as an OS-level hotkey.
@@ -72,7 +71,6 @@ class HotkeyManagerService {
 
       // Store the registered hotkey
       _registeredHotkeys[shortcut.id] = hotKey;
-      logger.i('[Hotkeys] Registered hotkey: ${shortcut.id}');
     } catch (e) {
       logger.e('[Hotkeys] Error registering hotkey: $e');
     }
@@ -97,7 +95,6 @@ class HotkeyManagerService {
     try {
       await hotKeyManager.unregisterAll();
       _registeredHotkeys.clear();
-      logger.i('[Hotkeys] Unregistered all hotkeys');
     } catch (e) {
       logger.e('[Hotkeys] Error unregistering all hotkeys: $e');
     }
