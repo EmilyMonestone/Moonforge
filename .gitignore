@@ -43,6 +43,7 @@ analysis_benchmark.json
 /moonforge/.pub/
 /moonforge/build/*
 !/moonforge/build/web/
+!/moonforge/build/web/assets/.env
 flutter_*.png
 linked_*.ds
 unlinked.ds
