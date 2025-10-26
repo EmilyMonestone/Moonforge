@@ -1,6 +1,6 @@
 # D&D 5e Monster Sync Feature
 
-Last updated: 2025-10-26
+Last updated: 2024-10-26
 
 This document describes the D&D 5e 2024 monster synchronization feature in Moonforge.
 
