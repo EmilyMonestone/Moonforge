@@ -18,23 +18,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/constants/path_names.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/constants/path_names.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/utils/datetime_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/utils/datetime_utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_editor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_editor.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/entity_mention_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/entity_mention_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/wrap_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/wrap_layout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/quill_mention/quill_mention_constants_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/core/widgets/quill_mention/quill_mention_constants_test.dart" afterDir="false" />
-    </list>
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -529,7 +513,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761491311155</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files.">
+      <option name="closed" value="true" />
+      <created>1761495440232</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1761495440232</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -556,7 +548,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: enhance Firestore security rules for user and campaign access control" />
     <MESSAGE value="feat: add generic CardList widget for rendering lists with title and subtitle" />
     <MESSAGE value="feat: refactor authentication handling with AuthProvider and improve user sign-in flow" />
     <MESSAGE value="feat: refactor AdaptiveScaffold to use state management and improve navigation handling" />
@@ -581,7 +572,8 @@
     <MESSAGE value="feat: refactor home screen layout with SurfaceContainer and WrapLayout for improved UI structure" />
     <MESSAGE value="feat: update breadcrumb divider from icon to text for improved clarity" />
     <MESSAGE value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
+    <MESSAGE value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
