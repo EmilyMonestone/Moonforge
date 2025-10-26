@@ -6,8 +6,10 @@ import 'package:moonforge/features/adventure/utils/create_adventure.dart'
     as adventure_utils;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/utils/create_campaign.dart';
+import 'package:moonforge/features/chapter/utils/create_adventure_in_chapter.dart';
 import 'package:moonforge/features/chapter/utils/create_chapter.dart'
     as chapter_utils;
+import 'package:moonforge/features/chapter/utils/create_scene_in_chapter.dart';
 import 'package:moonforge/features/entities/utils/create_entity.dart'
     as entity_utils;
 import 'package:moonforge/features/scene/utils/create_scene.dart'
@@ -43,18 +45,30 @@ class MenuRegistry {
       return _registry['/']?.call(context);
     }
     
+        // Check for chapter context: /campaign/chapter/:chapterId
+    if (segments.length == 3 &&
+        segments[0] == 'campaign' &&
+        segments[1] == 'chapter') {
+      final chapterId = segments[2];
+      return _chapterMenu(context, chapterId);
+    }
+    
     // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
-    if (segments.length >= 4 &&
+    if (segments.length == 5 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter' &&
         segments[3] == 'adventure') {
       return _adventureMenu(context);
     }
-    
+   
+
+
     final top = '/${segments.first}';
     final builder = _registry[top] ?? _registry['/'];
     return builder?.call(context);
   }
+  
+  // ------ Menus ------
 
   /// Menu for the Home route ('/').
   static List<MenuBarAction> _homeMenu(BuildContext context) {
@@ -67,8 +81,6 @@ class MenuRegistry {
     ];
   }
 
-  // ------ MenuBarActions ------
-
   /// Menu for the Campaign route ('/campaign').
   static List<MenuBarAction> _campaignMenu(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -80,6 +92,18 @@ class MenuRegistry {
       newEntity(l10n),
     ];
   }
+  
+    /// Menu for the Chapter route ('/campaign/chapter/:chapterId').
+  static List<MenuBarAction> _chapterMenu(
+      BuildContext context, String chapterId) {
+    final l10n = AppLocalizations.of(context)!;
+    return <MenuBarAction>[
+      continueWhereLeft(l10n),
+      newAdventureInChapter(l10n, chapterId),
+      newSceneInChapter(l10n, chapterId),
+      newEntity(l10n),
+    ];
+  }
 
   /// Menu for the Adventure route ('/campaign/chapter/:chapterId/adventure/:adventureId').
   static List<MenuBarAction> _adventureMenu(BuildContext context) {
@@ -87,9 +111,10 @@ class MenuRegistry {
     return <MenuBarAction>[
       continueWhereLeft(l10n),
       newScene(l10n),
-      newEntity(l10n),
     ];
   }
+
+  // ------ MenuBarActions ------
 
   static MenuBarAction continueWhereLeft(AppLocalizations l10n) {
     return MenuBarAction(
@@ -196,6 +221,44 @@ class MenuRegistry {
           return;
         }
         scene_utils.createScene(ctx, campaign);
+      },
+    );
+  }
+
+  static MenuBarAction newAdventureInChapter(
+      AppLocalizations l10n, String chapterId) {
+    return MenuBarAction(
+      label: l10n.createAdventure,
+      icon: Icons.auto_stories_outlined,
+      onPressed: (ctx) {
+        final campaign = Provider.of<CampaignProvider>(
+          ctx,
+          listen: false,
+        ).currentCampaign;
+        if (campaign == null) {
+          notification.info(ctx, title: Text(l10n.noCampaignSelected));
+          return;
+        }
+        createAdventureInChapter(ctx, campaign, chapterId);
+      },
+    );
+  }
+
+  static MenuBarAction newSceneInChapter(
+      AppLocalizations l10n, String chapterId) {
+    return MenuBarAction(
+      label: l10n.createScene,
+      icon: Icons.movie_outlined,
+      onPressed: (ctx) {
+        final campaign = Provider.of<CampaignProvider>(
+          ctx,
+          listen: false,
+        ).currentCampaign;
+        if (campaign == null) {
+          notification.info(ctx, title: Text(l10n.noCampaignSelected));
+          return;
+        }
+        createSceneInChapter(ctx, campaign, chapterId);
       },
     );
   }

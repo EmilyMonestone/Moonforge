@@ -193,6 +193,10 @@
   "@chapters": {
     "description": "Section title for chapters list"
   },
+  "adventures": "Adventures",
+  "@adventures": {
+    "description": "Section title for adventures list"
+  },
   "recentChapters": "Recent Chapters",
   "@recentChapters": {
     "description": "Section title for recent chapters list"
