@@ -349,6 +349,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Monster'**
   String get menuNewMonster;
+
+  /// Section title for chapters list
+  ///
+  /// In en, this message translates to:
+  /// **'Chapters'**
+  String get chapters;
+
+  /// Section title for recent chapters list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Chapters'**
+  String get recentChapters;
+
+  /// Section title for recent adventures list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Adventures'**
+  String get recentAdventures;
+
+  /// Section title for recent scenes list
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Scenes'**
+  String get recentScenes;
+
+  /// Button label to create a chapter
+  ///
+  /// In en, this message translates to:
+  /// **'Create Chapter'**
+  String get createChapter;
+
+  /// Button label to create an adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Create Adventure'**
+  String get createAdventure;
+
+  /// Button label to create a scene
+  ///
+  /// In en, this message translates to:
+  /// **'Create Scene'**
+  String get createScene;
+
+  /// Button label to create an entity
+  ///
+  /// In en, this message translates to:
+  /// **'Create Entity'**
+  String get createEntity;
+
+  /// Label for name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Label for kind selection
+  ///
+  /// In en, this message translates to:
+  /// **'Kind'**
+  String get kind;
+
+  /// Label for selecting a chapter
+  ///
+  /// In en, this message translates to:
+  /// **'Select Chapter'**
+  String get selectChapter;
+
+  /// Label for selecting an adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Select Adventure'**
+  String get selectAdventure;
+
+  /// Generic cancel action
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Generic create action
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// Shown when no current campaign is set
+  ///
+  /// In en, this message translates to:
+  /// **'No campaign selected'**
+  String get noCampaignSelected;
+
+  /// Header title for campaign screen
+  ///
+  /// In en, this message translates to:
+  /// **'Campaign Overview'**
+  String get campaignOverview;
+
+  /// Info shown when a campaign has no chapters
+  ///
+  /// In en, this message translates to:
+  /// **'No chapters yet'**
+  String get noChaptersYet;
+
+  /// Info shown when a chapter has no adventures
+  ///
+  /// In en, this message translates to:
+  /// **'No adventures yet'**
+  String get noAdventuresYet;
+
+  /// Generic error label
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
 }
 
 class _AppLocalizationsDelegate

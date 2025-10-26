@@ -172,5 +172,81 @@
   "menuNewMonster": "New Monster",
   "@menuMonster": {
     "description": "Short label for create custom monster action in menu"
+  },
+  "chapters": "Chapters",
+  "@chapters": {
+    "description": "Section title for chapters list"
+  },
+  "recentChapters": "Recent Chapters",
+  "@recentChapters": {
+    "description": "Section title for recent chapters list"
+  },
+  "recentAdventures": "Recent Adventures",
+  "@recentAdventures": {
+    "description": "Section title for recent adventures list"
+  },
+  "recentScenes": "Recent Scenes",
+  "@recentScenes": {
+    "description": "Section title for recent scenes list"
+  },
+  "createChapter": "Create Chapter",
+  "@createChapter": {
+    "description": "Button label to create a chapter"
+  },
+  "createAdventure": "Create Adventure",
+  "@createAdventure": {
+    "description": "Button label to create an adventure"
+  },
+  "createScene": "Create Scene",
+  "@createScene": {
+    "description": "Button label to create a scene"
+  },
+  "createEntity": "Create Entity",
+  "@createEntity": {
+    "description": "Button label to create an entity"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Label for name input field"
+  },
+  "kind": "Kind",
+  "@kind": {
+    "description": "Label for kind selection"
+  },
+  "selectChapter": "Select Chapter",
+  "@selectChapter": {
+    "description": "Label for selecting a chapter"
+  },
+  "selectAdventure": "Select Adventure",
+  "@selectAdventure": {
+    "description": "Label for selecting an adventure"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel action"
+  },
+  "create": "Create",
+  "@create": {
+    "description": "Generic create action"
+  },
+  "noCampaignSelected": "No campaign selected",
+  "@noCampaignSelected": {
+    "description": "Shown when no current campaign is set"
+  },
+  "campaignOverview": "Campaign Overview",
+  "@campaignOverview": {
+    "description": "Header title for campaign screen"
+  },
+  "noChaptersYet": "No chapters yet",
+  "@noChaptersYet": {
+    "description": "Info shown when a campaign has no chapters"
+  },
+  "noAdventuresYet": "No adventures yet",
+  "@noAdventuresYet": {
+    "description": "Info shown when a chapter has no adventures"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Generic error label"
   }
 }

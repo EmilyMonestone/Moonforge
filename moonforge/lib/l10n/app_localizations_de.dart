@@ -135,4 +135,61 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get menuNewMonster => 'Neues Monster';
+
+  @override
+  String get chapters => 'Kapitel';
+
+  @override
+  String get recentChapters => 'Letzte Kapitel';
+
+  @override
+  String get recentAdventures => 'Letzte Abenteuer';
+
+  @override
+  String get recentScenes => 'Letzte Szenen';
+
+  @override
+  String get createChapter => 'Kapitel erstellen';
+
+  @override
+  String get createAdventure => 'Abenteuer erstellen';
+
+  @override
+  String get createScene => 'Szene erstellen';
+
+  @override
+  String get createEntity => 'Entität erstellen';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get kind => 'Art';
+
+  @override
+  String get selectChapter => 'Kapitel wählen';
+
+  @override
+  String get selectAdventure => 'Abenteuer wählen';
+
+  @override
+  String get cancel => 'Abbrechen';
+
+  @override
+  String get create => 'Erstellen';
+
+  @override
+  String get noCampaignSelected => 'Keine Kampagne ausgewählt';
+
+  @override
+  String get campaignOverview => 'Kampagnenübersicht';
+
+  @override
+  String get noChaptersYet => 'Noch keine Kapitel';
+
+  @override
+  String get noAdventuresYet => 'Noch keine Abenteuer';
+
+  @override
+  String get error => 'Fehler';
 }

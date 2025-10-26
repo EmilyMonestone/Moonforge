@@ -135,4 +135,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get menuNewMonster => 'New Monster';
+
+  @override
+  String get chapters => 'Chapters';
+
+  @override
+  String get recentChapters => 'Recent Chapters';
+
+  @override
+  String get recentAdventures => 'Recent Adventures';
+
+  @override
+  String get recentScenes => 'Recent Scenes';
+
+  @override
+  String get createChapter => 'Create Chapter';
+
+  @override
+  String get createAdventure => 'Create Adventure';
+
+  @override
+  String get createScene => 'Create Scene';
+
+  @override
+  String get createEntity => 'Create Entity';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get kind => 'Kind';
+
+  @override
+  String get selectChapter => 'Select Chapter';
+
+  @override
+  String get selectAdventure => 'Select Adventure';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get noCampaignSelected => 'No campaign selected';
+
+  @override
+  String get campaignOverview => 'Campaign Overview';
+
+  @override
+  String get noChaptersYet => 'No chapters yet';
+
+  @override
+  String get noAdventuresYet => 'No adventures yet';
+
+  @override
+  String get error => 'Error';
 }

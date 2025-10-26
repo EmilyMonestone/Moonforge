@@ -172,5 +172,85 @@
   "menuNewMonster": "Neues Monster",
   "@menuMonster": {
     "description": "Kurzes Label für Benutzerdefiniertes Monster im Menü"
+  },
+  "chapters": "Kapitel",
+  "@chapters": {
+    "description": "Abschnittstitel für Kapitelliste"
+  },
+  "recentChapters": "Letzte Kapitel",
+  "@recentChapters": {
+    "description": "Abschnittstitel für letzte Kapitel"
+  },
+  "recentAdventures": "Letzte Abenteuer",
+  "@recentAdventures": {
+    "description": "Abschnittstitel für letzte Abenteuer"
+  },
+  "recentScenes": "Letzte Szenen",
+  "@recentScenes": {
+    "description": "Abschnittstitel für letzte Szenen"
+  },
+  "createChapter": "Kapitel erstellen",
+  "@createChapter": {
+    "description": "Schaltfläche: Kapitel erstellen"
+  },
+  "createAdventure": "Abenteuer erstellen",
+  "@createAdventure": {
+    "description": "Schaltfläche: Abenteuer erstellen"
+  },
+  "createScene": "Szene erstellen",
+  "@createScene": {
+    "description": "Schaltfläche: Szene erstellen"
+  },
+  "createEntity": "Entität erstellen",
+  "@createEntity": {
+    "description": "Schaltfläche: Entität erstellen"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Label für Namensfeld"
+  },
+  "title": "Titel",
+  "@title": {
+    "description": "Label für Titelfeld"
+  },
+  "kind": "Art",
+  "@kind": {
+    "description": "Label für Art-Auswahl"
+  },
+  "selectChapter": "Kapitel wählen",
+  "@selectChapter": {
+    "description": "Label für Kapitel-Auswahl"
+  },
+  "selectAdventure": "Abenteuer wählen",
+  "@selectAdventure": {
+    "description": "Label für Abenteuer-Auswahl"
+  },
+  "cancel": "Abbrechen",
+  "@cancel": {
+    "description": "Allgemeine Abbrechen-Aktion"
+  },
+  "create": "Erstellen",
+  "@create": {
+    "description": "Allgemeine Erstellen-Aktion"
+  },
+  "noCampaignSelected": "Keine Kampagne ausgewählt",
+  "@noCampaignSelected": {
+    "description": "Anzeige wenn keine Kampagne gesetzt ist"
+  },
+  "campaignOverview": "Kampagnenübersicht",
+  "@campaignOverview": {
+    "description": "Header-Titel für Kampagnenseite"
+  },
+  "noChaptersYet": "Noch keine Kapitel",
+  "@noChaptersYet": {
+    "description": "Hinweis, wenn es in einer Kampagne noch keine Kapitel gibt"
+  },
+  "noAdventuresYet": "Noch keine Abenteuer",
+  "@noAdventuresYet": {
+    "description": "Hinweis, wenn es in einem Kapitel noch keine Abenteuer gibt"
+  },
+  "error": "Fehler",
+  "@error": {
+    "description": "Allgemeines Fehler-Label"
   }
 }
