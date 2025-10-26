@@ -41,7 +41,7 @@ dependencies:
   intl: ^0.20.2
 
   # UI & design (Material 3 Expressive, theming, widgets)
-  m3e_collection: ^0.3.3
+  m3e_collection: ^0.3.4
   # Packages in this collection
   #    m3e_design — Material 3 Expressive design language for Flutter (tokens, ThemeExtension, motion).
   #    app_bar_m3e — Expressive App Bar (Material 3 Expressive) with small/medium/large variants and Sliver integration.

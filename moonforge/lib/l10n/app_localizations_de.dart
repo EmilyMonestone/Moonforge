@@ -30,6 +30,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit => 'Bearbeiten';
 
   @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteConfirmation => 'Delete Confirmation';
+
+  @override
+  String get deleteConfirmationMessage =>
+      'Are you sure you want to delete this?';
+
+  @override
+  String get save => 'Save';
+
+  @override
   String get chapter => 'Kapitel';
 
   @override

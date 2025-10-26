@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
+import 'package:m3e_collection/m3e_collection.dart'
+    show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/adventure.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
@@ -44,9 +45,23 @@ class _CampaignScreenState extends State<CampaignScreen> {
     return Column(
       children: [
         SurfaceContainer(
-          title: Text(
-            campaign.name,
-            style: Theme.of(context).textTheme.displaySmall,
+          title: Row(
+            children: [
+              Text(
+                campaign.name,
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+              Spacer(),
+              ButtonM3E(
+                style: ButtonM3EStyle.tonal,
+                shape: ButtonM3EShape.square,
+                icon: Icon(Icons.edit_outlined),
+                label: Text(l10n.edit),
+                onPressed: () {
+                  CampaignEditRoute().go(context);
+                },
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

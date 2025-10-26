@@ -27,6 +27,22 @@
   "@edit": {
     "description": "Generic edit label"
   },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Generic delete label"
+  },
+  "deleteConfirmation": "Delete Confirmation",
+  "@deleteConfirmation": {
+    "description": "Confirmation dialog title for delete action"
+  },
+  "deleteConfirmationMessage": "Are you sure you want to delete this?",
+  "@deleteConfirmationMessage": {
+    "description": "Confirmation dialog message for delete action"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Generic save label"
+  },
   "chapter": "Chapter",
   "@chapter": {
     "description": "Label for Chapter feature"

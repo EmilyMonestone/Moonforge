@@ -226,9 +226,9 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   Widget _buildWide(BuildContext context, Widget breadcrumbs) {
     final settings = Provider.of<AppSettingsProvider>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         title: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
@@ -290,7 +290,18 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                 ),
                 child: Container(
                   color: Theme.of(context).colorScheme.surface,
-                  child: widget.body,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: widget.body,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
