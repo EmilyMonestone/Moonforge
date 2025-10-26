@@ -235,6 +235,115 @@ function preloadImages(urls) {
 // Call this when you have actual images
 // preloadImages(['./assets/img/hero-bg.png', './assets/img/feature-1.png']);
 
+// Load and parse roadmap from markdown file
+async function loadRoadmap() {
+    const roadmapTimeline = document.querySelector('.roadmap-timeline');
+    if (!roadmapTimeline) return;
+
+    try {
+        // Fetch the roadmap.md file
+        const response = await fetch('./roadmap.md');
+        if (!response.ok) {
+            console.warn('Could not load roadmap.md, using default content');
+            return;
+        }
+        
+        const markdown = await response.text();
+        const roadmapHtml = parseRoadmapMarkdown(markdown);
+        
+        if (roadmapHtml) {
+            roadmapTimeline.innerHTML = roadmapHtml;
+            
+            // Re-observe new roadmap items for animations
+            const newRoadmapItems = roadmapTimeline.querySelectorAll('.roadmap-item');
+            newRoadmapItems.forEach(item => observer.observe(item));
+        }
+    } catch (error) {
+        console.warn('Error loading roadmap:', error);
+        // Keep the default HTML content if loading fails
+    }
+}
+
+// Parse roadmap markdown into HTML
+function parseRoadmapMarkdown(markdown) {
+    const lines = markdown.split('\n');
+    let html = '';
+    let currentPhase = null;
+    let inPhase = false;
+    let phaseItems = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        // Match phase headers (e.g., "## Phase 1: Foundation ✅")
+        const phaseMatch = line.match(/^##\s+Phase\s+(\d+):\s+(.+?)(?:\s+([✅🚧]))?$/);
+        if (phaseMatch) {
+            // Save previous phase if exists
+            if (currentPhase) {
+                html += createRoadmapItem(currentPhase, phaseItems);
+            }
+            
+            // Start new phase
+            currentPhase = {
+                number: phaseMatch[1],
+                title: phaseMatch[2].trim(),
+                status: phaseMatch[3] || ''
+            };
+            phaseItems = [];
+            inPhase = true;
+            continue;
+        }
+        
+        // Match list items
+        if (inPhase && line.startsWith('-')) {
+            const item = line.substring(1).trim();
+            if (item && !item.startsWith('✅') && !item.startsWith('🚧')) {
+                phaseItems.push(item);
+            }
+        }
+        
+        // Stop parsing when reaching legend or footer sections
+        if (line.startsWith('---') || line.startsWith('## Legend')) {
+            if (currentPhase) {
+                html += createRoadmapItem(currentPhase, phaseItems);
+            }
+            break;
+        }
+    }
+    
+    // Add last phase if not added yet
+    if (currentPhase && !html.includes(currentPhase.title)) {
+        html += createRoadmapItem(currentPhase, phaseItems);
+    }
+    
+    return html;
+}
+
+// Create HTML for a roadmap item
+function createRoadmapItem(phase, items) {
+    const statusClass = phase.status === '✅' ? 'completed' : 
+                       phase.status === '🚧' ? 'in-progress' : '';
+    
+    let html = `
+        <div class="roadmap-item">
+            <div class="roadmap-marker ${statusClass}"></div>
+            <div class="roadmap-content">
+                <h3>Phase ${phase.number}: ${phase.title}</h3>
+                <ul>`;
+    
+    items.forEach(item => {
+        html += `
+                    <li>${item}</li>`;
+    });
+    
+    html += `
+                </ul>
+            </div>
+        </div>`;
+    
+    return html;
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Moonforge website loaded successfully!');
@@ -244,4 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroContent) {
         heroContent.classList.add('animate-fade-in');
     }
+    
+    // Load roadmap from markdown file
+    loadRoadmap();
 });

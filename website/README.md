@@ -32,7 +32,7 @@ website/
 - **Features**: Grid showcase of all major features (9 cards)
 - **Screenshots**: Gallery with placeholders for future images
 - **Download**: Platform-specific download buttons (Windows, macOS, Linux, Web, Android, iOS)
-- **Roadmap**: Timeline showing development phases
+- **Roadmap**: Timeline showing development phases (dynamically loaded from `/roadmap.md`)
 - **FAQ**: Common questions and answers
 - **Newsletter**: Email signup form
 - **Footer**: Links, social icons, legal information
@@ -43,11 +43,25 @@ website/
 - Fade-in animations on scroll
 - Hover effects on interactive elements
 - Parallax effect on hero section
+- Dynamic roadmap loading from markdown file (`/roadmap.md`)
 - Keyboard navigation support
 
 ## Development
 
 This is a static HTML website requiring no build process. Simply open `index.html` in a browser or serve it with any static file server.
+
+### Dynamic Content
+
+The roadmap section is dynamically loaded from `roadmap.md` in the website directory. To update the roadmap:
+
+1. Edit `website/roadmap.md` (or maintain `/roadmap.md` at the repository root and copy it to the website directory)
+2. Use markdown headers `## Phase N: Title` with optional status emoji (✅ for completed, 🚧 for in-progress)
+3. List items under each phase using markdown list syntax (`-`)
+4. The website will automatically parse and display the updated roadmap
+
+**Note for deployment:** The `website/roadmap.md` file should be kept in sync with `/roadmap.md` in the repository root. You can set up a build script or GitHub Action to automatically copy the file during deployment, or manually keep them in sync.
+
+The fallback content in `index.html` is used if `roadmap.md` cannot be loaded.
 
 ### Local Development
 
