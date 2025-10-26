@@ -72,7 +72,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
             onTap: () => const HomeRoute().go(context),
           ),
         ],
-        divider: const Icon(Icons.chevron_right),
+        divider: const Text('/'),
       );
     } else {
       breadcrumbs = BreadCrumb.builder(
@@ -85,7 +85,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
             onTap: () => context.go(path),
           );
         },
-        divider: const Icon(Icons.chevron_right),
+        divider: const Text('/'),
       );
     }
 
