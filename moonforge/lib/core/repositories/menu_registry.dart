@@ -35,12 +35,23 @@ class MenuRegistry {
 
   /// Resolve menu items for a given [uri].
   ///
-  /// Strategy: match by top-level path prefix; if no match, fall back to root.
+  /// Strategy: match by top-level path prefix or specific route patterns.
+  /// Special handling for scene routes to provide scene-specific menus.
   static List<MenuBarAction>? resolve(BuildContext context, Uri uri) {
     final segments = uri.pathSegments;
     if (segments.isEmpty) {
       return _registry['/']?.call(context);
     }
+    
+    // Check for scene route pattern: /campaign/chapter/.../adventure/.../scene/...
+    if (segments.length >= 6 && 
+        segments[0] == 'campaign' && 
+        segments[1] == 'chapter' && 
+        segments[3] == 'adventure' && 
+        segments[5] == 'scene') {
+      return _sceneMenu(context);
+    }
+    
     final top = '/${segments.first}';
     final builder = _registry[top] ?? _registry['/'];
     return builder?.call(context);
@@ -67,6 +78,14 @@ class MenuRegistry {
       newChapter(l10n),
       newAdventure(l10n),
       newScene(l10n),
+      newEntity(l10n),
+    ];
+  }
+
+  /// Menu for Scene routes ('/campaign/chapter/.../adventure/.../scene/...').
+  static List<MenuBarAction> _sceneMenu(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return <MenuBarAction>[
       newEntity(l10n),
     ];
   }
