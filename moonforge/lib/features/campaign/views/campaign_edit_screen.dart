@@ -9,6 +9,7 @@ import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -28,6 +29,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
   final _nameController = TextEditingController();
   final _descriptionTextController = TextEditingController();
   late QuillController _contentController;
+  QuillAutosave? _autosave;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _isSaving = false;
@@ -51,6 +53,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
     _nameController.dispose();
     _descriptionTextController.dispose();
     _contentController.dispose();
+    _autosave?.dispose();
     super.dispose();
   }
 
@@ -84,6 +87,18 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           _descriptionTextController.text = campaign.description;
           _contentController.document = document;
         });
+
+        // Initialize autosave after loading the campaign
+        _autosave = QuillAutosave(
+          controller: _contentController,
+          storageKey: 'campaign_${campaign.id}_content_draft',
+          delay: const Duration(seconds: 2),
+          onSave: (content) async {
+            // Autosave is handled locally, no remote save needed here
+            logger.d('Content autosaved locally for campaign ${campaign.id}');
+          },
+        );
+        _autosave?.start();
       }
     } catch (e) {
       if (mounted) {
@@ -123,6 +138,9 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
 
       // Update provider with latest data
       context.read<CampaignProvider>().setCurrentCampaign(updatedCampaign);
+
+      // Clear autosaved draft after successful save
+      await _autosave?.clear();
 
       if (mounted) {
         toastification.show(
