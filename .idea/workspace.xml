@@ -18,58 +18,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="chore: moved app to subfolder moonforge/">
-      <change afterPath="$PROJECT_DIR$/firebase/firestore-storage.rules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/assets/color/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/user.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/models/return_message.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_10_2025_11_49_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_10_2025_11_49__Changes_.xml" beforeDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update project dependencies and exclude unnecessary folders from build">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.junie/guidelines.md" beforeDir="false" afterPath="$PROJECT_DIR$/.junie/guidelines.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/folder_structure.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/folder_structure.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firebase/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firebase/firestore.rules" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/l10n.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/l10n.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/database/odm.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/database/odm.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/actions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/menu_bar_actions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/schema.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/schema.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/schema.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/auth_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/auth_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/campaign_providers.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/firebase_providers.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/settings_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/app_settings_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_global_wrapper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_global_wrapper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/auth_user_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/auth_user_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/connected_button_group.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/auth/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/auth/views/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/moonforge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/moonforge.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,33 +91,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.chat.ChatConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.chat.ChatConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
@@ -316,7 +267,167 @@
       <option name="project" value="LOCAL" />
       <updated>1760862092657</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="chore: reorganize dependencies in pubspec.yaml for clarity and maintainability">
+      <option name="closed" value="true" />
+      <created>1761468260471</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468260471</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: add localization strings for chapters, adventures, and scenes in English and German">
+      <option name="closed" value="true" />
+      <created>1761468536153</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468536153</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: add loading, empty, and error placeholders for async content handling">
+      <option name="closed" value="true" />
+      <created>1761468557859</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468557859</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat: implement creation functionality for campaigns, chapters, adventures, entities, and scenes">
+      <option name="closed" value="true" />
+      <created>1761468569634</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468569634</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat: add menu registry for route-specific menu actions">
+      <option name="closed" value="true" />
+      <created>1761468609812</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468609812</updated>
+    </task>
+    <task id="LOCAL-00021" summary="docs: update folder structure documentation with detailed explanations for app components">
+      <option name="closed" value="true" />
+      <created>1761468628417</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468628417</updated>
+    </task>
+    <task id="LOCAL-00022" summary="feat: enhance Firestore security rules for user and campaign access control">
+      <option name="closed" value="true" />
+      <created>1761468635711</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468635711</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: add generic CardList widget for rendering lists with title and subtitle">
+      <option name="closed" value="true" />
+      <created>1761468645635</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468645635</updated>
+    </task>
+    <task id="LOCAL-00024" summary="feat: refactor authentication handling with AuthProvider and improve user sign-in flow">
+      <option name="closed" value="true" />
+      <created>1761468666355</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468666355</updated>
+    </task>
+    <task id="LOCAL-00025" summary="feat: refactor AdaptiveScaffold to use state management and improve navigation handling">
+      <option name="closed" value="true" />
+      <created>1761468692047</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468692047</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat: refactor command palette and hotkey management for improved state handling and logging">
+      <option name="closed" value="true" />
+      <created>1761468714427</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468714427</updated>
+    </task>
+    <task id="LOCAL-00027" summary="feat: implement CampaignEditScreen with rich text editing and campaign management">
+      <option name="closed" value="true" />
+      <created>1761468751616</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468751616</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feat: add User model with settings and localization support">
+      <option name="closed" value="true" />
+      <created>1761468774223</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468774223</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat: add untranslated messages file for localization support">
+      <option name="closed" value="true" />
+      <created>1761468793884</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468793884</updated>
+    </task>
+    <task id="LOCAL-00030" summary="feat: add project guidelines for Moonforge repository">
+      <option name="closed" value="true" />
+      <created>1761468800787</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468800787</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat: add MultiProviderWrapper for managing multiple providers in the widget tree">
+      <option name="closed" value="true" />
+      <created>1761468811452</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468811452</updated>
+    </task>
+    <task id="LOCAL-00032" summary="feat: implement recent sections for campaigns, sessions, and parties in HomeScreen">
+      <option name="closed" value="true" />
+      <created>1761468829238</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468829238</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat: add AppSettingsProvider for managing app settings and user preferences">
+      <option name="closed" value="true" />
+      <created>1761468841733</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468841733</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper">
+      <option name="closed" value="true" />
+      <created>1761468850816</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468850816</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat: update project dependencies and exclude unnecessary folders from build">
+      <option name="closed" value="true" />
+      <created>1761468857302</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468857302</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -343,24 +454,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add initial screens and routing for campaign, chapter, adventure, and encounter features" />
-    <MESSAGE value="add initial project structure and configuration files for moonforge" />
-    <MESSAGE value="refactor workspace configuration and update task summaries for clarity" />
-    <MESSAGE value="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support" />
-    <MESSAGE value="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support" />
-    <MESSAGE value="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support" />
-    <MESSAGE value="feat: simplify Campaign model by removing unused fields and updating JSON serialization" />
-    <MESSAGE value="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support" />
-    <MESSAGE value="feat: add hotkey system, forgot password screen, and generated asset management files with logo icons" />
-    <MESSAGE value="feat: update routing to use typed routes and add new dependencies for improved navigation" />
-    <MESSAGE value="feat: add support for multiple app icons and logos with updated asset management" />
-    <MESSAGE value="feat: implement internationalization support with localized strings and settings management" />
     <MESSAGE value="feat: add internationalization support with localized strings for app titles and navigation" />
     <MESSAGE value="feat: add localization support with German and English translations, and implement theme and language settings in the UI" />
     <MESSAGE value="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines" />
     <MESSAGE value="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file" />
     <MESSAGE value="chore: moved app to subfolder moonforge/" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: moved app to subfolder moonforge/" />
+    <MESSAGE value="chore: reorganize dependencies in pubspec.yaml for clarity and maintainability" />
+    <MESSAGE value="feat: add localization strings for chapters, adventures, and scenes in English and German" />
+    <MESSAGE value="feat: add loading, empty, and error placeholders for async content handling" />
+    <MESSAGE value="feat: implement creation functionality for campaigns, chapters, adventures, entities, and scenes" />
+    <MESSAGE value="feat: add menu registry for route-specific menu actions" />
+    <MESSAGE value="docs: update folder structure documentation with detailed explanations for app components" />
+    <MESSAGE value="feat: enhance Firestore security rules for user and campaign access control" />
+    <MESSAGE value="feat: add generic CardList widget for rendering lists with title and subtitle" />
+    <MESSAGE value="feat: refactor authentication handling with AuthProvider and improve user sign-in flow" />
+    <MESSAGE value="feat: refactor AdaptiveScaffold to use state management and improve navigation handling" />
+    <MESSAGE value="feat: refactor command palette and hotkey management for improved state handling and logging" />
+    <MESSAGE value="feat: implement CampaignEditScreen with rich text editing and campaign management" />
+    <MESSAGE value="feat: add User model with settings and localization support" />
+    <MESSAGE value="feat: add untranslated messages file for localization support" />
+    <MESSAGE value="feat: add project guidelines for Moonforge repository" />
+    <MESSAGE value="feat: add MultiProviderWrapper for managing multiple providers in the widget tree" />
+    <MESSAGE value="feat: implement recent sections for campaigns, sessions, and parties in HomeScreen" />
+    <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
+    <MESSAGE value="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper" />
+    <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update project dependencies and exclude unnecessary folders from build" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -455,6 +574,102 @@
           <option name="totalLines" value="1117380" />
           <option name="info" value="chore: moved app to subfolder moonforge/" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468279360" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19804614" />
+          <option name="info" value="chore: reorganize dependencies in pubspec.yaml for" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468548753" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add localization strings for chapters, adven" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468562054" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add loading, empty, and error placeholders f" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468574677" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: implement creation functionality for campaig" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468621516" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add menu registry for route-specific menu ac" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468638369" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: enhance Firestore security rules for user an" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468658034" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add generic CardList widget for rendering li" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468679043" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: refactor authentication handling with AuthPr" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468704742" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: refactor AdaptiveScaffold to use state manag" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468726210" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: refactor command palette and hotkey manageme" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468764159" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: implement CampaignEditScreen with rich text " />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468786865" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add User model with settings and localizatio" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468806686" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add project guidelines for Moonforge reposit" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468824238" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add MultiProviderWrapper for managing multip" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468842008" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: add AppSettingsProvider for managing app set" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761468863738" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="feat: update project dependencies and exclude unne" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -484,10 +699,10 @@
           <option name="info" value="Oct 16, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1760862092896" />
-          <option name="linesCode" value="19304" />
-          <option name="totalLines" value="1117380" />
-          <option name="info" value="Oct 19, 2025" />
+          <option name="timestamp" value="1761468863738" />
+          <option name="linesCode" value="29204" />
+          <option name="totalLines" value="19801386" />
+          <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>
     </option>

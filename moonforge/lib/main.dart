@@ -1,21 +1,20 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moonforge/app.dart';
 import 'package:moonforge/core/database/odm.dart';
+import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
-
-import 'core/models/data/schema.dart';
 
 const kWindowsScheme = 'moonforge';
 
@@ -49,7 +48,6 @@ Future<void> main() async {
   if (kIsWeb) {
     await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
   }
-
   final firestore = FirebaseFirestore.instance;
   firestore.settings = const Settings(persistenceEnabled: true);
   if (kIsWeb) {
@@ -60,13 +58,11 @@ Future<void> main() async {
   }
   await Odm.init(firestore);
 
-  await Odm.init(appSchema, firestore);
-
   // Initialize deep linking after the app router is available
   // The actual initialization happens after the first frame in App widget
   WidgetsBinding.instance.addPostFrameCallback((_) {
     DeepLinkService.instance.initialize(AppRouter.router);
   });
 
-  runApp(ProviderScope(child: App()));
+  runApp(MultiProviderWrapper(child: App()));
 }
