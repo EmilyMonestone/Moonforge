@@ -140,6 +140,30 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get edit;
 
+  /// Generic delete label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Confirmation dialog title for delete action
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Confirmation'**
+  String get deleteConfirmation;
+
+  /// Confirmation dialog message for delete action
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this?'**
+  String get deleteConfirmationMessage;
+
+  /// Generic save label
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
   /// Label for Chapter feature
   ///
   /// In en, this message translates to:

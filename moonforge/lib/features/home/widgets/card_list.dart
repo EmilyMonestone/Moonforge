@@ -8,12 +8,14 @@ class CardList<T> extends StatelessWidget {
     required this.titleOf,
     this.onTap,
     this.subtitleOf,
+    this.backgroundColor,
   });
 
   final List<T> items;
   final String Function(T item) titleOf;
   final String Function(T item)? subtitleOf;
   final void Function(T item)? onTap;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,8 @@ class CardList<T> extends StatelessWidget {
         final title = titleOf(item);
         final subtitle = subtitleOf != null ? subtitleOf!(item) : '';
         return Card(
+          color:
+              backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
           child: ListTile(
             title: Text(title, style: textTheme.titleMedium),
             subtitle: Text(subtitle, style: textTheme.bodyMedium),

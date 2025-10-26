@@ -3,12 +3,17 @@ import 'dart:convert';
 import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:m3e_collection/m3e_collection.dart'
+    show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
+import 'package:moonforge/core/widgets/quill_toolbar.dart';
+import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
@@ -160,6 +165,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -184,12 +190,19 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Campaign'),
-        actions: [
-          FilledButton.icon(
-            onPressed: _isSaving ? null : _saveCampaign,
+    return SurfaceContainer(
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '${l10n.campaign} ${l10n.edit}',
+            style: Theme.of(context).textTheme.displaySmall,
+          ),
+          Spacer(),
+          ButtonM3E(
+            style: ButtonM3EStyle.filled,
+            shape: ButtonM3EShape.square,
+            label: Text(l10n.save),
             icon: _isSaving
                 ? const SizedBox(
                     width: 16,
@@ -197,124 +210,75 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.save),
-            label: const Text('Save'),
+            onPressed: _isSaving ? null : _saveCampaign,
           ),
-          const SizedBox(width: 8),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 800),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  'Campaign Details',
-                                  style: theme.textTheme.titleLarge,
-                                ),
-                                const SizedBox(height: 24),
-                                TextFormField(
-                                  controller: _nameController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Campaign Name',
-                                    prefixIcon: Icon(Icons.campaign_outlined),
-                                    helperText:
-                                        'Give your campaign a memorable name',
-                                  ),
-                                  validator: (v) {
-                                    final value = v?.trim() ?? '';
-                                    if (value.isEmpty)
-                                      return 'Name is required';
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 24),
-                                Text(
-                                  'Description',
-                                  style: theme.textTheme.titleMedium,
-                                ),
-                                const SizedBox(height: 8),
-                                TextFormField(
-                                  controller: _descriptionTextController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Short description',
-                                    hintText: 'Enter a brief summary',
-                                  ),
-                                  maxLines: 3,
-                                ),
-                                const SizedBox(height: 24),
-                                Text(
-                                  'Content',
-                                  style: theme.textTheme.titleMedium,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Rich text content of the campaign',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                // Quill Toolbar
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: theme.colorScheme.outline,
-                                    ),
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(4),
-                                    ),
-                                  ),
-                                  child: QuillSimpleToolbar(
-                                    controller: _contentController,
-                                    config: const QuillSimpleToolbarConfig(
-                                      multiRowsDisplay: false,
-                                    ),
-                                  ),
-                                ),
-                                // Quill Editor
-                                Container(
-                                  height: 300,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: theme.colorScheme.outline,
-                                    ),
-                                    borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(4),
-                                    ),
-                                  ),
-                                  child: QuillEditor.basic(
-                                    controller: _contentController,
-                                    config: const QuillEditorConfig(
-                                      padding: EdgeInsets.all(16),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Campaign Name',
+                prefixIcon: Icon(Icons.campaign_outlined),
+                helperText: 'Give your campaign a memorable name',
+              ),
+              validator: (v) {
+                final value = v?.trim() ?? '';
+                if (value.isEmpty) return 'Name is required';
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+            Text('Description', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _descriptionTextController,
+              decoration: const InputDecoration(
+                labelText: 'Short description',
+                hintText: 'Enter a brief summary',
+              ),
+              maxLines: 3,
+            ),
+            const SizedBox(height: 24),
+            Text('Content', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Text(
+              'Rich text content of the campaign',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            // Quill Toolbar
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4),
+                ),
+              ),
+              child: QuillCustomToolbar(controller: _contentController),
+            ),
+            // Quill Editor
+            Container(
+              height: 400,
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(4),
+                ),
+              ),
+              child: QuillEditor.basic(
+                controller: _contentController,
+                config: const QuillEditorConfig(padding: EdgeInsets.all(16)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

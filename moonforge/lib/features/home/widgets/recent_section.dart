@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/placeholders.dart';
-import 'package:moonforge/features/home/widgets/section_header.dart';
 
 /// A reusable section widget for the Home screen that shows a header and
 /// an async list of items as cards.
 class RecentSection<T> extends StatelessWidget {
   const RecentSection({
     super.key,
-    required this.title,
-    required this.icon,
     required this.future,
     required this.titleOf,
     this.subtitleOf,
@@ -17,8 +14,6 @@ class RecentSection<T> extends StatelessWidget {
     this.onError,
   });
 
-  final String title;
-  final IconData icon;
   final Future<List<T>> future;
   final String Function(T item) titleOf;
   final String Function(T item)? subtitleOf;
@@ -30,8 +25,6 @@ class RecentSection<T> extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(title: title, icon: icon),
-        const SizedBox(height: 8),
         FutureBuilder<List<T>>(
           future: future,
           builder: (context, snapshot) {
@@ -51,6 +44,9 @@ class RecentSection<T> extends StatelessWidget {
               return const EmptyPlaceholder();
             }
             return CardList<T>(
+              backgroundColor: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHigh,
               items: items,
               titleOf: titleOf,
               subtitleOf: subtitleOf,

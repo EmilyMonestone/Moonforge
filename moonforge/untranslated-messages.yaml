@@ -1,5 +1,9 @@
 {
   "de": [
+    "delete",
+    "deleteConfirmation",
+    "deleteConfirmationMessage",
+    "save",
     "description",
     "noDescriptionProvided",
     "content",
