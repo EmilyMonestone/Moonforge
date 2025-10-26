@@ -36,11 +36,21 @@ class MenuRegistry {
   /// Resolve menu items for a given [uri].
   ///
   /// Strategy: match by top-level path prefix; if no match, fall back to root.
+  /// For nested routes like adventure, check for specific patterns.
   static List<MenuBarAction>? resolve(BuildContext context, Uri uri) {
     final segments = uri.pathSegments;
     if (segments.isEmpty) {
       return _registry['/']?.call(context);
     }
+    
+    // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
+    if (segments.length >= 4 &&
+        segments[0] == 'campaign' &&
+        segments[1] == 'chapter' &&
+        segments[3] == 'adventure') {
+      return _adventureMenu(context);
+    }
+    
     final top = '/${segments.first}';
     final builder = _registry[top] ?? _registry['/'];
     return builder?.call(context);
@@ -66,6 +76,16 @@ class MenuRegistry {
       continueWhereLeft(l10n),
       newChapter(l10n),
       newAdventure(l10n),
+      newScene(l10n),
+      newEntity(l10n),
+    ];
+  }
+
+  /// Menu for the Adventure route ('/campaign/chapter/:chapterId/adventure/:adventureId').
+  static List<MenuBarAction> _adventureMenu(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return <MenuBarAction>[
+      continueWhereLeft(l10n),
       newScene(l10n),
       newEntity(l10n),
     ];
