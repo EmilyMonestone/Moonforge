@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
 import 'package:moonforge/core/widgets/error_boundary.dart';
 
 /// Enum representing different types of surface background colors.
@@ -139,10 +140,10 @@ class SurfaceContainer extends StatelessWidget {
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: InkWell(
                 onTap: titleOnTap,
-                customBorder: const RoundedRectangleBorder(
+                customBorder: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+                    topLeft: context.m3e.shapes.square.md.topLeft,
+                    topRight: context.m3e.shapes.square.md.topRight,
                   ),
                 ),
                 child: Padding(
@@ -174,7 +175,9 @@ class SurfaceContainer extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            borderRadius: BorderRadius.all(
+              context.m3e.shapes.square.md.topLeft,
+            ),
           ),
           child: buildContainerContent(),
         ),
