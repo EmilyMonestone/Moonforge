@@ -73,13 +73,9 @@ class DeepLinkService {
     
     switch (type) {
       case 'campaign':
-        if (pathSegments.length > 1) {
-          // Navigate to specific campaign
-          // For now, just navigate to campaign root since we need more context
-          router.go('/campaign');
-        } else {
-          router.go('/campaign');
-        }
+        // Campaign navigation currently goes to campaign root
+        // TODO: Support campaign-specific navigation with IDs in the future
+        router.go('/campaign');
         break;
       
       case 'party':

@@ -85,8 +85,8 @@ High-level layout:
     - platform folders — android/, ios/, macos/, linux/, windows/, web/
     - test/ — Unit/widget tests
     - pubspec.yaml, analysis_options.yaml, l10n.yaml, firebase_options.dart
-- docs/ — Developer documentation (e.g., docs/firebase_schema.md, docs/app_router.md)
-- moonforge/docs/ — Additional documentation (e.g., deep_linking.md, testing_deep_links.md)
+- docs/ — Developer documentation (app_router.md, firebase_schema.md, folder_structure.md)
+- moonforge/docs/ — Platform-specific documentation (deep_linking.md, testing_deep_links.md)
 - tools/ — Scripts/CI helpers (optional)
 - .github/workflows/ — CI definitions (optional)
 - README.md, LICENSE, CONTRIBUTING.md

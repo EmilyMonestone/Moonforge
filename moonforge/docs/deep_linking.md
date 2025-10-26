@@ -9,10 +9,12 @@ Moonforge supports deep linking across all platforms (Web, Android, iOS, macOS, 
 ## Supported Deep Link Format
 
 ```
-moonforge://campaign/[id]
+moonforge://campaign
 moonforge://party/[id]
 moonforge://settings
 ```
+
+Note: Campaign-specific deep links with IDs are planned for future implementation.
 
 ## Architecture
 

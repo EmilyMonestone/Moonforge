@@ -12,11 +12,11 @@ Before testing, ensure you have:
 
 ```
 moonforge://campaign
-moonforge://campaign/[id]
-moonforge://party
 moonforge://party/[id]
 moonforge://settings
 ```
+
+Note: Campaign-specific deep links with IDs are planned for future implementation.
 
 ## Platform-Specific Testing Instructions
 

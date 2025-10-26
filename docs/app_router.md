@@ -146,9 +146,10 @@ Moonforge supports deep linking across all platforms using the `moonforge://` UR
 ### Supported Deep Links
 
 - `moonforge://campaign` - Navigate to campaign view
-- `moonforge://campaign/[id]` - Navigate to campaign (currently navigates to campaign root)
 - `moonforge://party/[id]` - Navigate to specific party
 - `moonforge://settings` - Navigate to settings
+
+Note: Campaign-specific navigation (with IDs) is planned for future implementation and will navigate to the campaign root for now.
 
 ### How Deep Links Work
 
@@ -178,8 +179,8 @@ To add deep link support for a new route:
 ### Documentation
 
 See the following documents for more information:
-- `moonforge/docs/deep_linking.md` - Complete deep linking implementation guide
-- `moonforge/docs/testing_deep_links.md` - Testing instructions for all platforms
+- `docs/deep_linking.md` (in moonforge folder) - Complete deep linking implementation guide
+- `docs/testing_deep_links.md` (in moonforge folder) - Testing instructions for all platforms
 
 
 ## Code generation notes
