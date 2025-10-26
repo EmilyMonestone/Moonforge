@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// Service for fetching entities for mention autocomplete.
 class EntityMentionService {
   /// Search entities by kind and query string.
-  /// 
+  ///
   /// [campaignId] - The campaign ID to search entities in
   /// [kinds] - Comma-separated list of entity kinds (e.g., "npc,group,monster")
   /// [query] - Search query to filter by entity name
@@ -60,7 +61,7 @@ class EntityMentionService {
   }
 
   /// Get a single entity by ID.
-  /// 
+  ///
   /// [campaignId] - The campaign ID
   /// [entityId] - The entity ID
   static Future<Entity?> getEntityById({

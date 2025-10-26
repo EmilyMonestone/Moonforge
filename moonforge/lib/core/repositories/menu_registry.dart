@@ -44,43 +44,37 @@ class MenuRegistry {
     if (segments.isEmpty) {
       return _registry['/']?.call(context);
     }
-    
-        // Check for scene route pattern: /campaign/chapter/.../adventure/.../scene/...
-    if (segments.length >= 6 && 
-        segments[0] == 'campaign' && 
-        segments[1] == 'chapter' && 
-        segments[3] == 'adventure' && 
+
+    // Check for scene route pattern: /campaign/chapter/.../adventure/.../scene/...
+    if (segments.length >= 6 &&
+        segments[0] == 'campaign' &&
+        segments[1] == 'chapter' &&
+        segments[3] == 'adventure' &&
         segments[5] == 'scene') {
       return _sceneMenu(context);
     }
-    
-        // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
+
+    // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
     if (segments.length >= 4 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter' &&
         segments[3] == 'adventure') {
       return _adventureMenu(context);
     }
-    
-        // Check for chapter context: /campaign/chapter/:chapterId
+
+    // Check for chapter context: /campaign/chapter/:chapterId
     if (segments.length >= 2 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter') {
       final chapterId = segments[2];
       return _chapterMenu(context, chapterId);
     }
-    
-
-    
-
-   
-
 
     final top = '/${segments.first}';
     final builder = _registry[top] ?? _registry['/'];
     return builder?.call(context);
   }
-  
+
   // ------ Menus ------
 
   /// Menu for the Home route ('/').
@@ -105,10 +99,12 @@ class MenuRegistry {
       newEntity(l10n),
     ];
   }
-  
-    /// Menu for the Chapter route ('/campaign/chapter/:chapterId').
+
+  /// Menu for the Chapter route ('/campaign/chapter/:chapterId').
   static List<MenuBarAction> _chapterMenu(
-      BuildContext context, String chapterId) {
+    BuildContext context,
+    String chapterId,
+  ) {
     final l10n = AppLocalizations.of(context)!;
     return <MenuBarAction>[
       continueWhereLeft(l10n),
@@ -121,10 +117,7 @@ class MenuRegistry {
   /// Menu for the Adventure route ('/campaign/chapter/:chapterId/adventure/:adventureId').
   static List<MenuBarAction> _adventureMenu(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return <MenuBarAction>[
-      continueWhereLeft(l10n),
-      newScene(l10n),
-    ];
+    return <MenuBarAction>[continueWhereLeft(l10n), newScene(l10n)];
   }
 
   // ------ MenuBarActions ------
@@ -132,9 +125,7 @@ class MenuRegistry {
   /// Menu for Scene routes ('/campaign/chapter/.../adventure/.../scene/...').
   static List<MenuBarAction> _sceneMenu(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return <MenuBarAction>[
-      newEntity(l10n),
-    ];
+    return <MenuBarAction>[newEntity(l10n)];
   }
 
   static MenuBarAction continueWhereLeft(AppLocalizations l10n) {
@@ -247,7 +238,9 @@ class MenuRegistry {
   }
 
   static MenuBarAction newAdventureInChapter(
-      AppLocalizations l10n, String chapterId) {
+    AppLocalizations l10n,
+    String chapterId,
+  ) {
     return MenuBarAction(
       label: l10n.createAdventure,
       icon: Icons.auto_stories_outlined,
@@ -266,7 +259,9 @@ class MenuRegistry {
   }
 
   static MenuBarAction newSceneInChapter(
-      AppLocalizations l10n, String chapterId) {
+    AppLocalizations l10n,
+    String chapterId,
+  ) {
     return MenuBarAction(
       label: l10n.createScene,
       icon: Icons.movie_outlined,

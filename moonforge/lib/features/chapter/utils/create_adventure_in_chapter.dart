@@ -64,8 +64,8 @@ Future<void> createAdventureInChapter(
       order: nextOrder,
       summary: '',
       content: null,
-      createdAt: FirestoreODM.serverTimestamp,
-      updatedAt: FirestoreODM.serverTimestamp,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       rev: 0,
     );
     await odm.campaigns
@@ -89,10 +89,7 @@ Future<void> createAdventureInChapter(
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createAdventure));
     if (created != null) {
-      AdventureRoute(
-        chapterId: chapterId,
-        adventureId: created.id,
-      ).go(context);
+      AdventureRoute(chapterId: chapterId, adventureId: created.id).go(context);
     }
   } catch (e, st) {
     logger.e('Create adventure failed', error: e, stackTrace: st);

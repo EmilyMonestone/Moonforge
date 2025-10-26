@@ -8,12 +8,14 @@ class CardList<T> extends StatelessWidget {
     required this.titleOf,
     this.onTap,
     this.subtitleOf,
+    this.subtitleMaxLines = 2,
     this.backgroundColor,
   });
 
   final List<T> items;
   final String Function(T item) titleOf;
   final String Function(T item)? subtitleOf;
+  final int subtitleMaxLines;
   final void Function(T item)? onTap;
   final Color? backgroundColor;
 
@@ -35,7 +37,12 @@ class CardList<T> extends StatelessWidget {
               backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
           child: ListTile(
             title: Text(title, style: textTheme.titleMedium),
-            subtitle: Text(subtitle, style: textTheme.bodyMedium),
+            subtitle: Text(
+              subtitle,
+              style: textTheme.bodyMedium,
+              maxLines: subtitleMaxLines,
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: const Icon(Icons.chevron_right),
             onTap: onTap != null ? () => onTap!(item) : null,
           ),

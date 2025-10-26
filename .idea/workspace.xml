@@ -18,11 +18,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update breadcrumb divider from icon to text for improved clarity">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.freezed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/recent_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/recent_section.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -494,7 +517,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761477623042</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="feat: refactor home screen layout with SurfaceContainer and WrapLayout for improved UI structure">
+      <option name="closed" value="true" />
+      <created>1761479248679</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1761479248679</updated>
+    </task>
+    <task id="LOCAL-00045" summary="feat: update breadcrumb divider from icon to text for improved clarity">
+      <option name="closed" value="true" />
+      <created>1761479252749</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1761479252749</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -521,8 +560,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: implement creation functionality for campaigns, chapters, adventures, entities, and scenes" />
-    <MESSAGE value="feat: add menu registry for route-specific menu actions" />
     <MESSAGE value="docs: update folder structure documentation with detailed explanations for app components" />
     <MESSAGE value="feat: enhance Firestore security rules for user and campaign access control" />
     <MESSAGE value="feat: add generic CardList widget for rendering lists with title and subtitle" />
@@ -546,7 +583,9 @@
     <MESSAGE value="feat: add get and get_storage packages for state management and data persistence" />
     <MESSAGE value="feat: enhance campaign editing experience with new UI components and localization support" />
     <MESSAGE value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
+    <MESSAGE value="feat: refactor home screen layout with SurfaceContainer and WrapLayout for improved UI structure" />
+    <MESSAGE value="feat: update breadcrumb divider from icon to text for improved clarity" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update breadcrumb divider from icon to text for improved clarity" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -767,6 +806,12 @@
           <option name="totalLines" value="19803641" />
           <option name="info" value="feat: integrate Quill editor and custom toolbar fo" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761479262354" />
+          <option name="linesCode" value="30222" />
+          <option name="totalLines" value="19862926" />
+          <option name="info" value="feat: update breadcrumb divider from icon to text " />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -802,9 +847,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761477635577" />
-          <option name="linesCode" value="30220" />
-          <option name="totalLines" value="19803641" />
+          <option name="timestamp" value="1761479262354" />
+          <option name="linesCode" value="30222" />
+          <option name="totalLines" value="19862926" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>

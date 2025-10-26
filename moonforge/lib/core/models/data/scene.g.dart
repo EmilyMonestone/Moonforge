@@ -9,6 +9,7 @@ part of 'scene.dart';
 _Scene _$SceneFromJson(Map<String, dynamic> json) => _Scene(
   id: json['id'] as String,
   title: json['title'] as String,
+  order: (json['order'] as num?)?.toInt() ?? 0,
   summary: json['summary'] as String?,
   content: json['content'] as String?,
   mentions: (json['mentions'] as List<dynamic>?)
@@ -29,6 +30,7 @@ _Scene _$SceneFromJson(Map<String, dynamic> json) => _Scene(
 Map<String, dynamic> _$SceneToJson(_Scene instance) => <String, dynamic>{
   'id': instance.id,
   'title': instance.title,
+  'order': instance.order,
   'summary': instance.summary,
   'content': instance.content,
   'mentions': instance.mentions,
@@ -58,6 +60,11 @@ class ScenePatchBuilder<$$T extends Scene?>
   late final PatchBuilder<String, String> title = PatchBuilder(
     field: path.append('title'),
     toJson: (value) => (value as String),
+  );
+
+  /// Update order field `int`
+  late final NumericFieldUpdate<int> order = NumericFieldUpdate(
+    field: path.append('order'),
   );
 
   /// Update summary field `String?`
@@ -135,6 +142,12 @@ class SceneFilterBuilder extends FilterBuilderNode {
         field: path.append('title'),
         toJson: (value) => (value as String),
       );
+
+  /// Filter by order
+  late final ComparableFilterField<int> order = ComparableFilterField<int>(
+    field: path.append('order'),
+    toJson: (value) => (value as int),
+  );
 
   /// Filter by summary
   late final ComparableFilterField<String?> summary =
@@ -256,6 +269,18 @@ class SceneOrderByBuilder extends OrderByFieldNode {
     context: $context,
   );
 
+  /// Access nested order for ordering
+  late final OrderByField<int> order = OrderByField<int>(
+    field: path.append('order'),
+    context: $context,
+  );
+
+  /// Access nested summary for ordering
+  late final OrderByField<String?> summary = OrderByField<String?>(
+    field: path.append('summary'),
+    context: $context,
+  );
+
   /// Access nested content for ordering
   late final OrderByField<String?> content = OrderByField<String?>(
     field: path.append('content'),
@@ -299,6 +324,12 @@ class SceneOrderByBuilder extends OrderByFieldNode {
 class SceneAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
   SceneAggregateFieldSelector({required super.context, super.field});
+
+  /// order field for aggregation
+  late final AggregateField<int> order = AggregateField<int>(
+    field: path.append('order'),
+    context: $context,
+  );
 
   /// rev field for aggregation
   late final AggregateField<int> rev = AggregateField<int>(

@@ -38,19 +38,17 @@ class _AppState extends State<App> {
           return MaterialApp.router(
             onGenerateTitle: (context) =>
                 AppLocalizations.of(context)!.appTitle,
-            theme: withM3ETheme(
-              ThemeData(
-                colorScheme: lightDynamic ?? App._defaultLightColorScheme,
-                useMaterial3: true,
-              ),
-            ),
-            darkTheme: withM3ETheme(
-              ThemeData(
-                colorScheme: darkDynamic ?? App._defaultDarkColorScheme,
-                useMaterial3: true,
-                brightness: Brightness.dark,
-              ),
-            ),
+            theme: ThemeData(
+              colorScheme: lightDynamic ?? App._defaultLightColorScheme,
+              useMaterial3: true,
+            ).colorScheme.toM3EThemeData(),
+
+            darkTheme: ThemeData(
+              colorScheme: darkDynamic ?? App._defaultDarkColorScheme,
+              useMaterial3: true,
+              brightness: Brightness.dark,
+            ).colorScheme.toM3EThemeData(),
+
             themeMode: appSettings.themeMode,
             locale: appSettings.locale,
             localizationsDelegates: [

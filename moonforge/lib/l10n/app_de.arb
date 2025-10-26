@@ -256,5 +256,41 @@
   "error": "Fehler",
   "@error": {
     "description": "Allgemeines Fehler-Label"
+  },
+  "delete": "Löschen",
+  "@delete": {
+    "description": "Allgemeines Label für Löschen"
+  },
+  "deleteConfirmation": "Löschbestätigung",
+  "@deleteConfirmation": {
+    "description": "Dialogtitel zur Bestätigung des Löschvorgangs"
+  },
+  "deleteConfirmationMessage": "Bist du sicher, dass du dies löschen möchtest?",
+  "@deleteConfirmationMessage": {
+    "description": "Bestätigungsnachricht für die Löschaktion"
+  },
+  "save": "Speichern",
+  "@save": {
+    "description": "Allgemeines Label für Speichern"
+  },
+  "description": "Beschreibung",
+  "@description": {
+    "description": "Label für Beschreibungsfeld"
+  },
+  "shortDescription": "Kurzbeschreibung",
+  "@shortDescription": {
+    "description": "Label für Kurzbeschreibung"
+  },
+  "noDescriptionProvided": "Keine Beschreibung",
+  "@noDescriptionProvided": {
+    "description": "Angezeigt, wenn keine Beschreibung vorhanden ist"
+  },
+  "content": "Inhalt",
+  "@content": {
+    "description": "Label für Inhaltsfeld"
+  },
+  "noContentProvided": "Kein Inhalt",
+  "@noContentProvided": {
+    "description": "Angezeigt, wenn kein Inhalt vorhanden ist"
   }
 }

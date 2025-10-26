@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/database/odm.dart';
+import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
 
 /// Widget that initializes app state from persistent storage
-/// 
+///
 /// This widget loads persisted data like the current campaign
 /// and restores it when the app starts or hot reloads.
 class AppStateInitializer extends StatefulWidget {
@@ -27,13 +28,13 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
   Future<void> _initializeAppState() async {
     try {
       final campaignProvider = context.read<CampaignProvider>();
-      
+
       // Get the persisted campaign ID
       final campaignId = campaignProvider.getPersistedCampaignId();
-      
+
       if (campaignId != null) {
         logger.i('Restoring persisted campaign: $campaignId');
-        
+
         // Load the campaign from Firestore
         final odm = Odm.instance;
         try {

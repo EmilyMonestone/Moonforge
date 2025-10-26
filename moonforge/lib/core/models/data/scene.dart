@@ -10,6 +10,7 @@ abstract class Scene with _$Scene {
   const factory Scene({
     @DocumentIdField() required String id,
     required String title,
+    @Default(0) int order,
     String? summary,
     String? content, // quill delta json
     List<Map<String, dynamic>>? mentions,

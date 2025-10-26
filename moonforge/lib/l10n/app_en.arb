@@ -15,6 +15,10 @@
   "@campaign": {
     "description": "Label for Campaign feature"
   },
+  "chapter": "Chapter",
+  "@chapter": {
+    "description": "Label for Chapter feature"
+  },
   "party": "Party",
   "@party": {
     "description": "Label for Party feature"
@@ -42,10 +46,6 @@
   "save": "Save",
   "@save": {
     "description": "Generic save label"
-  },
-  "chapter": "Chapter",
-  "@chapter": {
-    "description": "Label for Chapter feature"
   },
   "adventure": "Adventure",
   "@adventure": {
@@ -272,6 +272,10 @@
   "description": "Description",
   "@description": {
     "description": "Label for description input field"
+  },
+  "shortDescription": "Short Description",
+  "@shortDescription": {
+    "description": "Label for short description input field"
   },
   "noDescriptionProvided": "No description",
   "@noDescriptionProvided": {

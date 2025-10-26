@@ -21,6 +21,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get campaign => 'Kampagne';
 
   @override
+  String get chapter => 'Kapitel';
+
+  @override
   String get party => 'Gruppe';
 
   @override
@@ -30,20 +33,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit => 'Bearbeiten';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Löschen';
 
   @override
-  String get deleteConfirmation => 'Delete Confirmation';
+  String get deleteConfirmation => 'Löschbestätigung';
 
   @override
   String get deleteConfirmationMessage =>
-      'Are you sure you want to delete this?';
+      'Bist du sicher, dass du dies löschen möchtest?';
 
   @override
-  String get save => 'Save';
-
-  @override
-  String get chapter => 'Kapitel';
+  String get save => 'Speichern';
 
   @override
   String get adventure => 'Abenteuer';
@@ -153,6 +153,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get chapters => 'Kapitel';
 
   @override
+  String get adventures => 'Abenteuer';
+
+  @override
   String get recentChapters => 'Letzte Kapitel';
 
   @override
@@ -207,14 +210,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get error => 'Fehler';
 
   @override
-  String get description => 'Description';
+  String get description => 'Beschreibung';
 
   @override
-  String get noDescriptionProvided => 'No description';
+  String get shortDescription => 'Kurzbeschreibung';
 
   @override
-  String get content => 'Content';
+  String get noDescriptionProvided => 'Keine Beschreibung';
 
   @override
-  String get noContentProvided => 'No content provided';
+  String get content => 'Inhalt';
+
+  @override
+  String get noContentProvided => 'Kein Inhalt';
 }

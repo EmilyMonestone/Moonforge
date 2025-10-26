@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get campaign => 'Campaign';
 
   @override
+  String get chapter => 'Chapter';
+
+  @override
   String get party => 'Party';
 
   @override
@@ -41,9 +44,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
-
-  @override
-  String get chapter => 'Chapter';
 
   @override
   String get adventure => 'Adventure';
@@ -153,6 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chapters => 'Chapters';
 
   @override
+  String get adventures => 'Adventures';
+
+  @override
   String get recentChapters => 'Recent Chapters';
 
   @override
@@ -208,6 +211,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get description => 'Description';
+
+  @override
+  String get shortDescription => 'Short Description';
 
   @override
   String get noDescriptionProvided => 'No description';

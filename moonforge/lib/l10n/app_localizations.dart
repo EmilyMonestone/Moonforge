@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Campaign'**
   String get campaign;
 
+  /// Label for Chapter feature
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter'**
+  String get chapter;
+
   /// Label for Party feature
   ///
   /// In en, this message translates to:
@@ -163,12 +169,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
-
-  /// Label for Chapter feature
-  ///
-  /// In en, this message translates to:
-  /// **'Chapter'**
-  String get chapter;
 
   /// Label for Adventure feature
   ///
@@ -380,6 +380,12 @@ abstract class AppLocalizations {
   /// **'Chapters'**
   String get chapters;
 
+  /// Section title for adventures list
+  ///
+  /// In en, this message translates to:
+  /// **'Adventures'**
+  String get adventures;
+
   /// Section title for recent chapters list
   ///
   /// In en, this message translates to:
@@ -493,6 +499,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Description'**
   String get description;
+
+  /// Label for short description input field
+  ///
+  /// In en, this message translates to:
+  /// **'Short Description'**
+  String get shortDescription;
 
   /// Shown when no description is provided
   ///

@@ -48,8 +48,8 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
       ownerUid: ownerUid,
       memberUids: <String>[ownerUid],
       // Use server timestamp to align across clients
-      createdAt: FirestoreODM.serverTimestamp,
-      updatedAt: FirestoreODM.serverTimestamp,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       rev: 0,
     );
 

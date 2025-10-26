@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -10,8 +9,8 @@ import 'package:moonforge/core/models/data/adventure.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
-import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
+import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -53,7 +52,10 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final campaign = Provider.of<CampaignProvider>(context, listen: true).currentCampaign;
+    final campaign = Provider.of<CampaignProvider>(
+      context,
+      listen: true,
+    ).currentCampaign;
     if (campaign != null && _campaignId != campaign.id) {
       _campaignId = campaign.id;
       _loadAdventure();
@@ -142,7 +144,7 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
         name: _nameController.text.trim(),
         summary: _summaryController.text.trim(),
         content: contentJson,
-        updatedAt: FirestoreODM.serverTimestamp,
+        updatedAt: DateTime.now(),
         rev: _adventure!.rev + 1,
       );
 

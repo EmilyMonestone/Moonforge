@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -8,6 +7,7 @@ import 'package:m3e_collection/m3e_collection.dart'
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/models/data/schema.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
@@ -132,7 +132,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
         // Keep plain text for backward compatibility
         content: contentJson,
         // Store rich text as Delta JSON
-        updatedAt: FirestoreODM.serverTimestamp,
+        updatedAt: DateTime.now(),
         rev: _campaign!.rev + 1,
       );
 
@@ -149,7 +149,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           type: ToastificationType.success,
           title: const Text('Campaign saved successfully'),
         );
-        Navigator.of(context).pop();
+        CampaignRoute().go(context);
       }
     } catch (e) {
       if (mounted) {

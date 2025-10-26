@@ -33,14 +33,54 @@ class CampaignScreen extends StatefulWidget {
 class _CampaignScreenState extends State<CampaignScreen> {
   final QuillController _controller = QuillController.basic();
 
+  // Keep dedicated controllers/nodes to dispose properly.
+  final ScrollController _quillScrollController = ScrollController();
+  final FocusNode _quillFocusNode = FocusNode();
+
+  Campaign? _lastCampaign;
+
+  @override
+  void initState() {
+    super.initState();
+    // Ensure read-only editor once; avoid toggling during build.
+    // Some versions expose readOnly on the controller; if not available, this is a no-op at compile time.
+    // ignore: invalid_use
+    _controller.readOnly = true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Update the editor's document only when the campaign actually changes.
+    final camp = context.read<CampaignProvider>().currentCampaign;
+    if ((_lastCampaign?.id) != (camp?.id)) {
+      try {
+        if (camp?.content != null && camp!.content!.trim().isNotEmpty) {
+          _controller.document = Document.fromJson(jsonDecode(camp.content!));
+        } else {
+          _controller.document = Document();
+        }
+      } catch (e) {
+        logger.w('Invalid campaign content JSON: $e');
+        logger.t('Stacktrace for invalid campaign content', error: e);
+        _controller.document = Document();
+      }
+      _lastCampaign = camp;
+    }
+  }
+
+  @override
+  void dispose() {
+    _quillScrollController.dispose();
+    _quillFocusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
-    if (campaign?.content != null) {
-      _controller.document = Document.fromJson(jsonDecode(campaign!.content!));
-    }
-    _controller.readOnly = true;
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
@@ -53,11 +93,11 @@ class _CampaignScreenState extends State<CampaignScreen> {
                 campaign.name,
                 style: Theme.of(context).textTheme.displaySmall,
               ),
-              Spacer(),
+              const Spacer(),
               ButtonM3E(
                 style: ButtonM3EStyle.tonal,
                 shape: ButtonM3EShape.square,
-                icon: Icon(Icons.edit_outlined),
+                icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
                   CampaignEditRoute().go(context);
@@ -73,16 +113,22 @@ class _CampaignScreenState extends State<CampaignScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    l10n.description,
+                    l10n.shortDescription,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    campaign.description.trim().isEmpty
+                    // Show description when non-empty; otherwise the fallback.
+                    campaign.description.trim().isNotEmpty
                         ? campaign.description
                         : l10n.noDescriptionProvided,
                   ),
                 ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.description,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               CustomQuillViewer(
                 controller: _controller,
@@ -143,7 +189,7 @@ class _ChaptersSection extends StatelessWidget {
           }
           return CardList<Chapter>(
             items: chapters,
-            titleOf: (c) => c.name,
+            titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => c.summary ?? '',
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
           );
@@ -186,9 +232,10 @@ class _RecentChaptersSection extends StatelessWidget {
           if (items.isEmpty) {
             return const SizedBox.shrink();
           }
+          logger.i(items.first.updatedAt);
           return CardList<Chapter>(
             items: items,
-            titleOf: (c) => c.name,
+            titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => formatDateTime(c.updatedAt),
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
           );
@@ -256,7 +303,7 @@ class _RecentAdventuresSection extends StatelessWidget {
           if (items.isEmpty) return const SizedBox.shrink();
           return CardList<(Adventure, String)>(
             items: items,
-            titleOf: (t) => t.$1.name,
+            titleOf: (t) => '${t.$1.order}. ${t.$1.name}',
             subtitleOf: (t) => formatDateTime(t.$1.updatedAt),
             onTap: (t) => AdventureRoute(
               chapterId: t.$2,
@@ -346,7 +393,7 @@ class _RecentScenesSection extends StatelessWidget {
           if (items.isEmpty) return const SizedBox.shrink();
           return CardList<(Scene, String, String)>(
             items: items,
-            titleOf: (t) => t.$1.title,
+            titleOf: (t) => '${t.$1.order}. ${t.$1.title}',
             subtitleOf: (t) => formatDateTime(t.$1.updatedAt),
             onTap: (t) => SceneRoute(
               chapterId: t.$2,

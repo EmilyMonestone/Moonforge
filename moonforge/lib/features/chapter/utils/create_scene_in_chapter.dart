@@ -26,7 +26,7 @@ Future<void> createSceneInChapter(
       .adventures
       .orderBy((o) => (o.order(),))
       .get();
-      
+
   if (adventures.isEmpty) {
     if (context.mounted) {
       notification.info(context, title: Text(l10n.noAdventuresYet));
@@ -93,8 +93,8 @@ Future<void> createSceneInChapter(
       content: null,
       mentions: const <Map<String, dynamic>>[],
       mediaRefs: const <Map<String, dynamic>>[],
-      updatedAt: FirestoreODM.serverTimestamp,
-      createdAt: FirestoreODM.serverTimestamp,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       rev: 0,
     );
     await odm.campaigns

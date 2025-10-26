@@ -3,18 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
 import 'package:moonforge/core/models/data/entity.dart';
-import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
 
 /// Custom Quill editor with mention support for entities.
-/// 
+///
 /// Supports:
 /// - '@' for NPC, group, and monster entities
 /// - '#' for place, item, handout, and journal entities
 class CustomQuillEditor extends StatefulWidget {
   final GlobalKey? keyForPosition;
   final QuillController controller;
-  final Future<List<Entity>> Function(String kind, String query)? onSearchEntities;
+  final Future<List<Entity>> Function(String kind, String query)?
+  onSearchEntities;
   final FocusNode? focusNode;
   final EdgeInsets padding;
   final double? maxHeight;
@@ -72,6 +73,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     return Container(
       key: widget.keyForPosition,
       child: QuillEditor.basic(
+        controller: _controller,
         focusNode: _focusNode,
         configurations: QuillEditorConfigurations(
           controller: _controller,
@@ -87,8 +89,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
           customShortcuts: const <ShortcutActivator, Intent>{
             SingleActivator(LogicalKeyboardKey.enter, alt: true):
                 AltEnterIntent(SelectionChangedCause.keyboard),
-            SingleActivator(LogicalKeyboardKey.enter):
-                EnterIntent(SelectionChangedCause.keyboard),
+            SingleActivator(LogicalKeyboardKey.enter): EnterIntent(
+              SelectionChangedCause.keyboard,
+            ),
           },
           customActions: <Type, Action<Intent>>{
             AltEnterIntent: QuillEditorAltEnterAction(_controller),
@@ -115,7 +118,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     try {
       final index = _controller.selection.baseOffset;
       final value = _controller.plainTextEditingValue.text;
-      
+
       if (value.trim().isEmpty) {
         _removeOverlay();
         return;
@@ -177,7 +180,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
 
   void _showSuggestionOverlay() {
     if (widget.keyForPosition?.currentContext == null) return;
-    
+
     _suggestionOverlayEntry = _createSuggestionOverlay();
     Overlay.of(context).insert(_suggestionOverlayEntry!);
     _searchEntities(''); // Show all entities initially
@@ -205,8 +208,8 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
 
     try {
       // Determine entity kinds based on tagging character
-      final kind = _currentTaggingCharacter == '@' 
-          ? 'npc,group,monster' 
+      final kind = _currentTaggingCharacter == '@'
+          ? 'npc,group,monster'
           : 'place,item,handout,journal';
 
       final entities = await widget.onSearchEntities!(kind, query);
@@ -238,8 +241,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             var validCharacters = RegExp(r'^[a-zA-Z]+$');
             if (validCharacters.hasMatch(text)) {
               _isEditorLTR = true;
-              _controller
-                  .formatSelection(Attribute.clone(Attribute.align, null));
+              _controller.formatSelection(
+                Attribute.clone(Attribute.align, null),
+              );
               _controller.formatSelection(Attribute.leftAlignment);
               if (mounted) setState(() {});
             }
@@ -254,8 +258,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             var validCharacters = RegExp(r'^[a-zA-Z]+$');
             if (validCharacters.hasMatch(text)) {
               _isEditorLTR = true;
-              _controller
-                  .formatSelection(Attribute.clone(Attribute.align, null));
+              _controller.formatSelection(
+                Attribute.clone(Attribute.align, null),
+              );
               _controller.formatSelection(Attribute.leftAlignment);
               if (mounted) setState(() {});
             }
@@ -274,17 +279,20 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     final endIndex = _controller.selection.extentOffset;
     final replaceLength = endIndex - startIndex;
 
-    _controller.replaceText(
-        startIndex, replaceLength, entity.name, null);
-    
+    _controller.replaceText(startIndex, replaceLength, entity.name, null);
+
     _controller.updateSelection(
-        TextSelection(
-            baseOffset: startIndex - 1,
-            extentOffset: startIndex - 1 + entity.name.length),
-        ChangeSource.local);
+      TextSelection(
+        baseOffset: startIndex - 1,
+        extentOffset: startIndex - 1 + entity.name.length,
+      ),
+      ChangeSource.local,
+    );
 
     // Format as link with entity ID
-    final prefix = _currentTaggingCharacter == '#' ? prefixHashtag : prefixMention;
+    final prefix = _currentTaggingCharacter == '#'
+        ? prefixHashtag
+        : prefixMention;
     _controller.formatSelection(LinkAttribute("$prefix${entity.id}"));
 
     // Move cursor to end and add space
@@ -309,9 +317,11 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     Offset position = box.localToGlobal(Offset.zero);
     double y = position.dy;
     double x = position.dx;
-    
+
     final viewInsets = EdgeInsets.fromViewPadding(
-        View.of(context).viewInsets, View.of(context).devicePixelRatio);
+      View.of(context).viewInsets,
+      View.of(context).devicePixelRatio,
+    );
     double heightKeyboard = viewInsets.bottom - viewInsets.top;
 
     return OverlayEntry(
@@ -373,9 +383,9 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                                 ),
                               )
                             : null,
@@ -423,12 +433,14 @@ class QuillEditorAltEnterAction extends ContextAction<AltEnterIntent> {
   void invoke(AltEnterIntent intent, [BuildContext? context]) {
     TextSelection selection = controller.plainTextEditingValue.selection;
     controller.replaceText(
-        selection.start,
-        selection.end - selection.start,
-        '\n',
-        TextSelection(
-            baseOffset: selection.start + 1,
-            extentOffset: selection.start + 1));
+      selection.start,
+      selection.end - selection.start,
+      '\n',
+      TextSelection(
+        baseOffset: selection.start + 1,
+        extentOffset: selection.start + 1,
+      ),
+    );
   }
 
   @override

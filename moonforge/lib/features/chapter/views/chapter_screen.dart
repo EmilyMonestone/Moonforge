@@ -6,6 +6,7 @@ import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/adventure.dart';
+import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/models/data/chapter.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/services/app_router.dart';
@@ -62,8 +63,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
 
         if (chapter.content != null) {
           try {
-            _controller.document =
-                Document.fromJson(jsonDecode(chapter.content!));
+            _controller.document = Document.fromJson(
+              jsonDecode(chapter.content!),
+            );
           } catch (e) {
             logger.e('Error parsing chapter content: $e');
           }
@@ -120,7 +122,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
             WrapLayout(
               children: [
                 _AdventuresSection(
-                    campaign: campaign, chapterId: widget.chapterId),
+                  campaign: campaign,
+                  chapterId: widget.chapterId,
+                ),
               ],
             ),
           ],
@@ -131,10 +135,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
 }
 
 class _AdventuresSection extends StatelessWidget {
-  const _AdventuresSection({
-    required this.campaign,
-    required this.chapterId,
-  });
+  const _AdventuresSection({required this.campaign, required this.chapterId});
 
   final Campaign campaign;
   final String chapterId;
@@ -173,9 +174,10 @@ class _AdventuresSection extends StatelessWidget {
             items: adventures,
             titleOf: (a) => a.name,
             subtitleOf: (a) => a.summary ?? '',
-            onTap: (a) =>
-                AdventureRoute(chapterId: chapterId, adventureId: a.id)
-                    .go(context),
+            onTap: (a) => AdventureRoute(
+              chapterId: chapterId,
+              adventureId: a.id,
+            ).go(context),
           );
         },
       ),

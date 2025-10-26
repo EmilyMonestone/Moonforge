@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -10,8 +9,8 @@ import 'package:moonforge/core/models/data/chapter.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
-import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
+import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -149,14 +148,11 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
         name: _nameController.text.trim(),
         summary: _summaryTextController.text.trim(),
         content: contentJson,
-        updatedAt: FirestoreODM.serverTimestamp,
+        updatedAt: DateTime.now(),
         rev: _chapter!.rev + 1,
       );
 
-      await odm.campaigns
-          .doc(campaign.id)
-          .chapters
-          .update(updatedChapter);
+      await odm.campaigns.doc(campaign.id).chapters.update(updatedChapter);
 
       // Clear autosaved draft after successful save
       await _autosave?.clear();
