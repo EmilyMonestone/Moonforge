@@ -37,29 +37,42 @@ class MenuRegistry {
 
   /// Resolve menu items for a given [uri].
   ///
-  /// Strategy: match by top-level path prefix; if no match, fall back to root.
-  /// For nested routes like adventure, check for specific patterns.
+  /// Strategy: match by top-level path prefix or specific route patterns.
+  /// Special handling for scene routes to provide scene-specific menus.
   static List<MenuBarAction>? resolve(BuildContext context, Uri uri) {
     final segments = uri.pathSegments;
     if (segments.isEmpty) {
       return _registry['/']?.call(context);
     }
     
+        // Check for scene route pattern: /campaign/chapter/.../adventure/.../scene/...
+    if (segments.length >= 6 && 
+        segments[0] == 'campaign' && 
+        segments[1] == 'chapter' && 
+        segments[3] == 'adventure' && 
+        segments[5] == 'scene') {
+      return _sceneMenu(context);
+    }
+    
+        // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
+    if (segments.length >= 4 &&
+        segments[0] == 'campaign' &&
+        segments[1] == 'chapter' &&
+        segments[3] == 'adventure') {
+      return _adventureMenu(context);
+    }
+    
         // Check for chapter context: /campaign/chapter/:chapterId
-    if (segments.length == 3 &&
+    if (segments.length >= 2 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter') {
       final chapterId = segments[2];
       return _chapterMenu(context, chapterId);
     }
     
-    // Check for adventure route pattern: /campaign/chapter/:chapterId/adventure/:adventureId
-    if (segments.length == 5 &&
-        segments[0] == 'campaign' &&
-        segments[1] == 'chapter' &&
-        segments[3] == 'adventure') {
-      return _adventureMenu(context);
-    }
+
+    
+
    
 
 
@@ -115,6 +128,14 @@ class MenuRegistry {
   }
 
   // ------ MenuBarActions ------
+
+  /// Menu for Scene routes ('/campaign/chapter/.../adventure/.../scene/...').
+  static List<MenuBarAction> _sceneMenu(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return <MenuBarAction>[
+      newEntity(l10n),
+    ];
+  }
 
   static MenuBarAction continueWhereLeft(AppLocalizations l10n) {
     return MenuBarAction(

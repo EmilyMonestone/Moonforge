@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Scene {
 
-@DocumentIdField() String get id; String get title; String? get content;// quill delta json
+@DocumentIdField() String get id; String get title; String? get summary; String? get content;// quill delta json
  List<Map<String, dynamic>>? get mentions; List<Map<String, dynamic>>? get mediaRefs; DateTime? get updatedAt; DateTime? get createdAt; int get rev;
 /// Create a copy of Scene
 /// with the given fields replaced by the non-null parameter values.
@@ -29,16 +29,16 @@ $SceneCopyWith<Scene> get copyWith => _$SceneCopyWithImpl<Scene>(this as Scene, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Scene&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.mentions, mentions)&&const DeepCollectionEquality().equals(other.mediaRefs, mediaRefs)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.rev, rev) || other.rev == rev));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Scene&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.mentions, mentions)&&const DeepCollectionEquality().equals(other.mediaRefs, mediaRefs)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,content,const DeepCollectionEquality().hash(mentions),const DeepCollectionEquality().hash(mediaRefs),updatedAt,createdAt,rev);
+int get hashCode => Object.hash(runtimeType,id,title,summary,content,const DeepCollectionEquality().hash(mentions),const DeepCollectionEquality().hash(mediaRefs),updatedAt,createdAt,rev);
 
 @override
 String toString() {
-  return 'Scene(id: $id, title: $title, content: $content, mentions: $mentions, mediaRefs: $mediaRefs, updatedAt: $updatedAt, createdAt: $createdAt, rev: $rev)';
+  return 'Scene(id: $id, title: $title, summary: $summary, content: $content, mentions: $mentions, mediaRefs: $mediaRefs, updatedAt: $updatedAt, createdAt: $createdAt, rev: $rev)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $SceneCopyWith<$Res>  {
   factory $SceneCopyWith(Scene value, $Res Function(Scene) _then) = _$SceneCopyWithImpl;
 @useResult
 $Res call({
-@DocumentIdField() String id, String title, String? content, List<Map<String, dynamic>>? mentions, List<Map<String, dynamic>>? mediaRefs, DateTime? updatedAt, DateTime? createdAt, int rev
+@DocumentIdField() String id, String title, String? summary, String? content, List<Map<String, dynamic>>? mentions, List<Map<String, dynamic>>? mediaRefs, DateTime? updatedAt, DateTime? createdAt, int rev
 });
 
 
@@ -66,11 +66,12 @@ class _$SceneCopyWithImpl<$Res>
 
 /// Create a copy of Scene
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? content = freezed,Object? mentions = freezed,Object? mediaRefs = freezed,Object? updatedAt = freezed,Object? createdAt = freezed,Object? rev = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? summary = freezed,Object? content = freezed,Object? mentions = freezed,Object? mediaRefs = freezed,Object? updatedAt = freezed,Object? createdAt = freezed,Object? rev = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as String?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,mentions: freezed == mentions ? _self.mentions : mentions // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,mediaRefs: freezed == mediaRefs ? _self.mediaRefs : mediaRefs // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -161,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String title,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String title,  String? summary,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Scene() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
+return $default(_that.id,_that.title,_that.summary,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
   return orElse();
 
 }
@@ -182,10 +183,10 @@ return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRef
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String title,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String title,  String? summary,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)  $default,) {final _that = this;
 switch (_that) {
 case _Scene():
-return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
+return $default(_that.id,_that.title,_that.summary,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +203,10 @@ return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRef
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String title,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String title,  String? summary,  String? content,  List<Map<String, dynamic>>? mentions,  List<Map<String, dynamic>>? mediaRefs,  DateTime? updatedAt,  DateTime? createdAt,  int rev)?  $default,) {final _that = this;
 switch (_that) {
 case _Scene() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
+return $default(_that.id,_that.title,_that.summary,_that.content,_that.mentions,_that.mediaRefs,_that.updatedAt,_that.createdAt,_that.rev);case _:
   return null;
 
 }
@@ -217,11 +218,12 @@ return $default(_that.id,_that.title,_that.content,_that.mentions,_that.mediaRef
 @JsonSerializable()
 
 class _Scene implements Scene {
-  const _Scene({@DocumentIdField() required this.id, required this.title, this.content, final  List<Map<String, dynamic>>? mentions, final  List<Map<String, dynamic>>? mediaRefs, this.updatedAt, this.createdAt, this.rev = 0}): _mentions = mentions,_mediaRefs = mediaRefs;
+  const _Scene({@DocumentIdField() required this.id, required this.title, this.summary, this.content, final  List<Map<String, dynamic>>? mentions, final  List<Map<String, dynamic>>? mediaRefs, this.updatedAt, this.createdAt, this.rev = 0}): _mentions = mentions,_mediaRefs = mediaRefs;
   factory _Scene.fromJson(Map<String, dynamic> json) => _$SceneFromJson(json);
 
 @override@DocumentIdField() final  String id;
 @override final  String title;
+@override final  String? summary;
 @override final  String? content;
 // quill delta json
  final  List<Map<String, dynamic>>? _mentions;
@@ -260,16 +262,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Scene&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._mentions, _mentions)&&const DeepCollectionEquality().equals(other._mediaRefs, _mediaRefs)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.rev, rev) || other.rev == rev));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Scene&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._mentions, _mentions)&&const DeepCollectionEquality().equals(other._mediaRefs, _mediaRefs)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,content,const DeepCollectionEquality().hash(_mentions),const DeepCollectionEquality().hash(_mediaRefs),updatedAt,createdAt,rev);
+int get hashCode => Object.hash(runtimeType,id,title,summary,content,const DeepCollectionEquality().hash(_mentions),const DeepCollectionEquality().hash(_mediaRefs),updatedAt,createdAt,rev);
 
 @override
 String toString() {
-  return 'Scene(id: $id, title: $title, content: $content, mentions: $mentions, mediaRefs: $mediaRefs, updatedAt: $updatedAt, createdAt: $createdAt, rev: $rev)';
+  return 'Scene(id: $id, title: $title, summary: $summary, content: $content, mentions: $mentions, mediaRefs: $mediaRefs, updatedAt: $updatedAt, createdAt: $createdAt, rev: $rev)';
 }
 
 
@@ -280,7 +282,7 @@ abstract mixin class _$SceneCopyWith<$Res> implements $SceneCopyWith<$Res> {
   factory _$SceneCopyWith(_Scene value, $Res Function(_Scene) _then) = __$SceneCopyWithImpl;
 @override @useResult
 $Res call({
-@DocumentIdField() String id, String title, String? content, List<Map<String, dynamic>>? mentions, List<Map<String, dynamic>>? mediaRefs, DateTime? updatedAt, DateTime? createdAt, int rev
+@DocumentIdField() String id, String title, String? summary, String? content, List<Map<String, dynamic>>? mentions, List<Map<String, dynamic>>? mediaRefs, DateTime? updatedAt, DateTime? createdAt, int rev
 });
 
 
@@ -297,11 +299,12 @@ class __$SceneCopyWithImpl<$Res>
 
 /// Create a copy of Scene
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? content = freezed,Object? mentions = freezed,Object? mediaRefs = freezed,Object? updatedAt = freezed,Object? createdAt = freezed,Object? rev = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? summary = freezed,Object? content = freezed,Object? mentions = freezed,Object? mediaRefs = freezed,Object? updatedAt = freezed,Object? createdAt = freezed,Object? rev = null,}) {
   return _then(_Scene(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as String?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,mentions: freezed == mentions ? _self._mentions : mentions // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,mediaRefs: freezed == mediaRefs ? _self._mediaRefs : mediaRefs // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
