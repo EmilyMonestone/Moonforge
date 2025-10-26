@@ -11,6 +11,7 @@ import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
+import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -31,6 +32,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
   late QuillController _contentController;
   QuillAutosave? _autosave;
   final _formKey = GlobalKey<FormState>();
+  final _editorKey = GlobalKey();
   bool _isLoading = false;
   bool _isSaving = false;
   Campaign? _campaign;
@@ -272,9 +274,19 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
                   bottom: Radius.circular(4),
                 ),
               ),
-              child: QuillEditor.basic(
+              child: CustomQuillEditor(
                 controller: _contentController,
-                config: const QuillEditorConfig(padding: EdgeInsets.all(16)),
+                keyForPosition: _editorKey,
+                onSearchEntities: (kind, query) async {
+                  if (_campaign == null) return [];
+                  return await EntityMentionService.searchEntities(
+                    campaignId: _campaign!.id,
+                    kinds: kind,
+                    query: query,
+                    limit: 10,
+                  );
+                },
+                padding: const EdgeInsets.all(16),
               ),
             ),
           ],

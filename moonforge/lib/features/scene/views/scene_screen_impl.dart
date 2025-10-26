@@ -9,6 +9,7 @@ import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -144,10 +145,11 @@ class _SceneScreenImplState extends State<SceneScreenImpl> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    QuillEditor(
+                    CustomQuillViewer(
                       controller: _controller,
-                      scrollController: ScrollController(),
-                      focusNode: FocusNode(),
+                      onMentionTap: (entityId, mentionType) async {
+                        EntityRoute(entityId: entityId).push(context);
+                      },
                     ),
                   ],
                 )
