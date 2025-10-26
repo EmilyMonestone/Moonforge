@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moonforge/core/providers/settings_provider.dart';
+import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-class SettingsScreen extends ConsumerWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 4,
@@ -47,14 +47,13 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-class _AppearanceSettingsTab extends ConsumerWidget {
+class _AppearanceSettingsTab extends StatelessWidget {
   const _AppearanceSettingsTab();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final settings = ref.watch(appSettingsProvider);
-    final notifier = ref.read(appSettingsProvider.notifier);
+    final settings = Provider.of<AppSettingsProvider>(context);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -91,7 +90,7 @@ class _AppearanceSettingsTab extends ConsumerWidget {
                 );
               }),
             ],
-            onChanged: (locale) => notifier.setLocale(locale),
+            onChanged: (locale) => settings.setLocale(locale),
           ),
           const SizedBox(height: 24),
           Text(l10n.theme, style: Theme.of(context).textTheme.titleMedium),
@@ -112,7 +111,7 @@ class _AppearanceSettingsTab extends ConsumerWidget {
               DropdownMenuItem(value: ThemeMode.dark, child: Text(l10n.dark)),
             ],
             onChanged: (mode) {
-              if (mode != null) notifier.setThemeMode(mode);
+              if (mode != null) settings.setThemeMode(mode);
             },
           ),
         ],
