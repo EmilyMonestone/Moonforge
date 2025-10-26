@@ -18,10 +18,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add Vercel configuration for static site deployment">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update .gitignore to exclude build directory while including web subdirectory">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vercel.json" beforeDir="false" afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,30 +148,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00005" summary="feat: add Firestore ODM models for campaign, chapter, adventure, scene, encounter, and media asset with JSON serialization support">
-      <option name="closed" value="true" />
-      <created>1760445637964</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1760445637964</updated>
-    </task>
-    <task id="LOCAL-00006" summary="feat: add generated models and builders for JoinCode, ChapterDoc, AdventureDoc, SceneDoc, EncounterDoc, and MediaAssetDoc with JSON serialization support">
-      <option name="closed" value="true" />
-      <created>1760445648067</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1760445648068</updated>
-    </task>
-    <task id="LOCAL-00007" summary="feat: simplify Campaign model by removing unused fields and updating JSON serialization">
-      <option name="closed" value="true" />
-      <created>1760446602651</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1760446602651</updated>
     </task>
     <task id="LOCAL-00008" summary="feat: add Firestore ODM models for JoinCode, Session, Party, Chapter, and MediaAsset with JSON serialization support">
       <option name="closed" value="true" />
@@ -543,7 +517,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761505679161</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="feat: update Vercel configuration for static site deployment paths">
+      <option name="closed" value="true" />
+      <created>1761506374233</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1761506374233</updated>
+    </task>
+    <task id="LOCAL-00055" summary="feat: update Vercel configuration for static site deployment paths">
+      <option name="closed" value="true" />
+      <created>1761506377266</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1761506377266</updated>
+    </task>
+    <task id="LOCAL-00056" summary="feat: update .gitignore to exclude build directory while including web subdirectory">
+      <option name="closed" value="true" />
+      <created>1761506441778</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1761506441778</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -570,8 +568,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add untranslated messages file for localization support" />
-    <MESSAGE value="feat: add project guidelines for Moonforge repository" />
     <MESSAGE value="feat: add MultiProviderWrapper for managing multiple providers in the widget tree" />
     <MESSAGE value="feat: implement recent sections for campaigns, sessions, and parties in HomeScreen" />
     <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
@@ -595,7 +591,9 @@
     <MESSAGE value="feat: add Contents.json for Moonforge icons and logos" />
     <MESSAGE value="feat: update download section to indicate upcoming releases and disable buttons" />
     <MESSAGE value="feat: add Vercel configuration for static site deployment" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add Vercel configuration for static site deployment" />
+    <MESSAGE value="feat: update Vercel configuration for static site deployment paths" />
+    <MESSAGE value="feat: update .gitignore to exclude build directory while including web subdirectory" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update .gitignore to exclude build directory while including web subdirectory" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -858,6 +856,18 @@
           <option name="totalLines" value="16572860" />
           <option name="info" value="feat: add Vercel configuration for static site dep" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761506386917" />
+          <option name="linesCode" value="340904" />
+          <option name="totalLines" value="16572860" />
+          <option name="info" value="feat: update Vercel configuration for static site " />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761506454259" />
+          <option name="linesCode" value="340904" />
+          <option name="totalLines" value="16572861" />
+          <option name="info" value="feat: update .gitignore to exclude build directory" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -893,9 +903,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761505691807" />
+          <option name="timestamp" value="1761506454259" />
           <option name="linesCode" value="340904" />
-          <option name="totalLines" value="16572860" />
+          <option name="totalLines" value="16572861" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>
