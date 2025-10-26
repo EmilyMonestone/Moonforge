@@ -54,12 +54,12 @@ Future<void> main() async {
   }
   final firestore = FirebaseFirestore.instance;
   firestore.settings = const Settings(persistenceEnabled: true);
-  if (kIsWeb) {
+  /*  if (kIsWeb) {
     // ignore: deprecated_member_use
     await firestore.enablePersistence(
       const PersistenceSettings(synchronizeTabs: true),
     );
-  }
+  }*/
   await Odm.init(firestore);
 
   // Initialize deep linking after the app router is available

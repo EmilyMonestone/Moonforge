@@ -18,18 +18,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="remove">
-      <change afterPath="$PROJECT_DIR$/website/assets/img/Moonforge-Logo-purple_1024.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/assets/img/Moonforge-Logo-purple_512.png" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update download section to indicate upcoming releases and disable buttons">
+      <change afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/assets/icon/MoonForge-Logo2-Icon.afdesign" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/assets/icon/MoonForge-Logo2-Icon.afdesign" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roadmap.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon-32.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon-32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon-512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/assets/img/og-image.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/og-image.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/roadmap.md" beforeDir="false" afterPath="$PROJECT_DIR$/website/roadmap.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +115,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.chat.ChatConfigurable",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
     "show.migrate.to.gradle.popup": "false",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -158,22 +151,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00002" summary="add initial project structure and configuration files for moonforge">
-      <option name="closed" value="true" />
-      <created>1760091281167</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1760091281167</updated>
-    </task>
-    <task id="LOCAL-00003" summary="refactor workspace configuration and update task summaries for clarity">
-      <option name="closed" value="true" />
-      <created>1760365146289</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1760365146289</updated>
     </task>
     <task id="LOCAL-00004" summary="feat: integrate Firebase authentication and Firestore with Riverpod, add dynamic theming support">
       <option name="closed" value="true" />
@@ -551,7 +528,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761502968007</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="feat: add Contents.json for Moonforge icons and logos">
+      <option name="closed" value="true" />
+      <created>1761504331214</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1761504331214</updated>
+    </task>
+    <task id="LOCAL-00052" summary="feat: update download section to indicate upcoming releases and disable buttons">
+      <option name="closed" value="true" />
+      <created>1761504744045</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1761504744045</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -578,8 +571,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: refactor command palette and hotkey management for improved state handling and logging" />
-    <MESSAGE value="feat: implement CampaignEditScreen with rich text editing and campaign management" />
     <MESSAGE value="feat: add User model with settings and localization support" />
     <MESSAGE value="feat: add untranslated messages file for localization support" />
     <MESSAGE value="feat: add project guidelines for Moonforge repository" />
@@ -603,7 +594,9 @@
     <MESSAGE value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
     <MESSAGE value="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup" />
     <MESSAGE value="remove" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove" />
+    <MESSAGE value="feat: add Contents.json for Moonforge icons and logos" />
+    <MESSAGE value="feat: update download section to indicate upcoming releases and disable buttons" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update download section to indicate upcoming releases and disable buttons" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -848,6 +841,18 @@
           <option name="totalLines" value="17259467" />
           <option name="info" value="remove" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761504343845" />
+          <option name="linesCode" value="34526" />
+          <option name="totalLines" value="17259554" />
+          <option name="info" value="feat: add Contents.json for Moonforge icons and lo" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761504756569" />
+          <option name="linesCode" value="34504" />
+          <option name="totalLines" value="17259532" />
+          <option name="info" value="feat: update download section to indicate upcoming" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -883,9 +888,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761502978136" />
-          <option name="linesCode" value="34441" />
-          <option name="totalLines" value="17259467" />
+          <option name="timestamp" value="1761504756569" />
+          <option name="linesCode" value="34504" />
+          <option name="totalLines" value="17259532" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>
