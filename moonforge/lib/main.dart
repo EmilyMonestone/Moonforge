@@ -9,6 +9,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moonforge/app.dart';
 import 'package:moonforge/core/database/odm.dart';
+import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
@@ -51,6 +53,12 @@ Future<void> main() async {
   }
 
   await Odm.init(appSchema, firestore);
+
+  // Initialize deep linking after the app router is available
+  // The actual initialization happens after the first frame in App widget
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    DeepLinkService.instance.initialize(AppRouter.router);
+  });
 
   runApp(ProviderScope(child: App()));
 }
