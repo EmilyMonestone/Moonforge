@@ -14,12 +14,13 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  # Flutter SDK
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
-  # Firebase packages
+  # Firebase & Data (Firestore, Storage, Remote Config, ODM)
   firebase_core: ^3.15.2
   firebase_auth: ^5.7.0
   firebase_storage: ^12.4.10
@@ -27,58 +28,91 @@ dependencies:
   firebase_remote_config: ^5.5.0
   firestore_odm: ^4.0.0-dev.1
 
-  # State management and routing
-  flutter_riverpod: ^3.0.2
+  # State management & routing
+  provider: ^6.1.5+1
+  flutter_hooks: ^0.21.3+1
+  go_router: ^16.2.4
+
+  # Authentication & deep links
+  google_sign_in: ^7.2.0
+  app_links: ^6.4.1
+
+  # Internationalization
+  intl: ^0.20.2
+
+  # UI & design (Material 3 Expressive, theming, widgets)
+  m3e_collection: ^0.3.3
+  # Packages in this collection
+  #    m3e_design — Material 3 Expressive design language for Flutter (tokens, ThemeExtension, motion).
+  #    app_bar_m3e — Expressive App Bar (Material 3 Expressive) with small/medium/large variants and Sliver integration.
+  #    button_m3e — Material 3 Expressive Buttons for Flutter with 5 styles, 5 sizes, round/square shapes, and toggle selection.
+  #    button_group_m3e — Wrapper-only Button Group for Material 3 Expressive (layout, shape, size propagation).
+  #    fab_m3e — Material 3 Expressive Floating Action Button (FAB), Extended FAB, and FAB Menu for Flutter using M3E tokens.
+  #    icon_button_m3e — Material 3 Expressive IconButton with sizes, variants, shapes, toggle, and accessible hit targets.
+  #    loading_indicator_m3e — Material 3 Expressive Loading Indicator (morphing polygons) for Flutter, with Default and Contained variants.
+  #    progress_indicator_m3e — Material 3 Expressive progress indicators.
+  #    navigation_bar_m3e — Material 3 Expressive Navigation Bar for Flutter with token-driven colors, shapes, and badges.
+  #    navigation_rail_m3e — Material 3 Expressive navigation rail (collapsed & expanded) with modal/standard modes, badges, sections, and m3e_design token integration.
+  #    slider_m3e — Material 3 Expressive Sliders (single & range) for Flutter, powered by M3E tokens.
+  #    split_button_m3e — Material 3 Expressive Split Button with sizes, variants, shapes, a11y, and menu.
+  #    toolbar_m3e — Material 3 Expressive Toolbars for Flutter with token-driven colors, shapes, density, and overflow handling.
+  dynamic_color: ^1.8.1
+  toastification: ^3.0.3
+  skeletonizer: ^2.1.0+1
+  flutter_breadcrumb: ^1.0.1
+  flutter_onboarding_slider: ^1.0.11
+  showcaseview: ^5.0.0
+  flutter_quill: ^11.4.2
+  mask_text_input_formatter: ^2.9.0
+  cupertino_icons: ^1.0.8
+
+  # Desktop & platform UI
+  window_manager: ^0.5.1
+  flutter_acrylic: ^1.1.4
+
+  # Platform integrations & device info
+  package_info_plus: ^9.0.0
+  hotkey_manager: ^0.2.3
+  file_selector: ^1.0.4
+  command_palette: ^0.7.6
+
+  # Config & preferences
+  flutter_dotenv: ^6.0.0
+  shared_preferences: ^2.5.3
+
+  # Sharing & distribution
+  share_plus: ^12.0.0
+  upgrader: ^12.1.0
+  flutter_launcher_icons: ^0.14.4
+
+  # Model & serialization annotations
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
 
   # Utilities
   uuid: ^4.5.1
-
-  # UI
-  connected_button_group: ^0.1.0
-
-  # Other
-  cupertino_icons: ^1.0.8
-  freezed_annotation: ^3.0.0
-  json_annotation: ^4.9.0
-  dynamic_color: ^1.8.1
-  riverpod: ^3.0.3
-  shared_preferences: ^2.5.3
-  flutter_quill: ^11.4.2
-  share_plus: ^12.0.0
   logger: ^2.6.2
-  app_links: ^6.4.1
-  google_sign_in: ^6.2.1
-  upgrader: ^12.1.0
-  showcaseview: ^5.0.0
-  toastification: ^3.0.3
-  file_selector: ^1.0.4
-  mask_text_input_formatter: ^2.9.0
-  skeletonizer: ^2.1.0+1
-  flutter_onboarding_slider: ^1.0.11
-  flutter_breadcrumb: ^1.0.1
-  flutter_launcher_icons: ^0.14.4
-  go_router: ^16.2.4
-  window_manager: ^0.5.1
-  flutter_acrylic: ^1.1.4
-  package_info_plus: ^9.0.0
-  hotkey_manager: ^0.2.3
-  command_palette: ^0.7.6
-  intl: ^0.20.2
-  flutter_dotenv: ^6.0.0
 
 
 dev_dependencies:
+  # Testing
   flutter_test:
     sdk: flutter
 
+  # Lints & code quality
   flutter_lints: ^6.0.0
+  build_verify: ^3.1.1
+  custom_lint: ^0.8.0
+
+  # Build system & code generation
   build_runner: ^2.5.4
+
+  # Generators
   flutter_gen_runner: ^5.12.0
   firestore_odm_builder: ^4.0.0-dev.1
   freezed: ^3.0.6
   json_serializable: ^6.9.5
   go_router_builder: 3.0.0
-  build_verify: ^3.1.1
 
 
 flutter:
@@ -128,3 +162,4 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
+
