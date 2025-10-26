@@ -6,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/chapter.dart';
+import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
@@ -17,25 +17,32 @@ import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
-class ChapterEditScreen extends StatefulWidget {
-  const ChapterEditScreen({super.key, required this.chapterId});
+class SceneEditScreenImpl extends StatefulWidget {
+  const SceneEditScreenImpl({
+    super.key,
+    required this.chapterId,
+    required this.adventureId,
+    required this.sceneId,
+  });
 
   final String chapterId;
+  final String adventureId;
+  final String sceneId;
 
   @override
-  State<ChapterEditScreen> createState() => _ChapterEditScreenState();
+  State<SceneEditScreenImpl> createState() => _SceneEditScreenImplState();
 }
 
-class _ChapterEditScreenState extends State<ChapterEditScreen> {
-  late final CampaignProvider _campaignProvider;
-  final _nameController = TextEditingController();
-  final _summaryTextController = TextEditingController();
+class _SceneEditScreenImplState extends State<SceneEditScreenImpl> {
+  final _titleController = TextEditingController();
+  final _summaryController = TextEditingController();
   late QuillController _contentController;
   QuillAutosave? _autosave;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _isSaving = false;
-  Chapter? _chapter;
+  Scene? _scene;
+  String? _campaignId;
 
   @override
   void initState() {
@@ -45,24 +52,25 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
 
   @override
   void didChangeDependencies() {
-    _campaignProvider = Provider.of<CampaignProvider>(context, listen: true);
-    _loadChapter();
     super.didChangeDependencies();
+    if (!_isLoading && _scene == null) {
+      _loadScene();
+    }
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _summaryTextController.dispose();
+    _titleController.dispose();
+    _summaryController.dispose();
     _contentController.dispose();
     _autosave?.dispose();
     super.dispose();
   }
 
-  Future<void> _loadChapter() async {
+  Future<void> _loadScene() async {
     setState(() => _isLoading = true);
     try {
-      final campaign = _campaignProvider.currentCampaign;
+      final campaign = context.read<CampaignProvider>().currentCampaign;
       if (campaign == null) {
         if (mounted) {
           toastification.show(
@@ -70,25 +78,29 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
             title: const Text('No campaign selected'),
           );
         }
+        setState(() => _isLoading = false);
         return;
       }
+      _campaignId = campaign.id;
 
       final odm = Odm.instance;
-      final chapter = await odm.campaigns
+      final scene = await odm.campaigns
           .doc(campaign.id)
           .chapters
           .doc(widget.chapterId)
+          .adventures
+          .doc(widget.adventureId)
+          .scenes
+          .doc(widget.sceneId)
           .get();
 
-      if (chapter != null) {
-        // Load Quill delta from content if available
+      if (scene != null) {
         Document document;
-        if (chapter.content != null && chapter.content!.isNotEmpty) {
+        if (scene.content != null && scene.content!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(chapter.content!);
+            final deltaJson = jsonDecode(scene.content!);
             document = Document.fromJson(deltaJson);
           } catch (e) {
-            // If content is not valid JSON, fall back to empty document
             document = Document();
           }
         } else {
@@ -96,29 +108,28 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
         }
 
         setState(() {
-          _chapter = chapter;
-          _nameController.text = chapter.name;
-          _summaryTextController.text = chapter.summary ?? '';
+          _scene = scene;
+          _titleController.text = scene.title;
+          _summaryController.text = scene.summary ?? '';
           _contentController.document = document;
         });
 
-        // Initialize autosave after loading the chapter
         _autosave = QuillAutosave(
           controller: _contentController,
-          storageKey: 'chapter_${chapter.id}_content_draft',
+          storageKey: 'scene_${scene.id}_content_draft',
           delay: const Duration(seconds: 2),
           onSave: (content) async {
-            // Autosave is handled locally, no remote save needed here
-            logger.d('Content autosaved locally for chapter ${chapter.id}');
+            logger.d('Content autosaved locally for scene ${scene.id}');
           },
         );
         _autosave?.start();
       }
     } catch (e) {
+      logger.e('Error loading scene: $e');
       if (mounted) {
         toastification.show(
           type: ToastificationType.error,
-          title: const Text('Failed to load chapter'),
+          title: const Text('Failed to load scene'),
         );
       }
     } finally {
@@ -126,53 +137,50 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
     }
   }
 
-  Future<void> _saveChapter() async {
+  Future<void> _saveScene() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_chapter == null) return;
+    if (_scene == null || _campaignId == null) return;
 
     setState(() => _isSaving = true);
     try {
-      final campaign = _campaignProvider.currentCampaign;
-      if (campaign == null) {
-        throw Exception('No campaign selected');
-      }
-
       final odm = Odm.instance;
 
-      // Save as Delta JSON
       final delta = _contentController.document.toDelta();
       final contentJson = jsonEncode(delta.toJson());
 
-      final updatedChapter = _chapter!.copyWith(
-        name: _nameController.text.trim(),
-        summary: _summaryTextController.text.trim(),
+      final updatedScene = _scene!.copyWith(
+        title: _titleController.text.trim(),
+        summary: _summaryController.text.trim(),
         content: contentJson,
         updatedAt: FirestoreODM.serverTimestamp,
-        rev: _chapter!.rev + 1,
+        rev: _scene!.rev + 1,
       );
 
       await odm.campaigns
-          .doc(campaign.id)
+          .doc(_campaignId!)
           .chapters
-          .update(updatedChapter);
+          .doc(widget.chapterId)
+          .adventures
+          .doc(widget.adventureId)
+          .scenes
+          .update(updatedScene);
 
-      // Clear autosaved draft after successful save
       await _autosave?.clear();
 
       if (mounted) {
         toastification.show(
           type: ToastificationType.success,
-          title: const Text('Chapter saved successfully'),
+          title: const Text('Scene saved successfully'),
         );
         Navigator.of(context).pop();
       }
     } catch (e) {
+      logger.e('Error saving scene: $e');
       if (mounted) {
         toastification.show(
           type: ToastificationType.error,
-          title: const Text('Failed to save chapter'),
+          title: const Text('Failed to save scene'),
         );
-        logger.e('Error saving chapter: $e');
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -188,14 +196,14 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_chapter == null) {
+    if (_scene == null) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.error_outline, size: 48),
             const SizedBox(height: 16),
-            Text('Chapter not found', style: theme.textTheme.titleMedium),
+            Text('No scene found', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             FilledButton.icon(
               onPressed: () => Navigator.of(context).pop(),
@@ -212,7 +220,7 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${l10n.chapter} ${l10n.edit}',
+            '${l10n.scene} ${l10n.edit}',
             style: Theme.of(context).textTheme.displaySmall,
           ),
           Spacer(),
@@ -227,7 +235,7 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.save),
-            onPressed: _isSaving ? null : _saveChapter,
+            onPressed: _isSaving ? null : _saveScene,
           ),
         ],
       ),
@@ -237,26 +245,26 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
-              controller: _nameController,
+              controller: _titleController,
               decoration: InputDecoration(
-                labelText: '${l10n.chapter} ${l10n.name}',
-                prefixIcon: Icon(Icons.library_books_outlined),
-                helperText: 'Give your chapter a memorable name',
+                labelText: l10n.name,
+                prefixIcon: Icon(Icons.movie_outlined),
+                helperText: 'Give your scene a descriptive title',
               ),
               validator: (v) {
                 final value = v?.trim() ?? '';
-                if (value.isEmpty) return 'Name is required';
+                if (value.isEmpty) return 'Title is required';
                 return null;
               },
             ),
             const SizedBox(height: 24),
-            Text('Summary', style: theme.textTheme.titleMedium),
+            Text(l10n.description, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             TextFormField(
-              controller: _summaryTextController,
+              controller: _summaryController,
               decoration: const InputDecoration(
                 labelText: 'Short summary',
-                hintText: 'Enter a brief summary',
+                hintText: 'Enter a brief summary of the scene',
               ),
               maxLines: 3,
             ),
@@ -264,13 +272,12 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
             Text(l10n.content, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(
-              'Rich text content of the chapter',
+              'Rich text content of the scene',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 12),
-            // Quill Toolbar
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: theme.colorScheme.outline),
@@ -280,7 +287,6 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
               ),
               child: QuillCustomToolbar(controller: _contentController),
             ),
-            // Quill Editor
             Container(
               height: 400,
               decoration: BoxDecoration(

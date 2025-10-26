@@ -9,6 +9,7 @@ part of 'scene.dart';
 _Scene _$SceneFromJson(Map<String, dynamic> json) => _Scene(
   id: json['id'] as String,
   title: json['title'] as String,
+  summary: json['summary'] as String?,
   content: json['content'] as String?,
   mentions: (json['mentions'] as List<dynamic>?)
       ?.map((e) => e as Map<String, dynamic>)
@@ -28,6 +29,7 @@ _Scene _$SceneFromJson(Map<String, dynamic> json) => _Scene(
 Map<String, dynamic> _$SceneToJson(_Scene instance) => <String, dynamic>{
   'id': instance.id,
   'title': instance.title,
+  'summary': instance.summary,
   'content': instance.content,
   'mentions': instance.mentions,
   'mediaRefs': instance.mediaRefs,
@@ -56,6 +58,12 @@ class ScenePatchBuilder<$$T extends Scene?>
   late final PatchBuilder<String, String> title = PatchBuilder(
     field: path.append('title'),
     toJson: (value) => (value as String),
+  );
+
+  /// Update summary field `String?`
+  late final PatchBuilder<String?, String?> summary = PatchBuilder(
+    field: path.append('summary'),
+    toJson: (value) => (value as String?),
   );
 
   /// Update content field `String?`
@@ -126,6 +134,13 @@ class SceneFilterBuilder extends FilterBuilderNode {
       ComparableFilterField<String>(
         field: path.append('title'),
         toJson: (value) => (value as String),
+      );
+
+  /// Filter by summary
+  late final ComparableFilterField<String?> summary =
+      ComparableFilterField<String?>(
+        field: path.append('summary'),
+        toJson: (value) => (value as String?),
       );
 
   /// Filter by content
