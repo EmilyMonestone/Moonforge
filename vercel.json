@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "moonforge/build/web/**/*",
+      "src": "/moonforge/build/web/**/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "moonforge/build/web/index.html"
+      "dest": "/moonforge/build/web/index.html"
     }
   ]
 }
