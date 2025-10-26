@@ -81,11 +81,11 @@ class _AdventureScreenState extends State<AdventureScreen> {
                     adventure.name,
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ButtonM3E(
                     style: ButtonM3EStyle.tonal,
                     shape: ButtonM3EShape.square,
-                    icon: Icon(Icons.edit_outlined),
+                    icon: const Icon(Icons.edit_outlined),
                     label: Text(l10n.edit),
                     onPressed: () {
                       AdventureEditRoute(

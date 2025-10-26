@@ -209,7 +209,7 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
             '${l10n.adventure} ${l10n.edit}',
             style: Theme.of(context).textTheme.displaySmall,
           ),
-          Spacer(),
+          const Spacer(),
           ButtonM3E(
             style: ButtonM3EStyle.filled,
             shape: ButtonM3EShape.square,
