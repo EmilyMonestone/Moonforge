@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
+import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/constants/path_names.dart';
-import 'package:moonforge/core/models/actions.dart';
+import 'package:moonforge/core/models/menu_bar_actions.dart';
+import 'package:moonforge/core/providers/app_settings_provider.dart';
+import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
-import 'package:moonforge/core/widgets/menu_registry.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
+import 'package:provider/provider.dart';
 
 /// AdaptiveScaffold builds a responsive Scaffold that switches between
 /// NavigationBar (compact) and NavigationRail (medium/expanded).
-class AdaptiveScaffold extends StatelessWidget {
+class AdaptiveScaffold extends StatefulWidget {
   const AdaptiveScaffold({
     super.key,
     required this.navigationShell,
@@ -28,6 +31,11 @@ class AdaptiveScaffold extends StatelessWidget {
   final Widget body;
   final Widget? appBarTitleText;
 
+  @override
+  State<AdaptiveScaffold> createState() => _AdaptiveScaffoldState();
+}
+
+class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   String _localizedTabLabel(BuildContext context, String raw) {
     final l10n = AppLocalizations.of(context);
     if (l10n == null) return raw;
@@ -44,6 +52,8 @@ class AdaptiveScaffold extends StatelessWidget {
         return raw;
     }
   }
+
+  bool railIsExpanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +98,10 @@ class AdaptiveScaffold extends StatelessWidget {
     }
   }
 
-  int get _selectedIndex => navigationShell.currentIndex;
+  int get _selectedIndex => widget.navigationShell.currentIndex;
 
   void _onSelect(BuildContext context, int index) =>
-      navigationShell.goBranch(index);
+      widget.navigationShell.goBranch(index);
 
   void _showFabMenu(BuildContext context, List<MenuBarAction> items) {
     showModalBottomSheet<void>(
@@ -143,13 +153,17 @@ class AdaptiveScaffold extends StatelessWidget {
 
   // Phones: NavigationBar + optional persistent side NavigationRail for overflow (>5)
   Widget _buildCompact(BuildContext context, Widget breadcrumbs) {
-    final primary = tabs.length <= 5 ? tabs : tabs.take(5).toList();
-    final overflow = tabs.length > 5
-        ? tabs.skip(5).toList()
+    final primary = widget.tabs.length <= 5
+        ? widget.tabs
+        : widget.tabs.take(5).toList();
+    final overflow = widget.tabs.length > 5
+        ? widget.tabs.skip(5).toList()
         : const <TabSpec>[];
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         title: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
           leading: breadcrumbs,
@@ -160,7 +174,7 @@ class AdaptiveScaffold extends StatelessWidget {
       ),
       body: SafeArea(
         child: overflow.isEmpty
-            ? body
+            ? widget.body
             : Row(
                 children: [
                   NavigationRail(
@@ -180,7 +194,7 @@ class AdaptiveScaffold extends StatelessWidget {
                     ],
                   ),
                   const VerticalDivider(width: 1),
-                  Expanded(child: body),
+                  Expanded(child: widget.body),
                 ],
               ),
       ),
@@ -210,10 +224,12 @@ class AdaptiveScaffold extends StatelessWidget {
 
   // Tablets/Desktops: NavigationRail (extended on expanded)
   Widget _buildWide(BuildContext context, Widget breadcrumbs) {
-    final isExpanded = AppSizeClass.of(context) == SizeClass.expanded;
-
+    final settings = Provider.of<AppSettingsProvider>(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         title: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
           leading: breadcrumbs,
@@ -223,19 +239,28 @@ class AdaptiveScaffold extends StatelessWidget {
       body: SafeArea(
         child: Row(
           children: [
-            NavigationRail(
-              extended: isExpanded,
+            NavigationRailM3E(
+              type: settings.isRailNavExtended
+                  ? NavigationRailM3EType.expanded
+                  : NavigationRailM3EType.collapsed,
               selectedIndex: _selectedIndex,
+              expandedWidth: 300,
               onDestinationSelected: (i) => _onSelect(context, i),
-              labelType: isExpanded ? null : NavigationRailLabelType.all,
-              scrollable: true,
-              destinations: [
-                for (final tab in tabs)
-                  NavigationRailDestination(
-                    icon: Icon(tab.icon),
-                    label: Text(_localizedTabLabel(context, tab.label)),
-                  ),
+              sections: [
+                NavigationRailM3ESection(
+                  destinations: [
+                    for (final tab in widget.tabs)
+                      NavigationRailM3EDestination(
+                        icon: Icon(tab.icon),
+                        label: _localizedTabLabel(context, tab.label),
+                      ),
+                  ],
+                ),
               ],
+              scrollable: true,
+              onTypeChanged: (NavigationRailM3EType type) => setState(() {
+                railIsExpanded = type == NavigationRailM3EType.expanded;
+              }),
               trailingAtBottom: true,
               trailing: Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
@@ -244,7 +269,7 @@ class AdaptiveScaffold extends StatelessWidget {
                     String appVersion = AppVersion.getVersion();
                     return Column(
                       children: [
-                        const AuthUserButton(),
+                        AuthUserButton(expanded: railIsExpanded),
                         const SizedBox(height: 8),
                         Text(
                           AppLocalizations.of(
@@ -258,7 +283,17 @@ class AdaptiveScaffold extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: body),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: context.m3e.shapes.square.sm.topLeft,
+                ),
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: widget.body,
+                ),
+              ),
+            ),
           ],
         ),
       ),
