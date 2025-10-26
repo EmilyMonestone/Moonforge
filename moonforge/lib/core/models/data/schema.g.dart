@@ -13,8 +13,6 @@ part of 'schema.dart';
 /// Example: (_$UsersCollection, _$PostsCollection)
 final class _$CampaignsCollection {}
 
-final class _$JoinsCollection {}
-
 final class _$PartiesCollection {}
 
 final class _$PlayersCollection {}
@@ -32,6 +30,10 @@ final class _$EncountersCollection {}
 final class _$SessionsCollection {}
 
 final class _$MediaCollection {}
+
+final class _$UsersCollection {}
+
+final class _$JoinsCollection {}
 
 /// Generated schema class - dummy class that only serves as type marker
 class AppSchema extends FirestoreSchema {
@@ -66,6 +68,31 @@ extension $AppSchemaODM on FirestoreODM<AppSchema> {
     orderByBuilderFunc: (context) => CampaignOrderByBuilder(context: context),
     aggregateBuilderFunc: (context) =>
         CampaignAggregateBuilderRoot(context: context),
+  );
+
+  /// Access users collection
+  @pragma('vm:prefer-inline')
+  FirestoreCollection<
+    AppSchema,
+    User,
+    (_$UsersCollection,),
+    UserPatchBuilder<User>,
+    UserFilterBuilderRoot,
+    UserOrderByBuilder,
+    UserAggregateBuilderRoot
+  >
+  get users => FirestoreCollection(
+    query: firestore.collection('users'),
+    toJson: (value) => (value.toJson() as Map<String, dynamic>),
+    fromJson: (value) => User.fromJson((value as Map<String, dynamic>)),
+    documentIdField: 'id',
+    patchBuilder: UserPatchBuilder<User>(
+      toJson: (value) => (value.toJson() as Map<String, dynamic>),
+    ),
+    filterBuilder: UserFilterBuilderRoot(),
+    orderByBuilderFunc: (context) => UserOrderByBuilder(context: context),
+    aggregateBuilderFunc: (context) =>
+        UserAggregateBuilderRoot(context: context),
   );
 
   /// Access joins collection
@@ -117,6 +144,31 @@ extension $AppSchemaTransactionContext on TransactionContext<AppSchema> {
         fromJson: (value) => Campaign.fromJson((value as Map<String, dynamic>)),
         documentIdField: 'id',
         patchBuilder: CampaignPatchBuilder<Campaign>(
+          toJson: (value) => (value.toJson() as Map<String, dynamic>),
+        ),
+      );
+
+  /// Access users collection
+  @pragma('vm:prefer-inline')
+  TransactionCollection<
+    AppSchema,
+    User,
+    (_$UsersCollection,),
+    UserPatchBuilder<User>
+  >
+  get users =>
+      TransactionCollection<
+        AppSchema,
+        User,
+        (_$UsersCollection,),
+        UserPatchBuilder<User>
+      >(
+        query: ref.collection('users'),
+        context: this,
+        toJson: (value) => (value.toJson() as Map<String, dynamic>),
+        fromJson: (value) => User.fromJson((value as Map<String, dynamic>)),
+        documentIdField: 'id',
+        patchBuilder: UserPatchBuilder<User>(
           toJson: (value) => (value.toJson() as Map<String, dynamic>),
         ),
       );
@@ -682,6 +734,19 @@ extension $AppSchemaBatchContextExtensions on BatchContext<AppSchema> {
     fromJson: (value) => Campaign.fromJson((value as Map<String, dynamic>)),
     documentIdField: 'id',
     patchBuilder: CampaignPatchBuilder<Campaign>(
+      toJson: (value) => (value.toJson() as Map<String, dynamic>),
+    ),
+  );
+
+  /// Access users collection
+  BatchCollection<AppSchema, User, (_$UsersCollection,), UserPatchBuilder<User>>
+  get users => BatchCollection(
+    context: this,
+    collection: firestoreInstance.collection('users'),
+    toJson: (value) => (value.toJson() as Map<String, dynamic>),
+    fromJson: (value) => User.fromJson((value as Map<String, dynamic>)),
+    documentIdField: 'id',
+    patchBuilder: UserPatchBuilder<User>(
       toJson: (value) => (value.toJson() as Map<String, dynamic>),
     ),
   );

@@ -10,14 +10,13 @@ import 'package:moonforge/core/models/data/party.dart';
 import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/session.dart';
+import 'package:moonforge/core/models/data/user.dart';
 
 part 'schema.g.dart';
 
 @Schema()
-// Root collections
+// Campaign and its subcollections
 @Collection<Campaign>("campaigns")
-@Collection<JoinCode>("joins")
-// Subcollections under campaigns
 @Collection<Party>("campaigns/*/parties")
 @Collection<Player>("campaigns/*/players")
 @Collection<Chapter>("campaigns/*/chapters")
@@ -27,4 +26,8 @@ part 'schema.g.dart';
 @Collection<Encounter>("campaigns/*/encounters")
 @Collection<Session>("campaigns/*/sessions")
 @Collection<MediaAsset>("campaigns/*/media")
+// Users and subcollections
+@Collection<User>("users")
+// Other
+@Collection<JoinCode>("joins")
 final appSchema = _$AppSchema;

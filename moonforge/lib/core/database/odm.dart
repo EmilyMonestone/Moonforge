@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_odm/firestore_odm.dart';
+import 'package:moonforge/core/models/data/schema.dart';
 
 /// Initialize Firestore ODM
 /// ```dart
@@ -8,10 +9,9 @@ import 'package:firestore_odm/firestore_odm.dart';
 /// final odm = Odm.instance;             // überall abrufen
 /// ```
 class Odm {
-  static FirestoreODM? _instance;
+  static FirestoreODM<AppSchema>? _instance;
 
-  static Future<FirestoreODM> init(
-    FirestoreSchema appSchema,
+  static Future<FirestoreODM<AppSchema>> init(
     FirebaseFirestore firestore,
   ) async {
     if (_instance != null) return _instance!;
@@ -25,7 +25,7 @@ class Odm {
 
   /// global access to the initialized ODM instance
   /// throws StateError if not initialized
-  static FirestoreODM get instance {
+  static FirestoreODM<AppSchema> get instance {
     final odm = _instance;
     if (odm == null) {
       throw StateError(
