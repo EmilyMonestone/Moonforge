@@ -18,8 +18,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add GitHub Actions workflow for deploying website to GitHub Pages">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="remove">
+      <change afterPath="$PROJECT_DIR$/website/assets/img/Moonforge-Logo-purple_1024.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/website/assets/img/Moonforge-Logo-purple_512.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/assets/icon/MoonForge-Logo2-Icon.afdesign" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/assets/icon/MoonForge-Logo2-Icon.afdesign" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roadmap.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon-32.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon-32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon-512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/assets/img/favicon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/favicon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/assets/img/og-image.png" beforeDir="false" afterPath="$PROJECT_DIR$/website/assets/img/og-image.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/website/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/roadmap.md" beforeDir="false" afterPath="$PROJECT_DIR$/website/roadmap.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +116,7 @@
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features",
+    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -120,14 +130,16 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img\logo" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\features\campaign\controllers" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\core\repositories" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\core\models\data\helpers" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\tools" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -146,14 +158,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00001" summary="add initial screens and routing for campaign, chapter, adventure, and encounter features">
-      <option name="closed" value="true" />
-      <created>1760091264982</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1760091264982</updated>
     </task>
     <task id="LOCAL-00002" summary="add initial project structure and configuration files for moonforge">
       <option name="closed" value="true" />
@@ -531,7 +535,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761501267528</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup">
+      <option name="closed" value="true" />
+      <created>1761502656633</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1761502656633</updated>
+    </task>
+    <task id="LOCAL-00050" summary="remove">
+      <option name="closed" value="true" />
+      <created>1761502968007</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1761502968007</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -558,8 +578,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: refactor authentication handling with AuthProvider and improve user sign-in flow" />
-    <MESSAGE value="feat: refactor AdaptiveScaffold to use state management and improve navigation handling" />
     <MESSAGE value="feat: refactor command palette and hotkey management for improved state handling and logging" />
     <MESSAGE value="feat: implement CampaignEditScreen with rich text editing and campaign management" />
     <MESSAGE value="feat: add User model with settings and localization support" />
@@ -583,7 +601,9 @@
     <MESSAGE value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
     <MESSAGE value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
     <MESSAGE value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
+    <MESSAGE value="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup" />
+    <MESSAGE value="remove" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -816,6 +836,18 @@
           <option name="totalLines" value="17259515" />
           <option name="info" value="feat: add GitHub Actions workflow for deploying we" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761502669975" />
+          <option name="linesCode" value="34441" />
+          <option name="totalLines" value="17259525" />
+          <option name="info" value="feat: enhance GitHub Actions workflow for deployin" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761502978136" />
+          <option name="linesCode" value="34441" />
+          <option name="totalLines" value="17259467" />
+          <option name="info" value="remove" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -851,9 +883,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761501280533" />
+          <option name="timestamp" value="1761502978136" />
           <option name="linesCode" value="34441" />
-          <option name="totalLines" value="17259515" />
+          <option name="totalLines" value="17259467" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>

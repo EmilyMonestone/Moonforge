@@ -10,32 +10,33 @@ This document outlines the planned development phases for Moonforge. It is autom
 - Rich text editor with markdown support
 - Entity management (NPCs, locations, items)
 - Desktop support (Windows, Linux)
+- Mobile support (Android)
 - Web app deployment
 
 ## Phase 2: Enhancement 🚧
 
 **Status: In Progress**
 
-- macOS desktop support
-- iOS mobile app
 - Extended Player mode for tablets/phones
 - Improved media workflows (batch uploads, clipping, annotations)
 - Multi-window enhancements
+- Deeper D&D 5e SRD integration
 
 ## Phase 3: Integration
 
 **Status: Planned**
 
-- Deeper D&D 5e SRD integration
 - Import tools for existing campaigns
 - Advanced encounter balancing
 - Character sheet integration
 - Dice rolling mechanics
 
-## Phase 4: Collaboration
+## Phase 4: Collaboration & further platforms
 
 **Status: Future**
 
+- macOS desktop support
+- iOS mobile app
 - Real-time presence indicators
 - Commenting and annotations
 - Improved conflict resolution
@@ -53,4 +54,5 @@ This document outlines the planned development phases for Moonforge. It is autom
 
 ## Contributing
 
-Interested in helping with any of these features? Check out our [contributing guide](./CONTRIBUTING.md) and [open issues](https://github.com/EmilyMoonstone/Moonforge/issues) on GitHub!
+Interested in helping with any of these features? Check out our [contributing guide](./CONTRIBUTING.md) and [open issues](https://github.com/EmilyMoonstone/Moonforge/issues) on
+GitHub!
