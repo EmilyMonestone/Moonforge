@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules for Moonforge
+// Aligns access with Firestore campaign membership model.
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isCampaignMember(cid) {
+      return isSignedIn() &&
+        exists(/databases/(default)/documents/campaigns/$(cid)) &&
+        (
+          get(/databases/(default)/documents/campaigns/$(cid)).data.ownerUid == request.auth.uid ||
+          (request.auth.uid in get(/databases/(default)/documents/campaigns/$(cid)).data.memberUids)
+        );
+    }
+
+    // Users can read/write files in their own user folder
+    match /users/{uid}/{allPaths=**} {
+      allow read, write: if isSignedIn() && uid == request.auth.uid;
+    }
+
+    // Campaign assets are accessible to campaign members (owner or memberUids)
+    match /campaigns/{cid}/{allPaths=**} {
+      allow read, write: if isCampaignMember(cid);
+    }
+
+    // Public assets: readable by anyone, writes denied
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Deny everything else by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

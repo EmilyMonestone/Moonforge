@@ -16,19 +16,53 @@ service cloud.firestore {
         );
     }
 
+    // Allow each authenticated user to read/write their own user document
+    match /users/{uid} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+
     // Top-level campaigns collection
     match /campaigns/{cid} {
       // Creating a campaign: must be signed in and set themselves as owner.
+      // Also require memberUids to include the owner to ensure consistent membership state.
       allow create: if isSignedIn() &&
-        request.resource.data.ownerUid == request.auth.uid;
+        request.resource.data.ownerUid == request.auth.uid &&
+        request.resource.data.memberUids != null &&
+        (request.auth.uid in request.resource.data.memberUids);
 
-      // Read/update/delete if member (owner or in memberUids)
-      allow read, update, delete: if isCampaignMember(cid);
+      // Allow reads if the requester is the owner or a member — use resource.data so queries work
+      allow read: if isSignedIn() && (
+        resource.data.ownerUid == request.auth.uid ||
+        (request.auth.uid in resource.data.memberUids)
+      );
+
+      // Updates and deletes require membership and must not change ownership
+      allow update, delete: if isCampaignMember(cid) &&
+        request.resource.data.ownerUid == resource.data.ownerUid;
 
       // All subcollections under a campaign inherit membership checks.
       match /{document=**} {
         allow read, write: if isCampaignMember(cid);
       }
+    }
+
+    // Joins collection: invite/join codes for campaigns
+    match /joins/{code} {
+      // Allow reading valid (non-expired) codes to any signed-in user
+      allow read: if isSignedIn() &&
+        (resource.data.ttl == null || request.time < resource.data.ttl);
+
+      // Create/update/delete only by campaign members of the referenced campaign
+      // For create/update, use request.resource; for delete, fall back to stored resource
+      allow create: if isSignedIn() &&
+        (request.resource.data.ttl == null || request.time < request.resource.data.ttl) &&
+        isCampaignMember(request.resource.data.cid);
+
+      allow update: if isSignedIn() &&
+        (request.resource.data.ttl == null || request.time < request.resource.data.ttl) &&
+        isCampaignMember(request.resource.data.cid);
+
+      allow delete: if isSignedIn() && isCampaignMember(resource.data.cid);
     }
 
     // Deny everything else by default.
