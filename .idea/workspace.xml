@@ -18,7 +18,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add GitHub Actions workflow for deploying website to GitHub Pages">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -521,7 +523,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761495440232</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="feat: add GitHub Actions workflow for deploying website to GitHub Pages">
+      <option name="closed" value="true" />
+      <created>1761501267528</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1761501267528</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -548,7 +558,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add generic CardList widget for rendering lists with title and subtitle" />
     <MESSAGE value="feat: refactor authentication handling with AuthProvider and improve user sign-in flow" />
     <MESSAGE value="feat: refactor AdaptiveScaffold to use state management and improve navigation handling" />
     <MESSAGE value="feat: refactor command palette and hotkey management for improved state handling and logging" />
@@ -573,7 +582,8 @@
     <MESSAGE value="feat: update breadcrumb divider from icon to text for improved clarity" />
     <MESSAGE value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
     <MESSAGE value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
+    <MESSAGE value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -800,6 +810,12 @@
           <option name="totalLines" value="19862926" />
           <option name="info" value="feat: update breadcrumb divider from icon to text " />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761501280533" />
+          <option name="linesCode" value="34441" />
+          <option name="totalLines" value="17259515" />
+          <option name="info" value="feat: add GitHub Actions workflow for deploying we" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -835,9 +851,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761479262354" />
-          <option name="linesCode" value="30222" />
-          <option name="totalLines" value="19862926" />
+          <option name="timestamp" value="1761501280533" />
+          <option name="linesCode" value="34441" />
+          <option name="totalLines" value="17259515" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>

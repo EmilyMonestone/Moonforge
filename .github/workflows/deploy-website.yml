@@ -25,7 +25,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # If a Personal Access Token is provided, try to auto-enable Pages to avoid "Get Pages site failed" errors.
+      # Create a repo secret named PAGES_TOKEN with a PAT that has at least "repo" scope (or Pages write) to use this path.
+      - name: Setup Pages (enable if token provided)
+        if: ${{ secrets.PAGES_TOKEN != '' }}
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+          token: ${{ secrets.PAGES_TOKEN }}
+
+      # Fallback: configure Pages without enablement (requires Pages to already be enabled in repo settings)
       - name: Setup Pages
+        if: ${{ secrets.PAGES_TOKEN == '' }}
         uses: actions/configure-pages@v5
 
       # If you need a build step, add it here. For static content we just upload the folder.
@@ -45,4 +56,3 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-
