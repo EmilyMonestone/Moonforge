@@ -60,8 +60,8 @@ class EntityMentionService {
     try {
       final odm = Odm.instance;
       final entitiesRef = odm.campaigns.doc(campaignId).entities;
-      final doc = await entitiesRef.doc(entityId).get();
-      return doc?.data;
+      final entity = await entitiesRef.doc(entityId).get();
+      return entity;
     } catch (e) {
       logger.e('Error getting entity by ID: $e');
       return null;
