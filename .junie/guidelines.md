@@ -14,6 +14,11 @@ media assets) and feature-specific UI flows. Data schemas and JSON serialization
         - core/ — Domain models, schema, and converters (beware of generated files like *.g.dart).
         - providers/, repositories/, services/, utils/, widgets/ — App foundation and cross-cutting utilities.
         - features/ — adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings — Feature modules containing views, controllers, and state.
+            - views — UI components.
+            - widgets — Reusable widgets specific to the feature.
+            - services — Business logic.
+            - utils — Feature-specific utilities.
+            - controllers — State management (e.g., Providers).
         - layout/ — App-level layout and navigation scaffolding.
     - test/ — Dart/Flutter unit and widget tests.
     - platform folders (android/, ios/, macos/, linux/, windows/, web/) — Platform-specific runners and configs.
@@ -29,6 +34,9 @@ media assets) and feature-specific UI flows. Data schemas and JSON serialization
 - Routes are using the package go_router and are typesafe implemented.
 - All text, which is displayed to the user, is internationalized. After adding new strings, run `flutter pub get`.
 - The Design Language ist Material 3 Expressive (not old Material 3).
+- for database interaction use odm from moonforge/lib/core/database/odm.dart implemented with package firestore_odm.
+- Buttons/Actions for a screen can be defined in moonforge/lib/core/repositories/menu_registry.dart.
+- use `moonforge/lib/core/widgets/surface_container.dart` for parts of a screen.
 
 ## Generated Code
 
