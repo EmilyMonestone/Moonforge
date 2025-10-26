@@ -9,6 +9,7 @@ import 'package:moonforge/core/models/data/adventure.dart';
 import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
@@ -183,7 +184,7 @@ class _ScenesSection extends StatelessWidget {
           return CardList<Scene>(
             items: scenes,
             titleOf: (s) => s.title,
-            subtitleOf: (s) => (s.updatedAt?.toLocal().toString() ?? ''),
+            subtitleOf: (s) => formatDateTime(s.updatedAt),
             onTap: (s) => SceneRoute(
               chapterId: chapterId,
               adventureId: adventureId,

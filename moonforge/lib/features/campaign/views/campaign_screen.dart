@@ -12,6 +12,7 @@ import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
@@ -185,7 +186,7 @@ class _RecentChaptersSection extends StatelessWidget {
           return CardList<Chapter>(
             items: items,
             titleOf: (c) => c.name,
-            subtitleOf: (c) => (c.updatedAt?.toLocal().toString() ?? ''),
+            subtitleOf: (c) => formatDateTime(c.updatedAt),
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
           );
         },
@@ -223,10 +224,12 @@ class _RecentAdventuresSection extends StatelessWidget {
       all.sort((a, b) {
         final ad = a.$1.updatedAt;
         final bd = b.$1.updatedAt;
-        if (ad == null && bd == null) return 0;
-        if (ad == null) return 1;
-        if (bd == null) return -1;
-        return bd.compareTo(ad);
+        final adValid = isValidDateTime(ad);
+        final bdValid = isValidDateTime(bd);
+        if (!adValid && !bdValid) return 0;
+        if (!adValid) return 1;
+        if (!bdValid) return -1;
+        return bd!.compareTo(ad!);
       });
       return all.take(5).toList();
     }
@@ -251,7 +254,7 @@ class _RecentAdventuresSection extends StatelessWidget {
           return CardList<(Adventure, String)>(
             items: items,
             titleOf: (t) => t.$1.name,
-            subtitleOf: (t) => t.$1.updatedAt?.toLocal().toString() ?? '',
+            subtitleOf: (t) => formatDateTime(t.$1.updatedAt),
             onTap: (t) => AdventureRoute(
               chapterId: t.$2,
               adventureId: t.$1.id,
@@ -311,10 +314,12 @@ class _RecentScenesSection extends StatelessWidget {
       all.sort((a, b) {
         final ad = a.$1.updatedAt;
         final bd = b.$1.updatedAt;
-        if (ad == null && bd == null) return 0;
-        if (ad == null) return 1;
-        if (bd == null) return -1;
-        return bd.compareTo(ad);
+        final adValid = isValidDateTime(ad);
+        final bdValid = isValidDateTime(bd);
+        if (!adValid && !bdValid) return 0;
+        if (!adValid) return 1;
+        if (!bdValid) return -1;
+        return bd!.compareTo(ad!);
       });
       return all.take(5).toList();
     }
@@ -339,7 +344,7 @@ class _RecentScenesSection extends StatelessWidget {
           return CardList<(Scene, String, String)>(
             items: items,
             titleOf: (t) => t.$1.title,
-            subtitleOf: (t) => t.$1.updatedAt?.toLocal().toString() ?? '',
+            subtitleOf: (t) => formatDateTime(t.$1.updatedAt),
             onTap: (t) => SceneRoute(
               chapterId: t.$2,
               adventureId: t.$3,
