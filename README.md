@@ -47,6 +47,7 @@ entities, sessions, media, and more — all synchronized across devices.
 - Encounter builder and initiative tracker
 - NPC and monster management; integration with the D&D SRD
 - Multi-window support on desktop, split panes, keyboard shortcuts
+- Deep linking support across all platforms with `moonforge://` URLs
 
 ## Platform Support
 
@@ -61,6 +62,7 @@ entities, sessions, media, and more — all synchronized across devices.
 - Flutter + Dart (stable channel)
 - State management: Riverpod (flutter_riverpod)
 - Navigation: go_router with type-safe routes via go_router_builder
+- Deep linking: app_links for cross-platform deep linking support
 - Data: Firebase (Auth, Firestore, Storage, Remote Config), offline-first patterns
 - Data modeling: Freezed, Json Serializable, Firestore ODM
 - Code generation: build_runner, flutter_gen (assets, colors)
@@ -84,6 +86,7 @@ High-level layout:
     - test/ — Unit/widget tests
     - pubspec.yaml, analysis_options.yaml, l10n.yaml, firebase_options.dart
 - docs/ — Developer documentation (e.g., docs/firebase_schema.md, docs/app_router.md)
+- moonforge/docs/ — Additional documentation (e.g., deep_linking.md, testing_deep_links.md)
 - tools/ — Scripts/CI helpers (optional)
 - .github/workflows/ — CI definitions (optional)
 - README.md, LICENSE, CONTRIBUTING.md
@@ -160,14 +163,17 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## Routing
 
-Moonforge uses go_router with type-safe route definitions. Start with the developer doc:
+Moonforge uses go_router with type-safe route definitions and supports deep linking across all platforms. Start with the developer docs:
 
-- docs/app_router.md
+- docs/app_router.md - Router configuration and type-safe navigation
+- moonforge/docs/deep_linking.md - Deep linking implementation guide
+- moonforge/docs/testing_deep_links.md - Testing deep links on all platforms
 
 Key files:
 
 - moonforge/lib/core/services/app_router.dart (annotations and configuration)
 - moonforge/lib/core/services/app_router.g.dart (generated; do not edit)
+- moonforge/lib/core/services/deep_link_service.dart (deep link handling)
 
 ## Data & Firebase Schema
 

@@ -139,6 +139,49 @@ You can override buildPage(...) in your GoRouteData to return a MaterialPage, No
 AppRouter is configured with an errorBuilder that shows UnknownPathScreen if a route is not found or an error occurs during resolution. You can customize this by introducing a dedicated ErrorRoute and invoking its build method in errorBuilder if needed.
 
 
+## Deep Linking
+
+Moonforge supports deep linking across all platforms using the `moonforge://` URL scheme. Deep links are handled by the `DeepLinkService` which integrates with `go_router`.
+
+### Supported Deep Links
+
+- `moonforge://campaign` - Navigate to campaign view
+- `moonforge://campaign/[id]` - Navigate to campaign (currently navigates to campaign root)
+- `moonforge://party/[id]` - Navigate to specific party
+- `moonforge://settings` - Navigate to settings
+
+### How Deep Links Work
+
+1. Deep links are received via the `app_links` package
+2. `DeepLinkService` parses the URI and calls the appropriate `go_router` methods
+3. The service is initialized in `main.dart` after the app router is ready
+
+### Adding Deep Link Support for New Routes
+
+To add deep link support for a new route:
+
+1. Update `DeepLinkService._handleDeepLink()` in `lib/core/services/deep_link_service.dart`:
+   ```dart
+   case 'mynewroute':
+     if (pathSegments.length > 1) {
+       final id = pathSegments[1];
+       router.go('/mynewroute/$id');
+     } else {
+       router.go('/mynewroute');
+     }
+     break;
+   ```
+
+2. Ensure the route exists in the router configuration
+3. (Optional) Update platform-specific configurations if needed
+
+### Documentation
+
+See the following documents for more information:
+- `moonforge/docs/deep_linking.md` - Complete deep linking implementation guide
+- `moonforge/docs/testing_deep_links.md` - Testing instructions for all platforms
+
+
 ## Code generation notes
 
 - Do not edit moonforge/lib/core/services/app_router.g.dart. Modify app_router.dart annotations and run build_runner instead.
