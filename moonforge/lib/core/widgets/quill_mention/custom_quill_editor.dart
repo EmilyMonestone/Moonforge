@@ -76,11 +76,6 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
         controller: _controller,
         focusNode: _focusNode,
         configurations: QuillEditorConfigurations(
-          controller: _controller,
-          builder: (context, rawEditor) {
-            return rawEditor;
-          },
-          elementOptions: mentionElementOptions,
           padding: widget.padding,
           maxHeight: widget.maxHeight,
           minHeight: widget.minHeight,
@@ -107,8 +102,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             ),
           },
           customStyles: defaultMentionStyles,
-          textInputAction: TextInputAction.newline,
-          isOnTapOutsideEnabled: true,
+          elementOptions: mentionElementOptions,
         ),
       ),
     );

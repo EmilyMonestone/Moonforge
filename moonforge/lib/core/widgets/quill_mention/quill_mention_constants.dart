@@ -14,7 +14,7 @@ final defaultMentionStyles = DefaultStyles(
   ),
 );
 
-const mentionElementOptions = QuillEditorElementOptions(
+final mentionElementOptions = const QuillEditorElementOptions(
   orderedList: QuillEditorOrderedListElementOptions(),
   unorderedList: QuillEditorUnOrderedListElementOptions(),
   codeBlock: QuillEditorCodeBlockElementOptions(
