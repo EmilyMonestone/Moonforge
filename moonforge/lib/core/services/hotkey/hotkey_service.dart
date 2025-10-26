@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -34,20 +35,34 @@ class HotkeyManagerService {
   /// Initialize the hotkey manager.
   ///
   /// Currently clears any previously registered hotkeys to ensure a known
-  /// state. Consider adding platform guards if targeting web.
+  /// state. On web, this is a no-op since hotkey_manager is not supported.
   Future<void> initialize() async {
-    // Must add this line to initialize the hotkey manager
-    await hotKeyManager.unregisterAll();
+    // Skip hotkey manager initialization on web (not supported)
+    if (kIsWeb) return;
+
+    try {
+      // Must add this line to initialize the hotkey manager
+      await hotKeyManager.unregisterAll();
+    } on MissingPluginException {
+      // Plugin not available on this platform. Treat as no-op.
+      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
+    } catch (e, st) {
+      logger.w('[Hotkeys] Error initializing hotkey manager: $e', e, st);
+    }
   }
 
   /// Register a Shortcut configuration as an OS-level hotkey.
   ///
   /// Pass the current BuildContext so actions (like navigation) can execute
-  /// safely when the hotkey is triggered.
+  /// safely when the hotkey is triggered. On web, this is a no-op since
+  /// hotkey_manager is not supported.
   Future<void> registerShortcut(
     HotkeyConfig shortcut, {
     required BuildContext context,
   }) async {
+    // Skip hotkey registration on web (not supported)
+    if (kIsWeb) return;
+
     try {
       // Convert HotkeyConfig to HotKey
       final hotKey = _createHotKey(shortcut);
@@ -71,13 +86,20 @@ class HotkeyManagerService {
 
       // Store the registered hotkey
       _registeredHotkeys[shortcut.id] = hotKey;
-    } catch (e) {
-      logger.e('[Hotkeys] Error registering hotkey: $e');
+    } on MissingPluginException {
+      // Plugin not available on this platform. Treat as no-op.
+      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
+    } catch (e, st) {
+      logger.w('[Hotkeys] Error registering hotkey: $e', e, st);
     }
   }
 
-  /// Unregister a shortcut
+  /// Unregister a shortcut. On web, this is a no-op since hotkey_manager
+  /// is not supported.
   Future<void> unregisterShortcut(String shortcutId) async {
+    // Skip hotkey unregistration on web (not supported)
+    if (kIsWeb) return;
+
     try {
       final hotKey = _registeredHotkeys[shortcutId];
       if (hotKey != null) {
@@ -85,18 +107,28 @@ class HotkeyManagerService {
         _registeredHotkeys.remove(shortcutId);
         logger.i('[Hotkeys] Unregistered hotkey: $shortcutId');
       }
-    } catch (e) {
-      logger.e('[Hotkeys] Error unregistering hotkey: $e');
+    } on MissingPluginException {
+      // Plugin not available on this platform. Treat as no-op.
+      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
+    } catch (e, st) {
+      logger.w('[Hotkeys] Error unregistering hotkey: $e', e, st);
     }
   }
 
-  /// Unregister all shortcuts
+  /// Unregister all shortcuts. On web, this is a no-op since hotkey_manager
+  /// is not supported.
   Future<void> unregisterAll() async {
+    // Skip hotkey unregistration on web (not supported)
+    if (kIsWeb) return;
+
     try {
       await hotKeyManager.unregisterAll();
       _registeredHotkeys.clear();
-    } catch (e) {
-      logger.e('[Hotkeys] Error unregistering all hotkeys: $e');
+    } on MissingPluginException {
+      // Plugin not available on this platform. Treat as no-op.
+      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
+    } catch (e, st) {
+      logger.w('[Hotkeys] Error unregistering all hotkeys: $e', e, st);
     }
   }
 

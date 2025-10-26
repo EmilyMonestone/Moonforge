@@ -19,7 +19,7 @@ class HotkeyGlobalWrapper extends StatefulWidget {
 class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
   final HotkeyConfigService _shortcutService = HotkeyConfigService();
   final HotkeyManagerService _hotkeyService = HotkeyManagerService();
-  late List<HotkeyConfig> _shortcuts;
+  List<HotkeyConfig> _shortcuts = [];
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -65,7 +65,7 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
   void dispose() {
     // Unregister all hotkeys
     _hotkeyService.unregisterAll().catchError((error) {
-      logger.e('[Hotkeys] Error unregistering hotkeys: $error');
+      logger.w('[Hotkeys] Error unregistering hotkeys: $error');
     });
 
     _focusNode.removeListener(_onFocusChange);
@@ -83,6 +83,9 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
 
   /// Register hotkeys with the HotkeyService
   void _registerHotkeys(BuildContext context) {
+    // Skip registration if shortcuts list is empty (not yet initialized)
+    if (_shortcuts.isEmpty) return;
+
     // Unregister all existing hotkeys first to avoid duplicates
     _hotkeyService
         .unregisterAll()
@@ -92,14 +95,14 @@ class _HotkeyGlobalWrapperState extends State<HotkeyGlobalWrapper> {
             _hotkeyService
                 .registerShortcut(shortcut, context: context)
                 .catchError((error) {
-                  logger.e(
+                  logger.w(
                     '[Hotkeys] Error registering hotkey ${shortcut.id}: $error',
                   );
                 });
           }
         })
         .catchError((error) {
-          logger.e('[Hotkeys] Error unregistering existing hotkeys: $error');
+          logger.w('[Hotkeys] Error unregistering existing hotkeys: $error');
         });
   }
 
