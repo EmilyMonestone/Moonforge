@@ -18,8 +18,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance campaign editing experience with new UI components and localization support">
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/recent_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/recent_section.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -483,7 +486,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761477013047</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details">
+      <option name="closed" value="true" />
+      <created>1761477623042</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1761477623042</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -510,7 +521,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add loading, empty, and error placeholders for async content handling" />
     <MESSAGE value="feat: implement creation functionality for campaigns, chapters, adventures, entities, and scenes" />
     <MESSAGE value="feat: add menu registry for route-specific menu actions" />
     <MESSAGE value="docs: update folder structure documentation with detailed explanations for app components" />
@@ -535,7 +545,8 @@
     <MESSAGE value="feat: add TitleCard and WrapLayout widgets for improved UI structure and layout flexibility" />
     <MESSAGE value="feat: add get and get_storage packages for state management and data persistence" />
     <MESSAGE value="feat: enhance campaign editing experience with new UI components and localization support" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance campaign editing experience with new UI components and localization support" />
+    <MESSAGE value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -750,6 +761,12 @@
           <option name="totalLines" value="19802433" />
           <option name="info" value="feat: add get and get_storage packages for state m" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761477635577" />
+          <option name="linesCode" value="30220" />
+          <option name="totalLines" value="19803641" />
+          <option name="info" value="feat: integrate Quill editor and custom toolbar fo" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -782,6 +799,12 @@
           <option name="timestamp" value="1761474256370" />
           <option name="linesCode" value="29745" />
           <option name="totalLines" value="19802433" />
+          <option name="info" value="Oct 26, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761477635577" />
+          <option name="linesCode" value="30220" />
+          <option name="totalLines" value="19803641" />
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
       </list>
