@@ -41,7 +41,7 @@ analysis_benchmark.json
 /moonforge/.packages
 /moonforge/.pub-preload-cache/
 /moonforge/.pub/
-/moonforge/build/
+# /moonforge/build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
