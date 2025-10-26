@@ -10,8 +10,8 @@ import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
-import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
+import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -201,6 +201,13 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
             style: Theme.of(context).textTheme.displaySmall,
           ),
           Spacer(),
+          ButtonM3E(
+            onPressed: () => CampaignRoute().go(context),
+            label: Text('l10n.cancel'),
+            icon: const Icon(Icons.cancel),
+            style: ButtonM3EStyle.outlined,
+            shape: ButtonM3EShape.square,
+          ),
           ButtonM3E(
             style: ButtonM3EStyle.filled,
             shape: ButtonM3EShape.square,

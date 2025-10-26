@@ -47,7 +47,14 @@ class WrapLayout extends StatelessWidget {
         final double constrainedItemWidth = itemWidth
             .clamp(minWidth, maxWidth)
             .clamp(0, availableWidth);
+        if ((availableWidth - spacingUse) / constrainedItemWidth < 2) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          );
+        }
         return Wrap(
+          crossAxisAlignment: WrapCrossAlignment.start,
           spacing: spacingUse,
           runSpacing: runSpacingUse,
           children: children.map((child) {

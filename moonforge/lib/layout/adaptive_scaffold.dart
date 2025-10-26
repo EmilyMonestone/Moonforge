@@ -85,7 +85,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
             onTap: () => context.go(path),
           );
         },
-        divider: const Text('/'),
+        divider: const Icon(Icons.chevron_right, size: 16),
       );
     }
 
@@ -174,7 +174,23 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       ),
       body: SafeArea(
         child: overflow.isEmpty
-            ? widget.body
+            ? Expanded(
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: widget.body,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              )
             : Row(
                 children: [
                   NavigationRail(
@@ -194,7 +210,23 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                     ],
                   ),
                   const VerticalDivider(width: 1),
-                  Expanded(child: widget.body),
+                  Expanded(
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surface,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: constraints.maxHeight,
+                              ),
+                              child: widget.body,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
       ),

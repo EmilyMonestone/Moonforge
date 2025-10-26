@@ -27,10 +27,5 @@ void main() {
       expect(defaultMentionStyles, isNotNull);
       expect(defaultMentionStyles.link, isNotNull);
     });
-
-    test('element options are configured', () {
-      expect(mentionElementOptions, isNotNull);
-      expect(mentionElementOptions.codeBlock, isNotNull);
-    });
   });
 }

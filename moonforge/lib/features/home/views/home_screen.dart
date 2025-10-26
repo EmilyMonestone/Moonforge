@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget {
     );
 
     return WrapLayout(
+      minWidth: 420,
       children: [
         SurfaceContainer(
           title: Text(

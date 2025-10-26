@@ -55,6 +55,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
     _focusNode = widget.focusNode ?? FocusNode();
     _controller.addListener(_editorListener);
     _focusNode.addListener(_focusListener);
+    _controller.readOnly = widget.readOnly;
   }
 
   @override
@@ -75,11 +76,10 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
       child: QuillEditor.basic(
         controller: _controller,
         focusNode: _focusNode,
-        configurations: QuillEditorConfigurations(
+        config: QuillEditorConfig(
           padding: widget.padding,
           maxHeight: widget.maxHeight,
           minHeight: widget.minHeight,
-          readOnly: widget.readOnly,
           showCursor: !widget.readOnly,
           customShortcuts: const <ShortcutActivator, Intent>{
             SingleActivator(LogicalKeyboardKey.enter, alt: true):
@@ -102,7 +102,6 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
             ),
           },
           customStyles: defaultMentionStyles,
-          elementOptions: mentionElementOptions,
         ),
       ),
     );
@@ -459,11 +458,13 @@ class QuillEditorEnterAction extends ContextAction<EnterIntent> {
 /// Intent for Alt+Enter key combination
 class AltEnterIntent extends Intent {
   const AltEnterIntent(this.cause);
+
   final SelectionChangedCause cause;
 }
 
 /// Intent for Enter key
 class EnterIntent extends Intent {
   const EnterIntent(this.cause);
+
   final SelectionChangedCause cause;
 }

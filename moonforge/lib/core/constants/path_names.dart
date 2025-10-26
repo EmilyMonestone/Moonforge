@@ -86,6 +86,6 @@ Widget getPathName(BuildContext context, String routeName) {
 
     default:
       logger.w('No path name found for route: $routeName');
-      return Text(l10n.ellipsis);
+      return Text(routeName);
   }
 }

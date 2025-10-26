@@ -1,5 +1,6 @@
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// Service for fetching entities for mention autocomplete.

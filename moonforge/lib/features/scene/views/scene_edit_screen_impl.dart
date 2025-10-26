@@ -226,6 +226,13 @@ class _SceneEditScreenImplState extends State<SceneEditScreenImpl> {
           ),
           Spacer(),
           ButtonM3E(
+            style: ButtonM3EStyle.outlined,
+            shape: ButtonM3EShape.square,
+            label: Text(l10n.cancel),
+            icon: const Icon(Icons.cancel_outlined),
+            onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+          ),
+          ButtonM3E(
             style: ButtonM3EStyle.filled,
             shape: ButtonM3EShape.square,
             label: Text(l10n.save),

@@ -13,11 +13,3 @@ final defaultMentionStyles = DefaultStyles(
     decoration: TextDecoration.underline,
   ),
 );
-
-final mentionElementOptions = const QuillEditorElementOptions(
-  orderedList: QuillEditorOrderedListElementOptions(),
-  unorderedList: QuillEditorUnOrderedListElementOptions(),
-  codeBlock: QuillEditorCodeBlockElementOptions(
-    enableLineNumbers: true,
-  ),
-);

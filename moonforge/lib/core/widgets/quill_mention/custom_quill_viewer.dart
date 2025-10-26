@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
 
 /// Custom Quill viewer with mention click handling.
-/// 
+///
 /// Handles clicks on:
 /// - '@' mentions (NPC, group, monster)
 /// - '#' hashtags (place, item, handout, journal)
 class CustomQuillViewer extends StatelessWidget {
   final QuillController controller;
-  final Future<void> Function(String entityId, String mentionType)? onMentionTap;
+  final Future<void> Function(String entityId, String mentionType)?
+  onMentionTap;
   final EdgeInsets padding;
   final double? maxHeight;
   final double? minHeight;
@@ -26,16 +27,15 @@ class CustomQuillViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.readOnly = true;
     return QuillEditor.basic(
       controller: controller,
-      configurations: QuillEditorConfigurations(
+      config: QuillEditorConfig(
         padding: padding,
         maxHeight: maxHeight,
         minHeight: minHeight,
-        readOnly: true,
         showCursor: false,
         customStyles: defaultMentionStyles,
-        elementOptions: mentionElementOptions,
         onLaunchUrl: (string) async {
           await _handleLinkTap(context, string);
         },

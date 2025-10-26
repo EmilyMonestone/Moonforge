@@ -18,34 +18,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update breadcrumb divider from icon to text for improved clarity">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.freezed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.freezed.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/models/data/scene.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/constants/path_names.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/constants/path_names.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/utils/datetime_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/utils/datetime_utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_editor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_editor.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/entity_mention_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/entity_mention_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/wrap_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/wrap_layout.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/card_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/quill_mention/quill_mention_constants_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/core/widgets/quill_mention/quill_mention_constants_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,33 +105,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.chat.ChatConfigurable&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.main.dart.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "PowerShell.build.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "io.flutter.reload.alreadyRun": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/lib/features",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.chat.ChatConfigurable",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
@@ -533,7 +521,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761479252749</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`.">
+      <option name="closed" value="true" />
+      <created>1761491311155</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1761491311155</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -560,7 +556,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="docs: update folder structure documentation with detailed explanations for app components" />
     <MESSAGE value="feat: enhance Firestore security rules for user and campaign access control" />
     <MESSAGE value="feat: add generic CardList widget for rendering lists with title and subtitle" />
     <MESSAGE value="feat: refactor authentication handling with AuthProvider and improve user sign-in flow" />
@@ -585,7 +580,8 @@
     <MESSAGE value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
     <MESSAGE value="feat: refactor home screen layout with SurfaceContainer and WrapLayout for improved UI structure" />
     <MESSAGE value="feat: update breadcrumb divider from icon to text for improved clarity" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update breadcrumb divider from icon to text for improved clarity" />
+    <MESSAGE value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: improve Campaign screen state management and rich text display&#10;&#10;- Refactored `_CampaignScreenState` to manage Quill editor and campaign state more efficiently.&#10;- Adjusted `_controller` lifecycle for better memory management.&#10;- Updated Campaign description logic to provide better fallback handling.&#10;- Enhanced title display for ordered listing in Chapters, Adventures, Scenes. &#10;- Updated dependencies: `m3e_collection` to `^0.3.5`, removed unused `get_storage`." />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
