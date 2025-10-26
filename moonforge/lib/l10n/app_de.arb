@@ -177,6 +177,10 @@
   "@chapters": {
     "description": "Abschnittstitel für Kapitelliste"
   },
+  "adventures": "Abenteuer",
+  "@adventures": {
+    "description": "Abschnittstitel für Abenteuerliste"
+  },
   "recentChapters": "Letzte Kapitel",
   "@recentChapters": {
     "description": "Abschnittstitel für letzte Kapitel"
