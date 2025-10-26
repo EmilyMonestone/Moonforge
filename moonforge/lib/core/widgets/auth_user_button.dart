@@ -1,53 +1,52 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:typed_data';
+
+import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:provider/provider.dart';
 
 /// A small auth-aware widget:
 /// - If no user is logged in: shows a Login button.
 /// - If a user is logged in: shows a profile button with a dropdown menu
 ///   containing user name + email (header), a link to profile settings,
 ///   and a logout action.
-class AuthUserButton extends StatelessWidget {
-  const AuthUserButton({super.key});
+class AuthUserButton extends StatefulWidget {
+  const AuthUserButton({super.key, required this.expanded});
+
+  final bool expanded;
+
+  @override
+  State<AuthUserButton> createState() => _AuthUserButtonState();
+}
+
+class _AuthUserButtonState extends State<AuthUserButton> {
+  late AuthProvider _authProvider;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _authProvider = Provider.of<AuthProvider>(context, listen: true);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Stream<User?>? authChanges;
-    User? user;
-    try {
-      final auth = FirebaseAuth.instance;
-      authChanges = auth.authStateChanges();
-      user = auth.currentUser;
-    } catch (_) {
-      // Firebase might not be initialized (e.g., in tests). Fall back to null user.
-      authChanges = null;
-      user = null;
-    }
-
-    if (authChanges == null) {
-      // No stream available, render based on current snapshot only.
-      return _buildForUser(context, user);
-    }
-
-    return StreamBuilder<User?>(
-      stream: authChanges,
-      initialData: user,
-      builder: (context, snapshot) {
-        return _buildForUser(context, snapshot.data);
-      },
-    );
-  }
-
-  Widget _buildForUser(BuildContext context, User? user) {
-    if (user == null) {
+    if (_authProvider.firebaseUser == null) {
       return FilledButton(
         onPressed: () => const LoginRoute().go(context),
         child: const Text('Login'),
       );
     }
 
-    final displayName = user.displayName?.trim();
-    final email = user.email?.trim();
+    final firebaseUser = _authProvider.firebaseUser!;
+    final displayName = firebaseUser.displayName?.trim();
+    final email = firebaseUser.email?.trim();
 
     return PopupMenuButton<_AuthMenuAction>(
       tooltip: 'Account',
@@ -58,7 +57,7 @@ class AuthUserButton extends StatelessWidget {
             break;
           case _AuthMenuAction.logout:
             try {
-              await FirebaseAuth.instance.signOut();
+              await _authProvider.signOut();
             } catch (_) {}
             if (context.mounted) {
               const HomeRoute().go(context);
@@ -103,50 +102,93 @@ class AuthUserButton extends StatelessWidget {
           ),
         ),
       ],
-      child: _ProfileAvatar(user: user),
+      child: _ProfileAvatar(user: firebaseUser, expanded: widget.expanded),
     );
   }
 }
 
 enum _AuthMenuAction { settings, logout }
 
-class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({required this.user});
+class _ProfileAvatar extends StatefulWidget {
+  const _ProfileAvatar({required this.user, required this.expanded});
 
   final User user;
+  final bool expanded;
+
+  @override
+  State<_ProfileAvatar> createState() => _ProfileAvatarState();
+}
+
+class _ProfileAvatarState extends State<_ProfileAvatar> {
+  late Reference _storage;
+  late String? photoUrl;
+  static const oneMegabyte = 1024 * 1024;
+  late Uint8List? imageData;
+
+  @override
+  void didChangeDependencies() {
+    _storage = FirebaseStorage.instance.ref();
+    photoUrl = widget.user.photoURL;
+    _loadImage();
+    super.didChangeDependencies();
+  }
+
+  Future<void> _loadImage() async {
+    if (photoUrl != null && photoUrl!.isNotEmpty) {
+      try {
+        final ref = _storage.child(photoUrl!);
+        final data = await ref.getData(oneMegabyte);
+        if (data != null) {
+          setState(() {
+            imageData = data;
+          });
+        }
+      } catch (e) {
+        // Handle errors if necessary
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final photoUrl = user.photoURL;
-    final initials = _initialsFrom(user.displayName ?? user.email ?? '');
+    final initials = _initialsFrom(
+      widget.user.displayName ?? widget.user.email ?? '',
+    );
 
-    final avatar = (photoUrl != null && photoUrl.isNotEmpty)
-        ? CircleAvatar(backgroundImage: NetworkImage(photoUrl))
+    final avatar = (photoUrl != null && photoUrl!.isNotEmpty)
+        ? CircleAvatar(
+            backgroundImage: imageData != null ? MemoryImage(imageData!) : null,
+          )
         : CircleAvatar(child: Text(initials));
 
-    // Wrap in an OutlinedButton-style container to look like a button in rails.
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(width: 24, height: 24, child: avatar),
-          const SizedBox(width: 8),
-          Text(
-            user.displayName?.isNotEmpty == true
-                ? user.displayName!
-                : (user.email ?? 'Account'),
-            overflow: TextOverflow.ellipsis,
+    if (widget.expanded) {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outlineVariant,
           ),
-          const SizedBox(width: 4),
-          const Icon(Icons.arrow_drop_down),
-        ],
-      ),
-    );
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(width: 24, height: 24, child: avatar),
+            const SizedBox(width: 8),
+            Text(
+              widget.user.displayName?.isNotEmpty == true
+                  ? widget.user.displayName!
+                  : (widget.user.email ?? 'Account'),
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(width: 4),
+            const Icon(Icons.arrow_drop_down),
+          ],
+        ),
+      );
+    } else {
+      return SizedBox(width: 40, height: 40, child: avatar);
+    }
   }
 
   String _initialsFrom(String input) {

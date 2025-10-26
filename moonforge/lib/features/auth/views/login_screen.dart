@@ -1,7 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:flutter/material.dart';
+import 'package:m3e_collection/m3e_collection.dart';
+import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
-import 'package:toastification/toastification.dart';
+import 'package:moonforge/core/services/notification_service.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,11 +14,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late AuthProvider authProvider;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+
   bool _obscure = true;
+
+  @override
+  void didChangeDependencies() {
+    authProvider = Provider.of<AuthProvider>(context, listen: true);
+    if (authProvider.isLoggedIn) {
+      const HomeRoute().go(context);
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
@@ -23,98 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  Future<void> _signInWithEmail() async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
-
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      if (!mounted) return;
-      toastification.show(
-        type: ToastificationType.success,
-        title: const Text('Signed in successfully'),
-      );
-      // Let auth listeners react; optionally pop if possible
-      if (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      } else {
-        const HomeRoute().go(context);
-      }
-    } on FirebaseAuthException catch (e) {
-      final message = _mapAuthError(e);
-      if (mounted) {
-        toastification.show(
-          type: ToastificationType.error,
-          title: Text(message),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        toastification.show(
-          type: ToastificationType.error,
-          title: const Text('An unknown error occurred'),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  /*  Future<void> _signInWithGoogle() async {
-    setState(() => _isLoading = true);
-    try {
-      if (kIsWeb) {
-        final provider = GoogleAuthProvider();
-        await FirebaseAuth.instance.signInWithPopup(provider);
-      } else {
-        final googleUser = await GoogleSignIn().signIn();
-        if (googleUser == null) {
-          // canceled by user
-          return;
-        }
-        final googleAuth = await googleUser.authentication;
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        await FirebaseAuth.instance.signInWithCredential(credential);
-      }
-      if (!mounted) return;
-      toastification.show(
-        type: ToastificationType.success,
-        title: const Text('Signed in with Google'),
-      );
-      if (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      } else {
-        const HomeRoute().go(context);
-      }
-    } on FirebaseAuthException catch (e) {
-      final message = _mapAuthError(e);
-      if (mounted) {
-        toastification.show(
-          type: ToastificationType.error,
-          title: Text(message),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        toastification.show(
-          type: ToastificationType.error,
-          title: const Text('Failed to sign in with Google'),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }*/
 
   String _mapAuthError(FirebaseAuthException e) {
     switch (e.code) {
@@ -139,6 +60,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _goToForgotPassword() {
     const ForgotPasswordRoute().push(context);
+  }
+
+  void _signInWithPasswordAndEmail() {
+    if (_formKey.currentState?.validate() ?? false) {
+      authProvider
+          .signInWithEmailAndPassword(
+            _emailController.text,
+            _passwordController.text,
+          )
+          .catchError((error) {
+            if (error is FirebaseAuthException) {
+              final message = _mapAuthError(error);
+              NotificationService.showError(
+                context,
+                title: Text('Login Failed'),
+                description: Text(message),
+              );
+            } else {
+              NotificationService.showError(
+                context,
+                title: Text('Login Failed'),
+                description: Text(error.toString()),
+              );
+            }
+          });
+      if (authProvider.isLoggedIn) {
+        const HomeRoute().go(context);
+      }
+    }
   }
 
   @override
@@ -195,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                     ),
-                    onFieldSubmitted: (_) => _signInWithEmail(),
+                    onFieldSubmitted: (_) => _signInWithPasswordAndEmail(),
                     validator: (v) {
                       if ((v ?? '').isEmpty) return 'Password required';
                       if ((v ?? '').length < 6) return 'Min 6 characters';
@@ -204,12 +154,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
-                    onPressed: _isLoading ? null : _signInWithEmail,
-                    child: _isLoading
+                    onPressed: authProvider.isLoading
+                        ? null
+                        : () => _signInWithPasswordAndEmail(),
+                    child: authProvider.isLoading
                         ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicatorM3E(
+                              size: CircularProgressM3ESize.s,
+                            ),
                           )
                         : const Text('Sign in'),
                   ),
@@ -225,11 +179,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: _isLoading ? null : _goToRegister,
+                        onPressed: authProvider.isLoading
+                            ? null
+                            : _goToRegister,
                         child: const Text('Create account'),
                       ),
                       TextButton(
-                        onPressed: _isLoading ? null : _goToForgotPassword,
+                        onPressed: authProvider.isLoading
+                            ? null
+                            : _goToForgotPassword,
                         child: const Text('Forgot password?'),
                       ),
                     ],
