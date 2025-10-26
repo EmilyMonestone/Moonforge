@@ -12,6 +12,7 @@ import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
+import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
@@ -24,6 +25,9 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   await AppVersion.init();
+
+  // Initialize get_storage for persistence
+  await PersistenceService.init();
 
   if (!(kIsWeb ||
       Platform.isAndroid ||

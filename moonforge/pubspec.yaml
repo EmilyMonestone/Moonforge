@@ -32,6 +32,7 @@ dependencies:
   provider: ^6.1.5+1
   flutter_hooks: ^0.21.3+1
   go_router: ^16.2.4
+  get_storage: ^2.1.1
 
   # Authentication & deep links
   google_sign_in: ^7.2.0
