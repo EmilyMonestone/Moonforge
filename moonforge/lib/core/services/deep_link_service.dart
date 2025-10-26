@@ -3,7 +3,10 @@
 /// This service integrates with app_links to handle deep links from all platforms
 /// (web, Android, iOS, macOS, Windows, Linux) and routes them through go_router.
 ///
-/// Supported deep link format: moonforge://campaign/[id]
+/// Supported deep link format:
+/// - moonforge://campaign
+/// - moonforge://party/[id]
+/// - moonforge://settings
 library;
 
 import 'dart:async';
@@ -51,9 +54,10 @@ class DeepLinkService {
 
   /// Process a deep link URI and navigate using go_router.
   void _handleDeepLink(Uri uri, GoRouter router) {
-    // Expected format: moonforge://campaign/[id]
-    // or moonforge://party/[id]
-    // etc.
+    // Expected formats:
+    // - moonforge://campaign
+    // - moonforge://party/[id]
+    // - moonforge://settings
 
     if (uri.scheme != 'moonforge') {
       debugPrint('Unsupported scheme: ${uri.scheme}');
