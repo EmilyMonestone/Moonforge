@@ -7,12 +7,6 @@ variables:
 
 output: dist/
 
-# Common build arguments for all platforms
-common:
-  dart-define:
-    APP_NAME: Moonforge
-    APP_ENV: production
-
 releases:
   # Production release configuration
   - name: production
@@ -23,7 +17,9 @@ releases:
           platform: windows
           target: exe
           build_args:
-            <<: *common
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
         publish_to: github
 
       # macOS DMG
@@ -32,7 +28,9 @@ releases:
           platform: macos
           target: dmg
           build_args:
-            <<: *common
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
         publish_to: github
 
       # Linux AppImage
@@ -41,7 +39,9 @@ releases:
           platform: linux
           target: appimage
           build_args:
-            <<: *common
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
         publish_to: github
 
       # Linux DEB package
@@ -50,7 +50,9 @@ releases:
           platform: linux
           target: deb
           build_args:
-            <<: *common
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
         publish_to: github
 
   # Development/Beta release configuration
