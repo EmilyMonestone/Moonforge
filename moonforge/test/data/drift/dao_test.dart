@@ -1,5 +1,4 @@
-import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
+import 'package:drift/native.dart' show NativeDatabase;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/data/drift/app_database.dart';
@@ -44,10 +43,7 @@ void main() {
 
       await db.campaignsDao.upsertCampaign(campaign);
 
-      final updated = campaign.copyWith(
-        name: 'Updated',
-        rev: 1,
-      );
+      final updated = campaign.copyWith(name: 'Updated', rev: 1);
 
       await db.campaignsDao.upsertCampaign(updated);
 
@@ -66,7 +62,7 @@ void main() {
 
       await db.campaignsDao.upsertCampaign(campaign, markDirty: true);
 
-      final isDirty = await db.campaignsDao.isDirty('test-1');
+      final isDirty = await db.campaignsDao.isDirty('campaigns', 'test-1');
       expect(isDirty, isTrue);
     });
 
@@ -84,7 +80,7 @@ void main() {
       final retrieved = await db.campaignsDao.getById('test-1');
       expect(retrieved!.rev, 5);
 
-      final isDirty = await db.campaignsDao.isDirty('test-1');
+      final isDirty = await db.campaignsDao.isDirty('campaigns', 'test-1');
       expect(isDirty, isFalse);
     });
 
@@ -196,4 +192,3 @@ void main() {
     });
   });
 }
-

@@ -34,7 +34,7 @@ void main() {
       expect(stored!.name, 'Test Campaign');
 
       // Verify marked as dirty
-      final isDirty = await db.campaignsDao.isDirty('test-1');
+      final isDirty = await db.campaignsDao.isDirty('campaigns', 'test-1');
       expect(isDirty, isTrue);
 
       // Verify outbox operation
@@ -59,7 +59,7 @@ void main() {
         id: 'test-1',
         baseRev: 0,
         ops: [
-          {'type': 'set', 'field': 'name', 'value': 'Updated Name'}
+          {'type': 'set', 'field': 'name', 'value': 'Updated Name'},
         ],
       );
 
@@ -87,7 +87,7 @@ void main() {
         id: 'test-1',
         baseRev: 0,
         ops: [
-          {'type': 'addToSet', 'field': 'memberUids', 'value': 'uid3'}
+          {'type': 'addToSet', 'field': 'memberUids', 'value': 'uid3'},
         ],
       );
 
@@ -109,7 +109,7 @@ void main() {
         id: 'test-1',
         baseRev: 0,
         ops: [
-          {'type': 'removeFromSet', 'field': 'memberUids', 'value': 'uid2'}
+          {'type': 'removeFromSet', 'field': 'memberUids', 'value': 'uid2'},
         ],
       );
 
@@ -153,7 +153,11 @@ void main() {
         ops: [
           {'type': 'set', 'field': 'name', 'value': 'Updated'},
           {'type': 'addToSet', 'field': 'memberUids', 'value': 'uid2'},
-          {'type': 'set', 'field': 'description', 'value': 'Updated Description'},
+          {
+            'type': 'set',
+            'field': 'description',
+            'value': 'Updated Description',
+          },
         ],
       );
 
