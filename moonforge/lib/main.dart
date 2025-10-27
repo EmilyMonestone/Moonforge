@@ -27,7 +27,7 @@ Future<void> main() async {
   await AppVersion.init();
 
   // Initialize get_storage for persistence
-  await PersistenceService.init();
+  await PersistenceService.init(['bestiary']);
 
   if (!(kIsWeb ||
       Platform.isAndroid ||
