@@ -28,10 +28,10 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
           name: entity.name,
           summary: Value(entity.summary),
           tags: Value(entity.tags),
-          statblock: Value(entity.statblock),
+          statblock: entity.statblock,
           placeType: Value(entity.placeType),
           parentPlaceId: Value(entity.parentPlaceId),
-          coords: Value(entity.coords),
+          coords: entity.coords,
           content: Value(entity.content),
           images: Value(entity.images),
           createdAt: Value(entity.createdAt),
@@ -48,8 +48,9 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(entities)..where((e) => e.id.equals(id)))
-          .write(EntitiesCompanion(rev: Value(newRev)));
+      await (update(entities)..where((e) => e.id.equals(id))).write(
+        EntitiesCompanion(rev: Value(newRev)),
+      );
       await markClean(collectionName, id);
     });
   }
