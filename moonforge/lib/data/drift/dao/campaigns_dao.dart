@@ -1,16 +1,20 @@
 import 'package:drift/drift.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
 import 'package:moonforge/data/drift/tables/campaign_local_metas.dart';
 import 'package:moonforge/data/drift/tables/campaigns.dart';
+import 'package:moonforge/data/drift/tables/local_metas.dart';
 
 part 'campaigns_dao.g.dart';
 
 /// Data Access Object for Campaign operations
-@DriftAccessor(tables: [Campaigns, CampaignLocalMetas])
+@DriftAccessor(tables: [Campaigns, CampaignLocalMetas, LocalMetas])
 class CampaignsDao extends DatabaseAccessor<AppDatabase>
-    with _$CampaignsDaoMixin {
+    with _$CampaignsDaoMixin, LocalMetaMixin {
   CampaignsDao(super.db);
+
+  static const String collectionName = 'campaigns';
 
   /// Watch all campaigns as a stream
   Stream<List<Campaign>> watchAll() {
@@ -28,6 +32,9 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
       await into(campaigns).insertOnConflictUpdate(campaign);
       
       if (markDirty) {
+        await this.markDirty(collectionName, campaign.id);
+        
+        // Also update old table for backward compatibility
         await into(campaignLocalMetas).insertOnConflictUpdate(
           CampaignLocalMetasCompanion.insert(
             docId: campaign.id,
@@ -45,6 +52,9 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
       await (update(campaigns)..where((c) => c.id.equals(id)))
           .write(CampaignsCompanion(rev: Value(newRev)));
       
+      await markClean(collectionName, id);
+      
+      // Also update old table for backward compatibility
       await (update(campaignLocalMetas)..where((m) => m.docId.equals(id)))
           .write(CampaignLocalMetasCompanion(
             dirty: const Value(false),
@@ -53,15 +63,16 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
     });
   }
 
-  /// Get local metadata for a campaign
+  /// Get local metadata for a campaign (legacy method, uses old table)
   Future<CampaignLocalMeta?> getLocalMeta(String docId) {
     return (select(campaignLocalMetas)..where((m) => m.docId.equals(docId)))
         .getSingleOrNull();
   }
 
   /// Check if a campaign has unsync'd changes
-  Future<bool> isDirty(String docId) async {
-    final meta = await getLocalMeta(docId);
-    return meta?.dirty ?? false;
+  @override
+  Future<bool> isDirty(String collection, String docId) async {
+    // Use new LocalMetas table
+    return super.isDirty(collection, docId);
   }
 }
