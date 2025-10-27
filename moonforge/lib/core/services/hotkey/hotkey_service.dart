@@ -45,9 +45,11 @@ class HotkeyManagerService {
       await hotKeyManager.unregisterAll();
     } on MissingPluginException {
       // Plugin not available on this platform. Treat as no-op.
-      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
-    } catch (e, st) {
-      logger.w('[Hotkeys] Error initializing hotkey manager: $e', e, st);
+      logger.d(
+        '[Hotkeys] hotkey_manager plugin not available on this platform',
+      );
+    } catch (e) {
+      logger.w('[Hotkeys] Error initializing hotkey manager: $e', error: e);
     }
   }
 
@@ -88,9 +90,11 @@ class HotkeyManagerService {
       _registeredHotkeys[shortcut.id] = hotKey;
     } on MissingPluginException {
       // Plugin not available on this platform. Treat as no-op.
-      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
-    } catch (e, st) {
-      logger.w('[Hotkeys] Error registering hotkey: $e', e, st);
+      logger.d(
+        '[Hotkeys] hotkey_manager plugin not available on this platform',
+      );
+    } catch (e) {
+      logger.w('[Hotkeys] Error registering hotkey: $e', error: e);
     }
   }
 
@@ -109,9 +113,11 @@ class HotkeyManagerService {
       }
     } on MissingPluginException {
       // Plugin not available on this platform. Treat as no-op.
-      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
-    } catch (e, st) {
-      logger.w('[Hotkeys] Error unregistering hotkey: $e', e, st);
+      logger.d(
+        '[Hotkeys] hotkey_manager plugin not available on this platform',
+      );
+    } catch (e) {
+      logger.w('[Hotkeys] Error unregistering hotkey: $e', error: e);
     }
   }
 
@@ -126,9 +132,11 @@ class HotkeyManagerService {
       _registeredHotkeys.clear();
     } on MissingPluginException {
       // Plugin not available on this platform. Treat as no-op.
-      logger.d('[Hotkeys] hotkey_manager plugin not available on this platform');
-    } catch (e, st) {
-      logger.w('[Hotkeys] Error unregistering all hotkeys: $e', e, st);
+      logger.d(
+        '[Hotkeys] hotkey_manager plugin not available on this platform',
+      );
+    } catch (e) {
+      logger.w('[Hotkeys] Error unregistering all hotkeys: $e', error: e);
     }
   }
 
