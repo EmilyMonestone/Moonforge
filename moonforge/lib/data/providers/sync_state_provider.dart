@@ -37,8 +37,8 @@ class SyncStateProvider extends ChangeNotifier {
       final totalPending = outboxCount + storageCount;
 
       // Check if any operations are in progress
-      final inProgressOps = await _db.select(_db.storageQueue)
-          .where((op) => op.status.equals('in_progress'))
+      final inProgressOps = await (_db.select(_db.storageQueue)
+          ..where((op) => op.status.equals('in_progress')))
           .get();
 
       SyncState newState;

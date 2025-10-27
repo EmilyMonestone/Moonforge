@@ -38,9 +38,12 @@ class OutboxDao extends DatabaseAccessor<AppDatabase> with _$OutboxDaoMixin {
   }
 
   /// Increment attempt counter for an operation
-  Future<void> markAttempt(int id) {
-    return (update(outboxOps)..where((op) => op.id.equals(id)))
-        .write(OutboxOpsCompanion(attempt: Value(db.outboxOps.attempt + 1)));
+  Future<void> markAttempt(int id) async {
+    final current = await (select(outboxOps)..where((op) => op.id.equals(id))).getSingleOrNull();
+    if (current != null) {
+      await (update(outboxOps)..where((op) => op.id.equals(id)))
+          .write(OutboxOpsCompanion(attempt: Value(current.attempt + 1)));
+    }
   }
 
   /// Remove an operation after successful sync

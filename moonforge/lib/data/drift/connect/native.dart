@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 
 /// Native platform database connection (Android, iOS, desktop)
 DatabaseConnection connect() {
-  return DatabaseConnection.delayed(Future.sync(() async {
+  return DatabaseConnection.delayed(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'moonforge_db.sqlite'));
 
@@ -16,5 +16,5 @@ DatabaseConnection connect() {
     }
 
     return NativeDatabase.createInBackground(file);
-  }));
+  });
 }

@@ -21,7 +21,7 @@ class ChaptersDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(Chapter chapter, {bool markDirty = false}) {
     return transaction(() async {
-      await into(chapters).insertOnConflictUpdate(chapter);
+      await into(chapters).insert(chapter, mode: InsertMode.insertOrReplace);
       if (markDirty) await this.markDirty(collectionName, chapter.id);
     });
   }

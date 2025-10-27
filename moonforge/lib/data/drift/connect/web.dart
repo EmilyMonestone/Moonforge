@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 /// Web-specific database connection using WASM backend
 DatabaseConnection connect() {
-  return DatabaseConnection.delayed(Future.sync(() async {
+  return DatabaseConnection.delayed(() async {
     final result = await WasmDatabase.open(
       databaseName: 'moonforge_db',
       sqlite3Uri: Uri.parse('sqlite3.wasm'),
@@ -12,8 +12,7 @@ DatabaseConnection connect() {
     );
 
     if (kDebugMode) {
-      final backend = await result.resolvedExecutor.backend();
-      debugPrint('✓ Drift web WASM backend: ${backend.runtimeType}');
+      debugPrint('✓ Drift web WASM backend: ${result.resolvedExecutor.runtimeType}');
     }
 
     // Optional: Can check for OPFS support
@@ -23,5 +22,5 @@ DatabaseConnection connect() {
     }
 
     return result.resolvedExecutor;
-  }));
+  });
 }

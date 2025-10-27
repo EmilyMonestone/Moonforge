@@ -53,7 +53,7 @@ class SyncEngine {
       if (data == null) return;
 
       final remote = Campaign.fromJson({'id': doc.id, ...data});
-      final isDirty = await _db.campaignsDao.isDirty(doc.id);
+      final isDirty = await _db.campaignsDao.isDirty('campaigns', doc.id);
 
       // Only adopt remote if local is clean OR remote rev is ahead
       final local = await _db.campaignsDao.getById(doc.id);

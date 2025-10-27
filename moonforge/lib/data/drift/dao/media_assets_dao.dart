@@ -21,7 +21,7 @@ class MediaAssetsDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(MediaAsset asset, {bool markDirty = false}) {
     return transaction(() async {
-      await into(mediaAssets).insertOnConflictUpdate(asset);
+      await into(mediaAssets).insert(asset, mode: InsertMode.insertOrReplace);
       if (markDirty) await this.markDirty(collectionName, asset.id);
     });
   }

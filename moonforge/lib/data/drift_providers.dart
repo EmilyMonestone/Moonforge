@@ -83,7 +83,6 @@ List<SingleChildWidget> driftProviders() {
     ChangeNotifierProxyProvider<AppDatabase, SyncStateProvider>(
       create: (context) => SyncStateProvider(context.read<AppDatabase>()),
       update: (_, db, previous) => previous ?? SyncStateProvider(db),
-      dispose: (_, provider) => provider.dispose(),
     ),
 
     // StreamProviders for all models

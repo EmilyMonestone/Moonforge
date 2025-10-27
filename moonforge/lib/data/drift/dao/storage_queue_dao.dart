@@ -89,10 +89,13 @@ class StorageQueueDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Mark attempt
-  Future<void> markAttempt(int id) {
-    return (update(storageQueue)..where((op) => op.id.equals(id))).write(
-      StorageQueueCompanion(attempt: Value(db.storageQueue.attempt + 1)),
-    );
+  Future<void> markAttempt(int id) async {
+    final current = await (select(storageQueue)..where((op) => op.id.equals(id))).getSingleOrNull();
+    if (current != null) {
+      await (update(storageQueue)..where((op) => op.id.equals(id))).write(
+        StorageQueueCompanion(attempt: Value(current.attempt + 1)),
+      );
+    }
   }
 
   /// Remove operation

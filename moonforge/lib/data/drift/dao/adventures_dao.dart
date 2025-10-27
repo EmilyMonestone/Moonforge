@@ -28,7 +28,10 @@ class AdventuresDao extends DatabaseAccessor<AppDatabase>
   /// Upsert an adventure and optionally mark it as dirty
   Future<void> upsert(Adventure adventure, {bool markDirty = false}) {
     return transaction(() async {
-      await into(adventures).insertOnConflictUpdate(adventure);
+      await into(adventures).insert(
+        adventure,
+        mode: InsertMode.insertOrReplace,
+      );
       
       if (markDirty) {
         await this.markDirty(collectionName, adventure.id);
