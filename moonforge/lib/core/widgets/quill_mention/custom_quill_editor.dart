@@ -46,7 +46,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
   OverlayEntry? _suggestionOverlayEntry;
   bool _isEditorLTR = true;
   int? _lastTagIndex = -1;
-  ValueNotifier<List<Entity>> _entitySuggestions = ValueNotifier([]);
+  final ValueNotifier<List<Entity>> _entitySuggestions = ValueNotifier([]);
 
   @override
   void initState() {

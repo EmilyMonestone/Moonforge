@@ -48,7 +48,7 @@ class HotkeyManagerService {
       logger.d(
         '[Hotkeys] hotkey_manager plugin not available on this platform',
       );
-    } catch (e, st) {
+    } catch (e) {
       logger.w('[Hotkeys] Error initializing hotkey manager: $e', error: e);
     }
   }
@@ -93,7 +93,7 @@ class HotkeyManagerService {
       logger.d(
         '[Hotkeys] hotkey_manager plugin not available on this platform',
       );
-    } catch (e, st) {
+    } catch (e) {
       logger.w('[Hotkeys] Error registering hotkey: $e', error: e);
     }
   }
@@ -116,7 +116,7 @@ class HotkeyManagerService {
       logger.d(
         '[Hotkeys] hotkey_manager plugin not available on this platform',
       );
-    } catch (e, st) {
+    } catch (e) {
       logger.w('[Hotkeys] Error unregistering hotkey: $e', error: e);
     }
   }
@@ -135,7 +135,7 @@ class HotkeyManagerService {
       logger.d(
         '[Hotkeys] hotkey_manager plugin not available on this platform',
       );
-    } catch (e, st) {
+    } catch (e) {
       logger.w('[Hotkeys] Error unregistering all hotkeys: $e', error: e);
     }
   }

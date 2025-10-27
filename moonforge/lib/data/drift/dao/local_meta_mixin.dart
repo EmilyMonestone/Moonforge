@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/drift/tables/local_metas.dart';
 
 /// Generic mixin for managing local metadata across all models
 mixin LocalMetaMixin on DatabaseAccessor<AppDatabase> {
