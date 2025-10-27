@@ -291,6 +291,7 @@ You can use the bestiary data to populate entities in your campaign:
 
 ```dart
 Future<void> importMonsterAsEntity({
+  required BuildContext context,
   required String monsterName,
   required String campaignId,
 }) async {

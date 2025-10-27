@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:moonforge/core/services/bestiary_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
+import 'package:moonforge/core/utils/logger.dart';
 
 /// Provider for managing bestiary data
 class BestiaryProvider extends ChangeNotifier {
@@ -11,8 +12,8 @@ class BestiaryProvider extends ChangeNotifier {
   String? _errorMessage;
   DateTime? _lastSync;
 
-  BestiaryProvider()
-      : _bestiaryService = BestiaryService(PersistenceService()) {
+  BestiaryProvider({BestiaryService? bestiaryService})
+      : _bestiaryService = bestiaryService ?? BestiaryService(PersistenceService()) {
     // Load cached data on initialization
     _loadCachedData();
   }
@@ -44,7 +45,9 @@ class BestiaryProvider extends ChangeNotifier {
       _lastSync = _bestiaryService.getLastSyncTime();
       notifyListeners();
     } catch (e) {
-      // Silently fail for cached data load
+      // Silent failure is acceptable for cached data loading during initialization
+      // The user can still trigger a manual load later
+      logger.d('Failed to load cached bestiary data during initialization: $e');
     }
   }
 
