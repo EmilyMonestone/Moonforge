@@ -8,6 +8,7 @@
 .history
 *.env
 
+.idea/workspace.xml
 
 
 # Flutter repo-specific

@@ -18,115 +18,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display">
-      <change afterPath="$PROJECT_DIR$/moonforge/web/drift_worker.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance adaptive scaffold layout with synchronized state display and new asset icons">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/.last_build_id" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.bin.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/FontManifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/NOTICES" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/MoonForge-Logo2-Icon.afdesign" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_1024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_256.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_64.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/fonts/MaterialIcons-Regular.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/packages/iconsax_flutter/fonts/FlutterIconsax.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/shaders/ink_sparkle.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.js.symbols" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.wasm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.js.symbols" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.wasm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.js.symbols" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.wasm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.js.symbols" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.wasm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter_bootstrap.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter_service_worker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-maskable-192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-maskable-512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/main.dart.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/build/web/version.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/adventures_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/adventures_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/chapters_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/chapters_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/encounters_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/encounters_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/entities_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/entities_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/media_assets_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/media_assets_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/scenes_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/scenes_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/sessions_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/sessions_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/storage_queue_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/storage_queue_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/gen/assets.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/gen/assets.gen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/drift_setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/drift_setup.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,35 +91,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
