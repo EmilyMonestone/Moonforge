@@ -103,6 +103,7 @@ dependencies:
   flutter_quill_extensions: ^11.0.0
   auto_updater: ^1.0.0
   local_notifier: ^0.1.6
+  http: ^1.2.2
 
 
 dev_dependencies:
