@@ -5334,7 +5334,6 @@ class StorageQueueCompanion extends UpdateCompanion<StorageQueueData> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  _$AppDatabase.connect(DatabaseConnection c) : super.connect(c);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $CampaignsTable campaigns = $CampaignsTable(this);
   late final $AdventuresTable adventures = $AdventuresTable(this);
