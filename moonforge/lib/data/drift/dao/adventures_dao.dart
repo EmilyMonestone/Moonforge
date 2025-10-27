@@ -29,7 +29,16 @@ class AdventuresDao extends DatabaseAccessor<AppDatabase>
   Future<void> upsert(Adventure adventure, {bool markDirty = false}) {
     return transaction(() async {
       await into(adventures).insert(
-        adventure,
+        AdventuresCompanion.insert(
+          id: adventure.id,
+          name: adventure.name,
+          order: Value(adventure.order),
+          summary: Value(adventure.summary),
+          content: Value(adventure.content),
+          createdAt: Value(adventure.createdAt),
+          updatedAt: Value(adventure.updatedAt),
+          rev: Value(adventure.rev),
+        ),
         mode: InsertMode.insertOrReplace,
       );
       

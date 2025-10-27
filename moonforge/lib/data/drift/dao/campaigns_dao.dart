@@ -29,18 +29,32 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
   /// Upsert a campaign and optionally mark it as dirty
   Future<void> upsertCampaign(Campaign campaign, {bool markDirty = false}) {
     return transaction(() async {
-      await into(campaigns).insertOnConflictUpdate(campaign);
+      await into(campaigns).insert(
+        CampaignsCompanion.insert(
+          id: campaign.id,
+          name: campaign.name,
+          description: campaign.description,
+          content: Value(campaign.content),
+          ownerUid: Value(campaign.ownerUid),
+          memberUids: Value(campaign.memberUids),
+          createdAt: Value(campaign.createdAt),
+          updatedAt: Value(campaign.updatedAt),
+          rev: Value(campaign.rev),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
       
       if (markDirty) {
         await this.markDirty(collectionName, campaign.id);
         
         // Also update old table for backward compatibility
-        await into(campaignLocalMetas).insertOnConflictUpdate(
+        await into(campaignLocalMetas).insert(
           CampaignLocalMetasCompanion.insert(
             docId: campaign.id,
             dirty: const Value(true),
             lastSyncedAt: Value(DateTime.now()),
           ),
+          mode: InsertMode.insertOrReplace,
         );
       }
     });
