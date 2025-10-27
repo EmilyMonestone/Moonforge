@@ -161,16 +161,6 @@ downloadButtons.forEach(button => {
     });
 });
 
-// Parallax Effect for Hero Decoration
-const heroDecoration = document.querySelector('.hero-decoration');
-if (heroDecoration) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallaxSpeed = 0.5;
-        heroDecoration.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-    });
-}
-
 // Keyboard Navigation Enhancement
 document.addEventListener('keydown', (e) => {
     // ESC key closes mobile menu
