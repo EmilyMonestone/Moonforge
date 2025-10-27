@@ -17,7 +17,8 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
   Stream<List<Entity>> watchAll() => select(entities).watch();
 
   Future<Entity?> getById(String id) =>
-      (select(entities)..where((e) => e.id.equals(id))).getSingleOrNull();
+      (select(entities)
+        ..where((e) => e.id.equals(id))).getSingleOrNull();
 
   Future<void> upsert(Entity entity, {bool markDirty = false}) {
     return transaction(() async {
@@ -28,10 +29,12 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
           name: entity.name,
           summary: Value(entity.summary),
           tags: Value(entity.tags),
-          statblock: entity.statblock,
+          // Map stored via NonNullJsonMapConverter
+          statblock: Value(entity.statblock),
           placeType: Value(entity.placeType),
           parentPlaceId: Value(entity.parentPlaceId),
-          coords: entity.coords,
+          // Map stored via NonNullJsonMapConverter
+          coords: Value(entity.coords),
           content: Value(entity.content),
           images: Value(entity.images),
           createdAt: Value(entity.createdAt),
@@ -48,7 +51,8 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(entities)..where((e) => e.id.equals(id))).write(
+      await (update(entities)
+        ..where((e) => e.id.equals(id))).write(
         EntitiesCompanion(rev: Value(newRev)),
       );
       await markClean(collectionName, id);

@@ -43,10 +43,10 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
         ),
         mode: InsertMode.insertOrReplace,
       );
-      
+
       if (markDirty) {
         await this.markDirty(collectionName, campaign.id);
-        
+
         // Also update old table for backward compatibility
         await into(campaignLocalMetas).insert(
           CampaignLocalMetasCompanion.insert(
@@ -63,24 +63,29 @@ class CampaignsDao extends DatabaseAccessor<AppDatabase>
   /// Mark a campaign as clean (sync'd) and update its revision
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(campaigns)..where((c) => c.id.equals(id)))
-          .write(CampaignsCompanion(rev: Value(newRev)));
-      
+      await (update(campaigns)..where((c) => c.id.equals(id))).write(
+        CampaignsCompanion(rev: Value(newRev)),
+      );
+
       await markClean(collectionName, id);
-      
+
       // Also update old table for backward compatibility
-      await (update(campaignLocalMetas)..where((m) => m.docId.equals(id)))
-          .write(CampaignLocalMetasCompanion(
-            dirty: const Value(false),
-            lastSyncedAt: Value(DateTime.now()),
-          ));
+      await (update(
+        campaignLocalMetas,
+      )..where((m) => m.docId.equals(id))).write(
+        CampaignLocalMetasCompanion(
+          dirty: const Value(false),
+          lastSyncedAt: Value(DateTime.now()),
+        ),
+      );
     });
   }
 
   /// Get local metadata for a campaign (legacy method, uses old table)
-  Future<CampaignLocalMeta?> getLocalMeta(String docId) {
-    return (select(campaignLocalMetas)..where((m) => m.docId.equals(docId)))
-        .getSingleOrNull();
+  Future<CampaignLocalMeta?> getLegacyLocalMeta(String docId) {
+    return (select(
+      campaignLocalMetas,
+    )..where((m) => m.docId.equals(docId))).getSingleOrNull();
   }
 
   /// Check if a campaign has unsync'd changes

@@ -1495,14 +1495,15 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
         requiredDuringInsert: false,
       ).withConverter<List<String>?>($EntitiesTable.$convertertags);
   @override
-  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String>
+  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
   statblock = GeneratedColumn<String>(
     'statblock',
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  ).withConverter<Map<String, dynamic>?>($EntitiesTable.$converterstatblock);
+    requiredDuringInsert: false,
+    defaultValue: const Constant('{}'),
+  ).withConverter<Map<String, dynamic>>($EntitiesTable.$converterstatblock);
   static const VerificationMeta _placeTypeMeta = const VerificationMeta(
     'placeType',
   );
@@ -1526,14 +1527,15 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
     requiredDuringInsert: false,
   );
   @override
-  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String>
+  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
   coords = GeneratedColumn<String>(
     'coords',
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  ).withConverter<Map<String, dynamic>?>($EntitiesTable.$convertercoords);
+    requiredDuringInsert: false,
+    defaultValue: const Constant('{}'),
+  ).withConverter<Map<String, dynamic>>($EntitiesTable.$convertercoords);
   static const VerificationMeta _contentMeta = const VerificationMeta(
     'content',
   );
@@ -1809,10 +1811,10 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
 
   static TypeConverter<List<String>?, String?> $convertertags =
       const StringListConverter();
-  static TypeConverter<Map<String, dynamic>?, String?> $converterstatblock =
-      const JsonMapConverter();
-  static TypeConverter<Map<String, dynamic>?, String?> $convertercoords =
-      const JsonMapConverter();
+  static TypeConverter<Map<String, dynamic>, String> $converterstatblock =
+      const NonNullJsonMapConverter();
+  static TypeConverter<Map<String, dynamic>, String> $convertercoords =
+      const NonNullJsonMapConverter();
   static TypeConverter<List<Map<String, dynamic>>?, String?> $converterimages =
       const JsonListConverter();
   static TypeConverter<List<String>?, String?> $convertermembers =
@@ -1825,10 +1827,10 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
   final Value<String> name;
   final Value<String?> summary;
   final Value<List<String>?> tags;
-  final Value<Map<String, dynamic>?> statblock;
+  final Value<Map<String, dynamic>> statblock;
   final Value<String?> placeType;
   final Value<String?> parentPlaceId;
-  final Value<Map<String, dynamic>?> coords;
+  final Value<Map<String, dynamic>> coords;
   final Value<String?> content;
   final Value<List<Map<String, dynamic>>?> images;
   final Value<DateTime?> createdAt;
@@ -1862,10 +1864,10 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     required String name,
     this.summary = const Value.absent(),
     this.tags = const Value.absent(),
-    required Map<String, dynamic>? statblock,
+    this.statblock = const Value.absent(),
     this.placeType = const Value.absent(),
     this.parentPlaceId = const Value.absent(),
-    required Map<String, dynamic>? coords,
+    this.coords = const Value.absent(),
     this.content = const Value.absent(),
     this.images = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1876,9 +1878,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        kind = Value(kind),
-       name = Value(name),
-       statblock = Value(statblock),
-       coords = Value(coords);
+       name = Value(name);
   static Insertable<Entity> custom({
     Expression<String>? id,
     Expression<String>? kind,
@@ -1925,10 +1925,10 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     Value<String>? name,
     Value<String?>? summary,
     Value<List<String>?>? tags,
-    Value<Map<String, dynamic>?>? statblock,
+    Value<Map<String, dynamic>>? statblock,
     Value<String?>? placeType,
     Value<String?>? parentPlaceId,
-    Value<Map<String, dynamic>?>? coords,
+    Value<Map<String, dynamic>>? coords,
     Value<String?>? content,
     Value<List<Map<String, dynamic>>?>? images,
     Value<DateTime?>? createdAt,
@@ -6453,10 +6453,10 @@ typedef $$EntitiesTableCreateCompanionBuilder =
       required String name,
       Value<String?> summary,
       Value<List<String>?> tags,
-      required Map<String, dynamic>? statblock,
+      Value<Map<String, dynamic>> statblock,
       Value<String?> placeType,
       Value<String?> parentPlaceId,
-      required Map<String, dynamic>? coords,
+      Value<Map<String, dynamic>> coords,
       Value<String?> content,
       Value<List<Map<String, dynamic>>?> images,
       Value<DateTime?> createdAt,
@@ -6473,10 +6473,10 @@ typedef $$EntitiesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String?> summary,
       Value<List<String>?> tags,
-      Value<Map<String, dynamic>?> statblock,
+      Value<Map<String, dynamic>> statblock,
       Value<String?> placeType,
       Value<String?> parentPlaceId,
-      Value<Map<String, dynamic>?> coords,
+      Value<Map<String, dynamic>> coords,
       Value<String?> content,
       Value<List<Map<String, dynamic>>?> images,
       Value<DateTime?> createdAt,
@@ -6523,7 +6523,7 @@ class $$EntitiesTableFilterComposer
   );
 
   ColumnWithTypeConverterFilters<
-    Map<String, dynamic>?,
+    Map<String, dynamic>,
     Map<String, dynamic>,
     String
   >
@@ -6543,7 +6543,7 @@ class $$EntitiesTableFilterComposer
   );
 
   ColumnWithTypeConverterFilters<
-    Map<String, dynamic>?,
+    Map<String, dynamic>,
     Map<String, dynamic>,
     String
   >
@@ -6708,7 +6708,7 @@ class $$EntitiesTableAnnotationComposer
   GeneratedColumnWithTypeConverter<List<String>?, String> get tags =>
       $composableBuilder(column: $table.tags, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String>
+  GeneratedColumnWithTypeConverter<Map<String, dynamic>, String>
   get statblock =>
       $composableBuilder(column: $table.statblock, builder: (column) => column);
 
@@ -6720,7 +6720,7 @@ class $$EntitiesTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String> get coords =>
+  GeneratedColumnWithTypeConverter<Map<String, dynamic>, String> get coords =>
       $composableBuilder(column: $table.coords, builder: (column) => column);
 
   GeneratedColumn<String> get content =>
@@ -6779,10 +6779,10 @@ class $$EntitiesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> tags = const Value.absent(),
-                Value<Map<String, dynamic>?> statblock = const Value.absent(),
+                Value<Map<String, dynamic>> statblock = const Value.absent(),
                 Value<String?> placeType = const Value.absent(),
                 Value<String?> parentPlaceId = const Value.absent(),
-                Value<Map<String, dynamic>?> coords = const Value.absent(),
+                Value<Map<String, dynamic>> coords = const Value.absent(),
                 Value<String?> content = const Value.absent(),
                 Value<List<Map<String, dynamic>>?> images =
                     const Value.absent(),
@@ -6818,10 +6818,10 @@ class $$EntitiesTableTableManager
                 required String name,
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> tags = const Value.absent(),
-                required Map<String, dynamic>? statblock,
+                Value<Map<String, dynamic>> statblock = const Value.absent(),
                 Value<String?> placeType = const Value.absent(),
                 Value<String?> parentPlaceId = const Value.absent(),
-                required Map<String, dynamic>? coords,
+                Value<Map<String, dynamic>> coords = const Value.absent(),
                 Value<String?> content = const Value.absent(),
                 Value<List<Map<String, dynamic>>?> images =
                     const Value.absent(),
