@@ -18,25 +18,115 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add generated color constants for consistent theming in Flutter app">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display">
+      <change afterPath="$PROJECT_DIR$/moonforge/web/drift_worker.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_COMPLETE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_COMPLETE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_EXTENDED.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_EXTENDED.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_FILES.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_FILES.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_QUICKREF.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_QUICKREF.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_SUMMARY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DRIFT_USAGE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_USAGE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/drift_web_setup.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/drift_web_setup.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/docs/deep_linking.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/deep_linking.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/docs/persistence.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/persistence.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/docs/persistence_quickstart.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/persistence_quickstart.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/docs/testing_deep_links.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/testing_deep_links.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/.last_build_id" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.bin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/AssetManifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/FontManifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/NOTICES" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/MoonForge-Logo2-Icon.afdesign" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.appiconset/Moonforge-Icon-colored_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-colored.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.appiconset/Moonforge-Icon-dark_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-dark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.appiconset/Moonforge-Icon-light_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Icon-light.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.appiconset/Moonforge-Logo-colored_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-colored.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-dark.appiconset/Moonforge-Logo-dark_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.appiconset/Moonforge-Logo-light_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/assets/icon/Moonforge-Logo-light.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/fonts/MaterialIcons-Regular.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/packages/iconsax_flutter/fonts/FlutterIconsax.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/assets/shaders/ink_sparkle.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.js.symbols" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/canvaskit.wasm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.js.symbols" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/chromium/canvaskit.wasm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.js.symbols" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm.wasm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.js.symbols" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/canvaskit/skwasm_heavy.wasm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter_bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/flutter_service_worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-maskable-192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/icons/Icon-maskable-512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/main.dart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/build/web/version.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/adventures_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/adventures_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/chapters_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/chapters_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/encounters_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/encounters_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/entities_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/entities_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/media_assets_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/media_assets_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/scenes_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/scenes_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/sessions_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/sessions_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/storage_queue_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/storage_queue_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/gen/assets.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/gen/assets.gen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/drift_setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/drift_setup.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,18 +234,39 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\web" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\drift" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\features\campaign\controllers" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\core\repositories" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="drift_setup.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/scripts/drift_setup.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="PowerShell.build" />
+      <item itemvalue="Shell Script.drift_setup.sh" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Shell Script.drift_setup.sh" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -167,14 +278,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00011" summary="feat: add support for multiple app icons and logos with updated asset management">
-      <option name="closed" value="true" />
-      <created>1760655737130</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1760655737130</updated>
     </task>
     <task id="LOCAL-00012" summary="feat: add localization support with German and English translations, and implement theme and language settings in the UI">
       <option name="closed" value="true" />
@@ -560,7 +663,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761510862497</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display">
+      <option name="closed" value="true" />
+      <created>1761596271500</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1761596271500</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -587,7 +698,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
     <MESSAGE value="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper" />
     <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
     <MESSAGE value="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization" />
@@ -612,7 +722,8 @@
     <MESSAGE value="feat: update .gitignore to exclude build directory while including web subdirectory" />
     <MESSAGE value="feat: add initial project files including configuration and asset manifests" />
     <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance hero section with new decorations and adjust logo size" />
+    <MESSAGE value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -905,6 +1016,12 @@
           <option name="totalLines" value="16573088" />
           <option name="info" value="feat: enhance hero section with new decorations an" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761596284431" />
+          <option name="linesCode" value="541570" />
+          <option name="totalLines" value="20169277" />
+          <option name="info" value="feat: integrate SyncStateProvider and SyncStateWid" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -944,6 +1061,12 @@
           <option name="linesCode" value="341021" />
           <option name="totalLines" value="16573088" />
           <option name="info" value="Oct 26, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761596284431" />
+          <option name="linesCode" value="541570" />
+          <option name="totalLines" value="20169277" />
+          <option name="info" value="Oct 27, 2025" />
         </TimePoint>
       </list>
     </option>

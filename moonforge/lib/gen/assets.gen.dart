@@ -45,6 +45,10 @@ class $AssetsIconGen {
   AssetGenImage get moonforgeIconLightPng =>
       const AssetGenImage('assets/icon/Moonforge-Icon-light.png');
 
+  /// Directory path: assets/icon/Moonforge-Icon-purple.appiconset
+  $AssetsIconMoonforgeIconPurpleAppiconsetGen get moonforgeIconPurple =>
+      const $AssetsIconMoonforgeIconPurpleAppiconsetGen();
+
   /// Directory path: assets/icon/Moonforge-Logo-colored.appiconset
   $AssetsIconMoonforgeLogoColoredAppiconsetGen
   get moonforgeLogoColoredAppiconset =>
@@ -65,6 +69,10 @@ class $AssetsIconGen {
   /// File path: assets/icon/Moonforge-Logo-light.png
   AssetGenImage get moonforgeLogoLightPng =>
       const AssetGenImage('assets/icon/Moonforge-Logo-light.png');
+
+  /// Directory path: assets/icon/Moonforge-Logo-purple.appiconset
+  $AssetsIconMoonforgeLogoPurpleAppiconsetGen get moonforgeLogoPurple =>
+      const $AssetsIconMoonforgeLogoPurpleAppiconsetGen();
 
   /// List of all assets
   List<dynamic> get values => [
@@ -243,6 +251,61 @@ class $AssetsIconMoonforgeIconLightAppiconsetGen {
   ];
 }
 
+class $AssetsIconMoonforgeIconPurpleAppiconsetGen {
+  const $AssetsIconMoonforgeIconPurpleAppiconsetGen();
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Contents.json
+  String get contents =>
+      'assets/icon/Moonforge-Icon-purple.appiconset/Contents.json';
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_1024.png
+  AssetGenImage get moonforgeIconPurple1024 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_1024.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_128.png
+  AssetGenImage get moonforgeIconPurple128 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_128.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_16.png
+  AssetGenImage get moonforgeIconPurple16 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_16.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png
+  AssetGenImage get moonforgeIconPurple256 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_32.png
+  AssetGenImage get moonforgeIconPurple32 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_32.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_512.png
+  AssetGenImage get moonforgeIconPurple512 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_512.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_64.png
+  AssetGenImage get moonforgeIconPurple64 => const AssetGenImage(
+    'assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_64.png',
+  );
+
+  /// List of all assets
+  List<dynamic> get values => [
+    contents,
+    moonforgeIconPurple1024,
+    moonforgeIconPurple128,
+    moonforgeIconPurple16,
+    moonforgeIconPurple256,
+    moonforgeIconPurple32,
+    moonforgeIconPurple512,
+    moonforgeIconPurple64,
+  ];
+}
+
 class $AssetsIconMoonforgeLogoColoredAppiconsetGen {
   const $AssetsIconMoonforgeLogoColoredAppiconsetGen();
 
@@ -405,6 +468,61 @@ class $AssetsIconMoonforgeLogoLightAppiconsetGen {
     moonforgeLogoLight32,
     moonforgeLogoLight512,
     moonforgeLogoLight64,
+  ];
+}
+
+class $AssetsIconMoonforgeLogoPurpleAppiconsetGen {
+  const $AssetsIconMoonforgeLogoPurpleAppiconsetGen();
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Contents.json
+  String get contents =>
+      'assets/icon/Moonforge-Logo-purple.appiconset/Contents.json';
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_1024.png
+  AssetGenImage get moonforgeLogoPurple1024 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_1024.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_128.png
+  AssetGenImage get moonforgeLogoPurple128 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_128.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_16.png
+  AssetGenImage get moonforgeLogoPurple16 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_16.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_256.png
+  AssetGenImage get moonforgeLogoPurple256 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_256.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_32.png
+  AssetGenImage get moonforgeLogoPurple32 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_32.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_512.png
+  AssetGenImage get moonforgeLogoPurple512 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_512.png',
+  );
+
+  /// File path: assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_64.png
+  AssetGenImage get moonforgeLogoPurple64 => const AssetGenImage(
+    'assets/icon/Moonforge-Logo-purple.appiconset/Moonforge-Logo-purple_64.png',
+  );
+
+  /// List of all assets
+  List<dynamic> get values => [
+    contents,
+    moonforgeLogoPurple1024,
+    moonforgeLogoPurple128,
+    moonforgeLogoPurple16,
+    moonforgeLogoPurple256,
+    moonforgeLogoPurple32,
+    moonforgeLogoPurple512,
+    moonforgeLogoPurple64,
   ];
 }
 

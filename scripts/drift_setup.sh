@@ -19,6 +19,7 @@ echo "✓ Flutter found: $(flutter --version | head -1)"
 echo ""
 
 # Step 2: Navigate to moonforge directory
+cd "$(dirname "$0")/.."
 cd moonforge
 
 # Step 3: Get dependencies
@@ -28,7 +29,7 @@ flutter pub get
 # Step 4: Run build_runner
 echo ""
 echo "🔨 Generating Drift code..."
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 
 # Step 5: Check if web assets exist
 echo ""

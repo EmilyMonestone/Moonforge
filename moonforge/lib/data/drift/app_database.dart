@@ -1,32 +1,39 @@
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/models/data/adventure.dart';
+import 'package:moonforge/core/models/data/campaign.dart';
+import 'package:moonforge/core/models/data/chapter.dart';
+import 'package:moonforge/core/models/data/encounter.dart';
+import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/core/models/data/media_asset.dart';
+import 'package:moonforge/core/models/data/scene.dart';
+import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/data/drift/connect/connect.dart' as impl;
-import 'package:moonforge/data/drift/converters/string_list_converter.dart';
-import 'package:moonforge/data/drift/converters/json_map_converter.dart';
 import 'package:moonforge/data/drift/converters/json_list_converter.dart';
-import 'package:moonforge/data/drift/dao/campaigns_dao.dart';
+import 'package:moonforge/data/drift/converters/non_null_json_map_converter.dart';
+import 'package:moonforge/data/drift/converters/string_list_converter.dart';
 import 'package:moonforge/data/drift/dao/adventures_dao.dart';
+import 'package:moonforge/data/drift/dao/campaigns_dao.dart';
 import 'package:moonforge/data/drift/dao/chapters_dao.dart';
 import 'package:moonforge/data/drift/dao/encounters_dao.dart';
 import 'package:moonforge/data/drift/dao/entities_dao.dart';
-import 'package:moonforge/data/drift/dao/scenes_dao.dart';
-import 'package:moonforge/data/drift/dao/sessions_dao.dart';
 import 'package:moonforge/data/drift/dao/media_assets_dao.dart';
 import 'package:moonforge/data/drift/dao/outbox_dao.dart';
+import 'package:moonforge/data/drift/dao/scenes_dao.dart';
+import 'package:moonforge/data/drift/dao/sessions_dao.dart';
 import 'package:moonforge/data/drift/dao/storage_queue_dao.dart';
-import 'package:moonforge/data/drift/tables/campaigns.dart';
 import 'package:moonforge/data/drift/tables/adventures.dart';
+// Keep old table for backward compatibility
+import 'package:moonforge/data/drift/tables/campaign_local_metas.dart';
+import 'package:moonforge/data/drift/tables/campaigns.dart';
 import 'package:moonforge/data/drift/tables/chapters.dart';
 import 'package:moonforge/data/drift/tables/encounters.dart';
 import 'package:moonforge/data/drift/tables/entities.dart';
+import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/drift/tables/media_assets.dart';
+import 'package:moonforge/data/drift/tables/outbox_ops.dart';
 import 'package:moonforge/data/drift/tables/scenes.dart';
 import 'package:moonforge/data/drift/tables/sessions.dart';
-import 'package:moonforge/data/drift/tables/media_assets.dart';
-import 'package:moonforge/data/drift/tables/local_metas.dart';
-import 'package:moonforge/data/drift/tables/outbox_ops.dart';
 import 'package:moonforge/data/drift/tables/storage_queue.dart';
-
-// Keep old table for backward compatibility
-import 'package:moonforge/data/drift/tables/campaign_local_metas.dart';
 
 part 'app_database.g.dart';
 
@@ -64,7 +71,7 @@ part 'app_database.g.dart';
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(impl.connect());
-  
+
   /// Test constructor for in-memory database
   AppDatabase.forTesting(super.executor);
 

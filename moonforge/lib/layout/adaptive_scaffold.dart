@@ -304,20 +304,26 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                     String appVersion = AppVersion.getVersion();
                     return Column(
                       children: [
-                        SyncStateWidget(
-                          state: syncState.state,
-                          pendingCount: syncState.pendingCount,
-                          onTap: () {
-                            syncState.refresh();
-                          },
-                        ),
                         AuthUserButton(expanded: railIsExpanded),
                         const SizedBox(height: 8),
-                        Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.versionWithNumber(appVersion),
-                          style: Theme.of(context).textTheme.labelSmall,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SyncStateWidget(
+                              state: syncState.state,
+                              pendingCount: syncState.pendingCount,
+                              onTap: () {
+                                syncState.refresh();
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.versionWithNumber(appVersion),
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
                         ),
                       ],
                     );
