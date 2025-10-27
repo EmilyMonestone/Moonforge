@@ -10,7 +10,7 @@ import 'package:moonforge/gen/assets.gen.dart';
 import 'package:window_manager/window_manager.dart';
 
 const double kWindowCaptionHeight = 56;
-const double kTitleWidth = 256;
+const double kTitleWidth = 300;
 
 class WindowTopBar extends StatefulWidget {
   const WindowTopBar({
@@ -173,6 +173,29 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
           )
         : Container();
 
+    final titleWidget = Container(
+      padding: const EdgeInsets.only(left: 4),
+      width: kTitleWidth,
+      child: Row(
+        children: [
+          Image.asset(
+            (Theme.of(context).brightness == Brightness.light)
+                ? Assets.icon.moonforgeLogoDark.moonforgeLogoDark256.path
+                : Assets
+                      .icon
+                      .moonforgeLogoLightAppiconset
+                      .moonforgeLogoLight256
+                      .path,
+            height: 40,
+          ),
+          if (widget.title != null) ...[
+            const SizedBox(width: 18),
+            widget.title!,
+          ],
+        ],
+      ),
+    );
+
     return SizedBox(
       height:
           ((kIsWeb ||
@@ -182,6 +205,8 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
               widget.leading == null &&
               widget.trailing == null)
           ? 0
+          : isCompact
+          ? kWindowCaptionHeight * 2
           : kWindowCaptionHeight,
       width: double.infinity,
       child: DecoratedBox(
@@ -208,52 +233,50 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 4),
-                        width: kTitleWidth,
-                        child: Row(
+                  isCompact
+                      ? Column(
                           children: [
-                            Image.asset(
-                              (Theme.of(context).brightness == Brightness.light)
-                                  ? Assets
-                                        .icon
-                                        .moonforgeLogoDark
-                                        .moonforgeLogoDark256
-                                        .path
-                                  : Assets
-                                        .icon
-                                        .moonforgeLogoLightAppiconset
-                                        .moonforgeLogoLight256
-                                        .path,
-                              height: 40,
+                            SizedBox(
+                              height: kWindowCaptionHeight,
+                              child: Row(
+                                children: [
+                                  titleWidget,
+                                  const Spacer(),
+                                  if (!(kIsWeb ||
+                                      Platform.isAndroid ||
+                                      Platform.isIOS ||
+                                      Platform.isFuchsia ||
+                                      Platform.isMacOS))
+                                    buttons,
+                                ],
+                              ),
                             ),
-                            if (widget.title != null) ...[
-                              const SizedBox(width: 18),
-                              widget.title!,
-                            ],
+                            SizedBox(
+                              height: kWindowCaptionHeight,
+                              child: Row(
+                                children: [
+                                  if (widget.leading != null) widget.leading!,
+                                  const Spacer(),
+                                  trailingWidget,
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            titleWidget,
+                            if (widget.leading != null) widget.leading!,
+                            const Spacer(),
+                            trailingWidget,
+                            if (!(kIsWeb ||
+                                Platform.isAndroid ||
+                                Platform.isIOS ||
+                                Platform.isFuchsia ||
+                                Platform.isMacOS))
+                              buttons,
                           ],
                         ),
-                      ),
-                      if (widget.leading != null)
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: widget.leading!,
-                        ),
-                      const Spacer(),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: trailingWidget,
-                      ),
-                      if (!(kIsWeb ||
-                          Platform.isAndroid ||
-                          Platform.isIOS ||
-                          Platform.isFuchsia ||
-                          Platform.isMacOS))
-                        buttons,
-                    ],
-                  ),
                 ],
               )
             : SingleChildScrollView(

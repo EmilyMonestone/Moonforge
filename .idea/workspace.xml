@@ -18,16 +18,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: improve code readability and organization in auto_updater_service and persistence_service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FASTFORGE_IMPLEMENTATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/FASTFORGE_IMPLEMENTATION.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_COMPLETE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/IMPLEMENTATION_COMPLETE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/IMPLEMENTATION_SUMMARY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SETUP_CHECKLIST.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/SETUP_CHECKLIST.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,30 +173,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00014" summary="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file">
-      <option name="closed" value="true" />
-      <created>1760658504813</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1760658504813</updated>
-    </task>
-    <task id="LOCAL-00015" summary="chore: moved app to subfolder moonforge/">
-      <option name="closed" value="true" />
-      <created>1760862092657</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1760862092657</updated>
-    </task>
-    <task id="LOCAL-00016" summary="chore: reorganize dependencies in pubspec.yaml for clarity and maintainability">
-      <option name="closed" value="true" />
-      <created>1761468260471</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468260471</updated>
     </task>
     <task id="LOCAL-00017" summary="feat: add localization strings for chapters, adventures, and scenes in English and German">
       <option name="closed" value="true" />
@@ -572,7 +542,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761602479323</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="refactor: rename documentation files for improved organization">
+      <option name="closed" value="true" />
+      <created>1761603815723</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1761603815723</updated>
+    </task>
+    <task id="LOCAL-00064" summary="feat: add beta badge to indicate beta version in adaptive scaffold">
+      <option name="closed" value="true" />
+      <created>1761603831248</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1761603831248</updated>
+    </task>
+    <task id="LOCAL-00065" summary="refactor: improve code readability and organization in auto_updater_service and persistence_service">
+      <option name="closed" value="true" />
+      <created>1761603839818</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1761603839818</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -599,9 +593,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization" />
-    <MESSAGE value="feat: update project dependencies and reorganize workspace configuration for improved clarity" />
-    <MESSAGE value="feat: add localization support for description and content fields in multiple languages" />
     <MESSAGE value="feat: enhance campaign screen with QuillEditor for rich text display and improve layout structure" />
     <MESSAGE value="feat: add TitleCard and WrapLayout widgets for improved UI structure and layout flexibility" />
     <MESSAGE value="feat: add get and get_storage packages for state management and data persistence" />
@@ -624,7 +615,10 @@
     <MESSAGE value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
     <MESSAGE value="fix: update .gitignore to ignore all workspace.xml files" />
     <MESSAGE value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
+    <MESSAGE value="refactor: rename documentation files for improved organization" />
+    <MESSAGE value="feat: add beta badge to indicate beta version in adaptive scaffold" />
+    <MESSAGE value="refactor: improve code readability and organization in auto_updater_service and persistence_service" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: improve code readability and organization in auto_updater_service and persistence_service" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -935,6 +929,24 @@
           <option name="totalLines" value="18243845" />
           <option name="info" value="fix: refine .gitignore to exclude specific IDE and" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761603827846" />
+          <option name="linesCode" value="236987" />
+          <option name="totalLines" value="18263773" />
+          <option name="info" value="refactor: rename documentation files for improved " />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761603834722" />
+          <option name="linesCode" value="236987" />
+          <option name="totalLines" value="18263773" />
+          <option name="info" value="feat: add beta badge to indicate beta version in a" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761603843276" />
+          <option name="linesCode" value="236987" />
+          <option name="totalLines" value="18263773" />
+          <option name="info" value="refactor: improve code readability and organizatio" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -976,9 +988,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761602483005" />
-          <option name="linesCode" value="236325" />
-          <option name="totalLines" value="18243845" />
+          <option name="timestamp" value="1761603843276" />
+          <option name="linesCode" value="236987" />
+          <option name="totalLines" value="18263773" />
           <option name="info" value="Oct 27, 2025" />
         </TimePoint>
       </list>

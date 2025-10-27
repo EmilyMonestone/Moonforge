@@ -174,6 +174,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
           trailing: const SizedBox.shrink(),
         ),
         centerTitle: false,
+        toolbarHeight: topbar.kWindowCaptionHeight * 2,
       ),
       body: SafeArea(
         child: overflow.isEmpty
@@ -266,6 +267,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
+        surfaceTintColor: Theme.of(context).colorScheme.surface,
         title: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
           leading: breadcrumbs,
