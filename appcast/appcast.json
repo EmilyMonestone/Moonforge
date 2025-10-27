@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0",
+  "title": "Moonforge Updates",
+  "description": "Most recent updates to Moonforge",
+  "link": "https://github.com/EmilyMoonstone/Moonforge",
+  "items": [
+    {
+      "title": "Version 0.1.0",
+      "version": "0.1.0",
+      "description": "<h2>Initial Release</h2><p>First release of Moonforge - A multi-platform campaign manager for Dungeons & Dragons.</p>",
+      "pubDate": "2025-10-27T20:00:00Z",
+      "link": "https://github.com/EmilyMoonstone/Moonforge/releases/tag/v0.1.0",
+      "url": "https://github.com/EmilyMoonstone/Moonforge/releases/download/v0.1.0/Moonforge-0.1.0-windows.exe"
+    }
+  ]
+}
