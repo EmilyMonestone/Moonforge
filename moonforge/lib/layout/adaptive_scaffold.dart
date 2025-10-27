@@ -7,6 +7,7 @@ import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
@@ -323,6 +324,24 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                               )!.versionWithNumber(appVersion),
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
+                            if (AutoUpdaterService.instance.isBeta)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: Badge(
+                                  label: Text(
+                                    'BETA',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.labelSmall,
+                                  ),
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer,
+                                  textColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
+                                ),
+                              ),
                           ],
                         ),
                       ],
