@@ -20,7 +20,7 @@ The `FIREBASE_WEB_API_KEY` secret is required for building the application. This
 
 **How to add the secret to GitHub:**
 
-1. Go to your repository on GitHub: https://github.com/EmilyMoonstone/Moonforge
+1. Go to your repository on GitHub
 2. Click on "Settings" tab
 3. In the left sidebar, click on "Secrets and variables" → "Actions"
 4. Click "New repository secret"
@@ -71,7 +71,16 @@ This error occurs when the `.env` file or `assets/images/` directory is missing.
 
 ### Where to find the API key
 
-The Firebase Web API key is **not sensitive** for client-side applications. It's safe to use in public builds because Firebase Security Rules protect your data, not the API key. However, we store it as a secret to keep the configuration centralized and avoid committing it to the repository.
+The Firebase Web API key is used to identify your Firebase project in client-side applications. While Firebase Security Rules (not the API key) protect your data, we store it as a GitHub secret to:
+- Keep the configuration centralized
+- Avoid committing it to the repository
+- Follow security best practices for credential management
+
+**Important:** Even though the API key is used in client-side code, you should still:
+- Restrict the API key in the Firebase Console to only the domains/apps you use
+- Implement proper Firebase Security Rules to protect your data
+- Monitor your Firebase usage for any unexpected activity
 
 For more information about Firebase API key security, see:
 - [Firebase API Key Security FAQ](https://firebase.google.com/docs/projects/api-keys)
+- [Firebase Security Rules Documentation](https://firebase.google.com/docs/rules)
