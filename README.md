@@ -109,13 +109,29 @@ cd moonforge
 flutter pub get
 ```
 
-**2\. Generate code (models, router, assets)**
+**2\. Configure environment variables**
+
+Create a `.env` file in the `moonforge/` directory for the Firebase Web API key:
+
+```sh
+cp .env.example .env
+```
+
+Then edit `.env` and add your Firebase Web API key:
+
+```
+FIREBASE_API_KEY=your-firebase-web-api-key-here
+```
+
+> **Note:** The `.env` file is gitignored for security. Get your API key from the [Firebase Console](https://console.firebase.google.com/) under Project Settings > General > Your apps > Web apps > Config.
+
+**3\. Generate code (models, router, assets)**
 
 ```sh
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-**3\. Run the app**
+**4\. Run the app**
 
 - **Windows/Linux/macOS:**
   ```sh
@@ -130,7 +146,7 @@ dart run build_runner build --delete-conflicting-outputs
   flutter run -d <device_id>
   ```
 
-**4\. Quality checks**
+**5\. Quality checks**
 
 - **Static analysis:**
   ```sh
