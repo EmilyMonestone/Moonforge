@@ -21,7 +21,16 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(Session session, {bool markDirty = false}) {
     return transaction(() async {
-      await into(sessions).insert(session, mode: InsertMode.insertOrReplace);
+      await into(sessions).insert(
+        SessionsCompanion.insert(
+          id: session.id,
+          createdAt: Value(session.createdAt),
+          info: Value(session.info),
+          datetime: Value(session.datetime),
+          log: Value(session.log),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
       if (markDirty) await this.markDirty(collectionName, session.id);
     });
   }

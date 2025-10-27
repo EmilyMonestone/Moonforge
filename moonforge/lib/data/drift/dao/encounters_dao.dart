@@ -21,7 +21,20 @@ class EncountersDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(Encounter encounter, {bool markDirty = false}) {
     return transaction(() async {
-      await into(encounters).insert(encounter, mode: InsertMode.insertOrReplace);
+      await into(encounters).insert(
+        EncountersCompanion.insert(
+          id: encounter.id,
+          name: encounter.name,
+          preset: Value(encounter.preset),
+          notes: Value(encounter.notes),
+          loot: Value(encounter.loot),
+          combatants: Value(encounter.combatants),
+          createdAt: Value(encounter.createdAt),
+          updatedAt: Value(encounter.updatedAt),
+          rev: Value(encounter.rev),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
       if (markDirty) await this.markDirty(collectionName, encounter.id);
     });
   }

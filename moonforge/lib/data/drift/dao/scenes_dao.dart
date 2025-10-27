@@ -21,7 +21,21 @@ class ScenesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(Scene scene, {bool markDirty = false}) {
     return transaction(() async {
-      await into(scenes).insert(scene, mode: InsertMode.insertOrReplace);
+      await into(scenes).insert(
+        ScenesCompanion.insert(
+          id: scene.id,
+          title: scene.title,
+          order: Value(scene.order),
+          summary: Value(scene.summary),
+          content: Value(scene.content),
+          mentions: Value(scene.mentions),
+          mediaRefs: Value(scene.mediaRefs),
+          updatedAt: Value(scene.updatedAt),
+          createdAt: Value(scene.createdAt),
+          rev: Value(scene.rev),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
       if (markDirty) await this.markDirty(collectionName, scene.id);
     });
   }

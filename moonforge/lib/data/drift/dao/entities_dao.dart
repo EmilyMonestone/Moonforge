@@ -21,7 +21,27 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> upsert(Entity entity, {bool markDirty = false}) {
     return transaction(() async {
-      await into(entities).insert(entity, mode: InsertMode.insertOrReplace);
+      await into(entities).insert(
+        EntitiesCompanion.insert(
+          id: entity.id,
+          kind: entity.kind,
+          name: entity.name,
+          summary: Value(entity.summary),
+          tags: Value(entity.tags),
+          statblock: Value(entity.statblock),
+          placeType: Value(entity.placeType),
+          parentPlaceId: Value(entity.parentPlaceId),
+          coords: Value(entity.coords),
+          content: Value(entity.content),
+          images: Value(entity.images),
+          createdAt: Value(entity.createdAt),
+          updatedAt: Value(entity.updatedAt),
+          rev: Value(entity.rev),
+          deleted: Value(entity.deleted),
+          members: Value(entity.members),
+        ),
+        mode: InsertMode.insertOrReplace,
+      );
       if (markDirty) await this.markDirty(collectionName, entity.id);
     });
   }
