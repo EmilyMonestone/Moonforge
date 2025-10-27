@@ -18,9 +18,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="fix: update .gitignore to ignore all workspace.xml files">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FASTFORGE_IMPLEMENTATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/FASTFORGE_IMPLEMENTATION.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_COMPLETE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/IMPLEMENTATION_COMPLETE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IMPLEMENTATION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SETUP_CHECKLIST.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/fastforge/SETUP_CHECKLIST.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,11 +135,11 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\fastforge" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\web" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\drift" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\features\campaign\controllers" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -172,14 +179,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00013" summary="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines">
-      <option name="closed" value="true" />
-      <created>1760657986478</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1760657986478</updated>
     </task>
     <task id="LOCAL-00014" summary="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file">
       <option name="closed" value="true" />
@@ -565,7 +564,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761602376431</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories">
+      <option name="closed" value="true" />
+      <created>1761602479323</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1761602479323</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -592,7 +599,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
     <MESSAGE value="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization" />
     <MESSAGE value="feat: update project dependencies and reorganize workspace configuration for improved clarity" />
     <MESSAGE value="feat: add localization support for description and content fields in multiple languages" />
@@ -617,7 +623,8 @@
     <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
     <MESSAGE value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
     <MESSAGE value="fix: update .gitignore to ignore all workspace.xml files" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: update .gitignore to ignore all workspace.xml files" />
+    <MESSAGE value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -922,6 +929,12 @@
           <option name="totalLines" value="18243844" />
           <option name="info" value="fix: update .gitignore to ignore all workspace.xml" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761602483005" />
+          <option name="linesCode" value="236325" />
+          <option name="totalLines" value="18243845" />
+          <option name="info" value="fix: refine .gitignore to exclude specific IDE and" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -963,9 +976,9 @@
           <option name="info" value="Oct 26, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761602385836" />
+          <option name="timestamp" value="1761602483005" />
           <option name="linesCode" value="236325" />
-          <option name="totalLines" value="18243844" />
+          <option name="totalLines" value="18243845" />
           <option name="info" value="Oct 27, 2025" />
         </TimePoint>
       </list>

@@ -1,22 +1,32 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
+enum StorageBox {
+  defaultBox('moonforge_storage'),
+  bestiary('bestiary');
+
+  final String boxName;
+
+  const StorageBox(this.boxName);
+}
+
 /// Service for managing persistent storage using get_storage
 class PersistenceService {
   static final PersistenceService _instance = PersistenceService._internal();
+
   factory PersistenceService() => _instance;
+
   PersistenceService._internal();
 
-  static const String _defaultBoxName = 'moonforge_storage';
+  static final String _defaultBoxName = StorageBox.defaultBox.boxName;
   final Map<String, GetStorage> _boxes = {};
 
   /// Initialize the persistence service
   /// Must be called before using any persistence features
   /// Optionally provide additional box names to initialize
-  static Future<void> init([List<String> additionalBoxes = const []]) async {
+  static Future<void> init() async {
     try {
-      await GetStorage.init(_defaultBoxName);
-      for (final boxName in additionalBoxes) {
+      for (final boxName in StorageBox.values.map((e) => e.boxName)) {
         await GetStorage.init(boxName);
       }
       logger.i('PersistenceService initialized');
@@ -38,7 +48,8 @@ class PersistenceService {
   GetStorage get box => _getBox(_defaultBoxName);
 
   /// Save a value to storage
-  Future<void> write(String key, dynamic value, {String boxName = _defaultBoxName}) async {
+  Future<void> write(String key, dynamic value, {String? boxName}) async {
+    boxName ??= _defaultBoxName;
     try {
       await _getBox(boxName).write(key, value);
       logger.d('Saved $key to storage box: $boxName');
@@ -48,7 +59,8 @@ class PersistenceService {
   }
 
   /// Read a value from storage
-  T? read<T>(String key, {String boxName = _defaultBoxName}) {
+  T? read<T>(String key, {String? boxName}) {
+    boxName ??= _defaultBoxName;
     try {
       return _getBox(boxName).read<T>(key);
     } catch (e) {
@@ -58,7 +70,8 @@ class PersistenceService {
   }
 
   /// Remove a value from storage
-  Future<void> remove(String key, {String boxName = _defaultBoxName}) async {
+  Future<void> remove(String key, {String? boxName}) async {
+    boxName ??= _defaultBoxName;
     try {
       await _getBox(boxName).remove(key);
       logger.d('Removed $key from storage box: $boxName');
@@ -68,7 +81,12 @@ class PersistenceService {
   }
 
   /// Listen to changes on a specific key
-  void listenKey(String key, void Function(dynamic) callback, {String boxName = _defaultBoxName}) {
+  void listenKey(
+    String key,
+    void Function(dynamic) callback, {
+    String? boxName,
+  }) {
+    boxName ??= _defaultBoxName;
     try {
       _getBox(boxName).listenKey(key, callback);
     } catch (e) {
@@ -77,7 +95,8 @@ class PersistenceService {
   }
 
   /// Clear all data from storage
-  Future<void> erase({String boxName = _defaultBoxName}) async {
+  Future<void> erase({String? boxName}) async {
+    boxName ??= _defaultBoxName;
     try {
       await _getBox(boxName).erase();
       logger.i('Storage box erased: $boxName');
@@ -87,7 +106,8 @@ class PersistenceService {
   }
 
   /// Check if a key exists in storage
-  bool hasData(String key, {String boxName = _defaultBoxName}) {
+  bool hasData(String key, {String? boxName}) {
+    boxName ??= _defaultBoxName;
     try {
       return _getBox(boxName).hasData(key);
     } catch (e) {
