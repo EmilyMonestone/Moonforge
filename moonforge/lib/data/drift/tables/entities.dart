@@ -12,10 +12,10 @@ class Entities extends Table {
   TextColumn get name => text()();
   TextColumn get summary => text().nullable()();
   TextColumn get tags => text().nullable().map(const StringListConverter())();
-  TextColumn get statblock => text().map(const JsonMapConverter())();
+  TextColumn get statblock => text().map(const JsonMapConverter()).withDefault(const Constant('{}'))();
   TextColumn get placeType => text().nullable()();
   TextColumn get parentPlaceId => text().nullable()();
-  TextColumn get coords => text().map(const JsonMapConverter())();
+  TextColumn get coords => text().map(const JsonMapConverter()).withDefault(const Constant('{}'))();
   TextColumn get content => text().nullable()();
   TextColumn get images => text().nullable().map(const JsonListConverter())();
   DateTimeColumn get createdAt => dateTime().nullable()();
