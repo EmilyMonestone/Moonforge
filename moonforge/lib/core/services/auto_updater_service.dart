@@ -27,6 +27,9 @@ class AutoUpdaterService {
   /// Example: https://yourusername.github.io/yourrepo/appcast.xml
   static const String _feedURLBase = 'https://raw.githubusercontent.com/EmilyMoonstone/Moonforge/main/appcast';
   
+  /// Get the app environment from dart-define or default to production
+  static const String _appEnv = String.fromEnvironment('APP_ENV', defaultValue: 'production');
+  
   bool _initialized = false;
   
   /// Initialize the auto updater service
@@ -51,16 +54,21 @@ class AutoUpdaterService {
       
       logger.i('Initializing AutoUpdater for version $currentVersion');
       
-      // Determine the feed URL based on the platform
+      // Determine the feed URL based on the platform and environment
       String feedURL;
+      final isBeta = _appEnv == 'beta';
+      final feedSuffix = isBeta ? '-beta' : '';
+      
       if (Platform.isMacOS) {
-        feedURL = '$_feedURLBase/appcast.xml';
+        feedURL = '$_feedURLBase/appcast$feedSuffix.xml';
       } else if (Platform.isWindows) {
-        feedURL = '$_feedURLBase/appcast.json';
+        feedURL = '$_feedURLBase/appcast$feedSuffix.json';
       } else {
         logger.w('AutoUpdater not supported on ${Platform.operatingSystem}');
         return;
       }
+      
+      logger.i('App environment: $_appEnv (${isBeta ? "beta" : "production"} channel)');
       
       logger.i('Setting feed URL to: $feedURL');
       

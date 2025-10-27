@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Moonforge Beta Updates</title>
+    <link>https://github.com/EmilyMoonstone/Moonforge</link>
+    <description>Most recent beta updates to Moonforge</description>
+    <language>en</language>
+    
+    <!-- 
+    Example release entry - Update this when you publish a new beta release:
+    
+    <item>
+      <title>Version 0.2.0-beta.1</title>
+      <link>https://github.com/EmilyMoonstone/Moonforge/releases/tag/v0.2.0-beta.1</link>
+      <description><![CDATA[
+        <h2>What's New in Version 0.2.0-beta.1</h2>
+        <ul>
+          <li>New feature 1 (beta)</li>
+          <li>Bug fix 2 (beta)</li>
+          <li>Improvement 3 (beta)</li>
+        </ul>
+      ]]></description>
+      <pubDate>Mon, 01 Jan 2024 12:00:00 +0000</pubDate>
+      <sparkle:version>0.2.0-beta.1</sparkle:version>
+      <sparkle:shortVersionString>0.2.0-beta.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
+      <enclosure 
+        url="https://github.com/EmilyMoonstone/Moonforge/releases/download/v0.2.0-beta.1/Moonforge-0.2.0-beta.1-macos.dmg" 
+        length="50000000" 
+        type="application/octet-stream" 
+        sparkle:edSignature="YOUR_SIGNATURE_HERE" />
+    </item>
+    -->
+    
+    <!-- Current version placeholder -->
+    <item>
+      <title>Version 0.1.0-beta.1</title>
+      <link>https://github.com/EmilyMoonstone/Moonforge/releases/tag/v0.1.0-beta.1</link>
+      <description><![CDATA[
+        <h2>Initial Beta Release</h2>
+        <p>First beta release of Moonforge - A multi-platform campaign manager for Dungeons &amp; Dragons.</p>
+      ]]></description>
+      <pubDate>Mon, 27 Oct 2025 20:00:00 +0000</pubDate>
+      <sparkle:version>0.1.0-beta.1</sparkle:version>
+      <sparkle:shortVersionString>0.1.0-beta.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
+      <!-- Update the URL below when you publish your first beta release -->
+      <enclosure 
+        url="https://github.com/EmilyMoonstone/Moonforge/releases/download/v0.1.0-beta.1/Moonforge-0.1.0-beta.1-macos.dmg" 
+        length="1" 
+        type="application/octet-stream" />
+    </item>
+    
+  </channel>
+</rss>
