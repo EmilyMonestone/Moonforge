@@ -10,6 +10,8 @@ import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
+import 'package:moonforge/data/providers/sync_state_provider.dart';
+import 'package:moonforge/data/widgets/sync_state_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
@@ -257,6 +259,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   // Tablets/Desktops: NavigationRail (extended on expanded)
   Widget _buildWide(BuildContext context, Widget breadcrumbs) {
     final settings = Provider.of<AppSettingsProvider>(context);
+    final syncState = Provider.of<SyncStateProvider>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -301,6 +304,13 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                     String appVersion = AppVersion.getVersion();
                     return Column(
                       children: [
+                        SyncStateWidget(
+                          state: syncState.state,
+                          pendingCount: syncState.pendingCount,
+                          onTap: () {
+                            syncState.refresh();
+                          },
+                        ),
                         AuthUserButton(expanded: railIsExpanded),
                         const SizedBox(height: 8),
                         Text(

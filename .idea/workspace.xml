@@ -19,8 +19,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add generated color constants for consistent theming in Flutter app">
-      <change beforePath="$PROJECT_DIR$/moonforge/test/data/drift/dao_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/data/drift/dao_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/test/data/repo/campaign_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/data/repo/campaign_repository_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_COMPLETE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_COMPLETE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_EXTENDED.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_EXTENDED.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_FILES.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_FILES.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_QUICKREF.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_QUICKREF.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRIFT_USAGE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/DRIFT_USAGE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/drift_web_setup.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/drift/drift_web_setup.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/docs/deep_linking.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/deep_linking.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/docs/persistence.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/persistence.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/docs/persistence_quickstart.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/persistence_quickstart.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/docs/testing_deep_links.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/testing_deep_links.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,11 +74,6 @@
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -105,8 +116,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "#18 on copilot/create-local-first-data-stack",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -130,11 +144,11 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\drift" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\features\campaign\controllers" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\core\repositories" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\core\models\data\helpers" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -153,6 +167,70 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
+    </task>
+    <task id="LOCAL-00011" summary="feat: add support for multiple app icons and logos with updated asset management">
+      <option name="closed" value="true" />
+      <created>1760655737130</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1760655737130</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: add localization support with German and English translations, and implement theme and language settings in the UI">
+      <option name="closed" value="true" />
+      <created>1760657496784</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760657496784</updated>
+    </task>
+    <task id="LOCAL-00013" summary="docs: expand README with detailed platform support, tech stack, setup steps, and contribution guidelines">
+      <option name="closed" value="true" />
+      <created>1760657986478</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1760657986478</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: integrate `flutter_dotenv` for environment variable management and update Firebase config to use `.env` file">
+      <option name="closed" value="true" />
+      <created>1760658504813</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1760658504813</updated>
+    </task>
+    <task id="LOCAL-00015" summary="chore: moved app to subfolder moonforge/">
+      <option name="closed" value="true" />
+      <created>1760862092657</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1760862092657</updated>
+    </task>
+    <task id="LOCAL-00016" summary="chore: reorganize dependencies in pubspec.yaml for clarity and maintainability">
+      <option name="closed" value="true" />
+      <created>1761468260471</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468260471</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: add localization strings for chapters, adventures, and scenes in English and German">
+      <option name="closed" value="true" />
+      <created>1761468536153</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468536153</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: add loading, empty, and error placeholders for async content handling">
+      <option name="closed" value="true" />
+      <created>1761468557859</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1761468557859</updated>
     </task>
     <task id="LOCAL-00019" summary="feat: implement creation functionality for campaigns, chapters, adventures, entities, and scenes">
       <option name="closed" value="true" />
@@ -482,71 +560,7 @@
       <option name="project" value="LOCAL" />
       <updated>1761510862497</updated>
     </task>
-    <task id="LOCAL-00060" summary="feat: improve error logging in hotkey service for plugin availability and exceptions">
-      <option name="closed" value="true" />
-      <created>1761578851288</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1761578851288</updated>
-    </task>
-    <task id="LOCAL-00061" summary="feat: update pubspec.yaml with new dependencies and icon assets">
-      <option name="closed" value="true" />
-      <created>1761580345155</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1761580345155</updated>
-    </task>
-    <task id="LOCAL-00062" summary="refactor: simplify entity DAO field assignments and improve code readability">
-      <option name="closed" value="true" />
-      <created>1761583457693</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1761583457693</updated>
-    </task>
-    <task id="LOCAL-00063" summary="feat: add generated DAO mixins for database accessors">
-      <option name="closed" value="true" />
-      <created>1761583465540</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1761583465540</updated>
-    </task>
-    <task id="LOCAL-00064" summary="refactor: remove unused database connection constructor from AppDatabase">
-      <option name="closed" value="true" />
-      <created>1761584271743</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1761584271743</updated>
-    </task>
-    <task id="LOCAL-00065" summary="feat: add NonNullJsonMapConverter for safe JSON mapping in Drift storage">
-      <option name="closed" value="true" />
-      <created>1761592572132</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1761592572132</updated>
-    </task>
-    <task id="LOCAL-00066" summary="feat: update entity and campaign DAOs to use NonNullJsonMapConverter for improved JSON handling">
-      <option name="closed" value="true" />
-      <created>1761592581509</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1761592581509</updated>
-    </task>
-    <task id="LOCAL-00067" summary="feat: add generated color constants for consistent theming in Flutter app">
-      <option name="closed" value="true" />
-      <created>1761592587275</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1761592587275</updated>
-    </task>
-    <option name="localTasksCounter" value="68" />
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -573,6 +587,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add AppSettingsProvider for managing app settings and user preferences" />
+    <MESSAGE value="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper" />
+    <MESSAGE value="feat: update project dependencies and exclude unnecessary folders from build" />
+    <MESSAGE value="feat: refactor main.dart to use MultiProviderWrapper and improve app initialization" />
+    <MESSAGE value="feat: update project dependencies and reorganize workspace configuration for improved clarity" />
+    <MESSAGE value="feat: add localization support for description and content fields in multiple languages" />
+    <MESSAGE value="feat: enhance campaign screen with QuillEditor for rich text display and improve layout structure" />
+    <MESSAGE value="feat: add TitleCard and WrapLayout widgets for improved UI structure and layout flexibility" />
     <MESSAGE value="feat: add get and get_storage packages for state management and data persistence" />
     <MESSAGE value="feat: enhance campaign editing experience with new UI components and localization support" />
     <MESSAGE value="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details" />
@@ -590,15 +612,7 @@
     <MESSAGE value="feat: update .gitignore to exclude build directory while including web subdirectory" />
     <MESSAGE value="feat: add initial project files including configuration and asset manifests" />
     <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
-    <MESSAGE value="feat: improve error logging in hotkey service for plugin availability and exceptions" />
-    <MESSAGE value="feat: update pubspec.yaml with new dependencies and icon assets" />
-    <MESSAGE value="refactor: simplify entity DAO field assignments and improve code readability" />
-    <MESSAGE value="feat: add generated DAO mixins for database accessors" />
-    <MESSAGE value="refactor: remove unused database connection constructor from AppDatabase" />
-    <MESSAGE value="feat: add NonNullJsonMapConverter for safe JSON mapping in Drift storage" />
-    <MESSAGE value="feat: update entity and campaign DAOs to use NonNullJsonMapConverter for improved JSON handling" />
-    <MESSAGE value="feat: add generated color constants for consistent theming in Flutter app" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add generated color constants for consistent theming in Flutter app" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance hero section with new decorations and adjust logo size" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -891,42 +905,6 @@
           <option name="totalLines" value="16573088" />
           <option name="info" value="feat: enhance hero section with new decorations an" />
         </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761578895608" />
-          <option name="linesCode" value="341206" />
-          <option name="totalLines" value="16573361" />
-          <option name="info" value="feat: improve error logging in hotkey service for " />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761580357776" />
-          <option name="linesCode" value="341268" />
-          <option name="totalLines" value="16573481" />
-          <option name="info" value="feat: update pubspec.yaml with new dependencies an" />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761583470772" />
-          <option name="linesCode" value="359833" />
-          <option name="totalLines" value="17320399" />
-          <option name="info" value="feat: add generated DAO mixins for database access" />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761584285587" />
-          <option name="linesCode" value="359855" />
-          <option name="totalLines" value="17320419" />
-          <option name="info" value="refactor: remove unused database connection constr" />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761592585260" />
-          <option name="linesCode" value="360592" />
-          <option name="totalLines" value="18535598" />
-          <option name="info" value="feat: update entity and campaign DAOs to use NonNu" />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761592600742" />
-          <option name="linesCode" value="360592" />
-          <option name="totalLines" value="18535598" />
-          <option name="info" value="feat: add generated color constants for consistent" />
-        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -966,12 +944,6 @@
           <option name="linesCode" value="341021" />
           <option name="totalLines" value="16573088" />
           <option name="info" value="Oct 26, 2025" />
-        </TimePoint>
-        <TimePoint>
-          <option name="timestamp" value="1761592600742" />
-          <option name="linesCode" value="360592" />
-          <option name="totalLines" value="18535598" />
-          <option name="info" value="Oct 27, 2025" />
         </TimePoint>
       </list>
     </option>
