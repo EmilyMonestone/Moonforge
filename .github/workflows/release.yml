@@ -1,8 +1,11 @@
 name: Build and Release with Fastforge
 
 on:
-  # Trigger on new tags starting with 'v'
+  # Trigger on pushes to main (production) or beta branches, or on new tags
   push:
+    branches:
+      - main
+      - beta
     tags:
       - 'v*'
   
@@ -19,8 +22,43 @@ on:
           - beta
 
 jobs:
+  # Determine build environment based on branch
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      app_env: ${{ steps.determine_env.outputs.app_env }}
+      is_prerelease: ${{ steps.determine_env.outputs.is_prerelease }}
+    steps:
+      - name: Determine environment
+        id: determine_env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/beta" ]]; then
+            echo "app_env=beta" >> $GITHUB_OUTPUT
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "Building for beta environment"
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "app_env=production" >> $GITHUB_OUTPUT
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "Building for production environment"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            if [[ "${{ github.ref }}" == *"beta"* ]] || [[ "${{ github.ref }}" == *"alpha"* ]]; then
+              echo "app_env=beta" >> $GITHUB_OUTPUT
+              echo "is_prerelease=true" >> $GITHUB_OUTPUT
+              echo "Building for beta environment (from tag)"
+            else
+              echo "app_env=production" >> $GITHUB_OUTPUT
+              echo "is_prerelease=false" >> $GITHUB_OUTPUT
+              echo "Building for production environment (from tag)"
+            fi
+          else
+            echo "app_env=production" >> $GITHUB_OUTPUT
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "Defaulting to production environment"
+          fi
+
   # Build for Windows
   build-windows:
+    needs: setup
     runs-on: windows-latest
     
     steps:
@@ -49,7 +87,7 @@ jobs:
         run: dart pub global activate fastforge
       
       - name: Package with Fastforge
-        run: fastforge package --platform windows --target exe --build-args="dart-define:APP_ENV=production"
+        run: fastforge package --platform windows --target exe --build-args="dart-define:APP_ENV=${{ needs.setup.outputs.app_env }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -62,6 +100,7 @@ jobs:
 
   # Build for macOS
   build-macos:
+    needs: setup
     runs-on: macos-latest
     
     steps:
@@ -90,7 +129,7 @@ jobs:
         run: dart pub global activate fastforge
       
       - name: Package with Fastforge
-        run: fastforge package --platform macos --target dmg --build-args="dart-define:APP_ENV=production"
+        run: fastforge package --platform macos --target dmg --build-args="dart-define:APP_ENV=${{ needs.setup.outputs.app_env }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -103,6 +142,7 @@ jobs:
 
   # Build for Linux
   build-linux:
+    needs: setup
     runs-on: ubuntu-latest
     
     steps:
@@ -136,12 +176,12 @@ jobs:
         run: dart pub global activate fastforge
       
       - name: Package Linux AppImage
-        run: fastforge package --platform linux --target appimage --build-args="dart-define:APP_ENV=production"
+        run: fastforge package --platform linux --target appimage --build-args="dart-define:APP_ENV=${{ needs.setup.outputs.app_env }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Package Linux DEB
-        run: fastforge package --platform linux --target deb --build-args="dart-define:APP_ENV=production"
+        run: fastforge package --platform linux --target deb --build-args="dart-define:APP_ENV=${{ needs.setup.outputs.app_env }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -156,7 +196,7 @@ jobs:
 
   # Create GitHub Release and publish artifacts
   release:
-    needs: [build-windows, build-macos, build-linux]
+    needs: [setup, build-windows, build-macos, build-linux]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -183,6 +223,7 @@ jobs:
           fi
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
+          echo "Environment: ${{ needs.setup.outputs.app_env }}"
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -190,11 +231,11 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ steps.version.outputs.VERSION }}
           draft: false
-          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+          prerelease: ${{ needs.setup.outputs.is_prerelease == 'true' }}
           files: |
             dist/**/*
           body: |
-            ## Moonforge v${{ steps.version.outputs.VERSION }}
+            ## Moonforge v${{ steps.version.outputs.VERSION }} (${{ needs.setup.outputs.app_env == 'beta' && 'Beta' || 'Production' }} Release)
             
             ### Downloads
             - **Windows**: `Moonforge-${{ steps.version.outputs.VERSION }}-windows.exe`

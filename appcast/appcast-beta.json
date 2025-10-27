@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0-beta.1",
+  "title": "Moonforge Beta Updates",
+  "description": "Most recent beta updates to Moonforge",
+  "link": "https://github.com/EmilyMoonstone/Moonforge",
+  "items": [
+    {
+      "title": "Version 0.1.0-beta.1",
+      "version": "0.1.0-beta.1",
+      "description": "<h2>Initial Beta Release</h2><p>First beta release of Moonforge - A multi-platform campaign manager for Dungeons & Dragons.</p>",
+      "pubDate": "2025-10-27T20:00:00Z",
+      "link": "https://github.com/EmilyMoonstone/Moonforge/releases/tag/v0.1.0-beta.1",
+      "url": "https://github.com/EmilyMoonstone/Moonforge/releases/download/v0.1.0-beta.1/Moonforge-0.1.0-beta.1-windows.exe"
+    }
+  ]
+}
