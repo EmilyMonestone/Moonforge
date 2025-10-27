@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
+import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/data/drift_providers.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class MultiProviderWrapper extends StatelessWidget {
     AuthProvider authProvider = AuthProvider();
     AppSettingsProvider appSettingsProvider = AppSettingsProvider();
     CampaignProvider campaignProvider = CampaignProvider();
+    BestiaryProvider bestiaryProvider = BestiaryProvider();
 
     return MultiProvider(
       providers: [
@@ -35,6 +37,7 @@ class MultiProviderWrapper extends StatelessWidget {
               },
         ),
         ChangeNotifierProvider<CampaignProvider>.value(value: campaignProvider),
+        ChangeNotifierProvider<BestiaryProvider>.value(value: bestiaryProvider),
         ...driftProviders(),
       ],
       child: child,
