@@ -4,6 +4,9 @@ targets:
       json_serializable:
         options:
           explicit_to_json: true
+      drift_dev:
+        options:
+          # Generate code for Drift tables and DAOs
       flutter_gen_runner:
         options:
 

@@ -5,7 +5,7 @@
 /// - [CustomQuillViewer]: Viewer with clickable mention links
 /// - [EntityMentionService]: Service for fetching entities
 /// - [prefixHashtag] and [prefixMention]: Constants for link prefixes
-library quill_mention;
+library;
 
 export 'custom_quill_editor.dart';
 export 'custom_quill_viewer.dart';
