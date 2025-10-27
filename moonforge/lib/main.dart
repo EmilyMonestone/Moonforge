@@ -11,6 +11,7 @@ import 'package:moonforge/app.dart';
 import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
@@ -66,6 +67,8 @@ Future<void> main() async {
   // The actual initialization happens after the first frame in App widget
   WidgetsBinding.instance.addPostFrameCallback((_) {
     DeepLinkService.instance.initialize(AppRouter.router);
+    // Initialize auto updater for desktop platforms
+    AutoUpdaterService.instance.initialize();
   });
 
   runApp(MultiProviderWrapper(child: App()));

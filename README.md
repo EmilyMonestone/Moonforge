@@ -203,6 +203,29 @@ Quick start for contributors:
 
 Please keep PRs focused, follow Conventional Commits when possible, and ensure lints/tests pass.
 
+## Packaging & Distribution
+
+Moonforge uses [Fastforge](https://fastforge.dev) for packaging and distribution, with automatic updates powered by [auto_updater](https://pub.dev/packages/auto_updater).
+
+### Building Releases
+
+For maintainers and contributors interested in packaging:
+
+- **Quick Start**: See [docs/fastforge_quickref.md](docs/fastforge_quickref.md) for common commands
+- **Complete Guide**: See [docs/fastforge_setup.md](docs/fastforge_setup.md) for detailed setup instructions
+
+### Supported Platforms
+
+| Platform | Package Formats |
+|----------|----------------|
+| Windows  | EXE installer  |
+| macOS    | DMG disk image |
+| Linux    | AppImage, DEB  |
+
+### Automatic Updates
+
+Desktop versions of Moonforge check for updates automatically every 24 hours and on startup. Updates are downloaded from GitHub Releases.
+
 ## Roadmap
 
 - macOS and iOS runners and UI polish

@@ -122,3 +122,6 @@ app.*.symbols
 
 # Flutter project metadata
 /moonforge/.metadata
+
+# Fastforge/Distribution output
+dist/

@@ -1,0 +1,101 @@
+# Fastforge Configuration for Moonforge
+# https://fastforge.dev/
+
+variables:
+  # These will be provided via environment variables or CI secrets
+  GITHUB_TOKEN: ${GITHUB_TOKEN}
+
+output: dist/
+
+releases:
+  # Production release configuration
+  - name: production
+    jobs:
+      # Windows executable (MSIX or portable EXE)
+      - name: release-windows
+        package:
+          platform: windows
+          target: exe
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
+        publish_to: github
+
+      # macOS DMG
+      - name: release-macos
+        package:
+          platform: macos
+          target: dmg
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
+        publish_to: github
+
+      # Linux AppImage
+      - name: release-linux-appimage
+        package:
+          platform: linux
+          target: appimage
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
+        publish_to: github
+
+      # Linux DEB package
+      - name: release-linux-deb
+        package:
+          platform: linux
+          target: deb
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
+        publish_to: github
+
+  # Development/Beta release configuration
+  - name: beta
+    jobs:
+      # Windows beta
+      - name: release-beta-windows
+        package:
+          platform: windows
+          target: exe
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge Beta
+              APP_ENV: beta
+        publish_to: github
+
+      # macOS beta
+      - name: release-beta-macos
+        package:
+          platform: macos
+          target: dmg
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge Beta
+              APP_ENV: beta
+        publish_to: github
+
+      # Linux AppImage beta
+      - name: release-beta-linux-appimage
+        package:
+          platform: linux
+          target: appimage
+          build_args:
+            dart-define:
+              APP_NAME: Moonforge Beta
+              APP_ENV: beta
+        publish_to: github
+
+# Publishers configuration
+publishers:
+  github:
+    # Publish to GitHub Releases
+    # Will use GITHUB_TOKEN from environment
+    repo: EmilyMoonstone/Moonforge
+    draft: false
+    prerelease: false
