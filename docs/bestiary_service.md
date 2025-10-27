@@ -128,7 +128,7 @@ The service uses the following keys in the 'bestiary' storage box:
 
 The BestiaryService uses the enhanced PersistenceService which supports multiple storage boxes. This allows the bestiary data to be isolated from other app data while sharing the same storage infrastructure.
 
-See [persistence.md](persistence.md) for more details on the PersistenceService.
+See [persistence.md](../moonforge/docs/persistence.md) for more details on the PersistenceService.
 
 ## Error Handling
 

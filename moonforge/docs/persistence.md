@@ -167,7 +167,7 @@ The following keys are currently used in persistent storage:
 - `bestiary_etag`: ETag header for conditional HTTP requests
 - `bestiary_lastSync`: Timestamp of last successful sync
 
-See [bestiary_service.md](bestiary_service.md) for details on the bestiary data cache.
+See [bestiary_service.md](../../docs/bestiary_service.md) for details on the bestiary data cache.
 
 ## Best Practices
 
