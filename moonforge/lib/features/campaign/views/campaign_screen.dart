@@ -192,6 +192,8 @@ class _ChaptersSection extends StatelessWidget {
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => c.summary ?? '',
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            enableContextMenu: true,
+            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
           );
         },
       ),
@@ -238,6 +240,8 @@ class _RecentChaptersSection extends StatelessWidget {
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => formatDateTime(c.updatedAt),
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            enableContextMenu: true,
+            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
           );
         },
       ),
