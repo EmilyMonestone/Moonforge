@@ -10,6 +10,8 @@ import 'package:moonforge/features/chapter/utils/create_adventure_in_chapter.dar
 import 'package:moonforge/features/chapter/utils/create_chapter.dart'
     as chapter_utils;
 import 'package:moonforge/features/chapter/utils/create_scene_in_chapter.dart';
+import 'package:moonforge/features/encounters/utils/create_encounter.dart'
+    as encounter_utils;
 import 'package:moonforge/features/entities/utils/create_entity.dart'
     as entity_utils;
 import 'package:moonforge/features/scene/utils/create_scene.dart'
@@ -96,6 +98,7 @@ class MenuRegistry {
       newChapter(l10n),
       newAdventure(l10n),
       newScene(l10n),
+      newEncounter(l10n),
       newEntity(l10n),
     ];
   }
@@ -117,7 +120,11 @@ class MenuRegistry {
   /// Menu for the Adventure route ('/campaign/chapter/:chapterId/adventure/:adventureId').
   static List<MenuBarAction> _adventureMenu(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return <MenuBarAction>[continueWhereLeft(l10n), newScene(l10n)];
+    return <MenuBarAction>[
+      continueWhereLeft(l10n),
+      newScene(l10n),
+      newEncounter(l10n),
+    ];
   }
 
   // ------ MenuBarActions ------
@@ -275,6 +282,24 @@ class MenuRegistry {
           return;
         }
         createSceneInChapter(ctx, campaign, chapterId);
+      },
+    );
+  }
+
+  static MenuBarAction newEncounter(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: l10n.createEncounter,
+      icon: Icons.shield_outlined,
+      onPressed: (ctx) {
+        final campaign = Provider.of<CampaignProvider>(
+          ctx,
+          listen: false,
+        ).currentCampaign;
+        if (campaign == null) {
+          notification.info(ctx, title: Text(l10n.noCampaignSelected));
+          return;
+        }
+        encounter_utils.createEncounter(ctx, campaign);
       },
     );
   }

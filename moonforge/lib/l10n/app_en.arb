@@ -229,6 +229,10 @@
   "@name": {
     "description": "Label for name input field"
   },
+  "nameRequired": "Name is required",
+  "@nameRequired": {
+    "description": "Validation message when name is not provided"
+  },
   "kind": "Kind",
   "@kind": {
     "description": "Label for kind selection"
@@ -289,6 +293,165 @@
   "@noContentProvided": {
     "description": "Shown when no content is provided"
   },
+  "createEncounter": "Create Encounter",
+  "@createEncounter": {
+    "description": "Label for creating a new encounter"
+  },
+  "encounterBuilder": "Encounter Builder",
+  "@encounterBuilder": {
+    "description": "Title for encounter builder screen"
+  },
+  "initiativeTracker": "Initiative Tracker",
+  "@initiativeTracker": {
+    "description": "Title for initiative tracker"
+  },
+  "addCombatant": "Add Combatant",
+  "@addCombatant": {
+    "description": "Label for adding a combatant to an encounter"
+  },
+  "partySelection": "Party Selection",
+  "@partySelection": {
+    "description": "Label for selecting a party"
+  },
+  "customPlayerGroup": "Custom Player Group",
+  "@customPlayerGroup": {
+    "description": "Label for custom player group option"
+  },
+  "encounterDifficulty": "Encounter Difficulty",
+  "@encounterDifficulty": {
+    "description": "Label for encounter difficulty"
+  },
+  "xpBudget": "XP Budget",
+  "@xpBudget": {
+    "description": "Label for XP budget"
+  },
+  "adjustedXp": "Adjusted XP",
+  "@adjustedXp": {
+    "description": "Label for adjusted XP value"
+  },
+  "easy": "Easy",
+  "@easy": {
+    "description": "Easy difficulty label"
+  },
+  "medium": "Medium",
+  "@medium": {
+    "description": "Medium difficulty label"
+  },
+  "hard": "Hard",
+  "@hard": {
+    "description": "Hard difficulty label"
+  },
+  "deadly": "Deadly",
+  "@deadly": {
+    "description": "Deadly difficulty label"
+  },
+  "trivial": "Trivial",
+  "@trivial": {
+    "description": "Trivial difficulty label"
+  },
+  "challengeRating": "Challenge Rating",
+  "@challengeRating": {
+    "description": "Label for challenge rating (CR)"
+  },
+  "initiative": "Initiative",
+  "@initiative": {
+    "description": "Label for initiative"
+  },
+  "hitPoints": "Hit Points",
+  "@hitPoints": {
+    "description": "Label for hit points (HP)"
+  },
+  "armorClass": "Armor Class",
+  "@armorClass": {
+    "description": "Label for armor class (AC)"
+  },
+  "conditions": "Conditions",
+  "@conditions": {
+    "description": "Label for conditions/status effects"
+  },
+  "addCondition": "Add Condition",
+  "@addCondition": {
+    "description": "Label for adding a condition"
+  },
+  "nextTurn": "Next Turn",
+  "@nextTurn": {
+    "description": "Label for next turn button"
+  },
+  "previousTurn": "Previous Turn",
+  "@previousTurn": {
+    "description": "Label for previous turn button"
+  },
+  "round": "Round",
+  "@round": {
+    "description": "Label for combat round"
+  },
+  "startEncounter": "Start Encounter",
+  "@startEncounter": {
+    "description": "Label for starting an encounter"
+  },
+  "endEncounter": "End Encounter",
+  "@endEncounter": {
+    "description": "Label for ending an encounter"
+  },
+  "ally": "Ally",
+  "@ally": {
+    "description": "Label for ally combatant"
+  },
+  "enemy": "Enemy",
+  "@enemy": {
+    "description": "Label for enemy combatant"
+  },
+  "player": "Player",
+  "@player": {
+    "description": "Label for player character"
+  },
+  "monster": "Monster",
+  "@monster": {
+    "description": "Label for monster"
+  },
+  "npc": "NPC",
+  "@npc": {
+    "description": "Label for non-player character"
+  },
+  "rollInitiative": "Roll Initiative",
+  "@rollInitiative": {
+    "description": "Label for rolling initiative"
+  },
+  "sortByInitiative": "Sort by Initiative",
+  "@sortByInitiative": {
+    "description": "Label for sorting combatants by initiative"
+  },
+  "fromBestiary": "From Bestiary",
+  "@fromBestiary": {
+    "description": "Label for selecting from bestiary"
+  },
+  "fromCampaign": "From Campaign",
+  "@fromCampaign": {
+    "description": "Label for selecting from campaign entities"
+  },
+  "selectMonster": "Select Monster",
+  "@selectMonster": {
+    "description": "Label for selecting a monster"
+  },
+  "selectParty": "Select Party",
+  "@selectParty": {
+    "description": "Label for selecting a party"
+  },
+  "noPartySelected": "No party selected",
+  "@noPartySelected": {
+    "description": "Message shown when no party is selected"
+  },
+  "partySize": "Party Size",
+  "@partySize": {
+    "description": "Label for party size"
+  },
+  "addPlayer": "Add Player",
+  "@addPlayer": {
+    "description": "Label for adding a player"
+  },
+  "playerLevel": "Player Level",
+  "@playerLevel": {
+    "description": "Label for player level"
   "shareSettings": "Share Settings",
   "@shareSettings": {
     "description": "Title for share settings dialog"

@@ -213,6 +213,10 @@
   "@name": {
     "description": "Label für Namensfeld"
   },
+  "nameRequired": "Name ist erforderlich",
+  "@nameRequired": {
+    "description": "Validierungsnachricht wenn Name nicht angegeben ist"
+  },
   "title": "Titel",
   "@title": {
     "description": "Label für Titelfeld"
@@ -293,6 +297,165 @@
   "@noContentProvided": {
     "description": "Angezeigt, wenn kein Inhalt vorhanden ist"
   },
+  "createEncounter": "Begegnung erstellen",
+  "@createEncounter": {
+    "description": "Label für das Erstellen einer neuen Begegnung"
+  },
+  "encounterBuilder": "Begegnungsbauer",
+  "@encounterBuilder": {
+    "description": "Titel für Begegnungsbauer-Bildschirm"
+  },
+  "initiativeTracker": "Initiativ-Tracker",
+  "@initiativeTracker": {
+    "description": "Titel für Initiativ-Tracker"
+  },
+  "addCombatant": "Kämpfer hinzufügen",
+  "@addCombatant": {
+    "description": "Label für das Hinzufügen eines Kämpfers"
+  },
+  "partySelection": "Gruppenauswahl",
+  "@partySelection": {
+    "description": "Label für Gruppenauswahl"
+  },
+  "customPlayerGroup": "Benutzerdefinierte Spielergruppe",
+  "@customPlayerGroup": {
+    "description": "Label für benutzerdefinierte Spielergruppe"
+  },
+  "encounterDifficulty": "Begegnungsschwierigkeit",
+  "@encounterDifficulty": {
+    "description": "Label für Begegnungsschwierigkeit"
+  },
+  "xpBudget": "EP-Budget",
+  "@xpBudget": {
+    "description": "Label für EP-Budget"
+  },
+  "adjustedXp": "Angepasste EP",
+  "@adjustedXp": {
+    "description": "Label für angepassten EP-Wert"
+  },
+  "easy": "Leicht",
+  "@easy": {
+    "description": "Leichter Schwierigkeitsgrad"
+  },
+  "medium": "Mittel",
+  "@medium": {
+    "description": "Mittlerer Schwierigkeitsgrad"
+  },
+  "hard": "Schwer",
+  "@hard": {
+    "description": "Schwerer Schwierigkeitsgrad"
+  },
+  "deadly": "Tödlich",
+  "@deadly": {
+    "description": "Tödlicher Schwierigkeitsgrad"
+  },
+  "trivial": "Trivial",
+  "@trivial": {
+    "description": "Trivialer Schwierigkeitsgrad"
+  },
+  "challengeRating": "Herausforderungsgrad",
+  "@challengeRating": {
+    "description": "Label für Herausforderungsgrad (HG)"
+  },
+  "initiative": "Initiative",
+  "@initiative": {
+    "description": "Label für Initiative"
+  },
+  "hitPoints": "Trefferpunkte",
+  "@hitPoints": {
+    "description": "Label für Trefferpunkte (TP)"
+  },
+  "armorClass": "Rüstungsklasse",
+  "@armorClass": {
+    "description": "Label für Rüstungsklasse (RK)"
+  },
+  "conditions": "Zustände",
+  "@conditions": {
+    "description": "Label für Zustände/Statuseffekte"
+  },
+  "addCondition": "Zustand hinzufügen",
+  "@addCondition": {
+    "description": "Label für das Hinzufügen eines Zustands"
+  },
+  "nextTurn": "Nächster Zug",
+  "@nextTurn": {
+    "description": "Label für Nächster-Zug-Button"
+  },
+  "previousTurn": "Vorheriger Zug",
+  "@previousTurn": {
+    "description": "Label für Vorheriger-Zug-Button"
+  },
+  "round": "Runde",
+  "@round": {
+    "description": "Label für Kampfrunde"
+  },
+  "startEncounter": "Begegnung starten",
+  "@startEncounter": {
+    "description": "Label für das Starten einer Begegnung"
+  },
+  "endEncounter": "Begegnung beenden",
+  "@endEncounter": {
+    "description": "Label für das Beenden einer Begegnung"
+  },
+  "ally": "Verbündeter",
+  "@ally": {
+    "description": "Label für verbündeten Kämpfer"
+  },
+  "enemy": "Gegner",
+  "@enemy": {
+    "description": "Label für feindlichen Kämpfer"
+  },
+  "player": "Spieler",
+  "@player": {
+    "description": "Label für Spielercharakter"
+  },
+  "monster": "Monster",
+  "@monster": {
+    "description": "Label für Monster"
+  },
+  "npc": "NSC",
+  "@npc": {
+    "description": "Label für Nicht-Spieler-Charakter"
+  },
+  "rollInitiative": "Initiative würfeln",
+  "@rollInitiative": {
+    "description": "Label für Initiative würfeln"
+  },
+  "sortByInitiative": "Nach Initiative sortieren",
+  "@sortByInitiative": {
+    "description": "Label für Sortieren nach Initiative"
+  },
+  "fromBestiary": "Aus Bestiarium",
+  "@fromBestiary": {
+    "description": "Label für Auswahl aus Bestiarium"
+  },
+  "fromCampaign": "Aus Kampagne",
+  "@fromCampaign": {
+    "description": "Label für Auswahl aus Kampagnenentitäten"
+  },
+  "selectMonster": "Monster auswählen",
+  "@selectMonster": {
+    "description": "Label für Monsterauswahl"
+  },
+  "selectParty": "Gruppe auswählen",
+  "@selectParty": {
+    "description": "Label für Gruppenauswahl"
+  },
+  "noPartySelected": "Keine Gruppe ausgewählt",
+  "@noPartySelected": {
+    "description": "Nachricht, wenn keine Gruppe ausgewählt ist"
+  },
+  "partySize": "Gruppengröße",
+  "@partySize": {
+    "description": "Label für Gruppengröße"
+  },
+  "addPlayer": "Spieler hinzufügen",
+  "@addPlayer": {
+    "description": "Label für das Hinzufügen eines Spielers"
+  },
+  "playerLevel": "Spielerstufe",
+  "@playerLevel": {
+    "description": "Label für Spielerstufe"
   "entities": "Entitäten",
   "@entities": {
     "description": "Label für Entitätenfunktion"

@@ -5,6 +5,8 @@ import 'package:moonforge/core/models/data/chapter.dart';
 import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/core/models/data/entity.dart';
 import 'package:moonforge/core/models/data/media_asset.dart';
+import 'package:moonforge/core/models/data/party.dart';
+import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/data/drift/connect/connect.dart' as impl;
@@ -19,6 +21,8 @@ import 'package:moonforge/data/drift/dao/encounters_dao.dart';
 import 'package:moonforge/data/drift/dao/entities_dao.dart';
 import 'package:moonforge/data/drift/dao/media_assets_dao.dart';
 import 'package:moonforge/data/drift/dao/outbox_dao.dart';
+import 'package:moonforge/data/drift/dao/parties_dao.dart';
+import 'package:moonforge/data/drift/dao/players_dao.dart';
 import 'package:moonforge/data/drift/dao/scenes_dao.dart';
 import 'package:moonforge/data/drift/dao/sessions_dao.dart';
 import 'package:moonforge/data/drift/dao/storage_queue_dao.dart';
@@ -32,6 +36,8 @@ import 'package:moonforge/data/drift/tables/entities.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
 import 'package:moonforge/data/drift/tables/media_assets.dart';
 import 'package:moonforge/data/drift/tables/outbox_ops.dart';
+import 'package:moonforge/data/drift/tables/parties.dart';
+import 'package:moonforge/data/drift/tables/players.dart';
 import 'package:moonforge/data/drift/tables/scenes.dart';
 import 'package:moonforge/data/drift/tables/sessions.dart';
 import 'package:moonforge/data/drift/tables/storage_queue.dart';
@@ -47,6 +53,8 @@ part 'app_database.g.dart';
     Chapters,
     Encounters,
     Entities,
+    Parties,
+    Players,
     Scenes,
     Sessions,
     MediaAssets,
@@ -63,6 +71,8 @@ part 'app_database.g.dart';
     ChaptersDao,
     EncountersDao,
     EntitiesDao,
+    PartiesDao,
+    PlayersDao,
     ScenesDao,
     SessionsDao,
     MediaAssetsDao,
@@ -77,7 +87,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -111,6 +121,12 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(adventures, adventures.entityIds);
           await m.addColumn(scenes, scenes.entityIds);
           await m.addColumn(encounters, encounters.entityIds);
+        }
+        
+        // Migration from v3 to v4: Add Parties and Players tables
+        if (from < 4) {
+          await m.createTable(parties);
+          await m.createTable(players);
         }
       },
     );
