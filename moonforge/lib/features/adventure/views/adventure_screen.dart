@@ -198,6 +198,12 @@ class _ScenesSection extends StatelessWidget {
               adventureId: adventureId,
               sceneId: s.id,
             ).go(context),
+            enableContextMenu: true,
+            routeOf: (s) => SceneRoute(
+              chapterId: chapterId,
+              adventureId: adventureId,
+              sceneId: s.id,
+            ).location,
           );
         },
       ),
