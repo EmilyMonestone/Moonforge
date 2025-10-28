@@ -17,10 +17,10 @@ Future<void> createAdventureInChapter(
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<AdventureRepository>();
   
-  // Get all adventures from Drift and filter by chapter
+  // Get all adventures from Drift and filter by chapter using startsWith
   final allAdventures = context.read<List<Adventure>>();
   final chapterAdventures = allAdventures
-      .where((adv) => adv.id.contains(chapterId))
+      .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
       .toList()
     ..sort((a, b) => b.order.compareTo(a.order));
   
