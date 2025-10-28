@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/database/odm.dart';
+import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/core/models/data/entity.dart';
 import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/encounters/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
@@ -165,8 +168,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         updatedAt: DateTime.now(),
       );
       
-      final odm = Odm.instance;
-      await odm.campaigns.doc(campaign.id).encounters.doc(encounter.id).set(encounter);
+      // Use EncounterRepository instead of ODM
+      final encounterRepo = context.read<EncounterRepository>();
+      await encounterRepo.upsertLocal(encounter);
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -843,77 +847,56 @@ class _CampaignEntityList extends StatelessWidget {
       return Center(child: Text(l10n.noCampaignSelected));
     }
     
-    return FutureBuilder<List<Entity>>(
-      future: _loadCampaignMonsters(campaign.id),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    // Use StreamProvider to watch entities from Drift
+    final allEntities = context.watch<List<Entity>>();
+    
+    // Filter for monsters and NPCs with statblocks
+    final entities = allEntities.where((e) {
+      return (e.kind == 'monster' || e.kind == 'npc') && 
+             e.statblock.isNotEmpty;
+    }).toList();
+    
+    if (entities.isEmpty) {
+      return const Center(
+        child: Text('No monsters or NPCs with statblocks found in campaign'),
+      );
+    }
+    
+    return ListView.builder(
+      itemCount: entities.length,
+      itemBuilder: (context, index) {
+        final entity = entities[index];
+        final statblock = entity.statblock;
+        final cr = statblock['cr'] as String? ?? '0';
+        final xp = EncounterDifficultyService.getXpForCr(cr);
+        final hp = (statblock['hp'] as int?) ?? 10;
+        final ac = (statblock['ac'] as int?) ?? 10;
         
-        if (snapshot.hasError) {
-          return Center(child: Text('${l10n.error}: ${snapshot.error}'));
-        }
-        
-        final entities = snapshot.data ?? [];
-        
-        if (entities.isEmpty) {
-          return const Center(
-            child: Text('No monsters or NPCs with statblocks found in campaign'),
-          );
-        }
-        
-        return ListView.builder(
-          itemCount: entities.length,
-          itemBuilder: (context, index) {
-            final entity = entities[index];
-            final statblock = entity.statblock;
-            final cr = statblock['cr'] as String? ?? '0';
-            final xp = EncounterDifficultyService.getXpForCr(cr);
-            final hp = (statblock['hp'] as int?) ?? 10;
-            final ac = (statblock['ac'] as int?) ?? 10;
-            
-            return ListTile(
-              title: Text(entity.name),
-              subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
-              trailing: IconButton(
-                icon: const Icon(Icons.add_circle_outline),
-                onPressed: () {
-                  final combatant = Combatant(
-                    id: 'entity_${DateTime.now().millisecondsSinceEpoch}',
-                    name: entity.name,
-                    type: entity.kind == 'npc' ? CombatantType.npc : CombatantType.monster,
-                    isAlly: false,
-                    cr: cr,
-                    xp: xp,
-                    maxHp: hp,
-                    currentHp: hp,
-                    armorClass: ac,
-                    entityId: entity.id,
-                  );
-                  onAdd(combatant);
-                  Navigator.of(context).pop();
-                },
-              ),
-            );
-          },
+        return ListTile(
+          title: Text(entity.name),
+          subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
+          trailing: IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            onPressed: () {
+              final combatant = Combatant(
+                id: 'entity_${DateTime.now().millisecondsSinceEpoch}',
+                name: entity.name,
+                type: entity.kind == 'npc' ? CombatantType.npc : CombatantType.monster,
+                isAlly: false,
+                cr: cr,
+                xp: xp,
+                maxHp: hp,
+                currentHp: hp,
+                armorClass: ac,
+                entityId: entity.id,
+              );
+              onAdd(combatant);
+              Navigator.of(context).pop();
+            },
+          ),
         );
       },
     );
-  }
-  
-  Future<List<Entity>> _loadCampaignMonsters(String campaignId) async {
-    try {
-      final odm = Odm.instance;
-      final entities = await odm.campaigns.doc(campaignId).entities.get();
-      
-      // Filter for monsters and NPCs with statblocks
-      return entities.where((e) {
-        return (e.kind == 'monster' || e.kind == 'npc') && 
-               e.statblock.isNotEmpty;
-      }).toList();
-    } catch (e) {
-      return [];
-    }
   }
 }
 
