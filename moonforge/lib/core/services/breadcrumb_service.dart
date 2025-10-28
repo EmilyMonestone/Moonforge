@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/adventure.dart';
 import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/chapter.dart';
-import 'package:moonforge/core/models/data/encounter.dart';
-import 'package:moonforge/core/models/data/entity.dart';
-import 'package:moonforge/core/models/data/party.dart';
-import 'package:moonforge/core/models/data/player.dart';
-import 'package:moonforge/core/models/data/scene.dart';
-import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -181,6 +174,7 @@ class BreadcrumbService {
                     .scenes
                     .doc(sceneId)
                     .get();
+                // Note: Scene model uses 'title' field instead of 'name'
                 breadcrumbs.add(BreadcrumbItem(
                   text: scene?.title ?? l10n.ellipsis,
                   path: '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
@@ -355,9 +349,8 @@ class BreadcrumbService {
                 // Session doesn't have a name field, use datetime or fallback to "Session"
                 String displayText = l10n.session;
                 if (session?.datetime != null) {
-                  // Format date as a simple display
-                  final date = session!.datetime!;
-                  displayText = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+                  // Format date using proper date formatting for internationalization
+                  displayText = DateFormat.yMMMd().format(session!.datetime!);
                 }
                 breadcrumbs.add(BreadcrumbItem(
                   text: displayText,
