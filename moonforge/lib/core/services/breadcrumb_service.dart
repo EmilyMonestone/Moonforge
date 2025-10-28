@@ -7,6 +7,7 @@ import 'package:moonforge/core/models/data/chapter.dart';
 import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/core/models/data/entity.dart';
 import 'package:moonforge/core/models/data/party.dart';
+import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -328,19 +329,26 @@ class BreadcrumbService {
                     .sessions
                     .doc(sessionId)
                     .get();
+                // Session doesn't have a name field, use datetime or fallback to "Session"
+                String displayText = l10n.session;
+                if (session?.datetime != null) {
+                  // Format date as a simple display
+                  final date = session!.datetime!;
+                  displayText = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+                }
                 breadcrumbs.add(BreadcrumbItem(
-                  text: session?.name ?? l10n.ellipsis,
+                  text: displayText,
                   path: '/party/$partyId/session/$sessionId',
                 ));
               } else {
                 breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
+                  text: l10n.session,
                   path: '/party/${partyId ?? ''}/session/$sessionId',
                 ));
               }
             } catch (e) {
               breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
+                text: l10n.session,
                 path: '/party/${partyId ?? ''}/session/$sessionId',
               ));
             }
