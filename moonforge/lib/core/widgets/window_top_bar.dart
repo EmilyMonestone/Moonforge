@@ -282,6 +282,16 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                             // Default 50/50 split
                             final halfWidth = availableWidth / 2;
 
+                            // Use adaptive button group when no custom trailing is provided
+                            final adaptiveTrailing = widget.trailing ??
+                                (actionItems.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : AdaptiveButtonGroup(
+                                        actions: actionItems,
+                                        showLabels: showLabels,
+                                        maxWidth: halfWidth,
+                                      ));
+
                             return Row(
                               children: [
                                 titleWidget,
@@ -295,7 +305,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                                     width: halfWidth,
                                     child: Align(
                                       alignment: Alignment.centerRight,
-                                      child: trailingWidget,
+                                      child: adaptiveTrailing,
                                     ),
                                   ),
                                 if (hasWindowButtons) buttons,
