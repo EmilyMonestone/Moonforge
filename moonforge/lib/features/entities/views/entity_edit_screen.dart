@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/features/entities/views/entity_edit_screen_impl.dart';
 
 class EntityEditScreen extends StatelessWidget {
   const EntityEditScreen({super.key, required this.entityId});
@@ -7,6 +8,6 @@ class EntityEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return EntityEditScreenImpl(entityId: entityId);
   }
 }
