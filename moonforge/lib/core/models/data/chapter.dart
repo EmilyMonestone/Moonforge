@@ -13,6 +13,7 @@ abstract class Chapter with _$Chapter {
     @Default(0) int order,
     String? summary,
     String? content, // quill delta json
+    @Default([]) List<String> entityIds, // Related entities
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(0) int rev,

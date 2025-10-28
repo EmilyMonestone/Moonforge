@@ -15,6 +15,7 @@ abstract class Scene with _$Scene {
     String? content, // quill delta json
     List<Map<String, dynamic>>? mentions,
     List<Map<String, dynamic>>? mediaRefs,
+    @Default([]) List<String> entityIds, // Related entities
     DateTime? updatedAt,
     DateTime? createdAt,
     @Default(0) int rev,

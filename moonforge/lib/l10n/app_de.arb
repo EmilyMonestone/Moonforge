@@ -292,5 +292,13 @@
   "noContentProvided": "Kein Inhalt",
   "@noContentProvided": {
     "description": "Angezeigt, wenn kein Inhalt vorhanden ist"
+  },
+  "entities": "Entitäten",
+  "@entities": {
+    "description": "Label für Entitätenfunktion"
+  },
+  "noEntitiesYet": "Noch keine Entitäten",
+  "@noEntitiesYet": {
+    "description": "Angezeigt, wenn keine Entitäten gefunden wurden"
   }
 }

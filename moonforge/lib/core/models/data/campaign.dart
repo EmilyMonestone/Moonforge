@@ -14,6 +14,7 @@ abstract class Campaign with _$Campaign {
     String? content, // quill delta json
     String? ownerUid,
     List<String>? memberUids,
+    @Default([]) List<String> entityIds, // Related entities
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(0) int rev,
