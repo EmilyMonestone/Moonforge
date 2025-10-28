@@ -5,6 +5,8 @@ import 'package:moonforge/core/models/data/chapter.dart';
 import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/core/models/data/party.dart';
+import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/core/models/data/media_asset.dart';
 import 'package:moonforge/data/drift/app_database.dart';
@@ -15,6 +17,8 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/party_repository.dart';
+import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/data/repo/media_asset_repository.dart';
 import 'package:moonforge/data/sync/sync_engine.dart';
@@ -59,6 +63,12 @@ List<SingleChildWidget> driftProviders() {
     ),
     ProxyProvider<AppDatabase, EntityRepository>(
       update: (_, db, __) => EntityRepository(db),
+    ),
+    ProxyProvider<AppDatabase, PartyRepository>(
+      update: (_, db, __) => PartyRepository(db),
+    ),
+    ProxyProvider<AppDatabase, PlayerRepository>(
+      update: (_, db, __) => PlayerRepository(db),
     ),
     ProxyProvider<AppDatabase, SessionRepository>(
       update: (_, db, __) => SessionRepository(db),
@@ -108,6 +118,14 @@ List<SingleChildWidget> driftProviders() {
     ),
     StreamProvider<List<Entity>>(
       create: (context) => context.read<EntityRepository>().watchAll(),
+      initialData: const [],
+    ),
+    StreamProvider<List<Party>>(
+      create: (context) => context.read<PartyRepository>().watchAll(),
+      initialData: const [],
+    ),
+    StreamProvider<List<Player>>(
+      create: (context) => context.read<PlayerRepository>().watchAll(),
       initialData: const [],
     ),
     StreamProvider<List<Session>>(

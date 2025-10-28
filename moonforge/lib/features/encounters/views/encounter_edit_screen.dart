@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/core/models/data/party.dart';
 import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/encounters/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
@@ -118,31 +119,20 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     }
   }
   
-  // Load party players from ODM
+  // Load party players from Drift
   Future<void> _loadPartyPlayers(String partyId) async {
-    final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
-    if (campaign == null) return;
-    
     try {
-      final odm = Odm.instance;
-      final party = await odm.campaigns.doc(campaign.id).parties.doc(partyId).get();
+      final playerRepo = context.read<PlayerRepository>();
       
-      if (party != null && party.memberEntityIds != null) {
-        // Load player entities for each member
-        final playersList = <Player>[];
-        for (final entityId in party.memberEntityIds!) {
-          final player = await odm.campaigns.doc(campaign.id).players.doc(entityId).get();
-          if (player != null) {
-            playersList.add(player);
-          }
-        }
-        
-        setState(() {
-          _players = playersList;
-          _selectedPartyId = partyId;
-          _calculateDifficulty();
-        });
-      }
+      // Get all players and filter by partyId
+      final allPlayers = await playerRepo.watchAll().first;
+      final playersList = allPlayers.where((p) => p.partyId == partyId).toList();
+      
+      setState(() {
+        _players = playersList;
+        _selectedPartyId = partyId;
+        _calculateDifficulty();
+      });
     } catch (e) {
       // Handle error silently for now
     }
@@ -602,12 +592,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   }
   
   Future<List<Map<String, String>>> _loadParties() async {
-    final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
-    if (campaign == null) return [];
-    
     try {
-      final odm = Odm.instance;
-      final parties = await odm.campaigns.doc(campaign.id).parties.get();
+      // Use StreamProvider to get parties from Drift
+      final parties = context.read<List<Party>>();
       return parties.map((p) => {'id': p.id, 'name': p.name}).toList();
     } catch (e) {
       return [];
