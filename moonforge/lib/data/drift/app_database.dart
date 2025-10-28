@@ -11,6 +11,7 @@ import 'package:moonforge/data/drift/connect/connect.dart' as impl;
 import 'package:moonforge/data/drift/converters/json_list_converter.dart';
 import 'package:moonforge/data/drift/converters/non_null_json_map_converter.dart';
 import 'package:moonforge/data/drift/converters/string_list_converter.dart';
+import 'package:moonforge/data/drift/converters/non_null_string_list_converter.dart';
 import 'package:moonforge/data/drift/dao/adventures_dao.dart';
 import 'package:moonforge/data/drift/dao/campaigns_dao.dart';
 import 'package:moonforge/data/drift/dao/chapters_dao.dart';
@@ -98,13 +99,18 @@ class AppDatabase extends _$AppDatabase {
           await m.createTable(storageQueue);
         }
         
-        // Migration from v2 to v3: Add share and revision fields to Sessions
+        // Migration from v2 to v3: Add share and revision fields to Sessions; Add entityIds column to content tables
         if (from < 3) {
           await m.addColumn(sessions, sessions.shareToken);
           await m.addColumn(sessions, sessions.shareEnabled);
           await m.addColumn(sessions, sessions.shareExpiresAt);
           await m.addColumn(sessions, sessions.updatedAt);
           await m.addColumn(sessions, sessions.rev);
+          await m.addColumn(campaigns, campaigns.entityIds);
+          await m.addColumn(chapters, chapters.entityIds);
+          await m.addColumn(adventures, adventures.entityIds);
+          await m.addColumn(scenes, scenes.entityIds);
+          await m.addColumn(encounters, encounters.entityIds);
         }
       },
     );

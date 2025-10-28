@@ -11,6 +11,7 @@ import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -86,12 +87,13 @@ class _SceneScreenImplState extends State<SceneScreenImpl> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final campaign = context.watch<CampaignProvider>().currentCampaign;
 
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_scene == null) {
+    if (_scene == null || campaign == null) {
       return Center(child: Text(l10n.error));
     }
 
@@ -157,6 +159,12 @@ class _SceneScreenImplState extends State<SceneScreenImpl> {
                 Text(l10n.noContentProvided),
             ],
           ),
+        ),
+        SceneEntitiesWidget(
+          campaignId: campaign.id,
+          chapterId: widget.chapterId,
+          adventureId: widget.adventureId,
+          sceneId: widget.sceneId,
         ),
       ],
     );
