@@ -9,6 +9,7 @@ import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/widgets/adaptive_breadcrumb.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/data/providers/sync_state_provider.dart';
@@ -62,32 +63,31 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   Widget build(BuildContext context) {
     final size = AppSizeClass.of(context);
 
-    // Build breadcrumbs from the current location.
+    // Build breadcrumbs from the current location using AdaptiveBreadcrumb
     final uri = GoRouterState.of(context).uri;
     final segments = uri.pathSegments;
 
     Widget breadcrumbs;
     if (segments.isEmpty) {
-      breadcrumbs = BreadCrumb(
+      breadcrumbs = AdaptiveBreadcrumb(
         items: [
-          BreadCrumbItem(
+          AdaptiveBreadcrumbItem(
             content: Text(AppLocalizations.of(context)!.home),
             onTap: () => const HomeRoute().go(context),
           ),
         ],
-        divider: const Text('/'),
+        divider: const Icon(Icons.chevron_right, size: 16),
       );
     } else {
-      breadcrumbs = BreadCrumb.builder(
-        itemCount: segments.length,
-        builder: (int index) {
-          final labelKey = segments[index];
+      breadcrumbs = AdaptiveBreadcrumb(
+        items: segments.map((labelKey) {
+          final index = segments.indexOf(labelKey);
           final path = '/${segments.take(index + 1).join('/')}';
-          return BreadCrumbItem(
+          return AdaptiveBreadcrumbItem(
             content: getPathName(context, labelKey),
             onTap: () => context.go(path),
           );
-        },
+        }).toList(),
         divider: const Icon(Icons.chevron_right, size: 16),
       );
     }

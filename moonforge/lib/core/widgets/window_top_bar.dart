@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart' as mb_actions;
 import 'package:moonforge/core/repositories/menu_registry.dart';
+import 'package:moonforge/core/widgets/adaptive_button_group.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -263,19 +264,54 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                             ),
                           ],
                         )
-                      : Row(
-                          children: [
-                            titleWidget,
-                            if (widget.leading != null) widget.leading!,
-                            const Spacer(),
-                            trailingWidget,
-                            if (!(kIsWeb ||
+                      : LayoutBuilder(
+                          builder: (context, constraints) {
+                            // Calculate available width for breadcrumbs and buttons
+                            final hasWindowButtons = !(kIsWeb ||
                                 Platform.isAndroid ||
                                 Platform.isIOS ||
                                 Platform.isFuchsia ||
-                                Platform.isMacOS))
-                              buttons,
-                          ],
+                                Platform.isMacOS);
+                            
+                            // Estimate window button widths (3 buttons × 46px each)
+                            const windowButtonsWidth = 138.0;
+                            final availableWidth = constraints.maxWidth -
+                                kTitleWidth -
+                                (hasWindowButtons ? windowButtonsWidth : 0);
+
+                            // Default 50/50 split
+                            final halfWidth = availableWidth / 2;
+
+                            // Use adaptive button group when no custom trailing is provided
+                            final adaptiveTrailing = widget.trailing ??
+                                (actionItems.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : AdaptiveButtonGroup(
+                                        actions: actionItems,
+                                        showLabels: showLabels,
+                                        maxWidth: halfWidth,
+                                      ));
+
+                            return Row(
+                              children: [
+                                titleWidget,
+                                if (widget.leading != null)
+                                  SizedBox(
+                                    width: halfWidth,
+                                    child: widget.leading!,
+                                  ),
+                                if (widget.trailing != null || actionItems.isNotEmpty)
+                                  SizedBox(
+                                    width: halfWidth,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: adaptiveTrailing,
+                                    ),
+                                  ),
+                                if (hasWindowButtons) buttons,
+                              ],
+                            );
+                          },
                         ),
                 ],
               )
