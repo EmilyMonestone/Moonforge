@@ -14,6 +14,7 @@ import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
+import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -127,6 +128,11 @@ class _AdventureScreenState extends State<AdventureScreen> {
             WrapLayout(
               children: [
                 _ScenesSection(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                  adventureId: widget.adventureId,
+                ),
+                AdventureEntitiesWidget(
                   campaignId: campaign.id,
                   chapterId: widget.chapterId,
                   adventureId: widget.adventureId,

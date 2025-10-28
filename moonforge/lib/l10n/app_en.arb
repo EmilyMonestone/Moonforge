@@ -289,6 +289,13 @@
   "@noContentProvided": {
     "description": "Shown when no content is provided"
   },
+  "entities": "Entities",
+  "@entities": {
+    "description": "Label for Entities feature"
+  },
+  "noEntitiesYet": "No entities yet",
+  "@noEntitiesYet": {
+    "description": "Shown when no entities are found"
   "openInNewWindow": "Open in new window",
   "@openInNewWindow": {
     "description": "Context menu option to open a link in a new window"
