@@ -351,9 +351,8 @@ class BreadcrumbService {
                 String displayText = l10n.session;
                 if (session?.datetime != null) {
                   // Format date using proper date formatting for internationalization
-                  // Use the current locale for locale-specific formatting
-                  final locale = Localizations.localeOf(context).toString();
-                  displayText = DateFormat.yMMMd(locale).format(session!.datetime!);
+                  // DateFormat automatically uses the current locale from Localizations
+                  displayText = DateFormat.yMMMd().format(session!.datetime!);
                 }
                 breadcrumbs.add(BreadcrumbItem(
                   text: displayText,
