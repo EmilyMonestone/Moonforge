@@ -174,7 +174,8 @@ class BreadcrumbService {
                     .scenes
                     .doc(sceneId)
                     .get();
-                // Note: Scene model uses 'title' field instead of 'name'
+                // Note: Scene entities use the 'title' field for display names
+                // instead of the standard 'name' field used by other entities.
                 breadcrumbs.add(BreadcrumbItem(
                   text: scene?.title ?? l10n.ellipsis,
                   path: '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
@@ -350,7 +351,9 @@ class BreadcrumbService {
                 String displayText = l10n.session;
                 if (session?.datetime != null) {
                   // Format date using proper date formatting for internationalization
-                  displayText = DateFormat.yMMMd().format(session!.datetime!);
+                  // Use the current locale for locale-specific formatting
+                  final locale = Localizations.localeOf(context).toString();
+                  displayText = DateFormat.yMMMd(locale).format(session!.datetime!);
                 }
                 breadcrumbs.add(BreadcrumbItem(
                   text: displayText,
