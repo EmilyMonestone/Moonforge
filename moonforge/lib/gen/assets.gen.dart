@@ -86,6 +86,16 @@ class $AssetsIconGen {
   ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/.gitkeep
+  String get aGitkeep => 'assets/images/.gitkeep';
+
+  /// List of all assets
+  List<String> get values => [aGitkeep];
+}
+
 class $AssetsIconMoonforgeIconColoredAppiconsetGen {
   const $AssetsIconMoonforgeIconColoredAppiconsetGen();
 
@@ -531,6 +541,7 @@ class Assets {
 
   static const String aEnv = '.env';
   static const $AssetsIconGen icon = $AssetsIconGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];

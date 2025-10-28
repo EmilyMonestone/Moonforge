@@ -1,4 +1,4 @@
-import 'package:moonforge/core/models/data/player.dart';
+import 'package:moonforge/data/firebase/models/player.dart';
 
 /// Service for calculating D&D 5e encounter difficulty
 /// Based on D&D 5e Basic Rules Chapter 13: Building Combat Encounters
@@ -88,7 +88,8 @@ class EncounterDifficultyService {
 
   /// Calculate party XP thresholds from Player objects
   static Map<String, int> calculatePartyThresholdsFromPlayers(
-      List<Player> players) {
+    List<Player> players,
+  ) {
     return calculatePartyThresholds(players.map((p) => p.level).toList());
   }
 
@@ -157,8 +158,10 @@ class EncounterDifficultyService {
     if (monsterXpValues.isEmpty) return 0;
 
     final baseXp = monsterXpValues.reduce((a, b) => a + b);
-    final multiplier =
-        getEncounterMultiplier(monsterXpValues.length, partySize);
+    final multiplier = getEncounterMultiplier(
+      monsterXpValues.length,
+      partySize,
+    );
 
     return (baseXp * multiplier).round();
   }
@@ -166,7 +169,9 @@ class EncounterDifficultyService {
   /// Classify encounter difficulty based on adjusted XP and party thresholds
   /// Returns: 'trivial', 'easy', 'medium', 'hard', or 'deadly'
   static String classifyDifficulty(
-      int adjustedXp, Map<String, int> partyThresholds) {
+    int adjustedXp,
+    Map<String, int> partyThresholds,
+  ) {
     if (adjustedXp < partyThresholds['easy']!) {
       return 'trivial';
     } else if (adjustedXp < partyThresholds['medium']!) {

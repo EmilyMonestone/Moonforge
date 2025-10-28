@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 
 class AppSettingsProvider with ChangeNotifier {
   late AuthProvider _authProvider;

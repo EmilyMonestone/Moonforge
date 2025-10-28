@@ -1,17 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chapter.dart';
+part of 'campaign.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Chapter _$ChapterFromJson(Map<String, dynamic> json) => _Chapter(
+_Campaign _$CampaignFromJson(Map<String, dynamic> json) => _Campaign(
   id: json['id'] as String,
   name: json['name'] as String,
-  order: (json['order'] as num?)?.toInt() ?? 0,
-  summary: json['summary'] as String?,
+  description: json['description'] as String,
   content: json['content'] as String?,
+  ownerUid: json['ownerUid'] as String?,
+  memberUids: (json['memberUids'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  entityIds:
+      (json['entityIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -21,12 +27,14 @@ _Chapter _$ChapterFromJson(Map<String, dynamic> json) => _Chapter(
   rev: (json['rev'] as num?)?.toInt() ?? 0,
 );
 
-Map<String, dynamic> _$ChapterToJson(_Chapter instance) => <String, dynamic>{
+Map<String, dynamic> _$CampaignToJson(_Campaign instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
-  'order': instance.order,
-  'summary': instance.summary,
+  'description': instance.description,
   'content': instance.content,
+  'ownerUid': instance.ownerUid,
+  'memberUids': instance.memberUids,
+  'entityIds': instance.entityIds,
   'createdAt': instance.createdAt?.toIso8601String(),
   'updatedAt': instance.updatedAt?.toIso8601String(),
   'rev': instance.rev,
@@ -36,11 +44,11 @@ Map<String, dynamic> _$ChapterToJson(_Chapter instance) => <String, dynamic>{
 // ModelBuilderGenerator
 // **************************************************************************
 
-/// Patch builder for `Chapter` model
-class ChapterPatchBuilder<$$T extends Chapter?>
+/// Patch builder for `Campaign` model
+class CampaignPatchBuilder<$$T extends Campaign?>
     extends PatchBuilder<$$T, Map<String, dynamic>?> {
-  /// Creates a patch builder for `Chapter`
-  ChapterPatchBuilder({required super.toJson, super.field});
+  /// Creates a patch builder for `Campaign`
+  CampaignPatchBuilder({required super.toJson, super.field});
 
   /// Update id field `String`
   late final PatchBuilder<String, String> id = PatchBuilder(
@@ -54,15 +62,10 @@ class ChapterPatchBuilder<$$T extends Chapter?>
     toJson: (value) => (value as String),
   );
 
-  /// Update order field `int`
-  late final NumericFieldUpdate<int> order = NumericFieldUpdate(
-    field: path.append('order'),
-  );
-
-  /// Update summary field `String?`
-  late final PatchBuilder<String?, String?> summary = PatchBuilder(
-    field: path.append('summary'),
-    toJson: (value) => (value as String?),
+  /// Update description field `String`
+  late final PatchBuilder<String, String> description = PatchBuilder(
+    field: path.append('description'),
+    toJson: (value) => (value as String),
   );
 
   /// Update content field `String?`
@@ -70,6 +73,26 @@ class ChapterPatchBuilder<$$T extends Chapter?>
     field: path.append('content'),
     toJson: (value) => (value as String?),
   );
+
+  /// Update ownerUid field `String?`
+  late final PatchBuilder<String?, String?> ownerUid = PatchBuilder(
+    field: path.append('ownerUid'),
+    toJson: (value) => (value as String?),
+  );
+
+  /// Update memberUids field `List<String>?`
+  late final ListFieldUpdate<List<String>?, String, String> memberUids =
+      ListFieldUpdate(
+        field: path.append('memberUids'),
+        elementToJson: (value) => (value as String),
+      );
+
+  /// Update entityIds field `List<String>`
+  late final ListFieldUpdate<List<String>, String, String> entityIds =
+      ListFieldUpdate(
+        field: path.append('entityIds'),
+        elementToJson: (value) => (value as String),
+      );
 
   /// Update createdAt field `DateTime?`
   late final DateTimeFieldUpdate<DateTime?> createdAt = DateTimeFieldUpdate(
@@ -87,10 +110,10 @@ class ChapterPatchBuilder<$$T extends Chapter?>
   );
 }
 
-/// Generated FilterBuilder for `Chapter`
-class ChapterFilterBuilder extends FilterBuilderNode {
-  /// Creates a filter selector for `Chapter`
-  ChapterFilterBuilder({super.field});
+/// Generated FilterBuilder for `Campaign`
+class CampaignFilterBuilder extends FilterBuilderNode {
+  /// Creates a filter selector for `Campaign`
+  CampaignFilterBuilder({super.field});
 
   /// Filter by id
   late final ComparableFilterField<String> id = ComparableFilterField<String>(
@@ -104,17 +127,11 @@ class ChapterFilterBuilder extends FilterBuilderNode {
     toJson: (value) => (value as String),
   );
 
-  /// Filter by order
-  late final ComparableFilterField<int> order = ComparableFilterField<int>(
-    field: path.append('order'),
-    toJson: (value) => (value as int),
-  );
-
-  /// Filter by summary
-  late final ComparableFilterField<String?> summary =
-      ComparableFilterField<String?>(
-        field: path.append('summary'),
-        toJson: (value) => (value as String?),
+  /// Filter by description
+  late final ComparableFilterField<String> description =
+      ComparableFilterField<String>(
+        field: path.append('description'),
+        toJson: (value) => (value as String),
       );
 
   /// Filter by content
@@ -122,6 +139,31 @@ class ChapterFilterBuilder extends FilterBuilderNode {
       ComparableFilterField<String?>(
         field: path.append('content'),
         toJson: (value) => (value as String?),
+      );
+
+  /// Filter by ownerUid
+  late final ComparableFilterField<String?> ownerUid =
+      ComparableFilterField<String?>(
+        field: path.append('ownerUid'),
+        toJson: (value) => (value as String?),
+      );
+
+  /// Filter by memberUids
+  late final ArrayFilterField<List<String>?, String, String> memberUids =
+      ArrayFilterField<List<String>?, String, String>(
+        field: path.append('memberUids'),
+        toJson: (value) => value == null
+            ? null
+            : listToJson(value!, (value) => (value as String)),
+        elementToJson: (value) => (value as String),
+      );
+
+  /// Filter by entityIds
+  late final ArrayFilterField<List<String>, String, String> entityIds =
+      ArrayFilterField<List<String>, String, String>(
+        field: path.append('entityIds'),
+        toJson: (value) => listToJson(value, (value) => (value as String)),
+        elementToJson: (value) => (value as String),
       );
 
   /// Filter by createdAt
@@ -147,17 +189,17 @@ class ChapterFilterBuilder extends FilterBuilderNode {
   );
 }
 
-/// Generated RootFilterBuilder for `Chapter`
-class ChapterFilterBuilderRoot extends ChapterFilterBuilder
+/// Generated RootFilterBuilder for `Campaign`
+class CampaignFilterBuilderRoot extends CampaignFilterBuilder
     with FilterBuilderRoot {
-  /// Creates a root filter selector for `Chapter`
-  ChapterFilterBuilderRoot();
+  /// Creates a root filter selector for `Campaign`
+  CampaignFilterBuilderRoot();
 }
 
-/// Generated OrderByBuilder for `Chapter`
-class ChapterOrderByBuilder extends OrderByFieldNode {
+/// Generated OrderByBuilder for `Campaign`
+class CampaignOrderByBuilder extends OrderByFieldNode {
   /// Constructor for OrderByBuilder
-  ChapterOrderByBuilder({required super.context, super.field});
+  CampaignOrderByBuilder({required super.context, super.field});
 
   /// Access nested id for ordering
   late final OrderByField<String> id = OrderByField<String>(
@@ -171,21 +213,34 @@ class ChapterOrderByBuilder extends OrderByFieldNode {
     context: $context,
   );
 
-  /// Access nested order for ordering
-  late final OrderByField<int> order = OrderByField<int>(
-    field: path.append('order'),
-    context: $context,
-  );
-
-  /// Access nested summary for ordering
-  late final OrderByField<String?> summary = OrderByField<String?>(
-    field: path.append('summary'),
+  /// Access nested description for ordering
+  late final OrderByField<String> description = OrderByField<String>(
+    field: path.append('description'),
     context: $context,
   );
 
   /// Access nested content for ordering
   late final OrderByField<String?> content = OrderByField<String?>(
     field: path.append('content'),
+    context: $context,
+  );
+
+  /// Access nested ownerUid for ordering
+  late final OrderByField<String?> ownerUid = OrderByField<String?>(
+    field: path.append('ownerUid'),
+    context: $context,
+  );
+
+  /// Access nested memberUids for ordering
+  late final OrderByField<List<String>?> memberUids =
+      OrderByField<List<String>?>(
+        field: path.append('memberUids'),
+        context: $context,
+      );
+
+  /// Access nested entityIds for ordering
+  late final OrderByField<List<String>> entityIds = OrderByField<List<String>>(
+    field: path.append('entityIds'),
     context: $context,
   );
 
@@ -208,16 +263,10 @@ class ChapterOrderByBuilder extends OrderByFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Chapter`
-class ChapterAggregateFieldSelector extends AggregateFieldNode {
+/// Generated AggregateFieldSelector for `Campaign`
+class CampaignAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
-  ChapterAggregateFieldSelector({required super.context, super.field});
-
-  /// order field for aggregation
-  late final AggregateField<int> order = AggregateField<int>(
-    field: path.append('order'),
-    context: $context,
-  );
+  CampaignAggregateFieldSelector({required super.context, super.field});
 
   /// rev field for aggregation
   late final AggregateField<int> rev = AggregateField<int>(
@@ -226,10 +275,10 @@ class ChapterAggregateFieldSelector extends AggregateFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Chapter`
-class ChapterAggregateBuilderRoot extends ChapterAggregateFieldSelector
+/// Generated AggregateFieldSelector for `Campaign`
+class CampaignAggregateBuilderRoot extends CampaignAggregateFieldSelector
     with AggregateRootMixin
     implements AggregateBuilderRoot {
   /// Constructor for AggregateFieldSelector
-  ChapterAggregateBuilderRoot({required super.context, super.field});
+  CampaignAggregateBuilderRoot({required super.context, super.field});
 }

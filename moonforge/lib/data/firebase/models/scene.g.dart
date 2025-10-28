@@ -18,6 +18,9 @@ _Scene _$SceneFromJson(Map<String, dynamic> json) => _Scene(
   mediaRefs: (json['mediaRefs'] as List<dynamic>?)
       ?.map((e) => e as Map<String, dynamic>)
       .toList(),
+  entityIds:
+      (json['entityIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
   updatedAt: json['updatedAt'] == null
       ? null
       : DateTime.parse(json['updatedAt'] as String),
@@ -35,6 +38,7 @@ Map<String, dynamic> _$SceneToJson(_Scene instance) => <String, dynamic>{
   'content': instance.content,
   'mentions': instance.mentions,
   'mediaRefs': instance.mediaRefs,
+  'entityIds': instance.entityIds,
   'updatedAt': instance.updatedAt?.toIso8601String(),
   'createdAt': instance.createdAt?.toIso8601String(),
   'rev': instance.rev,
@@ -108,6 +112,13 @@ class ScenePatchBuilder<$$T extends Scene?>
       (value) => (value as dynamic),
     ),
   );
+
+  /// Update entityIds field `List<String>`
+  late final ListFieldUpdate<List<String>, String, String> entityIds =
+      ListFieldUpdate(
+        field: path.append('entityIds'),
+        elementToJson: (value) => (value as String),
+      );
 
   /// Update updatedAt field `DateTime?`
   late final DateTimeFieldUpdate<DateTime?> updatedAt = DateTimeFieldUpdate(
@@ -223,6 +234,14 @@ class SceneFilterBuilder extends FilterBuilderNode {
         ),
       );
 
+  /// Filter by entityIds
+  late final ArrayFilterField<List<String>, String, String> entityIds =
+      ArrayFilterField<List<String>, String, String>(
+        field: path.append('entityIds'),
+        toJson: (value) => listToJson(value, (value) => (value as String)),
+        elementToJson: (value) => (value as String),
+      );
+
   /// Filter by updatedAt
   late final ComparableFilterField<DateTime?> updatedAt =
       ComparableFilterField<DateTime?>(
@@ -300,6 +319,12 @@ class SceneOrderByBuilder extends OrderByFieldNode {
         field: path.append('mediaRefs'),
         context: $context,
       );
+
+  /// Access nested entityIds for ordering
+  late final OrderByField<List<String>> entityIds = OrderByField<List<String>>(
+    field: path.append('entityIds'),
+    context: $context,
+  );
 
   /// Access nested updatedAt for ordering
   late final OrderByField<DateTime?> updatedAt = OrderByField<DateTime?>(

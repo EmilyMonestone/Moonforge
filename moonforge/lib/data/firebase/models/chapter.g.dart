@@ -1,17 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'adventure.dart';
+part of 'chapter.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Adventure _$AdventureFromJson(Map<String, dynamic> json) => _Adventure(
+_Chapter _$ChapterFromJson(Map<String, dynamic> json) => _Chapter(
   id: json['id'] as String,
   name: json['name'] as String,
   order: (json['order'] as num?)?.toInt() ?? 0,
   summary: json['summary'] as String?,
   content: json['content'] as String?,
+  entityIds:
+      (json['entityIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -21,27 +24,27 @@ _Adventure _$AdventureFromJson(Map<String, dynamic> json) => _Adventure(
   rev: (json['rev'] as num?)?.toInt() ?? 0,
 );
 
-Map<String, dynamic> _$AdventureToJson(_Adventure instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'order': instance.order,
-      'summary': instance.summary,
-      'content': instance.content,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'rev': instance.rev,
-    };
+Map<String, dynamic> _$ChapterToJson(_Chapter instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'order': instance.order,
+  'summary': instance.summary,
+  'content': instance.content,
+  'entityIds': instance.entityIds,
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
+  'rev': instance.rev,
+};
 
 // **************************************************************************
 // ModelBuilderGenerator
 // **************************************************************************
 
-/// Patch builder for `Adventure` model
-class AdventurePatchBuilder<$$T extends Adventure?>
+/// Patch builder for `Chapter` model
+class ChapterPatchBuilder<$$T extends Chapter?>
     extends PatchBuilder<$$T, Map<String, dynamic>?> {
-  /// Creates a patch builder for `Adventure`
-  AdventurePatchBuilder({required super.toJson, super.field});
+  /// Creates a patch builder for `Chapter`
+  ChapterPatchBuilder({required super.toJson, super.field});
 
   /// Update id field `String`
   late final PatchBuilder<String, String> id = PatchBuilder(
@@ -72,6 +75,13 @@ class AdventurePatchBuilder<$$T extends Adventure?>
     toJson: (value) => (value as String?),
   );
 
+  /// Update entityIds field `List<String>`
+  late final ListFieldUpdate<List<String>, String, String> entityIds =
+      ListFieldUpdate(
+        field: path.append('entityIds'),
+        elementToJson: (value) => (value as String),
+      );
+
   /// Update createdAt field `DateTime?`
   late final DateTimeFieldUpdate<DateTime?> createdAt = DateTimeFieldUpdate(
     field: path.append('createdAt'),
@@ -88,10 +98,10 @@ class AdventurePatchBuilder<$$T extends Adventure?>
   );
 }
 
-/// Generated FilterBuilder for `Adventure`
-class AdventureFilterBuilder extends FilterBuilderNode {
-  /// Creates a filter selector for `Adventure`
-  AdventureFilterBuilder({super.field});
+/// Generated FilterBuilder for `Chapter`
+class ChapterFilterBuilder extends FilterBuilderNode {
+  /// Creates a filter selector for `Chapter`
+  ChapterFilterBuilder({super.field});
 
   /// Filter by id
   late final ComparableFilterField<String> id = ComparableFilterField<String>(
@@ -125,6 +135,14 @@ class AdventureFilterBuilder extends FilterBuilderNode {
         toJson: (value) => (value as String?),
       );
 
+  /// Filter by entityIds
+  late final ArrayFilterField<List<String>, String, String> entityIds =
+      ArrayFilterField<List<String>, String, String>(
+        field: path.append('entityIds'),
+        toJson: (value) => listToJson(value, (value) => (value as String)),
+        elementToJson: (value) => (value as String),
+      );
+
   /// Filter by createdAt
   late final ComparableFilterField<DateTime?> createdAt =
       ComparableFilterField<DateTime?>(
@@ -148,17 +166,17 @@ class AdventureFilterBuilder extends FilterBuilderNode {
   );
 }
 
-/// Generated RootFilterBuilder for `Adventure`
-class AdventureFilterBuilderRoot extends AdventureFilterBuilder
+/// Generated RootFilterBuilder for `Chapter`
+class ChapterFilterBuilderRoot extends ChapterFilterBuilder
     with FilterBuilderRoot {
-  /// Creates a root filter selector for `Adventure`
-  AdventureFilterBuilderRoot();
+  /// Creates a root filter selector for `Chapter`
+  ChapterFilterBuilderRoot();
 }
 
-/// Generated OrderByBuilder for `Adventure`
-class AdventureOrderByBuilder extends OrderByFieldNode {
+/// Generated OrderByBuilder for `Chapter`
+class ChapterOrderByBuilder extends OrderByFieldNode {
   /// Constructor for OrderByBuilder
-  AdventureOrderByBuilder({required super.context, super.field});
+  ChapterOrderByBuilder({required super.context, super.field});
 
   /// Access nested id for ordering
   late final OrderByField<String> id = OrderByField<String>(
@@ -190,6 +208,12 @@ class AdventureOrderByBuilder extends OrderByFieldNode {
     context: $context,
   );
 
+  /// Access nested entityIds for ordering
+  late final OrderByField<List<String>> entityIds = OrderByField<List<String>>(
+    field: path.append('entityIds'),
+    context: $context,
+  );
+
   /// Access nested createdAt for ordering
   late final OrderByField<DateTime?> createdAt = OrderByField<DateTime?>(
     field: path.append('createdAt'),
@@ -209,10 +233,10 @@ class AdventureOrderByBuilder extends OrderByFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Adventure`
-class AdventureAggregateFieldSelector extends AggregateFieldNode {
+/// Generated AggregateFieldSelector for `Chapter`
+class ChapterAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
-  AdventureAggregateFieldSelector({required super.context, super.field});
+  ChapterAggregateFieldSelector({required super.context, super.field});
 
   /// order field for aggregation
   late final AggregateField<int> order = AggregateField<int>(
@@ -227,10 +251,10 @@ class AdventureAggregateFieldSelector extends AggregateFieldNode {
   );
 }
 
-/// Generated AggregateFieldSelector for `Adventure`
-class AdventureAggregateBuilderRoot extends AdventureAggregateFieldSelector
+/// Generated AggregateFieldSelector for `Chapter`
+class ChapterAggregateBuilderRoot extends ChapterAggregateFieldSelector
     with AggregateRootMixin
     implements AggregateBuilderRoot {
   /// Constructor for AggregateFieldSelector
-  AdventureAggregateBuilderRoot({required super.context, super.field});
+  ChapterAggregateBuilderRoot({required super.context, super.field});
 }

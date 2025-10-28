@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/player.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/player.dart';
 
 /// Repository for Player operations
 class PlayerRepository {
@@ -11,8 +12,9 @@ class PlayerRepository {
   Stream<List<Player>> watchAll() => _db.playersDao.watchAll();
 
   Future<Player?> getById(String id) => _db.playersDao.getById(id);
-  
-  Future<List<Player>> getByIds(List<String> ids) => _db.playersDao.getByIds(ids);
+
+  Future<List<Player>> getByIds(List<String> ids) =>
+      _db.playersDao.getByIds(ids);
 
   Future<void> upsertLocal(Player player) async {
     await _db.transaction(() async {

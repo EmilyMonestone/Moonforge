@@ -180,6 +180,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get name => 'Name';
 
   @override
+  String get nameRequired => 'Name is required';
+
+  @override
   String get kind => 'Kind';
 
   @override
@@ -223,4 +226,139 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noContentProvided => 'No content provided';
+
+  @override
+  String get createEncounter => 'Create Encounter';
+
+  @override
+  String get encounterBuilder => 'Encounter Builder';
+
+  @override
+  String get initiativeTracker => 'Initiative Tracker';
+
+  @override
+  String get addCombatant => 'Add Combatant';
+
+  @override
+  String get partySelection => 'Party Selection';
+
+  @override
+  String get customPlayerGroup => 'Custom Player Group';
+
+  @override
+  String get encounterDifficulty => 'Encounter Difficulty';
+
+  @override
+  String get xpBudget => 'XP Budget';
+
+  @override
+  String get adjustedXp => 'Adjusted XP';
+
+  @override
+  String get easy => 'Easy';
+
+  @override
+  String get medium => 'Medium';
+
+  @override
+  String get hard => 'Hard';
+
+  @override
+  String get deadly => 'Deadly';
+
+  @override
+  String get trivial => 'Trivial';
+
+  @override
+  String get challengeRating => 'Challenge Rating';
+
+  @override
+  String get initiative => 'Initiative';
+
+  @override
+  String get hitPoints => 'Hit Points';
+
+  @override
+  String get armorClass => 'Armor Class';
+
+  @override
+  String get conditions => 'Conditions';
+
+  @override
+  String get addCondition => 'Add Condition';
+
+  @override
+  String get nextTurn => 'Next Turn';
+
+  @override
+  String get previousTurn => 'Previous Turn';
+
+  @override
+  String get round => 'Round';
+
+  @override
+  String get startEncounter => 'Start Encounter';
+
+  @override
+  String get endEncounter => 'End Encounter';
+
+  @override
+  String get ally => 'Ally';
+
+  @override
+  String get enemy => 'Enemy';
+
+  @override
+  String get player => 'Player';
+
+  @override
+  String get monster => 'Monster';
+
+  @override
+  String get npc => 'NPC';
+
+  @override
+  String get rollInitiative => 'Roll Initiative';
+
+  @override
+  String get sortByInitiative => 'Sort by Initiative';
+
+  @override
+  String get fromBestiary => 'From Bestiary';
+
+  @override
+  String get fromCampaign => 'From Campaign';
+
+  @override
+  String get selectMonster => 'Select Monster';
+
+  @override
+  String get selectParty => 'Select Party';
+
+  @override
+  String get noPartySelected => 'No party selected';
+
+  @override
+  String get partySize => 'Party Size';
+
+  @override
+  String get addPlayer => 'Add Player';
+
+  @override
+  String get playerLevel => 'Player Level';
+
+  @override
+  String get shareSettings => 'Share Settings';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get entities => 'Entities';
+
+  @override
+  String get noEntitiesYet => 'No entities yet';
+
+  @override
+  String get openInNewWindow => 'Open in new window';
 }

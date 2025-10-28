@@ -1,19 +1,15 @@
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/adventure.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/chapter.dart';
-import 'package:moonforge/core/models/data/encounter.dart';
-import 'package:moonforge/core/models/data/entity.dart';
-import 'package:moonforge/core/models/data/scene.dart';
-import 'package:moonforge/core/models/entity_with_origin.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 
 /// Service to gather entities from parts and their children
 class EntityGatherer {
   /// Gather entities from a campaign and all its children
-  Future<List<EntityWithOrigin>> gatherFromCampaign(
-    String campaignId,
-  ) async {
+  Future<List<EntityWithOrigin>> gatherFromCampaign(String campaignId) async {
     final odm = Odm.instance;
     final campaign = await odm.campaigns.doc(campaignId).get();
     if (campaign == null) return [];
@@ -81,8 +77,7 @@ class EntityGatherer {
         .orderBy((o) => (o.order(),))
         .get();
 
-    final chapterIndex =
-        chapters.indexWhere((c) => c.id == chapterId);
+    final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
     final chapter = chapters[chapterIndex];
@@ -152,8 +147,7 @@ class EntityGatherer {
         .orderBy((o) => (o.order(),))
         .get();
 
-    final chapterIndex =
-        chapters.indexWhere((c) => c.id == chapterId);
+    final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
     final chapter = chapters[chapterIndex];
@@ -165,8 +159,7 @@ class EntityGatherer {
         .orderBy((o) => (o.order(),))
         .get();
 
-    final adventureIndex =
-        adventures.indexWhere((a) => a.id == adventureId);
+    final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
 
     final adventure = adventures[adventureIndex];
@@ -255,8 +248,7 @@ class EntityGatherer {
         .orderBy((o) => (o.order(),))
         .get();
 
-    final chapterIndex =
-        chapters.indexWhere((c) => c.id == chapterId);
+    final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
     final adventures = await odm.campaigns
@@ -267,8 +259,7 @@ class EntityGatherer {
         .orderBy((o) => (o.order(),))
         .get();
 
-    final adventureIndex =
-        adventures.indexWhere((a) => a.id == adventureId);
+    final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
 
     final scenes = await odm.campaigns
@@ -304,8 +295,11 @@ class EntityGatherer {
     String encounterId,
   ) async {
     final odm = Odm.instance;
-    final encounter =
-        await odm.campaigns.doc(campaignId).encounters.doc(encounterId).get();
+    final encounter = await odm.campaigns
+        .doc(campaignId)
+        .encounters
+        .doc(encounterId)
+        .get();
     if (encounter == null) return [];
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
@@ -330,8 +324,11 @@ class EntityGatherer {
     try {
       final entities = <Entity>[];
       for (final entityId in entityIds) {
-        final entity =
-            await odm.campaigns.doc(campaignId).entities.doc(entityId).get();
+        final entity = await odm.campaigns
+            .doc(campaignId)
+            .entities
+            .doc(entityId)
+            .get();
         if (entity != null && !entity.deleted) {
           entities.add(entity);
         }
@@ -344,9 +341,7 @@ class EntityGatherer {
   }
 
   /// Deduplicate entities by ID, keeping the one with the most specific origin
-  List<EntityWithOrigin> _deduplicateEntities(
-    List<EntityWithOrigin> entities,
-  ) {
+  List<EntityWithOrigin> _deduplicateEntities(List<EntityWithOrigin> entities) {
     final seenIds = <String, EntityWithOrigin>{};
 
     for (final entityWithOrigin in entities) {
@@ -361,8 +356,7 @@ class EntityGatherer {
           seenIds[id] = entityWithOrigin;
         } else if (existing.origin != null) {
           // Keep the one with longer path (more specific)
-          final newPathDepth =
-              entityWithOrigin.origin!.path.split('.').length;
+          final newPathDepth = entityWithOrigin.origin!.path.split('.').length;
           final existingPathDepth = existing.origin!.path.split('.').length;
           if (newPathDepth > existingPathDepth) {
             seenIds[id] = entityWithOrigin;

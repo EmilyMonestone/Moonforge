@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/encounter.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
 import 'package:moonforge/data/drift/tables/encounters.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
 
 part 'encounters_dao.g.dart';
 
@@ -41,8 +41,9 @@ class EncountersDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(encounters)..where((e) => e.id.equals(id)))
-          .write(EncountersCompanion(rev: Value(newRev)));
+      await (update(encounters)..where((e) => e.id.equals(id))).write(
+        EncountersCompanion(rev: Value(newRev)),
+      );
       await markClean(collectionName, id);
     });
   }

@@ -434,6 +434,12 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get name;
 
+  /// Validation message when name is not provided
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get nameRequired;
+
   /// Label for kind selection
   ///
   /// In en, this message translates to:
@@ -523,6 +529,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No content provided'**
   String get noContentProvided;
+
+  /// Label for creating a new encounter
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encounter'**
+  String get createEncounter;
+
+  /// Title for encounter builder screen
+  ///
+  /// In en, this message translates to:
+  /// **'Encounter Builder'**
+  String get encounterBuilder;
+
+  /// Title for initiative tracker
+  ///
+  /// In en, this message translates to:
+  /// **'Initiative Tracker'**
+  String get initiativeTracker;
+
+  /// Label for adding a combatant to an encounter
+  ///
+  /// In en, this message translates to:
+  /// **'Add Combatant'**
+  String get addCombatant;
+
+  /// Label for selecting a party
+  ///
+  /// In en, this message translates to:
+  /// **'Party Selection'**
+  String get partySelection;
+
+  /// Label for custom player group option
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Player Group'**
+  String get customPlayerGroup;
+
+  /// Label for encounter difficulty
+  ///
+  /// In en, this message translates to:
+  /// **'Encounter Difficulty'**
+  String get encounterDifficulty;
+
+  /// Label for XP budget
+  ///
+  /// In en, this message translates to:
+  /// **'XP Budget'**
+  String get xpBudget;
+
+  /// Label for adjusted XP value
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusted XP'**
+  String get adjustedXp;
+
+  /// Easy difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get easy;
+
+  /// Medium difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get medium;
+
+  /// Hard difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get hard;
+
+  /// Deadly difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Deadly'**
+  String get deadly;
+
+  /// Trivial difficulty label
+  ///
+  /// In en, this message translates to:
+  /// **'Trivial'**
+  String get trivial;
+
+  /// Label for challenge rating (CR)
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge Rating'**
+  String get challengeRating;
+
+  /// Label for initiative
+  ///
+  /// In en, this message translates to:
+  /// **'Initiative'**
+  String get initiative;
+
+  /// Label for hit points (HP)
+  ///
+  /// In en, this message translates to:
+  /// **'Hit Points'**
+  String get hitPoints;
+
+  /// Label for armor class (AC)
+  ///
+  /// In en, this message translates to:
+  /// **'Armor Class'**
+  String get armorClass;
+
+  /// Label for conditions/status effects
+  ///
+  /// In en, this message translates to:
+  /// **'Conditions'**
+  String get conditions;
+
+  /// Label for adding a condition
+  ///
+  /// In en, this message translates to:
+  /// **'Add Condition'**
+  String get addCondition;
+
+  /// Label for next turn button
+  ///
+  /// In en, this message translates to:
+  /// **'Next Turn'**
+  String get nextTurn;
+
+  /// Label for previous turn button
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Turn'**
+  String get previousTurn;
+
+  /// Label for combat round
+  ///
+  /// In en, this message translates to:
+  /// **'Round'**
+  String get round;
+
+  /// Label for starting an encounter
+  ///
+  /// In en, this message translates to:
+  /// **'Start Encounter'**
+  String get startEncounter;
+
+  /// Label for ending an encounter
+  ///
+  /// In en, this message translates to:
+  /// **'End Encounter'**
+  String get endEncounter;
+
+  /// Label for ally combatant
+  ///
+  /// In en, this message translates to:
+  /// **'Ally'**
+  String get ally;
+
+  /// Label for enemy combatant
+  ///
+  /// In en, this message translates to:
+  /// **'Enemy'**
+  String get enemy;
+
+  /// Label for player character
+  ///
+  /// In en, this message translates to:
+  /// **'Player'**
+  String get player;
+
+  /// Label for monster
+  ///
+  /// In en, this message translates to:
+  /// **'Monster'**
+  String get monster;
+
+  /// Label for non-player character
+  ///
+  /// In en, this message translates to:
+  /// **'NPC'**
+  String get npc;
+
+  /// Label for rolling initiative
+  ///
+  /// In en, this message translates to:
+  /// **'Roll Initiative'**
+  String get rollInitiative;
+
+  /// Label for sorting combatants by initiative
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by Initiative'**
+  String get sortByInitiative;
+
+  /// Label for selecting from bestiary
+  ///
+  /// In en, this message translates to:
+  /// **'From Bestiary'**
+  String get fromBestiary;
+
+  /// Label for selecting from campaign entities
+  ///
+  /// In en, this message translates to:
+  /// **'From Campaign'**
+  String get fromCampaign;
+
+  /// Label for selecting a monster
+  ///
+  /// In en, this message translates to:
+  /// **'Select Monster'**
+  String get selectMonster;
+
+  /// Label for selecting a party
+  ///
+  /// In en, this message translates to:
+  /// **'Select Party'**
+  String get selectParty;
+
+  /// Message shown when no party is selected
+  ///
+  /// In en, this message translates to:
+  /// **'No party selected'**
+  String get noPartySelected;
+
+  /// Label for party size
+  ///
+  /// In en, this message translates to:
+  /// **'Party Size'**
+  String get partySize;
+
+  /// Label for adding a player
+  ///
+  /// In en, this message translates to:
+  /// **'Add Player'**
+  String get addPlayer;
+
+  /// Label for player level
+  ///
+  /// In en, this message translates to:
+  /// **'Player Level'**
+  String get playerLevel;
+
+  /// Title for share settings dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Share Settings'**
+  String get shareSettings;
+
+  /// Generic close action
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// Label for Entities feature
+  ///
+  /// In en, this message translates to:
+  /// **'Entities'**
+  String get entities;
+
+  /// Shown when no entities are found
+  ///
+  /// In en, this message translates to:
+  /// **'No entities yet'**
+  String get noEntitiesYet;
+
+  /// Context menu option to open a link in a new window
+  ///
+  /// In en, this message translates to:
+  /// **'Open in new window'**
+  String get openInNewWindow;
 }
 
 class _AppLocalizationsDelegate

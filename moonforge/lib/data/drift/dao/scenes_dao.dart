@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/scene.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
-import 'package:moonforge/data/drift/tables/scenes.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/drift/tables/scenes.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
 
 part 'scenes_dao.g.dart';
 
@@ -42,8 +42,9 @@ class ScenesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(scenes)..where((s) => s.id.equals(id)))
-          .write(ScenesCompanion(rev: Value(newRev)));
+      await (update(scenes)..where((s) => s.id.equals(id))).write(
+        ScenesCompanion(rev: Value(newRev)),
+      );
       await markClean(collectionName, id);
     });
   }

@@ -123,6 +123,7 @@ class MenuRegistry {
     return <MenuBarAction>[
       continueWhereLeft(l10n),
       newScene(l10n),
+      newEntity(l10n),
       newEncounter(l10n),
     ];
   }

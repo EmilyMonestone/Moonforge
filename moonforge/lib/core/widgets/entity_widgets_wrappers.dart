@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/models/entity_with_origin.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/widgets/entities_widget.dart';
+import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
 
 /// Widget that displays entities for a campaign
 class CampaignEntitiesWidget extends StatelessWidget {
-  const CampaignEntitiesWidget({
-    required this.campaignId,
-    super.key,
-  });
+  const CampaignEntitiesWidget({required this.campaignId, super.key});
 
   final String campaignId;
 

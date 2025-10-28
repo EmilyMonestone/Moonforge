@@ -16,6 +16,15 @@ _Session _$SessionFromJson(Map<String, dynamic> json) => _Session(
       ? null
       : DateTime.parse(json['datetime'] as String),
   log: json['log'] as String?,
+  shareToken: json['shareToken'] as String?,
+  shareEnabled: json['shareEnabled'] as bool? ?? false,
+  shareExpiresAt: json['shareExpiresAt'] == null
+      ? null
+      : DateTime.parse(json['shareExpiresAt'] as String),
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
+  rev: (json['rev'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{
@@ -24,6 +33,11 @@ Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{
   'info': instance.info,
   'datetime': instance.datetime?.toIso8601String(),
   'log': instance.log,
+  'shareToken': instance.shareToken,
+  'shareEnabled': instance.shareEnabled,
+  'shareExpiresAt': instance.shareExpiresAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
+  'rev': instance.rev,
 };
 
 // **************************************************************************
@@ -62,6 +76,32 @@ class SessionPatchBuilder<$$T extends Session?>
   late final PatchBuilder<String?, String?> log = PatchBuilder(
     field: path.append('log'),
     toJson: (value) => (value as String?),
+  );
+
+  /// Update shareToken field `String?`
+  late final PatchBuilder<String?, String?> shareToken = PatchBuilder(
+    field: path.append('shareToken'),
+    toJson: (value) => (value as String?),
+  );
+
+  /// Update shareEnabled field `bool`
+  late final PatchBuilder<bool, bool> shareEnabled = PatchBuilder(
+    field: path.append('shareEnabled'),
+    toJson: (value) => (value as bool),
+  );
+
+  /// Update shareExpiresAt field `DateTime?`
+  late final DateTimeFieldUpdate<DateTime?> shareExpiresAt =
+      DateTimeFieldUpdate(field: path.append('shareExpiresAt'));
+
+  /// Update updatedAt field `DateTime?`
+  late final DateTimeFieldUpdate<DateTime?> updatedAt = DateTimeFieldUpdate(
+    field: path.append('updatedAt'),
+  );
+
+  /// Update rev field `int`
+  late final NumericFieldUpdate<int> rev = NumericFieldUpdate(
+    field: path.append('rev'),
   );
 }
 
@@ -105,6 +145,41 @@ class SessionFilterBuilder extends FilterBuilderNode {
         field: path.append('log'),
         toJson: (value) => (value as String?),
       );
+
+  /// Filter by shareToken
+  late final ComparableFilterField<String?> shareToken =
+      ComparableFilterField<String?>(
+        field: path.append('shareToken'),
+        toJson: (value) => (value as String?),
+      );
+
+  /// Filter by shareEnabled
+  late final FilterField<bool, bool> shareEnabled = FilterField<bool, bool>(
+    field: path.append('shareEnabled'),
+    toJson: (value) => (value as bool),
+  );
+
+  /// Filter by shareExpiresAt
+  late final ComparableFilterField<DateTime?> shareExpiresAt =
+      ComparableFilterField<DateTime?>(
+        field: path.append('shareExpiresAt'),
+        toJson: (value) =>
+            value == null ? null : const DateTimeConverter().toJson(value!),
+      );
+
+  /// Filter by updatedAt
+  late final ComparableFilterField<DateTime?> updatedAt =
+      ComparableFilterField<DateTime?>(
+        field: path.append('updatedAt'),
+        toJson: (value) =>
+            value == null ? null : const DateTimeConverter().toJson(value!),
+      );
+
+  /// Filter by rev
+  late final ComparableFilterField<int> rev = ComparableFilterField<int>(
+    field: path.append('rev'),
+    toJson: (value) => (value as int),
+  );
 }
 
 /// Generated RootFilterBuilder for `Session`
@@ -148,12 +223,48 @@ class SessionOrderByBuilder extends OrderByFieldNode {
     field: path.append('log'),
     context: $context,
   );
+
+  /// Access nested shareToken for ordering
+  late final OrderByField<String?> shareToken = OrderByField<String?>(
+    field: path.append('shareToken'),
+    context: $context,
+  );
+
+  /// Access nested shareEnabled for ordering
+  late final OrderByField<bool> shareEnabled = OrderByField<bool>(
+    field: path.append('shareEnabled'),
+    context: $context,
+  );
+
+  /// Access nested shareExpiresAt for ordering
+  late final OrderByField<DateTime?> shareExpiresAt = OrderByField<DateTime?>(
+    field: path.append('shareExpiresAt'),
+    context: $context,
+  );
+
+  /// Access nested updatedAt for ordering
+  late final OrderByField<DateTime?> updatedAt = OrderByField<DateTime?>(
+    field: path.append('updatedAt'),
+    context: $context,
+  );
+
+  /// Access nested rev for ordering
+  late final OrderByField<int> rev = OrderByField<int>(
+    field: path.append('rev'),
+    context: $context,
+  );
 }
 
 /// Generated AggregateFieldSelector for `Session`
 class SessionAggregateFieldSelector extends AggregateFieldNode {
   /// Constructor for AggregateFieldSelector
   SessionAggregateFieldSelector({required super.context, super.field});
+
+  /// rev field for aggregation
+  late final AggregateField<int> rev = AggregateField<int>(
+    field: path.append('rev'),
+    context: $context,
+  );
 }
 
 /// Generated AggregateFieldSelector for `Session`

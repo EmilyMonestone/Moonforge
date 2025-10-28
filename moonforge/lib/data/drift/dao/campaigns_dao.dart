@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
 import 'package:moonforge/data/drift/tables/campaign_local_metas.dart';
 import 'package:moonforge/data/drift/tables/campaigns.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 
 part 'campaigns_dao.g.dart';
 

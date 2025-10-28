@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/encounter.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
 
 /// Repository for Encounter operations
 class EncounterRepository {

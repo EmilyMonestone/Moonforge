@@ -1,13 +1,13 @@
 import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/adventure.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/scene.dart';
-import 'package:moonforge/core/models/data/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 /// Create a new scene in a specific chapter context

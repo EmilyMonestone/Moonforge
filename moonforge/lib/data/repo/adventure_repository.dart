@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/adventure.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
 
 /// Repository for Adventure operations with optimistic writes and outbox queueing
 class AdventureRepository {

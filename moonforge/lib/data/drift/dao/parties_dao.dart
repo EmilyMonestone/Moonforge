@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/party.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
-import 'package:moonforge/data/drift/tables/parties.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/drift/tables/parties.dart';
+import 'package:moonforge/data/firebase/models/party.dart';
 
 part 'parties_dao.g.dart';
 
@@ -39,8 +39,9 @@ class PartiesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(parties)..where((p) => p.id.equals(id)))
-          .write(PartiesCompanion(rev: Value(newRev)));
+      await (update(parties)..where((p) => p.id.equals(id))).write(
+        PartiesCompanion(rev: Value(newRev)),
+      );
       await markClean(collectionName, id);
     });
   }

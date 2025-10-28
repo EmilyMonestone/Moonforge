@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/schema.dart';
-import 'package:moonforge/core/models/data/user.dart' as user_model;
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/models/user.dart' as user_model;
+import 'package:moonforge/data/firebase/odm.dart';
 
 /// Provider to manage authentication state and actions.
 /// This provider uses Firebase Authentication to handle user sign-in,

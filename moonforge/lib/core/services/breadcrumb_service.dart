@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -56,10 +56,7 @@ class BreadcrumbService {
     final breadcrumbs = <BreadcrumbItem>[];
 
     if (segments.isEmpty) {
-      breadcrumbs.add(BreadcrumbItem(
-        text: l10n.home,
-        path: '/',
-      ));
+      breadcrumbs.add(BreadcrumbItem(text: l10n.home, path: '/'));
       return breadcrumbs;
     }
 
@@ -75,15 +72,13 @@ class BreadcrumbService {
         case 'campaign':
           // Show campaign name if available
           if (campaign != null) {
-            breadcrumbs.add(BreadcrumbItem(
-              text: campaign.name,
-              path: '/campaign',
-            ));
+            breadcrumbs.add(
+              BreadcrumbItem(text: campaign.name, path: '/campaign'),
+            );
           } else {
-            breadcrumbs.add(BreadcrumbItem(
-              text: l10n.campaign,
-              path: '/campaign',
-            ));
+            breadcrumbs.add(
+              BreadcrumbItem(text: l10n.campaign, path: '/campaign'),
+            );
           }
           i++;
           break;
@@ -99,21 +94,27 @@ class BreadcrumbService {
                     .chapters
                     .doc(chapterId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: chapter?.name ?? l10n.ellipsis,
-                  path: '/campaign/chapter/$chapterId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: chapter?.name ?? l10n.ellipsis,
+                    path: '/campaign/chapter/$chapterId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/campaign/chapter/$chapterId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path: '/campaign/chapter/$chapterId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/campaign/chapter/$chapterId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path: '/campaign/chapter/$chapterId',
+                ),
+              );
             }
             i += 2; // Skip 'chapter' and chapterId
           } else {
@@ -135,21 +136,29 @@ class BreadcrumbService {
                     .adventures
                     .doc(adventureId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: adventure?.name ?? l10n.ellipsis,
-                  path: '/campaign/chapter/$chapterId/adventure/$adventureId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: adventure?.name ?? l10n.ellipsis,
+                    path: '/campaign/chapter/$chapterId/adventure/$adventureId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/campaign/chapter/${chapterId ?? ''}/adventure/$adventureId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path:
+                        '/campaign/chapter/${chapterId ?? ''}/adventure/$adventureId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/campaign/chapter/${chapterId ?? ''}/adventure/$adventureId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path:
+                      '/campaign/chapter/${chapterId ?? ''}/adventure/$adventureId',
+                ),
+              );
             }
             i += 2; // Skip 'adventure' and adventureId
           } else {
@@ -164,7 +173,9 @@ class BreadcrumbService {
             final adventureId = params['adventureId'];
             final sceneId = params['sceneId']!;
             try {
-              if (campaign != null && chapterId != null && adventureId != null) {
+              if (campaign != null &&
+                  chapterId != null &&
+                  adventureId != null) {
                 final scene = await odm.campaigns
                     .doc(campaign.id)
                     .chapters
@@ -176,21 +187,30 @@ class BreadcrumbService {
                     .get();
                 // Note: Scene entities use the 'title' field for display names
                 // instead of the standard 'name' field used by other entities.
-                breadcrumbs.add(BreadcrumbItem(
-                  text: scene?.title ?? l10n.ellipsis,
-                  path: '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: scene?.title ?? l10n.ellipsis,
+                    path:
+                        '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/campaign/chapter/${chapterId ?? ''}/adventure/${adventureId ?? ''}/scene/$sceneId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path:
+                        '/campaign/chapter/${chapterId ?? ''}/adventure/${adventureId ?? ''}/scene/$sceneId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/campaign/chapter/${chapterId ?? ''}/adventure/${adventureId ?? ''}/scene/$sceneId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path:
+                      '/campaign/chapter/${chapterId ?? ''}/adventure/${adventureId ?? ''}/scene/$sceneId',
+                ),
+              );
             }
             i += 2; // Skip 'scene' and sceneId
           } else {
@@ -209,21 +229,27 @@ class BreadcrumbService {
                     .entities
                     .doc(entityId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: entity?.name ?? l10n.ellipsis,
-                  path: '/campaign/entity/$entityId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: entity?.name ?? l10n.ellipsis,
+                    path: '/campaign/entity/$entityId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/campaign/entity/$entityId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path: '/campaign/entity/$entityId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/campaign/entity/$entityId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path: '/campaign/entity/$entityId',
+                ),
+              );
             }
             i += 2; // Skip 'entity' and entityId
           } else {
@@ -242,21 +268,27 @@ class BreadcrumbService {
                     .encounters
                     .doc(encounterId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: encounter?.name ?? l10n.ellipsis,
-                  path: '/campaign/encounter/$encounterId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: encounter?.name ?? l10n.ellipsis,
+                    path: '/campaign/encounter/$encounterId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/campaign/encounter/$encounterId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path: '/campaign/encounter/$encounterId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/campaign/encounter/$encounterId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path: '/campaign/encounter/$encounterId',
+                ),
+              );
             }
             i += 2; // Skip 'encounter' and encounterId
           } else {
@@ -275,28 +307,25 @@ class BreadcrumbService {
                     .parties
                     .doc(partyId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: party?.name ?? l10n.ellipsis,
-                  path: '/party/$partyId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: party?.name ?? l10n.ellipsis,
+                    path: '/party/$partyId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/party/$partyId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(text: l10n.ellipsis, path: '/party/$partyId'),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/party/$partyId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(text: l10n.ellipsis, path: '/party/$partyId'),
+              );
             }
             i += 2; // Skip 'party' and partyId
           } else {
-            breadcrumbs.add(BreadcrumbItem(
-              text: l10n.party,
-              path: '/party',
-            ));
+            breadcrumbs.add(BreadcrumbItem(text: l10n.party, path: '/party'));
             i++;
           }
           break;
@@ -313,21 +342,27 @@ class BreadcrumbService {
                     .players
                     .doc(memberId)
                     .get();
-                breadcrumbs.add(BreadcrumbItem(
-                  text: member?.name ?? l10n.ellipsis,
-                  path: '/party/$partyId/member/$memberId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: member?.name ?? l10n.ellipsis,
+                    path: '/party/$partyId/member/$memberId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.ellipsis,
-                  path: '/party/${partyId ?? ''}/member/$memberId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.ellipsis,
+                    path: '/party/${partyId ?? ''}/member/$memberId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.ellipsis,
-                path: '/party/${partyId ?? ''}/member/$memberId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.ellipsis,
+                  path: '/party/${partyId ?? ''}/member/$memberId',
+                ),
+              );
             }
             i += 2; // Skip 'member' and memberId
           } else {
@@ -354,21 +389,27 @@ class BreadcrumbService {
                   // DateFormat automatically uses the current locale from Localizations
                   displayText = DateFormat.yMMMd().format(session!.datetime!);
                 }
-                breadcrumbs.add(BreadcrumbItem(
-                  text: displayText,
-                  path: '/party/$partyId/session/$sessionId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: displayText,
+                    path: '/party/$partyId/session/$sessionId',
+                  ),
+                );
               } else {
-                breadcrumbs.add(BreadcrumbItem(
-                  text: l10n.session,
-                  path: '/party/${partyId ?? ''}/session/$sessionId',
-                ));
+                breadcrumbs.add(
+                  BreadcrumbItem(
+                    text: l10n.session,
+                    path: '/party/${partyId ?? ''}/session/$sessionId',
+                  ),
+                );
               }
             } catch (e) {
-              breadcrumbs.add(BreadcrumbItem(
-                text: l10n.session,
-                path: '/party/${partyId ?? ''}/session/$sessionId',
-              ));
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: l10n.session,
+                  path: '/party/${partyId ?? ''}/session/$sessionId',
+                ),
+              );
             }
             i += 2; // Skip 'session' and sessionId
           } else {
@@ -382,34 +423,28 @@ class BreadcrumbService {
           break;
 
         case 'settings':
-          breadcrumbs.add(BreadcrumbItem(
-            text: l10n.settings,
-            path: '/settings',
-          ));
+          breadcrumbs.add(
+            BreadcrumbItem(text: l10n.settings, path: '/settings'),
+          );
           i++;
           break;
 
         case 'login':
-          breadcrumbs.add(BreadcrumbItem(
-            text: l10n.login,
-            path: '/login',
-          ));
+          breadcrumbs.add(BreadcrumbItem(text: l10n.login, path: '/login'));
           i++;
           break;
 
         case 'register':
-          breadcrumbs.add(BreadcrumbItem(
-            text: l10n.register,
-            path: '/login/register',
-          ));
+          breadcrumbs.add(
+            BreadcrumbItem(text: l10n.register, path: '/login/register'),
+          );
           i++;
           break;
 
         case 'forgot':
-          breadcrumbs.add(BreadcrumbItem(
-            text: l10n.forgotPassword,
-            path: '/login/forgot',
-          ));
+          breadcrumbs.add(
+            BreadcrumbItem(text: l10n.forgotPassword, path: '/login/forgot'),
+          );
           i++;
           break;
 

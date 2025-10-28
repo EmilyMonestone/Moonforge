@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
-import 'package:moonforge/data/drift/tables/sessions.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/drift/tables/sessions.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
 
 part 'sessions_dao.g.dart';
 
@@ -42,9 +42,10 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int rev) async {
     await transaction(() async {
-      await (update(sessions)..where((s) => s.id.equals(id)))
-          .write(SessionsCompanion(rev: Value(rev)));
-      await this.clearDirty(collectionName, id);
+      await (update(sessions)..where((s) => s.id.equals(id))).write(
+        SessionsCompanion(rev: Value(rev)),
+      );
+      await markClean(collectionName, id);
     });
   }
 }

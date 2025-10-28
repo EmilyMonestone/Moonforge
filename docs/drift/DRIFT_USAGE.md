@@ -13,6 +13,7 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 This generates:
+
 - `app_database.g.dart`
 - `campaigns_dao.g.dart`
 - `outbox_dao.g.dart`
@@ -22,6 +23,7 @@ This generates:
 For web support, you need to place WASM assets in the `/web` directory.
 
 #### Option A: Extract from drift package
+
 ```bash
 # After flutter pub get, find the drift package
 find ~/.pub-cache -name "drift-*" -type d
@@ -32,13 +34,16 @@ cp ~/.pub-cache/hosted/pub.dev/drift-*/web/drift_worker.dart.js ./moonforge/web/
 ```
 
 #### Option B: Use drift_dev web command
+
 ```bash
 cd moonforge
 dart run drift_dev web
 ```
 
 #### Option C: Manual download
+
 Download from: https://github.com/simolus3/drift/tree/develop/drift/web
+
 - `sqlite3.wasm`
 - `drift_worker.dart.js`
 
@@ -59,7 +64,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+
   runApp(
     MultiProvider(
       providers: [
@@ -78,7 +83,7 @@ void main() async {
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 import 'package:provider/provider.dart';
 
 class CampaignList extends StatelessWidget {
@@ -86,7 +91,7 @@ class CampaignList extends StatelessWidget {
   Widget build(BuildContext context) {
     // Instant, local-first updates
     final campaigns = context.watch<List<Campaign>>();
-    
+
     return ListView.builder(
       itemCount: campaigns.length,
       itemBuilder: (context, index) {
@@ -110,13 +115,15 @@ class CampaignEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = context.read<CampaignRepository>();
-    
+
     return ElevatedButton(
       onPressed: () async {
         // Optimistic write (instant local, syncs later)
         await repository.upsertLocal(
           Campaign(
-            id: 'campaign-${DateTime.now().millisecondsSinceEpoch}',
+            id: 'campaign-${DateTime
+                .now()
+                .millisecondsSinceEpoch}',
             name: 'New Campaign',
             description: 'Created offline',
             rev: 0,
@@ -133,52 +140,55 @@ class CampaignEditor extends StatelessWidget {
 
 ```dart
 // Update single field
-await repository.patchLocal(
-  id: campaignId,
-  baseRev: campaign.rev,
-  ops: [
-    {'type': 'set', 'field': 'name', 'value': 'Updated Name'},
-  ],
+await
+repository.patchLocal
+(
+id: campaignId,
+baseRev: campaign.rev,
+ops: [
+{'type': 'set', 'field': 'name', 'value': 'Updated Name'},
+],
 );
 
 // Add member to campaign
 await repository.patchLocal(
-  id: campaignId,
-  baseRev: campaign.rev,
-  ops: [
-    {'type': 'addToSet', 'field': 'memberUids', 'value': 'new-uid'},
-  ],
+id: campaignId,
+baseRev: campaign.rev,
+ops: [
+{'type': 'addToSet', 'field': 'memberUids', 'value': 'new-uid'},
+],
 );
 
 // Remove member
 await repository.patchLocal(
-  id: campaignId,
-  baseRev: campaign.rev,
-  ops: [
-    {'type': 'removeFromSet', 'field': 'memberUids', 'value': 'old-uid'},
-  ],
+id: campaignId,
+baseRev: campaign.rev,
+ops: [
+{'type': 'removeFromSet', 'field': 'memberUids', 'value': 'old-uid'},
+],
 );
 
 // Multiple operations in one patch
 await repository.patchLocal(
-  id: campaignId,
-  baseRev: campaign.rev,
-  ops: [
-    {'type': 'set', 'field': 'name', 'value': 'Updated Name'},
-    {'type': 'set', 'field': 'description', 'value': 'Updated Description'},
-    {'type': 'addToSet', 'field': 'memberUids', 'value': 'new-uid'},
-  ],
+id: campaignId,
+baseRev: campaign.rev,
+ops: [
+{'type': 'set', 'field': 'name', 'value': 'Updated Name'},
+{'type': 'set', 'field': 'description', 'value': 'Updated Description'},
+{'type': 'addToSet', 'field': 'memberUids', 'value': 'new-uid'},
+]
+,
 );
 ```
 
 ## Supported Patch Operations
 
-| Operation | Description | Example |
-|-----------|-------------|---------|
-| `set` | Set a scalar field | `{'type': 'set', 'field': 'name', 'value': 'New'}` |
-| `addToSet` | Add to list (if not present) | `{'type': 'addToSet', 'field': 'memberUids', 'value': 'uid'}` |
-| `removeFromSet` | Remove from list | `{'type': 'removeFromSet', 'field': 'memberUids', 'value': 'uid'}` |
-| `applyDelta` | Update content (LWW) | `{'type': 'applyDelta', 'field': 'content', 'value': '...'}` |
+| Operation       | Description                  | Example                                                            |
+|-----------------|------------------------------|--------------------------------------------------------------------|
+| `set`           | Set a scalar field           | `{'type': 'set', 'field': 'name', 'value': 'New'}`                 |
+| `addToSet`      | Add to list (if not present) | `{'type': 'addToSet', 'field': 'memberUids', 'value': 'uid'}`      |
+| `removeFromSet` | Remove from list             | `{'type': 'removeFromSet', 'field': 'memberUids', 'value': 'uid'}` |
+| `applyDelta`    | Update content (LWW)         | `{'type': 'applyDelta', 'field': 'content', 'value': '...'}`       |
 
 ## How It Works
 
@@ -234,18 +244,23 @@ await repository.patchLocal(
 ## Conflict Resolution
 
 ### Compare-And-Set (CAS)
+
 Every write increments the `rev` field. Firestore transactions enforce:
+
 - Create: `rev == 0`
 - Update: `rev == resource.rev + 1`
 
 ### On Conflict
+
 If `remoteRev != expectedRev`:
+
 1. Fetch latest remote state
 2. Replay local operation on top of remote
 3. Increment remote rev
 4. Apply to Firestore
 
 ### Merge Strategy
+
 - **Scalars** (name, description): Last Write Wins
 - **Lists** (memberUids): Set union (merge)
 - **Content** (Quill delta): LWW (extensible for delta merges)
@@ -253,6 +268,7 @@ If `remoteRev != expectedRev`:
 ## Testing
 
 Run tests:
+
 ```bash
 cd moonforge
 flutter test test/data/drift/
@@ -272,21 +288,37 @@ Or integrate the CAS checks into your existing rules.
 ## Debugging
 
 ### Check sync status
+
 ```dart
-final pendingCount = await context.read<AppDatabase>().outboxDao.pendingCount();
-print('Pending sync operations: $pendingCount');
+
+final pendingCount = await
+context.read<AppDatabase>
+().outboxDao.pendingCount
+();print
+('Pending sync operations: 
+$pendingCount'
+);
 ```
 
 ### Watch outbox
+
 ```dart
-final outboxStream = context.read<AppDatabase>().outboxDao.watchAll();
-outboxStream.listen((ops) {
-  print('Outbox has ${ops.length} pending operations');
+
+final outboxStream = context
+    .read<AppDatabase>()
+    .outboxDao
+    .watchAll();
+outboxStream.listen
+(
+(ops) {
+print('Outbox has ${ops.length} pending operations');
 });
 ```
 
 ### Web backend verification
+
 Open browser console when running on web. You should see:
+
 ```
 ✓ Drift web WASM backend: WasmDatabase
 ```
@@ -294,6 +326,7 @@ Open browser console when running on web. You should see:
 ## Troubleshooting
 
 ### Code generation fails
+
 ```bash
 flutter pub get
 flutter clean
@@ -301,18 +334,22 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ### Web: sqlite3.wasm not loading
+
 - Verify file is in `/web` directory
 - Check Content-Type header is `application/wasm`
 - See `docs/drift_web_setup.md` for hosting config
 
 ### Sync not happening
+
 - Check Firebase connection
 - Verify SyncEngine is started (automatic via Provider)
 - Check console for error messages
 - Verify Firestore security rules allow writes
 
 ### Tests failing
+
 Ensure you've run code generation first:
+
 ```bash
 flutter pub run build_runner build
 flutter test

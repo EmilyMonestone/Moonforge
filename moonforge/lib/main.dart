@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moonforge/app.dart';
-import 'package:moonforge/core/database/odm.dart';
 import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -78,7 +78,7 @@ Future<void> main(List<String> args) async {
     if (initialRoute != null && initialRoute.isNotEmpty) {
       AppRouter.router.go(initialRoute);
     }
-    
+
     DeepLinkService.instance.initialize(AppRouter.router);
     // Initialize auto updater for desktop platforms
     AutoUpdaterService.instance.initialize();

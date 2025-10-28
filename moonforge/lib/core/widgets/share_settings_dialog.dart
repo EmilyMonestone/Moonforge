@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/core/utils/share_token_utils.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:toastification/toastification.dart';
 
@@ -154,17 +154,16 @@ class _ShareSettingsDialogState extends State<ShareSettingsDialog> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _shareEnabled ? 'Sharing Enabled' : 'Sharing Disabled',
+                          _shareEnabled
+                              ? 'Sharing Enabled'
+                              : 'Sharing Disabled',
                           style: theme.textTheme.titleMedium,
                         ),
                       ],
                     ),
                     if (_shareEnabled && _shareToken != null) ...[
                       const SizedBox(height: 16),
-                      Text(
-                        'Share Link',
-                        style: theme.textTheme.labelMedium,
-                      ),
+                      Text('Share Link', style: theme.textTheme.labelMedium),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.all(12),

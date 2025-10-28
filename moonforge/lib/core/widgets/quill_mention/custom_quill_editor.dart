@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
-import 'package:moonforge/core/models/data/entity.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
 
 /// Custom Quill editor with mention support for entities.
 ///
@@ -83,7 +83,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
           showCursor: !widget.readOnly,
           customShortcuts: const <ShortcutActivator, Intent>{
             SingleActivator(LogicalKeyboardKey.enter, alt: true):
-            AltEnterIntent(SelectionChangedCause.keyboard),
+                AltEnterIntent(SelectionChangedCause.keyboard),
             SingleActivator(LogicalKeyboardKey.enter): EnterIntent(
               SelectionChangedCause.keyboard,
             ),
@@ -112,9 +112,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
       final index = _controller.selection.baseOffset;
       final value = _controller.plainTextEditingValue.text;
 
-      if (value
-          .trim()
-          .isEmpty) {
+      if (value.trim().isEmpty) {
         _removeOverlay();
         return;
       }
@@ -300,9 +298,7 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
   }
 
   void _focusListener() {
-    FocusNode? focusedChild = FocusScope
-        .of(context)
-        .focusedChild;
+    FocusNode? focusedChild = FocusScope.of(context).focusedChild;
     if (focusedChild != null && !_focusNode.hasPrimaryFocus) {
       _removeOverlay();
     }
@@ -310,122 +306,93 @@ class _CustomQuillEditorState extends State<CustomQuillEditor> {
 
   OverlayEntry _createSuggestionOverlay() {
     RenderBox box =
-    widget.keyForPosition?.currentContext?.findRenderObject() as RenderBox;
+        widget.keyForPosition?.currentContext?.findRenderObject() as RenderBox;
     Offset position = box.localToGlobal(Offset.zero);
     double y = position.dy;
     double x = position.dx;
 
     final viewInsets = EdgeInsets.fromViewPadding(
-      View
-          .of(context)
-          .viewInsets,
-      View
-          .of(context)
-          .devicePixelRatio,
+      View.of(context).viewInsets,
+      View.of(context).devicePixelRatio,
     );
     double heightKeyboard = viewInsets.bottom - viewInsets.top;
 
     return OverlayEntry(
-      builder: (context) =>
-          Positioned(
-            bottom: MediaQuery
-                .of(context)
-                .size
-                .height - heightKeyboard - y,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width - (2 * x),
-            left: x,
-            child: Material(
-              elevation: 4.0,
-              color: Colors.transparent,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .surface,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .outline
-                        .withValues(alpha: 0.4),
-                  ),
-                ),
-                clipBehavior: Clip.hardEdge,
-                constraints: const BoxConstraints(
-                    maxHeight: 200, minHeight: 50),
-                child: ValueListenableBuilder<List<Entity>>(
-                  valueListenable: _entitySuggestions,
-                  builder: (context, entities, child) {
-                    if (entities.isEmpty) {
-                      return ListTile(
-                        title: Text(
-                          'No entities found',
-                          style: TextStyle(
-                            color: Theme
-                                .of(context)
-                                .colorScheme
-                                .onSurface,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: entities.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final entity = entities[index];
-                        return InkWell(
-                          onTap: () => _onTapOverlaySuggestionItem(entity),
-                          child: ListTile(
-                            leading: Icon(
-                              _getIconForEntityKind(entity.kind),
-                              color: Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primary,
-                            ),
-                            title: Text(
-                              entity.name,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme
-                                    .of(context)
-                                    .colorScheme
-                                    .onSurface,
-                              ),
-                            ),
-                            subtitle: entity.summary != null
-                                ? Text(
-                              entity.summary!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Theme
-                                    .of(
-                                  context,
-                                )
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                              ),
-                            )
-                                : null,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+      builder: (context) => Positioned(
+        bottom: MediaQuery.of(context).size.height - heightKeyboard - y,
+        width: MediaQuery.of(context).size.width - (2 * x),
+        left: x,
+        child: Material(
+          elevation: 4.0,
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: Theme.of(
+                  context,
+                ).colorScheme.outline.withValues(alpha: 0.4),
               ),
             ),
+            clipBehavior: Clip.hardEdge,
+            constraints: const BoxConstraints(maxHeight: 200, minHeight: 50),
+            child: ValueListenableBuilder<List<Entity>>(
+              valueListenable: _entitySuggestions,
+              builder: (context, entities, child) {
+                if (entities.isEmpty) {
+                  return ListTile(
+                    title: Text(
+                      'No entities found',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: entities.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final entity = entities[index];
+                    return InkWell(
+                      onTap: () => _onTapOverlaySuggestionItem(entity),
+                      child: ListTile(
+                        leading: Icon(
+                          _getIconForEntityKind(entity.kind),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        title: Text(
+                          entity.name,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        subtitle: entity.summary != null
+                            ? Text(
+                                entity.summary!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                              )
+                            : null,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
+        ),
+      ),
     );
   }
 

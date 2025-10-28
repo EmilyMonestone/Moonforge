@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_odm/firestore_odm.dart';
-import 'package:moonforge/core/models/data/schema.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
 
 /// Initialize Firestore ODM
 /// ```dart

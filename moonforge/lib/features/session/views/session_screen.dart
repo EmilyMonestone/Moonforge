@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/schema.dart';
-import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
@@ -16,10 +12,13 @@ import 'package:moonforge/core/utils/permissions_utils.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/share_settings_dialog.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:toastification/toastification.dart';
 
 class SessionScreen extends StatefulWidget {
   const SessionScreen({
@@ -54,8 +53,6 @@ class _SessionScreenState extends State<SessionScreen> {
         session: session,
         onUpdate: (updatedSession) async {
           await odm.campaigns
-              .doc(campaign.id)
-              .parties
               .doc(widget.partyId)
               .sessions
               .update(updatedSession);
@@ -80,8 +77,6 @@ class _SessionScreenState extends State<SessionScreen> {
 
     return FutureBuilder<Session?>(
       future: odm.campaigns
-          .doc(campaign.id)
-          .parties
           .doc(widget.partyId)
           .sessions
           .doc(widget.sessionId)
@@ -102,8 +97,9 @@ class _SessionScreenState extends State<SessionScreen> {
         // Set up info controller (DM-only)
         if (isDM && session.info != null && session.info!.isNotEmpty) {
           try {
-            _infoController.document =
-                Document.fromJson(jsonDecode(session.info!));
+            _infoController.document = Document.fromJson(
+              jsonDecode(session.info!),
+            );
           } catch (e) {
             logger.e('Error parsing info delta: $e');
           }
@@ -113,8 +109,9 @@ class _SessionScreenState extends State<SessionScreen> {
         // Set up log controller (all users)
         if (session.log != null && session.log!.isNotEmpty) {
           try {
-            _logController.document =
-                Document.fromJson(jsonDecode(session.log!));
+            _logController.document = Document.fromJson(
+              jsonDecode(session.log!),
+            );
           } catch (e) {
             logger.e('Error parsing log delta: $e');
           }
@@ -136,10 +133,11 @@ class _SessionScreenState extends State<SessionScreen> {
                       if (session.datetime != null)
                         Text(
                           formatDateTime(session.datetime!),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                         ),
                     ],
@@ -193,10 +191,8 @@ class _SessionScreenState extends State<SessionScreen> {
                       Text(
                         'No DM notes yet',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       )
                     else
                       CustomQuillViewer(
@@ -207,7 +203,7 @@ class _SessionScreenState extends State<SessionScreen> {
                       ),
                     const Divider(height: 32),
                   ],
-                  
+
                   // Shared log section
                   Row(
                     children: [
@@ -227,9 +223,8 @@ class _SessionScreenState extends State<SessionScreen> {
                     Text(
                       'No session log yet',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     )
                   else
                     CustomQuillViewer(

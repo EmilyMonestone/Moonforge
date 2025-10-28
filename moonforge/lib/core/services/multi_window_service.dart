@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:flutter/foundation.dart';
@@ -44,10 +45,7 @@ class MultiWindowService {
 
       final uri = Uri.parse(newUrl.toString());
       if (await canLaunchUrl(uri)) {
-        return await launchUrl(
-          uri,
-          webOnlyWindowName: '_blank',
-        );
+        return await launchUrl(uri, webOnlyWindowName: '_blank');
       }
       return false;
     } catch (e) {
@@ -60,8 +58,8 @@ class MultiWindowService {
     try {
       // Pass the route as the argument string to the new window
       final window = await DesktopMultiWindow.createWindow(route);
-      
-      await window
+
+      window
         ..setFrame(const Offset(100, 100) & const Size(1000, 800))
         ..center()
         ..setTitle('Moonforge')

@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/chapter.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
 
 /// Repository for Chapter operations
 class ChapterRepository {

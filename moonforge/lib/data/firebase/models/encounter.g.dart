@@ -15,6 +15,9 @@ _Encounter _$EncounterFromJson(Map<String, dynamic> json) => _Encounter(
   combatants: (json['combatants'] as List<dynamic>?)
       ?.map((e) => e as Map<String, dynamic>)
       .toList(),
+  entityIds:
+      (json['entityIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -32,6 +35,7 @@ Map<String, dynamic> _$EncounterToJson(_Encounter instance) =>
       'notes': instance.notes,
       'loot': instance.loot,
       'combatants': instance.combatants,
+      'entityIds': instance.entityIds,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'rev': instance.rev,
@@ -91,6 +95,13 @@ class EncounterPatchBuilder<$$T extends Encounter?>
       (value) => (value as dynamic),
     ),
   );
+
+  /// Update entityIds field `List<String>`
+  late final ListFieldUpdate<List<String>, String, String> entityIds =
+      ListFieldUpdate(
+        field: path.append('entityIds'),
+        elementToJson: (value) => (value as String),
+      );
 
   /// Update createdAt field `DateTime?`
   late final DateTimeFieldUpdate<DateTime?> createdAt = DateTimeFieldUpdate(
@@ -175,6 +186,14 @@ class EncounterFilterBuilder extends FilterBuilderNode {
         ),
       );
 
+  /// Filter by entityIds
+  late final ArrayFilterField<List<String>, String, String> entityIds =
+      ArrayFilterField<List<String>, String, String>(
+        field: path.append('entityIds'),
+        toJson: (value) => listToJson(value, (value) => (value as String)),
+        elementToJson: (value) => (value as String),
+      );
+
   /// Filter by createdAt
   late final ComparableFilterField<DateTime?> createdAt =
       ComparableFilterField<DateTime?>(
@@ -246,6 +265,12 @@ class EncounterOrderByBuilder extends OrderByFieldNode {
         field: path.append('combatants'),
         context: $context,
       );
+
+  /// Access nested entityIds for ordering
+  late final OrderByField<List<String>> entityIds = OrderByField<List<String>>(
+    field: path.append('entityIds'),
+    context: $context,
+  );
 
   /// Access nested createdAt for ordering
   late final OrderByField<DateTime?> createdAt = OrderByField<DateTime?>(

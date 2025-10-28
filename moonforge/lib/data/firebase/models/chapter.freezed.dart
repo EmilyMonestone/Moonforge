@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$Chapter {
 
 @DocumentIdField() String get id; String get name; int get order; String? get summary; String? get content;// quill delta json
+ List<String> get entityIds;// Related entities
  DateTime? get createdAt; DateTime? get updatedAt; int get rev;
 /// Create a copy of Chapter
 /// with the given fields replaced by the non-null parameter values.
@@ -29,16 +30,16 @@ $ChapterCopyWith<Chapter> get copyWith => _$ChapterCopyWithImpl<Chapter>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Chapter&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Chapter&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.entityIds, entityIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,order,summary,content,createdAt,updatedAt,rev);
+int get hashCode => Object.hash(runtimeType,id,name,order,summary,content,const DeepCollectionEquality().hash(entityIds),createdAt,updatedAt,rev);
 
 @override
 String toString() {
-  return 'Chapter(id: $id, name: $name, order: $order, summary: $summary, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
+  return 'Chapter(id: $id, name: $name, order: $order, summary: $summary, content: $content, entityIds: $entityIds, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
 }
 
 
@@ -49,7 +50,7 @@ abstract mixin class $ChapterCopyWith<$Res>  {
   factory $ChapterCopyWith(Chapter value, $Res Function(Chapter) _then) = _$ChapterCopyWithImpl;
 @useResult
 $Res call({
-@DocumentIdField() String id, String name, int order, String? summary, String? content, DateTime? createdAt, DateTime? updatedAt, int rev
+@DocumentIdField() String id, String name, int order, String? summary, String? content, List<String> entityIds, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 
@@ -66,14 +67,15 @@ class _$ChapterCopyWithImpl<$Res>
 
 /// Create a copy of Chapter
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? order = null,Object? summary = freezed,Object? content = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? order = null,Object? summary = freezed,Object? content = freezed,Object? entityIds = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,entityIds: null == entityIds ? _self.entityIds : entityIds // ignore: cast_nullable_to_non_nullable
+as List<String>,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,rev: null == rev ? _self.rev : rev // ignore: cast_nullable_to_non_nullable
 as int,
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  List<String> entityIds,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Chapter() when $default != null:
-return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.createdAt,_that.updatedAt,_that.rev);case _:
+return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.entityIds,_that.createdAt,_that.updatedAt,_that.rev);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  DateTime? createdAt,  DateTime? updatedAt,  int rev)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  List<String> entityIds,  DateTime? createdAt,  DateTime? updatedAt,  int rev)  $default,) {final _that = this;
 switch (_that) {
 case _Chapter():
-return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.createdAt,_that.updatedAt,_that.rev);case _:
+return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.entityIds,_that.createdAt,_that.updatedAt,_that.rev);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +204,10 @@ return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DocumentIdField()  String id,  String name,  int order,  String? summary,  String? content,  List<String> entityIds,  DateTime? createdAt,  DateTime? updatedAt,  int rev)?  $default,) {final _that = this;
 switch (_that) {
 case _Chapter() when $default != null:
-return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.createdAt,_that.updatedAt,_that.rev);case _:
+return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_that.entityIds,_that.createdAt,_that.updatedAt,_that.rev);case _:
   return null;
 
 }
@@ -217,7 +219,7 @@ return $default(_that.id,_that.name,_that.order,_that.summary,_that.content,_tha
 @JsonSerializable()
 
 class _Chapter implements Chapter {
-  const _Chapter({@DocumentIdField() required this.id, required this.name, this.order = 0, this.summary, this.content, this.createdAt, this.updatedAt, this.rev = 0});
+  const _Chapter({@DocumentIdField() required this.id, required this.name, this.order = 0, this.summary, this.content, final  List<String> entityIds = const [], this.createdAt, this.updatedAt, this.rev = 0}): _entityIds = entityIds;
   factory _Chapter.fromJson(Map<String, dynamic> json) => _$ChapterFromJson(json);
 
 @override@DocumentIdField() final  String id;
@@ -226,6 +228,15 @@ class _Chapter implements Chapter {
 @override final  String? summary;
 @override final  String? content;
 // quill delta json
+ final  List<String> _entityIds;
+// quill delta json
+@override@JsonKey() List<String> get entityIds {
+  if (_entityIds is EqualUnmodifiableListView) return _entityIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_entityIds);
+}
+
+// Related entities
 @override final  DateTime? createdAt;
 @override final  DateTime? updatedAt;
 @override@JsonKey() final  int rev;
@@ -243,16 +254,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Chapter&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Chapter&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.order, order) || other.order == order)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._entityIds, _entityIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.rev, rev) || other.rev == rev));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,order,summary,content,createdAt,updatedAt,rev);
+int get hashCode => Object.hash(runtimeType,id,name,order,summary,content,const DeepCollectionEquality().hash(_entityIds),createdAt,updatedAt,rev);
 
 @override
 String toString() {
-  return 'Chapter(id: $id, name: $name, order: $order, summary: $summary, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
+  return 'Chapter(id: $id, name: $name, order: $order, summary: $summary, content: $content, entityIds: $entityIds, createdAt: $createdAt, updatedAt: $updatedAt, rev: $rev)';
 }
 
 
@@ -263,7 +274,7 @@ abstract mixin class _$ChapterCopyWith<$Res> implements $ChapterCopyWith<$Res> {
   factory _$ChapterCopyWith(_Chapter value, $Res Function(_Chapter) _then) = __$ChapterCopyWithImpl;
 @override @useResult
 $Res call({
-@DocumentIdField() String id, String name, int order, String? summary, String? content, DateTime? createdAt, DateTime? updatedAt, int rev
+@DocumentIdField() String id, String name, int order, String? summary, String? content, List<String> entityIds, DateTime? createdAt, DateTime? updatedAt, int rev
 });
 
 
@@ -280,14 +291,15 @@ class __$ChapterCopyWithImpl<$Res>
 
 /// Create a copy of Chapter
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? order = null,Object? summary = freezed,Object? content = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? order = null,Object? summary = freezed,Object? content = freezed,Object? entityIds = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? rev = null,}) {
   return _then(_Chapter(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as String?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,entityIds: null == entityIds ? _self._entityIds : entityIds // ignore: cast_nullable_to_non_nullable
+as List<String>,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,rev: null == rev ? _self.rev : rev // ignore: cast_nullable_to_non_nullable
 as int,

@@ -1,32 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/adventure.dart';
-import 'package:moonforge/core/models/data/chapter.dart';
-import 'package:moonforge/core/models/data/scene.dart';
-import 'package:moonforge/core/models/data/encounter.dart';
-import 'package:moonforge/core/models/data/entity.dart';
-import 'package:moonforge/core/models/data/party.dart';
-import 'package:moonforge/core/models/data/player.dart';
-import 'package:moonforge/core/models/data/session.dart';
-import 'package:moonforge/core/models/data/media_asset.dart';
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/firebase/models/media_asset.dart';
+import 'package:moonforge/data/firebase/models/party.dart';
+import 'package:moonforge/data/firebase/models/player.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
 import 'package:moonforge/data/providers/sync_state_provider.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
-import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/media_asset_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
-import 'package:moonforge/data/repo/media_asset_repository.dart';
 import 'package:moonforge/data/sync/sync_engine.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 /// Drift offline-first providers for the application
-/// 
+///
 /// Usage:
 /// ```dart
 /// MultiProvider(

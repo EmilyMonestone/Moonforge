@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/scene.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
 
 /// Repository for Scene operations
 class SceneRepository {

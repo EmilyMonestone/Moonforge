@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/entity.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
 import 'package:moonforge/data/drift/tables/entities.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
 
 part 'entities_dao.g.dart';
 
@@ -17,8 +17,7 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
   Stream<List<Entity>> watchAll() => select(entities).watch();
 
   Future<Entity?> getById(String id) =>
-      (select(entities)
-        ..where((e) => e.id.equals(id))).getSingleOrNull();
+      (select(entities)..where((e) => e.id.equals(id))).getSingleOrNull();
 
   Future<void> upsert(Entity entity, {bool markDirty = false}) {
     return transaction(() async {
@@ -51,8 +50,7 @@ class EntitiesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(entities)
-        ..where((e) => e.id.equals(id))).write(
+      await (update(entities)..where((e) => e.id.equals(id))).write(
         EntitiesCompanion(rev: Value(newRev)),
       );
       await markClean(collectionName, id);

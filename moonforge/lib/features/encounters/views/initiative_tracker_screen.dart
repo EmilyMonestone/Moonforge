@@ -1,14 +1,15 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/features/encounters/models/combatant.dart';
+import 'package:moonforge/data/firebase/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 class InitiativeTrackerScreen extends StatefulWidget {
   final List<Combatant> initialCombatants;
   final String encounterName;
-  
+
   const InitiativeTrackerScreen({
     super.key,
     required this.initialCombatants,
@@ -16,7 +17,8 @@ class InitiativeTrackerScreen extends StatefulWidget {
   });
 
   @override
-  State<InitiativeTrackerScreen> createState() => _InitiativeTrackerScreenState();
+  State<InitiativeTrackerScreen> createState() =>
+      _InitiativeTrackerScreenState();
 }
 
 class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
@@ -25,13 +27,13 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   int _round = 1;
   final List<String> _combatLog = [];
   bool _hasRolledInitiative = false;
-  
+
   @override
   void initState() {
     super.initState();
     _combatants = widget.initialCombatants;
   }
-  
+
   void _rollInitiativeForAll() {
     final random = Random();
     setState(() {
@@ -40,66 +42,78 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
         final total = roll + c.initiativeModifier;
         return c.copyWith(initiative: total);
       }).toList();
-      
+
       _combatants = InitiativeTrackerService.sortByInitiative(_combatants);
       _currentIndex = 0;
       _hasRolledInitiative = true;
       _addToLog('Initiative rolled for all combatants');
     });
   }
-  
+
   void _nextTurn() {
     if (!_hasRolledInitiative) return;
-    
+
     final oldIndex = _currentIndex;
-    _currentIndex = InitiativeTrackerService.getNextCombatantIndex(_combatants, _currentIndex);
-    
+    _currentIndex = InitiativeTrackerService.getNextCombatantIndex(
+      _combatants,
+      _currentIndex,
+    );
+
     if (InitiativeTrackerService.isNewRound(oldIndex, _currentIndex)) {
       setState(() {
         _round++;
         _addToLog('--- Round $_round ---');
       });
     }
-    
+
     setState(() {
       _addToLog('${_combatants[_currentIndex].name}\'s turn');
     });
   }
-  
+
   void _previousTurn() {
     if (!_hasRolledInitiative) return;
-    
+
     setState(() {
-      _currentIndex = InitiativeTrackerService.getPreviousCombatantIndex(_combatants, _currentIndex);
+      _currentIndex = InitiativeTrackerService.getPreviousCombatantIndex(
+        _combatants,
+        _currentIndex,
+      );
       _addToLog('Back to ${_combatants[_currentIndex].name}\'s turn');
     });
   }
-  
+
   void _applyDamage(int index, int damage) {
     setState(() {
       final combatant = _combatants[index];
       _combatants[index] = combatant.applyDamage(damage);
-      _addToLog('${combatant.name} takes $damage damage (${_combatants[index].currentHp}/${combatant.maxHp} HP)');
-      
+      _addToLog(
+        '${combatant.name} takes $damage damage (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
+      );
+
       if (!_combatants[index].isAlive) {
         _addToLog('${combatant.name} is defeated!');
-        
+
         if (InitiativeTrackerService.isEncounterOver(_combatants)) {
           final winner = InitiativeTrackerService.getWinner(_combatants);
-          _addToLog('--- Encounter Over! ${winner == 'allies' ? 'Party' : 'Enemies'} win! ---');
+          _addToLog(
+            '--- Encounter Over! ${winner == 'allies' ? 'Party' : 'Enemies'} win! ---',
+          );
         }
       }
     });
   }
-  
+
   void _heal(int index, int amount) {
     setState(() {
       final combatant = _combatants[index];
       _combatants[index] = combatant.heal(amount);
-      _addToLog('${combatant.name} heals $amount HP (${_combatants[index].currentHp}/${combatant.maxHp} HP)');
+      _addToLog(
+        '${combatant.name} heals $amount HP (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
+      );
     });
   }
-  
+
   void _addCondition(int index, String condition) {
     setState(() {
       final combatant = _combatants[index];
@@ -107,7 +121,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       _addToLog('${combatant.name} gains condition: $condition');
     });
   }
-  
+
   void _removeCondition(int index, String condition) {
     setState(() {
       final combatant = _combatants[index];
@@ -115,16 +129,18 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       _addToLog('${combatant.name} loses condition: $condition');
     });
   }
-  
+
   void _addToLog(String message) {
     _combatLog.add('[Round $_round] $message');
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isEncounterOver = InitiativeTrackerService.isEncounterOver(_combatants);
-    
+    final isEncounterOver = InitiativeTrackerService.isEncounterOver(
+      _combatants,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${l10n.initiativeTracker} - ${widget.encounterName}'),
@@ -153,9 +169,8 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                     children: [
                       Text(
                         '${l10n.round}: $_round',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       if (_hasRolledInitiative && !isEncounterOver) ...[
                         IconButton(
@@ -172,25 +187,31 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                     ],
                   ),
                 ),
-                
+
                 // Combatants List
                 Expanded(
                   child: ListView.builder(
                     itemCount: _combatants.length,
                     itemBuilder: (context, index) {
                       final combatant = _combatants[index];
-                      final isCurrent = _hasRolledInitiative && index == _currentIndex;
-                      
+                      final isCurrent =
+                          _hasRolledInitiative && index == _currentIndex;
+
                       return Card(
-                        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        color: isCurrent 
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        color: isCurrent
                             ? Theme.of(context).colorScheme.primaryContainer
                             : combatant.isAlive
-                                ? null
-                                : Colors.grey.shade300,
+                            ? null
+                            : Colors.grey.shade300,
                         child: ExpansionTile(
                           leading: CircleAvatar(
-                            backgroundColor: combatant.isAlly ? Colors.blue : Colors.red,
+                            backgroundColor: combatant.isAlly
+                                ? Colors.blue
+                                : Colors.red,
                             child: Text(
                               combatant.initiative?.toString() ?? '?',
                               style: const TextStyle(
@@ -202,23 +223,39 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                           title: Text(
                             combatant.name,
                             style: TextStyle(
-                              fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                              decoration: combatant.isAlive ? null : TextDecoration.lineThrough,
+                              fontWeight: isCurrent
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              decoration: combatant.isAlive
+                                  ? null
+                                  : TextDecoration.lineThrough,
                             ),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('HP: ${combatant.currentHp}/${combatant.maxHp} • AC: ${combatant.armorClass}'),
+                              Text(
+                                'HP: ${combatant.currentHp}/${combatant.maxHp} • AC: ${combatant.armorClass}',
+                              ),
                               if (combatant.conditions.isNotEmpty)
                                 Wrap(
                                   spacing: 4,
-                                  children: combatant.conditions.map((c) => Chip(
-                                    label: Text(c, style: const TextStyle(fontSize: 10)),
-                                    visualDensity: VisualDensity.compact,
-                                    onDeleted: () => _removeCondition(index, c),
-                                    deleteIconColor: Colors.red,
-                                  )).toList(),
+                                  children: combatant.conditions
+                                      .map(
+                                        (c) => Chip(
+                                          label: Text(
+                                            c,
+                                            style: const TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          visualDensity: VisualDensity.compact,
+                                          onDeleted: () =>
+                                              _removeCondition(index, c),
+                                          deleteIconColor: Colors.red,
+                                        ),
+                                      )
+                                      .toList(),
                                 ),
                             ],
                           ),
@@ -239,7 +276,8 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                           icon: const Icon(Icons.remove),
                                           label: const Text('Damage'),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red.shade100,
+                                            backgroundColor:
+                                                Colors.red.shade100,
                                           ),
                                         ),
                                       ),
@@ -252,14 +290,15 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                           icon: const Icon(Icons.add),
                                           label: const Text('Heal'),
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green.shade100,
+                                            backgroundColor:
+                                                Colors.green.shade100,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  
+
                                   // Condition Management
                                   ElevatedButton.icon(
                                     onPressed: combatant.isAlive
@@ -280,7 +319,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
               ],
             ),
           ),
-          
+
           // Combat Log
           Expanded(
             flex: 1,
@@ -320,7 +359,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       ),
     );
   }
-  
+
   void _showDamageDialog(int index) {
     final controller = TextEditingController();
     showDialog(
@@ -355,7 +394,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       ),
     );
   }
-  
+
   void _showHealDialog(int index) {
     final controller = TextEditingController();
     showDialog(
@@ -390,7 +429,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       ),
     );
   }
-  
+
   void _showAddConditionDialog(int index) {
     final controller = TextEditingController();
     showDialog(

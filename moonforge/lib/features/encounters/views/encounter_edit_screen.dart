@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/models/data/encounter.dart';
-import 'package:moonforge/core/models/data/entity.dart';
-import 'package:moonforge/core/models/data/party.dart';
-import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/data/firebase/models/combatant.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/firebase/models/party.dart';
+import 'package:moonforge/data/firebase/models/player.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
-import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
-import 'package:moonforge/features/encounters/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
 import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -27,16 +26,21 @@ class EncounterEditScreen extends StatefulWidget {
 class _EncounterEditScreenState extends State<EncounterEditScreen> {
   final _nameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   // Party selection state
   List<Player> _players = [];
   String? _selectedPartyId;
   bool _useCustomParty = true;
-  final List<int> _customPlayerLevels = [1, 1, 1, 1]; // Default 4 level 1 players
-  
+  final List<int> _customPlayerLevels = [
+    1,
+    1,
+    1,
+    1,
+  ]; // Default 4 level 1 players
+
   // Combatants state
   final List<Combatant> _combatants = [];
-  
+
   // Calculated values
   Map<String, int> _partyThresholds = {};
   int _adjustedXp = 0;
@@ -53,63 +57,65 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     _nameController.dispose();
     super.dispose();
   }
-  
+
   void _calculateDifficulty() {
     // Calculate party thresholds
-    final playerLevels = _useCustomParty 
-        ? _customPlayerLevels 
+    final playerLevels = _useCustomParty
+        ? _customPlayerLevels
         : _players.map((p) => p.level).toList();
-    
-    _partyThresholds = EncounterDifficultyService.calculatePartyThresholds(playerLevels);
-    
+
+    _partyThresholds = EncounterDifficultyService.calculatePartyThresholds(
+      playerLevels,
+    );
+
     // Calculate adjusted XP from combatants
     final monsterXp = _combatants
         .where((c) => !c.isAlly)
         .map((c) => c.xp)
         .toList();
-    
+
     _adjustedXp = EncounterDifficultyService.calculateAdjustedXp(
       monsterXp,
       playerLevels.length,
     );
-    
+
     // Classify difficulty
     _difficulty = EncounterDifficultyService.classifyDifficulty(
       _adjustedXp,
       _partyThresholds,
     );
-    
+
     setState(() {});
   }
-  
+
   void _addCombatant(Combatant combatant) {
     setState(() {
       _combatants.add(combatant);
       _calculateDifficulty();
     });
   }
-  
+
   void _removeCombatant(int index) {
     setState(() {
       _combatants.removeAt(index);
       _calculateDifficulty();
     });
   }
-  
+
   void _updateCustomPlayerLevel(int index, int level) {
     setState(() {
       _customPlayerLevels[index] = level.clamp(1, 20);
       _calculateDifficulty();
     });
   }
-  
+
   void _addCustomPlayer() {
     setState(() {
       _customPlayerLevels.add(1);
       _calculateDifficulty();
     });
   }
-  
+
   void _removeCustomPlayer(int index) {
     if (_customPlayerLevels.length > 1) {
       setState(() {
@@ -118,16 +124,18 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       });
     }
   }
-  
+
   // Load party players from Drift
   Future<void> _loadPartyPlayers(String partyId) async {
     try {
       final playerRepo = context.read<PlayerRepository>();
-      
+
       // Get all players and filter by partyId
       final allPlayers = await playerRepo.watchAll().first;
-      final playersList = allPlayers.where((p) => p.partyId == partyId).toList();
-      
+      final playersList = allPlayers
+          .where((p) => p.partyId == partyId)
+          .toList();
+
       setState(() {
         _players = playersList;
         _selectedPartyId = partyId;
@@ -137,18 +145,21 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       // Handle error silently for now
     }
   }
-  
+
   // Save encounter to database
   Future<void> _saveEncounter() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     try {
-      final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
+      final campaign = Provider.of<CampaignProvider>(
+        context,
+        listen: false,
+      ).currentCampaign;
       if (campaign == null) return;
-      
+
       // Convert combatants to Map format for storage
       final combatantsJson = _combatants.map((c) => c.toJson()).toList();
-      
+
       final encounter = Encounter(
         id: widget.encounterId,
         name: _nameController.text,
@@ -157,11 +168,11 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
-      
+
       // Use EncounterRepository instead of ODM
       final encounterRepo = context.read<EncounterRepository>();
       await encounterRepo.upsertLocal(encounter);
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context)!.save)),
@@ -169,13 +180,13 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error saving: $e')));
       }
     }
   }
-  
+
   // Update combatant inline
   void _updateCombatant(int index, Combatant updated) {
     setState(() {
@@ -189,9 +200,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.encounterBuilder),
-      ),
+      appBar: AppBar(title: Text(l10n.encounterBuilder)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -226,7 +235,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Party Selection
               SurfaceContainer(
                 child: Column(
@@ -237,7 +246,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    
+
                     // Toggle between custom and existing party
                     SegmentedButton<bool>(
                       segments: [
@@ -261,7 +270,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Custom player group
                     if (_useCustomParty) ...[
                       Text(
@@ -278,19 +287,27 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                                 child: DropdownButtonFormField<int>(
                                   value: entry.value,
                                   decoration: InputDecoration(
-                                    labelText: '${l10n.player} ${entry.key + 1}',
+                                    labelText:
+                                        '${l10n.player} ${entry.key + 1}',
                                     border: const OutlineInputBorder(),
                                     isDense: true,
                                   ),
                                   items: List.generate(20, (i) => i + 1)
-                                      .map((level) => DropdownMenuItem(
-                                            value: level,
-                                            child: Text('${l10n.playerLevel} $level'),
-                                          ))
+                                      .map(
+                                        (level) => DropdownMenuItem(
+                                          value: level,
+                                          child: Text(
+                                            '${l10n.playerLevel} $level',
+                                          ),
+                                        ),
+                                      )
                                       .toList(),
                                   onChanged: (value) {
                                     if (value != null) {
-                                      _updateCustomPlayerLevel(entry.key, value);
+                                      _updateCustomPlayerLevel(
+                                        entry.key,
+                                        value,
+                                      );
                                     }
                                   },
                                 ),
@@ -316,10 +333,13 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                       FutureBuilder<List<Map<String, String>>>(
                         future: _loadParties(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const Center(child: CircularProgressIndicator());
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
                           }
-                          
+
                           final parties = snapshot.data ?? [];
                           if (parties.isEmpty) {
                             return Text(
@@ -327,7 +347,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             );
                           }
-                          
+
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -337,10 +357,17 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                                   labelText: l10n.selectParty,
                                   border: const OutlineInputBorder(),
                                 ),
-                                items: parties.map((party) => DropdownMenuItem(
-                                  value: party['id'],
-                                  child: Text(party['name'] ?? 'Party ${party['id']}'),
-                                )).toList(),
+                                items: parties
+                                    .map(
+                                      (party) => DropdownMenuItem(
+                                        value: party['id'],
+                                        child: Text(
+                                          party['name'] ??
+                                              'Party ${party['id']}',
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                                 onChanged: (value) {
                                   if (value != null) {
                                     _loadPartyPlayers(value);
@@ -359,7 +386,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                                     padding: const EdgeInsets.only(top: 4.0),
                                     child: Text(
                                       '• ${player.name} (Level ${player.level})',
-                                      style: Theme.of(context).textTheme.bodySmall,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
                                     ),
                                   );
                                 }),
@@ -373,7 +402,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Encounter Difficulty Display
               SurfaceContainer(
                 child: Column(
@@ -384,19 +413,39 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    
+
                     // XP Thresholds
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildThresholdChip(context, l10n.easy, _partyThresholds['easy'] ?? 0, Colors.green),
-                        _buildThresholdChip(context, l10n.medium, _partyThresholds['medium'] ?? 0, Colors.yellow),
-                        _buildThresholdChip(context, l10n.hard, _partyThresholds['hard'] ?? 0, Colors.orange),
-                        _buildThresholdChip(context, l10n.deadly, _partyThresholds['deadly'] ?? 0, Colors.red),
+                        _buildThresholdChip(
+                          context,
+                          l10n.easy,
+                          _partyThresholds['easy'] ?? 0,
+                          Colors.green,
+                        ),
+                        _buildThresholdChip(
+                          context,
+                          l10n.medium,
+                          _partyThresholds['medium'] ?? 0,
+                          Colors.yellow,
+                        ),
+                        _buildThresholdChip(
+                          context,
+                          l10n.hard,
+                          _partyThresholds['hard'] ?? 0,
+                          Colors.orange,
+                        ),
+                        _buildThresholdChip(
+                          context,
+                          l10n.deadly,
+                          _partyThresholds['deadly'] ?? 0,
+                          Colors.red,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Adjusted XP and Difficulty
                     Card(
                       color: _getDifficultyColor(_difficulty).withOpacity(0.1),
@@ -413,9 +462,10 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                                 ),
                                 Text(
                                   '$_adjustedXp XP',
-                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -435,7 +485,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  backgroundColor: _getDifficultyColor(_difficulty),
+                                  backgroundColor: _getDifficultyColor(
+                                    _difficulty,
+                                  ),
                                 ),
                               ],
                             ),
@@ -447,7 +499,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Combatants List
               SurfaceContainer(
                 child: Column(
@@ -467,7 +519,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    
+
                     if (_combatants.isEmpty)
                       const Center(
                         child: Padding(
@@ -483,7 +535,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                           child: ListTile(
                             leading: Icon(
                               combatant.isAlly ? Icons.shield : Icons.dangerous,
-                              color: combatant.isAlly ? Colors.blue : Colors.red,
+                              color: combatant.isAlly
+                                  ? Colors.blue
+                                  : Colors.red,
                             ),
                             title: Text(combatant.name),
                             subtitle: Text(
@@ -494,7 +548,11 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.edit_outlined),
-                                  onPressed: () => _showEditCombatantDialog(context, entry.key, combatant),
+                                  onPressed: () => _showEditCombatantDialog(
+                                    context,
+                                    entry.key,
+                                    combatant,
+                                  ),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete_outline),
@@ -509,7 +567,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Start Initiative Tracker Button
               if (_combatants.isNotEmpty)
                 SizedBox(
@@ -536,14 +594,16 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       ),
     );
   }
-  
-  Widget _buildThresholdChip(BuildContext context, String label, int value, Color color) {
+
+  Widget _buildThresholdChip(
+    BuildContext context,
+    String label,
+    int value,
+    Color color,
+  ) {
     return Column(
       children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.labelSmall,
-        ),
+        Text(label, style: Theme.of(context).textTheme.labelSmall),
         const SizedBox(height: 4),
         Chip(
           label: Text(
@@ -556,7 +616,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       ],
     );
   }
-  
+
   Color _getDifficultyColor(String difficulty) {
     switch (difficulty) {
       case 'trivial':
@@ -573,7 +633,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         return Colors.grey;
     }
   }
-  
+
   String _getDifficultyLabel(AppLocalizations l10n, String difficulty) {
     switch (difficulty) {
       case 'trivial':
@@ -590,7 +650,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         return difficulty;
     }
   }
-  
+
   Future<List<Map<String, String>>> _loadParties() async {
     try {
       // Use StreamProvider to get parties from Drift
@@ -600,17 +660,19 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       return [];
     }
   }
-  
+
   void _showAddCombatantDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => _AddCombatantDialog(
-        onAdd: _addCombatant,
-      ),
+      builder: (context) => _AddCombatantDialog(onAdd: _addCombatant),
     );
   }
-  
-  void _showEditCombatantDialog(BuildContext context, int index, Combatant combatant) {
+
+  void _showEditCombatantDialog(
+    BuildContext context,
+    int index,
+    Combatant combatant,
+  ) {
     showDialog(
       context: context,
       builder: (context) => _EditCombatantDialog(
@@ -619,20 +681,24 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       ),
     );
   }
-  
+
   void _startInitiativeTracker() {
     if (_combatants.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add combatants before starting initiative tracker')),
+        const SnackBar(
+          content: Text('Add combatants before starting initiative tracker'),
+        ),
       );
       return;
     }
-    
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => InitiativeTrackerScreen(
           initialCombatants: _combatants,
-          encounterName: _nameController.text.isEmpty ? 'Encounter' : _nameController.text,
+          encounterName: _nameController.text.isEmpty
+              ? 'Encounter'
+              : _nameController.text,
         ),
       ),
     );
@@ -642,20 +708,20 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
 // Dialog for adding combatants
 class _AddCombatantDialog extends StatefulWidget {
   final Function(Combatant) onAdd;
-  
+
   const _AddCombatantDialog({required this.onAdd});
-  
+
   @override
   State<_AddCombatantDialog> createState() => _AddCombatantDialogState();
 }
 
 class _AddCombatantDialogState extends State<_AddCombatantDialog> {
   int _selectedTab = 0; // 0: Bestiary, 1: Campaign Entities
-  
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Dialog(
       child: Container(
         width: 600,
@@ -669,7 +735,7 @@ class _AddCombatantDialogState extends State<_AddCombatantDialog> {
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 16),
-            
+
             // Tab selector
             SegmentedButton<int>(
               segments: [
@@ -692,10 +758,10 @@ class _AddCombatantDialogState extends State<_AddCombatantDialog> {
               },
             ),
             const SizedBox(height: 16),
-            
+
             // Content based on selected tab
             Expanded(
-              child: _selectedTab == 0 
+              child: _selectedTab == 0
                   ? _BestiaryMonsterList(onAdd: widget.onAdd)
                   : _CampaignEntityList(onAdd: widget.onAdd),
             ),
@@ -709,18 +775,18 @@ class _AddCombatantDialogState extends State<_AddCombatantDialog> {
 // Bestiary monster list
 class _BestiaryMonsterList extends StatelessWidget {
   final Function(Combatant) onAdd;
-  
+
   const _BestiaryMonsterList({required this.onAdd});
-  
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final bestiaryProvider = Provider.of<BestiaryProvider>(context);
-    
+
     if (bestiaryProvider.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    
+
     if (bestiaryProvider.hasError) {
       return Center(
         child: Column(
@@ -738,9 +804,9 @@ class _BestiaryMonsterList extends StatelessWidget {
         ),
       );
     }
-    
+
     final monsters = bestiaryProvider.monsters;
-    
+
     if (monsters.isEmpty) {
       return Center(
         child: Column(
@@ -756,7 +822,7 @@ class _BestiaryMonsterList extends StatelessWidget {
         ),
       );
     }
-    
+
     return ListView.builder(
       itemCount: monsters.length,
       itemBuilder: (context, index) {
@@ -766,7 +832,7 @@ class _BestiaryMonsterList extends StatelessWidget {
         final xp = EncounterDifficultyService.getXpForCr(cr);
         final hp = _parseHp(monster['hp']);
         final ac = _parseAc(monster['ac']);
-        
+
         return ListTile(
           title: Text(name),
           subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
@@ -793,7 +859,7 @@ class _BestiaryMonsterList extends StatelessWidget {
       },
     );
   }
-  
+
   int _parseHp(dynamic hp) {
     if (hp == null) return 10;
     if (hp is int) return hp;
@@ -803,7 +869,7 @@ class _BestiaryMonsterList extends StatelessWidget {
     }
     return 10;
   }
-  
+
   int _parseAc(dynamic ac) {
     if (ac == null) return 10;
     if (ac is int) return ac;
@@ -822,33 +888,32 @@ class _BestiaryMonsterList extends StatelessWidget {
 // Campaign entity list (monsters/NPCs with statblocks)
 class _CampaignEntityList extends StatelessWidget {
   final Function(Combatant) onAdd;
-  
+
   const _CampaignEntityList({required this.onAdd});
-  
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = Provider.of<CampaignProvider>(context).currentCampaign;
-    
+
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
-    
+
     // Use StreamProvider to watch entities from Drift
     final allEntities = context.watch<List<Entity>>();
-    
+
     // Filter for monsters and NPCs with statblocks
     final entities = allEntities.where((e) {
-      return (e.kind == 'monster' || e.kind == 'npc') && 
-             e.statblock.isNotEmpty;
+      return (e.kind == 'monster' || e.kind == 'npc') && e.statblock.isNotEmpty;
     }).toList();
-    
+
     if (entities.isEmpty) {
       return const Center(
         child: Text('No monsters or NPCs with statblocks found in campaign'),
       );
     }
-    
+
     return ListView.builder(
       itemCount: entities.length,
       itemBuilder: (context, index) {
@@ -858,7 +923,7 @@ class _CampaignEntityList extends StatelessWidget {
         final xp = EncounterDifficultyService.getXpForCr(cr);
         final hp = (statblock['hp'] as int?) ?? 10;
         final ac = (statblock['ac'] as int?) ?? 10;
-        
+
         return ListTile(
           title: Text(entity.name),
           subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
@@ -868,7 +933,9 @@ class _CampaignEntityList extends StatelessWidget {
               final combatant = Combatant(
                 id: 'entity_${DateTime.now().millisecondsSinceEpoch}',
                 name: entity.name,
-                type: entity.kind == 'npc' ? CombatantType.npc : CombatantType.monster,
+                type: entity.kind == 'npc'
+                    ? CombatantType.npc
+                    : CombatantType.monster,
                 isAlly: false,
                 cr: cr,
                 xp: xp,
@@ -891,12 +958,9 @@ class _CampaignEntityList extends StatelessWidget {
 class _EditCombatantDialog extends StatefulWidget {
   final Combatant combatant;
   final Function(Combatant) onUpdate;
-  
-  const _EditCombatantDialog({
-    required this.combatant,
-    required this.onUpdate,
-  });
-  
+
+  const _EditCombatantDialog({required this.combatant, required this.onUpdate});
+
   @override
   State<_EditCombatantDialog> createState() => _EditCombatantDialogState();
 }
@@ -907,17 +971,25 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
   late TextEditingController _acController;
   late TextEditingController _initiativeController;
   late List<String> _conditions;
-  
+
   @override
   void initState() {
     super.initState();
-    _hpController = TextEditingController(text: widget.combatant.currentHp.toString());
-    _maxHpController = TextEditingController(text: widget.combatant.maxHp.toString());
-    _acController = TextEditingController(text: widget.combatant.armorClass.toString());
-    _initiativeController = TextEditingController(text: widget.combatant.initiative?.toString() ?? '');
+    _hpController = TextEditingController(
+      text: widget.combatant.currentHp.toString(),
+    );
+    _maxHpController = TextEditingController(
+      text: widget.combatant.maxHp.toString(),
+    );
+    _acController = TextEditingController(
+      text: widget.combatant.armorClass.toString(),
+    );
+    _initiativeController = TextEditingController(
+      text: widget.combatant.initiative?.toString() ?? '',
+    );
     _conditions = List.from(widget.combatant.conditions);
   }
-  
+
   @override
   void dispose() {
     _hpController.dispose();
@@ -926,11 +998,11 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
     _initiativeController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return AlertDialog(
       title: Text('Edit ${widget.combatant.name}'),
       content: SingleChildScrollView(
@@ -967,7 +1039,7 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // AC
             TextField(
               controller: _acController,
@@ -978,7 +1050,7 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
-            
+
             // Initiative
             TextField(
               controller: _initiativeController,
@@ -989,7 +1061,7 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
-            
+
             // Conditions
             Text(
               l10n.conditions,
@@ -999,14 +1071,16 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
             Wrap(
               spacing: 8,
               children: [
-                ..._conditions.map((condition) => Chip(
-                  label: Text(condition),
-                  onDeleted: () {
-                    setState(() {
-                      _conditions.remove(condition);
-                    });
-                  },
-                )),
+                ..._conditions.map(
+                  (condition) => Chip(
+                    label: Text(condition),
+                    onDeleted: () {
+                      setState(() {
+                        _conditions.remove(condition);
+                      });
+                    },
+                  ),
+                ),
                 ActionChip(
                   label: Text(l10n.addCondition),
                   avatar: const Icon(Icons.add, size: 16),
@@ -1025,9 +1099,14 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
         ElevatedButton(
           onPressed: () {
             final updated = widget.combatant.copyWith(
-              currentHp: int.tryParse(_hpController.text) ?? widget.combatant.currentHp,
-              maxHp: int.tryParse(_maxHpController.text) ?? widget.combatant.maxHp,
-              armorClass: int.tryParse(_acController.text) ?? widget.combatant.armorClass,
+              currentHp:
+                  int.tryParse(_hpController.text) ??
+                  widget.combatant.currentHp,
+              maxHp:
+                  int.tryParse(_maxHpController.text) ?? widget.combatant.maxHp,
+              armorClass:
+                  int.tryParse(_acController.text) ??
+                  widget.combatant.armorClass,
               initiative: int.tryParse(_initiativeController.text),
               conditions: _conditions,
             );
@@ -1039,7 +1118,7 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
       ],
     );
   }
-  
+
   void _showAddConditionDialog() {
     final controller = TextEditingController();
     showDialog(

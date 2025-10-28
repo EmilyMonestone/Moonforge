@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart';
-import 'package:moonforge/core/models/entity_with_origin.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 /// A reusable widget that displays entities grouped by kind
 class EntitiesWidget extends StatelessWidget {
-  const EntitiesWidget({
-    required this.entities,
-    super.key,
-  });
+  const EntitiesWidget({required this.entities, super.key});
 
   final List<EntityWithOrigin> entities;
 
@@ -21,32 +17,32 @@ class EntitiesWidget extends StatelessWidget {
 
     // Group entities by kind
     final npcsMontersGroups = entities
-        .where((e) =>
-            e.entity.kind == 'npc' ||
-            e.entity.kind == 'monster' ||
-            e.entity.kind == 'group')
+        .where(
+          (e) =>
+              e.entity.kind == 'npc' ||
+              e.entity.kind == 'monster' ||
+              e.entity.kind == 'group',
+        )
         .toList();
 
-    final places =
-        entities.where((e) => e.entity.kind == 'place').toList();
+    final places = entities.where((e) => e.entity.kind == 'place').toList();
 
     final itemsOthers = entities
-        .where((e) =>
-            e.entity.kind == 'item' ||
-            e.entity.kind == 'handout' ||
-            e.entity.kind == 'journal' ||
-            (e.entity.kind != 'npc' &&
-                e.entity.kind != 'monster' &&
-                e.entity.kind != 'group' &&
-                e.entity.kind != 'place'))
+        .where(
+          (e) =>
+              e.entity.kind == 'item' ||
+              e.entity.kind == 'handout' ||
+              e.entity.kind == 'journal' ||
+              (e.entity.kind != 'npc' &&
+                  e.entity.kind != 'monster' &&
+                  e.entity.kind != 'group' &&
+                  e.entity.kind != 'place'),
+        )
         .toList();
 
     if (entities.isEmpty) {
       return SurfaceContainer(
-        title: SectionHeader(
-          title: l10n.entities,
-          icon: Icons.people_outline,
-        ),
+        title: SectionHeader(title: l10n.entities, icon: Icons.people_outline),
         child: Text(l10n.noEntitiesYet),
       );
     }
@@ -91,10 +87,7 @@ class _EntityGroupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SurfaceContainer(
-      title: SectionHeader(
-        title: title,
-        icon: icon,
-      ),
+      title: SectionHeader(title: title, icon: icon),
       child: Table(
         columnWidths: const {
           0: FlexColumnWidth(3),
@@ -189,8 +182,8 @@ class _KindChip extends StatelessWidget {
       child: Text(
         _getKindLabel(kind),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
       ),
     );
   }
@@ -251,15 +244,13 @@ class _OriginBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
       ),
       child: Text(
         origin.label,
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
       ),
     );
   }

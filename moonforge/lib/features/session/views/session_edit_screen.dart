@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/schema.dart';
-import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/permissions_utils.dart';
@@ -15,6 +11,9 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -83,8 +82,6 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
       final odm = Odm.instance;
       final session = await odm.campaigns
           .doc(_campaignId!)
-          .parties
-          .doc(widget.partyId)
           .sessions
           .doc(widget.sessionId)
           .get();
@@ -181,12 +178,7 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
         rev: _session!.rev + 1,
       );
 
-      await odm.campaigns
-          .doc(_campaignId!)
-          .parties
-          .doc(widget.partyId)
-          .sessions
-          .update(updatedSession);
+      await odm.campaigns.doc(_campaignId!).sessions.update(updatedSession);
 
       await _infoAutosave?.clear();
       await _logAutosave?.clear();
@@ -273,10 +265,7 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Edit Session',
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
+          Text('Edit Session', style: Theme.of(context).textTheme.displaySmall),
           const Spacer(),
           ButtonM3E(
             style: ButtonM3EStyle.outlined,
@@ -313,10 +302,7 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
                   color: theme.colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  'DM Notes (Private)',
-                  style: theme.textTheme.titleMedium,
-                ),
+                Text('DM Notes (Private)', style: theme.textTheme.titleMedium),
               ],
             ),
             const SizedBox(height: 8),

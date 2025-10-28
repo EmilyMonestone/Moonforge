@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/data/drift/app_database.dart';
+
+import 'package:moonforge/data/drift/app_database.dart' show AppDatabase;
+import 'package:moonforge/data/firebase/models/campaign.dart' show Campaign;
 
 /// Repository for Campaign operations with optimistic writes and outbox queueing
 class CampaignRepository {
@@ -36,7 +37,7 @@ class CampaignRepository {
   }
 
   /// Apply a patch operation locally and enqueue for sync
-  /// 
+  ///
   /// Supported patch operations:
   /// - set: { "type": "set", "field": "name", "value": "New Name" }
   /// - addToSet: { "type": "addToSet", "field": "memberUids", "value": "uid123" }

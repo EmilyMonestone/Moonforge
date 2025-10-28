@@ -15,7 +15,7 @@ This module provides mention and hashtag support for the Quill editor in Moonfor
 
 ```dart
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
-import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
 
 // In your widget state:
 final _quillController = QuillController.basic();
@@ -59,11 +59,13 @@ CustomQuillViewer(
 ## Entity Types
 
 ### @ Mentions
+
 - **npc**: Non-player characters
 - **group**: Groups of entities
 - **monster**: Monster entities
 
 ### # Hashtags
+
 - **place**: Locations and places
 - **item**: Items and equipment
 - **handout**: Handouts and documents
@@ -74,6 +76,7 @@ CustomQuillViewer(
 ### Data Format
 
 Mentions and hashtags are stored as Quill links with special prefixes:
+
 - Mentions: `-moonforge-mention-entity-{entityId}`
 - Hashtags: `-moonforge-hashtag-entity-{entityId}`
 
@@ -90,6 +93,7 @@ See `campaign_edit_screen.dart` for a complete example of integrating the mentio
 ## Testing
 
 To test the mention feature:
+
 1. Create some entities in your campaign (NPCs, places, items, etc.)
 2. Open a screen with the CustomQuillEditor
 3. Type '@' to see NPC/group/monster suggestions

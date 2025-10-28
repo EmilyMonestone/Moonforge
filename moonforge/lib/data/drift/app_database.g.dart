@@ -69,6 +69,16 @@ class $CampaignsTable extends Campaigns
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   ).withConverter<List<String>?>($CampaignsTable.$convertermemberUids);
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> entityIds =
+      GeneratedColumn<String>(
+        'entity_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($CampaignsTable.$converterentityIds);
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -109,6 +119,7 @@ class $CampaignsTable extends Campaigns
     content,
     ownerUid,
     memberUids,
+    entityIds,
     createdAt,
     updatedAt,
     rev,
@@ -214,6 +225,12 @@ class $CampaignsTable extends Campaigns
           data['${effectivePrefix}member_uids'],
         ),
       ),
+      entityIds: $CampaignsTable.$converterentityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}entity_ids'],
+        )!,
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -236,6 +253,8 @@ class $CampaignsTable extends Campaigns
 
   static TypeConverter<List<String>?, String?> $convertermemberUids =
       const StringListConverter();
+  static TypeConverter<List<String>, String> $converterentityIds =
+      const NonNullStringListConverter();
 }
 
 class CampaignsCompanion extends UpdateCompanion<Campaign> {
@@ -245,6 +264,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
   final Value<String?> content;
   final Value<String?> ownerUid;
   final Value<List<String>?> memberUids;
+  final Value<List<String>> entityIds;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -256,6 +276,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     this.content = const Value.absent(),
     this.ownerUid = const Value.absent(),
     this.memberUids = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -268,6 +289,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     this.content = const Value.absent(),
     this.ownerUid = const Value.absent(),
     this.memberUids = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -282,6 +304,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     Expression<String>? content,
     Expression<String>? ownerUid,
     Expression<String>? memberUids,
+    Expression<String>? entityIds,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -294,6 +317,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
       if (content != null) 'content': content,
       if (ownerUid != null) 'owner_uid': ownerUid,
       if (memberUids != null) 'member_uids': memberUids,
+      if (entityIds != null) 'entity_ids': entityIds,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -308,6 +332,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     Value<String?>? content,
     Value<String?>? ownerUid,
     Value<List<String>?>? memberUids,
+    Value<List<String>>? entityIds,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -320,6 +345,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
       content: content ?? this.content,
       ownerUid: ownerUid ?? this.ownerUid,
       memberUids: memberUids ?? this.memberUids,
+      entityIds: entityIds ?? this.entityIds,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -350,6 +376,11 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
         $CampaignsTable.$convertermemberUids.toSql(memberUids.value),
       );
     }
+    if (entityIds.present) {
+      map['entity_ids'] = Variable<String>(
+        $CampaignsTable.$converterentityIds.toSql(entityIds.value),
+      );
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -374,6 +405,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
           ..write('content: $content, ')
           ..write('ownerUid: $ownerUid, ')
           ..write('memberUids: $memberUids, ')
+          ..write('entityIds: $entityIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -439,6 +471,16 @@ class $AdventuresTable extends Adventures
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> entityIds =
+      GeneratedColumn<String>(
+        'entity_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($AdventuresTable.$converterentityIds);
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -478,6 +520,7 @@ class $AdventuresTable extends Adventures
     order,
     summary,
     content,
+    entityIds,
     createdAt,
     updatedAt,
     rev,
@@ -572,6 +615,12 @@ class $AdventuresTable extends Adventures
         DriftSqlType.string,
         data['${effectivePrefix}content'],
       ),
+      entityIds: $AdventuresTable.$converterentityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}entity_ids'],
+        )!,
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -591,6 +640,9 @@ class $AdventuresTable extends Adventures
   $AdventuresTable createAlias(String alias) {
     return $AdventuresTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<List<String>, String> $converterentityIds =
+      const NonNullStringListConverter();
 }
 
 class AdventuresCompanion extends UpdateCompanion<Adventure> {
@@ -599,6 +651,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
   final Value<int> order;
   final Value<String?> summary;
   final Value<String?> content;
+  final Value<List<String>> entityIds;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -609,6 +662,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     this.order = const Value.absent(),
     this.summary = const Value.absent(),
     this.content = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -620,6 +674,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     this.order = const Value.absent(),
     this.summary = const Value.absent(),
     this.content = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -632,6 +687,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     Expression<int>? order,
     Expression<String>? summary,
     Expression<String>? content,
+    Expression<String>? entityIds,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -643,6 +699,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
       if (order != null) 'order': order,
       if (summary != null) 'summary': summary,
       if (content != null) 'content': content,
+      if (entityIds != null) 'entity_ids': entityIds,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -656,6 +713,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     Value<int>? order,
     Value<String?>? summary,
     Value<String?>? content,
+    Value<List<String>>? entityIds,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -667,6 +725,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
       order: order ?? this.order,
       summary: summary ?? this.summary,
       content: content ?? this.content,
+      entityIds: entityIds ?? this.entityIds,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -692,6 +751,11 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (entityIds.present) {
+      map['entity_ids'] = Variable<String>(
+        $AdventuresTable.$converterentityIds.toSql(entityIds.value),
+      );
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -715,6 +779,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
           ..write('order: $order, ')
           ..write('summary: $summary, ')
           ..write('content: $content, ')
+          ..write('entityIds: $entityIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -779,6 +844,16 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> entityIds =
+      GeneratedColumn<String>(
+        'entity_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($ChaptersTable.$converterentityIds);
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -818,6 +893,7 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
     order,
     summary,
     content,
+    entityIds,
     createdAt,
     updatedAt,
     rev,
@@ -912,6 +988,12 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
         DriftSqlType.string,
         data['${effectivePrefix}content'],
       ),
+      entityIds: $ChaptersTable.$converterentityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}entity_ids'],
+        )!,
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -931,6 +1013,9 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
   $ChaptersTable createAlias(String alias) {
     return $ChaptersTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<List<String>, String> $converterentityIds =
+      const NonNullStringListConverter();
 }
 
 class ChaptersCompanion extends UpdateCompanion<Chapter> {
@@ -939,6 +1024,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
   final Value<int> order;
   final Value<String?> summary;
   final Value<String?> content;
+  final Value<List<String>> entityIds;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -949,6 +1035,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     this.order = const Value.absent(),
     this.summary = const Value.absent(),
     this.content = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -960,6 +1047,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     this.order = const Value.absent(),
     this.summary = const Value.absent(),
     this.content = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -972,6 +1060,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     Expression<int>? order,
     Expression<String>? summary,
     Expression<String>? content,
+    Expression<String>? entityIds,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -983,6 +1072,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
       if (order != null) 'order': order,
       if (summary != null) 'summary': summary,
       if (content != null) 'content': content,
+      if (entityIds != null) 'entity_ids': entityIds,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -996,6 +1086,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     Value<int>? order,
     Value<String?>? summary,
     Value<String?>? content,
+    Value<List<String>>? entityIds,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -1007,6 +1098,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
       order: order ?? this.order,
       summary: summary ?? this.summary,
       content: content ?? this.content,
+      entityIds: entityIds ?? this.entityIds,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -1032,6 +1124,11 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (entityIds.present) {
+      map['entity_ids'] = Variable<String>(
+        $ChaptersTable.$converterentityIds.toSql(entityIds.value),
+      );
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1055,6 +1152,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
           ..write('order: $order, ')
           ..write('summary: $summary, ')
           ..write('content: $content, ')
+          ..write('entityIds: $entityIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -1134,6 +1232,16 @@ class $EncountersTable extends Encounters
       ).withConverter<List<Map<String, dynamic>>?>(
         $EncountersTable.$convertercombatants,
       );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> entityIds =
+      GeneratedColumn<String>(
+        'entity_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($EncountersTable.$converterentityIds);
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -1174,6 +1282,7 @@ class $EncountersTable extends Encounters
     notes,
     loot,
     combatants,
+    entityIds,
     createdAt,
     updatedAt,
     rev,
@@ -1274,6 +1383,12 @@ class $EncountersTable extends Encounters
           data['${effectivePrefix}combatants'],
         ),
       ),
+      entityIds: $EncountersTable.$converterentityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}entity_ids'],
+        )!,
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -1296,6 +1411,8 @@ class $EncountersTable extends Encounters
 
   static TypeConverter<List<Map<String, dynamic>>?, String?>
   $convertercombatants = const JsonListConverter();
+  static TypeConverter<List<String>, String> $converterentityIds =
+      const NonNullStringListConverter();
 }
 
 class EncountersCompanion extends UpdateCompanion<Encounter> {
@@ -1305,6 +1422,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
   final Value<String?> notes;
   final Value<String?> loot;
   final Value<List<Map<String, dynamic>>?> combatants;
+  final Value<List<String>> entityIds;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -1316,6 +1434,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     this.notes = const Value.absent(),
     this.loot = const Value.absent(),
     this.combatants = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -1328,6 +1447,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     this.notes = const Value.absent(),
     this.loot = const Value.absent(),
     this.combatants = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -1341,6 +1461,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     Expression<String>? notes,
     Expression<String>? loot,
     Expression<String>? combatants,
+    Expression<String>? entityIds,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -1353,6 +1474,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
       if (notes != null) 'notes': notes,
       if (loot != null) 'loot': loot,
       if (combatants != null) 'combatants': combatants,
+      if (entityIds != null) 'entity_ids': entityIds,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -1367,6 +1489,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     Value<String?>? notes,
     Value<String?>? loot,
     Value<List<Map<String, dynamic>>?>? combatants,
+    Value<List<String>>? entityIds,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -1379,6 +1502,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
       notes: notes ?? this.notes,
       loot: loot ?? this.loot,
       combatants: combatants ?? this.combatants,
+      entityIds: entityIds ?? this.entityIds,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -1409,6 +1533,11 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
         $EncountersTable.$convertercombatants.toSql(combatants.value),
       );
     }
+    if (entityIds.present) {
+      map['entity_ids'] = Variable<String>(
+        $EncountersTable.$converterentityIds.toSql(entityIds.value),
+      );
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1433,6 +1562,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
           ..write('notes: $notes, ')
           ..write('loot: $loot, ')
           ..write('combatants: $combatants, ')
+          ..write('entityIds: $entityIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -2051,6 +2181,720 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
   }
 }
 
+class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PartiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _summaryMeta = const VerificationMeta(
+    'summary',
+  );
+  @override
+  late final GeneratedColumn<String> summary = GeneratedColumn<String>(
+    'summary',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+  memberEntityIds = GeneratedColumn<String>(
+    'member_entity_ids',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<List<String>?>($PartiesTable.$convertermemberEntityIds);
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    summary,
+    memberEntityIds,
+    createdAt,
+    updatedAt,
+    rev,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'parties';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Party> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('summary')) {
+      context.handle(
+        _summaryMeta,
+        summary.isAcceptableOrUnknown(data['summary']!, _summaryMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Party map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Party.new(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      summary: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary'],
+      ),
+      memberEntityIds: $PartiesTable.$convertermemberEntityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}member_entity_ids'],
+        ),
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+    );
+  }
+
+  @override
+  $PartiesTable createAlias(String alias) {
+    return $PartiesTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<List<String>?, String?> $convertermemberEntityIds =
+      const StringListConverter();
+}
+
+class PartiesCompanion extends UpdateCompanion<Party> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String?> summary;
+  final Value<List<String>?> memberEntityIds;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rev;
+  final Value<int> rowid;
+  const PartiesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.summary = const Value.absent(),
+    this.memberEntityIds = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PartiesCompanion.insert({
+    required String id,
+    required String name,
+    this.summary = const Value.absent(),
+    this.memberEntityIds = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name);
+  static Insertable<Party> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? summary,
+    Expression<String>? memberEntityIds,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rev,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (summary != null) 'summary': summary,
+      if (memberEntityIds != null) 'member_entity_ids': memberEntityIds,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PartiesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String?>? summary,
+    Value<List<String>?>? memberEntityIds,
+    Value<DateTime?>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rev,
+    Value<int>? rowid,
+  }) {
+    return PartiesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      summary: summary ?? this.summary,
+      memberEntityIds: memberEntityIds ?? this.memberEntityIds,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (summary.present) {
+      map['summary'] = Variable<String>(summary.value);
+    }
+    if (memberEntityIds.present) {
+      map['member_entity_ids'] = Variable<String>(
+        $PartiesTable.$convertermemberEntityIds.toSql(memberEntityIds.value),
+      );
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PartiesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('summary: $summary, ')
+          ..write('memberEntityIds: $memberEntityIds, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PlayersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _partyIdMeta = const VerificationMeta(
+    'partyId',
+  );
+  @override
+  late final GeneratedColumn<String> partyId = GeneratedColumn<String>(
+    'party_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _playerClassMeta = const VerificationMeta(
+    'playerClass',
+  );
+  @override
+  late final GeneratedColumn<String> playerClass = GeneratedColumn<String>(
+    'player_class',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
+  late final GeneratedColumn<int> level = GeneratedColumn<int>(
+    'level',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _speciesMeta = const VerificationMeta(
+    'species',
+  );
+  @override
+  late final GeneratedColumn<String> species = GeneratedColumn<String>(
+    'species',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _infoMeta = const VerificationMeta('info');
+  @override
+  late final GeneratedColumn<String> info = GeneratedColumn<String>(
+    'info',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    partyId,
+    playerClass,
+    level,
+    species,
+    info,
+    createdAt,
+    updatedAt,
+    rev,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'players';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Player> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('party_id')) {
+      context.handle(
+        _partyIdMeta,
+        partyId.isAcceptableOrUnknown(data['party_id']!, _partyIdMeta),
+      );
+    }
+    if (data.containsKey('player_class')) {
+      context.handle(
+        _playerClassMeta,
+        playerClass.isAcceptableOrUnknown(
+          data['player_class']!,
+          _playerClassMeta,
+        ),
+      );
+    }
+    if (data.containsKey('level')) {
+      context.handle(
+        _levelMeta,
+        level.isAcceptableOrUnknown(data['level']!, _levelMeta),
+      );
+    }
+    if (data.containsKey('species')) {
+      context.handle(
+        _speciesMeta,
+        species.isAcceptableOrUnknown(data['species']!, _speciesMeta),
+      );
+    }
+    if (data.containsKey('info')) {
+      context.handle(
+        _infoMeta,
+        info.isAcceptableOrUnknown(data['info']!, _infoMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Player map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Player.new(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      partyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}party_id'],
+      ),
+      playerClass: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}player_class'],
+      ),
+      level: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}level'],
+      )!,
+      species: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}species'],
+      ),
+      info: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}info'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+    );
+  }
+
+  @override
+  $PlayersTable createAlias(String alias) {
+    return $PlayersTable(attachedDatabase, alias);
+  }
+}
+
+class PlayersCompanion extends UpdateCompanion<Player> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String?> partyId;
+  final Value<String?> playerClass;
+  final Value<int> level;
+  final Value<String?> species;
+  final Value<String?> info;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rev;
+  final Value<int> rowid;
+  const PlayersCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.partyId = const Value.absent(),
+    this.playerClass = const Value.absent(),
+    this.level = const Value.absent(),
+    this.species = const Value.absent(),
+    this.info = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PlayersCompanion.insert({
+    required String id,
+    required String name,
+    this.partyId = const Value.absent(),
+    this.playerClass = const Value.absent(),
+    this.level = const Value.absent(),
+    this.species = const Value.absent(),
+    this.info = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name);
+  static Insertable<Player> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? partyId,
+    Expression<String>? playerClass,
+    Expression<int>? level,
+    Expression<String>? species,
+    Expression<String>? info,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rev,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (partyId != null) 'party_id': partyId,
+      if (playerClass != null) 'player_class': playerClass,
+      if (level != null) 'level': level,
+      if (species != null) 'species': species,
+      if (info != null) 'info': info,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PlayersCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String?>? partyId,
+    Value<String?>? playerClass,
+    Value<int>? level,
+    Value<String?>? species,
+    Value<String?>? info,
+    Value<DateTime?>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rev,
+    Value<int>? rowid,
+  }) {
+    return PlayersCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      partyId: partyId ?? this.partyId,
+      playerClass: playerClass ?? this.playerClass,
+      level: level ?? this.level,
+      species: species ?? this.species,
+      info: info ?? this.info,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (partyId.present) {
+      map['party_id'] = Variable<String>(partyId.value);
+    }
+    if (playerClass.present) {
+      map['player_class'] = Variable<String>(playerClass.value);
+    }
+    if (level.present) {
+      map['level'] = Variable<int>(level.value);
+    }
+    if (species.present) {
+      map['species'] = Variable<String>(species.value);
+    }
+    if (info.present) {
+      map['info'] = Variable<String>(info.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlayersCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('partyId: $partyId, ')
+          ..write('playerClass: $playerClass, ')
+          ..write('level: $level, ')
+          ..write('species: $species, ')
+          ..write('info: $info, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -2133,6 +2977,16 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
       ).withConverter<List<Map<String, dynamic>>?>(
         $ScenesTable.$convertermediaRefs,
       );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>, String> entityIds =
+      GeneratedColumn<String>(
+        'entity_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<String>>($ScenesTable.$converterentityIds);
   static const VerificationMeta _updatedAtMeta = const VerificationMeta(
     'updatedAt',
   );
@@ -2174,6 +3028,7 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
     content,
     mentions,
     mediaRefs,
+    entityIds,
     updatedAt,
     createdAt,
     rev,
@@ -2280,6 +3135,12 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
           data['${effectivePrefix}media_refs'],
         ),
       ),
+      entityIds: $ScenesTable.$converterentityIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}entity_ids'],
+        )!,
+      ),
       updatedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}updated_at'],
@@ -2304,6 +3165,8 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
   $convertermentions = const JsonListConverter();
   static TypeConverter<List<Map<String, dynamic>>?, String?>
   $convertermediaRefs = const JsonListConverter();
+  static TypeConverter<List<String>, String> $converterentityIds =
+      const NonNullStringListConverter();
 }
 
 class ScenesCompanion extends UpdateCompanion<Scene> {
@@ -2314,6 +3177,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
   final Value<String?> content;
   final Value<List<Map<String, dynamic>>?> mentions;
   final Value<List<Map<String, dynamic>>?> mediaRefs;
+  final Value<List<String>> entityIds;
   final Value<DateTime?> updatedAt;
   final Value<DateTime?> createdAt;
   final Value<int> rev;
@@ -2326,6 +3190,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     this.content = const Value.absent(),
     this.mentions = const Value.absent(),
     this.mediaRefs = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -2339,6 +3204,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     this.content = const Value.absent(),
     this.mentions = const Value.absent(),
     this.mediaRefs = const Value.absent(),
+    this.entityIds = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -2353,6 +3219,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     Expression<String>? content,
     Expression<String>? mentions,
     Expression<String>? mediaRefs,
+    Expression<String>? entityIds,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? createdAt,
     Expression<int>? rev,
@@ -2366,6 +3233,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
       if (content != null) 'content': content,
       if (mentions != null) 'mentions': mentions,
       if (mediaRefs != null) 'media_refs': mediaRefs,
+      if (entityIds != null) 'entity_ids': entityIds,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (rev != null) 'rev': rev,
@@ -2381,6 +3249,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     Value<String?>? content,
     Value<List<Map<String, dynamic>>?>? mentions,
     Value<List<Map<String, dynamic>>?>? mediaRefs,
+    Value<List<String>>? entityIds,
     Value<DateTime?>? updatedAt,
     Value<DateTime?>? createdAt,
     Value<int>? rev,
@@ -2394,6 +3263,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
       content: content ?? this.content,
       mentions: mentions ?? this.mentions,
       mediaRefs: mediaRefs ?? this.mediaRefs,
+      entityIds: entityIds ?? this.entityIds,
       updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
       rev: rev ?? this.rev,
@@ -2429,6 +3299,11 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
         $ScenesTable.$convertermediaRefs.toSql(mediaRefs.value),
       );
     }
+    if (entityIds.present) {
+      map['entity_ids'] = Variable<String>(
+        $ScenesTable.$converterentityIds.toSql(entityIds.value),
+      );
+    }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
     }
@@ -2454,6 +3329,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
           ..write('content: $content, ')
           ..write('mentions: $mentions, ')
           ..write('mediaRefs: $mediaRefs, ')
+          ..write('entityIds: $entityIds, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('rev: $rev, ')
@@ -2517,8 +3393,78 @@ class $SessionsTable extends Sessions with TableInfo<$SessionsTable, Session> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _shareTokenMeta = const VerificationMeta(
+    'shareToken',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, createdAt, info, datetime, log];
+  late final GeneratedColumn<String> shareToken = GeneratedColumn<String>(
+    'share_token',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _shareEnabledMeta = const VerificationMeta(
+    'shareEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> shareEnabled = GeneratedColumn<bool>(
+    'share_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("share_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _shareExpiresAtMeta = const VerificationMeta(
+    'shareExpiresAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> shareExpiresAt =
+      GeneratedColumn<DateTime>(
+        'share_expires_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    info,
+    datetime,
+    log,
+    shareToken,
+    shareEnabled,
+    shareExpiresAt,
+    updatedAt,
+    rev,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2560,6 +3506,42 @@ class $SessionsTable extends Sessions with TableInfo<$SessionsTable, Session> {
         log.isAcceptableOrUnknown(data['log']!, _logMeta),
       );
     }
+    if (data.containsKey('share_token')) {
+      context.handle(
+        _shareTokenMeta,
+        shareToken.isAcceptableOrUnknown(data['share_token']!, _shareTokenMeta),
+      );
+    }
+    if (data.containsKey('share_enabled')) {
+      context.handle(
+        _shareEnabledMeta,
+        shareEnabled.isAcceptableOrUnknown(
+          data['share_enabled']!,
+          _shareEnabledMeta,
+        ),
+      );
+    }
+    if (data.containsKey('share_expires_at')) {
+      context.handle(
+        _shareExpiresAtMeta,
+        shareExpiresAt.isAcceptableOrUnknown(
+          data['share_expires_at']!,
+          _shareExpiresAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
     return context;
   }
 
@@ -2589,6 +3571,26 @@ class $SessionsTable extends Sessions with TableInfo<$SessionsTable, Session> {
         DriftSqlType.string,
         data['${effectivePrefix}log'],
       ),
+      shareToken: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}share_token'],
+      ),
+      shareEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}share_enabled'],
+      )!,
+      shareExpiresAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}share_expires_at'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
     );
   }
 
@@ -2604,6 +3606,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
   final Value<String?> info;
   final Value<DateTime?> datetime;
   final Value<String?> log;
+  final Value<String?> shareToken;
+  final Value<bool> shareEnabled;
+  final Value<DateTime?> shareExpiresAt;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rev;
   final Value<int> rowid;
   const SessionsCompanion({
     this.id = const Value.absent(),
@@ -2611,6 +3618,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     this.info = const Value.absent(),
     this.datetime = const Value.absent(),
     this.log = const Value.absent(),
+    this.shareToken = const Value.absent(),
+    this.shareEnabled = const Value.absent(),
+    this.shareExpiresAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SessionsCompanion.insert({
@@ -2619,6 +3631,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     this.info = const Value.absent(),
     this.datetime = const Value.absent(),
     this.log = const Value.absent(),
+    this.shareToken = const Value.absent(),
+    this.shareEnabled = const Value.absent(),
+    this.shareExpiresAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id);
   static Insertable<Session> custom({
@@ -2627,6 +3644,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     Expression<String>? info,
     Expression<DateTime>? datetime,
     Expression<String>? log,
+    Expression<String>? shareToken,
+    Expression<bool>? shareEnabled,
+    Expression<DateTime>? shareExpiresAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rev,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2635,6 +3657,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
       if (info != null) 'info': info,
       if (datetime != null) 'datetime': datetime,
       if (log != null) 'log': log,
+      if (shareToken != null) 'share_token': shareToken,
+      if (shareEnabled != null) 'share_enabled': shareEnabled,
+      if (shareExpiresAt != null) 'share_expires_at': shareExpiresAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2645,6 +3672,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     Value<String?>? info,
     Value<DateTime?>? datetime,
     Value<String?>? log,
+    Value<String?>? shareToken,
+    Value<bool>? shareEnabled,
+    Value<DateTime?>? shareExpiresAt,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rev,
     Value<int>? rowid,
   }) {
     return SessionsCompanion(
@@ -2653,6 +3685,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
       info: info ?? this.info,
       datetime: datetime ?? this.datetime,
       log: log ?? this.log,
+      shareToken: shareToken ?? this.shareToken,
+      shareEnabled: shareEnabled ?? this.shareEnabled,
+      shareExpiresAt: shareExpiresAt ?? this.shareExpiresAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2675,6 +3712,21 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     if (log.present) {
       map['log'] = Variable<String>(log.value);
     }
+    if (shareToken.present) {
+      map['share_token'] = Variable<String>(shareToken.value);
+    }
+    if (shareEnabled.present) {
+      map['share_enabled'] = Variable<bool>(shareEnabled.value);
+    }
+    if (shareExpiresAt.present) {
+      map['share_expires_at'] = Variable<DateTime>(shareExpiresAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2689,6 +3741,11 @@ class SessionsCompanion extends UpdateCompanion<Session> {
           ..write('info: $info, ')
           ..write('datetime: $datetime, ')
           ..write('log: $log, ')
+          ..write('shareToken: $shareToken, ')
+          ..write('shareEnabled: $shareEnabled, ')
+          ..write('shareExpiresAt: $shareExpiresAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5340,6 +6397,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ChaptersTable chapters = $ChaptersTable(this);
   late final $EncountersTable encounters = $EncountersTable(this);
   late final $EntitiesTable entities = $EntitiesTable(this);
+  late final $PartiesTable parties = $PartiesTable(this);
+  late final $PlayersTable players = $PlayersTable(this);
   late final $ScenesTable scenes = $ScenesTable(this);
   late final $SessionsTable sessions = $SessionsTable(this);
   late final $MediaAssetsTable mediaAssets = $MediaAssetsTable(this);
@@ -5353,6 +6412,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final ChaptersDao chaptersDao = ChaptersDao(this as AppDatabase);
   late final EncountersDao encountersDao = EncountersDao(this as AppDatabase);
   late final EntitiesDao entitiesDao = EntitiesDao(this as AppDatabase);
+  late final PartiesDao partiesDao = PartiesDao(this as AppDatabase);
+  late final PlayersDao playersDao = PlayersDao(this as AppDatabase);
   late final ScenesDao scenesDao = ScenesDao(this as AppDatabase);
   late final SessionsDao sessionsDao = SessionsDao(this as AppDatabase);
   late final MediaAssetsDao mediaAssetsDao = MediaAssetsDao(
@@ -5372,6 +6433,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     chapters,
     encounters,
     entities,
+    parties,
+    players,
     scenes,
     sessions,
     mediaAssets,
@@ -5390,6 +6453,7 @@ typedef $$CampaignsTableCreateCompanionBuilder =
       Value<String?> content,
       Value<String?> ownerUid,
       Value<List<String>?> memberUids,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5403,6 +6467,7 @@ typedef $$CampaignsTableUpdateCompanionBuilder =
       Value<String?> content,
       Value<String?> ownerUid,
       Value<List<String>?> memberUids,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5446,6 +6511,12 @@ class $$CampaignsTableFilterComposer
   ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
   get memberUids => $composableBuilder(
     column: $table.memberUids,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get entityIds => $composableBuilder(
+    column: $table.entityIds,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -5504,6 +6575,11 @@ class $$CampaignsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -5552,6 +6628,9 @@ class $$CampaignsTableAnnotationComposer
         builder: (column) => column,
       );
 
+  GeneratedColumnWithTypeConverter<List<String>, String> get entityIds =>
+      $composableBuilder(column: $table.entityIds, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -5596,6 +6675,7 @@ class $$CampaignsTableTableManager
                 Value<String?> content = const Value.absent(),
                 Value<String?> ownerUid = const Value.absent(),
                 Value<List<String>?> memberUids = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -5607,6 +6687,7 @@ class $$CampaignsTableTableManager
                 content: content,
                 ownerUid: ownerUid,
                 memberUids: memberUids,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -5620,6 +6701,7 @@ class $$CampaignsTableTableManager
                 Value<String?> content = const Value.absent(),
                 Value<String?> ownerUid = const Value.absent(),
                 Value<List<String>?> memberUids = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -5631,6 +6713,7 @@ class $$CampaignsTableTableManager
                 content: content,
                 ownerUid: ownerUid,
                 memberUids: memberUids,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -5665,6 +6748,7 @@ typedef $$AdventuresTableCreateCompanionBuilder =
       Value<int> order,
       Value<String?> summary,
       Value<String?> content,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5677,6 +6761,7 @@ typedef $$AdventuresTableUpdateCompanionBuilder =
       Value<int> order,
       Value<String?> summary,
       Value<String?> content,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5715,6 +6800,12 @@ class $$AdventuresTableFilterComposer
   ColumnFilters<String> get content => $composableBuilder(
     column: $table.content,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
@@ -5767,6 +6858,11 @@ class $$AdventuresTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -5806,6 +6902,9 @@ class $$AdventuresTableAnnotationComposer
 
   GeneratedColumn<String> get content =>
       $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get entityIds =>
+      $composableBuilder(column: $table.entityIds, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -5853,6 +6952,7 @@ class $$AdventuresTableTableManager
                 Value<int> order = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<String?> content = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -5863,6 +6963,7 @@ class $$AdventuresTableTableManager
                 order: order,
                 summary: summary,
                 content: content,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -5875,6 +6976,7 @@ class $$AdventuresTableTableManager
                 Value<int> order = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<String?> content = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -5885,6 +6987,7 @@ class $$AdventuresTableTableManager
                 order: order,
                 summary: summary,
                 content: content,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -5919,6 +7022,7 @@ typedef $$ChaptersTableCreateCompanionBuilder =
       Value<int> order,
       Value<String?> summary,
       Value<String?> content,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5931,6 +7035,7 @@ typedef $$ChaptersTableUpdateCompanionBuilder =
       Value<int> order,
       Value<String?> summary,
       Value<String?> content,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -5969,6 +7074,12 @@ class $$ChaptersTableFilterComposer
   ColumnFilters<String> get content => $composableBuilder(
     column: $table.content,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
@@ -6021,6 +7132,11 @@ class $$ChaptersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -6060,6 +7176,9 @@ class $$ChaptersTableAnnotationComposer
 
   GeneratedColumn<String> get content =>
       $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get entityIds =>
+      $composableBuilder(column: $table.entityIds, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -6104,6 +7223,7 @@ class $$ChaptersTableTableManager
                 Value<int> order = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<String?> content = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -6114,6 +7234,7 @@ class $$ChaptersTableTableManager
                 order: order,
                 summary: summary,
                 content: content,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -6126,6 +7247,7 @@ class $$ChaptersTableTableManager
                 Value<int> order = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<String?> content = const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -6136,6 +7258,7 @@ class $$ChaptersTableTableManager
                 order: order,
                 summary: summary,
                 content: content,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -6171,6 +7294,7 @@ typedef $$EncountersTableCreateCompanionBuilder =
       Value<String?> notes,
       Value<String?> loot,
       Value<List<Map<String, dynamic>>?> combatants,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -6184,6 +7308,7 @@ typedef $$EncountersTableUpdateCompanionBuilder =
       Value<String?> notes,
       Value<String?> loot,
       Value<List<Map<String, dynamic>>?> combatants,
+      Value<List<String>> entityIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -6231,6 +7356,12 @@ class $$EncountersTableFilterComposer
   >
   get combatants => $composableBuilder(
     column: $table.combatants,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get entityIds => $composableBuilder(
+    column: $table.entityIds,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -6289,6 +7420,11 @@ class $$EncountersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -6334,6 +7470,9 @@ class $$EncountersTableAnnotationComposer
     column: $table.combatants,
     builder: (column) => column,
   );
+
+  GeneratedColumnWithTypeConverter<List<String>, String> get entityIds =>
+      $composableBuilder(column: $table.entityIds, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -6383,6 +7522,7 @@ class $$EncountersTableTableManager
                 Value<String?> loot = const Value.absent(),
                 Value<List<Map<String, dynamic>>?> combatants =
                     const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -6394,6 +7534,7 @@ class $$EncountersTableTableManager
                 notes: notes,
                 loot: loot,
                 combatants: combatants,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -6408,6 +7549,7 @@ class $$EncountersTableTableManager
                 Value<String?> loot = const Value.absent(),
                 Value<List<Map<String, dynamic>>?> combatants =
                     const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -6419,6 +7561,7 @@ class $$EncountersTableTableManager
                 notes: notes,
                 loot: loot,
                 combatants: combatants,
+                entityIds: entityIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -6872,6 +8015,533 @@ typedef $$EntitiesTableProcessedTableManager =
       Entity,
       PrefetchHooks Function()
     >;
+typedef $$PartiesTableCreateCompanionBuilder =
+    PartiesCompanion Function({
+      required String id,
+      required String name,
+      Value<String?> summary,
+      Value<List<String>?> memberEntityIds,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<int> rowid,
+    });
+typedef $$PartiesTableUpdateCompanionBuilder =
+    PartiesCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<String?> summary,
+      Value<List<String>?> memberEntityIds,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<int> rowid,
+    });
+
+class $$PartiesTableFilterComposer
+    extends Composer<_$AppDatabase, $PartiesTable> {
+  $$PartiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summary => $composableBuilder(
+    column: $table.summary,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get memberEntityIds => $composableBuilder(
+    column: $table.memberEntityIds,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PartiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $PartiesTable> {
+  $$PartiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summary => $composableBuilder(
+    column: $table.summary,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get memberEntityIds => $composableBuilder(
+    column: $table.memberEntityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PartiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PartiesTable> {
+  $$PartiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get summary =>
+      $composableBuilder(column: $table.summary, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>?, String> get memberEntityIds =>
+      $composableBuilder(
+        column: $table.memberEntityIds,
+        builder: (column) => column,
+      );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+}
+
+class $$PartiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PartiesTable,
+          Party,
+          $$PartiesTableFilterComposer,
+          $$PartiesTableOrderingComposer,
+          $$PartiesTableAnnotationComposer,
+          $$PartiesTableCreateCompanionBuilder,
+          $$PartiesTableUpdateCompanionBuilder,
+          (Party, BaseReferences<_$AppDatabase, $PartiesTable, Party>),
+          Party,
+          PrefetchHooks Function()
+        > {
+  $$PartiesTableTableManager(_$AppDatabase db, $PartiesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PartiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PartiesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PartiesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> summary = const Value.absent(),
+                Value<List<String>?> memberEntityIds = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PartiesCompanion(
+                id: id,
+                name: name,
+                summary: summary,
+                memberEntityIds: memberEntityIds,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                Value<String?> summary = const Value.absent(),
+                Value<List<String>?> memberEntityIds = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PartiesCompanion.insert(
+                id: id,
+                name: name,
+                summary: summary,
+                memberEntityIds: memberEntityIds,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PartiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PartiesTable,
+      Party,
+      $$PartiesTableFilterComposer,
+      $$PartiesTableOrderingComposer,
+      $$PartiesTableAnnotationComposer,
+      $$PartiesTableCreateCompanionBuilder,
+      $$PartiesTableUpdateCompanionBuilder,
+      (Party, BaseReferences<_$AppDatabase, $PartiesTable, Party>),
+      Party,
+      PrefetchHooks Function()
+    >;
+typedef $$PlayersTableCreateCompanionBuilder =
+    PlayersCompanion Function({
+      required String id,
+      required String name,
+      Value<String?> partyId,
+      Value<String?> playerClass,
+      Value<int> level,
+      Value<String?> species,
+      Value<String?> info,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<int> rowid,
+    });
+typedef $$PlayersTableUpdateCompanionBuilder =
+    PlayersCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<String?> partyId,
+      Value<String?> playerClass,
+      Value<int> level,
+      Value<String?> species,
+      Value<String?> info,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<int> rowid,
+    });
+
+class $$PlayersTableFilterComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get partyId => $composableBuilder(
+    column: $table.partyId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get playerClass => $composableBuilder(
+    column: $table.playerClass,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get species => $composableBuilder(
+    column: $table.species,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get info => $composableBuilder(
+    column: $table.info,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PlayersTableOrderingComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get partyId => $composableBuilder(
+    column: $table.partyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get playerClass => $composableBuilder(
+    column: $table.playerClass,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get species => $composableBuilder(
+    column: $table.species,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get info => $composableBuilder(
+    column: $table.info,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PlayersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PlayersTable> {
+  $$PlayersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get partyId =>
+      $composableBuilder(column: $table.partyId, builder: (column) => column);
+
+  GeneratedColumn<String> get playerClass => $composableBuilder(
+    column: $table.playerClass,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get level =>
+      $composableBuilder(column: $table.level, builder: (column) => column);
+
+  GeneratedColumn<String> get species =>
+      $composableBuilder(column: $table.species, builder: (column) => column);
+
+  GeneratedColumn<String> get info =>
+      $composableBuilder(column: $table.info, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+}
+
+class $$PlayersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PlayersTable,
+          Player,
+          $$PlayersTableFilterComposer,
+          $$PlayersTableOrderingComposer,
+          $$PlayersTableAnnotationComposer,
+          $$PlayersTableCreateCompanionBuilder,
+          $$PlayersTableUpdateCompanionBuilder,
+          (Player, BaseReferences<_$AppDatabase, $PlayersTable, Player>),
+          Player,
+          PrefetchHooks Function()
+        > {
+  $$PlayersTableTableManager(_$AppDatabase db, $PlayersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlayersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlayersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlayersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> partyId = const Value.absent(),
+                Value<String?> playerClass = const Value.absent(),
+                Value<int> level = const Value.absent(),
+                Value<String?> species = const Value.absent(),
+                Value<String?> info = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion(
+                id: id,
+                name: name,
+                partyId: partyId,
+                playerClass: playerClass,
+                level: level,
+                species: species,
+                info: info,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                Value<String?> partyId = const Value.absent(),
+                Value<String?> playerClass = const Value.absent(),
+                Value<int> level = const Value.absent(),
+                Value<String?> species = const Value.absent(),
+                Value<String?> info = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion.insert(
+                id: id,
+                name: name,
+                partyId: partyId,
+                playerClass: playerClass,
+                level: level,
+                species: species,
+                info: info,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PlayersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PlayersTable,
+      Player,
+      $$PlayersTableFilterComposer,
+      $$PlayersTableOrderingComposer,
+      $$PlayersTableAnnotationComposer,
+      $$PlayersTableCreateCompanionBuilder,
+      $$PlayersTableUpdateCompanionBuilder,
+      (Player, BaseReferences<_$AppDatabase, $PlayersTable, Player>),
+      Player,
+      PrefetchHooks Function()
+    >;
 typedef $$ScenesTableCreateCompanionBuilder =
     ScenesCompanion Function({
       required String id,
@@ -6881,6 +8551,7 @@ typedef $$ScenesTableCreateCompanionBuilder =
       Value<String?> content,
       Value<List<Map<String, dynamic>>?> mentions,
       Value<List<Map<String, dynamic>>?> mediaRefs,
+      Value<List<String>> entityIds,
       Value<DateTime?> updatedAt,
       Value<DateTime?> createdAt,
       Value<int> rev,
@@ -6895,6 +8566,7 @@ typedef $$ScenesTableUpdateCompanionBuilder =
       Value<String?> content,
       Value<List<Map<String, dynamic>>?> mentions,
       Value<List<Map<String, dynamic>>?> mediaRefs,
+      Value<List<String>> entityIds,
       Value<DateTime?> updatedAt,
       Value<DateTime?> createdAt,
       Value<int> rev,
@@ -6952,6 +8624,12 @@ class $$ScenesTableFilterComposer
   >
   get mediaRefs => $composableBuilder(
     column: $table.mediaRefs,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>, List<String>, String>
+  get entityIds => $composableBuilder(
+    column: $table.entityIds,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -7015,6 +8693,11 @@ class $$ScenesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get entityIds => $composableBuilder(
+    column: $table.entityIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
     column: $table.updatedAt,
     builder: (column) => ColumnOrderings(column),
@@ -7063,6 +8746,9 @@ class $$ScenesTableAnnotationComposer
   get mediaRefs =>
       $composableBuilder(column: $table.mediaRefs, builder: (column) => column);
 
+  GeneratedColumnWithTypeConverter<List<String>, String> get entityIds =>
+      $composableBuilder(column: $table.entityIds, builder: (column) => column);
+
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
@@ -7110,6 +8796,7 @@ class $$ScenesTableTableManager
                     const Value.absent(),
                 Value<List<Map<String, dynamic>>?> mediaRefs =
                     const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -7122,6 +8809,7 @@ class $$ScenesTableTableManager
                 content: content,
                 mentions: mentions,
                 mediaRefs: mediaRefs,
+                entityIds: entityIds,
                 updatedAt: updatedAt,
                 createdAt: createdAt,
                 rev: rev,
@@ -7138,6 +8826,7 @@ class $$ScenesTableTableManager
                     const Value.absent(),
                 Value<List<Map<String, dynamic>>?> mediaRefs =
                     const Value.absent(),
+                Value<List<String>> entityIds = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -7150,6 +8839,7 @@ class $$ScenesTableTableManager
                 content: content,
                 mentions: mentions,
                 mediaRefs: mediaRefs,
+                entityIds: entityIds,
                 updatedAt: updatedAt,
                 createdAt: createdAt,
                 rev: rev,
@@ -7184,6 +8874,11 @@ typedef $$SessionsTableCreateCompanionBuilder =
       Value<String?> info,
       Value<DateTime?> datetime,
       Value<String?> log,
+      Value<String?> shareToken,
+      Value<bool> shareEnabled,
+      Value<DateTime?> shareExpiresAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
       Value<int> rowid,
     });
 typedef $$SessionsTableUpdateCompanionBuilder =
@@ -7193,6 +8888,11 @@ typedef $$SessionsTableUpdateCompanionBuilder =
       Value<String?> info,
       Value<DateTime?> datetime,
       Value<String?> log,
+      Value<String?> shareToken,
+      Value<bool> shareEnabled,
+      Value<DateTime?> shareExpiresAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
       Value<int> rowid,
     });
 
@@ -7227,6 +8927,31 @@ class $$SessionsTableFilterComposer
 
   ColumnFilters<String> get log => $composableBuilder(
     column: $table.log,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shareToken => $composableBuilder(
+    column: $table.shareToken,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get shareEnabled => $composableBuilder(
+    column: $table.shareEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get shareExpiresAt => $composableBuilder(
+    column: $table.shareExpiresAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -7264,6 +8989,31 @@ class $$SessionsTableOrderingComposer
     column: $table.log,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get shareToken => $composableBuilder(
+    column: $table.shareToken,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get shareEnabled => $composableBuilder(
+    column: $table.shareEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get shareExpiresAt => $composableBuilder(
+    column: $table.shareExpiresAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SessionsTableAnnotationComposer
@@ -7289,6 +9039,27 @@ class $$SessionsTableAnnotationComposer
 
   GeneratedColumn<String> get log =>
       $composableBuilder(column: $table.log, builder: (column) => column);
+
+  GeneratedColumn<String> get shareToken => $composableBuilder(
+    column: $table.shareToken,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get shareEnabled => $composableBuilder(
+    column: $table.shareEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get shareExpiresAt => $composableBuilder(
+    column: $table.shareExpiresAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
 }
 
 class $$SessionsTableTableManager
@@ -7324,6 +9095,11 @@ class $$SessionsTableTableManager
                 Value<String?> info = const Value.absent(),
                 Value<DateTime?> datetime = const Value.absent(),
                 Value<String?> log = const Value.absent(),
+                Value<String?> shareToken = const Value.absent(),
+                Value<bool> shareEnabled = const Value.absent(),
+                Value<DateTime?> shareExpiresAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SessionsCompanion(
                 id: id,
@@ -7331,6 +9107,11 @@ class $$SessionsTableTableManager
                 info: info,
                 datetime: datetime,
                 log: log,
+                shareToken: shareToken,
+                shareEnabled: shareEnabled,
+                shareExpiresAt: shareExpiresAt,
+                updatedAt: updatedAt,
+                rev: rev,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7340,6 +9121,11 @@ class $$SessionsTableTableManager
                 Value<String?> info = const Value.absent(),
                 Value<DateTime?> datetime = const Value.absent(),
                 Value<String?> log = const Value.absent(),
+                Value<String?> shareToken = const Value.absent(),
+                Value<bool> shareEnabled = const Value.absent(),
+                Value<DateTime?> shareExpiresAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SessionsCompanion.insert(
                 id: id,
@@ -7347,6 +9133,11 @@ class $$SessionsTableTableManager
                 info: info,
                 datetime: datetime,
                 log: log,
+                shareToken: shareToken,
+                shareEnabled: shareEnabled,
+                shareExpiresAt: shareExpiresAt,
+                updatedAt: updatedAt,
+                rev: rev,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -8767,6 +10558,10 @@ class $AppDatabaseManager {
       $$EncountersTableTableManager(_db, _db.encounters);
   $$EntitiesTableTableManager get entities =>
       $$EntitiesTableTableManager(_db, _db.entities);
+  $$PartiesTableTableManager get parties =>
+      $$PartiesTableTableManager(_db, _db.parties);
+  $$PlayersTableTableManager get players =>
+      $$PlayersTableTableManager(_db, _db.players);
   $$ScenesTableTableManager get scenes =>
       $$ScenesTableTableManager(_db, _db.scenes);
   $$SessionsTableTableManager get sessions =>

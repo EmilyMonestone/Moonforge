@@ -1,12 +1,12 @@
 import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
-import 'package:moonforge/core/models/data/chapter.dart';
-import 'package:moonforge/core/models/data/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 Future<void> createChapter(BuildContext context, Campaign campaign) async {

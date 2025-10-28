@@ -6,7 +6,10 @@ part of 'app_router.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$appShellRouteData];
+List<RouteBase> get $appRoutes => [
+  $appShellRouteData,
+  $sessionPublicShareRoute,
+];
 
 RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
   factory: $AppShellRouteDataExtension._fromState,
@@ -750,6 +753,37 @@ mixin _$SettingsRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/settings');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $sessionPublicShareRoute => GoRouteData.$route(
+  path: '/share/session/:token',
+
+  factory: _$SessionPublicShareRoute._fromState,
+);
+
+mixin _$SessionPublicShareRoute on GoRouteData {
+  static SessionPublicShareRoute _fromState(GoRouterState state) =>
+      SessionPublicShareRoute(token: state.pathParameters['token']!);
+
+  SessionPublicShareRoute get _self => this as SessionPublicShareRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/share/session/${Uri.encodeComponent(_self.token)}',
+  );
 
   @override
   void go(BuildContext context) => context.go(location);

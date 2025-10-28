@@ -4,13 +4,15 @@ This document describes the entities feature implementation for Moonforge.
 
 ## Overview
 
-The entities feature adds the ability to associate entities (NPCs, monsters, groups, places, items, etc.) with campaigns, chapters, adventures, scenes, and encounters. It includes a reusable widget that displays all entities related to a specific part, including entities from child parts.
+The entities feature adds the ability to associate entities (NPCs, monsters, groups, places, items, etc.) with campaigns, chapters, adventures, scenes, and encounters. It includes
+a reusable widget that displays all entities related to a specific part, including entities from child parts.
 
 ## Features
 
 ### Model Changes
 
 Added `entityIds` field (List<String>) to the following models:
+
 - Campaign
 - Chapter
 - Adventure
@@ -20,19 +22,22 @@ Added `entityIds` field (List<String>) to the following models:
 This field stores the IDs of entities directly related to each part.
 
 **Implementation:**
+
 - **Firestore ODM**: Freezed models with `@Default([]) List<String> entityIds`
 - **Drift (Local Sync)**: Added `entityIds` column to all content tables
-  - Uses `NonNullStringListConverter` for JSON serialization
-  - Default value: `'[]'` (empty JSON array)
-  - Automatic migration from schema v2 to v3
+    - Uses `NonNullStringListConverter` for JSON serialization
+    - Default value: `'[]'` (empty JSON array)
+    - Automatic migration from schema v2 to v3
 
 ### Entity Gathering
 
 The `EntityGatherer` service (`lib/core/services/entity_gatherer.dart`) recursively gathers entities from:
+
 - The current part (direct entities)
 - All child parts (with origin tracking)
 
 For example:
+
 - Campaign: entities from campaign + all chapters + all adventures + all scenes + all encounters
 - Chapter: entities from chapter + all adventures under it + all scenes under those adventures
 - Adventure: entities from adventure + all scenes under it
@@ -48,6 +53,7 @@ The `EntitiesWidget` (`lib/core/widgets/entities_widget.dart`) displays entities
 3. **Items & Others**: For kind = 'item', 'handout', 'journal', or any other kind
 
 Each entity shows:
+
 - Name (clickable link to entity detail)
 - Kind (displayed as a colored chip)
 - Origin (badge showing where the entity comes from, e.g., "Scene 1.3.2" or "Adventure 2.1")
@@ -55,10 +61,12 @@ Each entity shows:
 ### Origin Badges
 
 Entities that come from child parts display an origin badge with:
+
 - Label: Human-readable description (e.g., "Scene 1.3.2", "Adventure 2.1")
 - Path: Hierarchical position based on order fields
 
 The numbering follows the structure:
+
 - Chapter: "1", "2", "3", etc.
 - Adventure: "1.1", "1.2", "2.1", etc. (chapter.adventure)
 - Scene: "1.1.1", "1.2.3", etc. (chapter.adventure.scene)
@@ -75,12 +83,14 @@ dart run build_runner build --delete-conflicting-outputs
 ```
 
 This will:
+
 - Generate `entity_with_origin.freezed.dart` and `entity_with_origin.g.dart`
 - Update existing `.freezed.dart` and `.g.dart` files to include the new `entityIds` field
 
 ### 2. Localization
 
 The following localization strings have been added:
+
 - `entities`: "Entities" / "Entitäten"
 - `noEntitiesYet`: "No entities yet" / "Noch keine Entitäten"
 
@@ -91,6 +101,7 @@ Run `flutter pub get` to regenerate localization files if needed.
 ### Viewing Entities
 
 The entities widget is automatically displayed on:
+
 - Campaign screen (shows all entities in the entire campaign)
 - Chapter screen (shows entities from chapter and all adventures/scenes under it)
 - Adventure screen (shows entities from adventure and all scenes under it)
@@ -107,8 +118,12 @@ To add entities to a part, you need to:
 Example (updating a scene):
 
 ```dart
-final scene = await odm.campaigns
-    .doc(campaignId)
+
+final scene = await
+odm.campaigns
+    .doc
+(
+campaignId)
     .chapters
     .doc(chapterId)
     .adventures
@@ -118,19 +133,19 @@ final scene = await odm.campaigns
     .get();
 
 if (scene != null) {
-  final updatedScene = scene.copyWith(
-    entityIds: [...scene.entityIds, newEntityId],
-  );
-  
-  await odm.campaigns
-      .doc(campaignId)
-      .chapters
-      .doc(chapterId)
-      .adventures
-      .doc(adventureId)
-      .scenes
-      .doc(sceneId)
-      .set(updatedScene);
+final updatedScene = scene.copyWith(
+entityIds: [...scene.entityIds, newEntityId],
+);
+
+await odm.campaigns
+    .doc(campaignId)
+    .chapters
+    .doc(chapterId)
+    .adventures
+    .doc(adventureId)
+    .scenes
+    .doc(sceneId)
+    .set(updatedScene);
 }
 ```
 
@@ -139,21 +154,25 @@ if (scene != null) {
 ### Key Files
 
 **Models:**
+
 - `lib/core/models/entity_with_origin.dart`: EntityWithOrigin and EntityOrigin models
-- `lib/core/models/data/campaign.dart`: Campaign model with entityIds
-- `lib/core/models/data/chapter.dart`: Chapter model with entityIds
-- `lib/core/models/data/adventure.dart`: Adventure model with entityIds
-- `lib/core/models/data/scene.dart`: Scene model with entityIds
-- `lib/core/models/data/encounter.dart`: Encounter model with entityIds
+- `lib/data/firebase/models/campaign.dart`: Campaign model with entityIds
+- `lib/data/firebase/models/chapter.dart`: Chapter model with entityIds
+- `lib/data/firebase/models/adventure.dart`: Adventure model with entityIds
+- `lib/data/firebase/models/scene.dart`: Scene model with entityIds
+- `lib/data/firebase/models/encounter.dart`: Encounter model with entityIds
 
 **Services:**
+
 - `lib/core/services/entity_gatherer.dart`: EntityGatherer service for gathering entities
 
 **Widgets:**
+
 - `lib/core/widgets/entities_widget.dart`: EntitiesWidget for displaying entities
 - `lib/core/widgets/entity_widgets_wrappers.dart`: Wrapper widgets for each screen type
 
 **Screen Integration:**
+
 - `lib/features/campaign/views/campaign_screen.dart`
 - `lib/features/chapter/views/chapter_screen.dart`
 - `lib/features/adventure/views/adventure_screen.dart`
@@ -165,16 +184,17 @@ if (scene != null) {
 1. Screen renders and requests entities via wrapper widget
 2. Wrapper widget calls EntityGatherer service
 3. EntityGatherer:
-   - Fetches direct entities for the current part
-   - Recursively fetches entities from all child parts
-   - Attaches origin information to entities from child parts
-   - Deduplicates entities (keeping most specific origin)
+    - Fetches direct entities for the current part
+    - Recursively fetches entities from all child parts
+    - Attaches origin information to entities from child parts
+    - Deduplicates entities (keeping most specific origin)
 4. EntitiesWidget receives entities and groups them by kind
 5. Tables are rendered with clickable entity names and origin badges
 
 ## Future Enhancements
 
 Possible improvements:
+
 - Add/remove entities directly from the widget UI
 - Click origin badge to navigate to the source part
 - Filter/search entities by name or kind

@@ -180,6 +180,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get name => 'Name';
 
   @override
+  String get nameRequired => 'Name ist erforderlich';
+
+  @override
   String get kind => 'Art';
 
   @override
@@ -223,4 +226,139 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noContentProvided => 'Kein Inhalt';
+
+  @override
+  String get createEncounter => 'Begegnung erstellen';
+
+  @override
+  String get encounterBuilder => 'Begegnungsbauer';
+
+  @override
+  String get initiativeTracker => 'Initiativ-Tracker';
+
+  @override
+  String get addCombatant => 'Kämpfer hinzufügen';
+
+  @override
+  String get partySelection => 'Gruppenauswahl';
+
+  @override
+  String get customPlayerGroup => 'Benutzerdefinierte Spielergruppe';
+
+  @override
+  String get encounterDifficulty => 'Begegnungsschwierigkeit';
+
+  @override
+  String get xpBudget => 'EP-Budget';
+
+  @override
+  String get adjustedXp => 'Angepasste EP';
+
+  @override
+  String get easy => 'Leicht';
+
+  @override
+  String get medium => 'Mittel';
+
+  @override
+  String get hard => 'Schwer';
+
+  @override
+  String get deadly => 'Tödlich';
+
+  @override
+  String get trivial => 'Trivial';
+
+  @override
+  String get challengeRating => 'Herausforderungsgrad';
+
+  @override
+  String get initiative => 'Initiative';
+
+  @override
+  String get hitPoints => 'Trefferpunkte';
+
+  @override
+  String get armorClass => 'Rüstungsklasse';
+
+  @override
+  String get conditions => 'Zustände';
+
+  @override
+  String get addCondition => 'Zustand hinzufügen';
+
+  @override
+  String get nextTurn => 'Nächster Zug';
+
+  @override
+  String get previousTurn => 'Vorheriger Zug';
+
+  @override
+  String get round => 'Runde';
+
+  @override
+  String get startEncounter => 'Begegnung starten';
+
+  @override
+  String get endEncounter => 'Begegnung beenden';
+
+  @override
+  String get ally => 'Verbündeter';
+
+  @override
+  String get enemy => 'Gegner';
+
+  @override
+  String get player => 'Spieler';
+
+  @override
+  String get monster => 'Monster';
+
+  @override
+  String get npc => 'NSC';
+
+  @override
+  String get rollInitiative => 'Initiative würfeln';
+
+  @override
+  String get sortByInitiative => 'Nach Initiative sortieren';
+
+  @override
+  String get fromBestiary => 'Aus Bestiarium';
+
+  @override
+  String get fromCampaign => 'Aus Kampagne';
+
+  @override
+  String get selectMonster => 'Monster auswählen';
+
+  @override
+  String get selectParty => 'Gruppe auswählen';
+
+  @override
+  String get noPartySelected => 'Keine Gruppe ausgewählt';
+
+  @override
+  String get partySize => 'Gruppengröße';
+
+  @override
+  String get addPlayer => 'Spieler hinzufügen';
+
+  @override
+  String get playerLevel => 'Spielerstufe';
+
+  @override
+  String get shareSettings => 'Share Settings';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get entities => 'Entitäten';
+
+  @override
+  String get noEntitiesYet => 'Noch keine Entitäten';
+
+  @override
+  String get openInNewWindow => 'In neuem Fenster öffnen';
 }

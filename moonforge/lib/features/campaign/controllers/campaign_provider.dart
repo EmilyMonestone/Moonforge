@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 
 class CampaignProvider with ChangeNotifier {
   static const String _currentCampaignKey = 'current_campaign_id';
   final PersistenceService _persistence = PersistenceService();
-  
+
   Campaign? _currentCampaign;
 
   Campaign? get currentCampaign => _currentCampaign;
@@ -36,7 +36,7 @@ class CampaignProvider with ChangeNotifier {
 
   void setCurrentCampaign(Campaign? campaign) {
     _currentCampaign = campaign;
-    
+
     // Persist the campaign ID
     if (campaign != null) {
       _persistence.write(_currentCampaignKey, campaign.id);
@@ -45,7 +45,7 @@ class CampaignProvider with ChangeNotifier {
       _persistence.remove(_currentCampaignKey);
       logger.i('Removed persisted campaign ID');
     }
-    
+
     notifyListeners();
   }
 

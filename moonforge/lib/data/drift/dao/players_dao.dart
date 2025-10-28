@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/models/data/player.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/drift/dao/local_meta_mixin.dart';
-import 'package:moonforge/data/drift/tables/players.dart';
 import 'package:moonforge/data/drift/tables/local_metas.dart';
+import 'package:moonforge/data/drift/tables/players.dart';
+import 'package:moonforge/data/firebase/models/player.dart';
 
 part 'players_dao.g.dart';
 
@@ -18,7 +18,7 @@ class PlayersDao extends DatabaseAccessor<AppDatabase>
 
   Future<Player?> getById(String id) =>
       (select(players)..where((p) => p.id.equals(id))).getSingleOrNull();
-  
+
   Future<List<Player>> getByIds(List<String> ids) =>
       (select(players)..where((p) => p.id.isIn(ids))).get();
 
@@ -45,8 +45,9 @@ class PlayersDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> setClean(String id, int newRev) {
     return transaction(() async {
-      await (update(players)..where((p) => p.id.equals(id)))
-          .write(PlayersCompanion(rev: Value(newRev)));
+      await (update(players)..where((p) => p.id.equals(id))).write(
+        PlayersCompanion(rev: Value(newRev)),
+      );
       await markClean(collectionName, id);
     });
   }

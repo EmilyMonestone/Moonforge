@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/party.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/party.dart';
 
 /// Repository for Party operations
 class PartyRepository {
@@ -62,7 +63,9 @@ class PartyRepository {
         case 'summary':
           return party.copyWith(summary: value as String?);
         case 'memberEntityIds':
-          return party.copyWith(memberEntityIds: (value as List?)?.cast<String>());
+          return party.copyWith(
+            memberEntityIds: (value as List?)?.cast<String>(),
+          );
       }
     }
     return party;

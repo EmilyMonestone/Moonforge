@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 
 /// Sync engine that coordinates pull (Firestore → Drift) and push (Outbox → Firestore)
 /// with Compare-And-Set (CAS) conflict resolution on the rev field
 class SyncEngine {
   final AppDatabase _db;
   final FirebaseFirestore _firestore;
-  
+
   StreamSubscription? _pullSubscription;
   Timer? _pushTimer;
   bool _isProcessing = false;
@@ -34,16 +35,19 @@ class SyncEngine {
     _pullSubscription = _firestore
         .collection('campaigns')
         .snapshots()
-        .listen((snapshot) async {
-      for (final change in snapshot.docChanges) {
-        if (change.type == DocumentChangeType.added ||
-            change.type == DocumentChangeType.modified) {
-          await _handleRemoteChange(change.doc);
-        }
-      }
-    }, onError: (error) {
-      debugPrint('⚠️ Firestore pull error: $error');
-    });
+        .listen(
+          (snapshot) async {
+            for (final change in snapshot.docChanges) {
+              if (change.type == DocumentChangeType.added ||
+                  change.type == DocumentChangeType.modified) {
+                await _handleRemoteChange(change.doc);
+              }
+            }
+          },
+          onError: (error) {
+            debugPrint('⚠️ Firestore pull error: $error');
+          },
+        );
   }
 
   /// Handle a remote document change
@@ -102,7 +106,7 @@ class SyncEngine {
     } catch (e) {
       debugPrint('⚠️ Failed to process op ${op.id}: $e');
       await _db.outboxDao.markAttempt(op.id);
-      
+
       // Give up after 10 attempts
       if (op.attempt >= 10) {
         debugPrint('⚠️ Giving up on op ${op.id} after ${op.attempt} attempts');
@@ -114,7 +118,7 @@ class SyncEngine {
   /// Process an upsert operation
   Future<void> _processUpsert(OutboxOp op) async {
     final docRef = _firestore.collection(op.docPath).doc(op.docId);
-    
+
     await _firestore.runTransaction((transaction) async {
       final snapshot = await transaction.get(docRef);
       final data = jsonDecode(op.payload) as Map<String, dynamic>;
@@ -128,7 +132,7 @@ class SyncEngine {
           'createdAt': FieldValue.serverTimestamp(),
           'updatedAt': FieldValue.serverTimestamp(),
         });
-        
+
         await _db.campaignsDao.setClean(op.docId, 0);
         await _db.outboxDao.remove(op.id);
       } else {
@@ -143,20 +147,20 @@ class SyncEngine {
             'rev': remoteRev + 1,
             'updatedAt': FieldValue.serverTimestamp(),
           });
-          
+
           await _db.campaignsDao.setClean(op.docId, remoteRev + 1);
           await _db.outboxDao.remove(op.id);
         } else {
           // Conflict: replay local change on top of remote
           final remote = Campaign.fromJson({'id': op.docId, ...remoteData});
           final merged = _mergeUpsert(remote, localCampaign);
-          
+
           transaction.update(docRef, {
             ...merged.toJson()..remove('id'),
             'rev': remoteRev + 1,
             'updatedAt': FieldValue.serverTimestamp(),
           });
-          
+
           await _db.campaignsDao.setClean(op.docId, remoteRev + 1);
           await _db.outboxDao.remove(op.id);
         }
@@ -167,7 +171,7 @@ class SyncEngine {
   /// Process a patch operation
   Future<void> _processPatch(OutboxOp op) async {
     final docRef = _firestore.collection(op.docPath).doc(op.docId);
-    
+
     await _firestore.runTransaction((transaction) async {
       final snapshot = await transaction.get(docRef);
       if (!snapshot.exists) {
@@ -214,6 +218,7 @@ class SyncEngine {
       createdAt: remote.createdAt,
       updatedAt: remote.updatedAt,
       rev: remote.rev,
+      entityIds: remote.entityIds,
     );
   }
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/media_asset.dart';
-import 'package:moonforge/data/drift/app_database.dart';
+
+import 'package:moonforge/data/drift/app_database.dart' show AppDatabase;
+import 'package:moonforge/data/firebase/models/media_asset.dart'
+    show MediaAsset;
 
 /// Repository for MediaAsset operations
 class MediaAssetRepository {

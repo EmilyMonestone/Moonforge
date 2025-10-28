@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/database/odm.dart';
-import 'package:moonforge/core/models/data/schema.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
 

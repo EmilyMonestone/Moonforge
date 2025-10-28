@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/session.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/session.dart';
 
 /// Repository for Session operations
 /// Now includes rev field for CAS (Compare-And-Set) sync

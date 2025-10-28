@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:moonforge/core/models/data/entity.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
 
 part 'entity_with_origin.freezed.dart';
 part 'entity_with_origin.g.dart';
 
 /// Represents an entity with its origin information
 @freezed
-class EntityWithOrigin with _$EntityWithOrigin {
+abstract class EntityWithOrigin with _$EntityWithOrigin {
   const factory EntityWithOrigin({
     required Entity entity,
     EntityOrigin? origin, // null if entity is directly on current part
@@ -18,7 +18,7 @@ class EntityWithOrigin with _$EntityWithOrigin {
 
 /// Origin information for an entity (which part it comes from)
 @freezed
-class EntityOrigin with _$EntityOrigin {
+abstract class EntityOrigin with _$EntityOrigin {
   const factory EntityOrigin({
     required String partType, // campaign, chapter, adventure, scene, encounter
     required String partId,

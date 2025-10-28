@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:moonforge/core/models/data/entity.dart';
+
 import 'package:moonforge/data/drift/app_database.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
 
 /// Repository for Entity operations
 class EntityRepository {
@@ -77,9 +78,7 @@ class EntityRepository {
       }
     } else if (type == 'removeFromSet' && field == 'tags') {
       final current = entity.tags ?? [];
-      return entity.copyWith(
-        tags: current.where((t) => t != value).toList(),
-      );
+      return entity.copyWith(tags: current.where((t) => t != value).toList());
     }
     return entity;
   }

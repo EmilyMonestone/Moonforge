@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:moonforge/features/encounters/models/combatant.dart';
+import 'package:moonforge/data/firebase/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
 
 void main() {

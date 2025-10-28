@@ -1,6 +1,6 @@
 import 'package:drift/native.dart' show NativeDatabase;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:moonforge/core/models/data/campaign.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 
 void main() {
