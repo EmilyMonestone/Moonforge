@@ -10,12 +10,11 @@ import 'package:moonforge/core/utils/logger.dart';
 
 /// Service to gather entities from parts and their children
 class EntityGatherer {
-  final Odm odm = Odm.instance;
-
   /// Gather entities from a campaign and all its children
   Future<List<EntityWithOrigin>> gatherFromCampaign(
     String campaignId,
   ) async {
+    final odm = Odm.instance;
     final campaign = await odm.campaigns.doc(campaignId).get();
     if (campaign == null) return [];
 
@@ -75,6 +74,7 @@ class EntityGatherer {
     String campaignId,
     String chapterId,
   ) async {
+    final odm = Odm.instance;
     final chapters = await odm.campaigns
         .doc(campaignId)
         .chapters
@@ -94,6 +94,7 @@ class EntityGatherer {
     Chapter chapter,
     int chapterNumber,
   ) async {
+    final odm = Odm.instance;
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from chapter
@@ -144,6 +145,7 @@ class EntityGatherer {
     String chapterId,
     String adventureId,
   ) async {
+    final odm = Odm.instance;
     final chapters = await odm.campaigns
         .doc(campaignId)
         .chapters
@@ -184,6 +186,7 @@ class EntityGatherer {
     int chapterNumber,
     int adventureNumber,
   ) async {
+    final odm = Odm.instance;
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from adventure
@@ -245,6 +248,7 @@ class EntityGatherer {
     String adventureId,
     String sceneId,
   ) async {
+    final odm = Odm.instance;
     final chapters = await odm.campaigns
         .doc(campaignId)
         .chapters
@@ -299,6 +303,7 @@ class EntityGatherer {
     String campaignId,
     String encounterId,
   ) async {
+    final odm = Odm.instance;
     final encounter =
         await odm.campaigns.doc(campaignId).encounters.doc(encounterId).get();
     if (encounter == null) return [];
@@ -321,6 +326,7 @@ class EntityGatherer {
     String campaignId,
     List<String> entityIds,
   ) async {
+    final odm = Odm.instance;
     try {
       final entities = <Entity>[];
       for (final entityId in entityIds) {
