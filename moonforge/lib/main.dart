@@ -20,7 +20,7 @@ import 'package:window_manager/window_manager.dart';
 
 const kWindowsScheme = 'moonforge';
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
@@ -63,9 +63,22 @@ Future<void> main() async {
   }*/
   await Odm.init(firestore);
 
+  // Check if this is a sub-window for desktop multi-window
+  // The first argument after the window ID contains the route
+  String? initialRoute;
+  if (args.length > 1) {
+    // args[0] is the window ID, args[1] is the route
+    initialRoute = args[1];
+  }
+
   // Initialize deep linking after the app router is available
   // The actual initialization happens after the first frame in App widget
   WidgetsBinding.instance.addPostFrameCallback((_) {
+    // Navigate to the initial route if provided (for sub-windows)
+    if (initialRoute != null && initialRoute.isNotEmpty) {
+      AppRouter.router.go(initialRoute);
+    }
+    
     DeepLinkService.instance.initialize(AppRouter.router);
     // Initialize auto updater for desktop platforms
     AutoUpdaterService.instance.initialize();

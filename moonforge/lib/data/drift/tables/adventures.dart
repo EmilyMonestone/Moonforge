@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:moonforge/core/models/data/adventure.dart';
+import 'package:moonforge/data/drift/converters/non_null_string_list_converter.dart';
 
 /// Drift table for Adventure, reusing the Freezed model via @UseRowClass
 @UseRowClass(Adventure)
@@ -9,6 +10,8 @@ class Adventures extends Table {
   IntColumn get order => integer().withDefault(const Constant(0))();
   TextColumn get summary => text().nullable()();
   TextColumn get content => text().nullable()();
+  /// JSON-encoded list of related entity IDs
+  TextColumn get entityIds => text().map(const NonNullStringListConverter()).withDefault(const Constant('[]'))();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
   IntColumn get rev => integer().withDefault(const Constant(0))();

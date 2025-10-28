@@ -14,6 +14,7 @@ abstract class Encounter with _$Encounter {
     String? notes,
     String? loot,
     List<Map<String, dynamic>>? combatants,
+    @Default([]) List<String> entityIds, // Related entities
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(0) int rev,
