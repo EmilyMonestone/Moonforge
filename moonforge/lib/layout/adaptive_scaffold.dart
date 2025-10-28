@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
 import 'package:m3e_collection/m3e_collection.dart';
-import 'package:moonforge/core/constants/path_names.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
+import 'package:moonforge/core/services/breadcrumb_service.dart'
+    as breadcrumb_service;
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/widgets/adaptive_breadcrumb.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/data/providers/sync_state_provider.dart';
@@ -61,44 +62,68 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = AppSizeClass.of(context);
+    final state = GoRouterState.of(context);
 
-    // Build breadcrumbs from the current location.
-    final uri = GoRouterState.of(context).uri;
-    final segments = uri.pathSegments;
+    // Build breadcrumbs from the current location using the new service.
+    // Use the URI path as a key to ensure we only rebuild when the route changes
+    return FutureBuilder<List<breadcrumb_service.BreadcrumbItem>>(
+      key: ValueKey(state.uri.path),
+      future: breadcrumb_service.BreadcrumbService.buildBreadcrumbs(
+        context,
+        state,
+      ),
+      builder: (context, snapshot) {
+        Widget breadcrumbs;
 
-    Widget breadcrumbs;
-    if (segments.isEmpty) {
-      breadcrumbs = BreadCrumb(
-        items: [
-          BreadCrumbItem(
-            content: Text(AppLocalizations.of(context)!.home),
-            onTap: () => const HomeRoute().go(context),
-          ),
-        ],
-        divider: const Text('/'),
-      );
-    } else {
-      breadcrumbs = BreadCrumb.builder(
-        itemCount: segments.length,
-        builder: (int index) {
-          final labelKey = segments[index];
-          final path = '/${segments.take(index + 1).join('/')}';
-          return BreadCrumbItem(
-            content: getPathName(context, labelKey),
-            onTap: () => context.go(path),
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
+          // Show a minimal loading breadcrumb
+          breadcrumbs = AdaptiveBreadcrumb(
+            items: [
+              AdaptiveBreadcrumbItem(
+                content: Text(AppLocalizations.of(context)!.ellipsis),
+              ),
+            ],
+            divider: const Icon(Icons.chevron_right, size: 16),
           );
-        },
-        divider: const Icon(Icons.chevron_right, size: 16),
-      );
-    }
+        } else {
+          final items = snapshot.data!;
+          if (items.isEmpty) {
+            breadcrumbs = AdaptiveBreadcrumb(
+              items: [
+                AdaptiveBreadcrumbItem(
+                  content: Text(AppLocalizations.of(context)!.home),
+                  onTap: () => const HomeRoute().go(context),
+                ),
+              ],
+              divider: const Icon(Icons.chevron_right, size: 16),
+            );
+          } else {
+            breadcrumbs = AdaptiveBreadcrumb(
+              items: items.map((item) {
+                return AdaptiveBreadcrumbItem(
+                  content: Text(
+                    item.text,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  onTap: () => context.go(item.path),
+                );
+              }).toList(),
+              divider: const Icon(Icons.chevron_right, size: 16),
+            );
+          }
+        }
 
-    switch (size) {
-      case SizeClass.compact:
-        return _buildCompact(context, breadcrumbs);
-      case SizeClass.medium:
-      case SizeClass.expanded:
-        return _buildWide(context, breadcrumbs);
-    }
+        switch (size) {
+          case SizeClass.compact:
+            return _buildCompact(context, breadcrumbs);
+          case SizeClass.medium:
+          case SizeClass.expanded:
+            return _buildWide(context, breadcrumbs);
+        }
+      },
+    );
   }
 
   int get _selectedIndex => widget.navigationShell.currentIndex;

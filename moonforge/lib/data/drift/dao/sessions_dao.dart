@@ -28,6 +28,11 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
           info: Value(session.info),
           datetime: Value(session.datetime),
           log: Value(session.log),
+          shareToken: Value(session.shareToken),
+          shareEnabled: Value(session.shareEnabled),
+          shareExpiresAt: Value(session.shareExpiresAt),
+          updatedAt: Value(session.updatedAt),
+          rev: Value(session.rev),
         ),
         mode: InsertMode.insertOrReplace,
       );
@@ -35,5 +40,11 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
     });
   }
 
-  // Note: Session doesn't have rev field, so no setClean needed
+  Future<void> setClean(String id, int rev) async {
+    await transaction(() async {
+      await (update(sessions)..where((s) => s.id.equals(id)))
+          .write(SessionsCompanion(rev: Value(rev)));
+      await this.clearDirty(collectionName, id);
+    });
+  }
 }

@@ -17,6 +17,7 @@ import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
+import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -147,6 +148,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
             _RecentAdventuresSection(campaign: campaign),
             _RecentScenesSection(campaign: campaign),
             _RecentSessionsSection(campaign: campaign),
+            CampaignEntitiesWidget(campaignId: campaign.id),
           ],
         ),
       ],
@@ -192,6 +194,8 @@ class _ChaptersSection extends StatelessWidget {
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => c.summary ?? '',
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            enableContextMenu: true,
+            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
           );
         },
       ),
@@ -238,6 +242,8 @@ class _RecentChaptersSection extends StatelessWidget {
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => formatDateTime(c.updatedAt),
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            enableContextMenu: true,
+            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
           );
         },
       ),

@@ -456,5 +456,15 @@
   "playerLevel": "Spielerstufe",
   "@playerLevel": {
     "description": "Label für Spielerstufe"
+  "entities": "Entitäten",
+  "@entities": {
+    "description": "Label für Entitätenfunktion"
+  },
+  "noEntitiesYet": "Noch keine Entitäten",
+  "@noEntitiesYet": {
+    "description": "Angezeigt, wenn keine Entitäten gefunden wurden"
+  "openInNewWindow": "In neuem Fenster öffnen",
+  "@openInNewWindow": {
+    "description": "Kontextmenü-Option zum Öffnen eines Links in einem neuen Fenster"
   }
 }
