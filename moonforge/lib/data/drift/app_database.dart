@@ -76,7 +76,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -96,6 +96,15 @@ class AppDatabase extends _$AppDatabase {
           await m.createTable(mediaAssets);
           await m.createTable(localMetas);
           await m.createTable(storageQueue);
+        }
+        
+        // Migration from v2 to v3: Add share and revision fields to Sessions
+        if (from < 3) {
+          await m.addColumn(sessions, sessions.shareToken);
+          await m.addColumn(sessions, sessions.shareEnabled);
+          await m.addColumn(sessions, sessions.shareExpiresAt);
+          await m.addColumn(sessions, sessions.updatedAt);
+          await m.addColumn(sessions, sessions.rev);
         }
       },
     );

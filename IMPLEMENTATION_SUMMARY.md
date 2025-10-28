@@ -5,11 +5,31 @@ This implementation adds complete view/edit functionality for Sessions with DM-o
 
 ## Files Created/Modified
 
-### Models
+### Models & Database Schema
 - **Modified**: `moonforge/lib/core/models/data/session.dart`
   - Added `shareToken`, `shareEnabled`, `shareExpiresAt` fields
   - Added `updatedAt` and `rev` for consistency
   - Requires build_runner regeneration
+
+- **Modified**: `moonforge/lib/data/drift/tables/sessions.dart`
+  - Added all new fields to Drift Sessions table
+  - Added field comments for clarity
+  - Requires build_runner regeneration
+
+- **Modified**: `moonforge/lib/data/drift/dao/sessions_dao.dart`
+  - Updated `upsert()` to handle all new fields
+  - Added `setClean()` method for CAS sync support
+  - Requires build_runner regeneration
+
+- **Modified**: `moonforge/lib/data/repo/session_repository.dart`
+  - Now uses `rev` field for CAS conflict resolution
+  - Added `setClean()` method for sync engine
+  - Updated from no-CAS to full CAS support
+
+- **Modified**: `moonforge/lib/data/drift/app_database.dart`
+  - Bumped schema version from 2 to 3
+  - Added migration to add new columns to Sessions table
+  - Migration runs automatically on app upgrade
 
 ### Utilities
 - **Created**: `moonforge/lib/core/utils/permissions_utils.dart`
