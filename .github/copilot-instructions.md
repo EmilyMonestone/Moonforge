@@ -5,7 +5,8 @@ These guidelines help contributors and Copilot work efficiently in this reposito
 ## Project Overview
 
 Moonforge is a Flutter application for tabletop RPG campaign management. It organizes content into core domain models (campaigns, chapters, encounters, entities, scenes, sessions,
-media assets) and feature-specific UI flows. Data schemas and JSON serialization are defined in lib/core/models, with generated helpers committed to the repo.
+media assets) and feature-specific UI flows. Data schemas and JSON serialization are defined in lib/core/models, with generated helpers committed to the repo. For sync drift is
+used for offline-first data persistence in lib/data.
 
 ## Project Structure (high-level)
 
