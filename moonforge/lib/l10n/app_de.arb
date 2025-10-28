@@ -213,6 +213,10 @@
   "@name": {
     "description": "Label für Namensfeld"
   },
+  "nameRequired": "Name ist erforderlich",
+  "@nameRequired": {
+    "description": "Validierungsnachricht wenn Name nicht angegeben ist"
+  },
   "title": "Titel",
   "@title": {
     "description": "Label für Titelfeld"
