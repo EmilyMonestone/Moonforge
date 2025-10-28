@@ -19,7 +19,7 @@ flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-This generates the necessary `.freezed.dart` and `.g.dart` files.
+This generates the necessary `.freezed.dart` and `.g.dart` files for Firestore ODM and Drift local database.
 
 ## What's New
 
@@ -31,6 +31,9 @@ All these models now have an `entityIds` field to store related entities:
 - Adventure
 - Scene
 - Encounter
+
+**Firestore ODM**: Updated freezed models  
+**Drift (Local Sync)**: Added `entityIds` column to all content tables with automatic migration from schema v2 to v3
 
 ### New Widget
 

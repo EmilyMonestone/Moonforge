@@ -19,6 +19,13 @@ Added `entityIds` field (List<String>) to the following models:
 
 This field stores the IDs of entities directly related to each part.
 
+**Implementation:**
+- **Firestore ODM**: Freezed models with `@Default([]) List<String> entityIds`
+- **Drift (Local Sync)**: Added `entityIds` column to all content tables
+  - Uses `NonNullStringListConverter` for JSON serialization
+  - Default value: `'[]'` (empty JSON array)
+  - Automatic migration from schema v2 to v3
+
 ### Entity Gathering
 
 The `EntityGatherer` service (`lib/core/services/entity_gatherer.dart`) recursively gathers entities from:
