@@ -13,6 +13,7 @@ used for offline-first data persistence in lib/data.
 - moonforge/ — Flutter app
     - lib/
         - core/ — Domain models, schema, and converters (beware of generated files like *.g.dart).
+        - data/ — drift, models sync. everything related to offline-first data persistence and sync.
         - providers/, repositories/, services/, utils/, widgets/ — App foundation and cross-cutting utilities.
         - features/ — adventure, auth, campaign, chapter, encounters, entities, home, parties, scene, session, settings — Feature modules containing views, controllers, and state.
             - views — UI components.
