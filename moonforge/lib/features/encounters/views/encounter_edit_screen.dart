@@ -7,6 +7,7 @@ import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/encounters/models/combatant.dart';
 import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
+import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -513,6 +514,23 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 16),
+              
+              // Start Initiative Tracker Button
+              if (_combatants.isNotEmpty)
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _startInitiativeTracker,
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(l10n.startEncounter),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(16),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -607,6 +625,24 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       builder: (context) => _EditCombatantDialog(
         combatant: combatant,
         onUpdate: (updated) => _updateCombatant(index, updated),
+      ),
+    );
+  }
+  
+  void _startInitiativeTracker() {
+    if (_combatants.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add combatants before starting initiative tracker')),
+      );
+      return;
+    }
+    
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => InitiativeTrackerScreen(
+          initialCombatants: _combatants,
+          encounterName: _nameController.text.isEmpty ? 'Encounter' : _nameController.text,
+        ),
       ),
     );
   }
