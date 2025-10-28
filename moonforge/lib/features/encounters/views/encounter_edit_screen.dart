@@ -25,6 +25,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   
   // Party selection state
   List<Player> _players = [];
+  String? _selectedPartyId;
   bool _useCustomParty = true;
   final List<int> _customPlayerLevels = [1, 1, 1, 1]; // Default 4 level 1 players
   
@@ -111,6 +112,81 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         _calculateDifficulty();
       });
     }
+  }
+  
+  // Load party players from ODM
+  Future<void> _loadPartyPlayers(String partyId) async {
+    final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
+    if (campaign == null) return;
+    
+    try {
+      final odm = Odm.instance;
+      final party = await odm.campaigns.doc(campaign.id).parties.doc(partyId).get();
+      
+      if (party != null && party.memberEntityIds != null) {
+        // Load player entities for each member
+        final playersList = <Player>[];
+        for (final entityId in party.memberEntityIds!) {
+          final player = await odm.campaigns.doc(campaign.id).players.doc(entityId).get();
+          if (player != null) {
+            playersList.add(player);
+          }
+        }
+        
+        setState(() {
+          _players = playersList;
+          _selectedPartyId = partyId;
+          _calculateDifficulty();
+        });
+      }
+    } catch (e) {
+      // Handle error silently for now
+    }
+  }
+  
+  // Save encounter to database
+  Future<void> _saveEncounter() async {
+    if (!_formKey.currentState!.validate()) return;
+    
+    try {
+      final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
+      if (campaign == null) return;
+      
+      // Convert combatants to Map format for storage
+      final combatantsJson = _combatants.map((c) => c.toJson()).toList();
+      
+      final encounter = Encounter(
+        id: widget.encounterId,
+        name: _nameController.text,
+        combatants: combatantsJson,
+        notes: 'Difficulty: $_difficulty, Adjusted XP: $_adjustedXp',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      
+      final odm = Odm.instance;
+      await odm.campaigns.doc(campaign.id).encounters.doc(encounter.id).set(encounter);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.save)),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving: $e')),
+        );
+      }
+    }
+  }
+  
+  // Update combatant inline
+  void _updateCombatant(int index, Combatant updated) {
+    setState(() {
+      _combatants[index] = updated;
+      _calculateDifficulty();
+    });
   }
 
   @override
@@ -242,33 +318,58 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                     ]
                     // Existing party selection (placeholder for future implementation)
                     else ...[
-                      FutureBuilder<List<String>>(
-                        future: _loadPartyIds(),
+                      FutureBuilder<List<Map<String, String>>>(
+                        future: _loadParties(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: CircularProgressIndicator());
                           }
                           
-                          final partyIds = snapshot.data ?? [];
-                          if (partyIds.isEmpty) {
+                          final parties = snapshot.data ?? [];
+                          if (parties.isEmpty) {
                             return Text(
                               l10n.noPartySelected,
                               style: Theme.of(context).textTheme.bodyMedium,
                             );
                           }
                           
-                          return DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: l10n.selectParty,
-                              border: const OutlineInputBorder(),
-                            ),
-                            items: partyIds.map((id) => DropdownMenuItem(
-                              value: id,
-                              child: Text('Party $id'), // TODO: Load actual party name
-                            )).toList(),
-                            onChanged: (value) {
-                              // TODO: Load party players and calculate thresholds
-                            },
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DropdownButtonFormField<String>(
+                                value: _selectedPartyId,
+                                decoration: InputDecoration(
+                                  labelText: l10n.selectParty,
+                                  border: const OutlineInputBorder(),
+                                ),
+                                items: parties.map((party) => DropdownMenuItem(
+                                  value: party['id'],
+                                  child: Text(party['name'] ?? 'Party ${party['id']}'),
+                                )).toList(),
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    _loadPartyPlayers(value);
+                                  }
+                                },
+                              ),
+                              if (_players.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${l10n.partySize}: ${_players.length} players',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                ...List.generate(_players.length, (i) {
+                                  final player = _players[i];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      '• ${player.name} (Level ${player.level})',
+                                      style: Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ],
                           );
                         },
                       ),
@@ -391,11 +492,20 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                             ),
                             title: Text(combatant.name),
                             subtitle: Text(
-                              'CR ${combatant.cr ?? '?'} • ${combatant.xp} XP • HP ${combatant.maxHp} • AC ${combatant.armorClass}',
+                              'CR ${combatant.cr ?? '?'} • ${combatant.xp} XP • HP ${combatant.currentHp}/${combatant.maxHp} • AC ${combatant.armorClass}',
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete_outline),
-                              onPressed: () => _removeCombatant(entry.key),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit_outlined),
+                                  onPressed: () => _showEditCombatantDialog(context, entry.key, combatant),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () => _removeCombatant(entry.key),
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -408,11 +518,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            // TODO: Save encounter
-          }
-        },
+        onPressed: _saveEncounter,
         icon: const Icon(Icons.save),
         label: Text(l10n.save),
       ),
@@ -473,14 +579,14 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     }
   }
   
-  Future<List<String>> _loadPartyIds() async {
+  Future<List<Map<String, String>>> _loadParties() async {
     final campaign = Provider.of<CampaignProvider>(context, listen: false).currentCampaign;
     if (campaign == null) return [];
     
     try {
       final odm = Odm.instance;
       final parties = await odm.campaigns.doc(campaign.id).parties.get();
-      return parties.map((p) => p.id).toList();
+      return parties.map((p) => {'id': p.id, 'name': p.name}).toList();
     } catch (e) {
       return [];
     }
@@ -491,6 +597,16 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       context: context,
       builder: (context) => _AddCombatantDialog(
         onAdd: _addCombatant,
+      ),
+    );
+  }
+  
+  void _showEditCombatantDialog(BuildContext context, int index, Combatant combatant) {
+    showDialog(
+      context: context,
+      builder: (context) => _EditCombatantDialog(
+        combatant: combatant,
+        onUpdate: (updated) => _updateCombatant(index, updated),
       ),
     );
   }
@@ -762,5 +878,194 @@ class _CampaignEntityList extends StatelessWidget {
     } catch (e) {
       return [];
     }
+  }
+}
+
+// Dialog for editing combatants inline
+class _EditCombatantDialog extends StatefulWidget {
+  final Combatant combatant;
+  final Function(Combatant) onUpdate;
+  
+  const _EditCombatantDialog({
+    required this.combatant,
+    required this.onUpdate,
+  });
+  
+  @override
+  State<_EditCombatantDialog> createState() => _EditCombatantDialogState();
+}
+
+class _EditCombatantDialogState extends State<_EditCombatantDialog> {
+  late TextEditingController _hpController;
+  late TextEditingController _maxHpController;
+  late TextEditingController _acController;
+  late TextEditingController _initiativeController;
+  late List<String> _conditions;
+  
+  @override
+  void initState() {
+    super.initState();
+    _hpController = TextEditingController(text: widget.combatant.currentHp.toString());
+    _maxHpController = TextEditingController(text: widget.combatant.maxHp.toString());
+    _acController = TextEditingController(text: widget.combatant.armorClass.toString());
+    _initiativeController = TextEditingController(text: widget.combatant.initiative?.toString() ?? '');
+    _conditions = List.from(widget.combatant.conditions);
+  }
+  
+  @override
+  void dispose() {
+    _hpController.dispose();
+    _maxHpController.dispose();
+    _acController.dispose();
+    _initiativeController.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    return AlertDialog(
+      title: Text('Edit ${widget.combatant.name}'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HP
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _hpController,
+                    decoration: InputDecoration(
+                      labelText: l10n.hitPoints,
+                      border: const OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text('/'),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextField(
+                    controller: _maxHpController,
+                    decoration: InputDecoration(
+                      labelText: 'Max HP',
+                      border: const OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            
+            // AC
+            TextField(
+              controller: _acController,
+              decoration: InputDecoration(
+                labelText: l10n.armorClass,
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            
+            // Initiative
+            TextField(
+              controller: _initiativeController,
+              decoration: InputDecoration(
+                labelText: l10n.initiative,
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            
+            // Conditions
+            Text(
+              l10n.conditions,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: [
+                ..._conditions.map((condition) => Chip(
+                  label: Text(condition),
+                  onDeleted: () {
+                    setState(() {
+                      _conditions.remove(condition);
+                    });
+                  },
+                )),
+                ActionChip(
+                  label: Text(l10n.addCondition),
+                  avatar: const Icon(Icons.add, size: 16),
+                  onPressed: () => _showAddConditionDialog(),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final updated = widget.combatant.copyWith(
+              currentHp: int.tryParse(_hpController.text) ?? widget.combatant.currentHp,
+              maxHp: int.tryParse(_maxHpController.text) ?? widget.combatant.maxHp,
+              armorClass: int.tryParse(_acController.text) ?? widget.combatant.armorClass,
+              initiative: int.tryParse(_initiativeController.text),
+              conditions: _conditions,
+            );
+            widget.onUpdate(updated);
+            Navigator.of(context).pop();
+          },
+          child: Text(l10n.save),
+        ),
+      ],
+    );
+  }
+  
+  void _showAddConditionDialog() {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.addCondition),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            hintText: 'e.g., Poisoned, Stunned, Prone',
+            border: OutlineInputBorder(),
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                setState(() {
+                  _conditions.add(controller.text);
+                });
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
   }
 }
