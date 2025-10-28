@@ -163,7 +163,8 @@ class _ChaptersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    // Get all chapters from Drift and filter by campaign
+    // Get all chapters from Drift
+    // Note: Chapters don't have campaignId field yet, so we filter by ID prefix
     final allChapters = context.watch<List<Chapter>>();
 
     return SurfaceContainer(
@@ -173,9 +174,10 @@ class _ChaptersSection extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          // Filter chapters for this campaign and sort by order
+          // Filter chapters for this campaign by ID prefix
+          // Format: chapter-{campaignId}-{timestamp}
           final chapters = allChapters
-              .where((ch) => ch.campaignId == campaign.id)
+              .where((ch) => ch.id.contains(campaign.id))
               .toList()
             ..sort((a, b) => a.order.compareTo(b.order));
           
@@ -205,7 +207,7 @@ class _RecentChaptersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    // Get all chapters from Drift and filter by campaign
+    // Get all chapters from Drift
     final allChapters = context.watch<List<Chapter>>();
     
     return SurfaceContainer(
@@ -215,9 +217,9 @@ class _RecentChaptersSection extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          // Filter chapters for this campaign, sort by updatedAt desc, take 5
+          // Filter chapters for this campaign by ID prefix, sort by updatedAt desc, take 5
           final items = allChapters
-              .where((ch) => ch.campaignId == campaign.id)
+              .where((ch) => ch.id.contains(campaign.id))
               .toList()
             ..sort((a, b) {
               final ad = a.updatedAt;
@@ -270,18 +272,19 @@ class _RecentAdventuresSection extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          // Filter chapters for this campaign
+          // Filter chapters for this campaign by ID pattern
           final chapters = allChapters
-              .where((ch) => ch.campaignId == campaign.id)
+              .where((ch) => ch.id.contains(campaign.id))
               .toList();
           
           if (chapters.isEmpty) return const SizedBox.shrink();
           
-          // Filter adventures for these chapters and pair with chapter ID
+          // Filter adventures by checking if their ID contains any chapter ID
+          // Note: Without parent IDs, we use ID patterns for filtering
           final List<(Adventure, String)> adventuresWithChapter = [];
           for (final ch in chapters) {
             final chapterAdvs = allAdventures
-                .where((adv) => adv.chapterId == ch.id)
+                .where((adv) => adv.id.contains(ch.id))
                 .map((adv) => (adv, ch.id));
             adventuresWithChapter.addAll(chapterAdvs);
           }
@@ -337,31 +340,31 @@ class _RecentScenesSection extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          // Filter chapters for this campaign
+          // Filter chapters for this campaign by ID pattern
           final chapters = allChapters
-              .where((ch) => ch.campaignId == campaign.id)
+              .where((ch) => ch.id.contains(campaign.id))
               .toList();
           
           if (chapters.isEmpty) return const SizedBox.shrink();
           
-          // Get adventures for these chapters
+          // Get adventures for these chapters using ID patterns
           final List<(Adventure, String)> adventuresWithChapter = [];
           for (final ch in chapters) {
             final chapterAdvs = allAdventures
-                .where((adv) => adv.chapterId == ch.id)
+                .where((adv) => adv.id.contains(ch.id))
                 .map((adv) => (adv, ch.id));
             adventuresWithChapter.addAll(chapterAdvs);
           }
           
           if (adventuresWithChapter.isEmpty) return const SizedBox.shrink();
           
-          // Get scenes for these adventures
+          // Get scenes for these adventures using ID patterns
           final List<(Scene, String, String)> scenesWithContext = [];
           for (final advPair in adventuresWithChapter) {
             final adv = advPair.$1;
             final chId = advPair.$2;
             final adventureScenes = allScenes
-                .where((scene) => scene.adventureId == adv.id)
+                .where((scene) => scene.id.contains(adv.id))
                 .map((scene) => (scene, chId, adv.id));
             scenesWithContext.addAll(adventureScenes);
           }
