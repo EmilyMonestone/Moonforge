@@ -23,7 +23,7 @@ class MultiWindowService {
   Future<bool> openRouteInNewWindow(String route) async {
     if (kIsWeb) {
       return _openInNewTab(route);
-    } else if (Platform.isWindows || Platform.isLinux) {
+    } else if (!kIsWeb && (Platform.isWindows || Platform.isLinux)) {
       return _openInDesktopWindow(route);
     }
     // Mobile and unsupported platforms
@@ -77,6 +77,9 @@ class MultiWindowService {
     if (kIsWeb) {
       return true;
     }
-    return Platform.isWindows || Platform.isLinux;
+    if (!kIsWeb) {
+      return Platform.isWindows || Platform.isLinux;
+    }
+    return false;
   }
 }
