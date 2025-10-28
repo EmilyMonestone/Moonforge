@@ -3,7 +3,7 @@ import 'package:moonforge/core/models/data/session.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 
 /// Repository for Session operations
-/// Note: Session doesn't have rev field, so no CAS sync
+/// Now includes rev field for CAS (Compare-And-Set) sync
 class SessionRepository {
   final AppDatabase _db;
 
@@ -19,10 +19,15 @@ class SessionRepository {
       await _db.outboxDao.enqueue(
         docPath: 'sessions',
         docId: session.id,
-        baseRev: 0, // Session has no rev field
+        baseRev: session.rev,
         opType: 'upsert',
         payload: jsonEncode(session.toJson()),
       );
     });
+  }
+
+  /// Called by sync engine after successful Firestore write
+  Future<void> setClean(String id, int rev) async {
+    await _db.sessionsDao.setClean(id, rev);
   }
 }

@@ -99,8 +99,13 @@ class AppDatabase extends _$AppDatabase {
           await m.createTable(storageQueue);
         }
         
-        // Migration from v2 to v3: Add entityIds column to content tables
+        // Migration from v2 to v3: Add share and revision fields to Sessions; Add entityIds column to content tables
         if (from < 3) {
+          await m.addColumn(sessions, sessions.shareToken);
+          await m.addColumn(sessions, sessions.shareEnabled);
+          await m.addColumn(sessions, sessions.shareExpiresAt);
+          await m.addColumn(sessions, sessions.updatedAt);
+          await m.addColumn(sessions, sessions.rev);
           await m.addColumn(campaigns, campaigns.entityIds);
           await m.addColumn(chapters, chapters.entityIds);
           await m.addColumn(adventures, adventures.entityIds);

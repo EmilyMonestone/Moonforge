@@ -22,6 +22,7 @@ import 'package:moonforge/features/parties/views/party_screen.dart';
 import 'package:moonforge/features/scene/views/scene_edit_screen.dart';
 import 'package:moonforge/features/scene/views/scene_screen.dart';
 import 'package:moonforge/features/session/views/session_edit_screen.dart';
+import 'package:moonforge/features/session/views/session_public_share_screen.dart';
 import 'package:moonforge/features/session/views/session_screen.dart';
 import 'package:moonforge/features/settings/views/settings_screen.dart';
 import 'package:moonforge/layout/layout_shell.dart';
@@ -376,4 +377,15 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SettingsScreen();
+}
+
+// Public share route (outside shell, no authentication required)
+@TypedGoRoute<SessionPublicShareRoute>(path: '/share/session/:token')
+class SessionPublicShareRoute extends GoRouteData
+    with _$SessionPublicShareRoute {
+  const SessionPublicShareRoute({required this.token});
+  final String token;
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      SessionPublicShareScreen(token: token);
 }
