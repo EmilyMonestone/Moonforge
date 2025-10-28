@@ -37,7 +37,8 @@ class LinkContextMenu extends StatelessWidget {
     }
 
     final l10n = AppLocalizations.of(context)!;
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox?;
+    final overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox?;
 
     if (overlay == null) return;
 
@@ -71,7 +72,9 @@ class LinkContextMenu extends StatelessWidget {
     }
 
     return GestureDetector(
-      onSecondaryTapDown: _showContextMenu,
+      // onSecondaryTapDown expects a GestureTapDownCallback which only takes TapDownDetails.
+      // Wrap to pass the current BuildContext.
+      onSecondaryTapDown: (details) => _showContextMenu(context, details),
       child: child,
     );
   }
