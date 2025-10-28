@@ -318,6 +318,56 @@ class _EntityScreenImplState extends State<EntityScreenImpl> {
                     ),
                   ],
                 ),
+              if (_entity!.images != null && _entity!.images!.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Images',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _entity!.images!.map((imageMap) {
+                        final assetId = imageMap['assetId'] as String?;
+                        final kind = imageMap['kind'] as String?;
+                        return Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.image, size: 40),
+                              const SizedBox(height: 4),
+                              if (kind != null)
+                                Text(
+                                  kind,
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                  textAlign: TextAlign.center,
+                                ),
+                              if (assetId != null)
+                                Text(
+                                  assetId.length > 10
+                                      ? '${assetId.substring(0, 10)}...'
+                                      : assetId,
+                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                      ),
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               _buildKindSpecificFields(context, _entity!),
               if (_entity!.content != null && _entity!.content!.isNotEmpty)
                 Column(

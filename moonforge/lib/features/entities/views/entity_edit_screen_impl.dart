@@ -48,6 +48,7 @@ class _EntityEditScreenImplState extends State<EntityEditScreenImpl> {
   final _coordsLngController = TextEditingController();
   final _membersController = TextEditingController();
   final Map<String, TextEditingController> _statblockControllers = {};
+  List<Map<String, dynamic>> _images = [];
 
   @override
   void initState() {
@@ -139,6 +140,11 @@ class _EntityEditScreenImplState extends State<EntityEditScreenImpl> {
               _statblockControllers[entry.key] = controller;
             }
           }
+          
+          // Load images
+          _images = entity.images != null 
+              ? List<Map<String, dynamic>>.from(entity.images!)
+              : [];
         });
 
         _autosave = QuillAutosave(
@@ -225,6 +231,7 @@ class _EntityEditScreenImplState extends State<EntityEditScreenImpl> {
         parentPlaceId: parentPlaceId,
         coords: coords,
         members: members,
+        images: _images,
         updatedAt: DateTime.now(),
         rev: _entity!.rev + 1,
       );
@@ -301,6 +308,65 @@ class _EntityEditScreenImplState extends State<EntityEditScreenImpl> {
         );
       },
     );
+  }
+
+  void _addImage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final assetIdController = TextEditingController();
+        final kindController = TextEditingController();
+        return AlertDialog(
+          title: const Text('Add Image'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: assetIdController,
+                decoration: const InputDecoration(labelText: 'Asset ID'),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: kindController,
+                decoration: const InputDecoration(
+                  labelText: 'Kind (optional)',
+                  hintText: 'e.g., avatar, banner',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                final assetId = assetIdController.text.trim();
+                final kind = kindController.text.trim();
+                if (assetId.isNotEmpty) {
+                  setState(() {
+                    _images.add({
+                      'assetId': assetId,
+                      if (kind.isNotEmpty) 'kind': kind,
+                    });
+                  });
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _images.removeAt(index);
+    });
   }
 
   Widget _buildKindSpecificFields(BuildContext context) {
@@ -564,6 +630,105 @@ class _EntityEditScreenImplState extends State<EntityEditScreenImpl> {
                 hintText: 'Comma-separated tags',
               ),
             ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Text('Images', style: theme.textTheme.titleMedium),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.add_photo_alternate_outlined),
+                  onPressed: _addImage,
+                  tooltip: 'Add image',
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (_images.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.image_outlined, color: theme.colorScheme.onSurfaceVariant),
+                    const SizedBox(width: 12),
+                    Text(
+                      'No images. Click + to add images.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: _images.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final imageMap = entry.value;
+                  final assetId = imageMap['assetId'] as String?;
+                  final kind = imageMap['kind'] as String?;
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.image, size: 32),
+                              const SizedBox(height: 4),
+                              if (kind != null)
+                                Text(
+                                  kind,
+                                  style: theme.textTheme.labelSmall,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              if (assetId != null)
+                                Text(
+                                  assetId.length > 10
+                                      ? '${assetId.substring(0, 10)}...'
+                                      : assetId,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.close, size: 16),
+                            onPressed: () => _removeImage(index),
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(
+                              minWidth: 24,
+                              minHeight: 24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
             _buildKindSpecificFields(context),
             const SizedBox(height: 24),
             Text(l10n.content, style: theme.textTheme.titleMedium),
