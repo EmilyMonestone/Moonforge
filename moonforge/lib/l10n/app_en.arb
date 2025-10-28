@@ -288,5 +288,13 @@
   "noContentProvided": "No content provided",
   "@noContentProvided": {
     "description": "Shown when no content is provided"
+  },
+  "shareSettings": "Share Settings",
+  "@shareSettings": {
+    "description": "Title for share settings dialog"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Generic close action"
   }
 }
