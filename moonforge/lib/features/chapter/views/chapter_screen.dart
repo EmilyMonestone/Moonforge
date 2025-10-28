@@ -178,6 +178,11 @@ class _AdventuresSection extends StatelessWidget {
               chapterId: chapterId,
               adventureId: a.id,
             ).go(context),
+            enableContextMenu: true,
+            routeOf: (a) => AdventureRoute(
+              chapterId: chapterId,
+              adventureId: a.id,
+            ).location,
           );
         },
       ),

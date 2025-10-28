@@ -292,5 +292,9 @@
   "noContentProvided": "Kein Inhalt",
   "@noContentProvided": {
     "description": "Angezeigt, wenn kein Inhalt vorhanden ist"
+  },
+  "openInNewWindow": "In neuem Fenster öffnen",
+  "@openInNewWindow": {
+    "description": "Kontextmenü-Option zum Öffnen eines Links in einem neuen Fenster"
   }
 }
