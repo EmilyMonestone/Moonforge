@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/widgets/link_context_menu.dart';
 
 /// Generic card list used to render simple lists with title/subtitle and a chevron.
 class CardList<T> extends StatelessWidget {
@@ -10,6 +11,8 @@ class CardList<T> extends StatelessWidget {
     this.subtitleOf,
     this.subtitleMaxLines = 2,
     this.backgroundColor,
+    this.routeOf,
+    this.enableContextMenu = false,
   });
 
   final List<T> items;
@@ -18,6 +21,13 @@ class CardList<T> extends StatelessWidget {
   final int subtitleMaxLines;
   final void Function(T item)? onTap;
   final Color? backgroundColor;
+  
+  /// Optional route provider for context menu support.
+  /// If provided with [enableContextMenu] = true, enables "Open in new window".
+  final String Function(T item)? routeOf;
+  
+  /// Whether to enable the context menu for opening items in new windows.
+  final bool enableContextMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,8 @@ class CardList<T> extends StatelessWidget {
         final item = items[index];
         final title = titleOf(item);
         final subtitle = subtitleOf != null ? subtitleOf!(item) : '';
-        return Card(
+        
+        final card = Card(
           color:
               backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
           child: ListTile(
@@ -47,6 +58,16 @@ class CardList<T> extends StatelessWidget {
             onTap: onTap != null ? () => onTap!(item) : null,
           ),
         );
+        
+        // Wrap with context menu if enabled and route provider is available
+        if (enableContextMenu && routeOf != null) {
+          return LinkContextMenu(
+            route: routeOf!(item),
+            child: card,
+          );
+        }
+        
+        return card;
       },
     );
   }

@@ -288,5 +288,9 @@
   "noContentProvided": "No content provided",
   "@noContentProvided": {
     "description": "Shown when no content is provided"
+  },
+  "openInNewWindow": "Open in new window",
+  "@openInNewWindow": {
+    "description": "Context menu option to open a link in a new window"
   }
 }
