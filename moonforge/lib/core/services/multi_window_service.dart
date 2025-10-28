@@ -77,9 +77,7 @@ class MultiWindowService {
     if (kIsWeb) {
       return true;
     }
-    if (!kIsWeb) {
-      return Platform.isWindows || Platform.isLinux;
-    }
-    return false;
+    // For non-web platforms, check if it's Windows or Linux
+    return !kIsWeb && (Platform.isWindows || Platform.isLinux);
   }
 }
