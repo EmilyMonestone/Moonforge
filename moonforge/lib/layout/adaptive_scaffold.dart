@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
@@ -10,6 +9,7 @@ import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/breadcrumb_service.dart'
     as breadcrumb_service;
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/widgets/adaptive_breadcrumb.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/data/providers/sync_state_provider.dart';
@@ -78,9 +78,9 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
         if (snapshot.connectionState == ConnectionState.waiting ||
             !snapshot.hasData) {
           // Show a minimal loading breadcrumb
-          breadcrumbs = BreadCrumb(
+          breadcrumbs = AdaptiveBreadcrumb(
             items: [
-              BreadCrumbItem(
+              AdaptiveBreadcrumbItem(
                 content: Text(AppLocalizations.of(context)!.ellipsis),
               ),
             ],
@@ -89,9 +89,9 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
         } else {
           final items = snapshot.data!;
           if (items.isEmpty) {
-            breadcrumbs = BreadCrumb(
+            breadcrumbs = AdaptiveBreadcrumb(
               items: [
-                BreadCrumbItem(
+                AdaptiveBreadcrumbItem(
                   content: Text(AppLocalizations.of(context)!.home),
                   onTap: () => const HomeRoute().go(context),
                 ),
@@ -99,11 +99,9 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
               divider: const Icon(Icons.chevron_right, size: 16),
             );
           } else {
-            breadcrumbs = BreadCrumb.builder(
-              itemCount: items.length,
-              builder: (int index) {
-                final item = items[index];
-                return BreadCrumbItem(
+            breadcrumbs = AdaptiveBreadcrumb(
+              items: items.map((item) {
+                return AdaptiveBreadcrumbItem(
                   content: Text(
                     item.text,
                     overflow: TextOverflow.ellipsis,
@@ -111,7 +109,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                   ),
                   onTap: () => context.go(item.path),
                 );
-              },
+              }).toList(),
               divider: const Icon(Icons.chevron_right, size: 16),
             );
           }
