@@ -27,9 +27,32 @@ class BreadcrumbItem {
   });
 }
 
-/// Service for building breadcrumbs from route information
+/// Service for building breadcrumbs from route information.
+///
+/// This service resolves route segments and path parameters into human-readable
+/// breadcrumb items by fetching entity names from Firestore.
+///
+/// Example:
+/// - URL: `/campaign/chapter/ch123/adventure/adv456`
+/// - Output: `[CampaignName, ChapterName, AdventureName]`
+///
+/// Features:
+/// - Fetches actual entity names from database
+/// - Skips redundant label segments (e.g., "campaign", "chapter")
+/// - Provides fallbacks for loading/missing data
+/// - Handles all entity types: campaign, chapter, adventure, scene, entity, etc.
+/// - Special handling for entities without name fields (e.g., Session uses datetime)
 class BreadcrumbService {
-  /// Build breadcrumbs from the current route
+  /// Build breadcrumbs from the current route.
+  ///
+  /// This method:
+  /// 1. Parses the route segments and path parameters
+  /// 2. Fetches entity data from Firestore ODM for each ID
+  /// 3. Returns a list of breadcrumb items with display text and navigation paths
+  ///
+  /// The breadcrumbs show the actual entity names (e.g., "My Campaign" instead
+  /// of just "campaign" or the ID). If data is not yet loaded or an error occurs,
+  /// it falls back to showing "..." (ellipsis) or the localized entity type name.
   static Future<List<BreadcrumbItem>> buildBreadcrumbs(
     BuildContext context,
     GoRouterState state,

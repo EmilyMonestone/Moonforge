@@ -65,7 +65,9 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
     final state = GoRouterState.of(context);
 
     // Build breadcrumbs from the current location using the new service.
+    // Use the URI path as a key to ensure we only rebuild when the route changes
     return FutureBuilder<List<breadcrumb_service.BreadcrumbItem>>(
+      key: ValueKey(state.uri.path),
       future: breadcrumb_service.BreadcrumbService.buildBreadcrumbs(
         context,
         state,
