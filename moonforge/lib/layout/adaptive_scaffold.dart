@@ -334,17 +334,23 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                       children: [
                         AuthUserButton(expanded: railIsExpanded),
                         const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                            SyncStateWidget(
-                              state: syncState.state,
-                              pendingCount: syncState.pendingCount,
-                              onTap: () {
-                                syncState.refresh();
-                              },
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                              ),
+                              child: SyncStateWidget(
+                                state: syncState.state,
+                                pendingCount: syncState.pendingCount,
+                                onTap: () {
+                                  syncState.refresh();
+                                },
+                              ),
                             ),
-                            const SizedBox(width: 8),
                             Text(
                               AppLocalizations.of(
                                 context,
@@ -353,7 +359,10 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
                             ),
                             if (AutoUpdaterService.instance.isBeta)
                               Padding(
-                                padding: const EdgeInsets.only(left: 4.0),
+                                padding: const EdgeInsets.only(
+                                  left: 4.0,
+                                  right: 4.0,
+                                ),
                                 child: Badge(
                                   label: Text(
                                     'BETA',
