@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +26,29 @@ Future<void> main(List<String> args) async {
 
   await AppVersion.init();
 
+  // Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // IMPORTANT: Set Firestore settings BEFORE any other Firestore operations.
+  // On desktop (C++ SDK), changing settings after first use causes an Illegal state error.
+  try {
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+    );
+  } catch (e) {
+    // In rare cases (hot restart, early background init), Firestore might already be started.
+    // Avoid crashing the app; settings can only be set once per process.
+    debugPrint('Skipping Firestore settings update: $e');
+  }
+
+  // If you need to clear the Firestore cache, it must be done before any listeners/queries are created.
+  // Doing it later can trigger the C++ SDK "settings can no longer be changed" error on desktop.
+  // await clearFirestoreCache();
+
+  final firestore = FirebaseFirestore.instance;
+
+  await Odm.init(firestore);
+
   // Initialize get_storage for persistence
   await PersistenceService.init();
 
@@ -45,23 +67,6 @@ Future<void> main(List<String> args) async {
     await windowManager.setMinimumSize(const Size.fromWidth(200));
     windowManager.show();
   }
-
-  // Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // Ensure Firebase Auth uses persistent LOCAL storage on web so sessions survive reloads
-  if (kIsWeb) {
-    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-  }
-  final firestore = FirebaseFirestore.instance;
-  firestore.settings = const Settings(persistenceEnabled: true);
-  /*  if (kIsWeb) {
-    // ignore: deprecated_member_use
-    await firestore.enablePersistence(
-      const PersistenceSettings(synchronizeTabs: true),
-    );
-  }*/
-  await Odm.init(firestore);
 
   // Check if this is a sub-window for desktop multi-window
   // The first argument after the window ID contains the route
@@ -88,4 +93,13 @@ Future<void> main(List<String> args) async {
   });
 
   runApp(MultiProviderWrapper(child: App()));
+}
+
+Future clearFirestoreCache() async {
+  try {
+    await FirebaseFirestore.instance.clearPersistence();
+    debugPrint("Firestore cache cleared successfully.");
+  } catch (e) {
+    debugPrint("Failed to clear Firestore cache: $e");
+  }
 }

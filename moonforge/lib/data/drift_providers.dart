@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/firebase/models/adventure.dart';
@@ -124,7 +127,22 @@ List<SingleChildWidget> driftProviders() {
         final db = context.read<AppDatabase>();
         final engine = SyncEngine(db, FirebaseFirestore.instance);
         logger.i('Starting SyncEngine (eager)');
-        engine.start();
+        // Defer start until after first frame to ensure platform thread is fully ready
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          try {
+            // On Windows in debug, add a tiny delay to avoid platform-thread assertions from the C++ SDK.
+            if (Platform.isWindows && !kReleaseMode) {
+              await Future.delayed(const Duration(milliseconds: 250));
+            }
+            engine.start();
+          } catch (e, st) {
+            logger.e(
+              'Failed to start SyncEngine: $e',
+              error: e,
+              stackTrace: st,
+            );
+          }
+        });
         return engine;
       },
       dispose: (_, engine) {

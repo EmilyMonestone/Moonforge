@@ -73,6 +73,9 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
           );
         }
 
+        // Synchronous estimate to avoid first-frame overflow
+        final estimate = _estimateVisibleButtons(maxWidth);
+
         // Post-frame callback to measure and adjust overflow when width is finite
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _checkOverflow(maxWidth);
@@ -80,14 +83,24 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
 
         return ConstrainedBox(
           constraints: BoxConstraints(maxWidth: maxWidth),
-          child: _buildButtonGroup(),
+          child: _buildButtonGroup(
+            needsOverflowOverride: estimate.needsOverflow,
+            visibleCountOverride: estimate.visibleCount,
+          ),
         );
       },
     );
   }
 
-  Widget _buildButtonGroup({bool forceAll = false}) {
-    if (forceAll || !_needsOverflow || widget.actions.length <= 1) {
+  Widget _buildButtonGroup({
+    bool forceAll = false,
+    bool? needsOverflowOverride,
+    int? visibleCountOverride,
+  }) {
+    final useOverflow = needsOverflowOverride ?? _needsOverflow;
+    final visibleCount = visibleCountOverride ?? _visibleButtonCount;
+
+    if (forceAll || !useOverflow || widget.actions.length <= 1) {
       // Show all buttons normally
       return ButtonGroupM3E(
         shape: ButtonGroupM3EShape.square,
@@ -102,8 +115,8 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
     }
 
     // Show visible buttons + overflow menu
-    final visibleActions = widget.actions.take(_visibleButtonCount).toList();
-    final overflowActions = widget.actions.skip(_visibleButtonCount).toList();
+    final visibleActions = widget.actions.take(visibleCount).toList();
+    final overflowActions = widget.actions.skip(visibleCount).toList();
 
     return ButtonGroupM3E(
       shape: ButtonGroupM3EShape.square,
@@ -187,6 +200,50 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
     );
   }
 
+  // Returns an estimated number of visible buttons that can fit into maxWidth
+  _Estimate _estimateVisibleButtons(double maxWidth) {
+    // Estimate button widths
+    final estimatedWidths = <double>[];
+    for (int i = 0; i < widget.actions.length; i++) {
+      // Rough heuristic: text+icon ~ 140, text-only ~ 110, icon-only ~ 48
+      final a = widget.actions[i];
+      final width = widget.showLabels
+          ? (a.icon != null ? 140.0 : 110.0)
+          : (a.icon != null ? 48.0 : 80.0);
+      estimatedWidths.add(width);
+    }
+
+    // Total width
+    final totalWidth = estimatedWidths.fold(0.0, (s, w) => s + w);
+    if (totalWidth <= maxWidth) {
+      return _Estimate(false, widget.actions.length);
+    }
+
+    // Reserve overflow button
+    const overflowButtonWidth = 48.0;
+    double available = maxWidth - overflowButtonWidth;
+    int visible = 0;
+    double used = 0;
+    for (final w in estimatedWidths) {
+      if (used + w <= available) {
+        used += w;
+        visible++;
+      } else {
+        break;
+      }
+    }
+
+    if (visible == 0 && estimatedWidths.isNotEmpty) {
+      // Try to allow a single button if possible
+      if (estimatedWidths.first <= maxWidth) {
+        visible = 1;
+      }
+    }
+
+    final needsOverflow = visible < widget.actions.length;
+    return _Estimate(needsOverflow, visible);
+  }
+
   void _checkOverflow(double maxWidth) {
     if (!mounted) return;
 
@@ -200,11 +257,21 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
           buttonWidths.add(renderBox.size.width);
         } else {
           // Estimate button width
-          buttonWidths.add(widget.showLabels ? 120 : 48);
+          final a = widget.actions[i];
+          buttonWidths.add(
+            widget.showLabels
+                ? (a.icon != null ? 140 : 110)
+                : (a.icon != null ? 48 : 80),
+          );
         }
       } else {
         // Estimate button width
-        buttonWidths.add(widget.showLabels ? 120 : 48);
+        final a = widget.actions[i];
+        buttonWidths.add(
+          widget.showLabels
+              ? (a.icon != null ? 140 : 110)
+              : (a.icon != null ? 48 : 80),
+        );
       }
     }
 
@@ -252,4 +319,11 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
       });
     }
   }
+}
+
+class _Estimate {
+  final bool needsOverflow;
+  final int visibleCount;
+
+  _Estimate(this.needsOverflow, this.visibleCount);
 }
