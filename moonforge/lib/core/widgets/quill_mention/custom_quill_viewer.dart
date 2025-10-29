@@ -12,7 +12,7 @@ class CustomQuillViewer extends StatelessWidget {
   final QuillController controller;
   final Future<void> Function(String entityId, String mentionType)?
   onMentionTap;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final double? maxHeight;
   final double? minHeight;
 
@@ -20,7 +20,7 @@ class CustomQuillViewer extends StatelessWidget {
     super.key,
     required this.controller,
     this.onMentionTap,
-    this.padding = const EdgeInsets.all(8),
+    this.padding,
     this.maxHeight,
     this.minHeight,
   });
@@ -31,7 +31,7 @@ class CustomQuillViewer extends StatelessWidget {
     return QuillEditor.basic(
       controller: controller,
       config: QuillEditorConfig(
-        padding: padding,
+        padding: padding ?? EdgeInsets.zero,
         maxHeight: maxHeight,
         minHeight: minHeight,
         showCursor: false,

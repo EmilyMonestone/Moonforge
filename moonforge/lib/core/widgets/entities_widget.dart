@@ -15,8 +15,44 @@ class EntitiesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    // De-duplicate by entity ID and keep the most specific origin when collisions occur.
+    // Specificity order: scene > encounter > adventure > chapter > campaign/direct (null)
+    int _rank(EntityOrigin? o) {
+      if (o == null) return 0; // direct on current part
+      switch (o.partType) {
+        case 'scene':
+          return 5;
+        case 'encounter':
+          return 4;
+        case 'adventure':
+          return 3;
+        case 'chapter':
+          return 2;
+        case 'campaign':
+          return 1;
+        default:
+          return 1;
+      }
+    }
+
+    final byId = <String, EntityWithOrigin>{};
+    for (final ewo in entities) {
+      final id = ewo.entity.id;
+      final existing = byId[id];
+      if (existing == null) {
+        byId[id] = ewo;
+      } else {
+        // Keep the one with higher specificity
+        if (_rank(ewo.origin) > _rank(existing.origin)) {
+          byId[id] = ewo;
+        }
+      }
+    }
+
+    final unique = byId.values.toList(growable: false);
+
     // Group entities by kind
-    final npcsMontersGroups = entities
+    final npcsMontersGroups = unique
         .where(
           (e) =>
               e.entity.kind == 'npc' ||
@@ -25,9 +61,9 @@ class EntitiesWidget extends StatelessWidget {
         )
         .toList();
 
-    final places = entities.where((e) => e.entity.kind == 'place').toList();
+    final places = unique.where((e) => e.entity.kind == 'place').toList();
 
-    final itemsOthers = entities
+    final itemsOthers = unique
         .where(
           (e) =>
               e.entity.kind == 'item' ||
@@ -40,7 +76,7 @@ class EntitiesWidget extends StatelessWidget {
         )
         .toList();
 
-    if (entities.isEmpty) {
+    if (unique.isEmpty) {
       return SurfaceContainer(
         title: SectionHeader(title: l10n.entities, icon: Icons.people_outline),
         child: Text(l10n.noEntitiesYet),
@@ -88,75 +124,45 @@ class _EntityGroupWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SurfaceContainer(
       title: SectionHeader(title: title, icon: icon),
-      child: Table(
-        columnWidths: const {
-          0: FlexColumnWidth(3),
-          1: FlexColumnWidth(2),
-          2: FlexColumnWidth(2),
-        },
+      child: Column(
         children: [
-          // Header row
-          TableRow(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Name',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Kind',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Origin',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-            ],
-          ),
-          // Data rows
           ...entities.map((entityWithOrigin) {
             final entity = entityWithOrigin.entity;
             final origin = entityWithOrigin.origin;
 
-            return TableRow(
-              children: [
-                InkWell(
-                  onTap: () {
-                    EntityRoute(entityId: entity.id).push(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      entity.name,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        decoration: TextDecoration.underline,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        EntityRoute(entityId: entity.id).push(context);
+                      },
+                      hoverColor: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHigh,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            entity.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(width: 8),
+                          _KindChip(kind: entity.kind),
+                          if (origin != null) ...[
+                            const SizedBox(width: 6),
+                            _OriginBadge(origin: origin),
+                          ],
+                        ],
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _KindChip(kind: entity.kind),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: origin != null
-                      ? _OriginBadge(origin: origin)
-                      : const Text('-'),
-                ),
-              ],
+                ],
+              ),
             );
           }),
         ],
@@ -182,7 +188,7 @@ class _KindChip extends StatelessWidget {
       child: Text(
         _getKindLabel(kind),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: _getKindColorText(context, kind),
         ),
       ),
     );
@@ -212,21 +218,26 @@ class _KindChip extends StatelessWidget {
   Color _getKindColor(BuildContext context, String kind) {
     switch (kind) {
       case 'npc':
-        return Colors.blue;
       case 'monster':
-        return Colors.red;
       case 'group':
-        return Colors.purple;
+        return Theme.of(context).colorScheme.primary;
       case 'place':
-        return Colors.green;
-      case 'item':
-        return Colors.orange;
-      case 'handout':
-        return Colors.amber;
-      case 'journal':
-        return Colors.teal;
-      default:
         return Theme.of(context).colorScheme.secondary;
+      default:
+        return Theme.of(context).colorScheme.tertiary;
+    }
+  }
+
+  Color _getKindColorText(BuildContext context, String kind) {
+    switch (kind) {
+      case 'npc':
+      case 'monster':
+      case 'group':
+        return Theme.of(context).colorScheme.onPrimary;
+      case 'place':
+        return Theme.of(context).colorScheme.onSecondary;
+      default:
+        return Theme.of(context).colorScheme.onTertiary;
     }
   }
 }

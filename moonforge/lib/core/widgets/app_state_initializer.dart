@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/firebase/models/schema.dart';
 import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/sync/sync_engine.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,17 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
   void initState() {
     super.initState();
     _initializeAppState();
+
+    // Ensure SyncEngine provider is realized even if laziness interferes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        // Accessing it ensures the provider is created and started
+        final _ = context.read<SyncEngine>();
+        logger.i('Ensured SyncEngine is initialized via AppStateInitializer');
+      } catch (e) {
+        logger.w('Failed to ensure SyncEngine from AppStateInitializer: $e');
+      }
+    });
   }
 
   Future<void> _initializeAppState() async {

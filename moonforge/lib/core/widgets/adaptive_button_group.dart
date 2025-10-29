@@ -55,7 +55,25 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
       builder: (context, constraints) {
         final maxWidth = widget.maxWidth ?? constraints.maxWidth;
 
-        // Post-frame callback to measure and adjust overflow
+        // If width is unbounded, skip overflow logic and render all buttons.
+        if (!maxWidth.isFinite) {
+          // Ensure internal state reflects "no overflow" to keep behavior consistent
+          if (_needsOverflow || _visibleButtonCount != widget.actions.length) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+              setState(() {
+                _needsOverflow = false;
+                _visibleButtonCount = widget.actions.length;
+              });
+            });
+          }
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: _buildButtonGroup(forceAll: true),
+          );
+        }
+
+        // Post-frame callback to measure and adjust overflow when width is finite
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _checkOverflow(maxWidth);
         });
@@ -68,8 +86,8 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
     );
   }
 
-  Widget _buildButtonGroup() {
-    if (!_needsOverflow || widget.actions.length <= 1) {
+  Widget _buildButtonGroup({bool forceAll = false}) {
+    if (forceAll || !_needsOverflow || widget.actions.length <= 1) {
       // Show all buttons normally
       return ButtonGroupM3E(
         shape: ButtonGroupM3EShape.square,
@@ -178,7 +196,7 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
       final context = _buttonKeys[i].currentContext;
       if (context != null) {
         final renderBox = context.findRenderObject() as RenderBox?;
-        if (renderBox != null) {
+        if (renderBox != null && renderBox.hasSize) {
           buttonWidths.add(renderBox.size.width);
         } else {
           // Estimate button width

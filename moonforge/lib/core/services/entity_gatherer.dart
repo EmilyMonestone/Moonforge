@@ -16,12 +16,48 @@ class EntityGatherer {
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from campaign
+    // Add entities directly from campaign via explicit references
     if (campaign.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(campaignId, campaign.entityIds);
       entitiesWithOrigin.addAll(
-        entities.map((e) => EntityWithOrigin(entity: e)),
+        entities.map(
+          (e) => EntityWithOrigin(
+            entity: e,
+            origin: EntityOrigin(
+              partType: 'campaign',
+              partId: campaignId,
+              label: 'Campaign',
+              path: '',
+            ),
+          ),
+        ),
       );
+    }
+
+    // Fallback/supplement: Also include all entities from the campaign's entities subcollection
+    // This covers legacy/Imported data where entityIds were not populated.
+    try {
+      final allDirectEntities = await odm.campaigns
+          .doc(campaignId)
+          .entities
+          .get();
+      for (final e in allDirectEntities) {
+        if (!e.deleted) {
+          entitiesWithOrigin.add(
+            EntityWithOrigin(
+              entity: e,
+              origin: const EntityOrigin(
+                partType: 'campaign',
+                partId: '',
+                label: 'Campaign',
+                path: '',
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      logger.w('Failed to list campaign entities for $campaignId: $e');
     }
 
     // Gather from all chapters
@@ -80,8 +116,11 @@ class EntityGatherer {
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final chapter = chapters[chapterIndex];
-    return _gatherFromChapter(campaignId, chapter, chapterIndex + 1);
+    return _gatherFromChapter(
+      campaignId,
+      chapters[chapterIndex],
+      chapterIndex + 1,
+    );
   }
 
   Future<List<EntityWithOrigin>> _gatherFromChapter(
@@ -150,7 +189,6 @@ class EntityGatherer {
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final chapter = chapters[chapterIndex];
     final adventures = await odm.campaigns
         .doc(campaignId)
         .chapters
@@ -162,11 +200,10 @@ class EntityGatherer {
     final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
 
-    final adventure = adventures[adventureIndex];
     return _gatherFromAdventure(
       campaignId,
       chapterId,
-      adventure,
+      adventures[adventureIndex],
       chapterIndex + 1,
       adventureIndex + 1,
     );
@@ -278,11 +315,24 @@ class EntityGatherer {
     final scene = scenes[sceneIndex];
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from scene
+    // Add entities directly from scene with proper origin
     if (scene.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(campaignId, scene.entityIds);
+      final chapterNumber = chapterIndex + 1;
+      final adventureNumber = adventureIndex + 1;
+      final sceneNumber = sceneIndex + 1;
       entitiesWithOrigin.addAll(
-        entities.map((e) => EntityWithOrigin(entity: e)),
+        entities.map(
+          (e) => EntityWithOrigin(
+            entity: e,
+            origin: EntityOrigin(
+              partType: 'scene',
+              partId: scene.id,
+              label: 'Scene $chapterNumber.$adventureNumber.$sceneNumber',
+              path: '$chapterNumber.$adventureNumber.$sceneNumber',
+            ),
+          ),
+        ),
       );
     }
 
@@ -304,11 +354,21 @@ class EntityGatherer {
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from encounter
+    // Add entities directly from encounter with proper origin
     if (encounter.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(campaignId, encounter.entityIds);
       entitiesWithOrigin.addAll(
-        entities.map((e) => EntityWithOrigin(entity: e)),
+        entities.map(
+          (e) => EntityWithOrigin(
+            entity: e,
+            origin: EntityOrigin(
+              partType: 'encounter',
+              partId: encounter.id,
+              label: 'Encounter: ${encounter.name}',
+              path: encounter.name,
+            ),
+          ),
+        ),
       );
     }
 
@@ -342,6 +402,24 @@ class EntityGatherer {
 
   /// Deduplicate entities by ID, keeping the one with the most specific origin
   List<EntityWithOrigin> _deduplicateEntities(List<EntityWithOrigin> entities) {
+    int rank(EntityOrigin? o) {
+      if (o == null) return 0; // direct assignment is the least specific here
+      switch (o.partType) {
+        case 'scene':
+          return 5;
+        case 'encounter':
+          return 4;
+        case 'adventure':
+          return 3;
+        case 'chapter':
+          return 2;
+        case 'campaign':
+          return 1;
+        default:
+          return 1;
+      }
+    }
+
     final seenIds = <String, EntityWithOrigin>{};
 
     for (final entityWithOrigin in entities) {
@@ -351,16 +429,8 @@ class EntityGatherer {
       if (existing == null) {
         seenIds[id] = entityWithOrigin;
       } else {
-        // Keep the entity with no origin (direct) or most specific origin
-        if (entityWithOrigin.origin == null) {
+        if (rank(entityWithOrigin.origin) > rank(existing.origin)) {
           seenIds[id] = entityWithOrigin;
-        } else if (existing.origin != null) {
-          // Keep the one with longer path (more specific)
-          final newPathDepth = entityWithOrigin.origin!.path.split('.').length;
-          final existingPathDepth = existing.origin!.path.split('.').length;
-          if (newPathDepth > existingPathDepth) {
-            seenIds[id] = entityWithOrigin;
-          }
         }
       }
     }

@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+/// Create a new encounter scoped to a scene via ID prefix
+Future<void> createEncounterInScene(
+  BuildContext context,
+  Campaign campaign,
+  String chapterId,
+  String adventureId,
+  String sceneId,
+) async {
+  final l10n = AppLocalizations.of(context)!;
+  final repository = Provider.of<EncounterRepository>(context, listen: false);
+
+  final encounter = Encounter(
+    id: 'encounter-$sceneId-${DateTime.now().millisecondsSinceEpoch}',
+    name: 'New Encounter',
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    preset: false,
+  );
+
+  await repository.upsertLocal(encounter);
+
+  if (context.mounted) {
+    notification.success(context, title: Text(l10n.createEncounter));
+    EncounterEditRoute(encounterId: encounter.id).go(context);
+  }
+}

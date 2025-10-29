@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/drift/app_database.dart';
 import 'package:moonforge/data/firebase/models/adventure.dart';
 import 'package:moonforge/data/firebase/models/campaign.dart';
@@ -38,102 +40,181 @@ import 'package:provider/single_child_widget.dart';
 /// )
 /// ```
 List<SingleChildWidget> driftProviders() {
+  logger.i('Registering drift providers');
   return [
     // AppDatabase singleton
     Provider<AppDatabase>(
-      create: (_) => AppDatabase(),
-      dispose: (_, db) => db.close(),
+      create: (_) {
+        logger.i('Creating AppDatabase');
+        return AppDatabase();
+      },
+      dispose: (_, db) {
+        logger.i('Disposing AppDatabase');
+        db.close();
+      },
     ),
 
     // Repositories
     ProxyProvider<AppDatabase, CampaignRepository>(
-      update: (_, db, __) => CampaignRepository(db),
+      update: (_, db, __) {
+        logger.t('Init CampaignRepository');
+        return CampaignRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, AdventureRepository>(
-      update: (_, db, __) => AdventureRepository(db),
+      update: (_, db, __) {
+        logger.t('Init AdventureRepository');
+        return AdventureRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, ChapterRepository>(
-      update: (_, db, __) => ChapterRepository(db),
+      update: (_, db, __) {
+        logger.t('Init ChapterRepository');
+        return ChapterRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, SceneRepository>(
-      update: (_, db, __) => SceneRepository(db),
+      update: (_, db, __) {
+        logger.t('Init SceneRepository');
+        return SceneRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, EncounterRepository>(
-      update: (_, db, __) => EncounterRepository(db),
+      update: (_, db, __) {
+        logger.t('Init EncounterRepository');
+        return EncounterRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, EntityRepository>(
-      update: (_, db, __) => EntityRepository(db),
+      update: (_, db, __) {
+        logger.t('Init EntityRepository');
+        return EntityRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, PartyRepository>(
-      update: (_, db, __) => PartyRepository(db),
+      update: (_, db, __) {
+        logger.t('Init PartyRepository');
+        return PartyRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, PlayerRepository>(
-      update: (_, db, __) => PlayerRepository(db),
+      update: (_, db, __) {
+        logger.t('Init PlayerRepository');
+        return PlayerRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, SessionRepository>(
-      update: (_, db, __) => SessionRepository(db),
+      update: (_, db, __) {
+        logger.t('Init SessionRepository');
+        return SessionRepository(db);
+      },
     ),
     ProxyProvider<AppDatabase, MediaAssetRepository>(
-      update: (_, db, __) => MediaAssetRepository(db),
+      update: (_, db, __) {
+        logger.t('Init MediaAssetRepository');
+        return MediaAssetRepository(db);
+      },
     ),
 
-    // SyncEngine (requires Firestore)
-    ProxyProvider<AppDatabase, SyncEngine>(
-      update: (_, db, previous) {
-        final engine = previous ?? SyncEngine(db, FirebaseFirestore.instance);
-        if (previous == null) {
-          engine.start();
-        }
+    // SyncEngine (requires Firestore) — eagerly create so it always starts
+    Provider<SyncEngine>(
+      lazy: false,
+      create: (context) {
+        debugPrint('Eagerly creating SyncEngine provider');
+        final db = context.read<AppDatabase>();
+        final engine = SyncEngine(db, FirebaseFirestore.instance);
+        logger.i('Starting SyncEngine (eager)');
+        engine.start();
         return engine;
       },
-      dispose: (_, engine) => engine.stop(),
+      dispose: (_, engine) {
+        debugPrint('Disposing SyncEngine provider');
+        logger.i('Stopping SyncEngine');
+        engine.stop();
+      },
     ),
 
     // SyncStateProvider for tracking sync status
     ChangeNotifierProxyProvider<AppDatabase, SyncStateProvider>(
-      create: (context) => SyncStateProvider(context.read<AppDatabase>()),
-      update: (_, db, previous) => previous ?? SyncStateProvider(db),
+      create: (context) {
+        logger.t('Create SyncStateProvider');
+        return SyncStateProvider(context.read<AppDatabase>());
+      },
+      update: (_, db, previous) {
+        logger.t('Update SyncStateProvider');
+        return previous ?? SyncStateProvider(db);
+      },
     ),
 
     // StreamProviders for all models
     StreamProvider<List<Campaign>>(
-      create: (context) => context.read<CampaignRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Campaign>> created');
+        return context.read<CampaignRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Adventure>>(
-      create: (context) => context.read<AdventureRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Adventure>> created');
+        return context.read<AdventureRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Chapter>>(
-      create: (context) => context.read<ChapterRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Chapter>> created');
+        return context.read<ChapterRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Scene>>(
-      create: (context) => context.read<SceneRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Scene>> created');
+        return context.read<SceneRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Encounter>>(
-      create: (context) => context.read<EncounterRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Encounter>> created');
+        return context.read<EncounterRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Entity>>(
-      create: (context) => context.read<EntityRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Entity>> created');
+        return context.read<EntityRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Party>>(
-      create: (context) => context.read<PartyRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Party>> created');
+        return context.read<PartyRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Player>>(
-      create: (context) => context.read<PlayerRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Player>> created');
+        return context.read<PlayerRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<Session>>(
-      create: (context) => context.read<SessionRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<Session>> created');
+        return context.read<SessionRepository>().watchAll();
+      },
       initialData: const [],
     ),
     StreamProvider<List<MediaAsset>>(
-      create: (context) => context.read<MediaAssetRepository>().watchAll(),
+      create: (context) {
+        logger.t('StreamProvider<List<MediaAsset>> created');
+        return context.read<MediaAssetRepository>().watchAll();
+      },
       initialData: const [],
     ),
   ];

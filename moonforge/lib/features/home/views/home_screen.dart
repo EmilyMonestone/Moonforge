@@ -20,11 +20,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final uid = fb_auth.FirebaseAuth.instance.currentUser?.uid;
+    debugPrint('HomeScreen.build: uid=$uid');
     final campaignProvider = Provider.of<CampaignProvider>(
       context,
       listen: false,
     );
-    
+
     // Get all campaigns from Drift
     final allCampaigns = context.watch<List<Campaign>>();
     final allSessions = context.watch<List<Session>>();
@@ -42,18 +43,19 @@ class HomeScreen extends StatelessWidget {
             future: uid == null
                 ? Future.value(const <Campaign>[])
                 : Future.value(
-                    allCampaigns
-                        .where((c) => c.ownerUid == uid)
-                        .toList()
-                      ..sort((a, b) {
-                        final ad = a.updatedAt;
-                        final bd = b.updatedAt;
-                        if (ad == null && bd == null) return 0;
-                        if (ad == null) return 1;
-                        if (bd == null) return -1;
-                        return bd.compareTo(ad);
-                      })
-                      ..take(5).toList(),
+                    (() {
+                      final list =
+                          allCampaigns.where((c) => c.ownerUid == uid).toList()
+                            ..sort((a, b) {
+                              final ad = a.updatedAt;
+                              final bd = b.updatedAt;
+                              if (ad == null && bd == null) return 0;
+                              if (ad == null) return 1;
+                              if (bd == null) return -1;
+                              return bd.compareTo(ad);
+                            });
+                      return list.take(5).toList();
+                    })(),
                   ),
             titleOf: (c) => c.name,
             subtitleOf: (c) => c.description,
@@ -76,17 +78,19 @@ class HomeScreen extends StatelessWidget {
               if (uid == null) return const <Session>[];
               // Filter campaigns where user is owner or member
               final userCampaigns = allCampaigns
-                  .where((c) =>
-                      c.ownerUid == uid ||
-                      (c.memberUids?.contains(uid) ?? false))
+                  .where(
+                    (c) =>
+                        c.ownerUid == uid ||
+                        (c.memberUids?.contains(uid) ?? false),
+                  )
                   .toList();
               if (userCampaigns.isEmpty) return const <Session>[];
-              
+
               // Filter sessions from user's campaigns
               // Note: With local-first, we don't have hierarchical queries yet,
               // so we get all sessions and filter by checking if they belong to user's campaigns
               final userSessions = allSessions.toList();
-              
+
               // Sort by datetime desc and take top 5
               userSessions.sort((a, b) {
                 final ad = a.datetime;
@@ -119,15 +123,17 @@ class HomeScreen extends StatelessWidget {
               if (uid == null) return const <Party>[];
               // Filter campaigns where user is owner or member
               final userCampaigns = allCampaigns
-                  .where((c) =>
-                      c.ownerUid == uid ||
-                      (c.memberUids?.contains(uid) ?? false))
+                  .where(
+                    (c) =>
+                        c.ownerUid == uid ||
+                        (c.memberUids?.contains(uid) ?? false),
+                  )
                   .toList();
               if (userCampaigns.isEmpty) return const <Party>[];
-              
+
               // Get all parties (local-first doesn't have hierarchical queries yet)
               final userParties = allParties.toList();
-              
+
               // Sort by updatedAt desc and take top 5
               userParties.sort((a, b) {
                 final ad = a.updatedAt;

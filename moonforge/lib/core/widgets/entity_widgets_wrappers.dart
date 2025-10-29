@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entities_widget.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart' as adv_model;
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart' as enc_model;
+import 'package:moonforge/data/firebase/models/entity.dart' as entity_model;
 import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
+import 'package:moonforge/data/firebase/models/scene.dart' as scene_model;
+import 'package:provider/provider.dart';
 
 /// Widget that displays entities for a campaign
 class CampaignEntitiesWidget extends StatelessWidget {
@@ -11,6 +19,23 @@ class CampaignEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Keep Provider dependencies to ensure rebuilds when local drift data updates
+    final campaigns = context.watch<List<Campaign>>();
+    context.watch<List<Chapter>>();
+    context.watch<List<adv_model.Adventure>>();
+    context.watch<List<scene_model.Scene>>();
+    context.watch<List<enc_model.Encounter>>();
+    context.watch<List<entity_model.Entity>>();
+
+    final campaign = campaigns.firstWhere(
+      (c) => c.id == campaignId,
+      orElse: () => const Campaign(id: '', name: '', description: ''),
+    );
+    if (campaign.id.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Use EntityGatherer to traverse hierarchy via ODM and deduplicate with consistent origins
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer().gatherFromCampaign(campaignId),
       builder: (context, snapshot) {
@@ -18,10 +43,11 @@ class CampaignEntitiesWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
+          logger.e('Error gathering campaign entities: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final entities = snapshot.data ?? [];
-        return EntitiesWidget(entities: entities);
+        final result = snapshot.data ?? const <EntityWithOrigin>[];
+        return EntitiesWidget(entities: result);
       },
     );
   }
@@ -40,6 +66,12 @@ class ChapterEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Keep Provider dependencies for rebuild triggers
+    context.watch<List<Chapter>>();
+    context.watch<List<adv_model.Adventure>>();
+    context.watch<List<scene_model.Scene>>();
+    context.watch<List<entity_model.Entity>>();
+
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer().gatherFromChapter(campaignId, chapterId),
       builder: (context, snapshot) {
@@ -47,10 +79,11 @@ class ChapterEntitiesWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
+          logger.e('Error gathering chapter entities: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final entities = snapshot.data ?? [];
-        return EntitiesWidget(entities: entities);
+        final result = snapshot.data ?? const <EntityWithOrigin>[];
+        return EntitiesWidget(entities: result);
       },
     );
   }
@@ -71,6 +104,11 @@ class AdventureEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Keep Provider dependencies for rebuild triggers
+    context.watch<List<adv_model.Adventure>>();
+    context.watch<List<scene_model.Scene>>();
+    context.watch<List<entity_model.Entity>>();
+
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer().gatherFromAdventure(
         campaignId,
@@ -82,10 +120,11 @@ class AdventureEntitiesWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
+          logger.e('Error gathering adventure entities: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final entities = snapshot.data ?? [];
-        return EntitiesWidget(entities: entities);
+        final result = snapshot.data ?? const <EntityWithOrigin>[];
+        return EntitiesWidget(entities: result);
       },
     );
   }
@@ -108,6 +147,10 @@ class SceneEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Keep Provider dependencies for rebuild triggers
+    context.watch<List<scene_model.Scene>>();
+    context.watch<List<entity_model.Entity>>();
+
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer().gatherFromScene(
         campaignId,
@@ -120,10 +163,11 @@ class SceneEntitiesWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
+          logger.e('Error gathering scene entities: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final entities = snapshot.data ?? [];
-        return EntitiesWidget(entities: entities);
+        final result = snapshot.data ?? const <EntityWithOrigin>[];
+        return EntitiesWidget(entities: result);
       },
     );
   }
@@ -142,6 +186,10 @@ class EncounterEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Keep Provider dependencies for rebuild triggers
+    context.watch<List<enc_model.Encounter>>();
+    context.watch<List<entity_model.Entity>>();
+
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer().gatherFromEncounter(campaignId, encounterId),
       builder: (context, snapshot) {
@@ -149,10 +197,11 @@ class EncounterEntitiesWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
+          logger.e('Error gathering encounter entities: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        final entities = snapshot.data ?? [];
-        return EntitiesWidget(entities: entities);
+        final result = snapshot.data ?? const <EntityWithOrigin>[];
+        return EntitiesWidget(entities: result);
       },
     );
   }

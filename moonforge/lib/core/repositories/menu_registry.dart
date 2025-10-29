@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
@@ -12,8 +13,14 @@ import 'package:moonforge/features/chapter/utils/create_chapter.dart'
 import 'package:moonforge/features/chapter/utils/create_scene_in_chapter.dart';
 import 'package:moonforge/features/encounters/utils/create_encounter.dart'
     as encounter_utils;
+import 'package:moonforge/features/encounters/utils/create_encounter_in_adventure.dart';
+import 'package:moonforge/features/encounters/utils/create_encounter_in_chapter.dart';
+import 'package:moonforge/features/encounters/utils/create_encounter_in_scene.dart';
 import 'package:moonforge/features/entities/utils/create_entity.dart'
     as entity_utils;
+import 'package:moonforge/features/entities/utils/create_entity_in_adventure.dart';
+import 'package:moonforge/features/entities/utils/create_entity_in_chapter.dart';
+import 'package:moonforge/features/entities/utils/create_entity_in_scene.dart';
 import 'package:moonforge/features/scene/utils/create_scene.dart'
     as scene_utils;
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -65,7 +72,7 @@ class MenuRegistry {
     }
 
     // Check for chapter context: /campaign/chapter/:chapterId
-    if (segments.length >= 2 &&
+    if (segments.length >= 3 &&
         segments[0] == 'campaign' &&
         segments[1] == 'chapter') {
       final chapterId = segments[2];
@@ -186,6 +193,35 @@ class MenuRegistry {
           notification.info(ctx, title: Text(l10n.noCampaignSelected));
           return;
         }
+
+        // Determine context by current route to link to correct parent
+        final loc = GoRouterState.of(ctx).uri;
+        final segs = loc.pathSegments;
+        if (segs.length >= 6 &&
+            segs[0] == 'campaign' &&
+            segs[1] == 'chapter' &&
+            segs[3] == 'adventure' &&
+            segs[5] == 'scene') {
+          final sceneId = segs[6];
+          // Prefer the most specific parent: Scene
+          createEntityInScene(ctx, campaign, sceneId);
+          return;
+        }
+        if (segs.length >= 4 &&
+            segs[0] == 'campaign' &&
+            segs[1] == 'chapter' &&
+            segs[3] == 'adventure') {
+          final adventureId = segs[4];
+          createEntityInAdventure(ctx, campaign, adventureId);
+          return;
+        }
+        if (segs.length >= 3 && segs[0] == 'campaign' && segs[1] == 'chapter') {
+          final chapterId = segs[2];
+          createEntityInChapter(ctx, campaign, chapterId);
+          return;
+        }
+
+        // Fallback: create as campaign-level entity
         entity_utils.createEntity(ctx, campaign);
       },
     );
@@ -300,6 +336,42 @@ class MenuRegistry {
           notification.info(ctx, title: Text(l10n.noCampaignSelected));
           return;
         }
+
+        final loc = GoRouterState.of(ctx).uri;
+        final segs = loc.pathSegments;
+        if (segs.length >= 6 &&
+            segs[0] == 'campaign' &&
+            segs[1] == 'chapter' &&
+            segs[3] == 'adventure' &&
+            segs[5] == 'scene') {
+          final chapterId = segs[2];
+          final adventureId = segs[4];
+          final sceneId = segs[6];
+          createEncounterInScene(
+            ctx,
+            campaign,
+            chapterId,
+            adventureId,
+            sceneId,
+          );
+          return;
+        }
+        if (segs.length >= 4 &&
+            segs[0] == 'campaign' &&
+            segs[1] == 'chapter' &&
+            segs[3] == 'adventure') {
+          final chapterId = segs[2];
+          final adventureId = segs[4];
+          createEncounterInAdventure(ctx, campaign, chapterId, adventureId);
+          return;
+        }
+        if (segs.length >= 3 && segs[0] == 'campaign' && segs[1] == 'chapter') {
+          final chapterId = segs[2];
+          createEncounterInChapter(ctx, campaign, chapterId);
+          return;
+        }
+
+        // Fallback (campaign-level)
         encounter_utils.createEncounter(ctx, campaign);
       },
     );
