@@ -31,8 +31,8 @@ Future<void> main(List<String> args) async {
 
   // IMPORTANT: Set Firestore settings BEFORE any other Firestore operations.
   // On desktop platforms (Windows, Linux) with C++ SDK, persistence is enabled by default
-  // and attempting to set it causes an "Illegal state" error. Skip setting on these platforms.
-  if (!Platform.isWindows && !Platform.isLinux) {
+  // and attempting to set it causes an "Illegal state" error. Only set on mobile/web platforms.
+  if (kIsWeb || Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
     try {
       FirebaseFirestore.instance.settings = const Settings(
         persistenceEnabled: true,
