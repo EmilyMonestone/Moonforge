@@ -267,15 +267,17 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                       : LayoutBuilder(
                           builder: (context, constraints) {
                             // Calculate available width for breadcrumbs and buttons
-                            final hasWindowButtons = !(kIsWeb ||
-                                Platform.isAndroid ||
-                                Platform.isIOS ||
-                                Platform.isFuchsia ||
-                                Platform.isMacOS);
-                            
+                            final hasWindowButtons =
+                                !(kIsWeb ||
+                                    Platform.isAndroid ||
+                                    Platform.isIOS ||
+                                    Platform.isFuchsia ||
+                                    Platform.isMacOS);
+
                             // Estimate window button widths (3 buttons × 46px each)
                             const windowButtonsWidth = 138.0;
-                            final availableWidth = constraints.maxWidth -
+                            final availableWidth =
+                                constraints.maxWidth -
                                 kTitleWidth -
                                 (hasWindowButtons ? windowButtonsWidth : 0);
 
@@ -283,7 +285,8 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                             final halfWidth = availableWidth / 2;
 
                             // Use adaptive button group when no custom trailing is provided
-                            final adaptiveTrailing = widget.trailing ??
+                            final adaptiveTrailing =
+                                widget.trailing ??
                                 (actionItems.isEmpty
                                     ? const SizedBox.shrink()
                                     : AdaptiveButtonGroup(
@@ -295,14 +298,14 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                             return Row(
                               children: [
                                 titleWidget,
-                                if (widget.leading != null)
-                                  SizedBox(
-                                    width: halfWidth,
-                                    child: widget.leading!,
-                                  ),
-                                if (widget.trailing != null || actionItems.isNotEmpty)
-                                  SizedBox(
-                                    width: halfWidth,
+                                if (widget.leading != null) widget.leading!,
+                                Spacer(),
+                                if (widget.trailing != null ||
+                                    actionItems.isNotEmpty)
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxWidth: halfWidth,
+                                    ),
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: adaptiveTrailing,

@@ -60,8 +60,8 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
           _checkOverflow(maxWidth);
         });
 
-        return SizedBox(
-          width: maxWidth,
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
           child: _buildButtonGroup(),
         );
       },
@@ -105,40 +105,40 @@ class _AdaptiveButtonGroupState extends State<AdaptiveButtonGroup> {
       message: action.helpText ?? action.label,
       child: widget.showLabels
           ? (action.icon != null
-              ? ButtonM3E(
-                  onPressed: () {
-                    final cb = action.onPressed;
-                    if (cb != null) cb(context);
-                  },
-                  icon: Icon(action.icon),
-                  label: Text(action.label),
-                  style: ButtonM3EStyle.tonal,
-                  shape: ButtonM3EShape.square,
-                )
-              : ButtonM3E(
-                  onPressed: () {
-                    final cb = action.onPressed;
-                    if (cb != null) cb(context);
-                  },
-                  label: Text(action.label),
-                  style: ButtonM3EStyle.tonal,
-                  shape: ButtonM3EShape.square,
-                ))
+                ? ButtonM3E(
+                    onPressed: () {
+                      final cb = action.onPressed;
+                      if (cb != null) cb(context);
+                    },
+                    icon: Icon(action.icon),
+                    label: Text(action.label),
+                    style: ButtonM3EStyle.tonal,
+                    shape: ButtonM3EShape.square,
+                  )
+                : ButtonM3E(
+                    onPressed: () {
+                      final cb = action.onPressed;
+                      if (cb != null) cb(context);
+                    },
+                    label: Text(action.label),
+                    style: ButtonM3EStyle.tonal,
+                    shape: ButtonM3EShape.square,
+                  ))
           : (action.icon != null
-              ? IconButtonM3E(
-                  onPressed: () {
-                    final cb = action.onPressed;
-                    if (cb != null) cb(context);
-                  },
-                  icon: Icon(action.icon),
-                )
-              : TextButton(
-                  onPressed: () {
-                    final cb = action.onPressed;
-                    if (cb != null) cb(context);
-                  },
-                  child: Text(action.label),
-                )),
+                ? IconButtonM3E(
+                    onPressed: () {
+                      final cb = action.onPressed;
+                      if (cb != null) cb(context);
+                    },
+                    icon: Icon(action.icon),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      final cb = action.onPressed;
+                      if (cb != null) cb(context);
+                    },
+                    child: Text(action.label),
+                  )),
     );
   }
 
