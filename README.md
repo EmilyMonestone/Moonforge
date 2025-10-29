@@ -177,25 +177,26 @@ dart run build_runner build --delete-conflicting-outputs
 - After adding new strings, run: flutter pub get (from moonforge/, to regenerate l10n delegates)
 - See moonforge/l10n.yaml for configuration
 
+## Documentation
+
+Comprehensive developer documentation is available in the `docs/` directory:
+
+- **[Getting Started](docs/getting-started.md)** - Setup guide for new developers
+- **[Architecture](docs/architecture/)** - System design, data layer, routing, state management
+- **[Features](docs/features/)** - Campaign management, entities, encounters, sessions, media
+- **[Development](docs/development/)** - Code generation, testing, localization, platform configs
+- **[Deployment](docs/deployment/)** - Building, packaging, releases, CI/CD
+- **[Reference](docs/reference/)** - Firebase schema, folder structure, troubleshooting
+
+See [docs/README.md](docs/README.md) for the complete documentation index.
+
 ## Routing
 
-Moonforge uses go_router with type-safe route definitions and supports deep linking across all platforms. Start with the developer docs:
-
-- docs/app_router.md - Router configuration and type-safe navigation
-- moonforge/docs/deep_linking.md - Deep linking implementation guide
-- moonforge/docs/testing_deep_links.md - Testing deep links on all platforms
-
-Key files:
-
-- moonforge/lib/core/services/app_router.dart (annotations and configuration)
-- moonforge/lib/core/services/app_router.g.dart (generated; do not edit)
-- moonforge/lib/core/services/deep_link_service.dart (deep link handling)
+Moonforge uses go_router with type-safe route definitions and supports deep linking across all platforms. See [docs/architecture/routing.md](docs/architecture/routing.md) for details.
 
 ## Data & Firebase Schema
 
-The canonical Firestore and Storage layout, index recommendations, and security notes are documented here:
-
-- docs/firebase_schema.md
+The canonical Firestore and Storage layout, index recommendations, and security notes are documented in [docs/reference/firebase-schema.md](docs/reference/firebase-schema.md).
 
 ## Assets
 
@@ -227,8 +228,9 @@ Moonforge uses [Fastforge](https://fastforge.dev) for packaging and distribution
 
 For maintainers and contributors interested in packaging:
 
-- **Quick Start**: See [docs/fastforge_quickref.md](docs/fastforge_quickref.md) for common commands
-- **Complete Guide**: See [docs/fastforge_setup.md](docs/fastforge_setup.md) for detailed setup instructions
+- **Quick Reference**: See [docs/deployment/packaging-quickref.md](docs/deployment/packaging-quickref.md) for common commands
+- **Complete Guide**: See [docs/deployment/packaging-setup.md](docs/deployment/packaging-setup.md) for detailed setup instructions
+- **Release Workflow**: See [docs/deployment/releases.md](docs/deployment/releases.md) for release channels and process
 
 ### Supported Platforms
 
