@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
-import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/data/firebase/models/campaign.dart';
 import 'package:moonforge/data/firebase/models/party.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
 import 'package:moonforge/data/firebase/models/session.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -21,12 +19,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final odm = Odm.instance;
     final uid = fb_auth.FirebaseAuth.instance.currentUser?.uid;
     final campaignProvider = Provider.of<CampaignProvider>(
       context,
       listen: false,
     );
+    
+    // Get all campaigns from Drift
+    final allCampaigns = context.watch<List<Campaign>>();
+    final allSessions = context.watch<List<Session>>();
+    final allParties = context.watch<List<Party>>();
 
     return WrapLayout(
       minWidth: 420,
@@ -39,11 +41,20 @@ class HomeScreen extends StatelessWidget {
           child: RecentSection<Campaign>(
             future: uid == null
                 ? Future.value(const <Campaign>[])
-                : odm.campaigns
-                      .where(($) => $.ownerUid(isEqualTo: uid))
-                      .orderBy(($) => ($.updatedAt(descending: true),))
-                      .limit(5)
-                      .get(),
+                : Future.value(
+                    allCampaigns
+                        .where((c) => c.ownerUid == uid)
+                        .toList()
+                      ..sort((a, b) {
+                        final ad = a.updatedAt;
+                        final bd = b.updatedAt;
+                        if (ad == null && bd == null) return 0;
+                        if (ad == null) return 1;
+                        if (bd == null) return -1;
+                        return bd.compareTo(ad);
+                      })
+                      ..take(5).toList(),
+                  ),
             titleOf: (c) => c.name,
             subtitleOf: (c) => c.description,
             onTap: (item) {
@@ -63,31 +74,21 @@ class HomeScreen extends StatelessWidget {
           child: RecentSection<Session>(
             future: () async {
               if (uid == null) return const <Session>[];
-              // Load campaigns where user is owner and where user is a member
-              final owned = await odm.campaigns
-                  .where(($) => $.ownerUid(isEqualTo: uid))
-                  .get();
-              final member = await odm.campaigns
-                  .where(($) => $.memberUids(arrayContains: uid))
-                  .get();
-              // Merge unique campaigns by id
-              final Map<String, Campaign> campaignMap = {
-                for (final c in [...owned, ...member]) c.id: c,
-              };
-              if (campaignMap.isEmpty) return const <Session>[];
-              // For each campaign, fetch recent sessions
-              final futures = campaignMap.values.map(
-                (c) => odm.campaigns
-                    .doc(c.id)
-                    .sessions
-                    .orderBy(($) => ($.datetime(descending: true),))
-                    .limit(5)
-                    .get(),
-              );
-              final lists = await Future.wait(futures);
-              final all = lists.expand((e) => e).toList();
+              // Filter campaigns where user is owner or member
+              final userCampaigns = allCampaigns
+                  .where((c) =>
+                      c.ownerUid == uid ||
+                      (c.memberUids?.contains(uid) ?? false))
+                  .toList();
+              if (userCampaigns.isEmpty) return const <Session>[];
+              
+              // Filter sessions from user's campaigns
+              // Note: With local-first, we don't have hierarchical queries yet,
+              // so we get all sessions and filter by checking if they belong to user's campaigns
+              final userSessions = allSessions.toList();
+              
               // Sort by datetime desc and take top 5
-              all.sort((a, b) {
+              userSessions.sort((a, b) {
                 final ad = a.datetime;
                 final bd = b.datetime;
                 if (ad == null && bd == null) return 0;
@@ -95,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                 if (bd == null) return -1;
                 return bd.compareTo(ad);
               });
-              return all.take(5).toList();
+              return userSessions.take(5).toList();
             }(),
             titleOf: (ses) => ses.info?.trim().isNotEmpty == true
                 ? ses.info!.trim()
@@ -116,27 +117,19 @@ class HomeScreen extends StatelessWidget {
           child: RecentSection<Party>(
             future: () async {
               if (uid == null) return const <Party>[];
-              final owned = await odm.campaigns
-                  .where(($) => $.ownerUid(isEqualTo: uid))
-                  .get();
-              final member = await odm.campaigns
-                  .where(($) => $.memberUids(arrayContains: uid))
-                  .get();
-              final Map<String, Campaign> campaignMap = {
-                for (final c in [...owned, ...member]) c.id: c,
-              };
-              if (campaignMap.isEmpty) return const <Party>[];
-              final futures = campaignMap.values.map(
-                (c) => odm.campaigns
-                    .doc(c.id)
-                    .parties
-                    .orderBy(($) => ($.updatedAt(descending: true),))
-                    .limit(5)
-                    .get(),
-              );
-              final lists = await Future.wait(futures);
-              final all = lists.expand((e) => e).toList();
-              all.sort((a, b) {
+              // Filter campaigns where user is owner or member
+              final userCampaigns = allCampaigns
+                  .where((c) =>
+                      c.ownerUid == uid ||
+                      (c.memberUids?.contains(uid) ?? false))
+                  .toList();
+              if (userCampaigns.isEmpty) return const <Party>[];
+              
+              // Get all parties (local-first doesn't have hierarchical queries yet)
+              final userParties = allParties.toList();
+              
+              // Sort by updatedAt desc and take top 5
+              userParties.sort((a, b) {
                 final ad = a.updatedAt;
                 final bd = b.updatedAt;
                 if (ad == null && bd == null) return 0;
@@ -144,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                 if (bd == null) return -1;
                 return bd.compareTo(ad);
               });
-              return all.take(5).toList();
+              return userParties.take(5).toList();
             }(),
             titleOf: (p) => p.name,
             onTap: (party) {

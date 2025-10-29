@@ -15,9 +15,7 @@ import 'package:moonforge/data/firebase/models/adventure.dart';
 import 'package:moonforge/data/firebase/models/campaign.dart';
 import 'package:moonforge/data/firebase/models/chapter.dart';
 import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
 import 'package:moonforge/data/firebase/models/session.dart';
-import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -163,29 +161,26 @@ class _ChaptersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
+    
+    // Get all chapters from Drift
+    // Note: Chapters don't have campaignId field yet, so we filter by ID prefix
+    final allChapters = context.watch<List<Chapter>>();
 
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.chapters,
         icon: Icons.library_books_outlined,
       ),
-      child: FutureBuilder<List<Chapter>>(
-        future: odm.campaigns
-            .doc(campaign.id)
-            .chapters
-            .orderBy((o) => (o.order(),))
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator(minHeight: 2);
-          }
-          if (snapshot.hasError) {
-            logger.e('Error fetching chapters: ${snapshot.error}');
-            return Text('Error: ${snapshot.error}');
-          }
-          final chapters = snapshot.data ?? const <Chapter>[];
+      child: Builder(
+        builder: (context) {
+          // Filter chapters for this campaign by ID prefix using startsWith
+          // Format: chapter-{campaignId}-{timestamp}
+          final chapters = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList()
+            ..sort((a, b) => a.order.compareTo(b.order));
+          
           if (chapters.isEmpty) {
             return Text(l10n.noChaptersYet);
           }
@@ -210,35 +205,41 @@ class _RecentChaptersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
+    
+    // Get all chapters from Drift
+    final allChapters = context.watch<List<Chapter>>();
+    
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.recentChapters,
         icon: Icons.update_outlined,
       ),
-      child: FutureBuilder<List<Chapter>>(
-        future: odm.campaigns
-            .doc(campaign.id)
-            .chapters
-            .orderBy((o) => (o.updatedAt(descending: true),))
-            .limit(5)
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator(minHeight: 2);
-          }
-          if (snapshot.hasError) {
-            logger.e('Error fetching recent chapters: ${snapshot.error}');
-            return Text('Error: ${snapshot.error}');
-          }
-          final items = snapshot.data ?? const <Chapter>[];
-          if (items.isEmpty) {
+      child: Builder(
+        builder: (context) {
+          // Filter chapters for this campaign by ID prefix using startsWith, sort by updatedAt desc, take 5
+          final items = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList()
+            ..sort((a, b) {
+              final ad = a.updatedAt;
+              final bd = b.updatedAt;
+              if (ad == null && bd == null) return 0;
+              if (ad == null) return 1;
+              if (bd == null) return -1;
+              return bd.compareTo(ad);
+            });
+          
+          final recentItems = items.take(5).toList();
+          
+          if (recentItems.isEmpty) {
             return const SizedBox.shrink();
           }
-          logger.i(items.first.updatedAt);
+          if (recentItems.isNotEmpty) {
+            logger.i(recentItems.first.updatedAt);
+          }
           return CardList<Chapter>(
-            items: items,
+            items: recentItems,
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => formatDateTime(c.updatedAt),
             onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
@@ -258,55 +259,51 @@ class _RecentAdventuresSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
-
-    Future<List<(Adventure, String /*chapterId*/)>> load() async {
-      final chapters = await odm.campaigns.doc(campaign.id).chapters.get();
-      if (chapters.isEmpty) return const [];
-      final futures = chapters.map((ch) async {
-        final advs = await odm.campaigns
-            .doc(campaign.id)
-            .chapters
-            .doc(ch.id)
-            .adventures
-            .orderBy((o) => (o.updatedAt(descending: true),))
-            .limit(5)
-            .get();
-        return advs.map((a) => (a, ch.id));
-      });
-      final lists = await Future.wait(futures);
-      final all = lists.expand((e) => e).toList();
-      all.sort((a, b) {
-        final ad = a.$1.updatedAt;
-        final bd = b.$1.updatedAt;
-        final adValid = isValidDateTime(ad);
-        final bdValid = isValidDateTime(bd);
-        if (!adValid && !bdValid) return 0;
-        if (!adValid) return 1;
-        if (!bdValid) return -1;
-        return bd!.compareTo(ad!);
-      });
-      return all.take(5).toList();
-    }
+    
+    // Get all chapters and adventures from Drift
+    final allChapters = context.watch<List<Chapter>>();
+    final allAdventures = context.watch<List<Adventure>>();
 
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.recentAdventures,
         icon: Icons.update_outlined,
       ),
-      child: FutureBuilder<List<(Adventure, String)>>(
-        future: load(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator(minHeight: 2);
+      child: Builder(
+        builder: (context) {
+          // Filter chapters for this campaign by ID pattern using startsWith
+          final chapters = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList();
+          
+          if (chapters.isEmpty) return const SizedBox.shrink();
+          
+          // Filter adventures by checking if their ID starts with chapter ID prefix
+          // Note: Without parent IDs, we use ID patterns for filtering
+          final List<(Adventure, String)> adventuresWithChapter = [];
+          for (final ch in chapters) {
+            final chapterAdvs = allAdventures
+                .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
+                .map((adv) => (adv, ch.id));
+            adventuresWithChapter.addAll(chapterAdvs);
           }
-          if (snapshot.hasError) {
-            logger.e('Error fetching recent adventures: ${snapshot.error}');
-            return Text('Error: ${snapshot.error}');
-          }
-          final items = snapshot.data ?? const <(Adventure, String)>[];
+          
+          // Sort by updatedAt desc
+          adventuresWithChapter.sort((a, b) {
+            final ad = a.$1.updatedAt;
+            final bd = b.$1.updatedAt;
+            final adValid = isValidDateTime(ad);
+            final bdValid = isValidDateTime(bd);
+            if (!adValid && !bdValid) return 0;
+            if (!adValid) return 1;
+            if (!bdValid) return -1;
+            return bd!.compareTo(ad!);
+          });
+          
+          final items = adventuresWithChapter.take(5).toList();
           if (items.isEmpty) return const SizedBox.shrink();
+          
           return CardList<(Adventure, String)>(
             items: items,
             titleOf: (t) => '${t.$1.order}. ${t.$1.name}',
@@ -329,74 +326,64 @@ class _RecentScenesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
-
-    Future<List<(Scene, String /*chapterId*/, String /*adventureId*/)>>
-    load() async {
-      final chapters = await odm.campaigns.doc(campaign.id).chapters.get();
-      if (chapters.isEmpty) return const [];
-      final advLists = await Future.wait(
-        chapters.map((ch) async {
-          final advs = await odm.campaigns
-              .doc(campaign.id)
-              .chapters
-              .doc(ch.id)
-              .adventures
-              .get();
-          return advs.map((a) => (a, ch.id));
-        }),
-      );
-      final allAdvs = advLists.expand((e) => e).toList();
-      if (allAdvs.isEmpty) return const [];
-      final scenesLists = await Future.wait(
-        allAdvs.map((pair) async {
-          final a = pair.$1;
-          final chId = pair.$2;
-          final scenes = await odm.campaigns
-              .doc(campaign.id)
-              .chapters
-              .doc(chId)
-              .adventures
-              .doc(a.id)
-              .scenes
-              .orderBy((o) => (o.updatedAt(descending: true),))
-              .limit(5)
-              .get();
-          return scenes.map((s) => (s, chId, a.id));
-        }),
-      );
-      final all = scenesLists.expand((e) => e).toList();
-      all.sort((a, b) {
-        final ad = a.$1.updatedAt;
-        final bd = b.$1.updatedAt;
-        final adValid = isValidDateTime(ad);
-        final bdValid = isValidDateTime(bd);
-        if (!adValid && !bdValid) return 0;
-        if (!adValid) return 1;
-        if (!bdValid) return -1;
-        return bd!.compareTo(ad!);
-      });
-      return all.take(5).toList();
-    }
+    
+    // Get all chapters, adventures, and scenes from Drift
+    final allChapters = context.watch<List<Chapter>>();
+    final allAdventures = context.watch<List<Adventure>>();
+    final allScenes = context.watch<List<Scene>>();
 
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.recentScenes,
         icon: Icons.update_outlined,
       ),
-      child: FutureBuilder<List<(Scene, String, String)>>(
-        future: load(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator(minHeight: 2);
+      child: Builder(
+        builder: (context) {
+          // Filter chapters for this campaign by ID pattern using startsWith
+          final chapters = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList();
+          
+          if (chapters.isEmpty) return const SizedBox.shrink();
+          
+          // Get adventures for these chapters using ID patterns with startsWith
+          final List<(Adventure, String)> adventuresWithChapter = [];
+          for (final ch in chapters) {
+            final chapterAdvs = allAdventures
+                .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
+                .map((adv) => (adv, ch.id));
+            adventuresWithChapter.addAll(chapterAdvs);
           }
-          if (snapshot.hasError) {
-            logger.e('Error fetching recent scenes: ${snapshot.error}');
-            return Text('Error: ${snapshot.error}');
+          
+          if (adventuresWithChapter.isEmpty) return const SizedBox.shrink();
+          
+          // Get scenes for these adventures using ID patterns with startsWith
+          final List<(Scene, String, String)> scenesWithContext = [];
+          for (final advPair in adventuresWithChapter) {
+            final adv = advPair.$1;
+            final chId = advPair.$2;
+            final adventureScenes = allScenes
+                .where((scene) => scene.id.startsWith('scene-${adv.id}-'))
+                .map((scene) => (scene, chId, adv.id));
+            scenesWithContext.addAll(adventureScenes);
           }
-          final items = snapshot.data ?? const <(Scene, String, String)>[];
+          
+          // Sort by updatedAt desc
+          scenesWithContext.sort((a, b) {
+            final ad = a.$1.updatedAt;
+            final bd = b.$1.updatedAt;
+            final adValid = isValidDateTime(ad);
+            final bdValid = isValidDateTime(bd);
+            if (!adValid && !bdValid) return 0;
+            if (!adValid) return 1;
+            if (!bdValid) return -1;
+            return bd!.compareTo(ad!);
+          });
+          
+          final items = scenesWithContext.take(5).toList();
           if (items.isEmpty) return const SizedBox.shrink();
+          
           return CardList<(Scene, String, String)>(
             items: items,
             titleOf: (t) => '${t.$1.order}. ${t.$1.title}',
@@ -420,32 +407,37 @@ class _RecentSessionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
+    
+    // Get all sessions from Drift
+    final allSessions = context.watch<List<Session>>();
+    
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.recentSessions,
         icon: Icons.schedule_outlined,
       ),
-      child: FutureBuilder<List<Session>>(
-        future: odm.campaigns
-            .doc(campaign.id)
-            .sessions
-            .orderBy((o) => (o.datetime(descending: true),))
-            .limit(5)
-            .get(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator(minHeight: 2);
-          }
-          if (snapshot.hasError) {
-            logger.e('Error fetching recent sessions: ${snapshot.error}');
-            return Text('Error: ${snapshot.error}');
-          }
-          final items = snapshot.data ?? const <Session>[];
-          if (items.isEmpty) return const SizedBox.shrink();
+      child: Builder(
+        builder: (context) {
+          // Filter sessions for this campaign and sort by datetime desc
+          // Note: With local-first, sessions don't have campaignId yet, 
+          // so we get all sessions. This will need to be updated when 
+          // session-campaign relationship is added to the schema.
+          final items = allSessions.toList()
+            ..sort((a, b) {
+              final ad = a.datetime;
+              final bd = b.datetime;
+              if (ad == null && bd == null) return 0;
+              if (ad == null) return 1;
+              if (bd == null) return -1;
+              return bd.compareTo(ad);
+            });
+          
+          final recentItems = items.take(5).toList();
+          if (recentItems.isEmpty) return const SizedBox.shrink();
+          
           return CardList<Session>(
-            items: items,
+            items: recentItems,
             titleOf: (s) => s.info?.trim().isNotEmpty == true
                 ? s.info!.trim()
                 : (s.datetime != null
