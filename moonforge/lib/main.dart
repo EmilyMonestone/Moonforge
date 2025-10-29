@@ -30,15 +30,18 @@ Future<void> main(List<String> args) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // IMPORTANT: Set Firestore settings BEFORE any other Firestore operations.
-  // On desktop (C++ SDK), changing settings after first use causes an Illegal state error.
-  try {
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-    );
-  } catch (e) {
-    // In rare cases (hot restart, early background init), Firestore might already be started.
-    // Avoid crashing the app; settings can only be set once per process.
-    debugPrint('Skipping Firestore settings update: $e');
+  // On desktop platforms (Windows, Linux) with C++ SDK, persistence is enabled by default
+  // and attempting to set it causes an "Illegal state" error. Skip setting on these platforms.
+  if (!Platform.isWindows && !Platform.isLinux) {
+    try {
+      FirebaseFirestore.instance.settings = const Settings(
+        persistenceEnabled: true,
+      );
+    } catch (e) {
+      // In rare cases (hot restart, early background init), Firestore might already be started.
+      // Avoid crashing the app; settings can only be set once per process.
+      debugPrint('Skipping Firestore settings update: $e');
+    }
   }
 
   // If you need to clear the Firestore cache, it must be done before any listeners/queries are created.
