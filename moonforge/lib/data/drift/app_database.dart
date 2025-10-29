@@ -17,7 +17,6 @@ import 'package:moonforge/data/drift/dao/scenes_dao.dart';
 import 'package:moonforge/data/drift/dao/sessions_dao.dart';
 import 'package:moonforge/data/drift/dao/storage_queue_dao.dart';
 import 'package:moonforge/data/drift/tables/adventures.dart';
-
 // Keep old table for backward compatibility
 import 'package:moonforge/data/drift/tables/campaign_local_metas.dart';
 import 'package:moonforge/data/drift/tables/campaigns.dart';
@@ -32,7 +31,16 @@ import 'package:moonforge/data/drift/tables/players.dart';
 import 'package:moonforge/data/drift/tables/scenes.dart';
 import 'package:moonforge/data/drift/tables/sessions.dart';
 import 'package:moonforge/data/drift/tables/storage_queue.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+// Import model types used by @UseRowClass in table definitions so Drift generated code can reference them
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
+import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/firebase/models/media_asset.dart';
+import 'package:moonforge/data/firebase/models/party.dart';
 import 'package:moonforge/data/firebase/models/player.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
 import 'package:moonforge/data/firebase/models/session.dart';
 
 part 'app_database.g.dart';
