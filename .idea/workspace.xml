@@ -18,31 +18,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: add documentation for core logger instance in logger.dart">
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_encounter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firebase/firestore.rules.drift" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_breadcrumb.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_breadcrumb.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entity_widgets_wrappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entity_widgets_wrappers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/custom_quill_viewer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/campaigns_dao.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/dao/outbox_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-hdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-hdpi/launcher_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-mdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-mdpi/launcher_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/sync/sync_engine.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/sync/sync_engine.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/web/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/windows/runner/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/windows/runner/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/windows/runner/resources/app_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/windows/runner/resources/app_icon.ico" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,35 +135,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
@@ -194,14 +215,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00026" summary="feat: refactor command palette and hotkey management for improved state handling and logging">
-      <option name="closed" value="true" />
-      <created>1761468714427</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468714427</updated>
     </task>
     <task id="LOCAL-00027" summary="feat: implement CampaignEditScreen with rich text editing and campaign management">
       <option name="closed" value="true" />
@@ -587,7 +600,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761730673937</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO">
+      <option name="closed" value="true" />
+      <created>1761745272247</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1761745272248</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -614,8 +635,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: enhance UI components, editor functionality, and layout structure&#10;&#10;- Added cancel buttons to various screens for better user flow.&#10;- Updated `AdaptiveScaffold` to support dynamic scrolling and layout adaptability.&#10;- Refined `WrapLayout` to include better column handling for constrained widths.&#10;- Improved Quill editor configurations for better readability and customization.&#10;- Updated `DatetimeUtils` for enhanced formatting of timestamps with locale-specific formats.&#10;- Minor code cleanups and refactorings in constants and testing files." />
-    <MESSAGE value="feat: add GitHub Actions workflow for deploying website to GitHub Pages" />
     <MESSAGE value="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup" />
     <MESSAGE value="remove" />
     <MESSAGE value="feat: add Contents.json for Moonforge icons and logos" />
@@ -639,7 +658,9 @@
     <MESSAGE value="refactor: update imports to include new Firebase model types in app_database.dart" />
     <MESSAGE value="refactor: replace Row with Wrap for improved layout in adaptive_scaffold.dart" />
     <MESSAGE value="refactor: add documentation for core logger instance in logger.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: add documentation for core logger instance in logger.dart" />
+    <MESSAGE value="feat: implement entity creation in chapter, adventure, and scene contexts" />
+    <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1010,6 +1031,12 @@
           <option name="totalLines" value="18347799" />
           <option name="info" value="refactor: add documentation for core logger instan" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761745279723" />
+          <option name="linesCode" value="240907" />
+          <option name="totalLines" value="17178390" />
+          <option name="info" value="refactor: improve logging and Firebase sync mechan" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1066,6 +1093,12 @@
           <option name="timestamp" value="1761730677141" />
           <option name="linesCode" value="247235" />
           <option name="totalLines" value="18347799" />
+          <option name="info" value="Oct 29, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761745279723" />
+          <option name="linesCode" value="240907" />
+          <option name="totalLines" value="17178390" />
           <option name="info" value="Oct 29, 2025" />
         </TimePoint>
       </list>

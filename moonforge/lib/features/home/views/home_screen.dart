@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final uid = fb_auth.FirebaseAuth.instance.currentUser?.uid;
-    debugPrint('HomeScreen.build: uid=$uid');
     final campaignProvider = Provider.of<CampaignProvider>(
       context,
       listen: false,

@@ -149,21 +149,21 @@ flutter:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple.png"
+  image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple.png"
+    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
     background_color: "#2A2033"
     theme_color: "#A855F7"
   windows:
     generate: true
-    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple.png"
+    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
     icon_size: 256 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple.png"
+    image_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_256.png"
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)

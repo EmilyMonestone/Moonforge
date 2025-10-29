@@ -150,70 +150,120 @@ List<SingleChildWidget> driftProviders() {
     StreamProvider<List<Campaign>>(
       create: (context) {
         logger.t('StreamProvider<List<Campaign>> created');
-        return context.read<CampaignRepository>().watchAll();
+        return context.read<CampaignRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Campaign>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Adventure>>(
       create: (context) {
         logger.t('StreamProvider<List<Adventure>> created');
-        return context.read<AdventureRepository>().watchAll();
+        return context.read<AdventureRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Adventure>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Chapter>>(
       create: (context) {
         logger.t('StreamProvider<List<Chapter>> created');
-        return context.read<ChapterRepository>().watchAll();
+        return context.read<ChapterRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Chapter>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Scene>>(
       create: (context) {
         logger.t('StreamProvider<List<Scene>> created');
-        return context.read<SceneRepository>().watchAll();
+        return context.read<SceneRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Scene>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Encounter>>(
       create: (context) {
         logger.t('StreamProvider<List<Encounter>> created');
-        return context.read<EncounterRepository>().watchAll();
+        return context.read<EncounterRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Encounter>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Entity>>(
       create: (context) {
         logger.t('StreamProvider<List<Entity>> created');
-        return context.read<EntityRepository>().watchAll();
+        return context.read<EntityRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Entity>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Party>>(
       create: (context) {
         logger.t('StreamProvider<List<Party>> created');
-        return context.read<PartyRepository>().watchAll();
+        return context.read<PartyRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Party>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Player>>(
       create: (context) {
         logger.t('StreamProvider<List<Player>> created');
-        return context.read<PlayerRepository>().watchAll();
+        return context.read<PlayerRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Player>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<Session>>(
       create: (context) {
         logger.t('StreamProvider<List<Session>> created');
-        return context.read<SessionRepository>().watchAll();
+        return context.read<SessionRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<Session>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
     StreamProvider<List<MediaAsset>>(
       create: (context) {
         logger.t('StreamProvider<List<MediaAsset>> created');
-        return context.read<MediaAssetRepository>().watchAll();
+        return context.read<MediaAssetRepository>().watchAll().handleError((
+          error,
+          stack,
+        ) {
+          logger.w('Stream<List<MediaAsset>> error suppressed: $error');
+        });
       },
       initialData: const [],
     ),
