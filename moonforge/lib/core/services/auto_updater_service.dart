@@ -48,6 +48,12 @@ class AutoUpdaterService {
       return;
     }
 
+    // Skip auto updater in non-release builds to avoid platform thread issues in debug.
+    if (!kReleaseMode) {
+      logger.i('AutoUpdater disabled in non-release builds');
+      return;
+    }
+
     // Auto updater only works on desktop platforms (Windows and macOS)
     if (kIsWeb || !(Platform.isWindows || Platform.isMacOS)) {
       logger.i('AutoUpdater not supported on this platform');

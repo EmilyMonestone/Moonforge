@@ -80,8 +80,11 @@ Future<void> main(List<String> args) async {
     }
 
     DeepLinkService.instance.initialize(AppRouter.router);
-    // Initialize auto updater for desktop platforms
-    AutoUpdaterService.instance.initialize();
+    // Initialize auto updater for desktop platforms only in release builds to avoid
+    // platform thread assertions in debug on Windows.
+    if (kReleaseMode && (Platform.isWindows || Platform.isMacOS)) {
+      AutoUpdaterService.instance.initialize();
+    }
   });
 
   runApp(MultiProviderWrapper(child: App()));

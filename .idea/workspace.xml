@@ -18,52 +18,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: update CMake version and enhance error handling in StreamProviders">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-hdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-hdpi/launcher_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-mdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-mdpi/launcher_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xhdpi/launcher_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/favicon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-192.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-512.png" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/icons/Icon-maskable-512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/web/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/web/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/windows/runner/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/windows/runner/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/windows/runner/resources/app_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/windows/runner/resources/app_icon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/auto_updater_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,14 +174,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00027" summary="feat: implement CampaignEditScreen with rich text editing and campaign management">
-      <option name="closed" value="true" />
-      <created>1761468751616</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468751616</updated>
     </task>
     <task id="LOCAL-00028" summary="feat: add User model with settings and localization support">
       <option name="closed" value="true" />
@@ -608,7 +559,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761745272248</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="refactor: update CMake version and enhance error handling in StreamProviders">
+      <option name="closed" value="true" />
+      <created>1761753065228</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1761753065228</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -635,7 +594,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup" />
     <MESSAGE value="remove" />
     <MESSAGE value="feat: add Contents.json for Moonforge icons and logos" />
     <MESSAGE value="feat: update download section to indicate upcoming releases and disable buttons" />
@@ -660,7 +618,8 @@
     <MESSAGE value="refactor: add documentation for core logger instance in logger.dart" />
     <MESSAGE value="feat: implement entity creation in chapter, adventure, and scene contexts" />
     <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
+    <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: update CMake version and enhance error handling in StreamProviders" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1037,6 +996,12 @@
           <option name="totalLines" value="17178390" />
           <option name="info" value="refactor: improve logging and Firebase sync mechan" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761753073136" />
+          <option name="linesCode" value="240958" />
+          <option name="totalLines" value="17336701" />
+          <option name="info" value="refactor: update CMake version and enhance error h" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1096,9 +1061,9 @@
           <option name="info" value="Oct 29, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1761745279723" />
-          <option name="linesCode" value="240907" />
-          <option name="totalLines" value="17178390" />
+          <option name="timestamp" value="1761753073136" />
+          <option name="linesCode" value="240958" />
+          <option name="totalLines" value="17336701" />
           <option name="info" value="Oct 29, 2025" />
         </TimePoint>
       </list>

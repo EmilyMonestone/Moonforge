@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart' as mb_actions;
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/widgets/adaptive_button_group.dart';
@@ -71,56 +70,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
             .where((a) => a.onPressed != null)
             .toList();
     final showLabels = !isCompact;
-    final Widget trailingWidget =
-        widget.trailing ??
-        (actionItems.isEmpty
-            ? const SizedBox.shrink()
-            : ButtonGroupM3E(
-                /*                type: ButtonGroupM3EType.connected,*/
-                shape: ButtonGroupM3EShape.square,
-                children: [
-                  for (int i = 0; i < actionItems.length; i++)
-                    Tooltip(
-                      message: actionItems[i].helpText ?? actionItems[i].label,
-                      child: showLabels
-                          ? (actionItems[i].icon != null
-                                ? ButtonM3E(
-                                    onPressed: () {
-                                      final cb = actionItems[i].onPressed;
-                                      if (cb != null) cb(context);
-                                    },
-                                    icon: Icon(actionItems[i].icon),
-                                    label: Text(actionItems[i].label),
-                                    style: ButtonM3EStyle.tonal,
-                                    shape: ButtonM3EShape.square,
-                                  )
-                                : ButtonM3E(
-                                    onPressed: () {
-                                      final cb = actionItems[i].onPressed;
-                                      if (cb != null) cb(context);
-                                    },
-                                    label: Text(actionItems[i].label),
-                                    style: ButtonM3EStyle.tonal,
-                                    shape: ButtonM3EShape.square,
-                                  ))
-                          : (actionItems[i].icon != null
-                                ? IconButtonM3E(
-                                    onPressed: () {
-                                      final cb = actionItems[i].onPressed;
-                                      if (cb != null) cb(context);
-                                    },
-                                    icon: Icon(actionItems[i].icon),
-                                  )
-                                : TextButton(
-                                    onPressed: () {
-                                      final cb = actionItems[i].onPressed;
-                                      if (cb != null) cb(context);
-                                    },
-                                    child: Text(actionItems[i].label),
-                                  )),
-                    ),
-                ],
-              ));
+
     final buttons =
         (!(kIsWeb ||
             Platform.isAndroid ||
@@ -252,7 +202,26 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                                 children: [
                                   if (widget.leading != null) widget.leading!,
                                   const Spacer(),
-                                  trailingWidget,
+                                  // Constrain actions to available width and handle overflow
+                                  if (widget.trailing != null)
+                                    Flexible(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: widget.trailing!,
+                                      ),
+                                    )
+                                  else if (actionItems.isNotEmpty)
+                                    Flexible(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: AdaptiveButtonGroup(
+                                          actions: actionItems,
+                                          showLabels: showLabels,
+                                        ),
+                                      ),
+                                    )
+                                  else
+                                    const SizedBox.shrink(),
                                 ],
                               ),
                             ),
@@ -325,7 +294,14 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                           ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: trailingWidget,
+                          child:
+                              widget.trailing ??
+                              (actionItems.isEmpty
+                                  ? const SizedBox.shrink()
+                                  : AdaptiveButtonGroup(
+                                      actions: actionItems,
+                                      showLabels: showLabels,
+                                    )),
                         ),
                       ],
                     ),
