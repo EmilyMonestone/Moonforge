@@ -78,6 +78,10 @@ class OutboxProcessor {
         final row = await _db.mediaAssetDao.getById(rowId);
         return row != null ? mediaAssetToFirestore(row) : null;
       
+      case 'sessions':
+        final row = await _db.sessionDao.getById(rowId);
+        return row != null ? sessionToFirestore(row) : null;
+      
       default:
         return null;
     }

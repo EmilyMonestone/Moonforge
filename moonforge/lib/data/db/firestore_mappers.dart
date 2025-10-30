@@ -257,3 +257,30 @@ MediaAssetsCompanion mediaAssetFromFirestore(String id, Map<String, dynamic> d) 
     updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
+
+// Session mappers
+Map<String, Object?> sessionToFirestore(Session s) => {
+  'createdAt': s.createdAt != null ? Timestamp.fromDate(s.createdAt!) : null,
+  'info': s.info,  // Quill JSON
+  'datetime': s.datetime != null ? Timestamp.fromDate(s.datetime!) : null,
+  'log': s.log,  // Quill JSON
+  'shareToken': s.shareToken,
+  'shareEnabled': s.shareEnabled,
+  'shareExpiresAt': s.shareExpiresAt != null ? Timestamp.fromDate(s.shareExpiresAt!) : null,
+  'updatedAt': FieldValue.serverTimestamp(),
+  'rev': s.rev,
+};
+
+SessionsCompanion sessionFromFirestore(String id, Map<String, dynamic> d) =>
+  SessionsCompanion(
+    id: drift.Value(id),
+    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
+    info: drift.Value(d['info'] as Map<String, dynamic>?),
+    datetime: drift.Value((d['datetime'] as Timestamp?)?.toDate()),
+    log: drift.Value(d['log'] as Map<String, dynamic>?),
+    shareToken: drift.Value(d['shareToken'] as String?),
+    shareEnabled: drift.Value((d['shareEnabled'] ?? false) as bool),
+    shareExpiresAt: drift.Value((d['shareExpiresAt'] as Timestamp?)?.toDate()),
+    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    rev: drift.Value((d['rev'] as int?) ?? 0),
+  );

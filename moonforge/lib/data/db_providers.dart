@@ -10,6 +10,7 @@ import 'repo_new/party_repository.dart';
 import 'repo_new/encounter_repository.dart';
 import 'repo_new/entity_repository.dart';
 import 'repo_new/media_asset_repository.dart';
+import 'repo_new/session_repository.dart';
 
 /// Providers for the new database layer
 /// 
@@ -70,5 +71,8 @@ List<Provider> dbProviders(AppDb db) => [
   ),
   Provider<MediaAssetRepository>(
     create: (_) => MediaAssetRepository(db),
+  ),
+  Provider<SessionRepository>(
+    create: (_) => SessionRepository(db),
   ),
 ];

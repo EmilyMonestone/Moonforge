@@ -145,6 +145,22 @@ class MediaAssets extends Table {
   @override Set<Column> get primaryKey => {id};
 }
 
+class Sessions extends Table {
+  TextColumn get id => text()();
+  DateTimeColumn get createdAt => dateTime().nullable()();
+  // Quill editor delta (JSON text) - DM-only notes
+  TextColumn get info => text().nullable().map(quillConv)();
+  DateTimeColumn get datetime => dateTime().nullable()();
+  // Quill editor delta (JSON text) - shared with players
+  TextColumn get log => text().nullable().map(quillConv)();
+  TextColumn get shareToken => text().nullable()();
+  BoolColumn get shareEnabled => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get shareExpiresAt => dateTime().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+  IntColumn get rev => integer()();
+  @override Set<Column> get primaryKey => {id};
+}
+
 // Outbox for sync (local -> cloud)
 class OutboxEntries extends Table {
   TextColumn get id => text()();                // uuid

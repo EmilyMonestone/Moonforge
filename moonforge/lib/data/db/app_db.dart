@@ -16,6 +16,7 @@ import 'daos/encounter_dao.dart';
 import 'daos/entity_dao.dart';
 import 'daos/combatant_dao.dart';
 import 'daos/media_asset_dao.dart';
+import 'daos/session_dao.dart';
 import 'daos/outbox_dao.dart';
 
 part 'app_db.g.dart';
@@ -30,7 +31,8 @@ part 'app_db.g.dart';
     Encounters,
     Entities, 
     Combatants, 
-    MediaAssets, 
+    MediaAssets,
+    Sessions,
     OutboxEntries
   ],
   daos: [
@@ -43,6 +45,7 @@ part 'app_db.g.dart';
     EntityDao,
     CombatantDao,
     MediaAssetDao,
+    SessionDao,
     OutboxDao,
   ],
 )
