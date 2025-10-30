@@ -14,6 +14,7 @@ import 'package:moonforge/data/models/party.dart';
 import 'package:moonforge/data/models/player.dart';
 import 'package:moonforge/data/models/scene.dart';
 import 'package:moonforge/data/models/session.dart';
+import 'package:moonforge/data/providers/sync_state_provider.dart';
 import 'package:moonforge/data/repositories/adventure_repository.dart';
 import 'package:moonforge/data/repositories/campaign_repository.dart';
 import 'package:moonforge/data/repositories/chapter_repository.dart';
@@ -147,6 +148,18 @@ List<SingleChildWidget> isarProviders() {
         debugPrint('Disposing IsarSyncEngine provider');
         logger.i('Stopping IsarSyncEngine');
         engine.stop();
+      },
+    ),
+
+    // SyncStateProvider for tracking sync status
+    ChangeNotifierProxyProvider<Isar, SyncStateProvider>(
+      create: (context) {
+        logger.t('Create SyncStateProvider');
+        return SyncStateProvider(context.read<Isar>());
+      },
+      update: (_, isar, previous) {
+        logger.t('Update SyncStateProvider');
+        return previous ?? SyncStateProvider(isar);
       },
     ),
 

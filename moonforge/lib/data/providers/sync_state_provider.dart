@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:moonforge/data/drift/app_database.dart';
+import 'package:isar/isar.dart';
+import 'package:moonforge/data/models/outbox_operation.dart';
 import 'package:moonforge/data/widgets/sync_state_widget.dart';
 
 /// Provider that tracks the current sync state of the offline-first system
 class SyncStateProvider extends ChangeNotifier {
-  final AppDatabase _db;
+  final Isar _isar;
   SyncState _state = SyncState.synced;
   int _pendingCount = 0;
   String? _errorMessage;
   Timer? _pollTimer;
 
-  SyncStateProvider(this._db) {
+  SyncStateProvider(this._isar) {
     _startPolling();
   }
 
@@ -29,22 +30,23 @@ class SyncStateProvider extends ChangeNotifier {
   Future<void> _updateState() async {
     try {
       // Get pending outbox count
-      final outboxCount = await _db.outboxDao.pendingCount();
+      final pendingOps = await _isar.outboxOperations
+          .filter()
+          .statusEqualTo('pending')
+          .count();
       
-      // Get pending storage queue count
-      final storageCount = await _db.storageQueueDao.pendingCount();
+      // Get syncing operations count
+      final syncingOps = await _isar.outboxOperations
+          .filter()
+          .statusEqualTo('syncing')
+          .count();
       
-      final totalPending = outboxCount + storageCount;
-
-      // Check if any operations are in progress
-      final inProgressOps = await (_db.select(_db.storageQueue)
-          ..where((op) => op.status.equals('in_progress')))
-          .get();
+      final totalPending = pendingOps + syncingOps;
 
       SyncState newState;
-      if (inProgressOps.isNotEmpty) {
+      if (syncingOps > 0) {
         newState = SyncState.syncing;
-      } else if (totalPending > 0) {
+      } else if (pendingOps > 0) {
         newState = SyncState.pendingSync;
       } else {
         newState = SyncState.synced;
