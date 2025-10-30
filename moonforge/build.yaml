@@ -4,9 +4,9 @@ targets:
       json_serializable:
         options:
           explicit_to_json: true
-      drift_dev:
+      isar_generator:
         options:
-          # Generate code for Drift tables and DAOs
+          # Generate code for Isar collections
       flutter_gen_runner:
         options:
 

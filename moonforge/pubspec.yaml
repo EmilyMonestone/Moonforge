@@ -20,18 +20,16 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # Firebase & Data (Firestore, Storage, Remote Config, ODM)
+  # Firebase & Data (Firestore, Storage, Remote Config)
   firebase_core: ^3.15.2
   firebase_auth: ^5.7.0
   firebase_storage: ^12.4.10
   cloud_firestore: ^5.0.0
   firebase_remote_config: ^5.5.0
-  firestore_odm: ^4.0.0-dev.1
   
-  # Local database (Drift for offline-first)
-  drift: ^2.19.0
-  drift_flutter: ^0.2.2
-  sqlite3_flutter_libs: ^0.5.24
+  # Local database (Isar for offline-first with Firebase sync)
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.1
   path: ^1.9.0
 
@@ -123,11 +121,10 @@ dev_dependencies:
 
   # Generators
   flutter_gen_runner: ^5.12.0
-  firestore_odm_builder: ^4.0.0-dev.1
+  isar_generator: ^3.1.0+1
   freezed: ^3.0.6
   json_serializable: ^6.9.5
   go_router_builder: 3.0.0
-  drift_dev: ^2.19.0
 
 
 flutter:
