@@ -130,11 +130,16 @@ List<SingleChildWidget> driftProviders() {
         // Defer start until after first frame to ensure platform thread is fully ready
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           try {
-            // On Windows in debug, add a delay to avoid platform-thread assertions from the C++ SDK.
-            // The Firebase C++ SDK on Windows sends query results on background threads, which
-            // causes crashes in debug builds. A longer delay allows the platform to stabilize.
+            // On Windows in debug mode, the Firebase C++ SDK has platform-thread violations
+            // that cause abort() crashes. Disable SyncEngine in Windows debug builds.
+            // See: https://github.com/firebase/flutterfire/issues/11933
+            // See: https://docs.flutter.dev/platform-integration/platform-channels#channels-and-platform-threading
             if (Platform.isWindows && !kReleaseMode) {
-              await Future.delayed(const Duration(milliseconds: 1000));
+              logger.w(
+                'SyncEngine disabled on Windows debug builds due to Firebase C++ SDK '
+                'platform-thread violations. Data will sync in release builds.',
+              );
+              return;
             }
             engine.start();
           } catch (e, st) {
