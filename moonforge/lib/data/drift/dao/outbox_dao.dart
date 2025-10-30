@@ -77,4 +77,15 @@ class OutboxDao extends DatabaseAccessor<AppDatabase> with _$OutboxDaoMixin {
     if (count > 0) logger.t('Outbox.pendingCount = $count');
     return count;
   }
+
+  /// Clear all pending operations (useful for debugging/testing)
+  Future<void> clearAll() async {
+    final count = await pendingCount();
+    if (count > 0) {
+      logger.w('Outbox.clearAll() removing $count pending operations');
+      await delete(outboxOps).go();
+    } else {
+      logger.i('Outbox.clearAll() no operations to clear');
+    }
+  }
 }

@@ -136,6 +136,10 @@ List<SingleChildWidget> driftProviders() {
             // See: https://github.com/firebase/flutterfire/issues/11933
             // See: https://docs.flutter.dev/platform-integration/platform-channels#channels-and-platform-threading
             if (Platform.isWindows && !kReleaseMode) {
+              // Clear outbox on Windows debug builds to prevent startup issues with queued operations
+              logger.i('Clearing outbox on Windows debug build');
+              await db.outboxDao.clearAll();
+              
               logger.w(
                 'SyncEngine starting on Windows debug build with pull and push disabled. '
                 'Local changes will be queued in outbox. Sync will work in release builds.',
