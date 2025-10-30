@@ -48,6 +48,12 @@ Future<void> main(List<String> args) async {
   // Doing it later can trigger the C++ SDK "settings can no longer be changed" error on desktop.
   // await clearFirestoreCache();
 
+  // On Windows in debug mode, add a delay before first Firestore access to avoid
+  // platform-thread violations and crashes in the C++ SDK.
+  if (Platform.isWindows && !kReleaseMode) {
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
   final firestore = FirebaseFirestore.instance;
 
   await Odm.init(firestore);
