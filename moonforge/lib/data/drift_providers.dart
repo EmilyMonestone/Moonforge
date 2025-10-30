@@ -131,14 +131,15 @@ List<SingleChildWidget> driftProviders() {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           try {
             // On Windows in debug mode, the Firebase C++ SDK has platform-thread violations
-            // when interacting with Firestore. Disable both pull and push, but keep the engine
-            // running so local data operations work. Changes will be queued in the outbox.
+            // when interacting with Firestore. However, clearing the outbox on startup
+            // prevents crashes from stale operations. The platform-thread errors still appear
+            // but are non-fatal. Keep full sync enabled for development.
             // See: https://github.com/firebase/flutterfire/issues/11933
             // See: https://docs.flutter.dev/platform-integration/platform-channels#channels-and-platform-threading
             if (Platform.isWindows && !kReleaseMode) {
-              // Clear outbox on Windows debug builds to prevent startup issues with queued operations
-              //logger.i('Clearing outbox on Windows debug build');
-              //await db.outboxDao.clearAll();
+              // Clear outbox on Windows debug builds to prevent startup crashes
+              logger.i('Clearing outbox on Windows debug build');
+              await db.outboxDao.clearAll();
             }
             engine.start();
           } catch (e, st) {
