@@ -60,6 +60,10 @@ class AppDb extends _$AppDb {
       onUpgrade: (Migrator m, int from, int to) async {
         // Add migrations here as schema evolves
       },
+      beforeOpen: (details) async {
+        // Enable foreign key constraints
+        await customStatement('PRAGMA foreign_keys = ON');
+      },
     );
   }
   

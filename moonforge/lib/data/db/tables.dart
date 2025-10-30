@@ -18,7 +18,7 @@ class Campaigns extends Table {
 
 class Chapters extends Table {
   TextColumn get id => text()();
-  TextColumn get campaignId => text()(); // FK
+  TextColumn get campaignId => text().references(Campaigns, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   IntColumn  get order => integer()();
   TextColumn get summary => text().nullable()();
@@ -33,7 +33,7 @@ class Chapters extends Table {
 
 class Adventures extends Table {
   TextColumn get id => text()();
-  TextColumn get chapterId => text()();
+  TextColumn get chapterId => text().references(Chapters, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   IntColumn  get order => integer()();
   TextColumn get summary => text().nullable()();
@@ -48,7 +48,7 @@ class Adventures extends Table {
 
 class Scenes extends Table {
   TextColumn get id => text()();
-  TextColumn get adventureId => text()();
+  TextColumn get adventureId => text().references(Adventures, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   IntColumn  get order => integer()();
   TextColumn get summary => text().nullable()();
@@ -63,7 +63,7 @@ class Scenes extends Table {
 
 class Parties extends Table {
   TextColumn get id => text()();
-  TextColumn get campaignId => text()();
+  TextColumn get campaignId => text().references(Campaigns, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   TextColumn get summary => text().nullable()();
   TextColumn get memberEntityIds => text().map(const StringListConverter()).nullable()();
@@ -112,7 +112,7 @@ class Entities extends Table {
 
 class Combatants extends Table {
   TextColumn get id => text()();
-  TextColumn get encounterId => text()();
+  TextColumn get encounterId => text().references(Encounters, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   TextColumn get type => text()(); // enum as TEXT
   BoolColumn get isAlly => boolean()();
