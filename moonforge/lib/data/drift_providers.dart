@@ -130,9 +130,11 @@ List<SingleChildWidget> driftProviders() {
         // Defer start until after first frame to ensure platform thread is fully ready
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           try {
-            // On Windows in debug, add a tiny delay to avoid platform-thread assertions from the C++ SDK.
+            // On Windows in debug, add a delay to avoid platform-thread assertions from the C++ SDK.
+            // The Firebase C++ SDK on Windows sends query results on background threads, which
+            // causes crashes in debug builds. A longer delay allows the platform to stabilize.
             if (Platform.isWindows && !kReleaseMode) {
-              await Future.delayed(const Duration(milliseconds: 250));
+              await Future.delayed(const Duration(milliseconds: 1000));
             }
             engine.start();
           } catch (e, st) {
