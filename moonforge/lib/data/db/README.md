@@ -202,7 +202,34 @@ final db = AppDb(NativeDatabase.memory());
 1. **Combatants** are embedded in Encounter JSON (not a separate Firestore collection)
 2. **TTL** requires manual Firestore configuration (not in SDK)
 3. **Cloud Storage** integration requires separate `StorageSyncService` (TBD)
-4. **Cascade deletes** must be handled manually in repositories
+4. **Cascade deletes** are now handled automatically via foreign key constraints with CASCADE
+
+## Schema Tools
+
+### Dump for version control
+
+Drift provides a subcommand to export your database schema to JSON for version control and migration testing. This command expects two paths: a Dart file containing your database class and a target output file.
+
+```bash
+dart run drift_dev schema dump lib/data/db/app_db.dart schema.json
+```
+
+The generated file (e.g., `schema.json`) contains comprehensive information about:
+
+* **Tables** - Including detailed column information, types, and constraints
+* **Triggers** - Any database triggers defined
+* **Indices** - All database indices
+* **@create-queries** - Custom create queries from included drift files
+* **Dependencies** - Relationships and foreign key constraints
+
+This exported schema is particularly useful for:
+
+1. **Version control**: Track schema changes over time in your repository
+2. **Migration testing**: Generate test code to verify schema migrations work correctly
+3. **Documentation**: Provide a machine-readable reference of your database structure
+4. **CI/CD**: Validate schema changes in automated pipelines
+
+For details on using schema exports for migration testing, see the [Drift migration testing guide](https://drift.simonbinder.eu/docs/advanced-features/migrations/#verifying-migrations).
 
 ## References
 
