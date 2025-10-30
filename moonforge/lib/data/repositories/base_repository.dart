@@ -45,9 +45,10 @@ abstract class BaseRepository<T> {
 
   /// Watch all non-deleted entities
   Stream<List<T>> watchAll() {
+    // Watch all entities, filtering by deleted = false
     return collection
         .filter()
-        .group((q) => q.optional(isDeleted, (q, value) => q.not().deletedEqualTo(true)))
+        .deletedEqualTo(false)
         .watch(fireImmediately: true);
   }
 
@@ -146,12 +147,5 @@ abstract class BaseRepository<T> {
       ..status = 'pending';
 
     await isar.outboxOperations.put(outboxOp);
-  }
-
-  /// Helper method to filter query by deleted status
-  QueryBuilder<T, T, QAfterFilterCondition> filterNotDeleted(
-    QueryBuilder<T, T, QFilterCondition> query,
-  ) {
-    return query.group((q) => q.optional(isDeleted, (q, value) => q.not().deletedEqualTo(true)));
   }
 }

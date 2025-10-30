@@ -1,116 +1,41 @@
-import 'dart:convert';
 import 'package:isar/isar.dart';
-import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/models/campaign.dart';
-import 'package:moonforge/data/models/outbox_operation.dart';
-import 'package:moonforge/data/services/isar_service.dart';
+import 'package:moonforge/data/repositories/base_repository.dart';
 
 /// Repository for Campaign operations with local-first Isar storage
-class CampaignRepository {
-  final Isar _isar;
+class CampaignRepository extends BaseRepository<Campaign> {
+  CampaignRepository(super.isar) : super('campaigns');
 
-  CampaignRepository(this._isar);
+  @override
+  IsarCollection<Campaign> get collection => isar.campaigns;
 
-  /// Watch all campaigns as a stream (local-first, instant)
-  Stream<List<Campaign>> watchAll() {
-    return _isar.campaigns
-        .filter()
-        .deletedEqualTo(false)
-        .watch(fireImmediately: true);
-  }
+  @override
+  String getEntityId(Campaign entity) => entity.id;
 
-  /// Get a single campaign by ID
-  Future<Campaign?> getById(String id) async {
-    return await _isar.campaigns.filter().idEqualTo(id).findFirst();
-  }
+  @override
+  bool isDeleted(Campaign entity) => entity.deleted;
 
-  /// Upsert a campaign locally and enqueue for sync
-  Future<void> upsert(Campaign campaign) async {
-    await _isar.writeTxn(() async {
-      // Update timestamps and sync status
-      campaign
-        ..updatedAt = DateTime.now()
-        ..syncStatus = 'pending';
+  @override
+  void setDeleted(Campaign entity, bool value) => entity.deleted = value;
 
-      // Save to Isar
-      await _isar.campaigns.put(campaign);
+  @override
+  void setUpdatedAt(Campaign entity, DateTime time) => entity.updatedAt = time;
 
-      // Enqueue for sync
-      await _enqueueSync(
-        collection: 'campaigns',
-        docId: campaign.id,
-        opType: 'upsert',
-        payload: jsonEncode(campaign.toFirestore()),
-        baseRev: campaign.rev,
-      );
-    });
-    logger.d('Campaign ${campaign.id} upserted and enqueued for sync');
-  }
+  @override
+  void setSyncStatus(Campaign entity, String status) => entity.syncStatus = status;
 
-  /// Delete a campaign (soft delete)
-  Future<void> delete(String id) async {
-    await _isar.writeTxn(() async {
-      final campaign = await getById(id);
-      if (campaign == null) return;
+  @override
+  void setLastSyncedAt(Campaign entity, DateTime time) => entity.lastSyncedAt = time;
 
-      campaign
-        ..deleted = true
-        ..updatedAt = DateTime.now()
-        ..syncStatus = 'pending';
+  @override
+  DateTime? getUpdatedAt(Campaign entity) => entity.updatedAt;
 
-      await _isar.campaigns.put(campaign);
+  @override
+  String getSyncStatus(Campaign entity) => entity.syncStatus;
 
-      // Enqueue delete operation
-      await _enqueueSync(
-        collection: 'campaigns',
-        docId: id,
-        opType: 'delete',
-        payload: jsonEncode({'deleted': true}),
-        baseRev: campaign.rev,
-      );
-    });
-    logger.d('Campaign $id marked as deleted and enqueued for sync');
-  }
+  @override
+  int getRev(Campaign entity) => entity.rev;
 
-  /// Apply a remote update from Firestore
-  Future<void> applyRemoteUpdate(Campaign remoteCampaign) async {
-    await _isar.writeTxn(() async {
-      final local = await getById(remoteCampaign.id);
-
-      // If local doesn't exist or remote is newer, apply update
-      if (local == null ||
-          local.syncStatus == 'synced' ||
-          (remoteCampaign.updatedAt?.isAfter(local.updatedAt ?? DateTime(1970)) ?? false)) {
-        remoteCampaign
-          ..syncStatus = 'synced'
-          ..lastSyncedAt = DateTime.now();
-        await _isar.campaigns.put(remoteCampaign);
-        logger.d('Applied remote update for campaign ${remoteCampaign.id}');
-      } else {
-        logger.w(
-          'Skipped remote update for campaign ${remoteCampaign.id} - local changes pending',
-        );
-      }
-    });
-  }
-
-  /// Enqueue a sync operation to the outbox
-  Future<void> _enqueueSync({
-    required String collection,
-    required String docId,
-    required String opType,
-    required String payload,
-    required int baseRev,
-  }) async {
-    final outboxOp = OutboxOperation()
-      ..collection = collection
-      ..docId = docId
-      ..opType = opType
-      ..payload = payload
-      ..baseRev = baseRev
-      ..createdAt = DateTime.now()
-      ..status = 'pending';
-
-    await _isar.outboxOperations.put(outboxOp);
-  }
+  @override
+  Map<String, dynamic> toFirestore(Campaign entity) => entity.toFirestore();
 }
