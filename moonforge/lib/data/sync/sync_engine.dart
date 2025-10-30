@@ -33,20 +33,34 @@ class SyncEngine {
   SyncEngine(this._db, this._firestore);
 
   /// Start the sync engine
-  void start() {
-    logger.i('SyncEngine.start()');
-    // React to auth changes so we resubscribe after login
-    _authSubscription = FirebaseAuth.instance.authStateChanges().listen(
-      (user) {
-        logger.i('Auth state changed in SyncEngine: uid=${user?.uid}');
-        _restartPull();
-      },
-      onError: (e, st) {
-        logger.e('Auth state listener error: $e', error: e, stackTrace: st);
-      },
-    );
-    _startPull();
-    _startPushLoop();
+  /// 
+  /// [enablePull] - If false, disables Firestore pull (listening). This is useful
+  /// on Windows debug builds where Firestore snapshots cause platform-thread violations.
+  /// [enablePush] - If false, disables outbox processing. Changes will be queued locally.
+  void start({bool enablePull = true, bool enablePush = true}) {
+    logger.i('SyncEngine.start(enablePull=$enablePull, enablePush=$enablePush)');
+    
+    if (enablePull) {
+      // React to auth changes so we resubscribe after login
+      _authSubscription = FirebaseAuth.instance.authStateChanges().listen(
+        (user) {
+          logger.i('Auth state changed in SyncEngine: uid=${user?.uid}');
+          _restartPull();
+        },
+        onError: (e, st) {
+          logger.e('Auth state listener error: $e', error: e, stackTrace: st);
+        },
+      );
+      _startPull();
+    } else {
+      logger.w('SyncEngine pull disabled - no real-time updates from Firestore');
+    }
+    
+    if (enablePush) {
+      _startPushLoop();
+    } else {
+      logger.w('SyncEngine push disabled - changes queued locally only');
+    }
   }
 
   /// Stop the sync engine

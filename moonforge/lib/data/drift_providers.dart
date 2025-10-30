@@ -131,17 +131,19 @@ List<SingleChildWidget> driftProviders() {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           try {
             // On Windows in debug mode, the Firebase C++ SDK has platform-thread violations
-            // that cause abort() crashes. Disable SyncEngine in Windows debug builds.
+            // when interacting with Firestore. Disable both pull and push, but keep the engine
+            // running so local data operations work. Changes will be queued in the outbox.
             // See: https://github.com/firebase/flutterfire/issues/11933
             // See: https://docs.flutter.dev/platform-integration/platform-channels#channels-and-platform-threading
             if (Platform.isWindows && !kReleaseMode) {
               logger.w(
-                'SyncEngine disabled on Windows debug builds due to Firebase C++ SDK '
-                'platform-thread violations. Data will sync in release builds.',
+                'SyncEngine starting on Windows debug build with pull and push disabled. '
+                'Local changes will be queued in outbox. Sync will work in release builds.',
               );
-              return;
+              engine.start(enablePull: false, enablePush: false);
+            } else {
+              engine.start();
             }
-            engine.start();
           } catch (e, st) {
             logger.e(
               'Failed to start SyncEngine: $e',
