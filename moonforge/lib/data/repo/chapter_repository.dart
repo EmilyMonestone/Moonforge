@@ -1,73 +1,81 @@
-import 'dart:convert';
-
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
+import '../db/app_db.dart';
+import '../db/tables.dart';
+import 'package:drift/drift.dart';
 
 /// Repository for Chapter operations
 class ChapterRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   ChapterRepository(this._db);
 
-  Stream<List<Chapter>> watchAll() => _db.chaptersDao.watchAll();
+  /// Watch chapters for a campaign
+  Stream<List<Chapter>> watchByCampaign(String campaignId) => 
+    _db.chapterDao.watchByCampaign(campaignId);
 
-  Future<Chapter?> getById(String id) => _db.chaptersDao.getById(id);
+  /// Get a single chapter by ID
+  Future<Chapter?> getById(String id) => _db.chapterDao.getById(id);
 
-  Future<void> upsertLocal(Chapter chapter) async {
+  /// Create a new chapter
+  Future<void> create(Chapter chapter) async {
     await _db.transaction(() async {
-      await _db.chaptersDao.upsert(chapter, markDirty: true);
+      await _db.chapterDao.upsert(
+        ChaptersCompanion.insert(
+          id: chapter.id,
+          campaignId: chapter.campaignId,
+          name: chapter.name,
+          order: chapter.order,
+          summary: Value(chapter.summary),
+          content: Value(chapter.content),
+          entityIds: chapter.entityIds,
+          createdAt: Value(chapter.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: chapter.rev,
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'chapters',
-        docId: chapter.id,
-        baseRev: chapter.rev,
-        opType: 'upsert',
-        payload: jsonEncode(chapter.toJson()),
+        table: 'chapters',
+        rowId: chapter.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing chapter
+  Future<void> update(Chapter chapter) async {
     await _db.transaction(() async {
-      final current = await _db.chaptersDao.getById(id);
-      if (current == null) return;
+      await _db.chapterDao.upsert(
+        ChaptersCompanion(
+          id: Value(chapter.id),
+          campaignId: Value(chapter.campaignId),
+          name: Value(chapter.name),
+          order: Value(chapter.order),
+          summary: Value(chapter.summary),
+          content: Value(chapter.content),
+          entityIds: Value(chapter.entityIds),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(chapter.rev + 1),
+        ),
+      );
 
-      Chapter updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.chaptersDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'chapters',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'chapters',
+        rowId: chapter.id,
+        op: 'upsert',
       );
     });
   }
 
-  Chapter _applyPatchOp(Chapter chapter, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
-
-    if (type == 'set') {
-      switch (field) {
-        case 'name':
-          return chapter.copyWith(name: value as String);
-        case 'order':
-          return chapter.copyWith(order: value as int);
-        case 'summary':
-          return chapter.copyWith(summary: value as String?);
-        case 'content':
-          return chapter.copyWith(content: value as String?);
-      }
-    }
-    return chapter;
+  /// Delete a chapter
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.chapterDao.deleteById(id);
+      
+      await _db.outboxDao.enqueue(
+        table: 'chapters',
+        rowId: id,
+        op: 'delete',
+      );
+    });
   }
 }

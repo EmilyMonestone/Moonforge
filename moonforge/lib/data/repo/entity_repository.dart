@@ -1,85 +1,98 @@
-import 'dart:convert';
-
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import '../db/app_db.dart';
+import '../db/tables.dart';
+import 'package:drift/drift.dart';
 
 /// Repository for Entity operations
 class EntityRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   EntityRepository(this._db);
 
-  Stream<List<Entity>> watchAll() => _db.entitiesDao.watchAll();
+  /// Watch all entities (excluding deleted)
+  Stream<List<Entity>> watchAll() => _db.entityDao.watchAll();
 
-  Future<Entity?> getById(String id) => _db.entitiesDao.getById(id);
+  /// Watch entities by origin
+  Stream<List<Entity>> watchByOrigin(String originId) => 
+    _db.entityDao.watchByOrigin(originId);
 
-  Future<void> upsertLocal(Entity entity) async {
+  /// Get a single entity by ID
+  Future<Entity?> getById(String id) => _db.entityDao.getById(id);
+
+  /// Create a new entity
+  Future<void> create(Entity entity) async {
     await _db.transaction(() async {
-      await _db.entitiesDao.upsert(entity, markDirty: true);
+      await _db.entityDao.upsert(
+        EntitiesCompanion.insert(
+          id: entity.id,
+          kind: entity.kind,
+          name: entity.name,
+          originId: entity.originId,
+          summary: Value(entity.summary),
+          tags: Value(entity.tags),
+          statblock: entity.statblock,
+          placeType: Value(entity.placeType),
+          parentPlaceId: Value(entity.parentPlaceId),
+          coords: entity.coords,
+          content: Value(entity.content),
+          images: Value(entity.images),
+          createdAt: Value(entity.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: entity.rev,
+          deleted: Value(entity.deleted),
+          members: Value(entity.members),
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'entities',
-        docId: entity.id,
-        baseRev: entity.rev,
-        opType: 'upsert',
-        payload: jsonEncode(entity.toJson()),
+        table: 'entities',
+        rowId: entity.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing entity
+  Future<void> update(Entity entity) async {
     await _db.transaction(() async {
-      final current = await _db.entitiesDao.getById(id);
-      if (current == null) return;
+      await _db.entityDao.upsert(
+        EntitiesCompanion(
+          id: Value(entity.id),
+          kind: Value(entity.kind),
+          name: Value(entity.name),
+          originId: Value(entity.originId),
+          summary: Value(entity.summary),
+          tags: Value(entity.tags),
+          statblock: Value(entity.statblock),
+          placeType: Value(entity.placeType),
+          parentPlaceId: Value(entity.parentPlaceId),
+          coords: Value(entity.coords),
+          content: Value(entity.content),
+          images: Value(entity.images),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(entity.rev + 1),
+          deleted: Value(entity.deleted),
+          members: Value(entity.members),
+        ),
+      );
 
-      Entity updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.entitiesDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'entities',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'entities',
+        rowId: entity.id,
+        op: 'upsert',
       );
     });
   }
 
-  Entity _applyPatchOp(Entity entity, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
-
-    if (type == 'set') {
-      switch (field) {
-        case 'kind':
-          return entity.copyWith(kind: value as String);
-        case 'name':
-          return entity.copyWith(name: value as String);
-        case 'summary':
-          return entity.copyWith(summary: value as String?);
-        case 'content':
-          return entity.copyWith(content: value as String?);
-        case 'placeType':
-          return entity.copyWith(placeType: value as String?);
-        case 'deleted':
-          return entity.copyWith(deleted: value as bool);
-      }
-    } else if (type == 'addToSet' && field == 'tags') {
-      final current = entity.tags ?? [];
-      if (!current.contains(value)) {
-        return entity.copyWith(tags: [...current, value as String]);
-      }
-    } else if (type == 'removeFromSet' && field == 'tags') {
-      final current = entity.tags ?? [];
-      return entity.copyWith(tags: current.where((t) => t != value).toList());
-    }
-    return entity;
+  /// Soft delete an entity
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.entityDao.softDeleteById(id);
+      
+      await _db.outboxDao.enqueue(
+        table: 'entities',
+        rowId: id,
+        op: 'delete',
+      );
+    });
   }
 }
