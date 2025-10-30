@@ -1,14 +1,12 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'encounter.freezed.dart';
 part 'encounter.g.dart';
 
 @freezed
-@firestoreOdm
 abstract class Encounter with _$Encounter {
   const factory Encounter({
-    @DocumentIdField() required String id,
+    required String id,
     required String name,
     @Default(false) bool preset,
     String? notes,

@@ -1,14 +1,12 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'session.freezed.dart';
 part 'session.g.dart';
 
 @freezed
-@firestoreOdm
 abstract class Session with _$Session {
   const factory Session({
-    @DocumentIdField() required String id,
+    required String id,
     DateTime? createdAt,
     String? info, // quill delta json (DM-only)
     DateTime? datetime,

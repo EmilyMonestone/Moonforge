@@ -1,4 +1,3 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -6,10 +5,9 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-@firestoreOdm
 abstract class User with _$User {
   const factory User({
-    @DocumentIdField() required String id,
+    required String id,
     Settings? settings,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -20,10 +18,9 @@ abstract class User with _$User {
 }
 
 @freezed
-@firestoreOdm
 abstract class Settings with _$Settings {
   const factory Settings({
-    @DocumentIdField() required String id,
+    required String id,
     ThemeMode? themeMode,
     AppLocale? locale,
     bool? railNavExtended,
@@ -37,10 +34,9 @@ abstract class Settings with _$Settings {
 }
 
 @freezed
-@firestoreOdm
 abstract class AppLocale with _$AppLocale {
   const factory AppLocale({
-    @DocumentIdField() required String id,
+    required String id,
     required String languageCode,
     String? countryCode,
   }) = _AppLocale;

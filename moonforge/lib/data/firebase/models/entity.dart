@@ -1,14 +1,12 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'entity.freezed.dart';
 part 'entity.g.dart';
 
 @freezed
-@firestoreOdm
 abstract class Entity with _$Entity {
   const factory Entity({
-    @DocumentIdField() required String id,
+    required String id,
     required String
     kind, // npc | monster | group | place | item | handout | journal
     required String name,

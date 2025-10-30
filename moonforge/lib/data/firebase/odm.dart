@@ -1,37 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_odm/firestore_odm.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
 
-/// Initialize Firestore ODM
+/// Provides access to Firebase Firestore instance
 /// ```dart
 /// final firestore = FirebaseFirestore.instance;
-/// await Odm.init(appSchema, firestore); // einmalig (z. B. in main)
-/// final odm = Odm.instance;             // überall abrufen
+/// Odm.init(firestore); // Initialize once (e.g., in main)
+/// final firestore = Odm.instance; // Access anywhere
 /// ```
 class Odm {
-  static FirestoreODM<AppSchema>? _instance;
+  static FirebaseFirestore? _instance;
 
-  static Future<FirestoreODM<AppSchema>> init(
+  static Future<FirebaseFirestore> init(
     FirebaseFirestore firestore,
   ) async {
     if (_instance != null) return _instance!;
-    final odm = FirestoreODM(appSchema, firestore: firestore);
-    _instance = odm;
-    return odm;
+    _instance = firestore;
+    return firestore;
   }
 
-  /// check if ODM is initialized
+  /// check if Odm is initialized
   static bool get isInitialized => _instance != null;
 
-  /// global access to the initialized ODM instance
+  /// global access to the initialized Firestore instance
   /// throws StateError if not initialized
-  static FirestoreODM<AppSchema> get instance {
-    final odm = _instance;
-    if (odm == null) {
+  static FirebaseFirestore get instance {
+    final firestore = _instance;
+    if (firestore == null) {
       throw StateError(
-        'Odm.init(...) muss vor dem Zugriff auf Odm.instance aufgerufen werden.',
+        'Odm.init(...) must be called before accessing Odm.instance.',
       );
     }
-    return odm;
+    return firestore;
   }
 }

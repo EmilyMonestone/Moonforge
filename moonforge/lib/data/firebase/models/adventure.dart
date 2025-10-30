@@ -1,14 +1,12 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'adventure.freezed.dart';
 part 'adventure.g.dart';
 
 @freezed
-@firestoreOdm
 abstract class Adventure with _$Adventure {
   const factory Adventure({
-    @DocumentIdField() required String id,
+    required String id,
     required String name,
     @Default(0) int order,
     String? summary,
