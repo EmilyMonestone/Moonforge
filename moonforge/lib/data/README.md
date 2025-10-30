@@ -53,7 +53,7 @@ lib/data/
      await Firebase.initializeApp();
      await FirebaseFirestore.instance.setPersistenceEnabled(false);
      
-     final db = await constructDb();
+     final db = constructDb();
      
      runApp(
        MultiProvider(

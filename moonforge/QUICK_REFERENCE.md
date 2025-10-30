@@ -17,7 +17,7 @@ import 'package:moonforge/data/db_providers.dart';
 import 'package:moonforge/data/repo_new/campaign_repository.dart';
 
 // In main.dart
-final db = await constructDb();
+final db = constructDb();
 runApp(
   MultiProvider(
     providers: [...dbProviders(db)],
@@ -208,8 +208,8 @@ test('create campaign', () async {
 
 ### "Cannot access database before it's created"
 ```dart
-// Ensure await constructDb() in main()
-final db = await constructDb();
+// Ensure constructDb() in main()
+final db = constructDb();
 ```
 
 ### "No provider found for AppDb"
@@ -233,15 +233,15 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ## 📱 Platform Notes
 
 ### Native (iOS/Android/Desktop)
-- Uses NativeDatabase
+- Uses drift_flutter's `driftDatabase()`
 - SQLite stored in app documents directory
-- Background isolate for queries
+- Automatic background isolate handling
 
 ### Web
-- Uses WasmDatabase  
+- Uses drift_flutter's `driftDatabase()` with WASM backend
 - SQLite stored in IndexedDB
 - Worker-based queries
-- Requires sqlite3.wasm in web/
+- Requires sqlite3.wasm and drift_worker.js in web/
 
 ## 🔗 Useful Links
 

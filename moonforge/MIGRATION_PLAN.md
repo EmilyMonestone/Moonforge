@@ -8,19 +8,20 @@ This document outlines the complete migration from firestore_odm-based database 
 
 - ✅ Dependencies updated in `pubspec.yaml`
   - drift: ^2.29.0 (was ^2.19.0)
+  - drift_flutter: ^0.2.0 (added for simplified setup)
   - cloud_firestore: ^5.6.0 (was ^5.0.0)
   - Removed firestore_odm and firestore_odm_builder
   
 - ✅ `build.yaml` configured with `store_date_time_values_as_text: true`
 
 - ✅ New database infrastructure created:
-  - `lib/data/db/app_db.dart` - Main database with multi-platform support
-  - `lib/data/db/tables.dart` - All 10 table definitions
+  - `lib/data/db/app_db.dart` - Main database using drift_flutter for multi-platform
+  - `lib/data/db/tables.dart` - All 11 table definitions
   - `lib/data/db/converters.dart` - Type converters for JSON/lists/maps
   - `lib/data/db/firestore_mappers.dart` - Bidirectional conversion
-  - `lib/data/db/daos/*.dart` - 10 DAOs
+  - `lib/data/db/daos/*.dart` - 11 DAOs
   - `lib/data/db/sync/*.dart` - Sync engine (3 files)
-  - `lib/data/repo_new/*.dart` - New repositories (started)
+  - `lib/data/repo_new/*.dart` - New repositories (9 complete)
 
 ## Next Steps
 
@@ -113,7 +114,7 @@ void main() async {
   await FirebaseFirestore.instance.setPersistenceEnabled(false);
   
   // Construct database
-  final db = await constructDb();
+  final db = constructDb();
   
   runApp(
     MultiProvider(

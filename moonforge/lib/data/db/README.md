@@ -35,8 +35,9 @@ lib/data/db/
 - All writes go to Drift first, then enqueued for sync
 
 **Multi-platform:**
-- **Native** (Android, iOS, desktop): Uses `NativeDatabase` with background isolate
-- **Web**: Uses `WasmDatabase` with IndexedDB persistence
+- Uses `drift_flutter` package for automatic platform detection
+- **Native** (Android, iOS, desktop): Stores in app documents directory via `driftDatabase()`
+- **Web**: Uses WASM SQLite with IndexedDB persistence
 
 **Sync:**
 - **Outbound**: Outbox pattern with periodic flush (every 5 seconds)

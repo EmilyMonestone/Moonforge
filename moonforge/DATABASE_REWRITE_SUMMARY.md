@@ -8,10 +8,10 @@ This document summarizes the complete database rewrite from firestore_odm to a D
 
 **pubspec.yaml changes:**
 - ✅ drift: ^2.29.0 (upgraded from ^2.19.0)
+- ✅ drift_flutter: ^0.2.0 (added for simplified multi-platform setup)
 - ✅ cloud_firestore: ^5.6.0 (upgraded from ^5.0.0)  
 - ✅ path_provider: ^2.1.5 (upgraded from ^2.1.1)
 - ✅ Removed: firestore_odm: ^4.0.0-dev.1
-- ✅ Removed: drift_flutter: ^0.2.2
 - ✅ Removed dev dependency: firestore_odm_builder: ^4.0.0-dev.1
 - ✅ drift_dev: ^2.29.0 (upgraded from ^2.19.0)
 
@@ -21,7 +21,7 @@ This document summarizes the complete database rewrite from firestore_odm to a D
 ### New Database Implementation
 
 **Core Files (lib/data/db/):**
-1. ✅ `app_db.dart` - Main database class with multi-platform support (native + web WASM)
+1. ✅ `app_db.dart` - Main database using drift_flutter's `driftDatabase()` for automatic platform support
 2. ✅ `tables.dart` - All 11 table definitions with proper schema
 3. ✅ `converters.dart` - Type converters (MapJsonConverter, StringListConverter, MapListConverter, quillConv)
 4. ✅ `firestore_mappers.dart` - Bidirectional Firestore ↔ Drift conversion for all models
@@ -105,8 +105,9 @@ This document summarizes the complete database rewrite from firestore_odm to a D
 - Instant offline functionality
 
 **Multi-Platform Support:**
-- **Native** (Android, iOS, macOS, Linux, Windows): `NativeDatabase` with background isolate
-- **Web**: `WasmDatabase` with IndexedDB persistence and worker-based queries
+- Uses `drift_flutter` package with `driftDatabase()` for automatic platform detection
+- **Native** (Android, iOS, macOS, Linux, Windows): SQLite in app documents directory
+- **Web**: WASM SQLite with IndexedDB persistence and worker-based queries
 
 **Bidirectional Sync:**
 - **Outbound**: Outbox pattern with periodic flush (every 5 seconds)
@@ -155,7 +156,7 @@ void main() async {
   await FirebaseFirestore.instance.setPersistenceEnabled(false);
   
   // Construct database
-  final db = await constructDb();
+  final db = constructDb();
   
   runApp(
     MultiProvider(

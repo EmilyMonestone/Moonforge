@@ -23,8 +23,8 @@ import 'repo_new/session_repository.dart';
 ///   // Disable Firestore persistence (we use Drift instead)
 ///   await FirebaseFirestore.instance.setPersistenceEnabled(false);
 ///   
-///   // Construct database
-///   final db = await constructDb();
+///   // Construct database (no longer async with drift_flutter)
+///   final db = constructDb();
 ///   
 ///   runApp(
 ///     MultiProvider(

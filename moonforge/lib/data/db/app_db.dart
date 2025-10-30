@@ -1,10 +1,5 @@
-import 'dart:io';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:drift/wasm.dart';
+import 'package:drift_flutter/drift_flutter.dart';
 import 'tables.dart';
 import 'converters.dart';
 import 'daos/campaign_dao.dart';
@@ -50,7 +45,8 @@ part 'app_db.g.dart';
   ],
 )
 class AppDb extends _$AppDb {
-  AppDb(QueryExecutor e) : super(e);
+  // Constructor for custom executor (useful for testing)
+  AppDb([QueryExecutor? e]) : super(e ?? _openConnection());
   
   @override 
   int get schemaVersion => 1;
@@ -66,20 +62,16 @@ class AppDb extends _$AppDb {
       },
     );
   }
-}
-
-// Factory to construct the right executor per platform
-Future<AppDb> constructDb() async {
-  if (kIsWeb) {
-    final executor = await WasmDatabase.open(
-      databaseName: 'app.sqlite',
-      sqlite3Uri: Uri.parse('sqlite3.wasm'),
-      driftWorkerUri: Uri.parse('drift_worker.dart.js'),
+  
+  // Platform-agnostic database connection using drift_flutter
+  static QueryExecutor _openConnection() {
+    return driftDatabase(
+      name: 'moonforge_db',
+      // For web support, ensure sqlite3.wasm and drift_worker.js are in web/
+      // See: https://drift.simonbinder.eu/platforms/web/
     );
-    return AppDb(executor.resolvedExecutor);
-  } else {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dir.path, 'app.sqlite'));
-    return AppDb(NativeDatabase.createInBackground(file));
   }
 }
+
+// Simplified factory - now just creates AppDb with default connection
+AppDb constructDb() => AppDb();
