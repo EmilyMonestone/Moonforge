@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:isar/isar.dart';
 import 'package:moonforge/app.dart';
 import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
@@ -13,7 +14,7 @@ import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/services/isar_service.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -47,7 +48,8 @@ Future<void> main(List<String> args) async {
 
   final firestore = FirebaseFirestore.instance;
 
-  await Odm.init(firestore);
+  // Initialize Isar database
+  final isar = await IsarService.init();
 
   // Initialize get_storage for persistence
   await PersistenceService.init();
@@ -92,7 +94,7 @@ Future<void> main(List<String> args) async {
     }
   });
 
-  runApp(MultiProviderWrapper(child: App()));
+  runApp(MultiProviderWrapper(isar: isar, child: App()));
 }
 
 Future clearFirestoreCache() async {
