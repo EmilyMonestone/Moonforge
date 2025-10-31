@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+
 import '../app_db.dart';
 import '../tables.dart';
 
@@ -8,11 +9,14 @@ part 'chapter_dao.g.dart';
 class ChapterDao extends DatabaseAccessor<AppDb> with _$ChapterDaoMixin {
   ChapterDao(AppDb db) : super(db);
 
+  Stream<List<Chapter>> watchAll() =>
+      (select(chapters)..orderBy([(c) => OrderingTerm.asc(c.order)])).watch();
+
   Stream<List<Chapter>> watchByCampaign(String campaignId) =>
       (select(chapters)
-        ..where((c) => c.campaignId.equals(campaignId))
-        ..orderBy([(c) => OrderingTerm.asc(c.order)]))
-      .watch();
+            ..where((c) => c.campaignId.equals(campaignId))
+            ..orderBy([(c) => OrderingTerm.asc(c.order)]))
+          .watch();
 
   Future<Chapter?> getById(String id) =>
       (select(chapters)..where((c) => c.id.equals(id))).getSingleOrNull();

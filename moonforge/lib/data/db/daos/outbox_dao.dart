@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
+import 'package:uuid/uuid.dart';
+
 import '../app_db.dart';
 import '../tables.dart';
-import 'package:uuid/uuid.dart';
 
 part 'outbox_dao.g.dart';
 
@@ -11,11 +12,19 @@ const _uuid = Uuid();
 class OutboxDao extends DatabaseAccessor<AppDb> with _$OutboxDaoMixin {
   OutboxDao(AppDb db) : super(db);
 
-  Stream<List<OutboxEntry>> watchAll() =>
-      (select(outboxEntries)..orderBy([(o) => OrderingTerm.asc(o.changedAt)])).watch();
+  Stream<List<OutboxEntry>> watchAll() => (select(
+    outboxEntries,
+  )..orderBy([(o) => OrderingTerm.asc(o.changedAt)])).watch();
 
-  Future<List<OutboxEntry>> getAllPending() =>
-      (select(outboxEntries)..orderBy([(o) => OrderingTerm.asc(o.changedAt)])).get();
+  Future<List<OutboxEntry>> getAllPending() => (select(
+    outboxEntries,
+  )..orderBy([(o) => OrderingTerm.asc(o.changedAt)])).get();
+
+  /// Returns the number of pending outbox entries
+  Future<int> pendingCount() async {
+    final rows = await (select(outboxEntries)).get();
+    return rows.length;
+  }
 
   Future<void> enqueue({
     required String table,

@@ -1,5 +1,7 @@
 # Files That Need Migration to New Drift Database
 
+Progress: 20/45 complete (44%) — Core + Campaign + Chapter done; continuing with Adventure, Scene, Encounters, Entities, Session, Home.
+
 This document lists all files that currently import from the old `data/firebase/models/` and need to be updated to use the new Drift database models from `data/db/app_db.dart`.
 
 ## Migration Strategy
@@ -14,41 +16,41 @@ For each file below:
 
 ## Core Providers (2 files)
 
-- [ ] `lib/core/providers/app_settings_provider.dart`
-- [ ] `lib/core/providers/auth_providers.dart`
+- [x] `lib/core/providers/app_settings_provider.dart`
+- [x] `lib/core/providers/auth_providers.dart`
 
 ## Core Services (2 files)
 
-- [ ] `lib/core/services/breadcrumb_service.dart`
-- [ ] `lib/core/services/entity_gatherer.dart`
+- [x] `lib/core/services/breadcrumb_service.dart`
+- [x] `lib/core/services/entity_gatherer.dart`
 
 ## Core Utils (1 file)
 
-- [ ] `lib/core/utils/permissions_utils.dart`
+- [x] `lib/core/utils/permissions_utils.dart`
 
 ## Core Widgets (6 files)
 
-- [ ] `lib/core/widgets/app_state_initializer.dart`
-- [ ] `lib/core/widgets/entities_widget.dart`
-- [ ] `lib/core/widgets/entity_widgets_wrappers.dart`
-- [ ] `lib/core/widgets/quill_mention/custom_quill_editor.dart`
-- [ ] `lib/core/widgets/quill_mention/entity_mention_service.dart`
-- [ ] `lib/core/widgets/share_settings_dialog.dart`
+- [x] `lib/core/widgets/app_state_initializer.dart`
+- [x] `lib/core/widgets/entities_widget.dart`
+- [x] `lib/core/widgets/entity_widgets_wrappers.dart`
+- [x] `lib/core/widgets/quill_mention/custom_quill_editor.dart`
+- [x] `lib/core/widgets/quill_mention/entity_mention_service.dart`
+- [x] `lib/core/widgets/share_settings_dialog.dart`
 
 ## Campaign Feature (4 files)
 
-- [ ] `lib/features/campaign/controllers/campaign_provider.dart`
-- [ ] `lib/features/campaign/utils/create_campaign.dart`
-- [ ] `lib/features/campaign/views/campaign_edit_screen.dart`
-- [ ] `lib/features/campaign/views/campaign_screen.dart`
+- [x] `lib/features/campaign/controllers/campaign_provider.dart`
+- [x] `lib/features/campaign/utils/create_campaign.dart`
+- [x] `lib/features/campaign/views/campaign_edit_screen.dart`
+- [x] `lib/features/campaign/views/campaign_screen.dart`
 
-## Chapter Feature (4 files)
+## Chapter Feature (5 files)
 
-- [ ] `lib/features/chapter/utils/create_adventure_in_chapter.dart`
-- [ ] `lib/features/chapter/utils/create_chapter.dart`
-- [ ] `lib/features/chapter/utils/create_scene_in_chapter.dart`
-- [ ] `lib/features/chapter/views/chapter_edit_screen.dart`
-- [ ] `lib/features/chapter/views/chapter_screen.dart`
+- [x] `lib/features/chapter/utils/create_adventure_in_chapter.dart`
+- [x] `lib/features/chapter/utils/create_chapter.dart`
+- [x] `lib/features/chapter/utils/create_scene_in_chapter.dart`
+- [x] `lib/features/chapter/views/chapter_edit_screen.dart`
+- [x] `lib/features/chapter/views/chapter_screen.dart`
 
 ## Adventure Feature (3 files)
 
@@ -95,7 +97,7 @@ For each file below:
 
 ---
 
-## Total: 45 files need migration
+## Total: 45 files — 20 complete, 25 remaining
 
 ## Common Patterns to Replace
 

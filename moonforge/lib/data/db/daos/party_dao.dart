@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+
 import '../app_db.dart';
 import '../tables.dart';
 
@@ -8,11 +9,14 @@ part 'party_dao.g.dart';
 class PartyDao extends DatabaseAccessor<AppDb> with _$PartyDaoMixin {
   PartyDao(AppDb db) : super(db);
 
+  Stream<List<Party>> watchAll() =>
+      (select(parties)..orderBy([(p) => OrderingTerm.asc(p.name)])).watch();
+
   Stream<List<Party>> watchByCampaign(String campaignId) =>
       (select(parties)
-        ..where((p) => p.campaignId.equals(campaignId))
-        ..orderBy([(p) => OrderingTerm.asc(p.name)]))
-      .watch();
+            ..where((p) => p.campaignId.equals(campaignId))
+            ..orderBy([(p) => OrderingTerm.asc(p.name)]))
+          .watch();
 
   Future<Party?> getById(String id) =>
       (select(parties)..where((p) => p.id.equals(id))).getSingleOrNull();
