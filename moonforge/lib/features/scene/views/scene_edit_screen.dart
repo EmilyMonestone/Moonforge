@@ -9,11 +9,14 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
+
 class SceneEditScreen extends StatefulWidget {
   const SceneEditScreen({
     super.key,
@@ -21,12 +24,15 @@ class SceneEditScreen extends StatefulWidget {
     required this.adventureId,
     required this.sceneId,
   });
+
   final String chapterId;
   final String adventureId;
   final String sceneId;
+
   @override
   State<SceneEditScreen> createState() => _SceneEditScreenState();
 }
+
 class _SceneEditScreenState extends State<SceneEditScreen> {
   final _titleController = TextEditingController();
   final _summaryController = TextEditingController();
@@ -38,21 +44,30 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
   bool _isSaving = false;
   Scene? _scene;
   String? _campaignId;
+
+  @override
   void initState() {
     super.initState();
     _contentController = QuillController.basic();
   }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_isLoading && _scene == null) {
       _loadScene();
     }
+  }
+
+  @override
   void dispose() {
     _titleController.dispose();
     _summaryController.dispose();
     _contentController.dispose();
     _autosave?.dispose();
     super.dispose();
+  }
+
   Future<void> _loadScene() async {
     setState(() => _isLoading = true);
     try {
@@ -68,6 +83,7 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
         return;
       }
       _campaignId = campaign.id;
+
       final odm = Odm.instance;
       final scene = await odm.campaigns
           .doc(campaign.id)
@@ -78,6 +94,7 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
           .scenes
           .doc(widget.sceneId)
           .get();
+
       if (scene != null) {
         Document document;
         if (scene.content != null && scene.content!.isNotEmpty) {
@@ -89,12 +106,15 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
           }
         } else {
           document = Document();
+        }
+
         setState(() {
           _scene = scene;
           _titleController.text = scene.title;
           _summaryController.text = scene.summary ?? '';
           _contentController.document = document;
         });
+
         _autosave = QuillAutosave(
           controller: _contentController,
           storageKey: 'scene_${scene.id}_content_draft',
@@ -104,20 +124,31 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
           },
         );
         _autosave?.start();
+      }
     } catch (e) {
       logger.e('Error loading scene: $e');
       if (mounted) {
         toastification.show(
           type: ToastificationType.error,
           title: const Text('Failed to load scene'),
+        );
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   Future<void> _saveScene() async {
     if (!_formKey.currentState!.validate()) return;
     if (_scene == null || _campaignId == null) return;
+
     setState(() => _isSaving = true);
+    try {
+      final odm = Odm.instance;
+
       final delta = _contentController.document.toDelta();
       final contentJson = jsonEncode(delta.toJson());
+
       final updatedScene = _scene!.copyWith(
         title: _titleController.text.trim(),
         summary: _summaryController.text.trim(),
@@ -125,21 +156,47 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
         updatedAt: DateTime.now(),
         rev: _scene!.rev + 1,
       );
+
       await odm.campaigns
           .doc(_campaignId!)
+          .chapters
+          .doc(widget.chapterId)
+          .adventures
+          .doc(widget.adventureId)
+          .scenes
           .update(updatedScene);
+
       await _autosave?.clear();
+
+      if (mounted) {
+        toastification.show(
           type: ToastificationType.success,
           title: const Text('Scene saved successfully'),
+        );
         Navigator.of(context).pop();
+      }
+    } catch (e) {
       logger.e('Error saving scene: $e');
+      if (mounted) {
+        toastification.show(
+          type: ToastificationType.error,
           title: const Text('Failed to save scene'),
+        );
+      }
+    } finally {
       if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
+    }
+
     if (_scene == null) {
       return Center(
         child: Column(
@@ -156,6 +213,9 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
             ),
           ],
         ),
+      );
+    }
+
     return SurfaceContainer(
       title: Row(
         mainAxisSize: MainAxisSize.min,
@@ -171,7 +231,10 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
             label: Text(l10n.cancel),
             icon: const Icon(Icons.cancel_outlined),
             onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+          ),
+          ButtonM3E(
             style: ButtonM3EStyle.filled,
+            shape: ButtonM3EShape.square,
             label: Text(l10n.save),
             icon: _isSaving
                 ? const SizedBox(
@@ -181,11 +244,14 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
                   )
                 : const Icon(Icons.save),
             onPressed: _isSaving ? null : _saveScene,
+          ),
         ],
       ),
       child: Form(
         key: _formKey,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             TextFormField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -198,18 +264,27 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
                 if (value.isEmpty) return 'Title is required';
                 return null;
               },
+            ),
             const SizedBox(height: 24),
             Text(l10n.description, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            TextFormField(
               controller: _summaryController,
               decoration: const InputDecoration(
                 labelText: 'Short summary',
                 hintText: 'Enter a brief summary of the scene',
+              ),
               maxLines: 3,
+            ),
+            const SizedBox(height: 24),
             Text(l10n.content, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
             Text(
               'Rich text content of the scene',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
             const SizedBox(height: 12),
             Container(
               decoration: BoxDecoration(
@@ -217,9 +292,17 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(4),
                 ),
+              ),
               child: QuillCustomToolbar(controller: _contentController),
+            ),
+            Container(
               height: 400,
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(4),
+                ),
+              ),
               child: CustomQuillEditor(
                 controller: _contentController,
                 keyForPosition: _editorKey,
@@ -233,4 +316,11 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
                   );
                 },
                 padding: const EdgeInsets.all(16),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+}

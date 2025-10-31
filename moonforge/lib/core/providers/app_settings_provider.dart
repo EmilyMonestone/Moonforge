@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
+
 class AppSettingsProvider with ChangeNotifier {
   late AuthProvider _authProvider;
   ThemeMode _themeMode = ThemeMode.system;
   Locale? _locale;
   bool _railNavExtended = true;
+
   ThemeMode get themeMode => _themeMode;
+
   Locale? get locale => _locale;
+
   bool get isRailNavExtended => _railNavExtended;
+
   void setThemeMode(ThemeMode mode) {
     _themeMode = mode;
     notifyListeners();
   }
+
   /// Set the current locale. Pass null to use system locale.
   void setLocale(Locale? locale) {
     _locale = locale;
+    notifyListeners();
+  }
+
   void setRailNavExtended(bool extended) {
     _railNavExtended = extended;
+    notifyListeners();
+  }
+
   void updateOnAuthChange(AuthProvider authProvider) {
     _authProvider = authProvider;
     final odm = Odm.instance;
@@ -34,10 +48,13 @@ class AppSettingsProvider with ChangeNotifier {
             );
           } else {
             _locale = null;
+          }
           if (userData.settings!.railNavExtended != null) {
             _railNavExtended = userData.settings!.railNavExtended!;
+          }
           notifyListeners();
         }
       });
     }
+  }
 }

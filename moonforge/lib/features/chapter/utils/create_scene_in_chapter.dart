@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +24,17 @@ Future<void> createSceneInChapter(
       .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
       .toList()
     ..sort((a, b) => a.order.compareTo(b.order));
+
   if (adventures.isEmpty) {
     if (context.mounted) {
       notification.info(context, title: Text(l10n.noAdventuresYet));
     }
     return;
   }
+
   Adventure selectedAdventure = adventures.first;
   final titleController = TextEditingController();
+
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (ctx) {
@@ -58,6 +63,7 @@ Future<void> createSceneInChapter(
                 controller: titleController,
                 autofocus: true,
                 decoration: InputDecoration(labelText: l10n.name),
+              ),
             ],
           ),
           actions: [
@@ -68,6 +74,7 @@ Future<void> createSceneInChapter(
             FilledButton(
               onPressed: () => Navigator.of(ctx).pop(true),
               child: Text(l10n.create),
+            ),
           ],
         ),
       );
@@ -76,6 +83,7 @@ Future<void> createSceneInChapter(
   if (confirmed != true) return;
   final title = titleController.text.trim();
   if (title.isEmpty) return;
+
   try {
     // Embed adventure ID in scene ID
     final sceneId = 'scene-${selectedAdventure.id}-${DateTime.now().millisecondsSinceEpoch}';
@@ -92,6 +100,7 @@ Future<void> createSceneInChapter(
     
     // Use Drift repository for optimistic local write
     await repository.upsertLocal(scene);
+
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createScene));
     SceneRoute(
@@ -101,5 +110,7 @@ Future<void> createSceneInChapter(
     ).go(context);
   } catch (e, st) {
     logger.e('Create scene failed', error: e, stackTrace: st);
+    if (!context.mounted) return;
     notification.error(context, title: Text('Failed: $e'));
+  }
 }

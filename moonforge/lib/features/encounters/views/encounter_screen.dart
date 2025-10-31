@@ -5,22 +5,28 @@ import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/encounter.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class EncounterScreen extends StatelessWidget {
   const EncounterScreen({super.key, required this.encounterId});
+
   final String encounterId;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
     final odm = Odm.instance;
+
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
+
     return FutureBuilder<Encounter?>(
       future: odm.campaigns.doc(campaign.id).encounters.doc(encounterId).get(),
       builder: (context, snapshot) {
@@ -30,9 +36,12 @@ class EncounterScreen extends StatelessWidget {
         if (snapshot.hasError) {
           logger.e('Error fetching encounter: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
+        }
         final encounter = snapshot.data;
         if (encounter == null) {
           return Center(child: Text('Encounter not found'));
+        }
+
         return Column(
           children: [
             SurfaceContainer(
@@ -51,11 +60,13 @@ class EncounterScreen extends StatelessWidget {
                     onPressed: () {
                       EncounterEditRoute(encounterId: encounterId).go(context);
                     },
+                  ),
                 ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: context.m3e.spacing.sm,
+                children: [
                   if (encounter.notes != null && encounter.notes!.isNotEmpty)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,12 +80,24 @@ class EncounterScreen extends StatelessWidget {
                       ],
                     ),
                   if (encounter.loot != null && encounter.loot!.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           'Loot',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
                         Text(encounter.loot!),
+                      ],
+                    ),
+                ],
+              ),
             ),
             EncounterEntitiesWidget(
               campaignId: campaign.id,
               encounterId: encounterId,
+            ),
           ],
         );
       },

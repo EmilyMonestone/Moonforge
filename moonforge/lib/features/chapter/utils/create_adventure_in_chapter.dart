@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +23,11 @@ Future<void> createAdventureInChapter(
       .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
       .toList()
     ..sort((a, b) => b.order.compareTo(a.order));
+  
   final nextOrder = chapterAdventures.isNotEmpty ? (chapterAdventures.first.order + 1) : 1;
+
   final nameController = TextEditingController();
+
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (ctx) {
@@ -42,6 +46,7 @@ Future<void> createAdventureInChapter(
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
             child: Text(l10n.create),
+          ),
         ],
       );
     },
@@ -49,6 +54,7 @@ Future<void> createAdventureInChapter(
   if (confirmed != true) return;
   final name = nameController.text.trim();
   if (name.isEmpty) return;
+
   try {
     // Embed chapter ID in adventure ID
     final adventureId = 'adventure-$chapterId-${DateTime.now().millisecondsSinceEpoch}';
@@ -65,11 +71,13 @@ Future<void> createAdventureInChapter(
     
     // Use Drift repository for optimistic local write
     await repository.upsertLocal(adv);
+
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createAdventure));
     AdventureRoute(chapterId: chapterId, adventureId: adventureId).go(context);
   } catch (e, st) {
     logger.e('Create adventure failed', error: e, stackTrace: st);
+    if (!context.mounted) return;
     notification.error(context, title: Text('Failed: $e'));
   }
 }

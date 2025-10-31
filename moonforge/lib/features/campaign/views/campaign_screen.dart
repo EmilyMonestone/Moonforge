@@ -11,23 +11,34 @@ import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/firebase/models/scene.dart' as scene_model;
+import 'package:moonforge/data/firebase/models/session.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
 class CampaignScreen extends StatefulWidget {
   const CampaignScreen({super.key});
+
   @override
   State<CampaignScreen> createState() => _CampaignScreenState();
 }
+
 class _CampaignScreenState extends State<CampaignScreen> {
   final QuillController _controller = QuillController.basic();
+
   // Keep dedicated controllers/nodes to dispose properly.
   final ScrollController _quillScrollController = ScrollController();
   final FocusNode _quillFocusNode = FocusNode();
+
   Campaign? _lastCampaign;
+
+  @override
   void initState() {
     super.initState();
     // Ensure read-only editor once; avoid toggling during build.
@@ -35,6 +46,8 @@ class _CampaignScreenState extends State<CampaignScreen> {
     // ignore: invalid_use
     _controller.readOnly = true;
   }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Update the editor's document only when the campaign actually changes.
@@ -53,16 +66,23 @@ class _CampaignScreenState extends State<CampaignScreen> {
       }
       _lastCampaign = camp;
     }
+  }
+
+  @override
   void dispose() {
     _quillScrollController.dispose();
     _quillFocusNode.dispose();
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
+    }
     return Column(
       children: [
         SurfaceContainer(
@@ -81,11 +101,13 @@ class _CampaignScreenState extends State<CampaignScreen> {
                 onPressed: () {
                   CampaignEditRoute().go(context);
                 },
+              ),
             ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: context.m3e.spacing.sm,
+            children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,19 +116,28 @@ class _CampaignScreenState extends State<CampaignScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
+                  Text(
                     // Show description when non-empty; otherwise the fallback.
                     campaign.description.trim().isNotEmpty
                         ? campaign.description
                         : l10n.noDescriptionProvided,
+                  ),
                 ],
+              ),
               const SizedBox(height: 8),
+              Text(
                 l10n.description,
                 style: Theme.of(context).textTheme.titleMedium,
+              ),
               CustomQuillViewer(
                 controller: _controller,
                 onMentionTap: (entityId, mentionType) async {
                   // Navigate to entity details when mention is clicked
                   EntityRoute(entityId: entityId).push(context);
+                },
+              ),
+            ],
+          ),
         ),
         WrapLayout(
           children: [
@@ -117,14 +148,25 @@ class _CampaignScreenState extends State<CampaignScreen> {
             _RecentScenesSection(campaign: campaign),
             _RecentSessionsSection(campaign: campaign),
           ],
+        ),
       ],
     );
+  }
+}
+
 class _ChaptersSection extends StatelessWidget {
   const _ChaptersSection({required this.campaign});
+
   final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Get all chapters from Drift
     // Note: Chapters don't have campaignId field yet, so we filter by ID prefix
     final allChapters = context.watch<List<Chapter>>();
+
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.chapters,
@@ -142,8 +184,10 @@ class _ChaptersSection extends StatelessWidget {
             chapters = List.of(allChapters);
           }
           chapters.sort((a, b) => a.order.compareTo(b.order));
+
           if (chapters.isEmpty) {
             return Text(l10n.noChaptersYet);
+          }
           return CardList<Chapter>(
             items: chapters,
             titleOf: (c) => '${c.order}. ${c.name}',
@@ -153,15 +197,38 @@ class _ChaptersSection extends StatelessWidget {
             routeOf: (c) => ChapterRoute(chapterId: c.id).location,
           );
         },
+      ),
+    );
+  }
+}
+
 class _RecentChaptersSection extends StatelessWidget {
   const _RecentChaptersSection({required this.campaign});
+
+  final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Get all chapters from Drift
+    final allChapters = context.watch<List<Chapter>>();
+
+    return SurfaceContainer(
+      title: SectionHeader(
         title: l10n.recentChapters,
         icon: Icons.update_outlined,
+      ),
+      child: Builder(
+        builder: (context) {
           // Filter chapters for this campaign by ID prefix using startsWith, sort by updatedAt desc, take 5
           var items = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList();
           if (items.isEmpty && allChapters.isNotEmpty) {
             // Fallback: use all chapters
             items = List.of(allChapters);
+          }
           items.sort((a, b) {
             final ad = a.updatedAt;
             final bd = b.updatedAt;
@@ -170,19 +237,55 @@ class _RecentChaptersSection extends StatelessWidget {
             if (bd == null) return -1;
             return bd.compareTo(ad);
           });
+
           final recentItems = items.take(5).toList();
+
           if (recentItems.isEmpty) {
             return const SizedBox.shrink();
+          }
           if (recentItems.isNotEmpty) {
             logger.i(recentItems.first.updatedAt);
+          }
+          return CardList<Chapter>(
             items: recentItems,
+            titleOf: (c) => '${c.order}. ${c.name}',
+            subtitleOf: (c) => c.summary ?? '',
+            onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            enableContextMenu: true,
+            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _RecentAdventuresSection extends StatelessWidget {
   const _RecentAdventuresSection({required this.campaign});
+
+  final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Get all chapters and adventures from Drift
+    final allChapters = context.watch<List<Chapter>>();
     final allAdventures = context.watch<List<Adventure>>();
+
+    return SurfaceContainer(
+      title: SectionHeader(
         title: l10n.recentAdventures,
+        icon: Icons.update_outlined,
+      ),
+      child: Builder(
+        builder: (context) {
           // Filter chapters for this campaign by ID pattern using startsWith
           final chapters = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList();
+
+          if (chapters.isEmpty) {
             // Fallback: show global recent adventures if we cannot scope by chapter
             if (allAdventures.isEmpty) return const SizedBox.shrink();
             final generic = List.of(allAdventures)
@@ -201,6 +304,8 @@ class _RecentAdventuresSection extends StatelessWidget {
               subtitleOf: (a) => a.summary ?? '',
               // No navigation without a known chapter mapping
             );
+          }
+
           // Filter adventures by checking if their ID starts with chapter ID prefix
           // Note: Without parent IDs, we use ID patterns for filtering
           final List<(Adventure, String)> adventuresWithChapter = [];
@@ -209,6 +314,8 @@ class _RecentAdventuresSection extends StatelessWidget {
                 .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
                 .map((adv) => (adv, ch.id));
             adventuresWithChapter.addAll(chapterAdvs);
+          }
+
           // If mapping by prefix produced nothing, try a heuristic mapping by containment
           if (adventuresWithChapter.isEmpty && allAdventures.isNotEmpty) {
             for (final adv in allAdventures) {
@@ -221,6 +328,8 @@ class _RecentAdventuresSection extends StatelessWidget {
                 adventuresWithChapter.add((adv, match.id));
               }
             }
+          }
+
           // Sort by updatedAt desc
           adventuresWithChapter.sort((a, b) {
             final ad = a.$1.updatedAt;
@@ -231,8 +340,28 @@ class _RecentAdventuresSection extends StatelessWidget {
             if (!adValid) return 1;
             if (!bdValid) return -1;
             return bd!.compareTo(ad!);
+          });
+
           // If still empty after heuristics, show generic list without navigation
           if (adventuresWithChapter.isEmpty) {
+            if (allAdventures.isEmpty) return const SizedBox.shrink();
+            final generic = List.of(allAdventures)
+              ..sort((a, b) {
+                final ad = a.updatedAt;
+                final bd = b.updatedAt;
+                if (ad == null && bd == null) return 0;
+                if (ad == null) return 1;
+                if (bd == null) return -1;
+                return bd.compareTo(ad);
+              });
+            final items = generic.take(5).toList();
+            return CardList<Adventure>(
+              items: items,
+              titleOf: (a) => '${a.order}. ${a.name}',
+              subtitleOf: (a) => a.summary ?? '',
+            );
+          }
+
           final items = adventuresWithChapter.take(5).toList();
           return CardList<(Adventure, String)>(
             items: items,
@@ -242,26 +371,73 @@ class _RecentAdventuresSection extends StatelessWidget {
               chapterId: t.$2,
               adventureId: t.$1.id,
             ).go(context),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _RecentScenesSection extends StatelessWidget {
   const _RecentScenesSection({required this.campaign});
+
+  final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Get all chapters, adventures, and scenes from Drift
+    final allChapters = context.watch<List<Chapter>>();
+    final allAdventures = context.watch<List<Adventure>>();
     final allScenes = context.watch<List<scene_model.Scene>>();
+
+    return SurfaceContainer(
+      title: SectionHeader(
         title: l10n.recentScenes,
+        icon: Icons.update_outlined,
+      ),
+      child: Builder(
+        builder: (context) {
+          // Filter chapters for this campaign by ID pattern using startsWith
+          final chapters = allChapters
+              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .toList();
+
           // If we cannot scope by chapter, fall back to global scenes list
+          if (chapters.isEmpty) {
             if (allScenes.isEmpty) return const SizedBox.shrink();
             final generic = List.of(allScenes)
+              ..sort((a, b) {
+                final ad = a.updatedAt;
+                final bd = b.updatedAt;
                 final adValid = isValidDateTime(ad);
                 final bdValid = isValidDateTime(bd);
                 if (!adValid && !bdValid) return 0;
                 if (!adValid) return 1;
                 if (!bdValid) return -1;
                 return bd!.compareTo(ad!);
+              });
+            final items = generic.take(5).toList();
             return CardList<scene_model.Scene>(
+              items: items,
               titleOf: (s) => '${s.order}. ${s.title}',
               subtitleOf: (s) => s.summary ?? '',
               // No navigation without a known chapter/adventure mapping
+            );
+          }
+
           // Get adventures for these chapters using ID patterns with startsWith
+          final List<(Adventure, String)> adventuresWithChapter = [];
+          for (final ch in chapters) {
+            final chapterAdvs = allAdventures
+                .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
+                .map((adv) => (adv, ch.id));
+            adventuresWithChapter.addAll(chapterAdvs);
+          }
+
           if (adventuresWithChapter.isEmpty) return const SizedBox.shrink();
+
           // Get scenes for these adventures using ID patterns with startsWith
           final List<(scene_model.Scene, String, String)> scenesWithContext =
               [];
@@ -272,6 +448,8 @@ class _RecentScenesSection extends StatelessWidget {
                 .where((scene) => scene.id.startsWith('scene-${adv.id}-'))
                 .map((scene) => (scene, chId, adv.id));
             scenesWithContext.addAll(adventureScenes);
+          }
+
           // Heuristic mapping by containment if id-based mapping produced nothing
           if (scenesWithContext.isEmpty && allScenes.isNotEmpty) {
             for (final scene in allScenes) {
@@ -279,22 +457,83 @@ class _RecentScenesSection extends StatelessWidget {
               final matchAdv = adventuresWithChapter.firstWhere(
                 (pair) => scene.id.contains(pair.$1.id),
                 orElse: () => (const Adventure(id: '', name: ''), ''),
+              );
               if (matchAdv.$1.id.isNotEmpty) {
                 scenesWithContext.add((scene, matchAdv.$2, matchAdv.$1.id));
+              }
+            }
+          }
+
+          // Sort by updatedAt desc
           scenesWithContext.sort((a, b) {
+            final ad = a.$1.updatedAt;
+            final bd = b.$1.updatedAt;
+            final adValid = isValidDateTime(ad);
+            final bdValid = isValidDateTime(bd);
+            if (!adValid && !bdValid) return 0;
+            if (!adValid) return 1;
+            if (!bdValid) return -1;
+            return bd!.compareTo(ad!);
+          });
+
           if (scenesWithContext.isEmpty) {
+            if (allScenes.isEmpty) return const SizedBox.shrink();
+            final generic = List.of(allScenes)
+              ..sort((a, b) {
+                final ad = a.updatedAt;
+                final bd = b.updatedAt;
+                final adValid = isValidDateTime(ad);
+                final bdValid = isValidDateTime(bd);
+                if (!adValid && !bdValid) return 0;
+                if (!adValid) return 1;
+                if (!bdValid) return -1;
+                return bd!.compareTo(ad!);
+              });
+            final items = generic.take(5).toList();
+            return CardList<scene_model.Scene>(
+              items: items,
+              titleOf: (s) => '${s.order}. ${s.title}',
+              subtitleOf: (s) => s.summary ?? '',
+            );
+          }
+
           final items = scenesWithContext.take(5).toList();
+
           return CardList<(scene_model.Scene, String, String)>(
+            items: items,
             titleOf: (t) => '${t.$1.order}. ${t.$1.title}',
+            subtitleOf: (t) => t.$1.summary ?? '',
             onTap: (t) => SceneRoute(
+              chapterId: t.$2,
               adventureId: t.$3,
               sceneId: t.$1.id,
+            ).go(context),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _RecentSessionsSection extends StatelessWidget {
   const _RecentSessionsSection({required this.campaign});
+
+  final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Get all sessions from Drift
     final allSessions = context.watch<List<Session>>();
+
+    return SurfaceContainer(
+      title: SectionHeader(
         title: l10n.recentSessions,
         icon: Icons.schedule_outlined,
+      ),
+      child: Builder(
+        builder: (context) {
           // Filter sessions for this campaign and sort by datetime desc
           // Note: With local-first, sessions don't have campaignId yet,
           // so we get all sessions. This will need to be updated when
@@ -308,8 +547,12 @@ class _RecentSessionsSection extends StatelessWidget {
               if (bd == null) return -1;
               return bd.compareTo(ad);
             });
+
+          final recentItems = items.take(5).toList();
           if (recentItems.isEmpty) return const SizedBox.shrink();
+
           return CardList<Session>(
+            items: recentItems,
             titleOf: (s) => s.info?.trim().isNotEmpty == true
                 ? s.info!.trim()
                 : (s.datetime != null
@@ -319,3 +562,9 @@ class _RecentSessionsSection extends StatelessWidget {
               // Navigate into Party root; session route requires partyId which is not available here
               // Consider deep linking when party/session linkage is added.
             },
+          );
+        },
+      ),
+    );
+  }
+}

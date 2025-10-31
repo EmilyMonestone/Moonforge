@@ -1,4 +1,4 @@
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/campaign.dart';
 
 /// Utility class for checking user permissions in campaigns.
 class PermissionsUtils {

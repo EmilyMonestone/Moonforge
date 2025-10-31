@@ -11,32 +11,43 @@ import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/firebase/models/adventure.dart';
+import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
 class AdventureScreen extends StatefulWidget {
   const AdventureScreen({
     super.key,
     required this.chapterId,
     required this.adventureId,
   });
+
   final String chapterId;
   final String adventureId;
+
   @override
   State<AdventureScreen> createState() => _AdventureScreenState();
 }
+
 class _AdventureScreenState extends State<AdventureScreen> {
   final QuillController _controller = QuillController.basic();
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
     final odm = Odm.instance;
+
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
+
     return FutureBuilder<Adventure?>(
       future: odm.campaigns
           .doc(campaign.id)
@@ -52,14 +63,19 @@ class _AdventureScreenState extends State<AdventureScreen> {
         if (snapshot.hasError) {
           logger.e('Error fetching adventure: ${snapshot.error}');
           return Center(child: Text('Error: ${snapshot.error}'));
+        }
         final adventure = snapshot.data;
         if (adventure == null) {
           return Center(child: Text('Adventure not found'));
+        }
+
         if (adventure.content != null) {
           _controller.document = Document.fromJson(
             jsonDecode(adventure.content!),
           );
+        }
         _controller.readOnly = true;
+
         return Column(
           children: [
             SurfaceContainer(
@@ -81,11 +97,13 @@ class _AdventureScreenState extends State<AdventureScreen> {
                         adventureId: widget.adventureId,
                       ).go(context);
                     },
+                  ),
                 ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: context.m3e.spacing.sm,
+                children: [
                   if (adventure.summary != null &&
                       adventure.summary!.trim().isNotEmpty)
                     Column(
@@ -103,6 +121,10 @@ class _AdventureScreenState extends State<AdventureScreen> {
                     controller: _controller,
                     onMentionTap: (entityId, mentionType) async {
                       EntityRoute(entityId: entityId).push(context);
+                    },
+                  ),
+                ],
+              ),
             ),
             WrapLayout(
               children: [
@@ -112,16 +134,35 @@ class _AdventureScreenState extends State<AdventureScreen> {
                   adventureId: widget.adventureId,
                 ),
                 AdventureEntitiesWidget(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                  adventureId: widget.adventureId,
+                ),
               ],
+            ),
           ],
         );
       },
     );
   }
+}
+
 class _ScenesSection extends StatelessWidget {
   const _ScenesSection({
     required this.campaignId,
+    required this.chapterId,
+    required this.adventureId,
+  });
+
   final String campaignId;
+  final String chapterId;
+  final String adventureId;
+
+  @override
+  Widget build(BuildContext context) {
+    final odm = Odm.instance;
+    final l10n = AppLocalizations.of(context)!;
+
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.recentScenes,
@@ -144,9 +185,11 @@ class _ScenesSection extends StatelessWidget {
           if (snapshot.hasError) {
             logger.e('Error fetching scenes: ${snapshot.error}');
             return Text('Error: ${snapshot.error}');
+          }
           final scenes = snapshot.data ?? const <Scene>[];
           if (scenes.isEmpty) {
             return Text('No scenes yet');
+          }
           return CardList<Scene>(
             items: scenes,
             titleOf: (s) => s.title,
@@ -158,5 +201,13 @@ class _ScenesSection extends StatelessWidget {
             ).go(context),
             enableContextMenu: true,
             routeOf: (s) => SceneRoute(
+              chapterId: chapterId,
+              adventureId: adventureId,
+              sceneId: s.id,
             ).location,
+          );
         },
+      ),
+    );
+  }
+}
