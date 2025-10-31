@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:drift/drift.dart' as drift;
 
 class CampaignEditScreen extends StatefulWidget {
   const CampaignEditScreen({super.key});
@@ -70,7 +70,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
         Document document;
         if (campaign.content != null && campaign.content!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(campaign.content!);
+            final deltaJson = jsonDecode(jsonEncode(campaign.content!));
             document = Document.fromJson(deltaJson);
           } catch (e) {
             // If content is not valid JSON, fall back to plain text description
@@ -120,26 +120,28 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
 
     setState(() => _isSaving = true);
     try {
-      final odm = Odm.instance;
+      final repository = context.read<CampaignRepository>();
 
       // Save as Delta JSON
       final delta = _contentController.document.toDelta();
-      final contentJson = jsonEncode(delta.toJson());
+      final contentJson = delta.toJson();
 
-      final updatedCampaign = _campaign!.copyWith(
-        name: _nameController.text.trim(),
-        description: _descriptionTextController.text.trim(),
-        // Keep plain text for backward compatibility
-        content: contentJson,
-        // Store rich text as Delta JSON
-        updatedAt: DateTime.now(),
-        rev: _campaign!.rev + 1,
+      final updatedCampaign = CampaignsCompanion(
+        id: drift.Value(_campaign!.id),
+        name: drift.Value(_nameController.text.trim()),
+        description: drift.Value(_descriptionTextController.text.trim()),
+        content: drift.Value(contentJson),
+        updatedAt: drift.Value(DateTime.now()),
+        rev: drift.Value(_campaign!.rev + 1),
       );
 
-      await odm.campaigns.update(updatedCampaign);
+      await repository.update(updatedCampaign);
 
-      // Update provider with latest data
-      context.read<CampaignProvider>().setCurrentCampaign(updatedCampaign);
+      // Fetch updated campaign and update provider with latest data
+      final refreshed = await repository.getById(_campaign!.id);
+      if (refreshed != null && mounted) {
+        context.read<CampaignProvider>().setCurrentCampaign(refreshed);
+      }
 
       // Clear autosaved draft after successful save
       await _autosave?.clear();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/db/app_db.dart';
 
 class CampaignProvider with ChangeNotifier {
   static const String _currentCampaignKey = 'current_campaign_id';

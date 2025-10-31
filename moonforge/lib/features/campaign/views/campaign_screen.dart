@@ -11,11 +11,7 @@ import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
-import 'package:moonforge/data/firebase/models/scene.dart' as scene_model;
-import 'package:moonforge/data/firebase/models/session.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -54,8 +50,8 @@ class _CampaignScreenState extends State<CampaignScreen> {
     final camp = context.read<CampaignProvider>().currentCampaign;
     if ((_lastCampaign?.id) != (camp?.id)) {
       try {
-        if (camp?.content != null && camp!.content!.trim().isNotEmpty) {
-          _controller.document = Document.fromJson(jsonDecode(camp.content!));
+        if (camp?.content != null) {
+          _controller.document = Document.fromJson(jsonDecode(jsonEncode(camp!.content!)));
         } else {
           _controller.document = Document();
         }
