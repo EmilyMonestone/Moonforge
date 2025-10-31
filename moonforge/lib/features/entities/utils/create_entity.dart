@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,6 @@ import 'package:provider/provider.dart';
 Future<void> createEntity(BuildContext context, Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<EntityRepository>();
-
   final nameController = TextEditingController();
   final kinds = const <String>[
     'npc',
@@ -23,7 +21,6 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
     'journal',
   ];
   String selectedKind = kinds.first;
-
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (ctx) {
@@ -49,7 +46,6 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
                   if (v == null) return;
                   setState(() => selectedKind = v);
                 },
-              ),
             ],
           ),
           actions: [
@@ -60,7 +56,6 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
             FilledButton(
               onPressed: () => Navigator.of(ctx).pop(true),
               child: Text(l10n.create),
-            ),
           ],
         ),
       );
@@ -69,7 +64,6 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
   if (confirmed != true) return;
   final name = nameController.text.trim();
   if (name.isEmpty) return;
-
   try {
     // Embed campaign ID in entity ID for filtering
     final entityId = 'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
@@ -94,13 +88,11 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
     
     // Use Drift repository for optimistic local write
     await repository.upsertLocal(entity);
-
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createEntity));
     EntityRoute(entityId: entityId).go(context);
   } catch (e, st) {
     logger.e('Create entity failed', error: e, stackTrace: st);
-    if (!context.mounted) return;
     notification.error(context, title: Text('Failed: $e'));
   }
 }

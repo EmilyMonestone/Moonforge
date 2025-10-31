@@ -2,38 +2,31 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/combatant.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-
 class InitiativeTrackerScreen extends StatefulWidget {
   final List<Combatant> initialCombatants;
   final String encounterName;
-
   const InitiativeTrackerScreen({
     super.key,
     required this.initialCombatants,
     required this.encounterName,
   });
-
   @override
   State<InitiativeTrackerScreen> createState() =>
       _InitiativeTrackerScreenState();
 }
-
 class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   List<Combatant> _combatants = [];
   int _currentIndex = 0;
   int _round = 1;
   final List<String> _combatLog = [];
   bool _hasRolledInitiative = false;
-
-  @override
   void initState() {
     super.initState();
     _combatants = widget.initialCombatants;
   }
-
   void _rollInitiativeForAll() {
     final random = Random();
     setState(() {
@@ -42,58 +35,38 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
         final total = roll + c.initiativeModifier;
         return c.copyWith(initiative: total);
       }).toList();
-
       _combatants = InitiativeTrackerService.sortByInitiative(_combatants);
       _currentIndex = 0;
       _hasRolledInitiative = true;
       _addToLog('Initiative rolled for all combatants');
     });
-  }
-
   void _nextTurn() {
     if (!_hasRolledInitiative) return;
-
     final oldIndex = _currentIndex;
     _currentIndex = InitiativeTrackerService.getNextCombatantIndex(
       _combatants,
       _currentIndex,
     );
-
     if (InitiativeTrackerService.isNewRound(oldIndex, _currentIndex)) {
       setState(() {
         _round++;
         _addToLog('--- Round $_round ---');
       });
     }
-
-    setState(() {
       _addToLog('${_combatants[_currentIndex].name}\'s turn');
-    });
-  }
-
   void _previousTurn() {
-    if (!_hasRolledInitiative) return;
-
-    setState(() {
       _currentIndex = InitiativeTrackerService.getPreviousCombatantIndex(
         _combatants,
         _currentIndex,
       );
       _addToLog('Back to ${_combatants[_currentIndex].name}\'s turn');
-    });
-  }
-
   void _applyDamage(int index, int damage) {
-    setState(() {
       final combatant = _combatants[index];
       _combatants[index] = combatant.applyDamage(damage);
       _addToLog(
         '${combatant.name} takes $damage damage (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
-      );
-
       if (!_combatants[index].isAlive) {
         _addToLog('${combatant.name} is defeated!');
-
         if (InitiativeTrackerService.isEncounterOver(_combatants)) {
           final winner = InitiativeTrackerService.getWinner(_combatants);
           _addToLog(
@@ -101,46 +74,20 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
           );
         }
       }
-    });
-  }
-
   void _heal(int index, int amount) {
-    setState(() {
-      final combatant = _combatants[index];
       _combatants[index] = combatant.heal(amount);
-      _addToLog(
         '${combatant.name} heals $amount HP (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
-      );
-    });
-  }
-
   void _addCondition(int index, String condition) {
-    setState(() {
-      final combatant = _combatants[index];
       _combatants[index] = combatant.addCondition(condition);
       _addToLog('${combatant.name} gains condition: $condition');
-    });
-  }
-
   void _removeCondition(int index, String condition) {
-    setState(() {
-      final combatant = _combatants[index];
       _combatants[index] = combatant.removeCondition(condition);
       _addToLog('${combatant.name} loses condition: $condition');
-    });
-  }
-
   void _addToLog(String message) {
     _combatLog.add('[Round $_round] $message');
-  }
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isEncounterOver = InitiativeTrackerService.isEncounterOver(
-      _combatants,
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: Text('${l10n.initiativeTracker} - ${widget.encounterName}'),
@@ -178,16 +125,13 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                           icon: const Icon(Icons.skip_previous),
                           tooltip: l10n.previousTurn,
                         ),
-                        IconButton(
                           onPressed: _nextTurn,
                           icon: const Icon(Icons.skip_next),
                           tooltip: l10n.nextTurn,
-                        ),
                       ],
                     ],
                   ),
                 ),
-
                 // Combatants List
                 Expanded(
                   child: ListView.builder(
@@ -196,12 +140,10 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                       final combatant = _combatants[index];
                       final isCurrent =
                           _hasRolledInitiative && index == _currentIndex;
-
                       return Card(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
-                        ),
                         color: isCurrent
                             ? Theme.of(context).colorScheme.primaryContainer
                             : combatant.isAlive
@@ -229,14 +171,11 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                               decoration: combatant.isAlive
                                   ? null
                                   : TextDecoration.lineThrough,
-                            ),
-                          ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'HP: ${combatant.currentHp}/${combatant.maxHp} • AC: ${combatant.armorClass}',
-                              ),
                               if (combatant.conditions.isNotEmpty)
                                 Wrap(
                                   spacing: 4,
@@ -258,7 +197,6 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                       .toList(),
                                 ),
                             ],
-                          ),
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -278,27 +216,15 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 Colors.red.shade100,
-                                          ),
-                                        ),
                                       ),
                                       const SizedBox(width: 8),
-                                      Expanded(
-                                        child: ElevatedButton.icon(
-                                          onPressed: combatant.isAlive
                                               ? () => _showHealDialog(index)
-                                              : null,
                                           icon: const Icon(Icons.add),
                                           label: const Text('Heal'),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
                                                 Colors.green.shade100,
-                                          ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-
                                   // Condition Management
                                   ElevatedButton.icon(
                                     onPressed: combatant.isAlive
@@ -306,22 +232,13 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                         : null,
                                     icon: const Icon(Icons.add),
                                     label: Text(l10n.addCondition),
-                                  ),
                                 ],
-                              ),
-                            ),
                           ],
-                        ),
                       );
                     },
-                  ),
-                ),
               ],
-            ),
           ),
-
           // Combat Log
-          Expanded(
             flex: 1,
             child: SurfaceContainer(
               child: Column(
@@ -333,7 +250,6 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                       'Combat Log',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
                   const Divider(),
                   Expanded(
                     child: ListView.builder(
@@ -343,23 +259,12 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                         final logIndex = _combatLog.length - 1 - index;
                         return ListTile(
                           dense: true,
-                          title: Text(
                             _combatLog[logIndex],
                             style: const TextStyle(fontSize: 12),
-                          ),
                         );
                       },
-                    ),
-                  ),
                 ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showDamageDialog(int index) {
     final controller = TextEditingController();
     showDialog(
@@ -371,15 +276,12 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
           decoration: const InputDecoration(
             labelText: 'Damage',
             border: OutlineInputBorder(),
-          ),
           keyboardType: TextInputType.number,
           autofocus: true,
         ),
-        actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(AppLocalizations.of(context)!.cancel),
-          ),
           ElevatedButton(
             onPressed: () {
               final damage = int.tryParse(controller.text);
@@ -389,77 +291,16 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
               }
             },
             child: const Text('Apply'),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showHealDialog(int index) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
         title: const Text('Heal'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
             labelText: 'Healing',
-            border: OutlineInputBorder(),
-          ),
-          keyboardType: TextInputType.number,
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
               final amount = int.tryParse(controller.text);
               if (amount != null && amount > 0) {
                 _heal(index, amount);
-                Navigator.of(context).pop();
-              }
-            },
             child: const Text('Heal'),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showAddConditionDialog(int index) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
         title: Text(AppLocalizations.of(context)!.addCondition),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
             hintText: 'e.g., Poisoned, Stunned, Prone',
-            border: OutlineInputBorder(),
-          ),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
               if (controller.text.isNotEmpty) {
                 _addCondition(index, controller.text);
-                Navigator.of(context).pop();
-              }
-            },
             child: const Text('Add'),
-          ),
-        ],
-      ),
-    );
-  }
-}

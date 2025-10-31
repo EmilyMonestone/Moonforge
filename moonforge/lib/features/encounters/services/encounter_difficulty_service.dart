@@ -1,10 +1,7 @@
-import 'package:moonforge/data/firebase/models/player.dart';
-
 /// Service for calculating D&D 5e encounter difficulty
 /// Based on D&D 5e Basic Rules Chapter 13: Building Combat Encounters
 class EncounterDifficultyService {
   EncounterDifficultyService._();
-
   /// XP thresholds by character level for each difficulty
   /// Indexed by level (1-20)
   static const Map<int, Map<String, int>> _xpThresholdsByLevel = {
@@ -29,7 +26,6 @@ class EncounterDifficultyService {
     19: {'easy': 2400, 'medium': 4900, 'hard': 7300, 'deadly': 10900},
     20: {'easy': 2800, 'medium': 5700, 'hard': 8500, 'deadly': 12700},
   };
-
   /// Challenge Rating to XP mapping
   static const Map<String, int> _crToXp = {
     '0': 10,
@@ -66,13 +62,10 @@ class EncounterDifficultyService {
     '28': 120000,
     '29': 135000,
     '30': 155000,
-  };
-
   /// Calculate party XP thresholds for each difficulty level
   /// Returns a map with keys: easy, medium, hard, deadly
   static Map<String, int> calculatePartyThresholds(List<int> playerLevels) {
     final totals = {'easy': 0, 'medium': 0, 'hard': 0, 'deadly': 0};
-
     for (final level in playerLevels) {
       final thresholds = _xpThresholdsByLevel[level];
       if (thresholds != null) {
@@ -82,22 +75,16 @@ class EncounterDifficultyService {
         totals['deadly'] = totals['deadly']! + thresholds['deadly']!;
       }
     }
-
     return totals;
   }
-
   /// Calculate party XP thresholds from Player objects
   static Map<String, int> calculatePartyThresholdsFromPlayers(
     List<Player> players,
   ) {
     return calculatePartyThresholds(players.map((p) => p.level).toList());
-  }
-
   /// Get XP value for a given Challenge Rating
   static int getXpForCr(String cr) {
     return _crToXp[cr] ?? 0;
-  }
-
   /// Calculate the encounter multiplier based on number of monsters
   /// Accounts for party size adjustments
   static double getEncounterMultiplier(int monsterCount, int partySize) {
@@ -115,8 +102,6 @@ class EncounterDifficultyService {
       baseMultiplier = 3.0;
     } else {
       baseMultiplier = 4.0;
-    }
-
     // Adjust for party size
     if (partySize < 3) {
       // Use next higher multiplier for small parties
@@ -132,46 +117,25 @@ class EncounterDifficultyService {
         baseMultiplier = 4.0;
       } else {
         baseMultiplier = 5.0;
-      }
     } else if (partySize >= 6) {
       // Use next lower multiplier for large parties
-      if (monsterCount == 1) {
         baseMultiplier = 0.5;
-      } else if (monsterCount == 2) {
         baseMultiplier = 1.0;
-      } else if (monsterCount <= 6) {
-        baseMultiplier = 1.5;
-      } else if (monsterCount <= 10) {
-        baseMultiplier = 2.0;
-      } else if (monsterCount <= 14) {
-        baseMultiplier = 2.5;
-      } else {
-        baseMultiplier = 3.0;
-      }
-    }
-
     return baseMultiplier;
-  }
-
   /// Calculate adjusted XP for monsters in an encounter
   static int calculateAdjustedXp(List<int> monsterXpValues, int partySize) {
     if (monsterXpValues.isEmpty) return 0;
-
     final baseXp = monsterXpValues.reduce((a, b) => a + b);
     final multiplier = getEncounterMultiplier(
       monsterXpValues.length,
       partySize,
     );
-
     return (baseXp * multiplier).round();
-  }
-
   /// Classify encounter difficulty based on adjusted XP and party thresholds
   /// Returns: 'trivial', 'easy', 'medium', 'hard', or 'deadly'
   static String classifyDifficulty(
     int adjustedXp,
     Map<String, int> partyThresholds,
-  ) {
     if (adjustedXp < partyThresholds['easy']!) {
       return 'trivial';
     } else if (adjustedXp < partyThresholds['medium']!) {
@@ -180,18 +144,11 @@ class EncounterDifficultyService {
       return 'medium';
     } else if (adjustedXp < partyThresholds['deadly']!) {
       return 'hard';
-    } else {
       return 'deadly';
-    }
-  }
-
   /// Get all available CR values
   static List<String> getAvailableCRs() {
     return _crToXp.keys.toList();
-  }
-
   /// Get XP thresholds for a specific character level
   static Map<String, int>? getThresholdsForLevel(int level) {
     return _xpThresholdsByLevel[level];
-  }
 }

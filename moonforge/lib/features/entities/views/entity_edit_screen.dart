@@ -9,23 +9,17 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
-
 class EntityEditScreen extends StatefulWidget {
   const EntityEditScreen({super.key, required this.entityId});
-
   final String entityId;
-
   @override
   State<EntityEditScreen> createState() => _EntityEditScreenState();
 }
-
 class _EntityEditScreenState extends State<EntityEditScreen> {
   final _nameController = TextEditingController();
   final _summaryController = TextEditingController();
@@ -38,7 +32,6 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
   bool _isSaving = false;
   Entity? _entity;
   String? _campaignId;
-
   // Kind-specific controllers
   final _placeTypeController = TextEditingController();
   final _parentPlaceIdController = TextEditingController();
@@ -47,22 +40,15 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
   final _membersController = TextEditingController();
   final Map<String, TextEditingController> _statblockControllers = {};
   List<Map<String, dynamic>> _images = [];
-
-  @override
   void initState() {
     super.initState();
     _contentController = QuillController.basic();
   }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_isLoading && _entity == null) {
       _loadEntity();
     }
-  }
-
-  @override
   void dispose() {
     _nameController.dispose();
     _summaryController.dispose();
@@ -76,10 +62,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
     _membersController.dispose();
     for (var controller in _statblockControllers.values) {
       controller.dispose();
-    }
     super.dispose();
-  }
-
   Future<void> _loadEntity() async {
     setState(() => _isLoading = true);
     try {
@@ -95,14 +78,12 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
         return;
       }
       _campaignId = campaign.id;
-
       final odm = Odm.instance;
       final entity = await odm.campaigns
           .doc(campaign.id)
           .entities
           .doc(widget.entityId)
           .get();
-
       if (entity != null) {
         Document document;
         if (entity.content != null && entity.content!.isNotEmpty) {
@@ -114,15 +95,12 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           }
         } else {
           document = Document();
-        }
-
         setState(() {
           _entity = entity;
           _nameController.text = entity.name;
           _summaryController.text = entity.summary ?? '';
           _tagsController.text = entity.tags?.join(', ') ?? '';
           _contentController.document = document;
-
           // Load kind-specific fields
           if (entity.kind == 'place') {
             _placeTypeController.text = entity.placeType ?? '';
@@ -139,14 +117,11 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
               );
               _statblockControllers[entry.key] = controller;
             }
-          }
-
           // Load images
           _images = entity.images != null
               ? List<Map<String, dynamic>>.from(entity.images!)
               : [];
         });
-
         _autosave = QuillAutosave(
           controller: _contentController,
           storageKey: 'entity_${entity.id}_content_draft',
@@ -156,58 +131,42 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           },
         );
         _autosave?.start();
-      }
     } catch (e) {
       logger.e('Error loading entity: $e');
       if (mounted) {
         toastification.show(
           type: ToastificationType.error,
           title: const Text('Failed to load entity'),
-        );
-      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
   Future<void> _saveEntity() async {
     if (!_formKey.currentState!.validate()) return;
     if (_entity == null || _campaignId == null) return;
-
     setState(() => _isSaving = true);
-    try {
-      final odm = Odm.instance;
-
       final delta = _contentController.document.toDelta();
       final contentJson = jsonEncode(delta.toJson());
-
       // Parse tags
       final tags = _tagsController.text
           .split(',')
           .map((e) => e.trim())
           .where((e) => e.isNotEmpty)
           .toList();
-
       // Build kind-specific data
       Map<String, dynamic> statblock = {};
       String? placeType;
       String? parentPlaceId;
       Map<String, dynamic> coords = {};
       List<String>? members;
-
       if (_entity!.kind == 'place') {
         placeType = _placeTypeController.text.trim().isEmpty
             ? null
             : _placeTypeController.text.trim();
         parentPlaceId = _parentPlaceIdController.text.trim().isEmpty
-            ? null
             : _parentPlaceIdController.text.trim();
-
         final lat = double.tryParse(_coordsLatController.text.trim());
         final lng = double.tryParse(_coordsLngController.text.trim());
         if (lat != null && lng != null) {
           coords = {'lat': lat, 'lng': lng};
-        }
       } else if (_entity!.kind == 'group') {
         final membersList = _membersController.text
             .split(',')
@@ -218,9 +177,6 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
       } else if (_entity!.kind == 'npc' || _entity!.kind == 'monster') {
         for (var entry in _statblockControllers.entries) {
           statblock[entry.key] = entry.value.text;
-        }
-      }
-
       final updatedEntity = _entity!.copyWith(
         name: _nameController.text.trim(),
         summary: _summaryController.text.trim(),
@@ -235,31 +191,14 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
         updatedAt: DateTime.now(),
         rev: _entity!.rev + 1,
       );
-
       await odm.campaigns.doc(_campaignId!).entities.update(updatedEntity);
-
       await _autosave?.clear();
-
-      if (mounted) {
-        toastification.show(
           type: ToastificationType.success,
           title: const Text('Entity saved successfully'),
-        );
         Navigator.of(context).pop();
-      }
-    } catch (e) {
       logger.e('Error saving entity: $e');
-      if (mounted) {
-        toastification.show(
-          type: ToastificationType.error,
           title: const Text('Failed to save entity'),
-        );
-      }
-    } finally {
       if (mounted) setState(() => _isSaving = false);
-    }
-  }
-
   void _addStatblockField() {
     showDialog(
       context: context,
@@ -277,10 +216,8 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                 autofocus: true,
               ),
               const SizedBox(height: 12),
-              TextField(
                 controller: valueController,
                 decoration: const InputDecoration(labelText: 'Value'),
-              ),
             ],
           ),
           actions: [
@@ -302,75 +239,33 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                 Navigator.of(context).pop();
               },
               child: const Text('Add'),
-            ),
           ],
-        );
       },
     );
-  }
-
   void _addImage() {
-    showDialog(
-      context: context,
-      builder: (context) {
         final assetIdController = TextEditingController();
         final kindController = TextEditingController();
-        return AlertDialog(
           title: const Text('Add Image'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
                 controller: assetIdController,
                 decoration: const InputDecoration(labelText: 'Asset ID'),
-                autofocus: true,
-              ),
-              const SizedBox(height: 12),
-              TextField(
                 controller: kindController,
                 decoration: const InputDecoration(
                   labelText: 'Kind (optional)',
                   hintText: 'e.g., avatar, banner',
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
                 final assetId = assetIdController.text.trim();
                 final kind = kindController.text.trim();
                 if (assetId.isNotEmpty) {
-                  setState(() {
                     _images.add({
                       'assetId': assetId,
                       if (kind.isNotEmpty) 'kind': kind,
                     });
-                  });
-                }
-                Navigator.of(context).pop();
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _removeImage(int index) {
     setState(() {
       _images.removeAt(index);
     });
-  }
-
   Widget _buildKindSpecificFields(BuildContext context) {
     final theme = Theme.of(context);
-
     switch (_entity!.kind) {
       case 'place':
         return Column(
@@ -386,7 +281,6 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
               decoration: const InputDecoration(
                 labelText: 'Place Type',
                 prefixIcon: Icon(Icons.location_on_outlined),
-              ),
               items: const [
                 DropdownMenuItem(value: 'world', child: Text('World')),
                 DropdownMenuItem(value: 'continent', child: Text('Continent')),
@@ -400,18 +294,12 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                 setState(() {
                   _placeTypeController.text = value ?? '';
                 });
-              },
-            ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _parentPlaceIdController,
-              decoration: const InputDecoration(
                 labelText: 'Parent Place ID',
                 prefixIcon: Icon(Icons.place_outlined),
                 hintText: 'Optional',
-              ),
-            ),
-            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -424,73 +312,33 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                       signed: true,
-                    ),
                   ),
-                ),
                 const SizedBox(width: 12),
-                Expanded(
-                  child: TextFormField(
                     controller: _coordsLngController,
-                    decoration: const InputDecoration(
                       labelText: 'Longitude',
-                      prefixIcon: Icon(Icons.map_outlined),
-                    ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                      signed: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
       case 'group':
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 24),
             Text('Group Details', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            TextFormField(
               controller: _membersController,
-              decoration: const InputDecoration(
                 labelText: 'Members',
                 prefixIcon: Icon(Icons.groups_outlined),
                 hintText: 'Comma-separated member IDs or names',
-              ),
               maxLines: 3,
-            ),
-          ],
-        );
       case 'npc':
       case 'monster':
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 24),
-            Row(
-              children: [
                 Text('Stat Block', style: theme.textTheme.titleMedium),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
                   onPressed: _addStatblockField,
                   tooltip: 'Add field',
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
             if (_statblockControllers.isEmpty)
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(8),
-                ),
                 child: const Text(
                   'No stat block fields. Click + to add fields.',
-                ),
               )
             else
               ..._statblockControllers.entries.map((entry) {
@@ -507,16 +355,12 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                           ),
                         ),
                       ),
-                      Expanded(
                         flex: 5,
                         child: TextFormField(
                           controller: entry.value,
                           decoration: InputDecoration(
                             labelText: entry.key,
                             isDense: true,
-                          ),
-                        ),
-                      ),
                       IconButton(
                         icon: const Icon(Icons.delete_outline),
                         onPressed: () {
@@ -525,49 +369,28 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                             _statblockControllers.remove(entry.key);
                           });
                         },
-                      ),
                     ],
-                  ),
                 );
               }),
-          ],
-        );
       case 'item':
       case 'handout':
       case 'journal':
       default:
         return const SizedBox.shrink();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
-    }
-
     if (_entity == null) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
             const Icon(Icons.error_outline, size: 48),
-            const SizedBox(height: 16),
             Text('No entity found', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
             FilledButton.icon(
-              onPressed: () => Navigator.of(context).pop(),
               icon: const Icon(Icons.arrow_back),
               label: const Text('Go back'),
-            ),
-          ],
         ),
-      );
-    }
-
     return SurfaceContainer(
       title: Row(
         mainAxisSize: MainAxisSize.min,
@@ -575,7 +398,6 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           Text(
             '${_entity!.kind.toUpperCase()} ${l10n.edit}',
             style: Theme.of(context).textTheme.displaySmall,
-          ),
           const Spacer(),
           ButtonM3E(
             style: ButtonM3EStyle.outlined,
@@ -583,10 +405,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
             label: Text(l10n.cancel),
             icon: const Icon(Icons.cancel_outlined),
             onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
-          ),
-          ButtonM3E(
             style: ButtonM3EStyle.filled,
-            shape: ButtonM3EShape.square,
             label: Text(l10n.save),
             icon: _isSaving
                 ? const SizedBox(
@@ -596,86 +415,44 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                   )
                 : const Icon(Icons.save),
             onPressed: _isSaving ? null : _saveEntity,
-          ),
         ],
       ),
       child: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: l10n.name,
                 prefixIcon: const Icon(Icons.label_outlined),
                 helperText: 'Give your entity a descriptive name',
-              ),
               validator: (v) {
                 final value = v?.trim() ?? '';
                 if (value.isEmpty) return 'Name is required';
                 return null;
-              },
-            ),
-            const SizedBox(height: 24),
             Text(l10n.description, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            TextFormField(
               controller: _summaryController,
-              decoration: const InputDecoration(
                 labelText: 'Short summary',
                 hintText: 'Enter a brief summary',
-              ),
-              maxLines: 3,
-            ),
-            const SizedBox(height: 24),
             Text('Tags', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            TextFormField(
               controller: _tagsController,
-              decoration: const InputDecoration(
                 labelText: 'Tags',
                 prefixIcon: Icon(Icons.tag),
                 hintText: 'Comma-separated tags',
-              ),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
                 Text('Images', style: theme.textTheme.titleMedium),
-                const Spacer(),
-                IconButton(
                   icon: const Icon(Icons.add_photo_alternate_outlined),
                   onPressed: _addImage,
                   tooltip: 'Add image',
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
             if (_images.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(8),
-                ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.image_outlined,
                       color: theme.colorScheme.onSurfaceVariant,
-                    ),
                     const SizedBox(width: 12),
                     Text(
                       'No images. Click + to add images.',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
                   ],
-                ),
-              )
-            else
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -690,7 +467,6 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(8),
-                    ),
                     child: Stack(
                       children: [
                         Padding(
@@ -709,20 +485,13 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               if (assetId != null)
-                                Text(
                                   assetId.length > 10
                                       ? '${assetId.substring(0, 10)}...'
                                       : assetId,
                                   style: theme.textTheme.labelSmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
                             ],
-                          ),
-                        ),
                         Positioned(
                           top: 0,
                           right: 0,
@@ -734,37 +503,21 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                               minWidth: 24,
                               minHeight: 24,
                             ),
-                          ),
-                        ),
                       ],
-                    ),
                   );
                 }).toList(),
-              ),
             _buildKindSpecificFields(context),
-            const SizedBox(height: 24),
             Text(l10n.content, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
             Container(
               key: _editorKey,
               height: 400,
               decoration: BoxDecoration(
                 border: Border.all(color: theme.colorScheme.outline),
                 borderRadius: BorderRadius.circular(8),
-              ),
               child: Column(
                 children: [
                   QuillCustomToolbar(controller: _contentController),
                   const Divider(height: 1),
                   Expanded(
                     child: CustomQuillEditor(controller: _contentController),
-                  ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

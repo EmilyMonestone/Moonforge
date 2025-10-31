@@ -9,13 +9,10 @@ import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
 class SceneScreen extends StatefulWidget {
   const SceneScreen({
     super.key,
@@ -23,32 +20,23 @@ class SceneScreen extends StatefulWidget {
     required this.adventureId,
     required this.sceneId,
   });
-
   final String chapterId;
   final String adventureId;
   final String sceneId;
-
   @override
   State<SceneScreen> createState() => _SceneScreenState();
 }
-
 class _SceneScreenState extends State<SceneScreen> {
   final QuillController _controller = QuillController.basic();
   Scene? _scene;
   bool _isLoading = true;
-
-  @override
   void initState() {
     super.initState();
     _loadScene();
   }
-
-  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
   Future<void> _loadScene() async {
     setState(() => _isLoading = true);
     try {
@@ -57,7 +45,6 @@ class _SceneScreenState extends State<SceneScreen> {
         setState(() => _isLoading = false);
         return;
       }
-
       final odm = Odm.instance;
       final scene = await odm.campaigns
           .doc(campaign.id)
@@ -68,12 +55,9 @@ class _SceneScreenState extends State<SceneScreen> {
           .scenes
           .doc(widget.sceneId)
           .get();
-
       if (scene != null && scene.content != null) {
         _controller.document = Document.fromJson(jsonDecode(scene.content!));
-      }
       _controller.readOnly = true;
-
       setState(() {
         _scene = scene;
         _isLoading = false;
@@ -82,21 +66,13 @@ class _SceneScreenState extends State<SceneScreen> {
       logger.e('Error loading scene: $e');
       setState(() => _isLoading = false);
     }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
-
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
-    }
-
     if (_scene == null || campaign == null) {
       return Center(child: Text(l10n.error));
-    }
-
     return Column(
       children: [
         SurfaceContainer(
@@ -119,13 +95,11 @@ class _SceneScreenState extends State<SceneScreen> {
                     sceneId: widget.sceneId,
                   ).go(context);
                 },
-              ),
             ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: context.m3e.spacing.sm,
-            children: [
               if (_scene!.summary != null && _scene!.summary!.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,34 +113,20 @@ class _SceneScreenState extends State<SceneScreen> {
                   ],
                 ),
               if (_scene!.content != null && _scene!.content!.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
                       l10n.content,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 8),
                     CustomQuillViewer(
                       controller: _controller,
                       onMentionTap: (entityId, mentionType) async {
                         EntityRoute(entityId: entityId).push(context);
                       },
-                    ),
-                  ],
                 )
               else
                 Text(l10n.noContentProvided),
-            ],
-          ),
         ),
         SceneEntitiesWidget(
           campaignId: campaign.id,
           chapterId: widget.chapterId,
           adventureId: widget.adventureId,
           sceneId: widget.sceneId,
-        ),
       ],
     );
-  }
-}
