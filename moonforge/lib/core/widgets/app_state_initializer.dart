@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
-import 'package:moonforge/data/sync/sync_engine.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/db/sync/sync_coordinator.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,14 +25,14 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
     super.initState();
     _initializeAppState();
 
-    // Ensure SyncEngine provider is realized even if laziness interferes
+    // Ensure SyncCoordinator provider is realized even if laziness interferes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       try {
         // Accessing it ensures the provider is created and started
-        final _ = context.read<SyncEngine>();
-        logger.i('Ensured SyncEngine is initialized via AppStateInitializer');
+        final _ = context.read<SyncCoordinator>();
+        logger.i('Ensured SyncCoordinator is initialized via AppStateInitializer');
       } catch (e) {
-        logger.w('Failed to ensure SyncEngine from AppStateInitializer: $e');
+        logger.w('Failed to ensure SyncCoordinator from AppStateInitializer: $e');
       }
     });
   }
@@ -47,10 +47,10 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       if (campaignId != null) {
         logger.i('Restoring persisted campaign: $campaignId');
 
-        // Load the campaign from Firestore
-        final odm = Odm.instance;
+        // Load the campaign from Drift via repository
+        final campaignRepository = context.read<CampaignRepository>();
         try {
-          final campaign = await odm.campaigns.doc(campaignId).get();
+          final campaign = await campaignRepository.getById(campaignId);
           if (campaign != null) {
             campaignProvider.setCurrentCampaign(campaign);
             logger.i('Successfully restored campaign: ${campaign.name}');
