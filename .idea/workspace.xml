@@ -19,12 +19,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: update CMake version and enhance error handling in StreamProviders">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift/app_database.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/drift_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/untranslated-messages.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/FILES_TO_MIGRATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/FILES_TO_MIGRATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/providers/sync_state_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/providers/sync_state_provider.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +70,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cec9c3288cf15858a62975928a54500e3a15e1b7" />
+        <entry key="$PROJECT_DIR$" value="fd004ed184d8bd0983b131c1e2f86abebf91af65" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -112,8 +118,7 @@
     "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "#37 on copilot/rewrite-database-implementation",
     "ignore.virus.scanning.warn.message": "true",
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",

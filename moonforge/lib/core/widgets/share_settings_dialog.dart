@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/utils/share_token_utils.dart';
-import 'package:moonforge/data/firebase/models/session.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:toastification/toastification.dart';
 

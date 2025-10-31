@@ -1,73 +1,83 @@
-import 'dart:convert';
-
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/encounter.dart';
+import '../db/app_db.dart';
+import '../db/tables.dart';
+import 'package:drift/drift.dart';
 
 /// Repository for Encounter operations
 class EncounterRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   EncounterRepository(this._db);
 
-  Stream<List<Encounter>> watchAll() => _db.encountersDao.watchAll();
+  /// Watch encounters for an origin (campaign/chapter/adventure/scene)
+  Stream<List<Encounter>> watchByOrigin(String originId) => 
+    _db.encounterDao.watchByOrigin(originId);
 
-  Future<Encounter?> getById(String id) => _db.encountersDao.getById(id);
+  /// Get a single encounter by ID
+  Future<Encounter?> getById(String id) => _db.encounterDao.getById(id);
 
-  Future<void> upsertLocal(Encounter encounter) async {
+  /// Create a new encounter
+  Future<void> create(Encounter encounter) async {
     await _db.transaction(() async {
-      await _db.encountersDao.upsert(encounter, markDirty: true);
+      await _db.encounterDao.upsert(
+        EncountersCompanion.insert(
+          id: encounter.id,
+          name: encounter.name,
+          originId: encounter.originId,
+          preset: encounter.preset,
+          notes: Value(encounter.notes),
+          loot: Value(encounter.loot),
+          combatants: Value(encounter.combatants),
+          entityIds: encounter.entityIds,
+          createdAt: Value(encounter.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: encounter.rev,
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'encounters',
-        docId: encounter.id,
-        baseRev: encounter.rev,
-        opType: 'upsert',
-        payload: jsonEncode(encounter.toJson()),
+        table: 'encounters',
+        rowId: encounter.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing encounter
+  Future<void> update(Encounter encounter) async {
     await _db.transaction(() async {
-      final current = await _db.encountersDao.getById(id);
-      if (current == null) return;
+      await _db.encounterDao.upsert(
+        EncountersCompanion(
+          id: Value(encounter.id),
+          name: Value(encounter.name),
+          originId: Value(encounter.originId),
+          preset: Value(encounter.preset),
+          notes: Value(encounter.notes),
+          loot: Value(encounter.loot),
+          combatants: Value(encounter.combatants),
+          entityIds: Value(encounter.entityIds),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(encounter.rev + 1),
+        ),
+      );
 
-      Encounter updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.encountersDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'encounters',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'encounters',
+        rowId: encounter.id,
+        op: 'upsert',
       );
     });
   }
 
-  Encounter _applyPatchOp(Encounter encounter, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
-
-    if (type == 'set') {
-      switch (field) {
-        case 'name':
-          return encounter.copyWith(name: value as String);
-        case 'preset':
-          return encounter.copyWith(preset: value as bool);
-        case 'notes':
-          return encounter.copyWith(notes: value as String?);
-        case 'loot':
-          return encounter.copyWith(loot: value as String?);
-      }
-    }
-    return encounter;
+  /// Delete an encounter
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.encounterDao.deleteById(id);
+      
+      await _db.outboxDao.enqueue(
+        table: 'encounters',
+        rowId: id,
+        op: 'delete',
+      );
+    });
   }
 }

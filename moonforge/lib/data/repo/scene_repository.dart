@@ -1,73 +1,81 @@
-import 'dart:convert';
-
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
+import '../db/app_db.dart';
+import '../db/tables.dart';
+import 'package:drift/drift.dart';
 
 /// Repository for Scene operations
 class SceneRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   SceneRepository(this._db);
 
-  Stream<List<Scene>> watchAll() => _db.scenesDao.watchAll();
+  /// Watch scenes for an adventure
+  Stream<List<Scene>> watchByAdventure(String adventureId) => 
+    _db.sceneDao.watchByAdventure(adventureId);
 
-  Future<Scene?> getById(String id) => _db.scenesDao.getById(id);
+  /// Get a single scene by ID
+  Future<Scene?> getById(String id) => _db.sceneDao.getById(id);
 
-  Future<void> upsertLocal(Scene scene) async {
+  /// Create a new scene
+  Future<void> create(Scene scene) async {
     await _db.transaction(() async {
-      await _db.scenesDao.upsert(scene, markDirty: true);
+      await _db.sceneDao.upsert(
+        ScenesCompanion.insert(
+          id: scene.id,
+          adventureId: scene.adventureId,
+          name: scene.name,
+          order: scene.order,
+          summary: Value(scene.summary),
+          content: Value(scene.content),
+          entityIds: scene.entityIds,
+          createdAt: Value(scene.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: scene.rev,
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'scenes',
-        docId: scene.id,
-        baseRev: scene.rev,
-        opType: 'upsert',
-        payload: jsonEncode(scene.toJson()),
+        table: 'scenes',
+        rowId: scene.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing scene
+  Future<void> update(Scene scene) async {
     await _db.transaction(() async {
-      final current = await _db.scenesDao.getById(id);
-      if (current == null) return;
+      await _db.sceneDao.upsert(
+        ScenesCompanion(
+          id: Value(scene.id),
+          adventureId: Value(scene.adventureId),
+          name: Value(scene.name),
+          order: Value(scene.order),
+          summary: Value(scene.summary),
+          content: Value(scene.content),
+          entityIds: Value(scene.entityIds),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(scene.rev + 1),
+        ),
+      );
 
-      Scene updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.scenesDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'scenes',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'scenes',
+        rowId: scene.id,
+        op: 'upsert',
       );
     });
   }
 
-  Scene _applyPatchOp(Scene scene, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
-
-    if (type == 'set') {
-      switch (field) {
-        case 'title':
-          return scene.copyWith(title: value as String);
-        case 'order':
-          return scene.copyWith(order: value as int);
-        case 'summary':
-          return scene.copyWith(summary: value as String?);
-        case 'content':
-          return scene.copyWith(content: value as String?);
-      }
-    }
-    return scene;
+  /// Delete a scene
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.sceneDao.deleteById(id);
+      
+      await _db.outboxDao.enqueue(
+        table: 'scenes',
+        rowId: id,
+        op: 'delete',
+      );
+    });
   }
 }

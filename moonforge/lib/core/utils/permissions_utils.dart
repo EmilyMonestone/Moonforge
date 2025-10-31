@@ -1,4 +1,4 @@
-import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/db/app_db.dart';
 
 /// Utility class for checking user permissions in campaigns.
 class PermissionsUtils {
@@ -11,7 +11,7 @@ class PermissionsUtils {
   /// Checks if the given user is a member (player) of the campaign.
   static bool isPlayer(Campaign campaign, String? userId) {
     if (userId == null) return false;
-    return campaign.memberUids?.contains(userId) ?? false;
+    return campaign.memberUids.contains(userId);
   }
 
   /// Checks if the given user has access to the campaign (DM or player).

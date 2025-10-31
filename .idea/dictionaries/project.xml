@@ -2,10 +2,12 @@
   <dictionary name="project">
     <words>
       <w>appiconset</w>
+      <w>coords</w>
       <w>freezed</w>
       <w>moonforge</w>
       <w>riverpod</w>
       <w>showcaseview</w>
+      <w>statblock</w>
       <w>toastification</w>
     </words>
   </dictionary>

@@ -13,7 +13,7 @@ import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -29,11 +29,12 @@ Future<void> main(List<String> args) async {
   // Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // IMPORTANT: Set Firestore settings BEFORE any other Firestore operations.
+  // IMPORTANT: Disable Firestore persistence since we use Drift as local storage
+  // Set Firestore settings BEFORE any other Firestore operations.
   // On desktop (C++ SDK), changing settings after first use causes an Illegal state error.
   try {
     FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
+      persistenceEnabled: false, // Disabled - using Drift instead
     );
   } catch (e) {
     // In rare cases (hot restart, early background init), Firestore might already be started.
@@ -41,13 +42,8 @@ Future<void> main(List<String> args) async {
     debugPrint('Skipping Firestore settings update: $e');
   }
 
-  // If you need to clear the Firestore cache, it must be done before any listeners/queries are created.
-  // Doing it later can trigger the C++ SDK "settings can no longer be changed" error on desktop.
-  // await clearFirestoreCache();
-
-  final firestore = FirebaseFirestore.instance;
-
-  await Odm.init(firestore);
+  // Initialize Drift database (local-first storage)
+  final db = constructDb();
 
   // Initialize get_storage for persistence
   await PersistenceService.init();
@@ -92,7 +88,7 @@ Future<void> main(List<String> args) async {
     }
   });
 
-  runApp(MultiProviderWrapper(child: App()));
+  runApp(MultiProviderWrapper(db: db, child: App()));
 }
 
 Future clearFirestoreCache() async {

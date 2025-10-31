@@ -1,22 +1,119 @@
-# Drift Offline-First Data Layer
+# ⚠️ MIGRATION IN PROGRESS ⚠️
 
-This directory contains the local-first data infrastructure using Drift (SQLite) as the source of truth, with bidirectional sync to Firestore.
+This directory is undergoing a complete rewrite. See **MIGRATION_PLAN.md** in the project root for details.
 
-## Structure
+## New Structure (v2)
 
 ```
 lib/data/
-├── drift/              # Drift database infrastructure
-│   ├── connect/        # Platform-specific connections (web WASM / native)
-│   ├── converters/     # Type converters for Drift columns
-│   ├── dao/            # Data Access Objects
-│   ├── tables/         # Table definitions
-│   └── app_database.dart  # Main database class
-├── repo/               # Repository pattern (business logic)
-├── sync/               # Sync engine (Drift ↔ Firestore)
-├── examples/           # Example widgets
-└── drift_providers.dart  # Provider wiring
+├── db/                 # NEW: Complete rewrite with Drift-first architecture
+│   ├── app_db.dart         # Main database (multi-platform)
+│   ├── tables.dart         # All table definitions
+│   ├── converters.dart     # Type converters
+│   ├── firestore_mappers.dart  # Firestore ↔ Drift conversion
+│   ├── daos/           # Data Access Objects (10 DAOs)
+│   ├── sync/           # Bidirectional sync engine
+│   └── README.md       # Detailed documentation
+├── repo_new/           # NEW: Repositories (8 files)
+├── db_providers.dart   # NEW: Provider wiring
+│
+├── drift/              # OLD: To be removed after migration
+├── firebase/           # OLD: To be removed after migration
+├── repo/               # OLD: To be removed after migration
+├── sync/               # OLD: To be removed after migration
+└── drift_providers.dart  # OLD: To be removed after migration
 ```
+
+## Migration Status
+
+- [x] New database implementation complete
+- [x] All repositories created
+- [x] Provider wiring ready
+- [ ] Code generation (run `flutter pub run build_runner build`)
+- [ ] Update main.dart
+- [ ] Remove old implementation
+- [ ] Update UI code
+
+## Quick Start (After Migration)
+
+1. **Run code generation:**
+   ```bash
+   cd moonforge
+   flutter pub get
+   flutter pub run build_runner build --delete-conflicting-outputs
+   ```
+
+2. **Update your main.dart:**
+   ```dart
+   import 'package:moonforge/data/db/app_db.dart';
+   import 'package:moonforge/data/db_providers.dart';
+
+   void main() async {
+     WidgetsFlutterBinding.ensureInitialized();
+     await Firebase.initializeApp();
+     await FirebaseFirestore.instance.setPersistenceEnabled(false);
+     
+     final db = constructDb();
+     
+     runApp(
+       MultiProvider(
+         providers: [...dbProviders(db)],
+         child: MyApp(),
+       ),
+     );
+   }
+   ```
+
+3. **Use repositories in your code:**
+   ```dart
+   // Watch campaigns
+   final repo = context.read<CampaignRepository>();
+   StreamBuilder<List<Campaign>>(
+     stream: repo.watchAll(),
+     builder: (context, snapshot) {
+       final campaigns = snapshot.data ?? [];
+       // ...
+     },
+   );
+   
+   // Create campaign
+   await repo.create(Campaign(
+     id: uuid.v4(),
+     name: 'My Campaign',
+     // ...
+   ));
+   ```
+
+## Architecture Highlights
+
+**Local-First:**
+- Drift (SQLite) is the single source of truth
+- UI reads only from Drift streams
+- Instant offline functionality
+
+**Multi-Platform:**
+- Native (Android/iOS/Desktop): NativeDatabase
+- Web: WasmDatabase with IndexedDB
+
+**Sync:**
+- Outbound: Outbox pattern with periodic flush
+- Inbound: Real-time Firestore listeners
+- Conflict Resolution: Last-Write-Wins by `updatedAt`
+
+**Type-Safe:**
+- Drift code generation
+- Type converters for complex types
+- Quill Delta support
+
+## Documentation
+
+- **lib/data/db/README.md** - Detailed new implementation docs
+- **MIGRATION_PLAN.md** - Step-by-step migration guide
+- **Drift Docs** - https://drift.simonbinder.eu/
+
+## Support
+
+For migration issues, refer to MIGRATION_PLAN.md or check the troubleshooting section.
 
 ## Quick Start
 

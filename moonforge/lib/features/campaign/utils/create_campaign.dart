@@ -3,10 +3,11 @@ import 'package:moonforge/core/models/return_message.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:drift/drift.dart' as drift;
 
 /// Creates a new Campaign in Drift (local-first) and navigates to the Campaign edit page.
 ///
@@ -29,7 +30,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
   final repository = Provider.of<CampaignRepository>(context, listen: false);
 
   try {
-    final ownerUid = authProvider.user?.id;
+    final ownerUid = authProvider.user?.uid;
     if (ownerUid == null) {
       logger.w('createCampaign aborted: user not authenticated');
       return ReturnMessage.failure('Bitte zuerst anmelden.', null);
@@ -40,30 +41,34 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
     // Generate a unique ID for the campaign
     final campaignId = 'campaign-${DateTime.now().millisecondsSinceEpoch}';
 
-    final data = Campaign(
+    final data = CampaignsCompanion.insert(
       id: campaignId,
       name: name?.trim().isNotEmpty == true ? name!.trim() : '',
       description: description ?? '',
-      content: null,
-      ownerUid: ownerUid,
-      memberUids: <String>[ownerUid],
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      content: drift.Value(null),
+      ownerUid: drift.Value(ownerUid),
+      memberUids: [ownerUid],
+      entityIds: [],
+      createdAt: drift.Value(DateTime.now()),
+      updatedAt: drift.Value(DateTime.now()),
       rev: 0,
     );
 
     // Use Drift repository for optimistic local write
-    await repository.upsertLocal(data);
+    await repository.create(data);
 
-    // Persist selected id so dependent screens can resolve the document
-    campaignProvider.setCurrentCampaign(data);
+    // Load the created campaign and set it as current
+    final createdCampaign = await repository.getById(campaignId);
+    if (createdCampaign != null) {
+      campaignProvider.setCurrentCampaign(createdCampaign);
+    }
 
     // Navigate to the campaign edit screen without using context now
     AppRouter.router.go(location);
 
     return ReturnMessage.success(
       "Campaign created successfully",
-      data,
+      createdCampaign,
     );
   } catch (e, st) {
     logger.e('Failed to create campaign', error: e, stackTrace: st);
