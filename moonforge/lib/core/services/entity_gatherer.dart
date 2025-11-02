@@ -1,24 +1,62 @@
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
+
+// TODO: Create EntityWithOrigin model class if not exists
+class EntityWithOrigin {
+  final Entity entity;
+  final EntityOrigin? origin;
+
+  EntityWithOrigin({required this.entity, this.origin});
+}
+
+class EntityOrigin {
+  final String partType;
+  final String partId;
+  final String label;
+  final String path;
+
+  const EntityOrigin({
+    required this.partType,
+    required this.partId,
+    required this.label,
+    required this.path,
+  });
+}
 
 /// Service to gather entities from parts and their children
 class EntityGatherer {
+  final CampaignRepository campaignRepo;
+  final ChapterRepository chapterRepo;
+  final AdventureRepository adventureRepo;
+  final SceneRepository sceneRepo;
+  final EncounterRepository encounterRepo;
+  final EntityRepository entityRepo;
+
+  EntityGatherer({
+    required this.campaignRepo,
+    required this.chapterRepo,
+    required this.adventureRepo,
+    required this.sceneRepo,
+    required this.encounterRepo,
+    required this.entityRepo,
+  });
+
   /// Gather entities from a campaign and all its children
   Future<List<EntityWithOrigin>> gatherFromCampaign(String campaignId) async {
-    final odm = Odm.instance;
-    final campaign = await odm.campaigns.doc(campaignId).get();
+    final campaign = await campaignRepo.getById(campaignId);
     if (campaign == null) return [];
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from campaign via explicit references
     if (campaign.entityIds.isNotEmpty) {
-      final entities = await _fetchEntities(campaignId, campaign.entityIds);
+      final entities = await _fetchEntities(campaign.entityIds);
       entitiesWithOrigin.addAll(
         entities.map(
           (e) => EntityWithOrigin(
@@ -34,38 +72,9 @@ class EntityGatherer {
       );
     }
 
-    // Fallback/supplement: Also include all entities from the campaign's entities subcollection
-    // This covers legacy/Imported data where entityIds were not populated.
-    try {
-      final allDirectEntities = await odm.campaigns
-          .doc(campaignId)
-          .entities
-          .get();
-      for (final e in allDirectEntities) {
-        if (!e.deleted) {
-          entitiesWithOrigin.add(
-            EntityWithOrigin(
-              entity: e,
-              origin: const EntityOrigin(
-                partType: 'campaign',
-                partId: '',
-                label: 'Campaign',
-                path: '',
-              ),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      logger.w('Failed to list campaign entities for $campaignId: $e');
-    }
-
-    // Gather from all chapters
-    final chapters = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .orderBy((o) => (o.order(),))
-        .get();
+    // Gather from all chapters in this campaign
+    final chapters = await chapterRepo.getByCampaign(campaignId);
+    chapters.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < chapters.length; i++) {
       final chapter = chapters[i];
@@ -77,11 +86,11 @@ class EntityGatherer {
       entitiesWithOrigin.addAll(chapterEntities);
     }
 
-    // Gather from all encounters
-    final encounters = await odm.campaigns.doc(campaignId).encounters.get();
+    // Gather from all encounters with originId = campaignId
+    final encounters = await encounterRepo.getByOrigin(campaignId);
     for (final encounter in encounters) {
       if (encounter.entityIds.isNotEmpty) {
-        final entities = await _fetchEntities(campaignId, encounter.entityIds);
+        final entities = await _fetchEntities(encounter.entityIds);
         entitiesWithOrigin.addAll(
           entities.map(
             (e) => EntityWithOrigin(
@@ -106,12 +115,8 @@ class EntityGatherer {
     String campaignId,
     String chapterId,
   ) async {
-    final odm = Odm.instance;
-    final chapters = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .orderBy((o) => (o.order(),))
-        .get();
+    final chapters = await chapterRepo.getByCampaign(campaignId);
+    chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
@@ -128,12 +133,11 @@ class EntityGatherer {
     Chapter chapter,
     int chapterNumber,
   ) async {
-    final odm = Odm.instance;
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from chapter
     if (chapter.entityIds.isNotEmpty) {
-      final entities = await _fetchEntities(campaignId, chapter.entityIds);
+      final entities = await _fetchEntities(chapter.entityIds);
       entitiesWithOrigin.addAll(
         entities.map(
           (e) => EntityWithOrigin(
@@ -150,13 +154,8 @@ class EntityGatherer {
     }
 
     // Gather from all adventures in this chapter
-    final adventures = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .doc(chapter.id)
-        .adventures
-        .orderBy((o) => (o.order(),))
-        .get();
+    final adventures = await adventureRepo.getByChapter(chapter.id);
+    adventures.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < adventures.length; i++) {
       final adventure = adventures[i];
@@ -179,23 +178,14 @@ class EntityGatherer {
     String chapterId,
     String adventureId,
   ) async {
-    final odm = Odm.instance;
-    final chapters = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .orderBy((o) => (o.order(),))
-        .get();
+    final chapters = await chapterRepo.getByCampaign(campaignId);
+    chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final adventures = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .doc(chapterId)
-        .adventures
-        .orderBy((o) => (o.order(),))
-        .get();
+    final adventures = await adventureRepo.getByChapter(chapterId);
+    adventures.sort((a, b) => a.order.compareTo(b.order));
 
     final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
@@ -216,12 +206,11 @@ class EntityGatherer {
     int chapterNumber,
     int adventureNumber,
   ) async {
-    final odm = Odm.instance;
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from adventure
     if (adventure.entityIds.isNotEmpty) {
-      final entities = await _fetchEntities(campaignId, adventure.entityIds);
+      final entities = await _fetchEntities(adventure.entityIds);
       entitiesWithOrigin.addAll(
         entities.map(
           (e) => EntityWithOrigin(
@@ -238,20 +227,13 @@ class EntityGatherer {
     }
 
     // Gather from all scenes in this adventure
-    final scenes = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .doc(chapterId)
-        .adventures
-        .doc(adventure.id)
-        .scenes
-        .orderBy((o) => (o.order(),))
-        .get();
+    final scenes = await sceneRepo.getByAdventure(adventure.id);
+    scenes.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < scenes.length; i++) {
       final scene = scenes[i];
       if (scene.entityIds.isNotEmpty) {
-        final entities = await _fetchEntities(campaignId, scene.entityIds);
+        final entities = await _fetchEntities(scene.entityIds);
         entitiesWithOrigin.addAll(
           entities.map(
             (e) => EntityWithOrigin(
@@ -278,36 +260,20 @@ class EntityGatherer {
     String adventureId,
     String sceneId,
   ) async {
-    final odm = Odm.instance;
-    final chapters = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .orderBy((o) => (o.order(),))
-        .get();
+    final chapters = await chapterRepo.getByCampaign(campaignId);
+    chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final adventures = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .doc(chapterId)
-        .adventures
-        .orderBy((o) => (o.order(),))
-        .get();
+    final adventures = await adventureRepo.getByChapter(chapterId);
+    adventures.sort((a, b) => a.order.compareTo(b.order));
 
     final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
 
-    final scenes = await odm.campaigns
-        .doc(campaignId)
-        .chapters
-        .doc(chapterId)
-        .adventures
-        .doc(adventureId)
-        .scenes
-        .orderBy((o) => (o.order(),))
-        .get();
+    final scenes = await sceneRepo.getByAdventure(adventureId);
+    scenes.sort((a, b) => a.order.compareTo(b.order));
 
     final sceneIndex = scenes.indexWhere((s) => s.id == sceneId);
     if (sceneIndex == -1) return [];
@@ -317,7 +283,7 @@ class EntityGatherer {
 
     // Add entities directly from scene with proper origin
     if (scene.entityIds.isNotEmpty) {
-      final entities = await _fetchEntities(campaignId, scene.entityIds);
+      final entities = await _fetchEntities(scene.entityIds);
       final chapterNumber = chapterIndex + 1;
       final adventureNumber = adventureIndex + 1;
       final sceneNumber = sceneIndex + 1;
@@ -344,19 +310,14 @@ class EntityGatherer {
     String campaignId,
     String encounterId,
   ) async {
-    final odm = Odm.instance;
-    final encounter = await odm.campaigns
-        .doc(campaignId)
-        .encounters
-        .doc(encounterId)
-        .get();
+    final encounter = await encounterRepo.getById(encounterId);
     if (encounter == null) return [];
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
     // Add entities directly from encounter with proper origin
     if (encounter.entityIds.isNotEmpty) {
-      final entities = await _fetchEntities(campaignId, encounter.entityIds);
+      final entities = await _fetchEntities(encounter.entityIds);
       entitiesWithOrigin.addAll(
         entities.map(
           (e) => EntityWithOrigin(
@@ -375,20 +336,12 @@ class EntityGatherer {
     return entitiesWithOrigin;
   }
 
-  /// Fetch entities by IDs from a campaign
-  Future<List<Entity>> _fetchEntities(
-    String campaignId,
-    List<String> entityIds,
-  ) async {
-    final odm = Odm.instance;
+  /// Fetch entities by IDs
+  Future<List<Entity>> _fetchEntities(List<String> entityIds) async {
     try {
       final entities = <Entity>[];
       for (final entityId in entityIds) {
-        final entity = await odm.campaigns
-            .doc(campaignId)
-            .entities
-            .doc(entityId)
-            .get();
+        final entity = await entityRepo.getById(entityId);
         if (entity != null && !entity.deleted) {
           entities.add(entity);
         }

@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention_constants.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/db/app_db.dart';
 
 /// Custom Quill editor with mention support for entities.
 ///

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/data/repo/party_repository.dart';
+import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +28,14 @@ class BreadcrumbItem {
 /// Service for building breadcrumbs from route information.
 ///
 /// This service resolves route segments and path parameters into human-readable
-/// breadcrumb items by fetching entity names from Firestore.
+/// breadcrumb items by fetching entity names from the Drift database via repositories.
 ///
 /// Example:
 /// - URL: `/campaign/chapter/ch123/adventure/adv456`
 /// - Output: `[CampaignName, ChapterName, AdventureName]`
 ///
 /// Features:
-/// - Fetches actual entity names from database
+/// - Fetches actual entity names from local Drift database
 /// - Skips redundant label segments (e.g., "campaign", "chapter")
 /// - Provides fallbacks for loading/missing data
 /// - Handles all entity types: campaign, chapter, adventure, scene, entity, etc.
@@ -40,7 +45,7 @@ class BreadcrumbService {
   ///
   /// This method:
   /// 1. Parses the route segments and path parameters
-  /// 2. Fetches entity data from Firestore ODM for each ID
+  /// 2. Fetches entity data from Drift repositories for each ID
   /// 3. Returns a list of breadcrumb items with display text and navigation paths
   ///
   /// The breadcrumbs show the actual entity names (e.g., "My Campaign" instead
@@ -62,7 +67,15 @@ class BreadcrumbService {
 
     // Get current campaign from provider
     final campaign = context.read<CampaignProvider>().currentCampaign;
-    final odm = Odm.instance;
+    
+    // Get repositories
+    final chapterRepo = context.read<ChapterRepository>();
+    final adventureRepo = context.read<AdventureRepository>();
+    final sceneRepo = context.read<SceneRepository>();
+    final entityRepo = context.read<EntityRepository>();
+    final encounterRepo = context.read<EncounterRepository>();
+    final partyRepo = context.read<PartyRepository>();
+    final sessionRepo = context.read<SessionRepository>();
 
     int i = 0;
     while (i < segments.length) {
@@ -88,26 +101,13 @@ class BreadcrumbService {
           if (i + 1 < segments.length && params.containsKey('chapterId')) {
             final chapterId = params['chapterId']!;
             try {
-              if (campaign != null) {
-                final chapter = await odm.campaigns
-                    .doc(campaign.id)
-                    .chapters
-                    .doc(chapterId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: chapter?.name ?? l10n.ellipsis,
-                    path: '/campaign/chapter/$chapterId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path: '/campaign/chapter/$chapterId',
-                  ),
-                );
-              }
+              final chapter = await chapterRepo.getById(chapterId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: chapter?.name ?? l10n.ellipsis,
+                  path: '/campaign/chapter/$chapterId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -128,29 +128,13 @@ class BreadcrumbService {
             final chapterId = params['chapterId'];
             final adventureId = params['adventureId']!;
             try {
-              if (campaign != null && chapterId != null) {
-                final adventure = await odm.campaigns
-                    .doc(campaign.id)
-                    .chapters
-                    .doc(chapterId)
-                    .adventures
-                    .doc(adventureId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: adventure?.name ?? l10n.ellipsis,
-                    path: '/campaign/chapter/$chapterId/adventure/$adventureId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path:
-                        '/campaign/chapter/${chapterId ?? ''}/adventure/$adventureId',
-                  ),
-                );
-              }
+              final adventure = await adventureRepo.getById(adventureId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: adventure?.name ?? l10n.ellipsis,
+                  path: '/campaign/chapter/$chapterId/adventure/$adventureId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -173,36 +157,14 @@ class BreadcrumbService {
             final adventureId = params['adventureId'];
             final sceneId = params['sceneId']!;
             try {
-              if (campaign != null &&
-                  chapterId != null &&
-                  adventureId != null) {
-                final scene = await odm.campaigns
-                    .doc(campaign.id)
-                    .chapters
-                    .doc(chapterId)
-                    .adventures
-                    .doc(adventureId)
-                    .scenes
-                    .doc(sceneId)
-                    .get();
-                // Note: Scene entities use the 'title' field for display names
-                // instead of the standard 'name' field used by other entities.
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: scene?.title ?? l10n.ellipsis,
-                    path:
-                        '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path:
-                        '/campaign/chapter/${chapterId ?? ''}/adventure/${adventureId ?? ''}/scene/$sceneId',
-                  ),
-                );
-              }
+              final scene = await sceneRepo.getById(sceneId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: scene?.name ?? l10n.ellipsis,
+                  path:
+                      '/campaign/chapter/$chapterId/adventure/$adventureId/scene/$sceneId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -223,26 +185,13 @@ class BreadcrumbService {
           if (i + 1 < segments.length && params.containsKey('entityId')) {
             final entityId = params['entityId']!;
             try {
-              if (campaign != null) {
-                final entity = await odm.campaigns
-                    .doc(campaign.id)
-                    .entities
-                    .doc(entityId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: entity?.name ?? l10n.ellipsis,
-                    path: '/campaign/entity/$entityId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path: '/campaign/entity/$entityId',
-                  ),
-                );
-              }
+              final entity = await entityRepo.getById(entityId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: entity?.name ?? l10n.ellipsis,
+                  path: '/campaign/entity/$entityId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -262,26 +211,13 @@ class BreadcrumbService {
           if (i + 1 < segments.length && params.containsKey('encounterId')) {
             final encounterId = params['encounterId']!;
             try {
-              if (campaign != null) {
-                final encounter = await odm.campaigns
-                    .doc(campaign.id)
-                    .encounters
-                    .doc(encounterId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: encounter?.name ?? l10n.ellipsis,
-                    path: '/campaign/encounter/$encounterId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path: '/campaign/encounter/$encounterId',
-                  ),
-                );
-              }
+              final encounter = await encounterRepo.getById(encounterId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: encounter?.name ?? l10n.ellipsis,
+                  path: '/campaign/encounter/$encounterId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -301,23 +237,13 @@ class BreadcrumbService {
           if (i + 1 < segments.length && params.containsKey('partyId')) {
             final partyId = params['partyId']!;
             try {
-              if (campaign != null) {
-                final party = await odm.campaigns
-                    .doc(campaign.id)
-                    .parties
-                    .doc(partyId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: party?.name ?? l10n.ellipsis,
-                    path: '/party/$partyId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(text: l10n.ellipsis, path: '/party/$partyId'),
-                );
-              }
+              final party = await partyRepo.getById(partyId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: party?.name ?? l10n.ellipsis,
+                  path: '/party/$partyId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(text: l10n.ellipsis, path: '/party/$partyId'),
@@ -331,31 +257,18 @@ class BreadcrumbService {
           break;
 
         case 'member':
-          // Next segment should be the member ID
+          // Next segment should be the member ID (which is an entity)
           if (i + 1 < segments.length && params.containsKey('memberId')) {
             final partyId = params['partyId'];
             final memberId = params['memberId']!;
             try {
-              if (campaign != null && partyId != null) {
-                final member = await odm.campaigns
-                    .doc(campaign.id)
-                    .players
-                    .doc(memberId)
-                    .get();
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: member?.name ?? l10n.ellipsis,
-                    path: '/party/$partyId/member/$memberId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.ellipsis,
-                    path: '/party/${partyId ?? ''}/member/$memberId',
-                  ),
-                );
-              }
+              final member = await entityRepo.getById(memberId);
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: member?.name ?? l10n.ellipsis,
+                  path: '/party/$partyId/member/$memberId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(
@@ -376,33 +289,20 @@ class BreadcrumbService {
             final partyId = params['partyId'];
             final sessionId = params['sessionId']!;
             try {
-              if (campaign != null && partyId != null) {
-                final session = await odm.campaigns
-                    .doc(campaign.id)
-                    .sessions
-                    .doc(sessionId)
-                    .get();
-                // Session doesn't have a name field, use datetime or fallback to "Session"
-                String displayText = l10n.session;
-                if (session?.datetime != null) {
-                  // Format date using proper date formatting for internationalization
-                  // DateFormat automatically uses the current locale from Localizations
-                  displayText = DateFormat.yMMMd().format(session!.datetime!);
-                }
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: displayText,
-                    path: '/party/$partyId/session/$sessionId',
-                  ),
-                );
-              } else {
-                breadcrumbs.add(
-                  BreadcrumbItem(
-                    text: l10n.session,
-                    path: '/party/${partyId ?? ''}/session/$sessionId',
-                  ),
-                );
+              final session = await sessionRepo.getById(sessionId);
+              // Session doesn't have a name field, use datetime or fallback to "Session"
+              String displayText = l10n.session;
+              if (session?.datetime != null) {
+                // Format date using proper date formatting for internationalization
+                // DateFormat automatically uses the current locale from Localizations
+                displayText = DateFormat.yMMMd().format(session!.datetime!);
               }
+              breadcrumbs.add(
+                BreadcrumbItem(
+                  text: displayText,
+                  path: '/party/$partyId/session/$sessionId',
+                ),
+              );
             } catch (e) {
               breadcrumbs.add(
                 BreadcrumbItem(

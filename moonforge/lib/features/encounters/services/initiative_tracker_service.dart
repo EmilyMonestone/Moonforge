@@ -1,4 +1,4 @@
-import 'package:moonforge/data/firebase/models/combatant.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 
 /// Service for managing initiative tracker state
 class InitiativeTrackerService {
@@ -6,7 +6,7 @@ class InitiativeTrackerService {
 
   /// Sort combatants by initiative (highest first), then by initiative modifier
   /// In case of tie, higher initiative modifier wins
-  static List<Combatant> sortByInitiative(List<Combatant> combatants) {
+  static List<db.Combatant> sortByInitiative(List<db.Combatant> combatants) {
     final sorted = [...combatants];
     sorted.sort((a, b) {
       // First compare by initiative
@@ -43,23 +43,21 @@ class InitiativeTrackerService {
 
   /// Get the next combatant in initiative order
   static int getNextCombatantIndex(
-    List<Combatant> combatants,
+    List<db.Combatant> combatants,
     int currentIndex,
   ) {
     if (combatants.isEmpty) return 0;
-
     var nextIndex = currentIndex + 1;
-
     // Skip dead combatants
-    while (nextIndex < combatants.length && !combatants[nextIndex].isAlive) {
+    while (nextIndex < combatants.length && !_isAlive(combatants[nextIndex])) {
       nextIndex++;
     }
-
     // If we've reached the end, wrap to the beginning
     if (nextIndex >= combatants.length) {
       nextIndex = 0;
       // Find first alive combatant from the beginning
-      while (nextIndex < combatants.length && !combatants[nextIndex].isAlive) {
+      while (nextIndex < combatants.length &&
+          !_isAlive(combatants[nextIndex])) {
         nextIndex++;
       }
     }
@@ -69,15 +67,14 @@ class InitiativeTrackerService {
 
   /// Get the previous combatant in initiative order
   static int getPreviousCombatantIndex(
-    List<Combatant> combatants,
+    List<db.Combatant> combatants,
     int currentIndex,
   ) {
     if (combatants.isEmpty) return 0;
-
     var prevIndex = currentIndex - 1;
 
     // Skip dead combatants going backwards
-    while (prevIndex >= 0 && !combatants[prevIndex].isAlive) {
+    while (prevIndex >= 0 && !_isAlive(combatants[prevIndex])) {
       prevIndex--;
     }
 
@@ -85,7 +82,7 @@ class InitiativeTrackerService {
     if (prevIndex < 0) {
       prevIndex = combatants.length - 1;
       // Find first alive combatant from the end
-      while (prevIndex >= 0 && !combatants[prevIndex].isAlive) {
+      while (prevIndex >= 0 && !_isAlive(combatants[prevIndex])) {
         prevIndex--;
       }
     }
@@ -99,22 +96,22 @@ class InitiativeTrackerService {
   }
 
   /// Get count of alive combatants
-  static int getAliveCount(List<Combatant> combatants) {
-    return combatants.where((c) => c.isAlive).length;
+  static int getAliveCount(List<db.Combatant> combatants) {
+    return combatants.where(_isAlive).length;
   }
 
   /// Get count of alive allies
-  static int getAliveAlliesCount(List<Combatant> combatants) {
-    return combatants.where((c) => c.isAlive && c.isAlly).length;
+  static int getAliveAlliesCount(List<db.Combatant> combatants) {
+    return combatants.where((c) => _isAlive(c) && c.isAlly).length;
   }
 
   /// Get count of alive enemies
-  static int getAliveEnemiesCount(List<Combatant> combatants) {
-    return combatants.where((c) => c.isAlive && c.isEnemy).length;
+  static int getAliveEnemiesCount(List<db.Combatant> combatants) {
+    return combatants.where((c) => _isAlive(c) && !c.isAlly).length;
   }
 
   /// Check if encounter is over (all enemies or all allies are defeated)
-  static bool isEncounterOver(List<Combatant> combatants) {
+  static bool isEncounterOver(List<db.Combatant> combatants) {
     final aliveAllies = getAliveAlliesCount(combatants);
     final aliveEnemies = getAliveEnemiesCount(combatants);
 
@@ -122,10 +119,12 @@ class InitiativeTrackerService {
   }
 
   /// Get winner side if encounter is over
-  static String? getWinner(List<Combatant> combatants) {
+  static String? getWinner(List<db.Combatant> combatants) {
     if (!isEncounterOver(combatants)) return null;
 
     final aliveAllies = getAliveAlliesCount(combatants);
     return aliveAllies > 0 ? 'allies' : 'enemies';
   }
+
+  static bool _isAlive(db.Combatant c) => c.currentHp > 0;
 }

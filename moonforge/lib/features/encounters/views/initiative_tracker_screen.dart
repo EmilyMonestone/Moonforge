@@ -1,13 +1,14 @@
 import 'dart:math';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/combatant.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 class InitiativeTrackerScreen extends StatefulWidget {
-  final List<Combatant> initialCombatants;
+  final List<db.Combatant> initialCombatants;
   final String encounterName;
 
   const InitiativeTrackerScreen({
@@ -22,7 +23,7 @@ class InitiativeTrackerScreen extends StatefulWidget {
 }
 
 class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
-  List<Combatant> _combatants = [];
+  List<db.Combatant> _combatants = [];
   int _currentIndex = 0;
   int _round = 1;
   final List<String> _combatLog = [];
@@ -40,7 +41,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
       _combatants = _combatants.map((c) {
         final roll = random.nextInt(20) + 1;
         final total = roll + c.initiativeModifier;
-        return c.copyWith(initiative: total);
+        return c.copyWith(initiative: Value(total));
       }).toList();
 
       _combatants = InitiativeTrackerService.sortByInitiative(_combatants);
@@ -86,12 +87,13 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   void _applyDamage(int index, int damage) {
     setState(() {
       final combatant = _combatants[index];
-      _combatants[index] = combatant.applyDamage(damage);
+      final newHp = (combatant.currentHp - damage).clamp(0, combatant.maxHp);
+      _combatants[index] = combatant.copyWith(currentHp: newHp);
       _addToLog(
         '${combatant.name} takes $damage damage (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
       );
 
-      if (!_combatants[index].isAlive) {
+      if (_combatants[index].currentHp <= 0) {
         _addToLog('${combatant.name} is defeated!');
 
         if (InitiativeTrackerService.isEncounterOver(_combatants)) {
@@ -107,7 +109,8 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   void _heal(int index, int amount) {
     setState(() {
       final combatant = _combatants[index];
-      _combatants[index] = combatant.heal(amount);
+      final newHp = (combatant.currentHp + amount).clamp(0, combatant.maxHp);
+      _combatants[index] = combatant.copyWith(currentHp: newHp);
       _addToLog(
         '${combatant.name} heals $amount HP (${_combatants[index].currentHp}/${combatant.maxHp} HP)',
       );
@@ -117,7 +120,8 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   void _addCondition(int index, String condition) {
     setState(() {
       final combatant = _combatants[index];
-      _combatants[index] = combatant.addCondition(condition);
+      final conditions = [...combatant.conditions, condition];
+      _combatants[index] = combatant.copyWith(conditions: conditions);
       _addToLog('${combatant.name} gains condition: $condition');
     });
   }
@@ -125,7 +129,10 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
   void _removeCondition(int index, String condition) {
     setState(() {
       final combatant = _combatants[index];
-      _combatants[index] = combatant.removeCondition(condition);
+      final conditions = combatant.conditions
+          .where((c) => c != condition)
+          .toList();
+      _combatants[index] = combatant.copyWith(conditions: conditions);
       _addToLog('${combatant.name} loses condition: $condition');
     });
   }
@@ -204,7 +211,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                         ),
                         color: isCurrent
                             ? Theme.of(context).colorScheme.primaryContainer
-                            : combatant.isAlive
+                            : combatant.currentHp > 0
                             ? null
                             : Colors.grey.shade300,
                         child: ExpansionTile(
@@ -226,7 +233,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                               fontWeight: isCurrent
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              decoration: combatant.isAlive
+                              decoration: combatant.currentHp > 0
                                   ? null
                                   : TextDecoration.lineThrough,
                             ),
@@ -270,7 +277,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                     children: [
                                       Expanded(
                                         child: ElevatedButton.icon(
-                                          onPressed: combatant.isAlive
+                                          onPressed: combatant.currentHp > 0
                                               ? () => _showDamageDialog(index)
                                               : null,
                                           icon: const Icon(Icons.remove),
@@ -284,7 +291,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: ElevatedButton.icon(
-                                          onPressed: combatant.isAlive
+                                          onPressed: combatant.currentHp > 0
                                               ? () => _showHealDialog(index)
                                               : null,
                                           icon: const Icon(Icons.add),
@@ -301,7 +308,7 @@ class _InitiativeTrackerScreenState extends State<InitiativeTrackerScreen> {
 
                                   // Condition Management
                                   ElevatedButton.icon(
-                                    onPressed: combatant.isAlive
+                                    onPressed: combatant.currentHp > 0
                                         ? () => _showAddConditionDialog(index)
                                         : null,
                                     icon: const Icon(Icons.add),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -11,10 +9,9 @@ import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -41,21 +38,18 @@ class _AdventureScreenState extends State<AdventureScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final campaign = context.watch<CampaignProvider>().currentCampaign;
-    final odm = Odm.instance;
+    final campaign = context
+        .watch<CampaignProvider>()
+        .currentCampaign;
 
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
+    final adventureRepo = context.read<AdventureRepository>();
+
     return FutureBuilder<Adventure?>(
-      future: odm.campaigns
-          .doc(campaign.id)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .doc(widget.adventureId)
-          .get(),
+      future: adventureRepo.getById(widget.adventureId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -70,9 +64,18 @@ class _AdventureScreenState extends State<AdventureScreen> {
         }
 
         if (adventure.content != null) {
-          _controller.document = Document.fromJson(
-            jsonDecode(adventure.content!),
-          );
+          try {
+            final ops = adventure.content!['ops'] as List<dynamic>?;
+            if (ops != null) {
+              _controller.document = Document.fromJson(ops);
+            } else {
+              _controller.document = Document()
+                ..insert(0, adventure.summary ?? '');
+            }
+          } catch (_) {
+            _controller.document = Document()
+              ..insert(0, adventure.summary ?? '');
+          }
         }
         _controller.readOnly = true;
 
@@ -83,7 +86,10 @@ class _AdventureScreenState extends State<AdventureScreen> {
                 children: [
                   Text(
                     adventure.name,
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .displaySmall,
                   ),
                   const Spacer(),
                   ButtonM3E(
@@ -111,7 +117,10 @@ class _AdventureScreenState extends State<AdventureScreen> {
                       children: [
                         Text(
                           l10n.description,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleMedium,
                         ),
                         const SizedBox(height: 8),
                         Text(adventure.summary!),
@@ -129,7 +138,6 @@ class _AdventureScreenState extends State<AdventureScreen> {
             WrapLayout(
               children: [
                 _ScenesSection(
-                  campaignId: campaign.id,
                   chapterId: widget.chapterId,
                   adventureId: widget.adventureId,
                 ),
@@ -149,19 +157,17 @@ class _AdventureScreenState extends State<AdventureScreen> {
 
 class _ScenesSection extends StatelessWidget {
   const _ScenesSection({
-    required this.campaignId,
     required this.chapterId,
     required this.adventureId,
   });
 
-  final String campaignId;
   final String chapterId;
   final String adventureId;
 
   @override
   Widget build(BuildContext context) {
-    final odm = Odm.instance;
     final l10n = AppLocalizations.of(context)!;
+    final sceneRepo = context.read<SceneRepository>();
 
     return SurfaceContainer(
       title: SectionHeader(
@@ -169,15 +175,7 @@ class _ScenesSection extends StatelessWidget {
         icon: Icons.movie_outlined,
       ),
       child: FutureBuilder<List<Scene>>(
-        future: odm.campaigns
-            .doc(campaignId)
-            .chapters
-            .doc(chapterId)
-            .adventures
-            .doc(adventureId)
-            .scenes
-            .orderBy((o) => (o.updatedAt(descending: true),))
-            .get(),
+        future: sceneRepo.getByAdventure(adventureId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LinearProgressIndicator(minHeight: 2);
@@ -190,17 +188,25 @@ class _ScenesSection extends StatelessWidget {
           if (scenes.isEmpty) {
             return Text('No scenes yet');
           }
+          // Sort by updatedAt desc (nulls last)
+          scenes.sort((a, b) {
+            final ua = a.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+            final ub = b.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+            return ub.compareTo(ua);
+          });
           return CardList<Scene>(
             items: scenes,
-            titleOf: (s) => s.title,
+            titleOf: (s) => s.name,
             subtitleOf: (s) => formatDateTime(s.updatedAt),
-            onTap: (s) => SceneRoute(
-              chapterId: chapterId,
-              adventureId: adventureId,
-              sceneId: s.id,
-            ).go(context),
+            onTap: (s) =>
+                SceneRoute(
+                  chapterId: chapterId,
+                  adventureId: adventureId,
+                  sceneId: s.id,
+                ).go(context),
             enableContextMenu: true,
-            routeOf: (s) => SceneRoute(
+            routeOf: (s) =>
+            SceneRoute(
               chapterId: chapterId,
               adventureId: adventureId,
               sceneId: s.id,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
 
+/// Provider to manage app-wide settings like theme, locale, and UI preferences.
+///
+/// Note: With the new Drift-first architecture, user settings are no longer
+/// persisted to the database. Settings are stored in memory and reset on app restart.
+/// To persist settings, you could use shared_preferences or similar local storage.
 class AppSettingsProvider with ChangeNotifier {
-  late AuthProvider _authProvider;
   ThemeMode _themeMode = ThemeMode.system;
   Locale? _locale;
   bool _railNavExtended = true;
@@ -32,29 +34,14 @@ class AppSettingsProvider with ChangeNotifier {
   }
 
   void updateOnAuthChange(AuthProvider authProvider) {
-    _authProvider = authProvider;
-    final odm = Odm.instance;
-    // Load user settings from the database or use defaults
-    if (_authProvider.user != null && _authProvider.user?.id != null) {
-      odm.users(_authProvider.user!.id).get().then((userData) {
-        if (userData != null && userData.settings != null) {
-          if (userData.settings!.themeMode != null) {
-            _themeMode = userData.settings!.themeMode!;
-          }
-          if (userData.settings!.locale != null) {
-            _locale = Locale(
-              userData.settings!.locale!.languageCode,
-              userData.settings!.locale!.countryCode,
-            );
-          } else {
-            _locale = null;
-          }
-          if (userData.settings!.railNavExtended != null) {
-            _railNavExtended = userData.settings!.railNavExtended!;
-          }
-          notifyListeners();
-        }
-      });
+    // Settings are now in-memory only
+    // TODO: If persistent settings are needed, use shared_preferences or similar
+    // For now, we just reset to defaults when auth changes
+    if (!authProvider.isLoggedIn) {
+      _themeMode = ThemeMode.system;
+      _locale = null;
+      _railNavExtended = true;
+      notifyListeners();
     }
   }
 }

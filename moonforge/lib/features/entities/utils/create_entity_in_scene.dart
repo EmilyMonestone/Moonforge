@@ -1,10 +1,9 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -13,7 +12,7 @@ import 'package:provider/provider.dart';
 /// Create a new entity and attach it to the given scene (entityIds)
 Future<void> createEntityInScene(
   BuildContext context,
-  Campaign campaign,
+  db.Campaign campaign,
   String sceneId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
@@ -81,10 +80,11 @@ Future<void> createEntityInScene(
   try {
     final entityId =
         'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final entity = Entity(
+    final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
+      originId: campaign.id,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},
@@ -103,14 +103,14 @@ Future<void> createEntityInScene(
     await entityRepo.upsertLocal(entity);
 
     // Attach entity to scene.entityIds
-    Scene? scene = await sceneRepo.getById(sceneId);
+    db.Scene? scene = await sceneRepo.getById(sceneId);
     if (scene != null) {
       final currentIds = List<String>.from(scene.entityIds);
       if (!currentIds.contains(entityId)) {
         currentIds.add(entityId);
         final updated = scene.copyWith(
           entityIds: currentIds,
-          updatedAt: DateTime.now(),
+          updatedAt: Value(DateTime.now()),
         );
         await sceneRepo.upsertLocal(updated);
       }

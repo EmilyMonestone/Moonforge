@@ -1,14 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/share_token_utils.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/models/session.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/session_repository.dart';
+import 'package:provider/provider.dart';
 
 /// Public read-only view of a session log via share token.
 /// This screen is accessible without authentication.
@@ -31,35 +29,22 @@ class _SessionPublicShareScreenState extends State<SessionPublicShareScreen> {
     super.dispose();
   }
 
-  Future<Session?> _findSessionByToken() async {
+  Future<db.Session?> _findSessionByToken() async {
     try {
-      final odm = Odm.instance;
-
-      // Search all campaigns for a session with this token
-      // Note: This is a simplified implementation. In a production app,
-      // you might want to index share tokens in a separate collection
-      // or use Firestore queries more efficiently.
-
-      final campaigns = await odm.campaigns.get();
-
-      for (final campaign in campaigns) {
-        final parties = await odm.campaigns.doc(campaign.id).parties.get();
-
-        for (final party in parties) {
-          final sessions = await odm.campaigns.doc(party.id).sessions.get();
-
-          for (final session in sessions) {
-            if (session.shareToken == widget.token &&
-                ShareTokenUtils.isTokenValid(
-                  session.shareEnabled,
-                  session.shareExpiresAt,
-                )) {
-              return session;
-            }
-          }
+      // In offline-first mode, look up all sessions locally and match share token
+      final repo = Provider.of<SessionRepository>(context, listen: false);
+      // No direct index by token; do a full scan as a stopgap
+      final sessions = await repo.customQuery();
+      for (final s in sessions) {
+        final enabled = s.shareEnabled;
+        final notExpired = ShareTokenUtils.isTokenValid(
+          enabled,
+          s.shareExpiresAt,
+        );
+        if (s.shareToken == widget.token && notExpired) {
+          return s;
         }
       }
-
       return null;
     } catch (e) {
       logger.e('Error finding session by token: $e');
@@ -80,7 +65,7 @@ class _SessionPublicShareScreenState extends State<SessionPublicShareScreen> {
           tooltip: 'Home',
         ),
       ),
-      body: FutureBuilder<Session?>(
+      body: FutureBuilder<db.Session?>(
         future: _findSessionByToken(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,9 +120,10 @@ class _SessionPublicShareScreenState extends State<SessionPublicShareScreen> {
           // Set up log controller
           if (session.log != null && session.log!.isNotEmpty) {
             try {
-              _logController.document = Document.fromJson(
-                jsonDecode(session.log!),
-              );
+              final ops = session.log!['ops'] as List<dynamic>?;
+              if (ops != null) {
+                _logController.document = Document.fromJson(ops);
+              }
             } catch (e) {
               logger.e('Error parsing log delta: $e');
             }

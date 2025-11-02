@@ -1,41 +1,38 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> createAdventure(BuildContext context, Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
-  final odm = Odm.instance;
+  final chapterRepo = context.read<ChapterRepository>();
+  final adventureRepo = context.read<AdventureRepository>();
 
-  final chapters = await odm.campaigns
-      .doc(campaign.id)
-      .chapters
-      .orderBy((o) => (o.order(),))
-      .get();
+  // Load chapters for campaign
+  final chapters = await chapterRepo.getByCampaign(campaign.id);
   if (chapters.isEmpty) {
     if (context.mounted) {
       notification.info(context, title: Text(l10n.noChaptersYet));
     }
     return;
   }
-  Chapter selected = chapters.first;
+  var selected = chapters.first;
 
-  final last = await odm.campaigns
-      .doc(campaign.id)
-      .chapters
-      .doc(selected.id)
-      .adventures
-      .orderBy((o) => (o.order(descending: true),))
-      .limit(1)
-      .get();
-  final nextOrder = last.isNotEmpty ? (last.first.order + 1) : 1;
+  // Compute next order in chapter
+  Future<int> computeNextOrder(String chapterId) async {
+    final list = await adventureRepo.getByChapter(chapterId);
+    if (list.isEmpty) return 1;
+    list.sort((a, b) => b.order.compareTo(a.order));
+    return list.first.order + 1;
+  }
+
+  var nextOrder = await computeNextOrder(selected.id);
 
   final nameController = TextEditingController();
 
@@ -43,43 +40,44 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
     context: context,
     builder: (ctx) {
       return StatefulBuilder(
-        builder: (ctx, setState) => AlertDialog(
-          title: Text('${l10n.createAdventure}: Nr. $nextOrder'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButtonFormField<String>(
-                initialValue: selected.id,
-                decoration: InputDecoration(labelText: l10n.selectChapter),
-                items: [
-                  for (final c in chapters)
-                    DropdownMenuItem(value: c.id, child: Text(c.name)),
+        builder: (ctx, setState) =>
+            AlertDialog(
+              title: Text('${l10n.createAdventure}: Nr. $nextOrder'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropdownButtonFormField<String>(
+                    initialValue: selected.id,
+                    decoration: InputDecoration(labelText: l10n.selectChapter),
+                    items: [
+                      for (final c in chapters)
+                        DropdownMenuItem(value: c.id, child: Text(c.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final found = chapters.firstWhere((c) => c.id == id);
+                      setState(() => selected = found);
+                      nextOrder = await computeNextOrder(selected.id);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(labelText: l10n.name),
+                  ),
                 ],
-                onChanged: (id) {
-                  final found = chapters.firstWhere(
-                    (c) => c.id == (id ?? selected.id),
-                  );
-                  setState(() => selected = found);
-                },
               ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: l10n.name),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(false),
-              child: Text(l10n.cancel),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.of(ctx).pop(true),
+                  child: Text(l10n.create),
+                ),
+              ],
             ),
-            FilledButton(
-              onPressed: () => Navigator.of(ctx).pop(true),
-              child: Text(l10n.create),
-            ),
-          ],
-        ),
       );
     },
   );
@@ -88,42 +86,28 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
   if (name.isEmpty) return;
 
   try {
+    final newId = const Uuid().v4();
     final adv = Adventure(
-      id: FirestoreODM.autoGeneratedId,
+      id: newId,
+      chapterId: selected.id,
       name: name,
       order: nextOrder,
       summary: '',
       content: null,
+      entityIds: const <String>[],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
-    await odm.campaigns
-        .doc(campaign.id)
-        .chapters
-        .doc(selected.id)
-        .adventures
-        .insert(adv);
 
-    final created = await odm.campaigns
-        .doc(campaign.id)
-        .chapters
-        .doc(selected.id)
-        .adventures
-        .where((f) => f.name(isEqualTo: name))
-        .orderBy((o) => (o.createdAt(descending: true),))
-        .limit(1)
-        .get()
-        .then((v) => v.isNotEmpty ? v.first : null);
+    await adventureRepo.create(adv);
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createAdventure));
-    if (created != null) {
-      AdventureRoute(
-        chapterId: selected.id,
-        adventureId: created.id,
-      ).go(context);
-    }
+    AdventureRoute(
+      chapterId: selected.id,
+      adventureId: adv.id,
+    ).go(context);
   } catch (e, st) {
     logger.e('Create adventure failed', error: e, stackTrace: st);
     if (!context.mounted) return;

@@ -18,23 +18,19 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/',
-
-          factory: _$HomeRoute._fromState,
+          factory: $HomeRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'login',
-
-              factory: _$LoginRoute._fromState,
+              factory: $LoginRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'register',
-
-                  factory: _$RegisterRoute._fromState,
+                  factory: $RegisterRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'forgot',
-
-                  factory: _$ForgotPasswordRoute._fromState,
+                  factory: $ForgotPasswordRoute._fromState,
                 ),
               ],
             ),
@@ -46,43 +42,35 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/campaign',
-
-          factory: _$CampaignRoute._fromState,
+          factory: $CampaignRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: 'edit',
-
-              factory: _$CampaignEditRoute._fromState,
+              factory: $CampaignEditRoute._fromState,
             ),
             GoRouteData.$route(
               path: 'chapter/:chapterId',
-
-              factory: _$ChapterRoute._fromState,
+              factory: $ChapterRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'edit',
-
-                  factory: _$ChapterEditRoute._fromState,
+                  factory: $ChapterEditRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'adventure/:adventureId',
-
-                  factory: _$AdventureRoute._fromState,
+                  factory: $AdventureRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'edit',
-
-                      factory: _$AdventureEditRoute._fromState,
+                      factory: $AdventureEditRoute._fromState,
                     ),
                     GoRouteData.$route(
                       path: 'scene/:sceneId',
-
-                      factory: _$SceneRoute._fromState,
+                      factory: $SceneRoute._fromState,
                       routes: [
                         GoRouteData.$route(
                           path: 'edit',
-
-                          factory: _$SceneEditRoute._fromState,
+                          factory: $SceneEditRoute._fromState,
                         ),
                       ],
                     ),
@@ -92,25 +80,21 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
             ),
             GoRouteData.$route(
               path: 'encounter/:encounterId',
-
-              factory: _$EncounterRoute._fromState,
+              factory: $EncounterRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'edit',
-
-                  factory: _$EncounterEditRoute._fromState,
+                  factory: $EncounterEditRoute._fromState,
                 ),
               ],
             ),
             GoRouteData.$route(
               path: 'entity/:entityId',
-
-              factory: _$EntityRoute._fromState,
+              factory: $EntityRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'edit',
-
-                  factory: _$EntityEditRoute._fromState,
+                  factory: $EntityEditRoute._fromState,
                 ),
               ],
             ),
@@ -122,40 +106,33 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/party',
-
-          factory: _$PartyRootRoute._fromState,
+          factory: $PartyRootRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: ':partyId',
-
-              factory: _$PartyRoute._fromState,
+              factory: $PartyRoute._fromState,
               routes: [
                 GoRouteData.$route(
                   path: 'edit',
-
-                  factory: _$PartyEditRoute._fromState,
+                  factory: $PartyEditRoute._fromState,
                 ),
                 GoRouteData.$route(
                   path: 'member/:memberId',
-
-                  factory: _$MemberRoute._fromState,
+                  factory: $MemberRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'edit',
-
-                      factory: _$MemberEditRoute._fromState,
+                      factory: $MemberEditRoute._fromState,
                     ),
                   ],
                 ),
                 GoRouteData.$route(
                   path: 'session/:sessionId',
-
-                  factory: _$SessionRoute._fromState,
+                  factory: $SessionRoute._fromState,
                   routes: [
                     GoRouteData.$route(
                       path: 'edit',
-
-                      factory: _$SessionEditRoute._fromState,
+                      factory: $SessionEditRoute._fromState,
                     ),
                   ],
                 ),
@@ -169,8 +146,7 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/settings',
-
-          factory: _$SettingsRoute._fromState,
+          factory: $SettingsRoute._fromState,
         ),
       ],
     ),
@@ -182,7 +158,7 @@ extension $AppShellRouteDataExtension on AppShellRouteData {
       const AppShellRouteData();
 }
 
-mixin _$HomeRoute on GoRouteData {
+mixin $HomeRoute on GoRouteData {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 
   @override
@@ -202,7 +178,7 @@ mixin _$HomeRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$LoginRoute on GoRouteData {
+mixin $LoginRoute on GoRouteData {
   static LoginRoute _fromState(GoRouterState state) => const LoginRoute();
 
   @override
@@ -222,7 +198,7 @@ mixin _$LoginRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$RegisterRoute on GoRouteData {
+mixin $RegisterRoute on GoRouteData {
   static RegisterRoute _fromState(GoRouterState state) => const RegisterRoute();
 
   @override
@@ -242,7 +218,7 @@ mixin _$RegisterRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ForgotPasswordRoute on GoRouteData {
+mixin $ForgotPasswordRoute on GoRouteData {
   static ForgotPasswordRoute _fromState(GoRouterState state) =>
       const ForgotPasswordRoute();
 
@@ -263,7 +239,7 @@ mixin _$ForgotPasswordRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$CampaignRoute on GoRouteData {
+mixin $CampaignRoute on GoRouteData {
   static CampaignRoute _fromState(GoRouterState state) => const CampaignRoute();
 
   @override
@@ -283,7 +259,7 @@ mixin _$CampaignRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$CampaignEditRoute on GoRouteData {
+mixin $CampaignEditRoute on GoRouteData {
   static CampaignEditRoute _fromState(GoRouterState state) =>
       const CampaignEditRoute();
 
@@ -304,7 +280,7 @@ mixin _$CampaignEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ChapterRoute on GoRouteData {
+mixin $ChapterRoute on GoRouteData {
   static ChapterRoute _fromState(GoRouterState state) =>
       ChapterRoute(chapterId: state.pathParameters['chapterId']!);
 
@@ -329,7 +305,7 @@ mixin _$ChapterRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$ChapterEditRoute on GoRouteData {
+mixin $ChapterEditRoute on GoRouteData {
   static ChapterEditRoute _fromState(GoRouterState state) =>
       ChapterEditRoute(chapterId: state.pathParameters['chapterId']!);
 
@@ -354,7 +330,7 @@ mixin _$ChapterEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$AdventureRoute on GoRouteData {
+mixin $AdventureRoute on GoRouteData {
   static AdventureRoute _fromState(GoRouterState state) => AdventureRoute(
     chapterId: state.pathParameters['chapterId']!,
     adventureId: state.pathParameters['adventureId']!,
@@ -381,7 +357,7 @@ mixin _$AdventureRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$AdventureEditRoute on GoRouteData {
+mixin $AdventureEditRoute on GoRouteData {
   static AdventureEditRoute _fromState(GoRouterState state) =>
       AdventureEditRoute(
         chapterId: state.pathParameters['chapterId']!,
@@ -409,7 +385,7 @@ mixin _$AdventureEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SceneRoute on GoRouteData {
+mixin $SceneRoute on GoRouteData {
   static SceneRoute _fromState(GoRouterState state) => SceneRoute(
     chapterId: state.pathParameters['chapterId']!,
     adventureId: state.pathParameters['adventureId']!,
@@ -437,7 +413,7 @@ mixin _$SceneRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SceneEditRoute on GoRouteData {
+mixin $SceneEditRoute on GoRouteData {
   static SceneEditRoute _fromState(GoRouterState state) => SceneEditRoute(
     chapterId: state.pathParameters['chapterId']!,
     adventureId: state.pathParameters['adventureId']!,
@@ -465,7 +441,7 @@ mixin _$SceneEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$EncounterRoute on GoRouteData {
+mixin $EncounterRoute on GoRouteData {
   static EncounterRoute _fromState(GoRouterState state) =>
       EncounterRoute(encounterId: state.pathParameters['encounterId']!);
 
@@ -490,7 +466,7 @@ mixin _$EncounterRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$EncounterEditRoute on GoRouteData {
+mixin $EncounterEditRoute on GoRouteData {
   static EncounterEditRoute _fromState(GoRouterState state) =>
       EncounterEditRoute(encounterId: state.pathParameters['encounterId']!);
 
@@ -515,7 +491,7 @@ mixin _$EncounterEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$EntityRoute on GoRouteData {
+mixin $EntityRoute on GoRouteData {
   static EntityRoute _fromState(GoRouterState state) =>
       EntityRoute(entityId: state.pathParameters['entityId']!);
 
@@ -540,7 +516,7 @@ mixin _$EntityRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$EntityEditRoute on GoRouteData {
+mixin $EntityEditRoute on GoRouteData {
   static EntityEditRoute _fromState(GoRouterState state) =>
       EntityEditRoute(entityId: state.pathParameters['entityId']!);
 
@@ -565,7 +541,7 @@ mixin _$EntityEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$PartyRootRoute on GoRouteData {
+mixin $PartyRootRoute on GoRouteData {
   static PartyRootRoute _fromState(GoRouterState state) =>
       PartyRootRoute(id: state.uri.queryParameters['id']);
 
@@ -591,7 +567,7 @@ mixin _$PartyRootRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$PartyRoute on GoRouteData {
+mixin $PartyRoute on GoRouteData {
   static PartyRoute _fromState(GoRouterState state) =>
       PartyRoute(partyId: state.pathParameters['partyId']!);
 
@@ -615,7 +591,7 @@ mixin _$PartyRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$PartyEditRoute on GoRouteData {
+mixin $PartyEditRoute on GoRouteData {
   static PartyEditRoute _fromState(GoRouterState state) =>
       PartyEditRoute(partyId: state.pathParameters['partyId']!);
 
@@ -640,7 +616,7 @@ mixin _$PartyEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$MemberRoute on GoRouteData {
+mixin $MemberRoute on GoRouteData {
   static MemberRoute _fromState(GoRouterState state) => MemberRoute(
     partyId: state.pathParameters['partyId']!,
     memberId: state.pathParameters['memberId']!,
@@ -667,7 +643,7 @@ mixin _$MemberRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$MemberEditRoute on GoRouteData {
+mixin $MemberEditRoute on GoRouteData {
   static MemberEditRoute _fromState(GoRouterState state) => MemberEditRoute(
     partyId: state.pathParameters['partyId']!,
     memberId: state.pathParameters['memberId']!,
@@ -694,7 +670,7 @@ mixin _$MemberEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SessionRoute on GoRouteData {
+mixin $SessionRoute on GoRouteData {
   static SessionRoute _fromState(GoRouterState state) => SessionRoute(
     partyId: state.pathParameters['partyId']!,
     sessionId: state.pathParameters['sessionId']!,
@@ -721,7 +697,7 @@ mixin _$SessionRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SessionEditRoute on GoRouteData {
+mixin $SessionEditRoute on GoRouteData {
   static SessionEditRoute _fromState(GoRouterState state) => SessionEditRoute(
     partyId: state.pathParameters['partyId']!,
     sessionId: state.pathParameters['sessionId']!,
@@ -748,7 +724,7 @@ mixin _$SessionEditRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-mixin _$SettingsRoute on GoRouteData {
+mixin $SettingsRoute on GoRouteData {
   static SettingsRoute _fromState(GoRouterState state) => const SettingsRoute();
 
   @override
@@ -770,11 +746,10 @@ mixin _$SettingsRoute on GoRouteData {
 
 RouteBase get $sessionPublicShareRoute => GoRouteData.$route(
   path: '/share/session/:token',
-
-  factory: _$SessionPublicShareRoute._fromState,
+  factory: $SessionPublicShareRoute._fromState,
 );
 
-mixin _$SessionPublicShareRoute on GoRouteData {
+mixin $SessionPublicShareRoute on GoRouteData {
   static SessionPublicShareRoute _fromState(GoRouterState state) =>
       SessionPublicShareRoute(token: state.pathParameters['token']!);
 

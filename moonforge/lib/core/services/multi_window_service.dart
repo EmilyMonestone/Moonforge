@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:flutter/foundation.dart';
@@ -56,14 +55,17 @@ class MultiWindowService {
   /// Opens a route in a new desktop window (Windows/Linux only).
   Future<bool> _openInDesktopWindow(String route) async {
     try {
-      // Pass the route as the argument string to the new window
-      final window = await DesktopMultiWindow.createWindow(route);
+      // Create a new window and pass the route as the argument string
+      final controller = await WindowController.create(
+        WindowConfiguration(
+          // Show immediately; sizing/centering can be handled by the new window itself
+          hiddenAtLaunch: false,
+          // Pass the route directly as arguments
+          arguments: route,
+        ),
+      );
 
-      window
-        ..setFrame(const Offset(100, 100) & const Size(1000, 800))
-        ..center()
-        ..setTitle('Moonforge')
-        ..show();
+      await controller.show();
       return true;
     } catch (e) {
       return false;

@@ -6,7 +6,7 @@ targets:
           explicit_to_json: true
       drift_dev:
         options:
-          # Generate code for Drift tables and DAOs
+          store_date_time_values_as_text: true      # ISO-8601 in SQLite (recommended for web)
       flutter_gen_runner:
         options:
 

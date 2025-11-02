@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -9,9 +8,8 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +34,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
   final _editorKey = GlobalKey();
   bool _isLoading = false;
   bool _isSaving = false;
-  Entity? _entity;
+  db.Entity? _entity;
   String? _campaignId;
 
   // Kind-specific controllers
@@ -96,19 +94,17 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
       }
       _campaignId = campaign.id;
 
-      final odm = Odm.instance;
-      final entity = await odm.campaigns
-          .doc(campaign.id)
-          .entities
-          .doc(widget.entityId)
-          .get();
+      final repo = context.read<EntityRepository>();
+      final entity = await repo.getById(widget.entityId);
 
       if (entity != null) {
         Document document;
         if (entity.content != null && entity.content!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(entity.content!);
-            document = Document.fromJson(deltaJson);
+            final ops = entity.content!['ops'];
+            document = ops is List
+                ? Document.fromJson(List<Map<String, dynamic>>.from(ops))
+                : Document();
           } catch (e) {
             document = Document();
           }
@@ -120,7 +116,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           _entity = entity;
           _nameController.text = entity.name;
           _summaryController.text = entity.summary ?? '';
-          _tagsController.text = entity.tags?.join(', ') ?? '';
+          _tagsController.text = (entity.tags ?? const <String>[]).join(', ');
           _contentController.document = document;
 
           // Load kind-specific fields
@@ -130,7 +126,9 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
             _coordsLatController.text = entity.coords['lat']?.toString() ?? '';
             _coordsLngController.text = entity.coords['lng']?.toString() ?? '';
           } else if (entity.kind == 'group') {
-            _membersController.text = entity.members?.join(', ') ?? '';
+            _membersController.text = (entity.members ?? const <String>[]).join(
+              ', ',
+            );
           } else if (entity.kind == 'npc' || entity.kind == 'monster') {
             // Initialize statblock controllers
             for (var entry in entity.statblock.entries) {
@@ -142,9 +140,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           }
 
           // Load images
-          _images = entity.images != null
-              ? List<Map<String, dynamic>>.from(entity.images!)
-              : [];
+          _images = entity.images ?? const <Map<String, dynamic>>[];
         });
 
         _autosave = QuillAutosave(
@@ -176,11 +172,10 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
 
     setState(() => _isSaving = true);
     try {
-      final odm = Odm.instance;
-
       final delta = _contentController.document.toDelta();
-      final contentJson = jsonEncode(delta.toJson());
+      final contentMap = {'ops': delta.toJson()};
 
+      final repo = context.read<EntityRepository>();
       // Parse tags
       final tags = _tagsController.text
           .split(',')
@@ -223,20 +218,20 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
 
       final updatedEntity = _entity!.copyWith(
         name: _nameController.text.trim(),
-        summary: _summaryController.text.trim(),
-        tags: tags,
-        content: contentJson,
+        summary: Value(_summaryController.text.trim()),
+        tags: Value(tags),
+        content: Value(contentMap),
         statblock: statblock,
-        placeType: placeType,
-        parentPlaceId: parentPlaceId,
+        placeType: Value(placeType),
+        parentPlaceId: Value(parentPlaceId),
         coords: coords,
-        members: members,
-        images: _images,
-        updatedAt: DateTime.now(),
+        members: Value(members),
+        images: Value(_images),
+        updatedAt: Value(DateTime.now()),
         rev: _entity!.rev + 1,
       );
 
-      await odm.campaigns.doc(_campaignId!).entities.update(updatedEntity);
+      await repo.update(updatedEntity);
 
       await _autosave?.clear();
 
@@ -380,7 +375,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
             Text('Place Details', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
-              value: _placeTypeController.text.isEmpty
+              initialValue: _placeTypeController.text.isEmpty
                   ? null
                   : _placeTypeController.text,
               decoration: const InputDecoration(

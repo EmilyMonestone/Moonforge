@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -12,18 +10,19 @@ import 'package:provider/provider.dart';
 /// Create a new scene in a specific chapter context
 Future<void> createSceneInChapter(
   BuildContext context,
-  Campaign campaign,
+  db.Campaign campaign,
   String chapterId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<SceneRepository>();
-  
+
   // Get all adventures from Drift and filter by chapter using startsWith
-  final allAdventures = context.read<List<Adventure>>();
-  final adventures = allAdventures
-      .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
-      .toList()
-    ..sort((a, b) => a.order.compareTo(b.order));
+  final allAdventures = context.read<List<db.Adventure>>();
+  final adventures =
+      allAdventures
+          .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
+          .toList()
+        ..sort((a, b) => a.order.compareTo(b.order));
 
   if (adventures.isEmpty) {
     if (context.mounted) {
@@ -32,7 +31,7 @@ Future<void> createSceneInChapter(
     return;
   }
 
-  Adventure selectedAdventure = adventures.first;
+  db.Adventure selectedAdventure = adventures.first;
   final titleController = TextEditingController();
 
   final confirmed = await showDialog<bool>(
@@ -85,20 +84,32 @@ Future<void> createSceneInChapter(
   if (title.isEmpty) return;
 
   try {
-    // Embed adventure ID in scene ID
-    final sceneId = 'scene-${selectedAdventure.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final scene = Scene(
+    // Compute next order for scenes of this adventure by id prefix
+    final allScenes = context.read<List<db.Scene>>();
+    final scenesOfAdventure =
+        allScenes
+            .where((s) => s.id.startsWith('scene-${selectedAdventure.id}-'))
+            .toList()
+          ..sort((a, b) => b.order.compareTo(a.order));
+    final nextOrder = scenesOfAdventure.isNotEmpty
+        ? (scenesOfAdventure.first.order + 1)
+        : 1;
+
+    final sceneId =
+        'scene-${selectedAdventure.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final scene = db.Scene(
       id: sceneId,
-      title: title,
+      adventureId: selectedAdventure.id,
+      name: title,
+      order: nextOrder,
+      summary: '',
       content: null,
-      mentions: const <Map<String, dynamic>>[],
-      mediaRefs: const <Map<String, dynamic>>[],
+      entityIds: const <String>[],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
-    
-    // Use Drift repository for optimistic local write
+
     await repository.upsertLocal(scene);
 
     if (!context.mounted) return;

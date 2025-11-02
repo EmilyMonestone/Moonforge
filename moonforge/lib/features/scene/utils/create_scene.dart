@@ -1,58 +1,53 @@
-import 'package:firestore_odm/firestore_odm.dart';
 import 'package:flutter/material.dart';
-import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> createScene(BuildContext context, Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
-  final odm = Odm.instance;
+  final chapterRepo = context.read<ChapterRepository>();
+  final adventureRepo = context.read<AdventureRepository>();
+  final sceneRepo = context.read<SceneRepository>();
 
-  final chapters = await odm.campaigns
-      .doc(campaign.id)
-      .chapters
-      .orderBy((o) => (o.order(),))
-      .get();
+  // Load chapters for campaign
+  final chapters = await chapterRepo.getByCampaign(campaign.id);
   if (chapters.isEmpty) {
     if (context.mounted) {
       notification.info(context, title: Text(l10n.noChaptersYet));
     }
     return;
   }
-  Chapter selectedChapter = chapters.first;
-  List<Adventure> adventures = await odm.campaigns
-      .doc(campaign.id)
-      .chapters
-      .doc(selectedChapter.id)
-      .adventures
-      .orderBy((o) => (o.order(),))
-      .get();
+  var selectedChapter = chapters.first;
+
+  // Load adventures for selected chapter
+  Future<List<Adventure>> loadAdventures(String chapterId) async =>
+      await adventureRepo.getByChapter(chapterId);
+
+  var adventures = await loadAdventures(selectedChapter.id);
   if (adventures.isEmpty) {
     if (context.mounted) {
       notification.info(context, title: Text(l10n.noAdventuresYet));
     }
     return;
   }
-  Adventure selectedAdventure = adventures.first;
+  var selectedAdventure = adventures.first;
 
-  final last = await odm.campaigns
-      .doc(campaign.id)
-      .chapters
-      .doc(selectedChapter.id)
-      .adventures
-      .doc(selectedAdventure.id)
-      .scenes
-      .orderBy((o) => (o.order(descending: true),))
-      .limit(1)
-      .get();
-  final nextOrder = last.isNotEmpty ? (last.first.order + 1) : 1;
+  // Compute next order in adventure
+  Future<int> computeNextOrder(String adventureId) async {
+    final list = await sceneRepo.getByAdventure(adventureId);
+    if (list.isEmpty) return 1;
+    list.sort((a, b) => b.order.compareTo(a.order));
+    return list.first.order + 1;
+  }
+
+  var nextOrder = await computeNextOrder(selectedAdventure.id);
 
   final titleController = TextEditingController();
 
@@ -60,75 +55,67 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     context: context,
     builder: (ctx) {
       return StatefulBuilder(
-        builder: (ctx, setState) => AlertDialog(
-          title: Text('${l10n.createScene}: Nr. $nextOrder'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButtonFormField<String>(
-                initialValue: selectedChapter.id,
-                decoration: InputDecoration(labelText: l10n.selectChapter),
-                items: [
-                  for (final c in chapters)
-                    DropdownMenuItem(value: c.id, child: Text(c.name)),
+        builder: (ctx, setState) =>
+            AlertDialog(
+              title: Text('${l10n.createScene}: Nr. $nextOrder'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedChapter.id,
+                    decoration: InputDecoration(labelText: l10n.selectChapter),
+                    items: [
+                      for (final c in chapters)
+                        DropdownMenuItem(value: c.id, child: Text(c.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final ch = chapters.firstWhere((c) => c.id == id);
+                      setState(() => selectedChapter = ch);
+                      adventures = await loadAdventures(ch.id);
+                      if (adventures.isNotEmpty) {
+                        setState(() => selectedAdventure = adventures.first);
+                        nextOrder =
+                        await computeNextOrder(selectedAdventure.id);
+                      } else {
+                        setState(() => adventures = <Adventure>[]);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedAdventure.id,
+                    decoration: InputDecoration(
+                        labelText: l10n.selectAdventure),
+                    items: [
+                      for (final a in adventures)
+                        DropdownMenuItem(value: a.id, child: Text(a.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final adv = adventures.firstWhere((a) => a.id == id);
+                      setState(() => selectedAdventure = adv);
+                      nextOrder = await computeNextOrder(selectedAdventure.id);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(labelText: l10n.name),
+                  ),
                 ],
-                onChanged: (id) async {
-                  final ch = chapters.firstWhere(
-                    (c) => c.id == (id ?? selectedChapter.id),
-                  );
-                  setState(() => selectedChapter = ch);
-                  final advs = await odm.campaigns
-                      .doc(campaign.id)
-                      .chapters
-                      .doc(ch.id)
-                      .adventures
-                      .orderBy((o) => (o.order(),))
-                      .get();
-                  if (advs.isNotEmpty) {
-                    setState(() {
-                      adventures = advs;
-                      selectedAdventure = adventures.first;
-                    });
-                  } else {
-                    setState(() {
-                      adventures = <Adventure>[];
-                    });
-                  }
-                },
               ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                initialValue: selectedAdventure.id,
-                decoration: InputDecoration(labelText: l10n.selectAdventure),
-                items: [
-                  for (final a in adventures)
-                    DropdownMenuItem(value: a.id, child: Text(a.name)),
-                ],
-                onChanged: (id) {
-                  final adv = adventures.firstWhere(
-                    (a) => a.id == (id ?? selectedAdventure.id),
-                  );
-                  setState(() => selectedAdventure = adv);
-                },
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: l10n.name),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(false),
-              child: Text(l10n.cancel),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.of(ctx).pop(true),
+                  child: Text(l10n.create),
+                ),
+              ],
             ),
-            FilledButton(
-              onPressed: () => Navigator.of(ctx).pop(true),
-              child: Text(l10n.create),
-            ),
-          ],
-        ),
       );
     },
   );
@@ -137,49 +124,29 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
   if (title.isEmpty || adventures.isEmpty) return;
 
   try {
+    final newId = const Uuid().v4();
     final scene = Scene(
-      id: FirestoreODM.autoGeneratedId,
-      title: title,
+      id: newId,
+      adventureId: selectedAdventure.id,
+      name: title,
       order: nextOrder,
       summary: null,
       content: null,
-      mentions: const <Map<String, dynamic>>[],
-      mediaRefs: const <Map<String, dynamic>>[],
+      entityIds: const <String>[],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
-    await odm.campaigns
-        .doc(campaign.id)
-        .chapters
-        .doc(selectedChapter.id)
-        .adventures
-        .doc(selectedAdventure.id)
-        .scenes
-        .insert(scene);
 
-    final created = await odm.campaigns
-        .doc(campaign.id)
-        .chapters
-        .doc(selectedChapter.id)
-        .adventures
-        .doc(selectedAdventure.id)
-        .scenes
-        .where((f) => f.title(isEqualTo: title))
-        .orderBy((o) => (o.createdAt(descending: true),))
-        .limit(1)
-        .get()
-        .then((v) => v.isNotEmpty ? v.first : null);
+    await sceneRepo.create(scene);
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createScene));
-    if (created != null) {
-      SceneRoute(
-        chapterId: selectedChapter.id,
-        adventureId: selectedAdventure.id,
-        sceneId: created.id,
-      ).go(context);
-    }
+    SceneRoute(
+      chapterId: selectedChapter.id,
+      adventureId: selectedAdventure.id,
+      sceneId: scene.id,
+    ).go(context);
   } catch (e, st) {
     logger.e('Create scene failed', error: e, stackTrace: st);
     if (!context.mounted) return;

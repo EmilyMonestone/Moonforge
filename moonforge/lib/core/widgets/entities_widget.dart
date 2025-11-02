@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/entity_with_origin.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 

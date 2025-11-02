@@ -3,7 +3,7 @@ import 'package:moonforge/core/models/return_message.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
   final repository = Provider.of<CampaignRepository>(context, listen: false);
 
   try {
-    final ownerUid = authProvider.user?.id;
+    final ownerUid = authProvider.firebaseUser?.uid;
     if (ownerUid == null) {
       logger.w('createCampaign aborted: user not authenticated');
       return ReturnMessage.failure('Bitte zuerst anmelden.', null);
@@ -46,24 +46,28 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
       description: description ?? '',
       content: null,
       ownerUid: ownerUid,
-      memberUids: <String>[ownerUid],
+      memberUids: [ownerUid],
+      entityIds: [],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
 
     // Use Drift repository for optimistic local write
-    await repository.upsertLocal(data);
+    await repository.create(data);
 
-    // Persist selected id so dependent screens can resolve the document
-    campaignProvider.setCurrentCampaign(data);
+    // Load the created campaign and set it as current
+    final createdCampaign = await repository.getById(campaignId);
+    if (createdCampaign != null) {
+      campaignProvider.setCurrentCampaign(createdCampaign);
+    }
 
     // Navigate to the campaign edit screen without using context now
     AppRouter.router.go(location);
 
     return ReturnMessage.success(
       "Campaign created successfully",
-      data,
+      createdCampaign,
     );
   } catch (e, st) {
     logger.e('Failed to create campaign', error: e, stackTrace: st);

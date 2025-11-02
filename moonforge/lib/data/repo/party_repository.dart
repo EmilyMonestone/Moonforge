@@ -1,73 +1,85 @@
-import 'dart:convert';
+import 'package:drift/drift.dart';
+import 'package:moonforge/data/db/tables.dart';
 
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/party.dart';
+import '../db/app_db.dart';
 
 /// Repository for Party operations
 class PartyRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   PartyRepository(this._db);
 
-  Stream<List<Party>> watchAll() => _db.partiesDao.watchAll();
+  Stream<List<Party>> watchAll() => _db.partyDao.watchAll();
 
-  Future<Party?> getById(String id) => _db.partiesDao.getById(id);
+  /// Watch parties for a campaign
+  Stream<List<Party>> watchByCampaign(String campaignId) =>
+      _db.partyDao.watchByCampaign(campaignId);
 
-  Future<void> upsertLocal(Party party) async {
+  /// Get a single party by ID
+  Future<Party?> getById(String id) => _db.partyDao.getById(id);
+
+  /// Create a new party
+  Future<void> create(Party party) async {
     await _db.transaction(() async {
-      await _db.partiesDao.upsert(party, markDirty: true);
+      await _db.partyDao.upsert(
+        PartiesCompanion.insert(
+          id: party.id,
+          campaignId: party.campaignId,
+          name: party.name,
+          summary: Value(party.summary),
+          memberEntityIds: Value(party.memberEntityIds),
+          createdAt: Value(party.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: party.rev,
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'parties',
-        docId: party.id,
-        baseRev: party.rev,
-        opType: 'upsert',
-        payload: jsonEncode(party.toJson()),
+        table: 'parties',
+        rowId: party.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing party
+  Future<void> update(Party party) async {
     await _db.transaction(() async {
-      final current = await _db.partiesDao.getById(id);
-      if (current == null) return;
+      await _db.partyDao.upsert(
+        PartiesCompanion(
+          id: Value(party.id),
+          campaignId: Value(party.campaignId),
+          name: Value(party.name),
+          summary: Value(party.summary),
+          memberEntityIds: Value(party.memberEntityIds),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(party.rev + 1),
+        ),
+      );
 
-      Party updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.partiesDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'parties',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'parties',
+        rowId: party.id,
+        op: 'upsert',
       );
     });
   }
 
-  Party _applyPatchOp(Party party, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
+  /// Delete a party
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.partyDao.deleteById(id);
 
-    if (type == 'set') {
-      switch (field) {
-        case 'name':
-          return party.copyWith(name: value as String);
-        case 'summary':
-          return party.copyWith(summary: value as String?);
-        case 'memberEntityIds':
-          return party.copyWith(
-            memberEntityIds: (value as List?)?.cast<String>(),
-          );
-      }
-    }
-    return party;
+      await _db.outboxDao.enqueue(table: 'parties', rowId: id, op: 'delete');
+    });
+  }
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Party>> customQuery({
+    Expression<bool> Function(Parties p)? filter,
+    List<OrderingTerm Function(Parties p)>? sort,
+    int? limit,
+  }) {
+    return _db.partyDao.customQuery(filter: filter, sort: sort, limit: limit);
   }
 }

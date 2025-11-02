@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -8,9 +6,8 @@ import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +23,7 @@ class EntityScreen extends StatefulWidget {
 
 class _EntityScreenState extends State<EntityScreen> {
   final QuillController _controller = QuillController.basic();
-  Entity? _entity;
+  db.Entity? _entity;
   bool _isLoading = true;
 
   @override
@@ -50,15 +47,14 @@ class _EntityScreenState extends State<EntityScreen> {
         return;
       }
 
-      final odm = Odm.instance;
-      final entity = await odm.campaigns
-          .doc(campaign.id)
-          .entities
-          .doc(widget.entityId)
-          .get();
+      final repo = context.read<EntityRepository>();
+      final entity = await repo.getById(widget.entityId);
 
       if (entity != null && entity.content != null) {
-        _controller.document = Document.fromJson(jsonDecode(entity.content!));
+        final ops = entity.content!['ops'] as List<dynamic>?;
+        if (ops != null) {
+          _controller.document = Document.fromJson(ops);
+        }
       }
       _controller.readOnly = true;
 
@@ -72,9 +68,9 @@ class _EntityScreenState extends State<EntityScreen> {
     }
   }
 
-  Widget _buildKindSpecificFields(BuildContext context, Entity entity) {
+  Widget _buildKindSpecificFields(BuildContext context, db.Entity entity) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
+    final _l10n = AppLocalizations.of(context)!;
 
     switch (entity.kind) {
       case 'place':
@@ -86,7 +82,7 @@ class _EntityScreenState extends State<EntityScreen> {
               _buildInfoRow(
                 context,
                 Icons.location_on_outlined,
-                'Place Type',
+                _l10n.placeType,
                 entity.placeType!,
               ),
             if (entity.parentPlaceId != null &&
@@ -94,14 +90,14 @@ class _EntityScreenState extends State<EntityScreen> {
               _buildInfoRow(
                 context,
                 Icons.place_outlined,
-                'Parent Place',
+                _l10n.parentPlace,
                 entity.parentPlaceId!,
               ),
             if (entity.coords.isNotEmpty)
               _buildInfoRow(
                 context,
                 Icons.map_outlined,
-                'Coordinates',
+                _l10n.coordinates,
                 'Lat: ${entity.coords['lat'] ?? '-'}, Lng: ${entity.coords['lng'] ?? '-'}',
               ),
           ],
@@ -115,7 +111,7 @@ class _EntityScreenState extends State<EntityScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Members', style: theme.textTheme.titleMedium),
+                  Text(_l10n.members, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
                   ...entity.members!.map(
                     (memberId) => Padding(
@@ -143,7 +139,7 @@ class _EntityScreenState extends State<EntityScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Stat Block', style: theme.textTheme.titleMedium),
+                  Text(_l10n.statblock, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -292,7 +288,7 @@ class _EntityScreenState extends State<EntityScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tags',
+                      l10n.tags,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
@@ -318,7 +314,7 @@ class _EntityScreenState extends State<EntityScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Images',
+                      l10n.images,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),

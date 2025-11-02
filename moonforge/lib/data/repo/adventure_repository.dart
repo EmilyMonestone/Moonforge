@@ -1,97 +1,121 @@
-import 'dart:convert';
+import 'package:drift/drift.dart';
 
-import 'package:moonforge/data/drift/app_database.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
+import '../db/app_db.dart';
+import '../db/tables.dart';
 
-/// Repository for Adventure operations with optimistic writes and outbox queueing
+/// Repository for Adventure operations
 class AdventureRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   AdventureRepository(this._db);
 
-  /// Watch all adventures as a stream (local-first, instant)
-  Stream<List<Adventure>> watchAll() {
-    return _db.adventuresDao.watchAll();
-  }
+  /// Watch adventures for a chapter
+  Stream<List<Adventure>> watchByChapter(String chapterId) =>
+      _db.adventureDao.watchByChapter(chapterId);
+
+  /// List adventures for a chapter (ordered by order)
+  Future<List<Adventure>> getByChapter(String chapterId) =>
+      _db.adventureDao.customQuery(
+        filter: (a) => a.chapterId.equals(chapterId),
+        sort: [(a) => OrderingTerm.asc(a.order)],
+      );
 
   /// Get a single adventure by ID
-  Future<Adventure?> getById(String id) {
-    return _db.adventuresDao.getById(id);
+  Future<Adventure?> getById(String id) => _db.adventureDao.getById(id);
+
+  /// Create a new adventure
+  Future<void> create(Adventure adventure) async {
+    await _db.transaction(() async {
+      await _db.adventureDao.upsert(
+        AdventuresCompanion.insert(
+          id: adventure.id,
+          chapterId: adventure.chapterId,
+          name: adventure.name,
+          order: adventure.order,
+          summary: Value(adventure.summary),
+          content: Value(adventure.content),
+          entityIds: adventure.entityIds,
+          createdAt: Value(adventure.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: adventure.rev,
+        ),
+      );
+
+      await _db.outboxDao.enqueue(
+        table: 'adventures',
+        rowId: adventure.id,
+        op: 'upsert',
+      );
+    });
   }
 
-  /// Upsert an adventure locally and enqueue for sync
+  /// Update an existing adventure
+  Future<void> update(Adventure adventure) async {
+    await _db.transaction(() async {
+      await _db.adventureDao.upsert(
+        AdventuresCompanion(
+          id: Value(adventure.id),
+          chapterId: Value(adventure.chapterId),
+          name: Value(adventure.name),
+          order: Value(adventure.order),
+          summary: Value(adventure.summary),
+          content: Value(adventure.content),
+          entityIds: Value(adventure.entityIds),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(adventure.rev + 1),
+        ),
+      );
+
+      await _db.outboxDao.enqueue(
+        table: 'adventures',
+        rowId: adventure.id,
+        op: 'upsert',
+      );
+    });
+  }
+
+  /// Optimistic local upsert (no rev bump here)
   Future<void> upsertLocal(Adventure adventure) async {
-    await _db.transaction(() async {
-      // Optimistic local write
-      await _db.adventuresDao.upsert(adventure, markDirty: true);
+    await _db.adventureDao.upsert(
+      AdventuresCompanion(
+        id: Value(adventure.id),
+        chapterId: Value(adventure.chapterId),
+        name: Value(adventure.name),
+        order: Value(adventure.order),
+        summary: Value(adventure.summary),
+        content: Value(adventure.content),
+        entityIds: Value(adventure.entityIds),
+        createdAt: Value(adventure.createdAt ?? DateTime.now()),
+        updatedAt: Value(DateTime.now()),
+        rev: Value(adventure.rev),
+      ),
+    );
+    await _db.outboxDao.enqueue(
+      table: 'adventures',
+      rowId: adventure.id,
+      op: 'upsert',
+    );
+  }
 
-      // Enqueue for sync
-      await _db.outboxDao.enqueue(
-        docPath: 'adventures',
-        docId: adventure.id,
-        baseRev: adventure.rev,
-        opType: 'upsert',
-        payload: jsonEncode(adventure.toJson()),
-      );
+  /// Delete an adventure
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.adventureDao.deleteById(id);
+
+      await _db.outboxDao.enqueue(table: 'adventures', rowId: id, op: 'delete');
     });
   }
 
-  /// Apply a patch operation locally and enqueue for sync
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
-    await _db.transaction(() async {
-      // Get current adventure
-      final current = await _db.adventuresDao.getById(id);
-      if (current == null) return;
-
-      // Apply operations locally
-      Adventure updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      // Write optimistically
-      await _db.adventuresDao.upsert(updated, markDirty: true);
-
-      // Enqueue patch operation
-      await _db.outboxDao.enqueue(
-        docPath: 'adventures',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
-      );
-    });
-  }
-
-  Adventure _applyPatchOp(Adventure adventure, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
-
-    switch (type) {
-      case 'set':
-        return _applySet(adventure, field, value);
-      default:
-        return adventure;
-    }
-  }
-
-  Adventure _applySet(Adventure adventure, String field, dynamic value) {
-    switch (field) {
-      case 'name':
-        return adventure.copyWith(name: value as String);
-      case 'order':
-        return adventure.copyWith(order: value as int);
-      case 'summary':
-        return adventure.copyWith(summary: value as String?);
-      case 'content':
-        return adventure.copyWith(content: value as String?);
-      default:
-        return adventure;
-    }
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Adventure>> customQuery({
+    Expression<bool> Function(Adventures a)? filter,
+    List<OrderingTerm Function(Adventures a)>? sort,
+    int? limit,
+  }) {
+    return _db.adventureDao.customQuery(
+      filter: filter,
+      sort: sort,
+      limit: limit,
+    );
   }
 }

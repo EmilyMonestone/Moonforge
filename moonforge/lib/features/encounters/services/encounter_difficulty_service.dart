@@ -1,5 +1,3 @@
-import 'package:moonforge/data/firebase/models/player.dart';
-
 /// Service for calculating D&D 5e encounter difficulty
 /// Based on D&D 5e Basic Rules Chapter 13: Building Combat Encounters
 class EncounterDifficultyService {
@@ -84,13 +82,6 @@ class EncounterDifficultyService {
     }
 
     return totals;
-  }
-
-  /// Calculate party XP thresholds from Player objects
-  static Map<String, int> calculatePartyThresholdsFromPlayers(
-    List<Player> players,
-  ) {
-    return calculatePartyThresholds(players.map((p) => p.level).toList());
   }
 
   /// Get XP value for a given Challenge Rating

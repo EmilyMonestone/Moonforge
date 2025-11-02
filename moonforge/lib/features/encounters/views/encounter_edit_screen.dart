@@ -1,13 +1,9 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/combatant.dart';
-import 'package:moonforge/data/firebase/models/encounter.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
-import 'package:moonforge/data/firebase/models/party.dart';
-import 'package:moonforge/data/firebase/models/player.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
-import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
 import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
@@ -28,7 +24,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // Party selection state
-  List<Player> _players = [];
+  List /*<Player>*/ _players = [];
   String? _selectedPartyId;
   bool _useCustomParty = true;
   final List<int> _customPlayerLevels = [
@@ -39,7 +35,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   ]; // Default 4 level 1 players
 
   // Combatants state
-  final List<Combatant> _combatants = [];
+  final List<db.Combatant> _combatants = [];
 
   // Calculated values
   Map<String, int> _partyThresholds = {};
@@ -62,7 +58,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     // Calculate party thresholds
     final playerLevels = _useCustomParty
         ? _customPlayerLevels
-        : _players.map((p) => p.level).toList();
+        : _players.map((p) => p.level as int).toList();
 
     _partyThresholds = EncounterDifficultyService.calculatePartyThresholds(
       playerLevels,
@@ -88,7 +84,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
     setState(() {});
   }
 
-  void _addCombatant(Combatant combatant) {
+  void _addCombatant(db.Combatant combatant) {
     setState(() {
       _combatants.add(combatant);
       _calculateDifficulty();
@@ -128,16 +124,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   // Load party players from Drift
   Future<void> _loadPartyPlayers(String partyId) async {
     try {
-      final playerRepo = context.read<PlayerRepository>();
-
-      // Get all players and filter by partyId
-      final allPlayers = await playerRepo.watchAll().first;
-      final playersList = allPlayers
-          .where((p) => p.partyId == partyId)
-          .toList();
-
+      // TODO: Implement players when Player model/repo exists in Drift.
       setState(() {
-        _players = playersList;
+        _players = [];
         _selectedPartyId = partyId;
         _calculateDifficulty();
       });
@@ -160,16 +149,20 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
       // Convert combatants to Map format for storage
       final combatantsJson = _combatants.map((c) => c.toJson()).toList();
 
-      final encounter = Encounter(
+      final encounter = db.Encounter(
         id: widget.encounterId,
         name: _nameController.text,
-        combatants: combatantsJson,
+        originId: campaign.id,
+        preset: false,
         notes: 'Difficulty: $_difficulty, Adjusted XP: $_adjustedXp',
+        loot: null,
+        combatants: combatantsJson,
+        entityIds: const <String>[],
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        rev: 0,
       );
 
-      // Use EncounterRepository instead of ODM
       final encounterRepo = context.read<EncounterRepository>();
       await encounterRepo.upsertLocal(encounter);
 
@@ -188,7 +181,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   }
 
   // Update combatant inline
-  void _updateCombatant(int index, Combatant updated) {
+  void _updateCombatant(int index, db.Combatant updated) {
     setState(() {
       _combatants[index] = updated;
       _calculateDifficulty();
@@ -285,7 +278,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                             children: [
                               Expanded(
                                 child: DropdownButtonFormField<int>(
-                                  value: entry.value,
+                                  initialValue: entry.value,
                                   decoration: InputDecoration(
                                     labelText:
                                         '${l10n.player} ${entry.key + 1}',
@@ -352,7 +345,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               DropdownButtonFormField<String>(
-                                value: _selectedPartyId,
+                                initialValue: _selectedPartyId,
                                 decoration: InputDecoration(
                                   labelText: l10n.selectParty,
                                   border: const OutlineInputBorder(),
@@ -448,7 +441,9 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
 
                     // Adjusted XP and Difficulty
                     Card(
-                      color: _getDifficultyColor(_difficulty).withOpacity(0.1),
+                      color: _getDifficultyColor(
+                        _difficulty,
+                      ).withValues(alpha: 0.1),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
@@ -610,7 +605,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
             '$value',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: color.withOpacity(0.2),
+          backgroundColor: color.withValues(alpha: 0.2),
           side: BorderSide(color: color),
         ),
       ],
@@ -653,9 +648,8 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
 
   Future<List<Map<String, String>>> _loadParties() async {
     try {
-      // Use StreamProvider to get parties from Drift
-      final parties = context.read<List<Party>>();
-      return parties.map((p) => {'id': p.id, 'name': p.name}).toList();
+      // Parties stream not wired here; returning empty list for now.
+      return [];
     } catch (e) {
       return [];
     }
@@ -671,7 +665,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
   void _showEditCombatantDialog(
     BuildContext context,
     int index,
-    Combatant combatant,
+    db.Combatant combatant,
   ) {
     showDialog(
       context: context,
@@ -707,7 +701,7 @@ class _EncounterEditScreenState extends State<EncounterEditScreen> {
 
 // Dialog for adding combatants
 class _AddCombatantDialog extends StatefulWidget {
-  final Function(Combatant) onAdd;
+  final Function(db.Combatant) onAdd;
 
   const _AddCombatantDialog({required this.onAdd});
 
@@ -774,7 +768,7 @@ class _AddCombatantDialogState extends State<_AddCombatantDialog> {
 
 // Bestiary monster list
 class _BestiaryMonsterList extends StatelessWidget {
-  final Function(Combatant) onAdd;
+  final Function(db.Combatant) onAdd;
 
   const _BestiaryMonsterList({required this.onAdd});
 
@@ -839,17 +833,24 @@ class _BestiaryMonsterList extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () {
-              final combatant = Combatant(
+              final combatant = db.Combatant(
                 id: 'monster_${DateTime.now().millisecondsSinceEpoch}',
+                encounterId: 'local',
                 name: name,
-                type: CombatantType.monster,
+                type: 'monster',
                 isAlly: false,
+                currentHp: hp,
+                maxHp: hp,
+                armorClass: ac,
+                initiative: null,
+                initiativeModifier: 0,
+                entityId: null,
+                bestiaryName: name,
                 cr: cr,
                 xp: xp,
-                maxHp: hp,
-                currentHp: hp,
-                armorClass: ac,
-                bestiaryName: name,
+                conditions: const <String>[],
+                notes: null,
+                order: DateTime.now().millisecondsSinceEpoch % 1000000,
               );
               onAdd(combatant);
               Navigator.of(context).pop();
@@ -887,7 +888,7 @@ class _BestiaryMonsterList extends StatelessWidget {
 
 // Campaign entity list (monsters/NPCs with statblocks)
 class _CampaignEntityList extends StatelessWidget {
-  final Function(Combatant) onAdd;
+  final Function(db.Combatant) onAdd;
 
   const _CampaignEntityList({required this.onAdd});
 
@@ -901,7 +902,7 @@ class _CampaignEntityList extends StatelessWidget {
     }
 
     // Use StreamProvider to watch entities from Drift
-    final allEntities = context.watch<List<Entity>>();
+    final allEntities = context.watch<List<db.Entity>>();
 
     // Filter for monsters and NPCs with statblocks
     final entities = allEntities.where((e) {
@@ -930,19 +931,24 @@ class _CampaignEntityList extends StatelessWidget {
           trailing: IconButton(
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () {
-              final combatant = Combatant(
+              final combatant = db.Combatant(
                 id: 'entity_${DateTime.now().millisecondsSinceEpoch}',
+                encounterId: 'local',
                 name: entity.name,
-                type: entity.kind == 'npc'
-                    ? CombatantType.npc
-                    : CombatantType.monster,
+                type: entity.kind == 'npc' ? 'npc' : 'monster',
                 isAlly: false,
+                currentHp: hp,
+                maxHp: hp,
+                armorClass: ac,
+                initiative: null,
+                initiativeModifier: 0,
+                entityId: entity.id,
+                bestiaryName: null,
                 cr: cr,
                 xp: xp,
-                maxHp: hp,
-                currentHp: hp,
-                armorClass: ac,
-                entityId: entity.id,
+                conditions: const <String>[],
+                notes: null,
+                order: DateTime.now().millisecondsSinceEpoch % 1000000,
               );
               onAdd(combatant);
               Navigator.of(context).pop();
@@ -956,8 +962,8 @@ class _CampaignEntityList extends StatelessWidget {
 
 // Dialog for editing combatants inline
 class _EditCombatantDialog extends StatefulWidget {
-  final Combatant combatant;
-  final Function(Combatant) onUpdate;
+  final db.Combatant combatant;
+  final Function(db.Combatant) onUpdate;
 
   const _EditCombatantDialog({required this.combatant, required this.onUpdate});
 
@@ -1099,15 +1105,10 @@ class _EditCombatantDialogState extends State<_EditCombatantDialog> {
         ElevatedButton(
           onPressed: () {
             final updated = widget.combatant.copyWith(
-              currentHp:
-                  int.tryParse(_hpController.text) ??
-                  widget.combatant.currentHp,
-              maxHp:
-                  int.tryParse(_maxHpController.text) ?? widget.combatant.maxHp,
-              armorClass:
-                  int.tryParse(_acController.text) ??
-                  widget.combatant.armorClass,
-              initiative: int.tryParse(_initiativeController.text),
+              currentHp: int.tryParse(_hpController.text),
+              maxHp: int.tryParse(_maxHpController.text),
+              armorClass: int.tryParse(_acController.text),
+              initiative: const Value.absent(),
               conditions: _conditions,
             );
             widget.onUpdate(updated);

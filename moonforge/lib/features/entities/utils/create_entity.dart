@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-Future<void> createEntity(BuildContext context, Campaign campaign) async {
+Future<void> createEntity(BuildContext context, db.Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<EntityRepository>();
 
@@ -72,11 +71,13 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
 
   try {
     // Embed campaign ID in entity ID for filtering
-    final entityId = 'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final entity = Entity(
+    final entityId =
+        'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
+      originId: campaign.id,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},
@@ -91,7 +92,7 @@ Future<void> createEntity(BuildContext context, Campaign campaign) async {
       deleted: false,
       members: const <String>[],
     );
-    
+
     // Use Drift repository for optimistic local write
     await repository.upsertLocal(entity);
 

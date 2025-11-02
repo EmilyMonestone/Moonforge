@@ -1,10 +1,9 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -13,7 +12,7 @@ import 'package:provider/provider.dart';
 /// Create a new entity and attach it to the given adventure (entityIds)
 Future<void> createEntityInAdventure(
   BuildContext context,
-  Campaign campaign,
+  db.Campaign campaign,
   String adventureId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
@@ -81,10 +80,11 @@ Future<void> createEntityInAdventure(
   try {
     final entityId =
         'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final entity = Entity(
+    final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
+      originId: campaign.id,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},
@@ -103,14 +103,14 @@ Future<void> createEntityInAdventure(
     await entityRepo.upsertLocal(entity);
 
     // Attach entity to adventure.entityIds
-    Adventure? adventure = await adventureRepo.getById(adventureId);
+    db.Adventure? adventure = await adventureRepo.getById(adventureId);
     if (adventure != null) {
       final currentIds = List<String>.from(adventure.entityIds);
       if (!currentIds.contains(entityId)) {
         currentIds.add(entityId);
         final updated = adventure.copyWith(
           entityIds: currentIds,
-          updatedAt: DateTime.now(),
+          updatedAt: Value(DateTime.now()),
         );
         await adventureRepo.upsertLocal(updated);
       }

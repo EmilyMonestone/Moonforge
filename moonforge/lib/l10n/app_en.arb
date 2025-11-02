@@ -472,5 +472,33 @@
   "openInNewWindow": "Open in new window",
   "@openInNewWindow": {
     "description": "Context menu option to open a link in a new window"
+  },
+  "placeType": "Place Type",
+  "@placeType": {
+    "description": "Label for the place type field of an Entity (kind=place)"
+  },
+  "parentPlace": "Parent Place",
+  "@parentPlace": {
+    "description": "Label for the parent place id/name of an Entity (kind=place)"
+  },
+  "coordinates": "Coordinates",
+  "@coordinates": {
+    "description": "Label for geographic coordinates (lat/lng)"
+  },
+  "members": "Members",
+  "@members": {
+    "description": "Label for members list (kind=group)"
+  },
+  "statblock": "Stat Block",
+  "@statblock": {
+    "description": "Label for an NPC/Monster stat block section"
+  },
+  "tags": "Tags",
+  "@tags": {
+    "description": "Label for tags list/section"
+  },
+  "images": "Images",
+  "@images": {
+    "description": "Label for images section"
   }
 }

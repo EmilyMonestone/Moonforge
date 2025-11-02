@@ -1,90 +1,94 @@
-import 'dart:convert';
+import 'package:drift/drift.dart';
 
-import 'package:moonforge/data/drift/app_database.dart' show AppDatabase;
-import 'package:moonforge/data/firebase/models/media_asset.dart'
-    show MediaAsset;
+import '../db/app_db.dart';
+import '../db/tables.dart';
 
 /// Repository for MediaAsset operations
 class MediaAssetRepository {
-  final AppDatabase _db;
+  final AppDb _db;
 
   MediaAssetRepository(this._db);
 
-  Stream<List<MediaAsset>> watchAll() => _db.mediaAssetsDao.watchAll();
+  /// Watch all media assets
+  Stream<List<MediaAsset>> watchAll() => _db.mediaAssetDao.watchAll();
 
-  Future<MediaAsset?> getById(String id) => _db.mediaAssetsDao.getById(id);
+  /// Get a single media asset by ID
+  Future<MediaAsset?> getById(String id) => _db.mediaAssetDao.getById(id);
 
-  Future<void> upsertLocal(MediaAsset asset) async {
+  /// Create a new media asset
+  Future<void> create(MediaAsset asset) async {
     await _db.transaction(() async {
-      await _db.mediaAssetsDao.upsert(asset, markDirty: true);
+      await _db.mediaAssetDao.upsert(
+        MediaAssetsCompanion.insert(
+          id: asset.id,
+          filename: asset.filename,
+          size: asset.size,
+          mime: asset.mime,
+          captions: Value(asset.captions),
+          alt: Value(asset.alt),
+          variants: Value(asset.variants),
+          createdAt: Value(asset.createdAt ?? DateTime.now()),
+          updatedAt: Value(DateTime.now()),
+          rev: asset.rev,
+        ),
+      );
+
       await _db.outboxDao.enqueue(
-        docPath: 'media_assets',
-        docId: asset.id,
-        baseRev: asset.rev,
-        opType: 'upsert',
-        payload: jsonEncode(asset.toJson()),
+        table: 'mediaAssets',
+        rowId: asset.id,
+        op: 'upsert',
       );
     });
   }
 
-  Future<void> patchLocal({
-    required String id,
-    required int baseRev,
-    required List<Map<String, dynamic>> ops,
-  }) async {
+  /// Update an existing media asset
+  Future<void> update(MediaAsset asset) async {
     await _db.transaction(() async {
-      final current = await _db.mediaAssetsDao.getById(id);
-      if (current == null) return;
+      await _db.mediaAssetDao.upsert(
+        MediaAssetsCompanion(
+          id: Value(asset.id),
+          filename: Value(asset.filename),
+          size: Value(asset.size),
+          mime: Value(asset.mime),
+          captions: Value(asset.captions),
+          alt: Value(asset.alt),
+          variants: Value(asset.variants),
+          updatedAt: Value(DateTime.now()),
+          rev: Value(asset.rev + 1),
+        ),
+      );
 
-      MediaAsset updated = current;
-      for (final op in ops) {
-        updated = _applyPatchOp(updated, op);
-      }
-
-      await _db.mediaAssetsDao.upsert(updated, markDirty: true);
       await _db.outboxDao.enqueue(
-        docPath: 'media_assets',
-        docId: id,
-        baseRev: baseRev,
-        opType: 'patch',
-        payload: jsonEncode({'ops': ops}),
+        table: 'mediaAssets',
+        rowId: asset.id,
+        op: 'upsert',
       );
     });
   }
 
-  MediaAsset _applyPatchOp(MediaAsset asset, Map<String, dynamic> op) {
-    final type = op['type'] as String;
-    final field = op['field'] as String;
-    final value = op['value'];
+  /// Delete a media asset
+  Future<void> delete(String id) async {
+    await _db.transaction(() async {
+      await _db.mediaAssetDao.deleteById(id);
 
-    if (type == 'set') {
-      switch (field) {
-        case 'filename':
-          return asset.copyWith(filename: value as String);
-        case 'alt':
-          return asset.copyWith(alt: value as String?);
-      }
-    } else if (type == 'addToSet' && field == 'captions') {
-      final current = asset.captions ?? [];
-      if (!current.contains(value)) {
-        return asset.copyWith(captions: [...current, value as String]);
-      }
-    } else if (type == 'removeFromSet' && field == 'captions') {
-      final current = asset.captions ?? [];
-      return asset.copyWith(
-        captions: current.where((c) => c != value).toList(),
+      await _db.outboxDao.enqueue(
+        table: 'mediaAssets',
+        rowId: id,
+        op: 'delete',
       );
-    }
-    return asset;
+    });
   }
 
-  /// Get download status for a media asset
-  Future<String?> getDownloadStatus(String id) {
-    return _db.mediaAssetsDao.getDownloadStatus(id);
-  }
-
-  /// Get local file path for a cached media asset
-  Future<String?> getLocalPath(String id) {
-    return _db.mediaAssetsDao.getLocalPath(id);
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<MediaAsset>> customQuery({
+    Expression<bool> Function(MediaAssets m)? filter,
+    List<OrderingTerm Function(MediaAssets m)>? sort,
+    int? limit,
+  }) {
+    return _db.mediaAssetDao.customQuery(
+      filter: filter,
+      sort: sort,
+      limit: limit,
+    );
   }
 }

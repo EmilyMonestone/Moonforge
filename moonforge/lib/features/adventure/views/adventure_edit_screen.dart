@@ -1,17 +1,16 @@
-import 'dart:convert';
-
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/data/firebase/odm.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -72,25 +71,24 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
   }
 
   Future<void> _loadAdventure() async {
-    if (_campaignId == null) return;
-
     setState(() => _isLoading = true);
     try {
-      final odm = Odm.instance;
-      final adventure = await odm.campaigns
-          .doc(_campaignId!)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .doc(widget.adventureId)
-          .get();
+      final repo = context.read<AdventureRepository>();
+      final adventure = await repo.getById(widget.adventureId);
 
       if (adventure != null) {
         Document document;
         if (adventure.content != null && adventure.content!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(adventure.content!);
-            document = Document.fromJson(deltaJson);
+            final contentMap = adventure.content!; // Map<String,dynamic>
+            final ops = contentMap['ops'];
+            if (ops is List) {
+              document = Document.fromJson(
+                List<Map<String, dynamic>>.from(ops),
+              );
+            } else {
+              document = Document()..insert(0, adventure.summary ?? '');
+            }
           } catch (e) {
             document = Document()..insert(0, adventure.summary ?? '');
           }
@@ -131,29 +129,23 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
 
   Future<void> _saveAdventure() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_adventure == null || _campaignId == null) return;
+    if (_adventure == null) return;
 
     setState(() => _isSaving = true);
     try {
-      final odm = Odm.instance;
-
+      final repo = context.read<AdventureRepository>();
       final delta = _contentController.document.toDelta();
-      final contentJson = jsonEncode(delta.toJson());
+      final contentMap = {'ops': delta.toJson()};
 
       final updatedAdventure = _adventure!.copyWith(
         name: _nameController.text.trim(),
-        summary: _summaryController.text.trim(),
-        content: contentJson,
-        updatedAt: DateTime.now(),
+        summary: Value(_summaryController.text.trim()),
+        content: Value(contentMap),
+        updatedAt: Value(DateTime.now()),
         rev: _adventure!.rev + 1,
       );
 
-      await odm.campaigns
-          .doc(_campaignId!)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .update(updatedAdventure);
+      await repo.update(updatedAdventure);
 
       await _autosave?.clear();
 
@@ -297,7 +289,10 @@ class _AdventureEditScreenState extends State<AdventureEditScreen> {
                 keyForPosition: _editorKey,
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
-                  return await EntityMentionService.searchEntities(
+                  final service = EntityMentionService(
+                    entityRepository: context.read<EntityRepository>(),
+                  );
+                  return await service.searchEntities(
                     campaignId: _campaignId!,
                     kinds: kind,
                     query: query,

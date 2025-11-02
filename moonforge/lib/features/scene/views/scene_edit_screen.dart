@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -9,9 +8,9 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +41,7 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
   final _editorKey = GlobalKey();
   bool _isLoading = false;
   bool _isSaving = false;
-  Scene? _scene;
+  db.Scene? _scene;
   String? _campaignId;
 
   @override
@@ -84,33 +83,34 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
       }
       _campaignId = campaign.id;
 
-      final odm = Odm.instance;
-      final scene = await odm.campaigns
-          .doc(campaign.id)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .doc(widget.adventureId)
-          .scenes
-          .doc(widget.sceneId)
-          .get();
+      final repo = context.read<SceneRepository>();
+      final scene = await repo.getById(widget.sceneId);
 
       if (scene != null) {
         Document document;
         if (scene.content != null && scene.content!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(scene.content!);
-            document = Document.fromJson(deltaJson);
+            final contentMap = scene.content!; // Map<String,dynamic>
+            final ops = contentMap['ops'];
+            if (ops is List) {
+              document = Document.fromJson(
+                List<Map<String, dynamic>>.from(ops),
+              );
+            } else {
+              document = Document()..insert(0, scene.summary ?? '');
+            }
           } catch (e) {
-            document = Document();
+            document = Document()..insert(0, scene.summary ?? '');
           }
+        } else if (scene.summary != null && scene.summary!.isNotEmpty) {
+          document = Document()..insert(0, scene.summary!);
         } else {
           document = Document();
         }
 
         setState(() {
           _scene = scene;
-          _titleController.text = scene.title;
+          _titleController.text = scene.name;
           _summaryController.text = scene.summary ?? '';
           _contentController.document = document;
         });
@@ -140,31 +140,24 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
 
   Future<void> _saveScene() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_scene == null || _campaignId == null) return;
+    if (_scene == null) return;
 
     setState(() => _isSaving = true);
     try {
-      final odm = Odm.instance;
+      final repo = context.read<SceneRepository>();
 
       final delta = _contentController.document.toDelta();
-      final contentJson = jsonEncode(delta.toJson());
+      final contentMap = {'ops': delta.toJson()};
 
       final updatedScene = _scene!.copyWith(
-        title: _titleController.text.trim(),
-        summary: _summaryController.text.trim(),
-        content: contentJson,
-        updatedAt: DateTime.now(),
+        name: _titleController.text.trim(),
+        summary: Value(_summaryController.text.trim()),
+        content: Value(contentMap),
+        updatedAt: Value(DateTime.now()),
         rev: _scene!.rev + 1,
       );
 
-      await odm.campaigns
-          .doc(_campaignId!)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .doc(widget.adventureId)
-          .scenes
-          .update(updatedScene);
+      await repo.update(updatedScene);
 
       await _autosave?.clear();
 
@@ -308,7 +301,10 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
                 keyForPosition: _editorKey,
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
-                  return await EntityMentionService.searchEntities(
+                  final service = EntityMentionService(
+                    entityRepository: context.read<EntityRepository>(),
+                  );
+                  return await service.searchEntities(
                     campaignId: _campaignId!,
                     kinds: kind,
                     query: query,

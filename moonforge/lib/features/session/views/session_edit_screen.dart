@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -11,9 +10,9 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/models/session.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +41,7 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
   final _logEditorKey = GlobalKey();
   bool _isLoading = false;
   bool _isSaving = false;
-  Session? _session;
+  db.Session? _session;
   String? _campaignId;
 
   @override
@@ -79,20 +78,20 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final odm = Odm.instance;
-      final session = await odm.campaigns
-          .doc(_campaignId!)
-          .sessions
-          .doc(widget.sessionId)
-          .get();
+      final repo = context.read<SessionRepository>();
+      final session = await repo.getById(widget.sessionId);
 
       if (session != null) {
         // Load info document
         Document infoDocument;
         if (session.info != null && session.info!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(session.info!);
-            infoDocument = Document.fromJson(deltaJson);
+            final ops = session.info!['ops'] as List<dynamic>?;
+            if (ops != null) {
+              infoDocument = Document.fromJson(ops);
+            } else {
+              infoDocument = Document();
+            }
           } catch (e) {
             logger.e('Error parsing info delta: $e');
             infoDocument = Document();
@@ -105,8 +104,12 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
         Document logDocument;
         if (session.log != null && session.log!.isNotEmpty) {
           try {
-            final deltaJson = jsonDecode(session.log!);
-            logDocument = Document.fromJson(deltaJson);
+            final ops = session.log!['ops'] as List<dynamic>?;
+            if (ops != null) {
+              logDocument = Document.fromJson(ops);
+            } else {
+              logDocument = Document();
+            }
           } catch (e) {
             logger.e('Error parsing log delta: $e');
             logDocument = Document();
@@ -161,24 +164,24 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
 
     setState(() => _isSaving = true);
     try {
-      final odm = Odm.instance;
+      final repo = context.read<SessionRepository>();
 
-      // Convert info to JSON
+      // Convert info to JSON Map
       final infoDelta = _infoController.document.toDelta();
-      final infoJson = jsonEncode(infoDelta.toJson());
+      final infoMap = {'ops': infoDelta.toJson()};
 
-      // Convert log to JSON
+      // Convert log to JSON Map
       final logDelta = _logController.document.toDelta();
-      final logJson = jsonEncode(logDelta.toJson());
+      final logMap = {'ops': logDelta.toJson()};
 
-      final updatedSession = _session!.copyWith(
-        info: infoJson,
-        log: logJson,
-        updatedAt: DateTime.now(),
+      final updated = _session!.copyWith(
+        info: Value(infoMap),
+        log: Value(logMap),
+        updatedAt: Value(DateTime.now()),
         rev: _session!.rev + 1,
       );
 
-      await odm.campaigns.doc(_campaignId!).sessions.update(updatedSession);
+      await repo.update(updated);
 
       await _infoAutosave?.clear();
       await _logAutosave?.clear();
@@ -208,14 +211,14 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
-    final currentUser = context.watch<AuthProvider>().user;
+    final currentUserUid = context.watch<AuthProvider>().uid;
 
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
     // Check if user is DM
-    final isDM = PermissionsUtils.isDM(campaign, currentUser?.id);
+    final isDM = PermissionsUtils.isDM(campaign, currentUserUid);
     if (!isDM) {
       return Center(
         child: Column(
@@ -335,7 +338,10 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
                 keyForPosition: _infoEditorKey,
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
-                  return await EntityMentionService.searchEntities(
+                  final service = EntityMentionService(
+                    entityRepository: context.read() as EntityRepository,
+                  );
+                  return await service.searchEntities(
                     campaignId: _campaignId!,
                     kinds: kind,
                     query: query,
@@ -392,7 +398,10 @@ class _SessionEditScreenState extends State<SessionEditScreen> {
                 keyForPosition: _logEditorKey,
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
-                  return await EntityMentionService.searchEntities(
+                  final service = EntityMentionService(
+                    entityRepository: context.read() as EntityRepository,
+                  );
+                  return await service.searchEntities(
                     campaignId: _campaignId!,
                     kinds: kind,
                     query: query,
