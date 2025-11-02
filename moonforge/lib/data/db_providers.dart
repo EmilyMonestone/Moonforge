@@ -9,36 +9,12 @@ import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 import 'db/app_db.dart';
 import 'db/sync/sync_coordinator.dart';
 
-/// Providers for the new database layer
-///
-/// Usage:
-/// ```dart
-/// void main() async {
-///   WidgetsFlutterBinding.ensureInitialized();
-///   await Firebase.initializeApp();
-///
-///   // Disable Firestore persistence (we use Drift instead)
-///   await FirebaseFirestore.instance.setPersistenceEnabled(false);
-///
-///   // Construct database (no longer async with drift_flutter)
-///   final db = constructDb();
-///
-///   runApp(
-///     MultiProvider(
-///       providers: [
-///         ...dbProviders(db),
-///         // ... other providers
-///       ],
-///       child: MyApp(),
-///     ),
-///   );
-/// }
-/// ```
-List<Provider> dbProviders(AppDb db) => [
+List<SingleChildWidget> dbProviders(AppDb db) => [
   // Database instance
   Provider<AppDb>.value(value: db),
 
@@ -49,6 +25,7 @@ List<Provider> dbProviders(AppDb db) => [
   ),
 
   // Drift streams for UI (reactive lists)
+  /// usage: final campaigns = context.watch<List<Campaign>>();
   StreamProvider<List<Campaign>>(
     create: (_) => db.campaignDao.watchAll(),
     initialData: const <Campaign>[],

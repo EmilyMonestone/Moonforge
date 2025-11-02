@@ -3,6 +3,12 @@ import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entities_widget.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:provider/provider.dart';
 
 /// Widget that displays entities for a campaign
@@ -43,12 +49,12 @@ class CampaignEntitiesWidget extends StatelessWidget {
     // Use EntityGatherer to traverse hierarchy via repositories and deduplicate with consistent origins
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer(
-        campaignRepository: context.read(),
-        chapterRepository: context.read(),
-        adventureRepository: context.read(),
-        sceneRepository: context.read(),
-        encounterRepository: context.read(),
-        entityRepository: context.read(),
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        encounterRepo: context.read<EncounterRepository>(),
+        entityRepo: context.read<EntityRepository>(),
       ).gatherFromCampaign(campaignId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -86,12 +92,12 @@ class ChapterEntitiesWidget extends StatelessWidget {
 
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer(
-        campaignRepository: context.read(),
-        chapterRepository: context.read(),
-        adventureRepository: context.read(),
-        sceneRepository: context.read(),
-        encounterRepository: context.read(),
-        entityRepository: context.read(),
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        encounterRepo: context.read<EncounterRepository>(),
+        entityRepo: context.read<EntityRepository>(),
       ).gatherFromChapter(campaignId, chapterId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -130,17 +136,13 @@ class AdventureEntitiesWidget extends StatelessWidget {
 
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer(
-        campaignRepository: context.read(),
-        chapterRepository: context.read(),
-        adventureRepository: context.read(),
-        sceneRepository: context.read(),
-        encounterRepository: context.read(),
-        entityRepository: context.read(),
-      ).gatherFromAdventure(
-        campaignId,
-        chapterId,
-        adventureId,
-      ),
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        encounterRepo: context.read<EncounterRepository>(),
+        entityRepo: context.read<EntityRepository>(),
+      ).gatherFromAdventure(campaignId, chapterId, adventureId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -179,18 +181,13 @@ class SceneEntitiesWidget extends StatelessWidget {
 
     return FutureBuilder<List<EntityWithOrigin>>(
       future: EntityGatherer(
-        campaignRepository: context.read(),
-        chapterRepository: context.read(),
-        adventureRepository: context.read(),
-        sceneRepository: context.read(),
-        encounterRepository: context.read(),
-        entityRepository: context.read(),
-      ).gatherFromScene(
-        campaignId,
-        chapterId,
-        adventureId,
-        sceneId,
-      ),
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        encounterRepo: context.read<EncounterRepository>(),
+        entityRepo: context.read<EntityRepository>(),
+      ).gatherFromScene(campaignId, chapterId, adventureId, sceneId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -219,12 +216,15 @@ class EncounterEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Keep Provider dependencies for rebuild triggers
-    context.watch<List<enc_model.Encounter>>();
-    context.watch<List<entity_model.Entity>>();
-
     return FutureBuilder<List<EntityWithOrigin>>(
-      future: EntityGatherer().gatherFromEncounter(campaignId, encounterId),
+      future: EntityGatherer(
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        encounterRepo: context.read<EncounterRepository>(),
+        entityRepo: context.read<EntityRepository>(),
+      ).gatherFromEncounter(campaignId, encounterId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

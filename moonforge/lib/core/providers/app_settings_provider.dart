@@ -7,7 +7,6 @@ import 'package:moonforge/core/providers/auth_providers.dart';
 /// persisted to the database. Settings are stored in memory and reset on app restart.
 /// To persist settings, you could use shared_preferences or similar local storage.
 class AppSettingsProvider with ChangeNotifier {
-  late AuthProvider _authProvider;
   ThemeMode _themeMode = ThemeMode.system;
   Locale? _locale;
   bool _railNavExtended = true;
@@ -35,7 +34,6 @@ class AppSettingsProvider with ChangeNotifier {
   }
 
   void updateOnAuthChange(AuthProvider authProvider) {
-    _authProvider = authProvider;
     // Settings are now in-memory only
     // TODO: If persistent settings are needed, use shared_preferences or similar
     // For now, we just reset to defaults when auth changes

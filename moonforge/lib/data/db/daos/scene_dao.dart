@@ -26,4 +26,27 @@ class SceneDao extends DatabaseAccessor<AppDb> with _$SceneDaoMixin {
 
   Future<int> deleteById(String id) =>
       (delete(scenes)..where((s) => s.id.equals(id))).go();
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Scene>> customQuery({
+    Expression<bool> Function(Scenes s)? filter,
+    List<OrderingTerm Function(Scenes s)>? sort,
+    int? limit,
+  }) {
+    final query = select(scenes);
+
+    if (filter != null) {
+      query.where(filter);
+    }
+
+    if (sort != null && sort.isNotEmpty) {
+      query.orderBy(sort);
+    }
+
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return query.get();
+  }
 }

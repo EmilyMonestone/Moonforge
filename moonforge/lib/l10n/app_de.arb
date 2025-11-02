@@ -468,5 +468,33 @@
   "openInNewWindow": "In neuem Fenster öffnen",
   "@openInNewWindow": {
     "description": "Kontextmenü-Option zum Öffnen eines Links in einem neuen Fenster"
+  },
+  "placeType": "Orts-Typ",
+  "@placeType": {
+    "description": "Bezeichnung für den Typ eines Ortes (Entität Art=place)"
+  },
+  "parentPlace": "Übergeordneter Ort",
+  "@parentPlace": {
+    "description": "Bezeichnung für den übergeordneten Ort (ID/Name)"
+  },
+  "coordinates": "Koordinaten",
+  "@coordinates": {
+    "description": "Bezeichnung für geografische Koordinaten (Lat/Lng)"
+  },
+  "members": "Mitglieder",
+  "@members": {
+    "description": "Bezeichnung für Mitgliederliste (Art=group)"
+  },
+  "statblock": "Werteblock",
+  "@statblock": {
+    "description": "Bezeichnung für den Werteblock bei NSC/Monster"
+  },
+  "tags": "Tags",
+  "@tags": {
+    "description": "Bezeichnung für Tags-Liste/Abschnitt"
+  },
+  "images": "Bilder",
+  "@images": {
+    "description": "Bezeichnung für Bilder-Abschnitt"
   }
 }

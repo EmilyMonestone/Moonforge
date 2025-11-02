@@ -7,7 +7,6 @@ import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:drift/drift.dart' as drift;
 
 /// Creates a new Campaign in Drift (local-first) and navigates to the Campaign edit page.
 ///
@@ -30,7 +29,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
   final repository = Provider.of<CampaignRepository>(context, listen: false);
 
   try {
-    final ownerUid = authProvider.user?.uid;
+    final ownerUid = authProvider.firebaseUser?.uid;
     if (ownerUid == null) {
       logger.w('createCampaign aborted: user not authenticated');
       return ReturnMessage.failure('Bitte zuerst anmelden.', null);
@@ -41,16 +40,16 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
     // Generate a unique ID for the campaign
     final campaignId = 'campaign-${DateTime.now().millisecondsSinceEpoch}';
 
-    final data = CampaignsCompanion.insert(
+    final data = Campaign(
       id: campaignId,
       name: name?.trim().isNotEmpty == true ? name!.trim() : '',
       description: description ?? '',
-      content: drift.Value(null),
-      ownerUid: drift.Value(ownerUid),
+      content: null,
+      ownerUid: ownerUid,
       memberUids: [ownerUid],
       entityIds: [],
-      createdAt: drift.Value(DateTime.now()),
-      updatedAt: drift.Value(DateTime.now()),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       rev: 0,
     );
 

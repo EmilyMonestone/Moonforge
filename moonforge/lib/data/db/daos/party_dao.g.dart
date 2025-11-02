@@ -4,5 +4,6 @@ part of 'party_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$PartyDaoMixin on DatabaseAccessor<AppDb> {
+  $CampaignsTable get campaigns => attachedDatabase.campaigns;
   $PartiesTable get parties => attachedDatabase.parties;
 }

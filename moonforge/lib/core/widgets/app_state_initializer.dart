@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/db/sync/sync_coordinator.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -30,9 +29,13 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       try {
         // Accessing it ensures the provider is created and started
         final _ = context.read<SyncCoordinator>();
-        logger.i('Ensured SyncCoordinator is initialized via AppStateInitializer');
+        logger.i(
+          'Ensured SyncCoordinator is initialized via AppStateInitializer',
+        );
       } catch (e) {
-        logger.w('Failed to ensure SyncCoordinator from AppStateInitializer: $e');
+        logger.w(
+          'Failed to ensure SyncCoordinator from AppStateInitializer: $e',
+        );
       }
     });
   }

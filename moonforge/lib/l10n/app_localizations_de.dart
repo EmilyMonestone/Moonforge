@@ -361,4 +361,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get openInNewWindow => 'In neuem Fenster öffnen';
+
+  @override
+  String get placeType => 'Orts-Typ';
+
+  @override
+  String get parentPlace => 'Übergeordneter Ort';
+
+  @override
+  String get coordinates => 'Koordinaten';
+
+  @override
+  String get members => 'Mitglieder';
+
+  @override
+  String get statblock => 'Werteblock';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get images => 'Bilder';
 }

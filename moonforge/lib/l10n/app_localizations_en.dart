@@ -361,4 +361,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openInNewWindow => 'Open in new window';
+
+  @override
+  String get placeType => 'Place Type';
+
+  @override
+  String get parentPlace => 'Parent Place';
+
+  @override
+  String get coordinates => 'Coordinates';
+
+  @override
+  String get members => 'Members';
+
+  @override
+  String get statblock => 'Stat Block';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get images => 'Images';
 }

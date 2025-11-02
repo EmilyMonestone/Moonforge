@@ -1,6 +1,7 @@
-import '../db/app_db.dart';
-import '../db/tables.dart';
 import 'package:drift/drift.dart';
+import 'package:moonforge/data/db/tables.dart';
+
+import '../db/app_db.dart';
 
 /// Repository for Campaign operations
 class CampaignRepository {
@@ -71,12 +72,21 @@ class CampaignRepository {
   Future<void> delete(String id) async {
     await _db.transaction(() async {
       await _db.campaignDao.deleteById(id);
-      
-      await _db.outboxDao.enqueue(
-        table: 'campaigns',
-        rowId: id,
-        op: 'delete',
-      );
+
+      await _db.outboxDao.enqueue(table: 'campaigns', rowId: id, op: 'delete');
     });
+  }
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Campaign>> customQuery({
+    Expression<bool> Function(Campaigns c)? filter,
+    List<OrderingTerm Function(Campaigns c)>? sort,
+    int? limit,
+  }) {
+    return _db.campaignDao.customQuery(
+      filter: filter,
+      sort: sort,
+      limit: limit,
+    );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
-import 'package:moonforge/data/repo/adventure_repository.dart';
-import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 
 // TODO: Create EntityWithOrigin model class if not exists
 class EntityWithOrigin {
@@ -73,7 +73,7 @@ class EntityGatherer {
     }
 
     // Gather from all chapters in this campaign
-    final chapters = await chapterRepo.getByCampaignId(campaignId);
+    final chapters = await chapterRepo.getByCampaign(campaignId);
     chapters.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < chapters.length; i++) {
@@ -87,7 +87,7 @@ class EntityGatherer {
     }
 
     // Gather from all encounters with originId = campaignId
-    final encounters = await encounterRepo.getByOriginId(campaignId);
+    final encounters = await encounterRepo.getByOrigin(campaignId);
     for (final encounter in encounters) {
       if (encounter.entityIds.isNotEmpty) {
         final entities = await _fetchEntities(encounter.entityIds);
@@ -115,7 +115,7 @@ class EntityGatherer {
     String campaignId,
     String chapterId,
   ) async {
-    final chapters = await chapterRepo.getByCampaignId(campaignId);
+    final chapters = await chapterRepo.getByCampaign(campaignId);
     chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
@@ -154,7 +154,7 @@ class EntityGatherer {
     }
 
     // Gather from all adventures in this chapter
-    final adventures = await adventureRepo.getByChapterId(chapter.id);
+    final adventures = await adventureRepo.getByChapter(chapter.id);
     adventures.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < adventures.length; i++) {
@@ -178,13 +178,13 @@ class EntityGatherer {
     String chapterId,
     String adventureId,
   ) async {
-    final chapters = await chapterRepo.getByCampaignId(campaignId);
+    final chapters = await chapterRepo.getByCampaign(campaignId);
     chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final adventures = await adventureRepo.getByChapterId(chapterId);
+    final adventures = await adventureRepo.getByChapter(chapterId);
     adventures.sort((a, b) => a.order.compareTo(b.order));
 
     final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
@@ -227,7 +227,7 @@ class EntityGatherer {
     }
 
     // Gather from all scenes in this adventure
-    final scenes = await sceneRepo.getByAdventureId(adventure.id);
+    final scenes = await sceneRepo.getByAdventure(adventure.id);
     scenes.sort((a, b) => a.order.compareTo(b.order));
 
     for (var i = 0; i < scenes.length; i++) {
@@ -260,19 +260,19 @@ class EntityGatherer {
     String adventureId,
     String sceneId,
   ) async {
-    final chapters = await chapterRepo.getByCampaignId(campaignId);
+    final chapters = await chapterRepo.getByCampaign(campaignId);
     chapters.sort((a, b) => a.order.compareTo(b.order));
 
     final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
     if (chapterIndex == -1) return [];
 
-    final adventures = await adventureRepo.getByChapterId(chapterId);
+    final adventures = await adventureRepo.getByChapter(chapterId);
     adventures.sort((a, b) => a.order.compareTo(b.order));
 
     final adventureIndex = adventures.indexWhere((a) => a.id == adventureId);
     if (adventureIndex == -1) return [];
 
-    final scenes = await sceneRepo.getByAdventureId(adventureId);
+    final scenes = await sceneRepo.getByAdventure(adventureId);
     scenes.sort((a, b) => a.order.compareTo(b.order));
 
     final sceneIndex = scenes.indexWhere((s) => s.id == sceneId);

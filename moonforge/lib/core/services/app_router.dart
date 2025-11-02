@@ -168,93 +168,109 @@ class AppShellRouteData extends StatefulShellRouteData {
   }
 }
 
-class HomeRoute extends GoRouteData with _$HomeRoute {
+class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
 }
 
-class LoginRoute extends GoRouteData with _$LoginRoute {
+class LoginRoute extends GoRouteData with $LoginRoute {
   const LoginRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const LoginScreen();
 }
 
-class RegisterRoute extends GoRouteData with _$RegisterRoute {
+class RegisterRoute extends GoRouteData with $RegisterRoute {
   const RegisterRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const RegisterScreen();
 }
 
-class ForgotPasswordRoute extends GoRouteData with _$ForgotPasswordRoute {
+class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
   const ForgotPasswordRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ForgotPasswordScreen();
 }
 
-class CampaignRoute extends GoRouteData with _$CampaignRoute {
+class CampaignRoute extends GoRouteData with $CampaignRoute {
   const CampaignRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CampaignScreen();
 }
 
-class CampaignEditRoute extends GoRouteData with _$CampaignEditRoute {
+class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
   const CampaignEditRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CampaignEditScreen();
 }
 
-class ChapterRoute extends GoRouteData with _$ChapterRoute {
+class ChapterRoute extends GoRouteData with $ChapterRoute {
   const ChapterRoute({required this.chapterId});
+
   final String chapterId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ChapterScreen(chapterId: chapterId);
 }
 
-class ChapterEditRoute extends GoRouteData with _$ChapterEditRoute {
+class ChapterEditRoute extends GoRouteData with $ChapterEditRoute {
   const ChapterEditRoute({required this.chapterId});
+
   final String chapterId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ChapterEditScreen(chapterId: chapterId);
 }
 
-class AdventureRoute extends GoRouteData with _$AdventureRoute {
+class AdventureRoute extends GoRouteData with $AdventureRoute {
   const AdventureRoute({required this.chapterId, required this.adventureId});
+
   final String chapterId;
   final String adventureId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       AdventureScreen(chapterId: chapterId, adventureId: adventureId);
 }
 
-class AdventureEditRoute extends GoRouteData with _$AdventureEditRoute {
+class AdventureEditRoute extends GoRouteData with $AdventureEditRoute {
   const AdventureEditRoute({
     required this.chapterId,
     required this.adventureId,
   });
+
   final String chapterId;
   final String adventureId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       AdventureEditScreen(chapterId: chapterId, adventureId: adventureId);
 }
 
-class SceneRoute extends GoRouteData with _$SceneRoute {
+class SceneRoute extends GoRouteData with $SceneRoute {
   const SceneRoute({
     required this.chapterId,
     required this.adventureId,
     required this.sceneId,
   });
+
   final String chapterId;
   final String adventureId;
   final String sceneId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) => SceneScreen(
     chapterId: chapterId,
@@ -263,15 +279,17 @@ class SceneRoute extends GoRouteData with _$SceneRoute {
   );
 }
 
-class SceneEditRoute extends GoRouteData with _$SceneEditRoute {
+class SceneEditRoute extends GoRouteData with $SceneEditRoute {
   const SceneEditRoute({
     required this.chapterId,
     required this.adventureId,
     required this.sceneId,
   });
+
   final String chapterId;
   final String adventureId;
   final String sceneId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) => SceneEditScreen(
     chapterId: chapterId,
@@ -280,100 +298,122 @@ class SceneEditRoute extends GoRouteData with _$SceneEditRoute {
   );
 }
 
-class EncounterRoute extends GoRouteData with _$EncounterRoute {
+class EncounterRoute extends GoRouteData with $EncounterRoute {
   const EncounterRoute({required this.encounterId});
+
   final String encounterId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       EncounterScreen(encounterId: encounterId);
 }
 
-class EncounterEditRoute extends GoRouteData with _$EncounterEditRoute {
+class EncounterEditRoute extends GoRouteData with $EncounterEditRoute {
   const EncounterEditRoute({required this.encounterId});
+
   final String encounterId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       EncounterEditScreen(encounterId: encounterId);
 }
 
-class EntityRoute extends GoRouteData with _$EntityRoute {
+class EntityRoute extends GoRouteData with $EntityRoute {
   const EntityRoute({required this.entityId});
+
   final String entityId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       EntityScreen(entityId: entityId);
 }
 
-class EntityEditRoute extends GoRouteData with _$EntityEditRoute {
+class EntityEditRoute extends GoRouteData with $EntityEditRoute {
   const EntityEditRoute({required this.entityId});
+
   final String entityId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       EntityEditScreen(entityId: entityId);
 }
 
-class PartyRootRoute extends GoRouteData with _$PartyRootRoute {
+class PartyRootRoute extends GoRouteData with $PartyRootRoute {
   const PartyRootRoute({this.id});
+
   final String? id; // query parameter
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       PartyScreen(partyId: id ?? '');
 }
 
-class PartyRoute extends GoRouteData with _$PartyRoute {
+class PartyRoute extends GoRouteData with $PartyRoute {
   const PartyRoute({required this.partyId});
+
   final String partyId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       PartyScreen(partyId: partyId);
 }
 
-class PartyEditRoute extends GoRouteData with _$PartyEditRoute {
+class PartyEditRoute extends GoRouteData with $PartyEditRoute {
   const PartyEditRoute({required this.partyId});
+
   final String partyId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       PartyEditScreen(partyId: partyId);
 }
 
-class MemberRoute extends GoRouteData with _$MemberRoute {
+class MemberRoute extends GoRouteData with $MemberRoute {
   const MemberRoute({required this.partyId, required this.memberId});
+
   final String partyId;
   final String memberId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       MemberScreen(partyId: partyId, memberId: memberId);
 }
 
-class MemberEditRoute extends GoRouteData with _$MemberEditRoute {
+class MemberEditRoute extends GoRouteData with $MemberEditRoute {
   const MemberEditRoute({required this.partyId, required this.memberId});
+
   final String partyId;
   final String memberId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       MemberEditScreen(partyId: partyId, memberId: memberId);
 }
 
-class SessionRoute extends GoRouteData with _$SessionRoute {
+class SessionRoute extends GoRouteData with $SessionRoute {
   const SessionRoute({required this.partyId, required this.sessionId});
+
   final String partyId;
   final String sessionId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       SessionScreen(partyId: partyId, sessionId: sessionId);
 }
 
-class SessionEditRoute extends GoRouteData with _$SessionEditRoute {
+class SessionEditRoute extends GoRouteData with $SessionEditRoute {
   const SessionEditRoute({required this.partyId, required this.sessionId});
+
   final String partyId;
   final String sessionId;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       SessionEditScreen(partyId: partyId, sessionId: sessionId);
 }
 
-class SettingsRoute extends GoRouteData with _$SettingsRoute {
+class SettingsRoute extends GoRouteData with $SettingsRoute {
   const SettingsRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SettingsScreen();
@@ -382,9 +422,11 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
 // Public share route (outside shell, no authentication required)
 @TypedGoRoute<SessionPublicShareRoute>(path: '/share/session/:token')
 class SessionPublicShareRoute extends GoRouteData
-    with _$SessionPublicShareRoute {
+    with $SessionPublicShareRoute {
   const SessionPublicShareRoute({required this.token});
+
   final String token;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       SessionPublicShareScreen(token: token);

@@ -26,4 +26,27 @@ class AdventureDao extends DatabaseAccessor<AppDb> with _$AdventureDaoMixin {
 
   Future<int> deleteById(String id) =>
       (delete(adventures)..where((a) => a.id.equals(id))).go();
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Adventure>> customQuery({
+    Expression<bool> Function(Adventures a)? filter,
+    List<OrderingTerm Function(Adventures a)>? sort,
+    int? limit,
+  }) {
+    final query = select(adventures);
+
+    if (filter != null) {
+      query.where(filter);
+    }
+
+    if (sort != null && sort.isNotEmpty) {
+      query.orderBy(sort);
+    }
+
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return query.get();
+  }
 }

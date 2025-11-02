@@ -46,4 +46,27 @@ class OutboxDao extends DatabaseAccessor<AppDb> with _$OutboxDaoMixin {
 
   Future<int> removeById(String id) =>
       (delete(outboxEntries)..where((o) => o.id.equals(id))).go();
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<OutboxEntry>> customQuery({
+    Expression<bool> Function(OutboxEntries o)? filter,
+    List<OrderingTerm Function(OutboxEntries o)>? sort,
+    int? limit,
+  }) {
+    final query = select(outboxEntries);
+
+    if (filter != null) {
+      query.where(filter);
+    }
+
+    if (sort != null && sort.isNotEmpty) {
+      query.orderBy(sort);
+    }
+
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return query.get();
+  }
 }

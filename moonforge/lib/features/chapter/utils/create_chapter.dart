@@ -2,26 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-Future<void> createChapter(BuildContext context, Campaign campaign) async {
+Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<ChapterRepository>();
-  
-  // Get all chapters from Drift - without campaignId field, we get all
-  // In local-first mode, hierarchical filtering will be added later
-  final allChapters = context.read<List<Chapter>>();
-  
-  // For now, sort all chapters by order to determine next order
-  // This is a temporary approach until campaignId is added to Chapter model
-  final sortedChapters = allChapters.toList()
-    ..sort((a, b) => b.order.compareTo(a.order));
-  
-  final nextOrder = sortedChapters.isNotEmpty ? (sortedChapters.first.order + 1) : 1;
+
+  // Use repository to fetch chapters for this campaign and compute next order
+  final chapters = await repository.getByCampaign(campaign.id);
+  final sorted = chapters.toList()..sort((a, b) => b.order.compareTo(a.order));
+  final nextOrder = sorted.isNotEmpty ? (sorted.first.order + 1) : 1;
 
   final controller = TextEditingController();
   final confirmed = await showDialog<bool>(
@@ -52,20 +45,21 @@ Future<void> createChapter(BuildContext context, Campaign campaign) async {
   if (name.isEmpty) return;
 
   try {
-    // Embed campaign ID in the chapter ID for later filtering
-    final chapterId = 'chapter-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final chapter = Chapter(
+    final chapterId =
+        'chapter-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final chapter = db.Chapter(
       id: chapterId,
+      campaignId: campaign.id,
       name: name,
       order: nextOrder,
       summary: '',
       content: null,
+      entityIds: const <String>[],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
-    
-    // Use Drift repository for optimistic local write
+
     await repository.upsertLocal(chapter);
 
     if (!context.mounted) return;

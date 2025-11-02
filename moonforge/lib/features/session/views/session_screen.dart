@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -12,10 +10,8 @@ import 'package:moonforge/core/utils/permissions_utils.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/share_settings_dialog.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/models/session.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -45,42 +41,37 @@ class _SessionScreenState extends State<SessionScreen> {
     super.dispose();
   }
 
-  Future<void> _showShareSettings(Session session, Campaign campaign) async {
-    final odm = Odm.instance;
+  Future<void> _showShareSettings(
+    db.Session session,
+    db.Campaign campaign,
+  ) async {
+    final repo = context.read<SessionRepository>();
     await showDialog(
       context: context,
       builder: (context) => ShareSettingsDialog(
         session: session,
         onUpdate: (updatedSession) async {
-          await odm.campaigns
-              .doc(widget.partyId)
-              .sessions
-              .update(updatedSession);
+          await repo.update(updatedSession);
         },
       ),
     );
-    setState(() {}); // Refresh to show updated state
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
-    final currentUser = context.watch<AuthProvider>().user;
-    final odm = Odm.instance;
+    final currentUserUid = context.watch<AuthProvider>().uid;
 
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
-    final isDM = PermissionsUtils.isDM(campaign, currentUser?.id);
+    final isDM = PermissionsUtils.isDM(campaign, currentUserUid);
 
-    return FutureBuilder<Session?>(
-      future: odm.campaigns
-          .doc(widget.partyId)
-          .sessions
-          .doc(widget.sessionId)
-          .get(),
+    return FutureBuilder<db.Session?>(
+      future: context.read<SessionRepository>().getById(widget.sessionId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -97,9 +88,8 @@ class _SessionScreenState extends State<SessionScreen> {
         // Set up info controller (DM-only)
         if (isDM && session.info != null && session.info!.isNotEmpty) {
           try {
-            _infoController.document = Document.fromJson(
-              jsonDecode(session.info!),
-            );
+            final ops = session.info!['ops'] as List<dynamic>?;
+            if (ops != null) _infoController.document = Document.fromJson(ops);
           } catch (e) {
             logger.e('Error parsing info delta: $e');
           }
@@ -109,9 +99,8 @@ class _SessionScreenState extends State<SessionScreen> {
         // Set up log controller (all users)
         if (session.log != null && session.log!.isNotEmpty) {
           try {
-            _logController.document = Document.fromJson(
-              jsonDecode(session.log!),
-            );
+            final ops = session.log!['ops'] as List<dynamic>?;
+            if (ops != null) _logController.document = Document.fromJson(ops);
           } catch (e) {
             logger.e('Error parsing log delta: $e');
           }
@@ -143,28 +132,14 @@ class _SessionScreenState extends State<SessionScreen> {
                     ],
                   ),
                   const Spacer(),
-                  if (isDM) ...[
+                  if (isDM)
                     ButtonM3E(
-                      style: ButtonM3EStyle.tonal,
-                      shape: ButtonM3EShape.square,
-                      icon: const Icon(Icons.share_outlined),
-                      label: const Text('Share'),
                       onPressed: () => _showShareSettings(session, campaign),
-                    ),
-                    const SizedBox(width: 8),
-                    ButtonM3E(
-                      style: ButtonM3EStyle.tonal,
+                      label: Text(l10n.shareSettings),
+                      icon: const Icon(Icons.share_outlined),
+                      style: ButtonM3EStyle.outlined,
                       shape: ButtonM3EShape.square,
-                      icon: const Icon(Icons.edit_outlined),
-                      label: Text(l10n.edit),
-                      onPressed: () {
-                        SessionEditRoute(
-                          partyId: widget.partyId,
-                          sessionId: widget.sessionId,
-                        ).go(context);
-                      },
                     ),
-                  ],
                 ],
               ),
               child: Column(

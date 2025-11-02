@@ -4,13 +4,13 @@ Multi-window support allows opening different parts of the campaign in separate 
 
 ## Platform Support
 
-| Platform | Support | Implementation |
-|----------|---------|----------------|
-| **Windows** | ✅ Full | Native windows via `desktop_multi_window` |
-| **Linux** | ✅ Full | Native windows via `desktop_multi_window` |
-| **Web** | ✅ Full | Browser tabs via `url_launcher` |
-| **macOS** | 🚧 Planned | Not yet implemented |
-| **Mobile** | ❌ No | Not applicable |
+| Platform    | Support    | Implementation                            |
+|-------------|------------|-------------------------------------------|
+| **Windows** | ✅ Full     | Native windows via `desktop_multi_window` |
+| **Linux**   | ✅ Full     | Native windows via `desktop_multi_window` |
+| **Web**     | ✅ Full     | Browser tabs via `url_launcher`           |
+| **macOS**   | 🚧 Planned | Not yet implemented                       |
+| **Mobile**  | ❌ No       | Not applicable                            |
 
 ## User Experience
 
@@ -25,9 +25,15 @@ Wrap any widget with `LinkContextMenu`:
 ```dart
 import 'package:moonforge/core/widgets/link_context_menu.dart';
 
-LinkContextMenu(
-  route: '/campaign/entity/$entityId',
-  child: EntityCard(entity: entity),
+LinkContextMenu
+(
+route: '/campaign/entity/$entityId',
+child: EntityCard(
+entity
+:
+entity
+)
+,
 )
 ```
 
@@ -38,12 +44,16 @@ Enable context menu on `CardList`:
 ```dart
 import 'package:moonforge/features/home/widgets/card_list.dart';
 
-CardList<Entity>(
-  items: entities,
-  titleOf: (e) => e.name,
-  onTap: (e) => EntityRoute(entityId: e.id).go(context),
-  enableContextMenu: true,  // Enable right-click menu
-  routeOf: (e) => EntityRoute(entityId: e.id).location,  // Provide route
+CardList<Entity>
+(
+items: entities,
+titleOf: (e) => e.name,
+onTap: (e) => EntityRoute(entityId: e.id).go(context),
+enableContextMenu: true, // Enable right-click menu
+routeOf: (e) => EntityRoute(entityId: e.id)
+.
+location
+, // Provide route
 )
 ```
 
@@ -56,7 +66,7 @@ Cross-platform service (`lib/core/services/multi_window_service.dart`):
 ```dart
 // Check if supported on current platform
 if (MultiWindowService.instance.isSupported) {
-  // Show context menu
+// Show context menu
 }
 
 // Open route in new window
@@ -64,6 +74,7 @@ await MultiWindowService.instance.openRouteInNewWindow('/campaign/entity/123');
 ```
 
 **Platform implementations:**
+
 - **Desktop**: Uses `desktop_multi_window` package
 - **Web**: Uses `url_launcher` to open in new tab
 - **Others**: Returns false for `isSupported`
@@ -73,14 +84,20 @@ await MultiWindowService.instance.openRouteInNewWindow('/campaign/entity/123');
 Reusable widget (`lib/core/widgets/link_context_menu.dart`):
 
 ```dart
-LinkContextMenu(
-  route: '/path/to/route',
-  enabled: true,  // Can be conditional
-  child: YourWidget(),
+LinkContextMenu
+(
+route: '/path/to/route',
+enabled: true, // Can be conditional
+child:
+YourWidget
+(
+)
+,
 )
 ```
 
 **Features:**
+
 - Right-click detection
 - Platform-aware (shows only on supported platforms)
 - Localized menu text
@@ -90,31 +107,47 @@ LinkContextMenu(
 
 ### Desktop (Windows/Linux)
 
-Uses `desktop_multi_window` package:
-
-1. Creates new native window process
-2. Passes route as startup argument
-3. New window navigates to route on initialization
+Uses `desktop_multi_window` package (>=0.3.0):
 
 ```dart
-// In MultiWindowService
-final window = await DesktopMultiWindow.createWindow(jsonEncode({
-  'route': route,
-}));
-window.show();
+import 'package:desktop_multi_window/desktop_multi_window.dart';
+
+final controller = await
+WindowController.create
+(
+WindowConfiguration(
+hiddenAtLaunch: false,
+arguments: route, // pass the route directly
+),
+);
+await controller.show();
 ```
+
+Each new window runs in its own engine. If the new window needs plugin access, ensure plugin registration callbacks are configured in platform runners (see package README for
+Windows/Linux/macOS setup).
 
 ### Web
 
 Uses `url_launcher` package:
 
-1. Constructs full URL with route
-2. Opens in new tab with `noopener` security attribute
-
 ```dart
 // In MultiWindowService
-final url = '${window.location.origin}/#$route';
-await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+final url = Uri(
+  scheme: Uri.base.scheme,
+  host: Uri.base.host,
+  port: Uri.base.port,
+  path: route,
+);
+await launchUrl
+(
+url
+,
+webOnlyWindowName
+:
+'
+_blank
+'
+);
 ```
 
 ## Where Multi-Window is Available
@@ -191,7 +224,7 @@ Add translations in `lib/l10n/app_*.arb`:
 
 ## Dependencies
 
-- `desktop_multi_window: ^0.2.0` - Desktop window management
+- `desktop_multi_window: ^0.3.0` - Desktop window management
 - `url_launcher: ^6.3.1` - Web tab opening
 
 ## External Resources

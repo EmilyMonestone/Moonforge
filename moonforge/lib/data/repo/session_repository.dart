@@ -1,6 +1,7 @@
+import 'package:drift/drift.dart';
+
 import '../db/app_db.dart';
 import '../db/tables.dart';
-import 'package:drift/drift.dart';
 
 /// Repository for Session operations
 class SessionRepository {
@@ -70,12 +71,17 @@ class SessionRepository {
   Future<void> delete(String id) async {
     await _db.transaction(() async {
       await _db.sessionDao.deleteById(id);
-      
-      await _db.outboxDao.enqueue(
-        table: 'sessions',
-        rowId: id,
-        op: 'delete',
-      );
+
+      await _db.outboxDao.enqueue(table: 'sessions', rowId: id, op: 'delete');
     });
+  }
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Session>> customQuery({
+    Expression<bool> Function(Sessions s)? filter,
+    List<OrderingTerm Function(Sessions s)>? sort,
+    int? limit,
+  }) {
+    return _db.sessionDao.customQuery(filter: filter, sort: sort, limit: limit);
   }
 }

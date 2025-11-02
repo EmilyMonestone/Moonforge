@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/adventure.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -11,20 +10,23 @@ import 'package:provider/provider.dart';
 /// Create a new adventure in a specific chapter context
 Future<void> createAdventureInChapter(
   BuildContext context,
-  Campaign campaign,
+  db.Campaign campaign,
   String chapterId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
   final repository = context.read<AdventureRepository>();
-  
-  // Get all adventures from Drift and filter by chapter using startsWith
-  final allAdventures = context.read<List<Adventure>>();
-  final chapterAdventures = allAdventures
-      .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
-      .toList()
-    ..sort((a, b) => b.order.compareTo(a.order));
-  
-  final nextOrder = chapterAdventures.isNotEmpty ? (chapterAdventures.first.order + 1) : 1;
+
+  // Get adventures for this chapter from provider (already in memory)
+  final allAdventures = context.read<List<db.Adventure>>();
+  final chapterAdventures =
+      allAdventures
+          .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
+          .toList()
+        ..sort((a, b) => b.order.compareTo(a.order));
+
+  final nextOrder = chapterAdventures.isNotEmpty
+      ? (chapterAdventures.first.order + 1)
+      : 1;
 
   final nameController = TextEditingController();
 
@@ -56,20 +58,21 @@ Future<void> createAdventureInChapter(
   if (name.isEmpty) return;
 
   try {
-    // Embed chapter ID in adventure ID
-    final adventureId = 'adventure-$chapterId-${DateTime.now().millisecondsSinceEpoch}';
-    final adv = Adventure(
+    final adventureId =
+        'adventure-$chapterId-${DateTime.now().millisecondsSinceEpoch}';
+    final adv = db.Adventure(
       id: adventureId,
+      chapterId: chapterId,
       name: name,
       order: nextOrder,
       summary: '',
       content: null,
+      entityIds: const <String>[],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       rev: 0,
     );
-    
-    // Use Drift repository for optimistic local write
+
     await repository.upsertLocal(adv);
 
     if (!context.mounted) return;

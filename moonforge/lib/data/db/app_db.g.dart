@@ -664,6 +664,9 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES campaigns (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -1287,6 +1290,9 @@ class $AdventuresTable extends Adventures
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES chapters (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -1907,6 +1913,9 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES adventures (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -2532,6 +2541,9 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES campaigns (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -4733,6 +4745,9 @@ class $CombatantsTable extends Combatants
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES encounters (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -7374,6 +7389,44 @@ abstract class _$AppDb extends GeneratedDatabase {
     outboxEntries,
   ];
   @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'campaigns',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('chapters', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'chapters',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('adventures', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'adventures',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('scenes', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'campaigns',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('parties', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'encounters',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('combatants', kind: UpdateKind.delete)],
+    ),
+  ]);
+  @override
   DriftDatabaseOptions get options =>
       const DriftDatabaseOptions(storeDateTimeAsText: true);
 }
@@ -7406,6 +7459,49 @@ typedef $$CampaignsTableUpdateCompanionBuilder =
       Value<int> rev,
       Value<int> rowid,
     });
+
+final class $$CampaignsTableReferences
+    extends BaseReferences<_$AppDb, $CampaignsTable, Campaign> {
+  $$CampaignsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ChaptersTable, List<Chapter>> _chaptersRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.chapters,
+    aliasName: $_aliasNameGenerator(db.campaigns.id, db.chapters.campaignId),
+  );
+
+  $$ChaptersTableProcessedTableManager get chaptersRefs {
+    final manager = $$ChaptersTableTableManager(
+      $_db,
+      $_db.chapters,
+    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_chaptersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$PartiesTable, List<Party>> _partiesRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.parties,
+    aliasName: $_aliasNameGenerator(db.campaigns.id, db.parties.campaignId),
+  );
+
+  $$PartiesTableProcessedTableManager get partiesRefs {
+    final manager = $$PartiesTableTableManager(
+      $_db,
+      $_db.parties,
+    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_partiesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$CampaignsTableFilterComposer
     extends Composer<_$AppDb, $CampaignsTable> {
@@ -7472,6 +7568,56 @@ class $$CampaignsTableFilterComposer
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> chaptersRefs(
+    Expression<bool> Function($$ChaptersTableFilterComposer f) f,
+  ) {
+    final $$ChaptersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.chapters,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChaptersTableFilterComposer(
+            $db: $db,
+            $table: $db.chapters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> partiesRefs(
+    Expression<bool> Function($$PartiesTableFilterComposer f) f,
+  ) {
+    final $$PartiesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.parties,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PartiesTableFilterComposer(
+            $db: $db,
+            $table: $db.parties,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CampaignsTableOrderingComposer
@@ -7577,6 +7723,56 @@ class $$CampaignsTableAnnotationComposer
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  Expression<T> chaptersRefs<T extends Object>(
+    Expression<T> Function($$ChaptersTableAnnotationComposer a) f,
+  ) {
+    final $$ChaptersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.chapters,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChaptersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.chapters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> partiesRefs<T extends Object>(
+    Expression<T> Function($$PartiesTableAnnotationComposer a) f,
+  ) {
+    final $$PartiesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.parties,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PartiesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.parties,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CampaignsTableTableManager
@@ -7590,9 +7786,9 @@ class $$CampaignsTableTableManager
           $$CampaignsTableAnnotationComposer,
           $$CampaignsTableCreateCompanionBuilder,
           $$CampaignsTableUpdateCompanionBuilder,
-          (Campaign, BaseReferences<_$AppDb, $CampaignsTable, Campaign>),
+          (Campaign, $$CampaignsTableReferences),
           Campaign,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool chaptersRefs, bool partiesRefs})
         > {
   $$CampaignsTableTableManager(_$AppDb db, $CampaignsTable table)
     : super(
@@ -7658,9 +7854,57 @@ class $$CampaignsTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CampaignsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({chaptersRefs = false, partiesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (chaptersRefs) db.chapters,
+                if (partiesRefs) db.parties,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (chaptersRefs)
+                    await $_getPrefetchedData<
+                      Campaign,
+                      $CampaignsTable,
+                      Chapter
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CampaignsTableReferences
+                          ._chaptersRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CampaignsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).chaptersRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.campaignId == item.id),
+                      typedResults: items,
+                    ),
+                  if (partiesRefs)
+                    await $_getPrefetchedData<Campaign, $CampaignsTable, Party>(
+                      currentTable: table,
+                      referencedTable: $$CampaignsTableReferences
+                          ._partiesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CampaignsTableReferences(db, table, p0).partiesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.campaignId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -7675,9 +7919,9 @@ typedef $$CampaignsTableProcessedTableManager =
       $$CampaignsTableAnnotationComposer,
       $$CampaignsTableCreateCompanionBuilder,
       $$CampaignsTableUpdateCompanionBuilder,
-      (Campaign, BaseReferences<_$AppDb, $CampaignsTable, Campaign>),
+      (Campaign, $$CampaignsTableReferences),
       Campaign,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool chaptersRefs, bool partiesRefs})
     >;
 typedef $$ChaptersTableCreateCompanionBuilder =
     ChaptersCompanion Function({
@@ -7708,6 +7952,48 @@ typedef $$ChaptersTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$ChaptersTableReferences
+    extends BaseReferences<_$AppDb, $ChaptersTable, Chapter> {
+  $$ChaptersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CampaignsTable _campaignIdTable(_$AppDb db) =>
+      db.campaigns.createAlias(
+        $_aliasNameGenerator(db.chapters.campaignId, db.campaigns.id),
+      );
+
+  $$CampaignsTableProcessedTableManager get campaignId {
+    final $_column = $_itemColumn<String>('campaign_id')!;
+
+    final manager = $$CampaignsTableTableManager(
+      $_db,
+      $_db.campaigns,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$AdventuresTable, List<Adventure>>
+  _adventuresRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.adventures,
+    aliasName: $_aliasNameGenerator(db.chapters.id, db.adventures.chapterId),
+  );
+
+  $$AdventuresTableProcessedTableManager get adventuresRefs {
+    final manager = $$AdventuresTableTableManager(
+      $_db,
+      $_db.adventures,
+    ).filter((f) => f.chapterId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_adventuresRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$ChaptersTableFilterComposer extends Composer<_$AppDb, $ChaptersTable> {
   $$ChaptersTableFilterComposer({
     required super.$db,
@@ -7718,11 +8004,6 @@ class $$ChaptersTableFilterComposer extends Composer<_$AppDb, $ChaptersTable> {
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -7771,6 +8052,54 @@ class $$ChaptersTableFilterComposer extends Composer<_$AppDb, $ChaptersTable> {
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$CampaignsTableFilterComposer get campaignId {
+    final $$CampaignsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableFilterComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> adventuresRefs(
+    Expression<bool> Function($$AdventuresTableFilterComposer f) f,
+  ) {
+    final $$AdventuresTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.adventures,
+      getReferencedColumn: (t) => t.chapterId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AdventuresTableFilterComposer(
+            $db: $db,
+            $table: $db.adventures,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ChaptersTableOrderingComposer
@@ -7784,11 +8113,6 @@ class $$ChaptersTableOrderingComposer
   });
   ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -7831,6 +8155,29 @@ class $$ChaptersTableOrderingComposer
     column: $table.rev,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$CampaignsTableOrderingComposer get campaignId {
+    final $$CampaignsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableOrderingComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ChaptersTableAnnotationComposer
@@ -7844,11 +8191,6 @@ class $$ChaptersTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
-    builder: (column) => column,
-  );
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -7873,6 +8215,54 @@ class $$ChaptersTableAnnotationComposer
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  $$CampaignsTableAnnotationComposer get campaignId {
+    final $$CampaignsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> adventuresRefs<T extends Object>(
+    Expression<T> Function($$AdventuresTableAnnotationComposer a) f,
+  ) {
+    final $$AdventuresTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.adventures,
+      getReferencedColumn: (t) => t.chapterId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AdventuresTableAnnotationComposer(
+            $db: $db,
+            $table: $db.adventures,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ChaptersTableTableManager
@@ -7886,9 +8276,9 @@ class $$ChaptersTableTableManager
           $$ChaptersTableAnnotationComposer,
           $$ChaptersTableCreateCompanionBuilder,
           $$ChaptersTableUpdateCompanionBuilder,
-          (Chapter, BaseReferences<_$AppDb, $ChaptersTable, Chapter>),
+          (Chapter, $$ChaptersTableReferences),
           Chapter,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool campaignId, bool adventuresRefs})
         > {
   $$ChaptersTableTableManager(_$AppDb db, $ChaptersTable table)
     : super(
@@ -7954,9 +8344,77 @@ class $$ChaptersTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ChaptersTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback:
+              ({campaignId = false, adventuresRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [if (adventuresRefs) db.adventures],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (campaignId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.campaignId,
+                                    referencedTable: $$ChaptersTableReferences
+                                        ._campaignIdTable(db),
+                                    referencedColumn: $$ChaptersTableReferences
+                                        ._campaignIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (adventuresRefs)
+                        await $_getPrefetchedData<
+                          Chapter,
+                          $ChaptersTable,
+                          Adventure
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ChaptersTableReferences
+                              ._adventuresRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ChaptersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).adventuresRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.chapterId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
         ),
       );
 }
@@ -7971,9 +8429,9 @@ typedef $$ChaptersTableProcessedTableManager =
       $$ChaptersTableAnnotationComposer,
       $$ChaptersTableCreateCompanionBuilder,
       $$ChaptersTableUpdateCompanionBuilder,
-      (Chapter, BaseReferences<_$AppDb, $ChaptersTable, Chapter>),
+      (Chapter, $$ChaptersTableReferences),
       Chapter,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool campaignId, bool adventuresRefs})
     >;
 typedef $$AdventuresTableCreateCompanionBuilder =
     AdventuresCompanion Function({
@@ -8004,6 +8462,48 @@ typedef $$AdventuresTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$AdventuresTableReferences
+    extends BaseReferences<_$AppDb, $AdventuresTable, Adventure> {
+  $$AdventuresTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ChaptersTable _chapterIdTable(_$AppDb db) => db.chapters.createAlias(
+    $_aliasNameGenerator(db.adventures.chapterId, db.chapters.id),
+  );
+
+  $$ChaptersTableProcessedTableManager get chapterId {
+    final $_column = $_itemColumn<String>('chapter_id')!;
+
+    final manager = $$ChaptersTableTableManager(
+      $_db,
+      $_db.chapters,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_chapterIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$ScenesTable, List<Scene>> _scenesRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.scenes,
+    aliasName: $_aliasNameGenerator(db.adventures.id, db.scenes.adventureId),
+  );
+
+  $$ScenesTableProcessedTableManager get scenesRefs {
+    final manager = $$ScenesTableTableManager(
+      $_db,
+      $_db.scenes,
+    ).filter((f) => f.adventureId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_scenesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$AdventuresTableFilterComposer
     extends Composer<_$AppDb, $AdventuresTable> {
   $$AdventuresTableFilterComposer({
@@ -8015,11 +8515,6 @@ class $$AdventuresTableFilterComposer
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get chapterId => $composableBuilder(
-    column: $table.chapterId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8068,6 +8563,54 @@ class $$AdventuresTableFilterComposer
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$ChaptersTableFilterComposer get chapterId {
+    final $$ChaptersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.chapterId,
+      referencedTable: $db.chapters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChaptersTableFilterComposer(
+            $db: $db,
+            $table: $db.chapters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> scenesRefs(
+    Expression<bool> Function($$ScenesTableFilterComposer f) f,
+  ) {
+    final $$ScenesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.scenes,
+      getReferencedColumn: (t) => t.adventureId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScenesTableFilterComposer(
+            $db: $db,
+            $table: $db.scenes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$AdventuresTableOrderingComposer
@@ -8081,11 +8624,6 @@ class $$AdventuresTableOrderingComposer
   });
   ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get chapterId => $composableBuilder(
-    column: $table.chapterId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -8128,6 +8666,29 @@ class $$AdventuresTableOrderingComposer
     column: $table.rev,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$ChaptersTableOrderingComposer get chapterId {
+    final $$ChaptersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.chapterId,
+      referencedTable: $db.chapters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChaptersTableOrderingComposer(
+            $db: $db,
+            $table: $db.chapters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$AdventuresTableAnnotationComposer
@@ -8141,9 +8702,6 @@ class $$AdventuresTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get chapterId =>
-      $composableBuilder(column: $table.chapterId, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -8168,6 +8726,54 @@ class $$AdventuresTableAnnotationComposer
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  $$ChaptersTableAnnotationComposer get chapterId {
+    final $$ChaptersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.chapterId,
+      referencedTable: $db.chapters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChaptersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.chapters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> scenesRefs<T extends Object>(
+    Expression<T> Function($$ScenesTableAnnotationComposer a) f,
+  ) {
+    final $$ScenesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.scenes,
+      getReferencedColumn: (t) => t.adventureId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ScenesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.scenes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$AdventuresTableTableManager
@@ -8181,9 +8787,9 @@ class $$AdventuresTableTableManager
           $$AdventuresTableAnnotationComposer,
           $$AdventuresTableCreateCompanionBuilder,
           $$AdventuresTableUpdateCompanionBuilder,
-          (Adventure, BaseReferences<_$AppDb, $AdventuresTable, Adventure>),
+          (Adventure, $$AdventuresTableReferences),
           Adventure,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool chapterId, bool scenesRefs})
         > {
   $$AdventuresTableTableManager(_$AppDb db, $AdventuresTable table)
     : super(
@@ -8249,9 +8855,72 @@ class $$AdventuresTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$AdventuresTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({chapterId = false, scenesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (scenesRefs) db.scenes],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (chapterId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.chapterId,
+                                referencedTable: $$AdventuresTableReferences
+                                    ._chapterIdTable(db),
+                                referencedColumn: $$AdventuresTableReferences
+                                    ._chapterIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (scenesRefs)
+                    await $_getPrefetchedData<
+                      Adventure,
+                      $AdventuresTable,
+                      Scene
+                    >(
+                      currentTable: table,
+                      referencedTable: $$AdventuresTableReferences
+                          ._scenesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$AdventuresTableReferences(db, table, p0).scenesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.adventureId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -8266,9 +8935,9 @@ typedef $$AdventuresTableProcessedTableManager =
       $$AdventuresTableAnnotationComposer,
       $$AdventuresTableCreateCompanionBuilder,
       $$AdventuresTableUpdateCompanionBuilder,
-      (Adventure, BaseReferences<_$AppDb, $AdventuresTable, Adventure>),
+      (Adventure, $$AdventuresTableReferences),
       Adventure,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool chapterId, bool scenesRefs})
     >;
 typedef $$ScenesTableCreateCompanionBuilder =
     ScenesCompanion Function({
@@ -8299,6 +8968,30 @@ typedef $$ScenesTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$ScenesTableReferences
+    extends BaseReferences<_$AppDb, $ScenesTable, Scene> {
+  $$ScenesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $AdventuresTable _adventureIdTable(_$AppDb db) =>
+      db.adventures.createAlias(
+        $_aliasNameGenerator(db.scenes.adventureId, db.adventures.id),
+      );
+
+  $$AdventuresTableProcessedTableManager get adventureId {
+    final $_column = $_itemColumn<String>('adventure_id')!;
+
+    final manager = $$AdventuresTableTableManager(
+      $_db,
+      $_db.adventures,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_adventureIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
 class $$ScenesTableFilterComposer extends Composer<_$AppDb, $ScenesTable> {
   $$ScenesTableFilterComposer({
     required super.$db,
@@ -8309,11 +9002,6 @@ class $$ScenesTableFilterComposer extends Composer<_$AppDb, $ScenesTable> {
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get adventureId => $composableBuilder(
-    column: $table.adventureId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8362,6 +9050,29 @@ class $$ScenesTableFilterComposer extends Composer<_$AppDb, $ScenesTable> {
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$AdventuresTableFilterComposer get adventureId {
+    final $$AdventuresTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.adventureId,
+      referencedTable: $db.adventures,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AdventuresTableFilterComposer(
+            $db: $db,
+            $table: $db.adventures,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ScenesTableOrderingComposer extends Composer<_$AppDb, $ScenesTable> {
@@ -8374,11 +9085,6 @@ class $$ScenesTableOrderingComposer extends Composer<_$AppDb, $ScenesTable> {
   });
   ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get adventureId => $composableBuilder(
-    column: $table.adventureId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -8421,6 +9127,29 @@ class $$ScenesTableOrderingComposer extends Composer<_$AppDb, $ScenesTable> {
     column: $table.rev,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$AdventuresTableOrderingComposer get adventureId {
+    final $$AdventuresTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.adventureId,
+      referencedTable: $db.adventures,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AdventuresTableOrderingComposer(
+            $db: $db,
+            $table: $db.adventures,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ScenesTableAnnotationComposer extends Composer<_$AppDb, $ScenesTable> {
@@ -8433,11 +9162,6 @@ class $$ScenesTableAnnotationComposer extends Composer<_$AppDb, $ScenesTable> {
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get adventureId => $composableBuilder(
-    column: $table.adventureId,
-    builder: (column) => column,
-  );
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -8462,6 +9186,29 @@ class $$ScenesTableAnnotationComposer extends Composer<_$AppDb, $ScenesTable> {
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  $$AdventuresTableAnnotationComposer get adventureId {
+    final $$AdventuresTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.adventureId,
+      referencedTable: $db.adventures,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AdventuresTableAnnotationComposer(
+            $db: $db,
+            $table: $db.adventures,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ScenesTableTableManager
@@ -8475,9 +9222,9 @@ class $$ScenesTableTableManager
           $$ScenesTableAnnotationComposer,
           $$ScenesTableCreateCompanionBuilder,
           $$ScenesTableUpdateCompanionBuilder,
-          (Scene, BaseReferences<_$AppDb, $ScenesTable, Scene>),
+          (Scene, $$ScenesTableReferences),
           Scene,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool adventureId})
         > {
   $$ScenesTableTableManager(_$AppDb db, $ScenesTable table)
     : super(
@@ -8543,9 +9290,52 @@ class $$ScenesTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$ScenesTableReferences(db, table, e)),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({adventureId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (adventureId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.adventureId,
+                                referencedTable: $$ScenesTableReferences
+                                    ._adventureIdTable(db),
+                                referencedColumn: $$ScenesTableReferences
+                                    ._adventureIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -8560,9 +9350,9 @@ typedef $$ScenesTableProcessedTableManager =
       $$ScenesTableAnnotationComposer,
       $$ScenesTableCreateCompanionBuilder,
       $$ScenesTableUpdateCompanionBuilder,
-      (Scene, BaseReferences<_$AppDb, $ScenesTable, Scene>),
+      (Scene, $$ScenesTableReferences),
       Scene,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool adventureId})
     >;
 typedef $$PartiesTableCreateCompanionBuilder =
     PartiesCompanion Function({
@@ -8589,6 +9379,30 @@ typedef $$PartiesTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$PartiesTableReferences
+    extends BaseReferences<_$AppDb, $PartiesTable, Party> {
+  $$PartiesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CampaignsTable _campaignIdTable(_$AppDb db) =>
+      db.campaigns.createAlias(
+        $_aliasNameGenerator(db.parties.campaignId, db.campaigns.id),
+      );
+
+  $$CampaignsTableProcessedTableManager get campaignId {
+    final $_column = $_itemColumn<String>('campaign_id')!;
+
+    final manager = $$CampaignsTableTableManager(
+      $_db,
+      $_db.campaigns,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
 class $$PartiesTableFilterComposer extends Composer<_$AppDb, $PartiesTable> {
   $$PartiesTableFilterComposer({
     required super.$db,
@@ -8599,11 +9413,6 @@ class $$PartiesTableFilterComposer extends Composer<_$AppDb, $PartiesTable> {
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8637,6 +9446,29 @@ class $$PartiesTableFilterComposer extends Composer<_$AppDb, $PartiesTable> {
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$CampaignsTableFilterComposer get campaignId {
+    final $$CampaignsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableFilterComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$PartiesTableOrderingComposer extends Composer<_$AppDb, $PartiesTable> {
@@ -8649,11 +9481,6 @@ class $$PartiesTableOrderingComposer extends Composer<_$AppDb, $PartiesTable> {
   });
   ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -8686,6 +9513,29 @@ class $$PartiesTableOrderingComposer extends Composer<_$AppDb, $PartiesTable> {
     column: $table.rev,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$CampaignsTableOrderingComposer get campaignId {
+    final $$CampaignsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableOrderingComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$PartiesTableAnnotationComposer
@@ -8699,11 +9549,6 @@ class $$PartiesTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get campaignId => $composableBuilder(
-    column: $table.campaignId,
-    builder: (column) => column,
-  );
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -8725,6 +9570,29 @@ class $$PartiesTableAnnotationComposer
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  $$CampaignsTableAnnotationComposer get campaignId {
+    final $$CampaignsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$PartiesTableTableManager
@@ -8738,9 +9606,9 @@ class $$PartiesTableTableManager
           $$PartiesTableAnnotationComposer,
           $$PartiesTableCreateCompanionBuilder,
           $$PartiesTableUpdateCompanionBuilder,
-          (Party, BaseReferences<_$AppDb, $PartiesTable, Party>),
+          (Party, $$PartiesTableReferences),
           Party,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool campaignId})
         > {
   $$PartiesTableTableManager(_$AppDb db, $PartiesTable table)
     : super(
@@ -8798,9 +9666,54 @@ class $$PartiesTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PartiesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({campaignId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (campaignId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.campaignId,
+                                referencedTable: $$PartiesTableReferences
+                                    ._campaignIdTable(db),
+                                referencedColumn: $$PartiesTableReferences
+                                    ._campaignIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -8815,9 +9728,9 @@ typedef $$PartiesTableProcessedTableManager =
       $$PartiesTableAnnotationComposer,
       $$PartiesTableCreateCompanionBuilder,
       $$PartiesTableUpdateCompanionBuilder,
-      (Party, BaseReferences<_$AppDb, $PartiesTable, Party>),
+      (Party, $$PartiesTableReferences),
       Party,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool campaignId})
     >;
 typedef $$EncountersTableCreateCompanionBuilder =
     EncountersCompanion Function({
@@ -8849,6 +9762,32 @@ typedef $$EncountersTableUpdateCompanionBuilder =
       Value<int> rev,
       Value<int> rowid,
     });
+
+final class $$EncountersTableReferences
+    extends BaseReferences<_$AppDb, $EncountersTable, Encounter> {
+  $$EncountersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$CombatantsTable, List<Combatant>>
+  _combatantsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.combatants,
+    aliasName: $_aliasNameGenerator(
+      db.encounters.id,
+      db.combatants.encounterId,
+    ),
+  );
+
+  $$CombatantsTableProcessedTableManager get combatantsRefs {
+    final manager = $$CombatantsTableTableManager(
+      $_db,
+      $_db.combatants,
+    ).filter((f) => f.encounterId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_combatantsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$EncountersTableFilterComposer
     extends Composer<_$AppDb, $EncountersTable> {
@@ -8919,6 +9858,31 @@ class $$EncountersTableFilterComposer
     column: $table.rev,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> combatantsRefs(
+    Expression<bool> Function($$CombatantsTableFilterComposer f) f,
+  ) {
+    final $$CombatantsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.combatants,
+      getReferencedColumn: (t) => t.encounterId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombatantsTableFilterComposer(
+            $db: $db,
+            $table: $db.combatants,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EncountersTableOrderingComposer
@@ -9030,6 +9994,31 @@ class $$EncountersTableAnnotationComposer
 
   GeneratedColumn<int> get rev =>
       $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  Expression<T> combatantsRefs<T extends Object>(
+    Expression<T> Function($$CombatantsTableAnnotationComposer a) f,
+  ) {
+    final $$CombatantsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.combatants,
+      getReferencedColumn: (t) => t.encounterId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombatantsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.combatants,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EncountersTableTableManager
@@ -9043,9 +10032,9 @@ class $$EncountersTableTableManager
           $$EncountersTableAnnotationComposer,
           $$EncountersTableCreateCompanionBuilder,
           $$EncountersTableUpdateCompanionBuilder,
-          (Encounter, BaseReferences<_$AppDb, $EncountersTable, Encounter>),
+          (Encounter, $$EncountersTableReferences),
           Encounter,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool combatantsRefs})
         > {
   $$EncountersTableTableManager(_$AppDb db, $EncountersTable table)
     : super(
@@ -9117,9 +10106,45 @@ class $$EncountersTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EncountersTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({combatantsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (combatantsRefs) db.combatants],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (combatantsRefs)
+                    await $_getPrefetchedData<
+                      Encounter,
+                      $EncountersTable,
+                      Combatant
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EncountersTableReferences
+                          ._combatantsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$EncountersTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).combatantsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.encounterId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -9134,9 +10159,9 @@ typedef $$EncountersTableProcessedTableManager =
       $$EncountersTableAnnotationComposer,
       $$EncountersTableCreateCompanionBuilder,
       $$EncountersTableUpdateCompanionBuilder,
-      (Encounter, BaseReferences<_$AppDb, $EncountersTable, Encounter>),
+      (Encounter, $$EncountersTableReferences),
       Encounter,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool combatantsRefs})
     >;
 typedef $$EntitiesTableCreateCompanionBuilder =
     EntitiesCompanion Function({
@@ -9630,6 +10655,30 @@ typedef $$CombatantsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$CombatantsTableReferences
+    extends BaseReferences<_$AppDb, $CombatantsTable, Combatant> {
+  $$CombatantsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $EncountersTable _encounterIdTable(_$AppDb db) =>
+      db.encounters.createAlias(
+        $_aliasNameGenerator(db.combatants.encounterId, db.encounters.id),
+      );
+
+  $$EncountersTableProcessedTableManager get encounterId {
+    final $_column = $_itemColumn<String>('encounter_id')!;
+
+    final manager = $$EncountersTableTableManager(
+      $_db,
+      $_db.encounters,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_encounterIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
 class $$CombatantsTableFilterComposer
     extends Composer<_$AppDb, $CombatantsTable> {
   $$CombatantsTableFilterComposer({
@@ -9641,11 +10690,6 @@ class $$CombatantsTableFilterComposer
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get encounterId => $composableBuilder(
-    column: $table.encounterId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -9724,6 +10768,29 @@ class $$CombatantsTableFilterComposer
     column: $table.order,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$EncountersTableFilterComposer get encounterId {
+    final $$EncountersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.encounterId,
+      referencedTable: $db.encounters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EncountersTableFilterComposer(
+            $db: $db,
+            $table: $db.encounters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$CombatantsTableOrderingComposer
@@ -9737,11 +10804,6 @@ class $$CombatantsTableOrderingComposer
   });
   ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get encounterId => $composableBuilder(
-    column: $table.encounterId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -9819,6 +10881,29 @@ class $$CombatantsTableOrderingComposer
     column: $table.order,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$EncountersTableOrderingComposer get encounterId {
+    final $$EncountersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.encounterId,
+      referencedTable: $db.encounters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EncountersTableOrderingComposer(
+            $db: $db,
+            $table: $db.encounters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$CombatantsTableAnnotationComposer
@@ -9832,11 +10917,6 @@ class $$CombatantsTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get encounterId => $composableBuilder(
-    column: $table.encounterId,
-    builder: (column) => column,
-  );
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -9893,6 +10973,29 @@ class $$CombatantsTableAnnotationComposer
 
   GeneratedColumn<int> get order =>
       $composableBuilder(column: $table.order, builder: (column) => column);
+
+  $$EncountersTableAnnotationComposer get encounterId {
+    final $$EncountersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.encounterId,
+      referencedTable: $db.encounters,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EncountersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.encounters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$CombatantsTableTableManager
@@ -9906,9 +11009,9 @@ class $$CombatantsTableTableManager
           $$CombatantsTableAnnotationComposer,
           $$CombatantsTableCreateCompanionBuilder,
           $$CombatantsTableUpdateCompanionBuilder,
-          (Combatant, BaseReferences<_$AppDb, $CombatantsTable, Combatant>),
+          (Combatant, $$CombatantsTableReferences),
           Combatant,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool encounterId})
         > {
   $$CombatantsTableTableManager(_$AppDb db, $CombatantsTable table)
     : super(
@@ -10002,9 +11105,54 @@ class $$CombatantsTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CombatantsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({encounterId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (encounterId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.encounterId,
+                                referencedTable: $$CombatantsTableReferences
+                                    ._encounterIdTable(db),
+                                referencedColumn: $$CombatantsTableReferences
+                                    ._encounterIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -10019,9 +11167,9 @@ typedef $$CombatantsTableProcessedTableManager =
       $$CombatantsTableAnnotationComposer,
       $$CombatantsTableCreateCompanionBuilder,
       $$CombatantsTableUpdateCompanionBuilder,
-      (Combatant, BaseReferences<_$AppDb, $CombatantsTable, Combatant>),
+      (Combatant, $$CombatantsTableReferences),
       Combatant,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool encounterId})
     >;
 typedef $$MediaAssetsTableCreateCompanionBuilder =
     MediaAssetsCompanion Function({

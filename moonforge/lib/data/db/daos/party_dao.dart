@@ -26,4 +26,27 @@ class PartyDao extends DatabaseAccessor<AppDb> with _$PartyDaoMixin {
 
   Future<int> deleteById(String id) =>
       (delete(parties)..where((p) => p.id.equals(id))).go();
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Party>> customQuery({
+    Expression<bool> Function(Parties p)? filter,
+    List<OrderingTerm Function(Parties p)>? sort,
+    int? limit,
+  }) {
+    final query = select(parties);
+
+    if (filter != null) {
+      query.where(filter);
+    }
+
+    if (sort != null && sort.isNotEmpty) {
+      query.orderBy(sort);
+    }
+
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return query.get();
+  }
 }

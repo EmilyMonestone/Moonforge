@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -9,9 +7,8 @@ import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/firebase/models/scene.dart';
-import 'package:moonforge/data/firebase/models/schema.dart';
-import 'package:moonforge/data/firebase/odm.dart';
+import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -52,25 +49,22 @@ class _SceneScreenState extends State<SceneScreen> {
   Future<void> _loadScene() async {
     setState(() => _isLoading = true);
     try {
-      final campaign = context.read<CampaignProvider>().currentCampaign;
-      if (campaign == null) {
-        setState(() => _isLoading = false);
-        return;
-      }
-
-      final odm = Odm.instance;
-      final scene = await odm.campaigns
-          .doc(campaign.id)
-          .chapters
-          .doc(widget.chapterId)
-          .adventures
-          .doc(widget.adventureId)
-          .scenes
-          .doc(widget.sceneId)
-          .get();
+      final sceneRepo = context.read<SceneRepository>();
+      final scene = await sceneRepo.getById(widget.sceneId);
 
       if (scene != null && scene.content != null) {
-        _controller.document = Document.fromJson(jsonDecode(scene.content!));
+        try {
+          final ops = scene.content!['ops'] as List<dynamic>?;
+          if (ops != null) {
+            _controller.document = Document.fromJson(ops);
+          } else {
+            _controller.document = Document()
+              ..insert(0, scene.summary ?? '');
+          }
+        } catch (e) {
+          _controller.document = Document()
+            ..insert(0, scene.summary ?? '');
+        }
       }
       _controller.readOnly = true;
 
@@ -87,7 +81,9 @@ class _SceneScreenState extends State<SceneScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final campaign = context.watch<CampaignProvider>().currentCampaign;
+    final campaign = context
+        .watch<CampaignProvider>()
+        .currentCampaign;
 
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -103,14 +99,17 @@ class _SceneScreenState extends State<SceneScreen> {
           title: Row(
             children: [
               Text(
-                _scene!.title,
-                style: Theme.of(context).textTheme.displaySmall,
+                _scene!.name,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .displaySmall,
               ),
-              Spacer(),
+              const Spacer(),
               ButtonM3E(
                 style: ButtonM3EStyle.tonal,
                 shape: ButtonM3EShape.square,
-                icon: Icon(Icons.edit_outlined),
+                icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
                   SceneEditRoute(
@@ -132,7 +131,10 @@ class _SceneScreenState extends State<SceneScreen> {
                   children: [
                     Text(
                       l10n.description,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(_scene!.summary!),
@@ -144,7 +146,10 @@ class _SceneScreenState extends State<SceneScreen> {
                   children: [
                     Text(
                       l10n.content,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleMedium,
                     ),
                     const SizedBox(height: 8),
                     CustomQuillViewer(

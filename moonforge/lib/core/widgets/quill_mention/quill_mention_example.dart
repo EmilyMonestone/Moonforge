@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:provider/provider.dart';
 
 /// Example screen demonstrating the Quill mention feature.
-/// 
+///
 /// This example shows:
 /// - How to set up the CustomQuillEditor with mention support
 /// - How to integrate entity search
@@ -44,9 +46,7 @@ class _QuillMentionExampleScreenState extends State<QuillMentionExampleScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quill Mention Feature Demo'),
-      ),
+      appBar: AppBar(title: const Text('Quill Mention Feature Demo')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -116,8 +116,12 @@ class _QuillMentionExampleScreenState extends State<QuillMentionExampleScreen> {
                 controller: _editorController,
                 keyForPosition: _editorKey,
                 onSearchEntities: (kind, query) async {
-                  // Fetch entities from the database
-                  return await EntityMentionService.searchEntities(
+                  // Fetch entities from the database via repository-backed service
+                  final entityRepo = context.read<EntityRepository>();
+                  final service = EntityMentionService(
+                    entityRepository: entityRepo,
+                  );
+                  return await service.searchEntities(
                     campaignId: widget.campaignId,
                     kinds: kind,
                     query: query,
@@ -175,9 +179,7 @@ class _QuillMentionExampleScreenState extends State<QuillMentionExampleScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('• ', style: TextStyle(fontSize: 16)),
-          Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 14)),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
         ],
       ),
     );

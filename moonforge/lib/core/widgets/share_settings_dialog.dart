@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -26,14 +27,12 @@ class _ShareSettingsDialogState extends State<ShareSettingsDialog> {
   bool _isLoading = false;
   late bool _shareEnabled;
   String? _shareToken;
-  DateTime? _shareExpiresAt;
 
   @override
   void initState() {
     super.initState();
     _shareEnabled = widget.session.shareEnabled;
     _shareToken = widget.session.shareToken;
-    _shareExpiresAt = widget.session.shareExpiresAt;
   }
 
   String _getShareUrl() {
@@ -48,8 +47,8 @@ class _ShareSettingsDialogState extends State<ShareSettingsDialog> {
       final token = ShareTokenUtils.generateToken();
       final updatedSession = widget.session.copyWith(
         shareEnabled: true,
-        shareToken: token,
-        updatedAt: DateTime.now(),
+        shareToken: Value(token),
+        updatedAt: Value(DateTime.now()),
         rev: widget.session.rev + 1,
       );
       await widget.onUpdate(updatedSession);
@@ -80,16 +79,15 @@ class _ShareSettingsDialogState extends State<ShareSettingsDialog> {
     try {
       final updatedSession = widget.session.copyWith(
         shareEnabled: false,
-        shareToken: null,
-        shareExpiresAt: null,
-        updatedAt: DateTime.now(),
+        shareToken: Value(null),
+        shareExpiresAt: Value(null),
+        updatedAt: Value(DateTime.now()),
         rev: widget.session.rev + 1,
       );
       await widget.onUpdate(updatedSession);
       setState(() {
         _shareEnabled = false;
         _shareToken = null;
-        _shareExpiresAt = null;
       });
       if (mounted) {
         toastification.show(

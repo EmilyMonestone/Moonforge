@@ -51,7 +51,9 @@ class _CampaignScreenState extends State<CampaignScreen> {
     if ((_lastCampaign?.id) != (camp?.id)) {
       try {
         if (camp?.content != null) {
-          _controller.document = Document.fromJson(jsonDecode(jsonEncode(camp!.content!)));
+          _controller.document = Document.fromJson(
+            jsonDecode(jsonEncode(camp!.content!)),
+          );
         } else {
           _controller.document = Document();
         }
@@ -315,13 +317,16 @@ class _RecentAdventuresSection extends StatelessWidget {
           // If mapping by prefix produced nothing, try a heuristic mapping by containment
           if (adventuresWithChapter.isEmpty && allAdventures.isNotEmpty) {
             for (final adv in allAdventures) {
-              final match = chapters.firstWhere(
-                (ch) => adv.id.contains(ch.id),
-                orElse: () =>
-                    Chapter(id: '', name: '', order: 0, entityIds: const []),
-              );
-              if (match.id.isNotEmpty) {
-                adventuresWithChapter.add((adv, match.id));
+              // Try to find a chapter whose id appears in the adventure id
+              String? matchedChapterId;
+              for (final ch in chapters) {
+                if (adv.id.contains(ch.id)) {
+                  matchedChapterId = ch.id;
+                  break;
+                }
+              }
+              if (matchedChapterId != null) {
+                adventuresWithChapter.add((adv, matchedChapterId));
               }
             }
           }
@@ -386,7 +391,7 @@ class _RecentScenesSection extends StatelessWidget {
     // Get all chapters, adventures, and scenes from Drift
     final allChapters = context.watch<List<Chapter>>();
     final allAdventures = context.watch<List<Adventure>>();
-    final allScenes = context.watch<List<scene_model.Scene>>();
+    final allScenes = context.watch<List<Scene>>();
 
     return SurfaceContainer(
       title: SectionHeader(
@@ -415,9 +420,9 @@ class _RecentScenesSection extends StatelessWidget {
                 return bd!.compareTo(ad!);
               });
             final items = generic.take(5).toList();
-            return CardList<scene_model.Scene>(
+            return CardList<Scene>(
               items: items,
-              titleOf: (s) => '${s.order}. ${s.title}',
+              titleOf: (s) => '${s.order}. ${s.name}',
               subtitleOf: (s) => s.summary ?? '',
               // No navigation without a known chapter/adventure mapping
             );
@@ -435,8 +440,7 @@ class _RecentScenesSection extends StatelessWidget {
           if (adventuresWithChapter.isEmpty) return const SizedBox.shrink();
 
           // Get scenes for these adventures using ID patterns with startsWith
-          final List<(scene_model.Scene, String, String)> scenesWithContext =
-              [];
+          final List<(Scene, String, String)> scenesWithContext = [];
           for (final advPair in adventuresWithChapter) {
             final adv = advPair.$1;
             final chId = advPair.$2;
@@ -450,12 +454,21 @@ class _RecentScenesSection extends StatelessWidget {
           if (scenesWithContext.isEmpty && allScenes.isNotEmpty) {
             for (final scene in allScenes) {
               // try to find a matching adventure id contained in the scene id
-              final matchAdv = adventuresWithChapter.firstWhere(
-                (pair) => scene.id.contains(pair.$1.id),
-                orElse: () => (const Adventure(id: '', name: ''), ''),
-              );
-              if (matchAdv.$1.id.isNotEmpty) {
-                scenesWithContext.add((scene, matchAdv.$2, matchAdv.$1.id));
+              String? matchedChapterId;
+              String? matchedAdventureId;
+              for (final pair in adventuresWithChapter) {
+                if (scene.id.contains(pair.$1.id)) {
+                  matchedChapterId = pair.$2;
+                  matchedAdventureId = pair.$1.id;
+                  break;
+                }
+              }
+              if (matchedAdventureId != null && matchedChapterId != null) {
+                scenesWithContext.add((
+                  scene,
+                  matchedChapterId,
+                  matchedAdventureId,
+                ));
               }
             }
           }
@@ -486,18 +499,18 @@ class _RecentScenesSection extends StatelessWidget {
                 return bd!.compareTo(ad!);
               });
             final items = generic.take(5).toList();
-            return CardList<scene_model.Scene>(
+            return CardList<Scene>(
               items: items,
-              titleOf: (s) => '${s.order}. ${s.title}',
+              titleOf: (s) => '${s.order}. ${s.name}',
               subtitleOf: (s) => s.summary ?? '',
             );
           }
 
           final items = scenesWithContext.take(5).toList();
 
-          return CardList<(scene_model.Scene, String, String)>(
+          return CardList<(Scene, String, String)>(
             items: items,
-            titleOf: (t) => '${t.$1.order}. ${t.$1.title}',
+            titleOf: (t) => '${t.$1.order}. ${t.$1.name}',
             subtitleOf: (t) => t.$1.summary ?? '',
             onTap: (t) => SceneRoute(
               chapterId: t.$2,
@@ -549,11 +562,9 @@ class _RecentSessionsSection extends StatelessWidget {
 
           return CardList<Session>(
             items: recentItems,
-            titleOf: (s) => s.info?.trim().isNotEmpty == true
-                ? s.info!.trim()
-                : (s.datetime != null
-                      ? s.datetime!.toLocal().toString()
-                      : 'Session ${s.id.substring(0, 6)}'),
+            titleOf: (s) => s.datetime != null
+                ? s.datetime!.toLocal().toString()
+                : 'Session ${s.id.substring(0, 6)}',
             onTap: (s) {
               // Navigate into Party root; session route requires partyId which is not available here
               // Consider deep linking when party/session linkage is added.

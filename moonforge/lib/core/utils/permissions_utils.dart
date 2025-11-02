@@ -11,7 +11,7 @@ class PermissionsUtils {
   /// Checks if the given user is a member (player) of the campaign.
   static bool isPlayer(Campaign campaign, String? userId) {
     if (userId == null) return false;
-    return campaign.memberUids.contains(userId);
+    return campaign.memberUids?.contains(userId) ?? false;
   }
 
   /// Checks if the given user has access to the campaign (DM or player).

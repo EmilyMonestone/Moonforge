@@ -799,6 +799,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open in new window'**
   String get openInNewWindow;
+
+  /// Label for the place type field of an Entity (kind=place)
+  ///
+  /// In en, this message translates to:
+  /// **'Place Type'**
+  String get placeType;
+
+  /// Label for the parent place id/name of an Entity (kind=place)
+  ///
+  /// In en, this message translates to:
+  /// **'Parent Place'**
+  String get parentPlace;
+
+  /// Label for geographic coordinates (lat/lng)
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates'**
+  String get coordinates;
+
+  /// Label for members list (kind=group)
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get members;
+
+  /// Label for an NPC/Monster stat block section
+  ///
+  /// In en, this message translates to:
+  /// **'Stat Block'**
+  String get statblock;
+
+  /// Label for tags list/section
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// Label for images section
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get images;
 }
 
 class _AppLocalizationsDelegate

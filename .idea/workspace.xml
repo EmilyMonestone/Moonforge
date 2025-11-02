@@ -18,19 +18,106 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: update CMake version and enhance error handling in StreamProviders">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/FILES_TO_MIGRATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/FILES_TO_MIGRATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/features/multi-window.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/features/multi-window.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/BUILD_NOTE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/migration_temp/BUILD_NOTE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/DATABASE_REWRITE_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/migration_temp/DATABASE_REWRITE_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/FILES_TO_MIGRATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/migration_temp/FILES_TO_MIGRATE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/MIGRATION_PLAN.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/migration_temp/MIGRATION_PLAN.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/QUICK_REFERENCE.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/migration_temp/QUICK_REFERENCE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/diff-main-59b46772316598941ba5d1124d3a0ba135ee917f.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/app_settings_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/app_settings_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/multi_window_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/multi_window_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/utils/permissions_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/utils/permissions_utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entity_widgets_wrappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entity_widgets_wrappers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_example.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_example.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/share_settings_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/share_settings_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/providers/sync_state_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/providers/sync_state_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/entity_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/entity_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/services/encounter_difficulty_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/services/encounter_difficulty_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/services/initiative_tracker_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/services/initiative_tracker_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/initiative_tracker_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/initiative_tracker_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_public_share_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_public_share_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/bestiary_service_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/hotkey/hotkey_global_wrapper_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/hotkey/hotkey_service_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/multi_window_service_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/adaptive_breadcrumb_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/adaptive_button_group_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/link_context_menu_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/widgets/quill_mention/quill_mention_constants_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/data/drift/dao_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/data/drift/migration_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/data/repo/campaign_repository_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/datetime_utils_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/features/encounters/encounter_difficulty_service_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/features/encounters/initiative_tracker_service_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/widget_test.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,11 +229,11 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\migration_temp" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data\firebase\models" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data\firebase" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\fastforge" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -186,14 +273,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00028" summary="feat: add User model with settings and localization support">
-      <option name="closed" value="true" />
-      <created>1761468774223</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468774223</updated>
     </task>
     <task id="LOCAL-00029" summary="feat: add untranslated messages file for localization support">
       <option name="closed" value="true" />
@@ -579,7 +658,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761753065228</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart">
+      <option name="closed" value="true" />
+      <created>1761920938502</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1761920938502</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -606,8 +693,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="remove" />
-    <MESSAGE value="feat: add Contents.json for Moonforge icons and logos" />
     <MESSAGE value="feat: update download section to indicate upcoming releases and disable buttons" />
     <MESSAGE value="feat: add Vercel configuration for static site deployment" />
     <MESSAGE value="feat: update Vercel configuration for static site deployment paths" />
@@ -631,7 +716,9 @@
     <MESSAGE value="feat: implement entity creation in chapter, adventure, and scene contexts" />
     <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
     <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: update CMake version and enhance error handling in StreamProviders" />
+    <MESSAGE value="refactor: migrate DAO classes to new Drift database and enhance stream functionality" />
+    <MESSAGE value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1014,6 +1101,12 @@
           <option name="totalLines" value="17336701" />
           <option name="info" value="refactor: update CMake version and enhance error h" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761920952007" />
+          <option name="linesCode" value="239748" />
+          <option name="totalLines" value="18392194" />
+          <option name="info" value="refactor: add watchAll stream methods to DAOs, for" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1077,6 +1170,12 @@
           <option name="linesCode" value="240958" />
           <option name="totalLines" value="17336701" />
           <option name="info" value="Oct 29, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1761920952007" />
+          <option name="linesCode" value="239748" />
+          <option name="totalLines" value="18392194" />
+          <option name="info" value="Oct 31, 2025" />
         </TimePoint>
       </list>
     </option>

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -12,11 +13,11 @@ import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
-import 'package:drift/drift.dart' as drift;
 
 class CampaignEditScreen extends StatefulWidget {
   const CampaignEditScreen({super.key});
@@ -126,13 +127,12 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
       final delta = _contentController.document.toDelta();
       final contentJson = delta.toJson();
 
-      final updatedCampaign = CampaignsCompanion(
-        id: drift.Value(_campaign!.id),
-        name: drift.Value(_nameController.text.trim()),
-        description: drift.Value(_descriptionTextController.text.trim()),
-        content: drift.Value(contentJson),
+      final updatedCampaign = _campaign!.copyWith(
+        name: _nameController.text.trim(),
+        description: _descriptionTextController.text.trim(),
+        content: drift.Value({'ops': contentJson}),
         updatedAt: drift.Value(DateTime.now()),
-        rev: drift.Value(_campaign!.rev + 1),
+        rev: _campaign!.rev + 1,
       );
 
       await repository.update(updatedCampaign);
@@ -288,7 +288,10 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
                 keyForPosition: _editorKey,
                 onSearchEntities: (kind, query) async {
                   if (_campaign == null) return [];
-                  return await EntityMentionService.searchEntities(
+                  final service = EntityMentionService(
+                    entityRepository: context.read() as EntityRepository,
+                  );
+                  return await service.searchEntities(
                     campaignId: _campaign!.id,
                     kinds: kind,
                     query: query,
@@ -301,49 +304,6 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} '
-        '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
-  }
-}
-
-class _MetadataRow extends StatelessWidget {
-  const _MetadataRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: theme.colorScheme.onSurfaceVariant),
-        const SizedBox(width: 8),
-        Text(
-          '$label:',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            value,
-            style: theme.textTheme.bodyMedium,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 }

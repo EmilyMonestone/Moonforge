@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+
 import '../app_db.dart';
 import '../tables.dart';
 
@@ -19,4 +20,27 @@ class CampaignDao extends DatabaseAccessor<AppDb> with _$CampaignDaoMixin {
 
   Future<int> deleteById(String id) =>
       (delete(campaigns)..where((c) => c.id.equals(id))).go();
+
+  /// Custom query with custom filter, custom sort and custom limit
+  Future<List<Campaign>> customQuery({
+    Expression<bool> Function(Campaigns c)? filter,
+    List<OrderingTerm Function(Campaigns c)>? sort,
+    int? limit,
+  }) {
+    final query = select(campaigns);
+
+    if (filter != null) {
+      query.where(filter);
+    }
+
+    if (sort != null && sort.isNotEmpty) {
+      query.orderBy(sort);
+    }
+
+    if (limit != null) {
+      query.limit(limit);
+    }
+
+    return query.get();
+  }
 }

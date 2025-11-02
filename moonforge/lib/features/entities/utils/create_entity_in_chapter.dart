@@ -1,10 +1,9 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/firebase/models/campaign.dart';
-import 'package:moonforge/data/firebase/models/chapter.dart';
-import 'package:moonforge/data/firebase/models/entity.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -13,7 +12,7 @@ import 'package:provider/provider.dart';
 /// Create a new entity and attach it to the given chapter (entityIds)
 Future<void> createEntityInChapter(
   BuildContext context,
-  Campaign campaign,
+  db.Campaign campaign,
   String chapterId,
 ) async {
   final l10n = AppLocalizations.of(context)!;
@@ -82,10 +81,11 @@ Future<void> createEntityInChapter(
     // Create entity under this campaign
     final entityId =
         'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
-    final entity = Entity(
+    final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
+      originId: campaign.id,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},
@@ -104,14 +104,14 @@ Future<void> createEntityInChapter(
     await entityRepo.upsertLocal(entity);
 
     // Attach entity to chapter.entityIds
-    Chapter? chapter = await chapterRepo.getById(chapterId);
+    db.Chapter? chapter = await chapterRepo.getById(chapterId);
     if (chapter != null) {
       final currentIds = List<String>.from(chapter.entityIds);
       if (!currentIds.contains(entityId)) {
         currentIds.add(entityId);
         final updated = chapter.copyWith(
           entityIds: currentIds,
-          updatedAt: DateTime.now(),
+          updatedAt: Value(DateTime.now()),
         );
         await chapterRepo.upsertLocal(updated);
       }
