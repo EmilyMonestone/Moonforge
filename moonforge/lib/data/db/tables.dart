@@ -235,6 +235,10 @@ class Players extends Table {
   TextColumn get notes => text().nullable().map(quillConv)();
   TextColumn get bio => text().nullable().map(quillConv)();
 
+  // D&D Beyond integration
+  TextColumn get ddbCharacterId => text().nullable()(); // D&D Beyond character ID
+  DateTimeColumn get lastDdbSync => dateTime().nullable()(); // Last sync from D&D Beyond
+
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
   IntColumn get rev => integer().withDefault(const Constant(1))();

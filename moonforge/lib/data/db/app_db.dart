@@ -53,7 +53,7 @@ class AppDb extends _$AppDb {
   AppDb([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -67,6 +67,11 @@ class AppDb extends _$AppDb {
           await m.createTable(players);
           // Add memberPlayerIds to Parties if it doesn't exist
           await m.addColumn(parties, parties.memberPlayerIds);
+        }
+        if (from < 3) {
+          // Add D&D Beyond integration fields to Players
+          await m.addColumn(players, players.ddbCharacterId);
+          await m.addColumn(players, players.lastDdbSync);
         }
       },
       beforeOpen: (details) async {
