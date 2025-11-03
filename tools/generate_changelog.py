@@ -9,6 +9,44 @@ from datetime import datetime
 from collections import defaultdict
 from typing import List, Dict, Tuple
 
+# Configuration constants for commit categorization
+CORE_FEATURE_KEYWORDS = {
+    'authentication', 'auth', 'firebase', 'firestore', 'database',
+    'routing', 'navigation', 'localization', 'internationalization',
+}
+
+SIGNIFICANT_KEYWORDS = {
+    'responsive', 'layout', 'theme', 'theming',
+    'initial commit', 'project structure', 'configuration',
+    'odm', 'models', 'schema', 'serialization',
+    'platform', 'android', 'ios', 'web', 'desktop',
+    'integration', 'workflow', 'ci/cd', 'pipeline'
+}
+
+ALL_HUGE_KEYWORDS = CORE_FEATURE_KEYWORDS | SIGNIFICANT_KEYWORDS
+
+# Keywords for inferring commit type
+TYPE_INFERENCE_KEYWORDS = {
+    'feat': {'add', 'implement', 'create', 'new'},
+    'fix': {'fix', 'resolve', 'correct'},
+    'refactor': {'update', 'refactor', 'improve'},
+    'docs': {'doc', 'readme'},
+}
+
+# Patterns for trivial commits that should be excluded
+TRIVIAL_PATTERNS = (
+    r'^\s*$',  # Empty
+    r'^merge ',
+    r'^wip',
+    r'^tmp',
+    r'^temporary',
+)
+
+# Release grouping configuration
+MIN_COMMITS_FOR_HUGE_RELEASE = 3
+MIN_COMMITS_FOR_MEDIUM_RELEASE = 8
+
+
 class Commit:
     def __init__(self, sha: str, date: str, author: str, message: str):
         self.sha = sha
@@ -36,16 +74,12 @@ class Commit:
         else:
             # Try to infer type from message
             msg_lower = self.message.lower()
-            if any(word in msg_lower for word in ['add', 'implement', 'create', 'new']):
-                self.type = 'feat'
-            elif any(word in msg_lower for word in ['fix', 'resolve', 'correct']):
-                self.type = 'fix'
-            elif any(word in msg_lower for word in ['update', 'refactor', 'improve']):
-                self.type = 'refactor'
-            elif any(word in msg_lower for word in ['doc', 'readme']):
-                self.type = 'docs'
-            else:
-                self.type = 'chore'
+            self.type = 'chore'  # Default
+            
+            for commit_type, keywords in TYPE_INFERENCE_KEYWORDS.items():
+                if any(word in msg_lower for word in keywords):
+                    self.type = commit_type
+                    break
             
             self.description = self.message
         
@@ -75,23 +109,6 @@ class Commit:
         if self.breaking:
             return True
         
-        # Core architectural features that represent major milestones
-        CORE_FEATURE_KEYWORDS = {
-            'authentication', 'auth', 'firebase', 'firestore', 'database',
-            'routing', 'navigation', 'localization', 'internationalization',
-        }
-        
-        # Additional significant features
-        SIGNIFICANT_KEYWORDS = {
-            'responsive', 'layout', 'theme', 'theming',
-            'initial commit', 'project structure', 'configuration',
-            'odm', 'models', 'schema', 'serialization',
-            'platform', 'android', 'ios', 'web', 'desktop',
-            'integration', 'workflow', 'ci/cd', 'pipeline'
-        }
-        
-        ALL_HUGE_KEYWORDS = CORE_FEATURE_KEYWORDS | SIGNIFICANT_KEYWORDS
-        
         msg_lower = self.message.lower()
         
         # Check for multiple features or major scope
@@ -106,15 +123,6 @@ class Commit:
     
     def is_significant(self) -> bool:
         """Determine if this is significant enough to include in CHANGELOG"""
-        # Skip trivial commits
-        TRIVIAL_PATTERNS = (
-            r'^\s*$',  # Empty
-            r'^merge ',
-            r'^wip',
-            r'^tmp',
-            r'^temporary',
-        )
-        
         msg_lower = self.message.lower()
         return not any(re.match(p, msg_lower) for p in TRIVIAL_PATTERNS)
 
@@ -195,14 +203,14 @@ def group_commits_into_releases(commits: List[Commit]) -> List[Release]:
         
         # Create release after accumulating commits
         # Strategy: 
-        # - Group commits and create release every 5-15 commits OR on huge change
+        # - Group commits and create release every MIN_COMMITS_FOR_MEDIUM_RELEASE commits OR on huge change
         # - If batch has huge change: 0.y.0, otherwise: 0.y.x
         should_release = False
         
-        if has_huge_in_batch and len(commits_since_release) >= 3:
+        if has_huge_in_batch and len(commits_since_release) >= MIN_COMMITS_FOR_HUGE_RELEASE:
             # Huge change with some context commits
             should_release = True
-        elif len(commits_since_release) >= 8:
+        elif len(commits_since_release) >= MIN_COMMITS_FOR_MEDIUM_RELEASE:
             # Medium batch of changes
             should_release = True
         
