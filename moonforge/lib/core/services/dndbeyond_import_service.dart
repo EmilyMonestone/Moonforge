@@ -30,14 +30,17 @@ class DnDBeyondImportResult {
 class DnDBeyondImportService {
   static const String _apiBaseUrl =
       'https://character-service.dndbeyond.com/character/v5/character';
+  static final _uuid = Uuid();
 
   final PlayerRepository _playerRepository;
   final http.Client? _httpClient;
+  final bool _shouldCloseClient;
 
   DnDBeyondImportService(
     this._playerRepository, {
     http.Client? httpClient,
-  }) : _httpClient = httpClient;
+  })  : _httpClient = httpClient,
+        _shouldCloseClient = httpClient == null;
 
   /// Extract character ID from a D&D Beyond URL or ID string
   /// Supports formats:
@@ -68,11 +71,12 @@ class DnDBeyondImportService {
 
   /// Fetch character data from D&D Beyond API
   Future<Map<String, dynamic>?> fetchCharacterData(String characterId) async {
+    http.Client? clientToClose;
     try {
+      final client = _httpClient ?? (clientToClose = http.Client());
       final url = Uri.parse('$_apiBaseUrl/$characterId');
       logger.d('Fetching D&D Beyond character data from: $url');
 
-      final client = _httpClient ?? http.Client();
       final response = await client.get(url);
 
       if (response.statusCode == 200) {
@@ -98,6 +102,8 @@ class DnDBeyondImportService {
         stackTrace: stackTrace,
       );
       return null;
+    } finally {
+      clientToClose?.close();
     }
   }
 
@@ -111,15 +117,15 @@ class DnDBeyondImportService {
       final stats = data['stats'] as List<dynamic>?;
       if (stats == null) return 10; // Default ability score
 
-      final stat = stats.firstWhere(
-        (s) => (s as Map<String, dynamic>)['id'] == statId,
-        orElse: () => null,
-      );
-
-      if (stat == null) return 10;
-
-      // D&D Beyond returns a 'value' field for the ability score
-      return (stat as Map<String, dynamic>)['value'] as int? ?? 10;
+      for (final stat in stats) {
+        final statMap = stat as Map<String, dynamic>;
+        if (statMap['id'] == statId) {
+          // D&D Beyond returns a 'value' field for the ability score
+          return statMap['value'] as int? ?? 10;
+        }
+      }
+      
+      return 10; // Default if not found
     } catch (e) {
       logger.w('Error extracting ability score for stat ID $statId: $e');
       return 10;
@@ -172,13 +178,6 @@ class DnDBeyondImportService {
     final List<String> skillProfs = [];
     final List<String> languages = [];
 
-    // Process modifiers for proficiencies
-    final modifiers = data['modifiers'] as Map<String, dynamic>?;
-    if (modifiers != null) {
-      // This structure may vary based on D&D Beyond's API response
-      // Add logic here if needed
-    }
-
     // Extract alignment
     final alignmentId = data['alignmentId'] as int?;
     String? alignment;
@@ -186,9 +185,12 @@ class DnDBeyondImportService {
       alignment = _getAlignmentName(alignmentId);
     }
 
+    // Helper to convert empty list to null
+    T? emptyToNull<T>(List<T> list) => list.isEmpty ? null : list;
+
     // Create player model
     return Player(
-      id: Uuid().v4(),
+      id: _uuid.v4(),
       campaignId: campaignId,
       playerUid: null,
       name: name,
@@ -210,10 +212,9 @@ class DnDBeyondImportService {
       ac: ac,
       proficiencyBonus: proficiencyBonus,
       speed: speed,
-      savingThrowProficiencies:
-          savingThrowProfs.isEmpty ? null : savingThrowProfs,
-      skillProficiencies: skillProfs.isEmpty ? null : skillProfs,
-      languages: languages.isEmpty ? null : languages,
+      savingThrowProficiencies: emptyToNull(savingThrowProfs),
+      skillProficiencies: emptyToNull(skillProfs),
+      languages: emptyToNull(languages),
       equipment: null,
       features: null,
       spells: null,
