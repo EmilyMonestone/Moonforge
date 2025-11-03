@@ -75,25 +75,31 @@ class Commit:
         if self.breaking:
             return True
         
-        # Major feature additions
-        huge_keywords = [
+        # Core architectural features that represent major milestones
+        CORE_FEATURE_KEYWORDS = {
             'authentication', 'auth', 'firebase', 'firestore', 'database',
             'routing', 'navigation', 'localization', 'internationalization',
+        }
+        
+        # Additional significant features
+        SIGNIFICANT_KEYWORDS = {
             'responsive', 'layout', 'theme', 'theming',
             'initial commit', 'project structure', 'configuration',
             'odm', 'models', 'schema', 'serialization',
             'platform', 'android', 'ios', 'web', 'desktop',
             'integration', 'workflow', 'ci/cd', 'pipeline'
-        ]
+        }
+        
+        ALL_HUGE_KEYWORDS = CORE_FEATURE_KEYWORDS | SIGNIFICANT_KEYWORDS
         
         msg_lower = self.message.lower()
         
         # Check for multiple features or major scope
-        if 'and' in msg_lower and any(kw in msg_lower for kw in huge_keywords):
+        if 'and' in msg_lower and any(kw in msg_lower for kw in ALL_HUGE_KEYWORDS):
             return True
         
-        # Check for explicit huge keywords
-        if any(kw in msg_lower for kw in huge_keywords[:8]):  # Core features
+        # Check for core architectural features
+        if any(kw in msg_lower for kw in CORE_FEATURE_KEYWORDS):
             return True
         
         return False
@@ -101,16 +107,16 @@ class Commit:
     def is_significant(self) -> bool:
         """Determine if this is significant enough to include in CHANGELOG"""
         # Skip trivial commits
-        trivial_patterns = [
+        TRIVIAL_PATTERNS = (
             r'^\s*$',  # Empty
             r'^merge ',
             r'^wip',
             r'^tmp',
             r'^temporary',
-        ]
+        )
         
         msg_lower = self.message.lower()
-        return not any(re.match(p, msg_lower) for p in trivial_patterns)
+        return not any(re.match(p, msg_lower) for p in TRIVIAL_PATTERNS)
 
 
 class Release:
@@ -245,7 +251,8 @@ def group_commits_into_releases(commits: List[Commit]) -> List[Release]:
 
 def generate_changelog(releases: List[Release]) -> str:
     """Generate complete CHANGELOG content"""
-    lines = [
+    # Header section
+    header_lines = [
         "# Changelog",
         "",
         "All notable changes to this project will be documented in this file.",
@@ -255,12 +262,8 @@ def generate_changelog(releases: List[Release]) -> str:
         "",
     ]
     
-    # Add releases in reverse order (newest first)
-    for release in reversed(releases):
-        lines.append(release.to_markdown())
-    
-    # Add unreleased section at the top (after header)
-    unreleased = [
+    # Unreleased section
+    unreleased_lines = [
         "## [Unreleased]",
         "",
         "### Changed",
@@ -268,21 +271,33 @@ def generate_changelog(releases: List[Release]) -> str:
         "",
     ]
     
-    # Insert unreleased section after the header
-    header_end = 7  # After the intro text
-    lines = lines[:header_end] + unreleased + lines[header_end:]
+    # Release sections (newest first)
+    release_lines = []
+    for release in reversed(releases):
+        release_lines.append(release.to_markdown())
+    
+    # Combine all sections
+    lines = header_lines + unreleased_lines + release_lines
     
     return '\n'.join(lines)
 
 
 def main():
     import sys
+    import os
+    import tempfile
     
     if len(sys.argv) < 2:
-        print("Usage: python generate_changelog.py <commits_file>")
+        print("Usage: python generate_changelog.py <commits_file> [output_file]")
         sys.exit(1)
     
     commits_file = sys.argv[1]
+    
+    # Use provided output file or default to temp directory
+    if len(sys.argv) >= 3:
+        output_file = sys.argv[2]
+    else:
+        output_file = os.path.join(tempfile.gettempdir(), 'CHANGELOG.md')
     
     print(f"Parsing commits from {commits_file}...")
     commits = parse_commits_file(commits_file)
@@ -295,8 +310,7 @@ def main():
     print("Generating CHANGELOG...")
     changelog = generate_changelog(releases)
     
-    # Write to CHANGELOG.md
-    output_file = '/tmp/CHANGELOG.md'
+    # Write to output file
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(changelog)
     

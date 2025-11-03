@@ -12,7 +12,18 @@ A Python script that generates a Keep a Changelog-compliant CHANGELOG.md from gi
 # Generate CHANGELOG from all commits on origin/main
 cd /path/to/Moonforge
 git log origin/main --pretty=format:"%H|%ai|%an|%s" --reverse > /tmp/commits.txt
+python3 tools/generate_changelog.py /tmp/commits.txt [output_file]
+
+# Examples:
+# Output to temp directory (default)
 python3 tools/generate_changelog.py /tmp/commits.txt
+
+# Output to specific file
+python3 tools/generate_changelog.py /tmp/commits.txt ./CHANGELOG.md
+
+# Output to temp and copy to repo
+python3 tools/generate_changelog.py /tmp/commits.txt
+cp $(python3 -c "import tempfile; print(tempfile.gettempdir())")/CHANGELOG.md ./CHANGELOG.md
 ```
 
 The script will:
