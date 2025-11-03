@@ -60,7 +60,7 @@ Each release is organized using the standard [Keep a Changelog](https://keepacha
 
 ## Current State
 
-As of November 3, 2025:
+As of the current release:
 - **Total Releases**: 60
 - **Version Range**: 0.1.0 to 0.46.1
 - **Total Commits Processed**: 327

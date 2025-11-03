@@ -46,6 +46,9 @@ TRIVIAL_PATTERNS = (
 MIN_COMMITS_FOR_HUGE_RELEASE = 3
 MIN_COMMITS_FOR_MEDIUM_RELEASE = 8
 
+# Commit parsing configuration
+EXPECTED_COMMIT_PARTS = 4  # Format: SHA|Date|Author|Message
+
 
 class Commit:
     def __init__(self, sha: str, date: str, author: str, message: str):
@@ -153,15 +156,19 @@ class Release:
                     lines.append("")
                     
                     for commit in commits:
-                        # Format: - Description
-                        desc = commit.description.strip()
-                        if not desc.endswith('.'):
-                            desc += '.'
-                        lines.append(f"- {desc}")
+                        lines.append(self._format_commit_entry(commit))
                     
                     lines.append("")
         
         return '\n'.join(lines)
+    
+    @staticmethod
+    def _format_commit_entry(commit: Commit) -> str:
+        """Format a single commit as a changelog entry"""
+        desc = commit.description.strip()
+        if not desc.endswith('.'):
+            desc += '.'
+        return f"- {desc}"
 
 
 def parse_commits_file(filepath: str) -> List[Commit]:
@@ -174,7 +181,7 @@ def parse_commits_file(filepath: str) -> List[Commit]:
                 continue
             
             parts = line.split('|', 3)
-            if len(parts) == 4:
+            if len(parts) == EXPECTED_COMMIT_PARTS:
                 sha, date, author, message = parts
                 commits.append(Commit(sha, date, author, message))
     
@@ -280,9 +287,7 @@ def generate_changelog(releases: List[Release]) -> str:
     ]
     
     # Release sections (newest first)
-    release_lines = []
-    for release in reversed(releases):
-        release_lines.append(release.to_markdown())
+    release_lines = [release.to_markdown() for release in reversed(releases)]
     
     # Combine all sections
     lines = header_lines + unreleased_lines + release_lines
