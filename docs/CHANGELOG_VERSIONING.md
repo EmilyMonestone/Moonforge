@@ -71,15 +71,17 @@ As of November 3, 2025:
 To regenerate or update the CHANGELOG:
 
 ```bash
-# Export commits
+# Export commits from the main branch
 cd /path/to/Moonforge
 git log origin/main --pretty=format:"%H|%ai|%an|%s" --reverse > /tmp/commits.txt
 
-# Generate CHANGELOG
-python3 tools/generate_changelog.py /tmp/commits.txt
+# Generate CHANGELOG to the repository
+python3 tools/generate_changelog.py /tmp/commits.txt ./CHANGELOG.md
 
-# Review and copy to repository
-cp /tmp/CHANGELOG.md ./CHANGELOG.md
+# Or generate to default location and then copy
+python3 tools/generate_changelog.py /tmp/commits.txt
+# The script will output the location, then copy it:
+cp <output_path> ./CHANGELOG.md
 ```
 
 See `tools/README.md` for detailed script usage and customization options.

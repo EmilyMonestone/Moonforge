@@ -42,9 +42,12 @@ The script will:
 ### Customization
 
 Edit the script to adjust:
-- `is_huge()` method: Define what constitutes a "huge" change
-- `group_commits_into_releases()`: Adjust grouping strategy (commits per release)
-- `huge_keywords`: Add or remove keywords that identify major features
+- Module-level constants at the top:
+  - `CORE_FEATURE_KEYWORDS` and `SIGNIFICANT_KEYWORDS`: Define what constitutes a "huge" change
+  - `TYPE_INFERENCE_KEYWORDS`: Keywords for inferring commit types from messages
+  - `TRIVIAL_PATTERNS`: Patterns to exclude from the CHANGELOG
+  - `MIN_COMMITS_FOR_HUGE_RELEASE` and `MIN_COMMITS_FOR_MEDIUM_RELEASE`: Adjust grouping strategy
+- `group_commits_into_releases()`: Modify the release boundary logic
 
 ### References
 
