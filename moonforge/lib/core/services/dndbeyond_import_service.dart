@@ -105,7 +105,10 @@ class DnDBeyondImportService {
   /// ID mapping: 1=STR, 2=DEX, 3=CON, 4=INT, 5=WIS, 6=CHA
   int getAbilityScoreById(Map<String, dynamic> characterData, int statId) {
     try {
-      final stats = characterData['stats'] as List<dynamic>?;
+      // Try to find stats in the response
+      final data = characterData['data'] as Map<String, dynamic>? ??
+          characterData;
+      final stats = data['stats'] as List<dynamic>?;
       if (stats == null) return 10; // Default ability score
 
       final stat = stats.firstWhere(
