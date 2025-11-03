@@ -43,6 +43,7 @@ class EntityRepository {
           rev: entity.rev,
           deleted: Value(entity.deleted),
           members: Value(entity.members),
+          dndBeyondCharacterId: Value(entity.dndBeyondCharacterId),
         ),
       );
 
@@ -75,6 +76,7 @@ class EntityRepository {
           rev: Value(entity.rev + 1),
           deleted: Value(entity.deleted),
           members: Value(entity.members),
+          dndBeyondCharacterId: Value(entity.dndBeyondCharacterId),
         ),
       );
 
@@ -107,6 +109,7 @@ class EntityRepository {
         rev: Value(entity.rev),
         deleted: Value(entity.deleted),
         members: Value(entity.members),
+        dndBeyondCharacterId: Value(entity.dndBeyondCharacterId),
       ),
     );
     await _db.outboxDao.enqueue(

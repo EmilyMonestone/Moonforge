@@ -99,6 +99,7 @@ Future<void> createEntityInChapter(
       rev: 0,
       deleted: false,
       members: const <String>[],
+      dndBeyondCharacterId: null,
     );
 
     await entityRepo.upsertLocal(entity);

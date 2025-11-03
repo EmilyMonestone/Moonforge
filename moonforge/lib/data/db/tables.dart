@@ -107,6 +107,7 @@ class Entities extends Table {
   IntColumn get rev => integer()();
   BoolColumn get deleted => boolean().withDefault(const Constant(false))();
   TextColumn get members => text().map(const StringListConverter()).nullable()();
+  TextColumn get dndBeyondCharacterId => text().nullable()();
   @override Set<Column> get primaryKey => {id};
 }
 

@@ -49,7 +49,7 @@ class AppDb extends _$AppDb {
   AppDb([QueryExecutor? e]) : super(e ?? _openConnection());
   
   @override 
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
   
   @override
   MigrationStrategy get migration {
@@ -58,7 +58,10 @@ class AppDb extends _$AppDb {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // Add migrations here as schema evolves
+        // Migration from version 1 to 2: Add dndBeyondCharacterId to Entities
+        if (from == 1 && to >= 2) {
+          await m.addColumn(entities, entities.dndBeyondCharacterId);
+        }
       },
       beforeOpen: (details) async {
         // Enable foreign key constraints

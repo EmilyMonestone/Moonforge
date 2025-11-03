@@ -91,6 +91,7 @@ Future<void> createEntity(BuildContext context, db.Campaign campaign) async {
       rev: 0,
       deleted: false,
       members: const <String>[],
+      dndBeyondCharacterId: null,
     );
 
     // Use Drift repository for optimistic local write
