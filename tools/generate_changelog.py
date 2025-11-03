@@ -53,7 +53,19 @@ EXPECTED_COMMIT_PARTS = 4  # Format: SHA|Date|Author|Message
 class Commit:
     def __init__(self, sha: str, date: str, author: str, message: str):
         self.sha = sha
-        self.date = datetime.strptime(date.split()[0], '%Y-%m-%d')
+        try:
+            # Parse date, expecting format: YYYY-MM-DD HH:MM:SS +TIMEZONE
+            date_parts = date.split()
+            if date_parts:
+                self.date = datetime.strptime(date_parts[0], '%Y-%m-%d')
+            else:
+                # Fallback to current date if parsing fails
+                self.date = datetime.now()
+        except (ValueError, IndexError) as e:
+            # Fallback to current date if date format is invalid
+            print(f"Warning: Failed to parse date '{date}' for commit {sha[:7]}, using current date")
+            self.date = datetime.now()
+        
         self.author = author
         self.message = message
         self.type = None
@@ -166,7 +178,8 @@ class Release:
     def _format_commit_entry(commit: Commit) -> str:
         """Format a single commit as a changelog entry"""
         desc = commit.description.strip()
-        if not desc.endswith('.'):
+        # Add period if not already ending with punctuation
+        if not desc.endswith(('.', '!', '?', ':')):
             desc += '.'
         return f"- {desc}"
 
@@ -174,8 +187,10 @@ class Release:
 def parse_commits_file(filepath: str) -> List[Commit]:
     """Parse commits from file with format: SHA|Date|Author|Message"""
     commits = []
+    skipped_lines = 0
+    
     with open(filepath, 'r', encoding='utf-8') as f:
-        for line in f:
+        for line_num, line in enumerate(f, 1):
             line = line.strip()
             if not line:
                 continue
@@ -184,6 +199,12 @@ def parse_commits_file(filepath: str) -> List[Commit]:
             if len(parts) == EXPECTED_COMMIT_PARTS:
                 sha, date, author, message = parts
                 commits.append(Commit(sha, date, author, message))
+            else:
+                skipped_lines += 1
+                print(f"Warning: Skipped malformed line {line_num}: expected {EXPECTED_COMMIT_PARTS} parts, got {len(parts)}")
+    
+    if skipped_lines > 0:
+        print(f"Total skipped lines: {skipped_lines}")
     
     return commits
 
