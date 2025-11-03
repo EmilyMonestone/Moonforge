@@ -34,13 +34,11 @@ class DnDBeyondImportService {
 
   final PlayerRepository _playerRepository;
   final http.Client? _httpClient;
-  final bool _shouldCloseClient;
 
   DnDBeyondImportService(
     this._playerRepository, {
     http.Client? httpClient,
-  })  : _httpClient = httpClient,
-        _shouldCloseClient = httpClient == null;
+  })  : _httpClient = httpClient;
 
   /// Extract character ID from a D&D Beyond URL or ID string
   /// Supports formats:
@@ -117,15 +115,18 @@ class DnDBeyondImportService {
       final stats = data['stats'] as List<dynamic>?;
       if (stats == null) return 10; // Default ability score
 
+      // Build a map for efficient lookups
+      final statMap = <int, int>{};
       for (final stat in stats) {
-        final statMap = stat as Map<String, dynamic>;
-        if (statMap['id'] == statId) {
-          // D&D Beyond returns a 'value' field for the ability score
-          return statMap['value'] as int? ?? 10;
+        final s = stat as Map<String, dynamic>;
+        final id = s['id'] as int?;
+        final value = s['value'] as int?;
+        if (id != null && value != null) {
+          statMap[id] = value;
         }
       }
       
-      return 10; // Default if not found
+      return statMap[statId] ?? 10;
     } catch (e) {
       logger.w('Error extracting ability score for stat ID $statId: $e');
       return 10;
@@ -185,9 +186,6 @@ class DnDBeyondImportService {
       alignment = _getAlignmentName(alignmentId);
     }
 
-    // Helper to convert empty list to null
-    T? emptyToNull<T>(List<T> list) => list.isEmpty ? null : list;
-
     // Create player model
     return Player(
       id: _uuid.v4(),
@@ -212,9 +210,9 @@ class DnDBeyondImportService {
       ac: ac,
       proficiencyBonus: proficiencyBonus,
       speed: speed,
-      savingThrowProficiencies: emptyToNull(savingThrowProfs),
-      skillProficiencies: emptyToNull(skillProfs),
-      languages: emptyToNull(languages),
+      savingThrowProficiencies: savingThrowProfs.isEmpty ? null : savingThrowProfs,
+      skillProficiencies: skillProfs.isEmpty ? null : skillProfs,
+      languages: languages.isEmpty ? null : languages,
       equipment: null,
       features: null,
       spells: null,
