@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moonforge/core/services/dnd_beyond_character_service.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
@@ -73,4 +74,9 @@ List<SingleChildWidget> dbProviders(AppDb db) => [
   Provider<EntityRepository>(create: (_) => EntityRepository(db)),
   Provider<MediaAssetRepository>(create: (_) => MediaAssetRepository(db)),
   Provider<SessionRepository>(create: (_) => SessionRepository(db)),
+  
+  // Services
+  ProxyProvider<EntityRepository, DndBeyondCharacterService>(
+    update: (_, entityRepo, __) => DndBeyondCharacterService(entityRepo),
+  ),
 ];
