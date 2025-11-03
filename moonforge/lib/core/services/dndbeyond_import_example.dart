@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:moonforge/core/services/dndbeyond_import_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
@@ -18,13 +19,13 @@ class DnDBeyondImportExample {
   /// Example: Import a character by URL
   Future<void> importByUrl(String campaignId) async {
     const ddbUrl = 'https://www.dndbeyond.com/characters/152320860';
-    
+
     final result = await importService.importCharacter(ddbUrl, campaignId);
-    
+
     if (result.success) {
       print('✓ Character imported successfully!');
       print('  Player ID: ${result.playerId}');
-      
+
       // Fetch the imported player to display details
       final player = await playerRepository.getById(result.playerId!);
       if (player != null) {
@@ -41,9 +42,9 @@ class DnDBeyondImportExample {
   /// Example: Import a character by ID
   Future<void> importById(String campaignId) async {
     const ddbId = '152320860';
-    
+
     final result = await importService.importCharacter(ddbId, campaignId);
-    
+
     if (result.success) {
       print('✓ Character imported successfully!');
       print('  Player ID: ${result.playerId}');
@@ -55,12 +56,12 @@ class DnDBeyondImportExample {
   /// Example: Update an existing character from D&D Beyond
   Future<void> updateCharacter(String playerId) async {
     print('Updating character from D&D Beyond...');
-    
+
     final result = await importService.updateCharacter(playerId);
-    
+
     if (result.success) {
       print('✓ Character updated successfully!');
-      
+
       // Fetch the updated player
       final player = await playerRepository.getById(playerId);
       if (player != null) {
@@ -77,8 +78,8 @@ class DnDBeyondImportExample {
   Future<void> syncAllLinkedCharacters(String campaignId) async {
     // Get all players in the campaign
     final players = await playerRepository.customQuery(
-      filter: (p) => 
-          p.campaignId.equals(campaignId) & 
+      filter: (p) =>
+          p.campaignId.equals(campaignId) &
           p.ddbCharacterId.isNotNull() &
           p.deleted.equals(false),
     );
@@ -88,7 +89,7 @@ class DnDBeyondImportExample {
     for (final player in players) {
       print('\nSyncing ${player.name}...');
       final result = await importService.updateCharacter(player.id);
-      
+
       if (result.success) {
         print('  ✓ Updated successfully');
       } else {
@@ -101,7 +102,7 @@ class DnDBeyondImportExample {
   Future<void> importFromUserInput(String userInput, String campaignId) async {
     // The service automatically handles both URLs and IDs
     final result = await importService.importCharacter(userInput, campaignId);
-    
+
     if (result.success) {
       print('Character imported: ${result.playerId}');
       // Navigate to character details or show success message
@@ -120,7 +121,7 @@ class DnDBeyondImportExample {
   /// Example: Get character by D&D Beyond ID
   Future<void> getCharacterByDdbId(String ddbCharacterId) async {
     final player = await playerRepository.getByDdbCharacterId(ddbCharacterId);
-    
+
     if (player != null) {
       print('Character found:');
       print('  Name: ${player.name}');
@@ -154,7 +155,7 @@ class PlayerImportController {
 
     // Attempt import
     final result = await importService.importCharacter(input, campaignId);
-    
+
     if (result.success) {
       return null; // Success, no error message
     } else {
@@ -165,7 +166,7 @@ class PlayerImportController {
   /// Handle update with user feedback
   Future<String?> handleUpdate(String playerId) async {
     final result = await importService.updateCharacter(playerId);
-    
+
     if (result.success) {
       return null; // Success, no error message
     } else {

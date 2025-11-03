@@ -7316,6 +7316,28 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   ).withConverter<Map<String, dynamic>?>($PlayersTable.$converterbion);
+  static const VerificationMeta _ddbCharacterIdMeta = const VerificationMeta(
+    'ddbCharacterId',
+  );
+  @override
+  late final GeneratedColumn<String> ddbCharacterId = GeneratedColumn<String>(
+    'ddb_character_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastDdbSyncMeta = const VerificationMeta(
+    'lastDdbSync',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastDdbSync = GeneratedColumn<DateTime>(
+    'last_ddb_sync',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -7395,6 +7417,8 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
     spells,
     notes,
     bio,
+    ddbCharacterId,
+    lastDdbSync,
     createdAt,
     updatedAt,
     rev,
@@ -7547,6 +7571,24 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
       context.handle(
         _speedMeta,
         speed.isAcceptableOrUnknown(data['speed']!, _speedMeta),
+      );
+    }
+    if (data.containsKey('ddb_character_id')) {
+      context.handle(
+        _ddbCharacterIdMeta,
+        ddbCharacterId.isAcceptableOrUnknown(
+          data['ddb_character_id']!,
+          _ddbCharacterIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_ddb_sync')) {
+      context.handle(
+        _lastDdbSyncMeta,
+        lastDdbSync.isAcceptableOrUnknown(
+          data['last_ddb_sync']!,
+          _lastDdbSyncMeta,
+        ),
       );
     }
     if (data.containsKey('created_at')) {
@@ -7720,6 +7762,14 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
           data['${effectivePrefix}bio'],
         ),
       ),
+      ddbCharacterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ddb_character_id'],
+      ),
+      lastDdbSync: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_ddb_sync'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -7825,6 +7875,8 @@ class Player extends DataClass implements Insertable<Player> {
   final List<String>? spells;
   final Map<String, dynamic>? notes;
   final Map<String, dynamic>? bio;
+  final String? ddbCharacterId;
+  final DateTime? lastDdbSync;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int rev;
@@ -7860,6 +7912,8 @@ class Player extends DataClass implements Insertable<Player> {
     this.spells,
     this.notes,
     this.bio,
+    this.ddbCharacterId,
+    this.lastDdbSync,
     this.createdAt,
     this.updatedAt,
     required this.rev,
@@ -7952,6 +8006,12 @@ class Player extends DataClass implements Insertable<Player> {
     if (!nullToAbsent || bio != null) {
       map['bio'] = Variable<String>($PlayersTable.$converterbion.toSql(bio));
     }
+    if (!nullToAbsent || ddbCharacterId != null) {
+      map['ddb_character_id'] = Variable<String>(ddbCharacterId);
+    }
+    if (!nullToAbsent || lastDdbSync != null) {
+      map['last_ddb_sync'] = Variable<DateTime>(lastDdbSync);
+    }
     if (!nullToAbsent || createdAt != null) {
       map['created_at'] = Variable<DateTime>(createdAt);
     }
@@ -8027,6 +8087,12 @@ class Player extends DataClass implements Insertable<Player> {
           ? const Value.absent()
           : Value(notes),
       bio: bio == null && nullToAbsent ? const Value.absent() : Value(bio),
+      ddbCharacterId: ddbCharacterId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ddbCharacterId),
+      lastDdbSync: lastDdbSync == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastDdbSync),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -8094,6 +8160,8 @@ class Player extends DataClass implements Insertable<Player> {
       bio: $PlayersTable.$converterbion.fromJson(
         serializer.fromJson<Map<String, dynamic>?>(json['bio']),
       ),
+      ddbCharacterId: serializer.fromJson<String?>(json['ddbCharacterId']),
+      lastDdbSync: serializer.fromJson<DateTime?>(json['lastDdbSync']),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       rev: serializer.fromJson<int>(json['rev']),
@@ -8152,6 +8220,8 @@ class Player extends DataClass implements Insertable<Player> {
       'bio': serializer.toJson<Map<String, dynamic>?>(
         $PlayersTable.$converterbion.toJson(bio),
       ),
+      'ddbCharacterId': serializer.toJson<String?>(ddbCharacterId),
+      'lastDdbSync': serializer.toJson<DateTime?>(lastDdbSync),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'rev': serializer.toJson<int>(rev),
@@ -8190,6 +8260,8 @@ class Player extends DataClass implements Insertable<Player> {
     Value<List<String>?> spells = const Value.absent(),
     Value<Map<String, dynamic>?> notes = const Value.absent(),
     Value<Map<String, dynamic>?> bio = const Value.absent(),
+    Value<String?> ddbCharacterId = const Value.absent(),
+    Value<DateTime?> lastDdbSync = const Value.absent(),
     Value<DateTime?> createdAt = const Value.absent(),
     Value<DateTime?> updatedAt = const Value.absent(),
     int? rev,
@@ -8231,6 +8303,10 @@ class Player extends DataClass implements Insertable<Player> {
     spells: spells.present ? spells.value : this.spells,
     notes: notes.present ? notes.value : this.notes,
     bio: bio.present ? bio.value : this.bio,
+    ddbCharacterId: ddbCharacterId.present
+        ? ddbCharacterId.value
+        : this.ddbCharacterId,
+    lastDdbSync: lastDdbSync.present ? lastDdbSync.value : this.lastDdbSync,
     createdAt: createdAt.present ? createdAt.value : this.createdAt,
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
     rev: rev ?? this.rev,
@@ -8278,6 +8354,12 @@ class Player extends DataClass implements Insertable<Player> {
       spells: data.spells.present ? data.spells.value : this.spells,
       notes: data.notes.present ? data.notes.value : this.notes,
       bio: data.bio.present ? data.bio.value : this.bio,
+      ddbCharacterId: data.ddbCharacterId.present
+          ? data.ddbCharacterId.value
+          : this.ddbCharacterId,
+      lastDdbSync: data.lastDdbSync.present
+          ? data.lastDdbSync.value
+          : this.lastDdbSync,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       rev: data.rev.present ? data.rev.value : this.rev,
@@ -8318,6 +8400,8 @@ class Player extends DataClass implements Insertable<Player> {
           ..write('spells: $spells, ')
           ..write('notes: $notes, ')
           ..write('bio: $bio, ')
+          ..write('ddbCharacterId: $ddbCharacterId, ')
+          ..write('lastDdbSync: $lastDdbSync, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -8358,6 +8442,8 @@ class Player extends DataClass implements Insertable<Player> {
     spells,
     notes,
     bio,
+    ddbCharacterId,
+    lastDdbSync,
     createdAt,
     updatedAt,
     rev,
@@ -8397,6 +8483,8 @@ class Player extends DataClass implements Insertable<Player> {
           other.spells == this.spells &&
           other.notes == this.notes &&
           other.bio == this.bio &&
+          other.ddbCharacterId == this.ddbCharacterId &&
+          other.lastDdbSync == this.lastDdbSync &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.rev == this.rev &&
@@ -8434,6 +8522,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
   final Value<List<String>?> spells;
   final Value<Map<String, dynamic>?> notes;
   final Value<Map<String, dynamic>?> bio;
+  final Value<String?> ddbCharacterId;
+  final Value<DateTime?> lastDdbSync;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -8470,6 +8560,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     this.spells = const Value.absent(),
     this.notes = const Value.absent(),
     this.bio = const Value.absent(),
+    this.ddbCharacterId = const Value.absent(),
+    this.lastDdbSync = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -8507,6 +8599,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     this.spells = const Value.absent(),
     this.notes = const Value.absent(),
     this.bio = const Value.absent(),
+    this.ddbCharacterId = const Value.absent(),
+    this.lastDdbSync = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -8547,6 +8641,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     Expression<String>? spells,
     Expression<String>? notes,
     Expression<String>? bio,
+    Expression<String>? ddbCharacterId,
+    Expression<DateTime>? lastDdbSync,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -8585,6 +8681,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
       if (spells != null) 'spells': spells,
       if (notes != null) 'notes': notes,
       if (bio != null) 'bio': bio,
+      if (ddbCharacterId != null) 'ddb_character_id': ddbCharacterId,
+      if (lastDdbSync != null) 'last_ddb_sync': lastDdbSync,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -8624,6 +8722,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     Value<List<String>?>? spells,
     Value<Map<String, dynamic>?>? notes,
     Value<Map<String, dynamic>?>? bio,
+    Value<String?>? ddbCharacterId,
+    Value<DateTime?>? lastDdbSync,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -8662,6 +8762,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
       spells: spells ?? this.spells,
       notes: notes ?? this.notes,
       bio: bio ?? this.bio,
+      ddbCharacterId: ddbCharacterId ?? this.ddbCharacterId,
+      lastDdbSync: lastDdbSync ?? this.lastDdbSync,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -8783,6 +8885,12 @@ class PlayersCompanion extends UpdateCompanion<Player> {
         $PlayersTable.$converterbion.toSql(bio.value),
       );
     }
+    if (ddbCharacterId.present) {
+      map['ddb_character_id'] = Variable<String>(ddbCharacterId.value);
+    }
+    if (lastDdbSync.present) {
+      map['last_ddb_sync'] = Variable<DateTime>(lastDdbSync.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -8834,6 +8942,8 @@ class PlayersCompanion extends UpdateCompanion<Player> {
           ..write('spells: $spells, ')
           ..write('notes: $notes, ')
           ..write('bio: $bio, ')
+          ..write('ddbCharacterId: $ddbCharacterId, ')
+          ..write('lastDdbSync: $lastDdbSync, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -13853,6 +13963,8 @@ typedef $$PlayersTableCreateCompanionBuilder =
       Value<List<String>?> spells,
       Value<Map<String, dynamic>?> notes,
       Value<Map<String, dynamic>?> bio,
+      Value<String?> ddbCharacterId,
+      Value<DateTime?> lastDdbSync,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -13891,6 +14003,8 @@ typedef $$PlayersTableUpdateCompanionBuilder =
       Value<List<String>?> spells,
       Value<Map<String, dynamic>?> notes,
       Value<Map<String, dynamic>?> bio,
+      Value<String?> ddbCharacterId,
+      Value<DateTime?> lastDdbSync,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -14095,6 +14209,16 @@ class $$PlayersTableFilterComposer extends Composer<_$AppDb, $PlayersTable> {
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
+  ColumnFilters<String> get ddbCharacterId => $composableBuilder(
+    column: $table.ddbCharacterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastDdbSync => $composableBuilder(
+    column: $table.lastDdbSync,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
@@ -14292,6 +14416,16 @@ class $$PlayersTableOrderingComposer extends Composer<_$AppDb, $PlayersTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get ddbCharacterId => $composableBuilder(
+    column: $table.ddbCharacterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastDdbSync => $composableBuilder(
+    column: $table.lastDdbSync,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -14443,6 +14577,16 @@ class $$PlayersTableAnnotationComposer
   GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String> get bio =>
       $composableBuilder(column: $table.bio, builder: (column) => column);
 
+  GeneratedColumn<String> get ddbCharacterId => $composableBuilder(
+    column: $table.ddbCharacterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastDdbSync => $composableBuilder(
+    column: $table.lastDdbSync,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -14539,6 +14683,8 @@ class $$PlayersTableTableManager
                 Value<List<String>?> spells = const Value.absent(),
                 Value<Map<String, dynamic>?> notes = const Value.absent(),
                 Value<Map<String, dynamic>?> bio = const Value.absent(),
+                Value<String?> ddbCharacterId = const Value.absent(),
+                Value<DateTime?> lastDdbSync = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -14575,6 +14721,8 @@ class $$PlayersTableTableManager
                 spells: spells,
                 notes: notes,
                 bio: bio,
+                ddbCharacterId: ddbCharacterId,
+                lastDdbSync: lastDdbSync,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -14615,6 +14763,8 @@ class $$PlayersTableTableManager
                 Value<List<String>?> spells = const Value.absent(),
                 Value<Map<String, dynamic>?> notes = const Value.absent(),
                 Value<Map<String, dynamic>?> bio = const Value.absent(),
+                Value<String?> ddbCharacterId = const Value.absent(),
+                Value<DateTime?> lastDdbSync = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -14651,6 +14801,8 @@ class $$PlayersTableTableManager
                 spells: spells,
                 notes: notes,
                 bio: bio,
+                ddbCharacterId: ddbCharacterId,
+                lastDdbSync: lastDdbSync,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
