@@ -16,6 +16,36 @@ service cloud.firestore {
         );
     }
 
+    // Resolve a campaignId from an adventure id safely (no 'let' usage)
+    function campaignIdForAdventure(advId) {
+      return (
+        exists(/databases/$(database)/documents/adventures/$(advId)) &&
+        get(/databases/$(database)/documents/adventures/$(advId)).data.chapterId != null &&
+        exists(/databases/$(database)/documents/chapters/$(get(/databases/$(database)/documents/adventures/$(advId)).data.chapterId))
+      )
+      ? get(/databases/$(database)/documents/chapters/$(get(/databases/$(database)/documents/adventures/$(advId)).data.chapterId)).data.campaignId
+      : null;
+    }
+
+    // Resolve a campaignId from a scene id
+    function campaignIdForScene(sceneId) {
+      return exists(/databases/$(database)/documents/scenes/$(sceneId))
+        ? campaignIdForAdventure(get(/databases/$(database)/documents/scenes/$(sceneId)).data.adventureId)
+        : null;
+    }
+
+    // Resolve a campaignId from an originId which may be a campaign, chapter, adventure or scene
+    function campaignIdFromOrigin(originId) {
+      return exists(/databases/$(database)/documents/campaigns/$(originId)) ? originId
+        : (exists(/databases/$(database)/documents/chapters/$(originId))
+            ? get(/databases/$(database)/documents/chapters/$(originId)).data.campaignId
+            : (exists(/databases/$(database)/documents/adventures/$(originId))
+                ? campaignIdForAdventure(originId)
+                : (exists(/databases/$(database)/documents/scenes/$(originId))
+                    ? campaignIdForScene(originId)
+                    : null)));
+    }
+
     // Allow each authenticated user to read/write their own user document
     match /users/{uid} {
       allow read, write: if isSignedIn() && request.auth.uid == uid;
@@ -44,6 +74,91 @@ service cloud.firestore {
       match /{document=**} {
         allow read, write: if isCampaignMember(cid);
       }
+    }
+
+    // Flat collections with campaign membership
+
+    // Chapters (FK: campaignId)
+    match /chapters/{id} {
+      allow read: if isSignedIn() && isCampaignMember(resource.data.campaignId);
+      allow create: if isSignedIn() && isCampaignMember(request.resource.data.campaignId);
+      allow update, delete: if isSignedIn() && isCampaignMember(resource.data.campaignId) &&
+        request.resource.data.campaignId == resource.data.campaignId;
+    }
+
+    // Adventures (FK: chapterId -> campaignId)
+    match /adventures/{id} {
+      function _campaignId() {
+        return exists(/databases/$(database)/documents/chapters/$(resource.data.chapterId))
+          ? get(/databases/$(database)/documents/chapters/$(resource.data.chapterId)).data.campaignId
+          : null;
+      }
+      function _newCampaignId() {
+        return exists(/databases/$(database)/documents/chapters/$(request.resource.data.chapterId))
+          ? get(/databases/$(database)/documents/chapters/$(request.resource.data.chapterId)).data.campaignId
+          : null;
+      }
+      allow read: if isSignedIn() && isCampaignMember(_campaignId());
+      allow create: if isSignedIn() && isCampaignMember(_newCampaignId());
+      allow update, delete: if isSignedIn() && isCampaignMember(_campaignId()) &&
+        _campaignId() == _newCampaignId();
+    }
+
+    // Scenes (FK: adventureId -> chapterId -> campaignId)
+    match /scenes/{id} {
+      function _campaignId() { return campaignIdForScene(id); }
+      function _newCampaignId() { return campaignIdForAdventure(request.resource.data.adventureId); }
+      allow read: if isSignedIn() && isCampaignMember(_campaignId());
+      allow create: if isSignedIn() && isCampaignMember(_newCampaignId());
+      allow update, delete: if isSignedIn() && isCampaignMember(_campaignId()) && _campaignId() == _newCampaignId();
+    }
+
+    // Entities (FK-like: originId -> campaign/chapter/adventure/scene)
+    match /entities/{eid} {
+      function _campaignId() { return campaignIdFromOrigin(resource.data.originId); }
+      function _newCampaignId() { return campaignIdFromOrigin(request.resource.data.originId); }
+      allow read: if isSignedIn() && isCampaignMember(_campaignId());
+      allow create: if isSignedIn() && isCampaignMember(_newCampaignId());
+      allow update, delete: if isSignedIn() && isCampaignMember(_campaignId()) && _campaignId() == _newCampaignId();
+    }
+
+    // Encounters (FK-like: originId -> campaign/chapter/adventure/scene)
+    match /encounters/{encId} {
+      function _campaignId() { return campaignIdFromOrigin(resource.data.originId); }
+      function _newCampaignId() { return campaignIdFromOrigin(request.resource.data.originId); }
+      allow read: if isSignedIn() && isCampaignMember(_campaignId());
+      allow create: if isSignedIn() && isCampaignMember(_newCampaignId());
+      allow update, delete: if isSignedIn() && isCampaignMember(_campaignId()) && _campaignId() == _newCampaignId();
+    }
+
+    // Parties (FK: campaignId) - prefer players but legacy entity membership allowed
+    match /parties/{pid} {
+      allow read: if isSignedIn() && isCampaignMember(resource.data.campaignId);
+      allow create: if isSignedIn() && isCampaignMember(request.resource.data.campaignId);
+      allow update, delete: if isSignedIn() && isCampaignMember(resource.data.campaignId) &&
+        request.resource.data.campaignId == resource.data.campaignId;
+    }
+
+    // Players (FK: campaignId) - writable by DM (campaign member) or owning player
+    match /players/{playerId} {
+      allow read: if isSignedIn() && isCampaignMember(resource.data.campaignId);
+      allow create: if isSignedIn() && isCampaignMember(request.resource.data.campaignId);
+      allow update: if isSignedIn() && (
+        isCampaignMember(resource.data.campaignId) ||
+        (resource.data.playerUid != null && resource.data.playerUid == request.auth.uid &&
+         request.resource.data.playerUid == request.auth.uid)
+      ) && request.resource.data.campaignId == resource.data.campaignId;
+      allow delete: if isSignedIn() && isCampaignMember(resource.data.campaignId);
+    }
+
+    // Media assets: currently allow any signed-in user (refine with campaign scoping later if needed)
+    match /mediaAssets/{assetId} {
+      allow read, create, update, delete: if isSignedIn();
+    }
+
+    // Sessions: currently not scoped to campaign; restrict to signed-in users
+    match /sessions/{sid} {
+      allow read, create, update, delete: if isSignedIn();
     }
 
     // Joins collection: invite/join codes for campaigns

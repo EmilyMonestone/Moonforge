@@ -19,8 +19,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart">
+      <change afterPath="$PROJECT_DIR$/docs/development/seed-test-campaign.mjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/development/seed-test-campaign.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/development/test-campaign-data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/development/test-campaign-seed.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/player_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_10_07_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_10_07__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_15_59_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_15_59__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/reference/firebase-schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/reference/firebase-schema.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firebase/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firebase/firestore.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/outbox_processor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/outbox_processor.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +136,8 @@
     "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "copilot/rewrite-database-implementation",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",

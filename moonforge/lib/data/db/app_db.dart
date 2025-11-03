@@ -1,34 +1,37 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'tables.dart';
+
 import 'converters.dart';
+import 'daos/adventure_dao.dart';
 import 'daos/campaign_dao.dart';
 import 'daos/chapter_dao.dart';
-import 'daos/adventure_dao.dart';
-import 'daos/scene_dao.dart';
-import 'daos/party_dao.dart';
+import 'daos/combatant_dao.dart';
 import 'daos/encounter_dao.dart';
 import 'daos/entity_dao.dart';
-import 'daos/combatant_dao.dart';
 import 'daos/media_asset_dao.dart';
-import 'daos/session_dao.dart';
 import 'daos/outbox_dao.dart';
+import 'daos/party_dao.dart';
+import 'daos/player_dao.dart';
+import 'daos/scene_dao.dart';
+import 'daos/session_dao.dart';
+import 'tables.dart';
 
 part 'app_db.g.dart';
 
 @DriftDatabase(
   tables: [
-    Campaigns, 
-    Chapters, 
-    Adventures, 
-    Scenes, 
-    Parties, 
+    Campaigns,
+    Chapters,
+    Adventures,
+    Scenes,
+    Parties,
     Encounters,
-    Entities, 
-    Combatants, 
+    Entities,
+    Combatants,
     MediaAssets,
     Sessions,
-    OutboxEntries
+    Players,
+    OutboxEntries,
   ],
   daos: [
     CampaignDao,
@@ -41,16 +44,17 @@ part 'app_db.g.dart';
     CombatantDao,
     MediaAssetDao,
     SessionDao,
+    PlayerDao,
     OutboxDao,
   ],
 )
 class AppDb extends _$AppDb {
   // Constructor for custom executor (useful for testing)
   AppDb([QueryExecutor? e]) : super(e ?? _openConnection());
-  
-  @override 
-  int get schemaVersion => 1;
-  
+
+  @override
+  int get schemaVersion => 2;
+
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
@@ -58,7 +62,12 @@ class AppDb extends _$AppDb {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // Add migrations here as schema evolves
+        if (from < 2) {
+          // Add Players table
+          await m.createTable(players);
+          // Add memberPlayerIds to Parties if it doesn't exist
+          await m.addColumn(parties, parties.memberPlayerIds);
+        }
       },
       beforeOpen: (details) async {
         // Enable foreign key constraints
@@ -66,7 +75,7 @@ class AppDb extends _$AppDb {
       },
     );
   }
-  
+
   // Platform-agnostic database connection using drift_flutter
   static QueryExecutor _openConnection() {
     return driftDatabase(

@@ -2574,6 +2574,15 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   ).withConverter<List<String>?>($PartiesTable.$convertermemberEntityIdsn);
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+  memberPlayerIds = GeneratedColumn<String>(
+    'member_player_ids',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<List<String>?>($PartiesTable.$convertermemberPlayerIdsn);
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -2612,6 +2621,7 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
     name,
     summary,
     memberEntityIds,
+    memberPlayerIds,
     createdAt,
     updatedAt,
     rev,
@@ -2706,6 +2716,12 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
           data['${effectivePrefix}member_entity_ids'],
         ),
       ),
+      memberPlayerIds: $PartiesTable.$convertermemberPlayerIdsn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}member_player_ids'],
+        ),
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -2732,6 +2748,12 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
   $convertermemberEntityIdsn = JsonTypeConverter2.asNullable(
     $convertermemberEntityIds,
   );
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $convertermemberPlayerIds = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $convertermemberPlayerIdsn = JsonTypeConverter2.asNullable(
+    $convertermemberPlayerIds,
+  );
 }
 
 class Party extends DataClass implements Insertable<Party> {
@@ -2740,6 +2762,7 @@ class Party extends DataClass implements Insertable<Party> {
   final String name;
   final String? summary;
   final List<String>? memberEntityIds;
+  final List<String>? memberPlayerIds;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int rev;
@@ -2749,6 +2772,7 @@ class Party extends DataClass implements Insertable<Party> {
     required this.name,
     this.summary,
     this.memberEntityIds,
+    this.memberPlayerIds,
     this.createdAt,
     this.updatedAt,
     required this.rev,
@@ -2765,6 +2789,11 @@ class Party extends DataClass implements Insertable<Party> {
     if (!nullToAbsent || memberEntityIds != null) {
       map['member_entity_ids'] = Variable<String>(
         $PartiesTable.$convertermemberEntityIdsn.toSql(memberEntityIds),
+      );
+    }
+    if (!nullToAbsent || memberPlayerIds != null) {
+      map['member_player_ids'] = Variable<String>(
+        $PartiesTable.$convertermemberPlayerIdsn.toSql(memberPlayerIds),
       );
     }
     if (!nullToAbsent || createdAt != null) {
@@ -2788,6 +2817,9 @@ class Party extends DataClass implements Insertable<Party> {
       memberEntityIds: memberEntityIds == null && nullToAbsent
           ? const Value.absent()
           : Value(memberEntityIds),
+      memberPlayerIds: memberPlayerIds == null && nullToAbsent
+          ? const Value.absent()
+          : Value(memberPlayerIds),
       createdAt: createdAt == null && nullToAbsent
           ? const Value.absent()
           : Value(createdAt),
@@ -2811,6 +2843,9 @@ class Party extends DataClass implements Insertable<Party> {
       memberEntityIds: $PartiesTable.$convertermemberEntityIdsn.fromJson(
         serializer.fromJson<List<dynamic>?>(json['memberEntityIds']),
       ),
+      memberPlayerIds: $PartiesTable.$convertermemberPlayerIdsn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['memberPlayerIds']),
+      ),
       createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       rev: serializer.fromJson<int>(json['rev']),
@@ -2827,6 +2862,9 @@ class Party extends DataClass implements Insertable<Party> {
       'memberEntityIds': serializer.toJson<List<dynamic>?>(
         $PartiesTable.$convertermemberEntityIdsn.toJson(memberEntityIds),
       ),
+      'memberPlayerIds': serializer.toJson<List<dynamic>?>(
+        $PartiesTable.$convertermemberPlayerIdsn.toJson(memberPlayerIds),
+      ),
       'createdAt': serializer.toJson<DateTime?>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'rev': serializer.toJson<int>(rev),
@@ -2839,6 +2877,7 @@ class Party extends DataClass implements Insertable<Party> {
     String? name,
     Value<String?> summary = const Value.absent(),
     Value<List<String>?> memberEntityIds = const Value.absent(),
+    Value<List<String>?> memberPlayerIds = const Value.absent(),
     Value<DateTime?> createdAt = const Value.absent(),
     Value<DateTime?> updatedAt = const Value.absent(),
     int? rev,
@@ -2850,6 +2889,9 @@ class Party extends DataClass implements Insertable<Party> {
     memberEntityIds: memberEntityIds.present
         ? memberEntityIds.value
         : this.memberEntityIds,
+    memberPlayerIds: memberPlayerIds.present
+        ? memberPlayerIds.value
+        : this.memberPlayerIds,
     createdAt: createdAt.present ? createdAt.value : this.createdAt,
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
     rev: rev ?? this.rev,
@@ -2865,6 +2907,9 @@ class Party extends DataClass implements Insertable<Party> {
       memberEntityIds: data.memberEntityIds.present
           ? data.memberEntityIds.value
           : this.memberEntityIds,
+      memberPlayerIds: data.memberPlayerIds.present
+          ? data.memberPlayerIds.value
+          : this.memberPlayerIds,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       rev: data.rev.present ? data.rev.value : this.rev,
@@ -2879,6 +2924,7 @@ class Party extends DataClass implements Insertable<Party> {
           ..write('name: $name, ')
           ..write('summary: $summary, ')
           ..write('memberEntityIds: $memberEntityIds, ')
+          ..write('memberPlayerIds: $memberPlayerIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev')
@@ -2893,6 +2939,7 @@ class Party extends DataClass implements Insertable<Party> {
     name,
     summary,
     memberEntityIds,
+    memberPlayerIds,
     createdAt,
     updatedAt,
     rev,
@@ -2906,6 +2953,7 @@ class Party extends DataClass implements Insertable<Party> {
           other.name == this.name &&
           other.summary == this.summary &&
           other.memberEntityIds == this.memberEntityIds &&
+          other.memberPlayerIds == this.memberPlayerIds &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.rev == this.rev);
@@ -2917,6 +2965,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
   final Value<String> name;
   final Value<String?> summary;
   final Value<List<String>?> memberEntityIds;
+  final Value<List<String>?> memberPlayerIds;
   final Value<DateTime?> createdAt;
   final Value<DateTime?> updatedAt;
   final Value<int> rev;
@@ -2927,6 +2976,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     this.name = const Value.absent(),
     this.summary = const Value.absent(),
     this.memberEntityIds = const Value.absent(),
+    this.memberPlayerIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rev = const Value.absent(),
@@ -2938,6 +2988,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     required String name,
     this.summary = const Value.absent(),
     this.memberEntityIds = const Value.absent(),
+    this.memberPlayerIds = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     required int rev,
@@ -2952,6 +3003,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     Expression<String>? name,
     Expression<String>? summary,
     Expression<String>? memberEntityIds,
+    Expression<String>? memberPlayerIds,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rev,
@@ -2963,6 +3015,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
       if (name != null) 'name': name,
       if (summary != null) 'summary': summary,
       if (memberEntityIds != null) 'member_entity_ids': memberEntityIds,
+      if (memberPlayerIds != null) 'member_player_ids': memberPlayerIds,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rev != null) 'rev': rev,
@@ -2976,6 +3029,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     Value<String>? name,
     Value<String?>? summary,
     Value<List<String>?>? memberEntityIds,
+    Value<List<String>?>? memberPlayerIds,
     Value<DateTime?>? createdAt,
     Value<DateTime?>? updatedAt,
     Value<int>? rev,
@@ -2987,6 +3041,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
       name: name ?? this.name,
       summary: summary ?? this.summary,
       memberEntityIds: memberEntityIds ?? this.memberEntityIds,
+      memberPlayerIds: memberPlayerIds ?? this.memberPlayerIds,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rev: rev ?? this.rev,
@@ -3014,6 +3069,11 @@ class PartiesCompanion extends UpdateCompanion<Party> {
         $PartiesTable.$convertermemberEntityIdsn.toSql(memberEntityIds.value),
       );
     }
+    if (memberPlayerIds.present) {
+      map['member_player_ids'] = Variable<String>(
+        $PartiesTable.$convertermemberPlayerIdsn.toSql(memberPlayerIds.value),
+      );
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -3037,6 +3097,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
           ..write('name: $name, ')
           ..write('summary: $summary, ')
           ..write('memberEntityIds: $memberEntityIds, ')
+          ..write('memberPlayerIds: $memberPlayerIds, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rev: $rev, ')
@@ -6945,6 +7006,1844 @@ class SessionsCompanion extends UpdateCompanion<Session> {
   }
 }
 
+class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PlayersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _campaignIdMeta = const VerificationMeta(
+    'campaignId',
+  );
+  @override
+  late final GeneratedColumn<String> campaignId = GeneratedColumn<String>(
+    'campaign_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES campaigns (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _playerUidMeta = const VerificationMeta(
+    'playerUid',
+  );
+  @override
+  late final GeneratedColumn<String> playerUid = GeneratedColumn<String>(
+    'player_uid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _classNameMeta = const VerificationMeta(
+    'className',
+  );
+  @override
+  late final GeneratedColumn<String> className = GeneratedColumn<String>(
+    'class_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _subclassMeta = const VerificationMeta(
+    'subclass',
+  );
+  @override
+  late final GeneratedColumn<String> subclass = GeneratedColumn<String>(
+    'subclass',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
+  late final GeneratedColumn<int> level = GeneratedColumn<int>(
+    'level',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _raceMeta = const VerificationMeta('race');
+  @override
+  late final GeneratedColumn<String> race = GeneratedColumn<String>(
+    'race',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _backgroundMeta = const VerificationMeta(
+    'background',
+  );
+  @override
+  late final GeneratedColumn<String> background = GeneratedColumn<String>(
+    'background',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _alignmentMeta = const VerificationMeta(
+    'alignment',
+  );
+  @override
+  late final GeneratedColumn<String> alignment = GeneratedColumn<String>(
+    'alignment',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _strMeta = const VerificationMeta('str');
+  @override
+  late final GeneratedColumn<int> str = GeneratedColumn<int>(
+    'str',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _dexMeta = const VerificationMeta('dex');
+  @override
+  late final GeneratedColumn<int> dex = GeneratedColumn<int>(
+    'dex',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _conMeta = const VerificationMeta('con');
+  @override
+  late final GeneratedColumn<int> con = GeneratedColumn<int>(
+    'con',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _intlMeta = const VerificationMeta('intl');
+  @override
+  late final GeneratedColumn<int> intl = GeneratedColumn<int>(
+    'intl',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _wisMeta = const VerificationMeta('wis');
+  @override
+  late final GeneratedColumn<int> wis = GeneratedColumn<int>(
+    'wis',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _chaMeta = const VerificationMeta('cha');
+  @override
+  late final GeneratedColumn<int> cha = GeneratedColumn<int>(
+    'cha',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(10),
+  );
+  static const VerificationMeta _hpMaxMeta = const VerificationMeta('hpMax');
+  @override
+  late final GeneratedColumn<int> hpMax = GeneratedColumn<int>(
+    'hp_max',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hpCurrentMeta = const VerificationMeta(
+    'hpCurrent',
+  );
+  @override
+  late final GeneratedColumn<int> hpCurrent = GeneratedColumn<int>(
+    'hp_current',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hpTempMeta = const VerificationMeta('hpTemp');
+  @override
+  late final GeneratedColumn<int> hpTemp = GeneratedColumn<int>(
+    'hp_temp',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _acMeta = const VerificationMeta('ac');
+  @override
+  late final GeneratedColumn<int> ac = GeneratedColumn<int>(
+    'ac',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _proficiencyBonusMeta = const VerificationMeta(
+    'proficiencyBonus',
+  );
+  @override
+  late final GeneratedColumn<int> proficiencyBonus = GeneratedColumn<int>(
+    'proficiency_bonus',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _speedMeta = const VerificationMeta('speed');
+  @override
+  late final GeneratedColumn<int> speed = GeneratedColumn<int>(
+    'speed',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+  savingThrowProficiencies =
+      GeneratedColumn<String>(
+        'saving_throw_proficiencies',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<List<String>?>(
+        $PlayersTable.$convertersavingThrowProficienciesn,
+      );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String>
+  skillProficiencies = GeneratedColumn<String>(
+    'skill_proficiencies',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<List<String>?>($PlayersTable.$converterskillProficienciesn);
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String> languages =
+      GeneratedColumn<String>(
+        'languages',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<List<String>?>($PlayersTable.$converterlanguagesn);
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String> equipment =
+      GeneratedColumn<String>(
+        'equipment',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<List<String>?>($PlayersTable.$converterequipmentn);
+  @override
+  late final GeneratedColumnWithTypeConverter<
+    List<Map<String, dynamic>>?,
+    String
+  >
+  features =
+      GeneratedColumn<String>(
+        'features',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<List<Map<String, dynamic>>?>(
+        $PlayersTable.$converterfeaturesn,
+      );
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String> spells =
+      GeneratedColumn<String>(
+        'spells',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<List<String>?>($PlayersTable.$converterspellsn);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String>
+  notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<Map<String, dynamic>?>($PlayersTable.$converternotesn);
+  @override
+  late final GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String>
+  bio = GeneratedColumn<String>(
+    'bio',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  ).withConverter<Map<String, dynamic>?>($PlayersTable.$converterbion);
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _deletedMeta = const VerificationMeta(
+    'deleted',
+  );
+  @override
+  late final GeneratedColumn<bool> deleted = GeneratedColumn<bool>(
+    'deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    campaignId,
+    playerUid,
+    name,
+    className,
+    subclass,
+    level,
+    race,
+    background,
+    alignment,
+    str,
+    dex,
+    con,
+    intl,
+    wis,
+    cha,
+    hpMax,
+    hpCurrent,
+    hpTemp,
+    ac,
+    proficiencyBonus,
+    speed,
+    savingThrowProficiencies,
+    skillProficiencies,
+    languages,
+    equipment,
+    features,
+    spells,
+    notes,
+    bio,
+    createdAt,
+    updatedAt,
+    rev,
+    deleted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'players';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Player> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('campaign_id')) {
+      context.handle(
+        _campaignIdMeta,
+        campaignId.isAcceptableOrUnknown(data['campaign_id']!, _campaignIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_campaignIdMeta);
+    }
+    if (data.containsKey('player_uid')) {
+      context.handle(
+        _playerUidMeta,
+        playerUid.isAcceptableOrUnknown(data['player_uid']!, _playerUidMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('class_name')) {
+      context.handle(
+        _classNameMeta,
+        className.isAcceptableOrUnknown(data['class_name']!, _classNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_classNameMeta);
+    }
+    if (data.containsKey('subclass')) {
+      context.handle(
+        _subclassMeta,
+        subclass.isAcceptableOrUnknown(data['subclass']!, _subclassMeta),
+      );
+    }
+    if (data.containsKey('level')) {
+      context.handle(
+        _levelMeta,
+        level.isAcceptableOrUnknown(data['level']!, _levelMeta),
+      );
+    }
+    if (data.containsKey('race')) {
+      context.handle(
+        _raceMeta,
+        race.isAcceptableOrUnknown(data['race']!, _raceMeta),
+      );
+    }
+    if (data.containsKey('background')) {
+      context.handle(
+        _backgroundMeta,
+        background.isAcceptableOrUnknown(data['background']!, _backgroundMeta),
+      );
+    }
+    if (data.containsKey('alignment')) {
+      context.handle(
+        _alignmentMeta,
+        alignment.isAcceptableOrUnknown(data['alignment']!, _alignmentMeta),
+      );
+    }
+    if (data.containsKey('str')) {
+      context.handle(
+        _strMeta,
+        str.isAcceptableOrUnknown(data['str']!, _strMeta),
+      );
+    }
+    if (data.containsKey('dex')) {
+      context.handle(
+        _dexMeta,
+        dex.isAcceptableOrUnknown(data['dex']!, _dexMeta),
+      );
+    }
+    if (data.containsKey('con')) {
+      context.handle(
+        _conMeta,
+        con.isAcceptableOrUnknown(data['con']!, _conMeta),
+      );
+    }
+    if (data.containsKey('intl')) {
+      context.handle(
+        _intlMeta,
+        intl.isAcceptableOrUnknown(data['intl']!, _intlMeta),
+      );
+    }
+    if (data.containsKey('wis')) {
+      context.handle(
+        _wisMeta,
+        wis.isAcceptableOrUnknown(data['wis']!, _wisMeta),
+      );
+    }
+    if (data.containsKey('cha')) {
+      context.handle(
+        _chaMeta,
+        cha.isAcceptableOrUnknown(data['cha']!, _chaMeta),
+      );
+    }
+    if (data.containsKey('hp_max')) {
+      context.handle(
+        _hpMaxMeta,
+        hpMax.isAcceptableOrUnknown(data['hp_max']!, _hpMaxMeta),
+      );
+    }
+    if (data.containsKey('hp_current')) {
+      context.handle(
+        _hpCurrentMeta,
+        hpCurrent.isAcceptableOrUnknown(data['hp_current']!, _hpCurrentMeta),
+      );
+    }
+    if (data.containsKey('hp_temp')) {
+      context.handle(
+        _hpTempMeta,
+        hpTemp.isAcceptableOrUnknown(data['hp_temp']!, _hpTempMeta),
+      );
+    }
+    if (data.containsKey('ac')) {
+      context.handle(_acMeta, ac.isAcceptableOrUnknown(data['ac']!, _acMeta));
+    }
+    if (data.containsKey('proficiency_bonus')) {
+      context.handle(
+        _proficiencyBonusMeta,
+        proficiencyBonus.isAcceptableOrUnknown(
+          data['proficiency_bonus']!,
+          _proficiencyBonusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('speed')) {
+      context.handle(
+        _speedMeta,
+        speed.isAcceptableOrUnknown(data['speed']!, _speedMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('deleted')) {
+      context.handle(
+        _deletedMeta,
+        deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Player map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Player(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      campaignId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}campaign_id'],
+      )!,
+      playerUid: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}player_uid'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      className: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}class_name'],
+      )!,
+      subclass: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subclass'],
+      ),
+      level: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}level'],
+      )!,
+      race: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}race'],
+      ),
+      background: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}background'],
+      ),
+      alignment: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}alignment'],
+      ),
+      str: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}str'],
+      )!,
+      dex: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}dex'],
+      )!,
+      con: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}con'],
+      )!,
+      intl: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}intl'],
+      )!,
+      wis: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}wis'],
+      )!,
+      cha: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cha'],
+      )!,
+      hpMax: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hp_max'],
+      ),
+      hpCurrent: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hp_current'],
+      ),
+      hpTemp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hp_temp'],
+      ),
+      ac: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ac'],
+      ),
+      proficiencyBonus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}proficiency_bonus'],
+      ),
+      speed: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}speed'],
+      ),
+      savingThrowProficiencies: $PlayersTable
+          .$convertersavingThrowProficienciesn
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}saving_throw_proficiencies'],
+            ),
+          ),
+      skillProficiencies: $PlayersTable.$converterskillProficienciesn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}skill_proficiencies'],
+        ),
+      ),
+      languages: $PlayersTable.$converterlanguagesn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}languages'],
+        ),
+      ),
+      equipment: $PlayersTable.$converterequipmentn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}equipment'],
+        ),
+      ),
+      features: $PlayersTable.$converterfeaturesn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}features'],
+        ),
+      ),
+      spells: $PlayersTable.$converterspellsn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}spells'],
+        ),
+      ),
+      notes: $PlayersTable.$converternotesn.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}notes'],
+        ),
+      ),
+      bio: $PlayersTable.$converterbion.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}bio'],
+        ),
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      deleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}deleted'],
+      )!,
+    );
+  }
+
+  @override
+  $PlayersTable createAlias(String alias) {
+    return $PlayersTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $convertersavingThrowProficiencies = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $convertersavingThrowProficienciesn = JsonTypeConverter2.asNullable(
+    $convertersavingThrowProficiencies,
+  );
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $converterskillProficiencies = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $converterskillProficienciesn = JsonTypeConverter2.asNullable(
+    $converterskillProficiencies,
+  );
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $converterlanguages = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $converterlanguagesn = JsonTypeConverter2.asNullable($converterlanguages);
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $converterequipment = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $converterequipmentn = JsonTypeConverter2.asNullable($converterequipment);
+  static JsonTypeConverter2<List<Map<String, dynamic>>, String, List<dynamic>>
+  $converterfeatures = const MapListConverter();
+  static JsonTypeConverter2<
+    List<Map<String, dynamic>>?,
+    String?,
+    List<dynamic>?
+  >
+  $converterfeaturesn = JsonTypeConverter2.asNullable($converterfeatures);
+  static JsonTypeConverter2<List<String>, String, List<dynamic>>
+  $converterspells = const StringListConverter();
+  static JsonTypeConverter2<List<String>?, String?, List<dynamic>?>
+  $converterspellsn = JsonTypeConverter2.asNullable($converterspells);
+  static JsonTypeConverter2<Map<String, dynamic>, String, Map<String, dynamic>>
+  $converternotes = quillConv;
+  static JsonTypeConverter2<
+    Map<String, dynamic>?,
+    String?,
+    Map<String, dynamic>?
+  >
+  $converternotesn = JsonTypeConverter2.asNullable($converternotes);
+  static JsonTypeConverter2<Map<String, dynamic>, String, Map<String, dynamic>>
+  $converterbio = quillConv;
+  static JsonTypeConverter2<
+    Map<String, dynamic>?,
+    String?,
+    Map<String, dynamic>?
+  >
+  $converterbion = JsonTypeConverter2.asNullable($converterbio);
+}
+
+class Player extends DataClass implements Insertable<Player> {
+  final String id;
+  final String campaignId;
+  final String? playerUid;
+  final String name;
+  final String className;
+  final String? subclass;
+  final int level;
+  final String? race;
+  final String? background;
+  final String? alignment;
+  final int str;
+  final int dex;
+  final int con;
+  final int intl;
+  final int wis;
+  final int cha;
+  final int? hpMax;
+  final int? hpCurrent;
+  final int? hpTemp;
+  final int? ac;
+  final int? proficiencyBonus;
+  final int? speed;
+  final List<String>? savingThrowProficiencies;
+  final List<String>? skillProficiencies;
+  final List<String>? languages;
+  final List<String>? equipment;
+  final List<Map<String, dynamic>>? features;
+  final List<String>? spells;
+  final Map<String, dynamic>? notes;
+  final Map<String, dynamic>? bio;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int rev;
+  final bool deleted;
+  const Player({
+    required this.id,
+    required this.campaignId,
+    this.playerUid,
+    required this.name,
+    required this.className,
+    this.subclass,
+    required this.level,
+    this.race,
+    this.background,
+    this.alignment,
+    required this.str,
+    required this.dex,
+    required this.con,
+    required this.intl,
+    required this.wis,
+    required this.cha,
+    this.hpMax,
+    this.hpCurrent,
+    this.hpTemp,
+    this.ac,
+    this.proficiencyBonus,
+    this.speed,
+    this.savingThrowProficiencies,
+    this.skillProficiencies,
+    this.languages,
+    this.equipment,
+    this.features,
+    this.spells,
+    this.notes,
+    this.bio,
+    this.createdAt,
+    this.updatedAt,
+    required this.rev,
+    required this.deleted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['campaign_id'] = Variable<String>(campaignId);
+    if (!nullToAbsent || playerUid != null) {
+      map['player_uid'] = Variable<String>(playerUid);
+    }
+    map['name'] = Variable<String>(name);
+    map['class_name'] = Variable<String>(className);
+    if (!nullToAbsent || subclass != null) {
+      map['subclass'] = Variable<String>(subclass);
+    }
+    map['level'] = Variable<int>(level);
+    if (!nullToAbsent || race != null) {
+      map['race'] = Variable<String>(race);
+    }
+    if (!nullToAbsent || background != null) {
+      map['background'] = Variable<String>(background);
+    }
+    if (!nullToAbsent || alignment != null) {
+      map['alignment'] = Variable<String>(alignment);
+    }
+    map['str'] = Variable<int>(str);
+    map['dex'] = Variable<int>(dex);
+    map['con'] = Variable<int>(con);
+    map['intl'] = Variable<int>(intl);
+    map['wis'] = Variable<int>(wis);
+    map['cha'] = Variable<int>(cha);
+    if (!nullToAbsent || hpMax != null) {
+      map['hp_max'] = Variable<int>(hpMax);
+    }
+    if (!nullToAbsent || hpCurrent != null) {
+      map['hp_current'] = Variable<int>(hpCurrent);
+    }
+    if (!nullToAbsent || hpTemp != null) {
+      map['hp_temp'] = Variable<int>(hpTemp);
+    }
+    if (!nullToAbsent || ac != null) {
+      map['ac'] = Variable<int>(ac);
+    }
+    if (!nullToAbsent || proficiencyBonus != null) {
+      map['proficiency_bonus'] = Variable<int>(proficiencyBonus);
+    }
+    if (!nullToAbsent || speed != null) {
+      map['speed'] = Variable<int>(speed);
+    }
+    if (!nullToAbsent || savingThrowProficiencies != null) {
+      map['saving_throw_proficiencies'] = Variable<String>(
+        $PlayersTable.$convertersavingThrowProficienciesn.toSql(
+          savingThrowProficiencies,
+        ),
+      );
+    }
+    if (!nullToAbsent || skillProficiencies != null) {
+      map['skill_proficiencies'] = Variable<String>(
+        $PlayersTable.$converterskillProficienciesn.toSql(skillProficiencies),
+      );
+    }
+    if (!nullToAbsent || languages != null) {
+      map['languages'] = Variable<String>(
+        $PlayersTable.$converterlanguagesn.toSql(languages),
+      );
+    }
+    if (!nullToAbsent || equipment != null) {
+      map['equipment'] = Variable<String>(
+        $PlayersTable.$converterequipmentn.toSql(equipment),
+      );
+    }
+    if (!nullToAbsent || features != null) {
+      map['features'] = Variable<String>(
+        $PlayersTable.$converterfeaturesn.toSql(features),
+      );
+    }
+    if (!nullToAbsent || spells != null) {
+      map['spells'] = Variable<String>(
+        $PlayersTable.$converterspellsn.toSql(spells),
+      );
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(
+        $PlayersTable.$converternotesn.toSql(notes),
+      );
+    }
+    if (!nullToAbsent || bio != null) {
+      map['bio'] = Variable<String>($PlayersTable.$converterbion.toSql(bio));
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<DateTime>(createdAt);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    map['rev'] = Variable<int>(rev);
+    map['deleted'] = Variable<bool>(deleted);
+    return map;
+  }
+
+  PlayersCompanion toCompanion(bool nullToAbsent) {
+    return PlayersCompanion(
+      id: Value(id),
+      campaignId: Value(campaignId),
+      playerUid: playerUid == null && nullToAbsent
+          ? const Value.absent()
+          : Value(playerUid),
+      name: Value(name),
+      className: Value(className),
+      subclass: subclass == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subclass),
+      level: Value(level),
+      race: race == null && nullToAbsent ? const Value.absent() : Value(race),
+      background: background == null && nullToAbsent
+          ? const Value.absent()
+          : Value(background),
+      alignment: alignment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(alignment),
+      str: Value(str),
+      dex: Value(dex),
+      con: Value(con),
+      intl: Value(intl),
+      wis: Value(wis),
+      cha: Value(cha),
+      hpMax: hpMax == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hpMax),
+      hpCurrent: hpCurrent == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hpCurrent),
+      hpTemp: hpTemp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hpTemp),
+      ac: ac == null && nullToAbsent ? const Value.absent() : Value(ac),
+      proficiencyBonus: proficiencyBonus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(proficiencyBonus),
+      speed: speed == null && nullToAbsent
+          ? const Value.absent()
+          : Value(speed),
+      savingThrowProficiencies: savingThrowProficiencies == null && nullToAbsent
+          ? const Value.absent()
+          : Value(savingThrowProficiencies),
+      skillProficiencies: skillProficiencies == null && nullToAbsent
+          ? const Value.absent()
+          : Value(skillProficiencies),
+      languages: languages == null && nullToAbsent
+          ? const Value.absent()
+          : Value(languages),
+      equipment: equipment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipment),
+      features: features == null && nullToAbsent
+          ? const Value.absent()
+          : Value(features),
+      spells: spells == null && nullToAbsent
+          ? const Value.absent()
+          : Value(spells),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      bio: bio == null && nullToAbsent ? const Value.absent() : Value(bio),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      rev: Value(rev),
+      deleted: Value(deleted),
+    );
+  }
+
+  factory Player.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Player(
+      id: serializer.fromJson<String>(json['id']),
+      campaignId: serializer.fromJson<String>(json['campaignId']),
+      playerUid: serializer.fromJson<String?>(json['playerUid']),
+      name: serializer.fromJson<String>(json['name']),
+      className: serializer.fromJson<String>(json['className']),
+      subclass: serializer.fromJson<String?>(json['subclass']),
+      level: serializer.fromJson<int>(json['level']),
+      race: serializer.fromJson<String?>(json['race']),
+      background: serializer.fromJson<String?>(json['background']),
+      alignment: serializer.fromJson<String?>(json['alignment']),
+      str: serializer.fromJson<int>(json['str']),
+      dex: serializer.fromJson<int>(json['dex']),
+      con: serializer.fromJson<int>(json['con']),
+      intl: serializer.fromJson<int>(json['intl']),
+      wis: serializer.fromJson<int>(json['wis']),
+      cha: serializer.fromJson<int>(json['cha']),
+      hpMax: serializer.fromJson<int?>(json['hpMax']),
+      hpCurrent: serializer.fromJson<int?>(json['hpCurrent']),
+      hpTemp: serializer.fromJson<int?>(json['hpTemp']),
+      ac: serializer.fromJson<int?>(json['ac']),
+      proficiencyBonus: serializer.fromJson<int?>(json['proficiencyBonus']),
+      speed: serializer.fromJson<int?>(json['speed']),
+      savingThrowProficiencies: $PlayersTable
+          .$convertersavingThrowProficienciesn
+          .fromJson(
+            serializer.fromJson<List<dynamic>?>(
+              json['savingThrowProficiencies'],
+            ),
+          ),
+      skillProficiencies: $PlayersTable.$converterskillProficienciesn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['skillProficiencies']),
+      ),
+      languages: $PlayersTable.$converterlanguagesn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['languages']),
+      ),
+      equipment: $PlayersTable.$converterequipmentn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['equipment']),
+      ),
+      features: $PlayersTable.$converterfeaturesn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['features']),
+      ),
+      spells: $PlayersTable.$converterspellsn.fromJson(
+        serializer.fromJson<List<dynamic>?>(json['spells']),
+      ),
+      notes: $PlayersTable.$converternotesn.fromJson(
+        serializer.fromJson<Map<String, dynamic>?>(json['notes']),
+      ),
+      bio: $PlayersTable.$converterbion.fromJson(
+        serializer.fromJson<Map<String, dynamic>?>(json['bio']),
+      ),
+      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      deleted: serializer.fromJson<bool>(json['deleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'campaignId': serializer.toJson<String>(campaignId),
+      'playerUid': serializer.toJson<String?>(playerUid),
+      'name': serializer.toJson<String>(name),
+      'className': serializer.toJson<String>(className),
+      'subclass': serializer.toJson<String?>(subclass),
+      'level': serializer.toJson<int>(level),
+      'race': serializer.toJson<String?>(race),
+      'background': serializer.toJson<String?>(background),
+      'alignment': serializer.toJson<String?>(alignment),
+      'str': serializer.toJson<int>(str),
+      'dex': serializer.toJson<int>(dex),
+      'con': serializer.toJson<int>(con),
+      'intl': serializer.toJson<int>(intl),
+      'wis': serializer.toJson<int>(wis),
+      'cha': serializer.toJson<int>(cha),
+      'hpMax': serializer.toJson<int?>(hpMax),
+      'hpCurrent': serializer.toJson<int?>(hpCurrent),
+      'hpTemp': serializer.toJson<int?>(hpTemp),
+      'ac': serializer.toJson<int?>(ac),
+      'proficiencyBonus': serializer.toJson<int?>(proficiencyBonus),
+      'speed': serializer.toJson<int?>(speed),
+      'savingThrowProficiencies': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$convertersavingThrowProficienciesn.toJson(
+          savingThrowProficiencies,
+        ),
+      ),
+      'skillProficiencies': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$converterskillProficienciesn.toJson(skillProficiencies),
+      ),
+      'languages': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$converterlanguagesn.toJson(languages),
+      ),
+      'equipment': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$converterequipmentn.toJson(equipment),
+      ),
+      'features': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$converterfeaturesn.toJson(features),
+      ),
+      'spells': serializer.toJson<List<dynamic>?>(
+        $PlayersTable.$converterspellsn.toJson(spells),
+      ),
+      'notes': serializer.toJson<Map<String, dynamic>?>(
+        $PlayersTable.$converternotesn.toJson(notes),
+      ),
+      'bio': serializer.toJson<Map<String, dynamic>?>(
+        $PlayersTable.$converterbion.toJson(bio),
+      ),
+      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'deleted': serializer.toJson<bool>(deleted),
+    };
+  }
+
+  Player copyWith({
+    String? id,
+    String? campaignId,
+    Value<String?> playerUid = const Value.absent(),
+    String? name,
+    String? className,
+    Value<String?> subclass = const Value.absent(),
+    int? level,
+    Value<String?> race = const Value.absent(),
+    Value<String?> background = const Value.absent(),
+    Value<String?> alignment = const Value.absent(),
+    int? str,
+    int? dex,
+    int? con,
+    int? intl,
+    int? wis,
+    int? cha,
+    Value<int?> hpMax = const Value.absent(),
+    Value<int?> hpCurrent = const Value.absent(),
+    Value<int?> hpTemp = const Value.absent(),
+    Value<int?> ac = const Value.absent(),
+    Value<int?> proficiencyBonus = const Value.absent(),
+    Value<int?> speed = const Value.absent(),
+    Value<List<String>?> savingThrowProficiencies = const Value.absent(),
+    Value<List<String>?> skillProficiencies = const Value.absent(),
+    Value<List<String>?> languages = const Value.absent(),
+    Value<List<String>?> equipment = const Value.absent(),
+    Value<List<Map<String, dynamic>>?> features = const Value.absent(),
+    Value<List<String>?> spells = const Value.absent(),
+    Value<Map<String, dynamic>?> notes = const Value.absent(),
+    Value<Map<String, dynamic>?> bio = const Value.absent(),
+    Value<DateTime?> createdAt = const Value.absent(),
+    Value<DateTime?> updatedAt = const Value.absent(),
+    int? rev,
+    bool? deleted,
+  }) => Player(
+    id: id ?? this.id,
+    campaignId: campaignId ?? this.campaignId,
+    playerUid: playerUid.present ? playerUid.value : this.playerUid,
+    name: name ?? this.name,
+    className: className ?? this.className,
+    subclass: subclass.present ? subclass.value : this.subclass,
+    level: level ?? this.level,
+    race: race.present ? race.value : this.race,
+    background: background.present ? background.value : this.background,
+    alignment: alignment.present ? alignment.value : this.alignment,
+    str: str ?? this.str,
+    dex: dex ?? this.dex,
+    con: con ?? this.con,
+    intl: intl ?? this.intl,
+    wis: wis ?? this.wis,
+    cha: cha ?? this.cha,
+    hpMax: hpMax.present ? hpMax.value : this.hpMax,
+    hpCurrent: hpCurrent.present ? hpCurrent.value : this.hpCurrent,
+    hpTemp: hpTemp.present ? hpTemp.value : this.hpTemp,
+    ac: ac.present ? ac.value : this.ac,
+    proficiencyBonus: proficiencyBonus.present
+        ? proficiencyBonus.value
+        : this.proficiencyBonus,
+    speed: speed.present ? speed.value : this.speed,
+    savingThrowProficiencies: savingThrowProficiencies.present
+        ? savingThrowProficiencies.value
+        : this.savingThrowProficiencies,
+    skillProficiencies: skillProficiencies.present
+        ? skillProficiencies.value
+        : this.skillProficiencies,
+    languages: languages.present ? languages.value : this.languages,
+    equipment: equipment.present ? equipment.value : this.equipment,
+    features: features.present ? features.value : this.features,
+    spells: spells.present ? spells.value : this.spells,
+    notes: notes.present ? notes.value : this.notes,
+    bio: bio.present ? bio.value : this.bio,
+    createdAt: createdAt.present ? createdAt.value : this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    rev: rev ?? this.rev,
+    deleted: deleted ?? this.deleted,
+  );
+  Player copyWithCompanion(PlayersCompanion data) {
+    return Player(
+      id: data.id.present ? data.id.value : this.id,
+      campaignId: data.campaignId.present
+          ? data.campaignId.value
+          : this.campaignId,
+      playerUid: data.playerUid.present ? data.playerUid.value : this.playerUid,
+      name: data.name.present ? data.name.value : this.name,
+      className: data.className.present ? data.className.value : this.className,
+      subclass: data.subclass.present ? data.subclass.value : this.subclass,
+      level: data.level.present ? data.level.value : this.level,
+      race: data.race.present ? data.race.value : this.race,
+      background: data.background.present
+          ? data.background.value
+          : this.background,
+      alignment: data.alignment.present ? data.alignment.value : this.alignment,
+      str: data.str.present ? data.str.value : this.str,
+      dex: data.dex.present ? data.dex.value : this.dex,
+      con: data.con.present ? data.con.value : this.con,
+      intl: data.intl.present ? data.intl.value : this.intl,
+      wis: data.wis.present ? data.wis.value : this.wis,
+      cha: data.cha.present ? data.cha.value : this.cha,
+      hpMax: data.hpMax.present ? data.hpMax.value : this.hpMax,
+      hpCurrent: data.hpCurrent.present ? data.hpCurrent.value : this.hpCurrent,
+      hpTemp: data.hpTemp.present ? data.hpTemp.value : this.hpTemp,
+      ac: data.ac.present ? data.ac.value : this.ac,
+      proficiencyBonus: data.proficiencyBonus.present
+          ? data.proficiencyBonus.value
+          : this.proficiencyBonus,
+      speed: data.speed.present ? data.speed.value : this.speed,
+      savingThrowProficiencies: data.savingThrowProficiencies.present
+          ? data.savingThrowProficiencies.value
+          : this.savingThrowProficiencies,
+      skillProficiencies: data.skillProficiencies.present
+          ? data.skillProficiencies.value
+          : this.skillProficiencies,
+      languages: data.languages.present ? data.languages.value : this.languages,
+      equipment: data.equipment.present ? data.equipment.value : this.equipment,
+      features: data.features.present ? data.features.value : this.features,
+      spells: data.spells.present ? data.spells.value : this.spells,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      bio: data.bio.present ? data.bio.value : this.bio,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      deleted: data.deleted.present ? data.deleted.value : this.deleted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Player(')
+          ..write('id: $id, ')
+          ..write('campaignId: $campaignId, ')
+          ..write('playerUid: $playerUid, ')
+          ..write('name: $name, ')
+          ..write('className: $className, ')
+          ..write('subclass: $subclass, ')
+          ..write('level: $level, ')
+          ..write('race: $race, ')
+          ..write('background: $background, ')
+          ..write('alignment: $alignment, ')
+          ..write('str: $str, ')
+          ..write('dex: $dex, ')
+          ..write('con: $con, ')
+          ..write('intl: $intl, ')
+          ..write('wis: $wis, ')
+          ..write('cha: $cha, ')
+          ..write('hpMax: $hpMax, ')
+          ..write('hpCurrent: $hpCurrent, ')
+          ..write('hpTemp: $hpTemp, ')
+          ..write('ac: $ac, ')
+          ..write('proficiencyBonus: $proficiencyBonus, ')
+          ..write('speed: $speed, ')
+          ..write('savingThrowProficiencies: $savingThrowProficiencies, ')
+          ..write('skillProficiencies: $skillProficiencies, ')
+          ..write('languages: $languages, ')
+          ..write('equipment: $equipment, ')
+          ..write('features: $features, ')
+          ..write('spells: $spells, ')
+          ..write('notes: $notes, ')
+          ..write('bio: $bio, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('deleted: $deleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    id,
+    campaignId,
+    playerUid,
+    name,
+    className,
+    subclass,
+    level,
+    race,
+    background,
+    alignment,
+    str,
+    dex,
+    con,
+    intl,
+    wis,
+    cha,
+    hpMax,
+    hpCurrent,
+    hpTemp,
+    ac,
+    proficiencyBonus,
+    speed,
+    savingThrowProficiencies,
+    skillProficiencies,
+    languages,
+    equipment,
+    features,
+    spells,
+    notes,
+    bio,
+    createdAt,
+    updatedAt,
+    rev,
+    deleted,
+  ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Player &&
+          other.id == this.id &&
+          other.campaignId == this.campaignId &&
+          other.playerUid == this.playerUid &&
+          other.name == this.name &&
+          other.className == this.className &&
+          other.subclass == this.subclass &&
+          other.level == this.level &&
+          other.race == this.race &&
+          other.background == this.background &&
+          other.alignment == this.alignment &&
+          other.str == this.str &&
+          other.dex == this.dex &&
+          other.con == this.con &&
+          other.intl == this.intl &&
+          other.wis == this.wis &&
+          other.cha == this.cha &&
+          other.hpMax == this.hpMax &&
+          other.hpCurrent == this.hpCurrent &&
+          other.hpTemp == this.hpTemp &&
+          other.ac == this.ac &&
+          other.proficiencyBonus == this.proficiencyBonus &&
+          other.speed == this.speed &&
+          other.savingThrowProficiencies == this.savingThrowProficiencies &&
+          other.skillProficiencies == this.skillProficiencies &&
+          other.languages == this.languages &&
+          other.equipment == this.equipment &&
+          other.features == this.features &&
+          other.spells == this.spells &&
+          other.notes == this.notes &&
+          other.bio == this.bio &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.deleted == this.deleted);
+}
+
+class PlayersCompanion extends UpdateCompanion<Player> {
+  final Value<String> id;
+  final Value<String> campaignId;
+  final Value<String?> playerUid;
+  final Value<String> name;
+  final Value<String> className;
+  final Value<String?> subclass;
+  final Value<int> level;
+  final Value<String?> race;
+  final Value<String?> background;
+  final Value<String?> alignment;
+  final Value<int> str;
+  final Value<int> dex;
+  final Value<int> con;
+  final Value<int> intl;
+  final Value<int> wis;
+  final Value<int> cha;
+  final Value<int?> hpMax;
+  final Value<int?> hpCurrent;
+  final Value<int?> hpTemp;
+  final Value<int?> ac;
+  final Value<int?> proficiencyBonus;
+  final Value<int?> speed;
+  final Value<List<String>?> savingThrowProficiencies;
+  final Value<List<String>?> skillProficiencies;
+  final Value<List<String>?> languages;
+  final Value<List<String>?> equipment;
+  final Value<List<Map<String, dynamic>>?> features;
+  final Value<List<String>?> spells;
+  final Value<Map<String, dynamic>?> notes;
+  final Value<Map<String, dynamic>?> bio;
+  final Value<DateTime?> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rev;
+  final Value<bool> deleted;
+  final Value<int> rowid;
+  const PlayersCompanion({
+    this.id = const Value.absent(),
+    this.campaignId = const Value.absent(),
+    this.playerUid = const Value.absent(),
+    this.name = const Value.absent(),
+    this.className = const Value.absent(),
+    this.subclass = const Value.absent(),
+    this.level = const Value.absent(),
+    this.race = const Value.absent(),
+    this.background = const Value.absent(),
+    this.alignment = const Value.absent(),
+    this.str = const Value.absent(),
+    this.dex = const Value.absent(),
+    this.con = const Value.absent(),
+    this.intl = const Value.absent(),
+    this.wis = const Value.absent(),
+    this.cha = const Value.absent(),
+    this.hpMax = const Value.absent(),
+    this.hpCurrent = const Value.absent(),
+    this.hpTemp = const Value.absent(),
+    this.ac = const Value.absent(),
+    this.proficiencyBonus = const Value.absent(),
+    this.speed = const Value.absent(),
+    this.savingThrowProficiencies = const Value.absent(),
+    this.skillProficiencies = const Value.absent(),
+    this.languages = const Value.absent(),
+    this.equipment = const Value.absent(),
+    this.features = const Value.absent(),
+    this.spells = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.bio = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.deleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PlayersCompanion.insert({
+    required String id,
+    required String campaignId,
+    this.playerUid = const Value.absent(),
+    required String name,
+    required String className,
+    this.subclass = const Value.absent(),
+    this.level = const Value.absent(),
+    this.race = const Value.absent(),
+    this.background = const Value.absent(),
+    this.alignment = const Value.absent(),
+    this.str = const Value.absent(),
+    this.dex = const Value.absent(),
+    this.con = const Value.absent(),
+    this.intl = const Value.absent(),
+    this.wis = const Value.absent(),
+    this.cha = const Value.absent(),
+    this.hpMax = const Value.absent(),
+    this.hpCurrent = const Value.absent(),
+    this.hpTemp = const Value.absent(),
+    this.ac = const Value.absent(),
+    this.proficiencyBonus = const Value.absent(),
+    this.speed = const Value.absent(),
+    this.savingThrowProficiencies = const Value.absent(),
+    this.skillProficiencies = const Value.absent(),
+    this.languages = const Value.absent(),
+    this.equipment = const Value.absent(),
+    this.features = const Value.absent(),
+    this.spells = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.bio = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.deleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       campaignId = Value(campaignId),
+       name = Value(name),
+       className = Value(className);
+  static Insertable<Player> custom({
+    Expression<String>? id,
+    Expression<String>? campaignId,
+    Expression<String>? playerUid,
+    Expression<String>? name,
+    Expression<String>? className,
+    Expression<String>? subclass,
+    Expression<int>? level,
+    Expression<String>? race,
+    Expression<String>? background,
+    Expression<String>? alignment,
+    Expression<int>? str,
+    Expression<int>? dex,
+    Expression<int>? con,
+    Expression<int>? intl,
+    Expression<int>? wis,
+    Expression<int>? cha,
+    Expression<int>? hpMax,
+    Expression<int>? hpCurrent,
+    Expression<int>? hpTemp,
+    Expression<int>? ac,
+    Expression<int>? proficiencyBonus,
+    Expression<int>? speed,
+    Expression<String>? savingThrowProficiencies,
+    Expression<String>? skillProficiencies,
+    Expression<String>? languages,
+    Expression<String>? equipment,
+    Expression<String>? features,
+    Expression<String>? spells,
+    Expression<String>? notes,
+    Expression<String>? bio,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rev,
+    Expression<bool>? deleted,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (campaignId != null) 'campaign_id': campaignId,
+      if (playerUid != null) 'player_uid': playerUid,
+      if (name != null) 'name': name,
+      if (className != null) 'class_name': className,
+      if (subclass != null) 'subclass': subclass,
+      if (level != null) 'level': level,
+      if (race != null) 'race': race,
+      if (background != null) 'background': background,
+      if (alignment != null) 'alignment': alignment,
+      if (str != null) 'str': str,
+      if (dex != null) 'dex': dex,
+      if (con != null) 'con': con,
+      if (intl != null) 'intl': intl,
+      if (wis != null) 'wis': wis,
+      if (cha != null) 'cha': cha,
+      if (hpMax != null) 'hp_max': hpMax,
+      if (hpCurrent != null) 'hp_current': hpCurrent,
+      if (hpTemp != null) 'hp_temp': hpTemp,
+      if (ac != null) 'ac': ac,
+      if (proficiencyBonus != null) 'proficiency_bonus': proficiencyBonus,
+      if (speed != null) 'speed': speed,
+      if (savingThrowProficiencies != null)
+        'saving_throw_proficiencies': savingThrowProficiencies,
+      if (skillProficiencies != null) 'skill_proficiencies': skillProficiencies,
+      if (languages != null) 'languages': languages,
+      if (equipment != null) 'equipment': equipment,
+      if (features != null) 'features': features,
+      if (spells != null) 'spells': spells,
+      if (notes != null) 'notes': notes,
+      if (bio != null) 'bio': bio,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (deleted != null) 'deleted': deleted,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PlayersCompanion copyWith({
+    Value<String>? id,
+    Value<String>? campaignId,
+    Value<String?>? playerUid,
+    Value<String>? name,
+    Value<String>? className,
+    Value<String?>? subclass,
+    Value<int>? level,
+    Value<String?>? race,
+    Value<String?>? background,
+    Value<String?>? alignment,
+    Value<int>? str,
+    Value<int>? dex,
+    Value<int>? con,
+    Value<int>? intl,
+    Value<int>? wis,
+    Value<int>? cha,
+    Value<int?>? hpMax,
+    Value<int?>? hpCurrent,
+    Value<int?>? hpTemp,
+    Value<int?>? ac,
+    Value<int?>? proficiencyBonus,
+    Value<int?>? speed,
+    Value<List<String>?>? savingThrowProficiencies,
+    Value<List<String>?>? skillProficiencies,
+    Value<List<String>?>? languages,
+    Value<List<String>?>? equipment,
+    Value<List<Map<String, dynamic>>?>? features,
+    Value<List<String>?>? spells,
+    Value<Map<String, dynamic>?>? notes,
+    Value<Map<String, dynamic>?>? bio,
+    Value<DateTime?>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rev,
+    Value<bool>? deleted,
+    Value<int>? rowid,
+  }) {
+    return PlayersCompanion(
+      id: id ?? this.id,
+      campaignId: campaignId ?? this.campaignId,
+      playerUid: playerUid ?? this.playerUid,
+      name: name ?? this.name,
+      className: className ?? this.className,
+      subclass: subclass ?? this.subclass,
+      level: level ?? this.level,
+      race: race ?? this.race,
+      background: background ?? this.background,
+      alignment: alignment ?? this.alignment,
+      str: str ?? this.str,
+      dex: dex ?? this.dex,
+      con: con ?? this.con,
+      intl: intl ?? this.intl,
+      wis: wis ?? this.wis,
+      cha: cha ?? this.cha,
+      hpMax: hpMax ?? this.hpMax,
+      hpCurrent: hpCurrent ?? this.hpCurrent,
+      hpTemp: hpTemp ?? this.hpTemp,
+      ac: ac ?? this.ac,
+      proficiencyBonus: proficiencyBonus ?? this.proficiencyBonus,
+      speed: speed ?? this.speed,
+      savingThrowProficiencies:
+          savingThrowProficiencies ?? this.savingThrowProficiencies,
+      skillProficiencies: skillProficiencies ?? this.skillProficiencies,
+      languages: languages ?? this.languages,
+      equipment: equipment ?? this.equipment,
+      features: features ?? this.features,
+      spells: spells ?? this.spells,
+      notes: notes ?? this.notes,
+      bio: bio ?? this.bio,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      deleted: deleted ?? this.deleted,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (campaignId.present) {
+      map['campaign_id'] = Variable<String>(campaignId.value);
+    }
+    if (playerUid.present) {
+      map['player_uid'] = Variable<String>(playerUid.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (className.present) {
+      map['class_name'] = Variable<String>(className.value);
+    }
+    if (subclass.present) {
+      map['subclass'] = Variable<String>(subclass.value);
+    }
+    if (level.present) {
+      map['level'] = Variable<int>(level.value);
+    }
+    if (race.present) {
+      map['race'] = Variable<String>(race.value);
+    }
+    if (background.present) {
+      map['background'] = Variable<String>(background.value);
+    }
+    if (alignment.present) {
+      map['alignment'] = Variable<String>(alignment.value);
+    }
+    if (str.present) {
+      map['str'] = Variable<int>(str.value);
+    }
+    if (dex.present) {
+      map['dex'] = Variable<int>(dex.value);
+    }
+    if (con.present) {
+      map['con'] = Variable<int>(con.value);
+    }
+    if (intl.present) {
+      map['intl'] = Variable<int>(intl.value);
+    }
+    if (wis.present) {
+      map['wis'] = Variable<int>(wis.value);
+    }
+    if (cha.present) {
+      map['cha'] = Variable<int>(cha.value);
+    }
+    if (hpMax.present) {
+      map['hp_max'] = Variable<int>(hpMax.value);
+    }
+    if (hpCurrent.present) {
+      map['hp_current'] = Variable<int>(hpCurrent.value);
+    }
+    if (hpTemp.present) {
+      map['hp_temp'] = Variable<int>(hpTemp.value);
+    }
+    if (ac.present) {
+      map['ac'] = Variable<int>(ac.value);
+    }
+    if (proficiencyBonus.present) {
+      map['proficiency_bonus'] = Variable<int>(proficiencyBonus.value);
+    }
+    if (speed.present) {
+      map['speed'] = Variable<int>(speed.value);
+    }
+    if (savingThrowProficiencies.present) {
+      map['saving_throw_proficiencies'] = Variable<String>(
+        $PlayersTable.$convertersavingThrowProficienciesn.toSql(
+          savingThrowProficiencies.value,
+        ),
+      );
+    }
+    if (skillProficiencies.present) {
+      map['skill_proficiencies'] = Variable<String>(
+        $PlayersTable.$converterskillProficienciesn.toSql(
+          skillProficiencies.value,
+        ),
+      );
+    }
+    if (languages.present) {
+      map['languages'] = Variable<String>(
+        $PlayersTable.$converterlanguagesn.toSql(languages.value),
+      );
+    }
+    if (equipment.present) {
+      map['equipment'] = Variable<String>(
+        $PlayersTable.$converterequipmentn.toSql(equipment.value),
+      );
+    }
+    if (features.present) {
+      map['features'] = Variable<String>(
+        $PlayersTable.$converterfeaturesn.toSql(features.value),
+      );
+    }
+    if (spells.present) {
+      map['spells'] = Variable<String>(
+        $PlayersTable.$converterspellsn.toSql(spells.value),
+      );
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(
+        $PlayersTable.$converternotesn.toSql(notes.value),
+      );
+    }
+    if (bio.present) {
+      map['bio'] = Variable<String>(
+        $PlayersTable.$converterbion.toSql(bio.value),
+      );
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (deleted.present) {
+      map['deleted'] = Variable<bool>(deleted.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PlayersCompanion(')
+          ..write('id: $id, ')
+          ..write('campaignId: $campaignId, ')
+          ..write('playerUid: $playerUid, ')
+          ..write('name: $name, ')
+          ..write('className: $className, ')
+          ..write('subclass: $subclass, ')
+          ..write('level: $level, ')
+          ..write('race: $race, ')
+          ..write('background: $background, ')
+          ..write('alignment: $alignment, ')
+          ..write('str: $str, ')
+          ..write('dex: $dex, ')
+          ..write('con: $con, ')
+          ..write('intl: $intl, ')
+          ..write('wis: $wis, ')
+          ..write('cha: $cha, ')
+          ..write('hpMax: $hpMax, ')
+          ..write('hpCurrent: $hpCurrent, ')
+          ..write('hpTemp: $hpTemp, ')
+          ..write('ac: $ac, ')
+          ..write('proficiencyBonus: $proficiencyBonus, ')
+          ..write('speed: $speed, ')
+          ..write('savingThrowProficiencies: $savingThrowProficiencies, ')
+          ..write('skillProficiencies: $skillProficiencies, ')
+          ..write('languages: $languages, ')
+          ..write('equipment: $equipment, ')
+          ..write('features: $features, ')
+          ..write('spells: $spells, ')
+          ..write('notes: $notes, ')
+          ..write('bio: $bio, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('deleted: $deleted, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $OutboxEntriesTable extends OutboxEntries
     with TableInfo<$OutboxEntriesTable, OutboxEntry> {
   @override
@@ -7359,6 +9258,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final $CombatantsTable combatants = $CombatantsTable(this);
   late final $MediaAssetsTable mediaAssets = $MediaAssetsTable(this);
   late final $SessionsTable sessions = $SessionsTable(this);
+  late final $PlayersTable players = $PlayersTable(this);
   late final $OutboxEntriesTable outboxEntries = $OutboxEntriesTable(this);
   late final CampaignDao campaignDao = CampaignDao(this as AppDb);
   late final ChapterDao chapterDao = ChapterDao(this as AppDb);
@@ -7370,6 +9270,7 @@ abstract class _$AppDb extends GeneratedDatabase {
   late final CombatantDao combatantDao = CombatantDao(this as AppDb);
   late final MediaAssetDao mediaAssetDao = MediaAssetDao(this as AppDb);
   late final SessionDao sessionDao = SessionDao(this as AppDb);
+  late final PlayerDao playerDao = PlayerDao(this as AppDb);
   late final OutboxDao outboxDao = OutboxDao(this as AppDb);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -7386,6 +9287,7 @@ abstract class _$AppDb extends GeneratedDatabase {
     combatants,
     mediaAssets,
     sessions,
+    players,
     outboxEntries,
   ];
   @override
@@ -7424,6 +9326,13 @@ abstract class _$AppDb extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('combatants', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'campaigns',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('players', kind: UpdateKind.delete)],
     ),
   ]);
   @override
@@ -7497,6 +9406,25 @@ final class $$CampaignsTableReferences
     ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_partiesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$PlayersTable, List<Player>> _playersRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.players,
+    aliasName: $_aliasNameGenerator(db.campaigns.id, db.players.campaignId),
+  );
+
+  $$PlayersTableProcessedTableManager get playersRefs {
+    final manager = $$PlayersTableTableManager(
+      $_db,
+      $_db.players,
+    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_playersRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -7610,6 +9538,31 @@ class $$CampaignsTableFilterComposer
           }) => $$PartiesTableFilterComposer(
             $db: $db,
             $table: $db.parties,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> playersRefs(
+    Expression<bool> Function($$PlayersTableFilterComposer f) f,
+  ) {
+    final $$PlayersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.players,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PlayersTableFilterComposer(
+            $db: $db,
+            $table: $db.players,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7773,6 +9726,31 @@ class $$CampaignsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> playersRefs<T extends Object>(
+    Expression<T> Function($$PlayersTableAnnotationComposer a) f,
+  ) {
+    final $$PlayersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.players,
+      getReferencedColumn: (t) => t.campaignId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PlayersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.players,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CampaignsTableTableManager
@@ -7788,7 +9766,11 @@ class $$CampaignsTableTableManager
           $$CampaignsTableUpdateCompanionBuilder,
           (Campaign, $$CampaignsTableReferences),
           Campaign,
-          PrefetchHooks Function({bool chaptersRefs, bool partiesRefs})
+          PrefetchHooks Function({
+            bool chaptersRefs,
+            bool partiesRefs,
+            bool playersRefs,
+          })
         > {
   $$CampaignsTableTableManager(_$AppDb db, $CampaignsTable table)
     : super(
@@ -7861,50 +9843,89 @@ class $$CampaignsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({chaptersRefs = false, partiesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (chaptersRefs) db.chapters,
-                if (partiesRefs) db.parties,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (chaptersRefs)
-                    await $_getPrefetchedData<
-                      Campaign,
-                      $CampaignsTable,
-                      Chapter
-                    >(
-                      currentTable: table,
-                      referencedTable: $$CampaignsTableReferences
-                          ._chaptersRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$CampaignsTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).chaptersRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.campaignId == item.id),
-                      typedResults: items,
-                    ),
-                  if (partiesRefs)
-                    await $_getPrefetchedData<Campaign, $CampaignsTable, Party>(
-                      currentTable: table,
-                      referencedTable: $$CampaignsTableReferences
-                          ._partiesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$CampaignsTableReferences(db, table, p0).partiesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.campaignId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({
+                chaptersRefs = false,
+                partiesRefs = false,
+                playersRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (chaptersRefs) db.chapters,
+                    if (partiesRefs) db.parties,
+                    if (playersRefs) db.players,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (chaptersRefs)
+                        await $_getPrefetchedData<
+                          Campaign,
+                          $CampaignsTable,
+                          Chapter
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CampaignsTableReferences
+                              ._chaptersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CampaignsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).chaptersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.campaignId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (partiesRefs)
+                        await $_getPrefetchedData<
+                          Campaign,
+                          $CampaignsTable,
+                          Party
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CampaignsTableReferences
+                              ._partiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CampaignsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).partiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.campaignId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (playersRefs)
+                        await $_getPrefetchedData<
+                          Campaign,
+                          $CampaignsTable,
+                          Player
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CampaignsTableReferences
+                              ._playersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CampaignsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).playersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.campaignId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -7921,7 +9942,11 @@ typedef $$CampaignsTableProcessedTableManager =
       $$CampaignsTableUpdateCompanionBuilder,
       (Campaign, $$CampaignsTableReferences),
       Campaign,
-      PrefetchHooks Function({bool chaptersRefs, bool partiesRefs})
+      PrefetchHooks Function({
+        bool chaptersRefs,
+        bool partiesRefs,
+        bool playersRefs,
+      })
     >;
 typedef $$ChaptersTableCreateCompanionBuilder =
     ChaptersCompanion Function({
@@ -9361,6 +11386,7 @@ typedef $$PartiesTableCreateCompanionBuilder =
       required String name,
       Value<String?> summary,
       Value<List<String>?> memberEntityIds,
+      Value<List<String>?> memberPlayerIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       required int rev,
@@ -9373,6 +11399,7 @@ typedef $$PartiesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String?> summary,
       Value<List<String>?> memberEntityIds,
+      Value<List<String>?> memberPlayerIds,
       Value<DateTime?> createdAt,
       Value<DateTime?> updatedAt,
       Value<int> rev,
@@ -9429,6 +11456,12 @@ class $$PartiesTableFilterComposer extends Composer<_$AppDb, $PartiesTable> {
   ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
   get memberEntityIds => $composableBuilder(
     column: $table.memberEntityIds,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get memberPlayerIds => $composableBuilder(
+    column: $table.memberPlayerIds,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -9499,6 +11532,11 @@ class $$PartiesTableOrderingComposer extends Composer<_$AppDb, $PartiesTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get memberPlayerIds => $composableBuilder(
+    column: $table.memberPlayerIds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -9559,6 +11597,12 @@ class $$PartiesTableAnnotationComposer
   GeneratedColumnWithTypeConverter<List<String>?, String> get memberEntityIds =>
       $composableBuilder(
         column: $table.memberEntityIds,
+        builder: (column) => column,
+      );
+
+  GeneratedColumnWithTypeConverter<List<String>?, String> get memberPlayerIds =>
+      $composableBuilder(
+        column: $table.memberPlayerIds,
         builder: (column) => column,
       );
 
@@ -9628,6 +11672,7 @@ class $$PartiesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> memberEntityIds = const Value.absent(),
+                Value<List<String>?> memberPlayerIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<int> rev = const Value.absent(),
@@ -9638,6 +11683,7 @@ class $$PartiesTableTableManager
                 name: name,
                 summary: summary,
                 memberEntityIds: memberEntityIds,
+                memberPlayerIds: memberPlayerIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -9650,6 +11696,7 @@ class $$PartiesTableTableManager
                 required String name,
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> memberEntityIds = const Value.absent(),
+                Value<List<String>?> memberPlayerIds = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<DateTime?> updatedAt = const Value.absent(),
                 required int rev,
@@ -9660,6 +11707,7 @@ class $$PartiesTableTableManager
                 name: name,
                 summary: summary,
                 memberEntityIds: memberEntityIds,
+                memberPlayerIds: memberPlayerIds,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rev: rev,
@@ -11773,6 +13821,909 @@ typedef $$SessionsTableProcessedTableManager =
       Session,
       PrefetchHooks Function()
     >;
+typedef $$PlayersTableCreateCompanionBuilder =
+    PlayersCompanion Function({
+      required String id,
+      required String campaignId,
+      Value<String?> playerUid,
+      required String name,
+      required String className,
+      Value<String?> subclass,
+      Value<int> level,
+      Value<String?> race,
+      Value<String?> background,
+      Value<String?> alignment,
+      Value<int> str,
+      Value<int> dex,
+      Value<int> con,
+      Value<int> intl,
+      Value<int> wis,
+      Value<int> cha,
+      Value<int?> hpMax,
+      Value<int?> hpCurrent,
+      Value<int?> hpTemp,
+      Value<int?> ac,
+      Value<int?> proficiencyBonus,
+      Value<int?> speed,
+      Value<List<String>?> savingThrowProficiencies,
+      Value<List<String>?> skillProficiencies,
+      Value<List<String>?> languages,
+      Value<List<String>?> equipment,
+      Value<List<Map<String, dynamic>>?> features,
+      Value<List<String>?> spells,
+      Value<Map<String, dynamic>?> notes,
+      Value<Map<String, dynamic>?> bio,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
+typedef $$PlayersTableUpdateCompanionBuilder =
+    PlayersCompanion Function({
+      Value<String> id,
+      Value<String> campaignId,
+      Value<String?> playerUid,
+      Value<String> name,
+      Value<String> className,
+      Value<String?> subclass,
+      Value<int> level,
+      Value<String?> race,
+      Value<String?> background,
+      Value<String?> alignment,
+      Value<int> str,
+      Value<int> dex,
+      Value<int> con,
+      Value<int> intl,
+      Value<int> wis,
+      Value<int> cha,
+      Value<int?> hpMax,
+      Value<int?> hpCurrent,
+      Value<int?> hpTemp,
+      Value<int?> ac,
+      Value<int?> proficiencyBonus,
+      Value<int?> speed,
+      Value<List<String>?> savingThrowProficiencies,
+      Value<List<String>?> skillProficiencies,
+      Value<List<String>?> languages,
+      Value<List<String>?> equipment,
+      Value<List<Map<String, dynamic>>?> features,
+      Value<List<String>?> spells,
+      Value<Map<String, dynamic>?> notes,
+      Value<Map<String, dynamic>?> bio,
+      Value<DateTime?> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<int> rev,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
+
+final class $$PlayersTableReferences
+    extends BaseReferences<_$AppDb, $PlayersTable, Player> {
+  $$PlayersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CampaignsTable _campaignIdTable(_$AppDb db) =>
+      db.campaigns.createAlias(
+        $_aliasNameGenerator(db.players.campaignId, db.campaigns.id),
+      );
+
+  $$CampaignsTableProcessedTableManager get campaignId {
+    final $_column = $_itemColumn<String>('campaign_id')!;
+
+    final manager = $$CampaignsTableTableManager(
+      $_db,
+      $_db.campaigns,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$PlayersTableFilterComposer extends Composer<_$AppDb, $PlayersTable> {
+  $$PlayersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get playerUid => $composableBuilder(
+    column: $table.playerUid,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get className => $composableBuilder(
+    column: $table.className,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subclass => $composableBuilder(
+    column: $table.subclass,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get race => $composableBuilder(
+    column: $table.race,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get background => $composableBuilder(
+    column: $table.background,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get alignment => $composableBuilder(
+    column: $table.alignment,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get str => $composableBuilder(
+    column: $table.str,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dex => $composableBuilder(
+    column: $table.dex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get con => $composableBuilder(
+    column: $table.con,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get intl => $composableBuilder(
+    column: $table.intl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get wis => $composableBuilder(
+    column: $table.wis,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cha => $composableBuilder(
+    column: $table.cha,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hpMax => $composableBuilder(
+    column: $table.hpMax,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hpCurrent => $composableBuilder(
+    column: $table.hpCurrent,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hpTemp => $composableBuilder(
+    column: $table.hpTemp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get ac => $composableBuilder(
+    column: $table.ac,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get proficiencyBonus => $composableBuilder(
+    column: $table.proficiencyBonus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get speed => $composableBuilder(
+    column: $table.speed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get savingThrowProficiencies => $composableBuilder(
+    column: $table.savingThrowProficiencies,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get skillProficiencies => $composableBuilder(
+    column: $table.skillProficiencies,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get languages => $composableBuilder(
+    column: $table.languages,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get equipment => $composableBuilder(
+    column: $table.equipment,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    List<Map<String, dynamic>>?,
+    List<Map<String, dynamic>>,
+    String
+  >
+  get features => $composableBuilder(
+    column: $table.features,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<String>?, List<String>, String>
+  get spells => $composableBuilder(
+    column: $table.spells,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    Map<String, dynamic>?,
+    Map<String, dynamic>,
+    String
+  >
+  get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    Map<String, dynamic>?,
+    Map<String, dynamic>,
+    String
+  >
+  get bio => $composableBuilder(
+    column: $table.bio,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get deleted => $composableBuilder(
+    column: $table.deleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CampaignsTableFilterComposer get campaignId {
+    final $$CampaignsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableFilterComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableOrderingComposer extends Composer<_$AppDb, $PlayersTable> {
+  $$PlayersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get playerUid => $composableBuilder(
+    column: $table.playerUid,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get className => $composableBuilder(
+    column: $table.className,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subclass => $composableBuilder(
+    column: $table.subclass,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get level => $composableBuilder(
+    column: $table.level,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get race => $composableBuilder(
+    column: $table.race,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get background => $composableBuilder(
+    column: $table.background,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get alignment => $composableBuilder(
+    column: $table.alignment,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get str => $composableBuilder(
+    column: $table.str,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get dex => $composableBuilder(
+    column: $table.dex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get con => $composableBuilder(
+    column: $table.con,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get intl => $composableBuilder(
+    column: $table.intl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get wis => $composableBuilder(
+    column: $table.wis,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cha => $composableBuilder(
+    column: $table.cha,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hpMax => $composableBuilder(
+    column: $table.hpMax,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hpCurrent => $composableBuilder(
+    column: $table.hpCurrent,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hpTemp => $composableBuilder(
+    column: $table.hpTemp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get ac => $composableBuilder(
+    column: $table.ac,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get proficiencyBonus => $composableBuilder(
+    column: $table.proficiencyBonus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get speed => $composableBuilder(
+    column: $table.speed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get savingThrowProficiencies => $composableBuilder(
+    column: $table.savingThrowProficiencies,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get skillProficiencies => $composableBuilder(
+    column: $table.skillProficiencies,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get languages => $composableBuilder(
+    column: $table.languages,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get equipment => $composableBuilder(
+    column: $table.equipment,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get features => $composableBuilder(
+    column: $table.features,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get spells => $composableBuilder(
+    column: $table.spells,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bio => $composableBuilder(
+    column: $table.bio,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get deleted => $composableBuilder(
+    column: $table.deleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CampaignsTableOrderingComposer get campaignId {
+    final $$CampaignsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableOrderingComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableAnnotationComposer
+    extends Composer<_$AppDb, $PlayersTable> {
+  $$PlayersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get playerUid =>
+      $composableBuilder(column: $table.playerUid, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get className =>
+      $composableBuilder(column: $table.className, builder: (column) => column);
+
+  GeneratedColumn<String> get subclass =>
+      $composableBuilder(column: $table.subclass, builder: (column) => column);
+
+  GeneratedColumn<int> get level =>
+      $composableBuilder(column: $table.level, builder: (column) => column);
+
+  GeneratedColumn<String> get race =>
+      $composableBuilder(column: $table.race, builder: (column) => column);
+
+  GeneratedColumn<String> get background => $composableBuilder(
+    column: $table.background,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get alignment =>
+      $composableBuilder(column: $table.alignment, builder: (column) => column);
+
+  GeneratedColumn<int> get str =>
+      $composableBuilder(column: $table.str, builder: (column) => column);
+
+  GeneratedColumn<int> get dex =>
+      $composableBuilder(column: $table.dex, builder: (column) => column);
+
+  GeneratedColumn<int> get con =>
+      $composableBuilder(column: $table.con, builder: (column) => column);
+
+  GeneratedColumn<int> get intl =>
+      $composableBuilder(column: $table.intl, builder: (column) => column);
+
+  GeneratedColumn<int> get wis =>
+      $composableBuilder(column: $table.wis, builder: (column) => column);
+
+  GeneratedColumn<int> get cha =>
+      $composableBuilder(column: $table.cha, builder: (column) => column);
+
+  GeneratedColumn<int> get hpMax =>
+      $composableBuilder(column: $table.hpMax, builder: (column) => column);
+
+  GeneratedColumn<int> get hpCurrent =>
+      $composableBuilder(column: $table.hpCurrent, builder: (column) => column);
+
+  GeneratedColumn<int> get hpTemp =>
+      $composableBuilder(column: $table.hpTemp, builder: (column) => column);
+
+  GeneratedColumn<int> get ac =>
+      $composableBuilder(column: $table.ac, builder: (column) => column);
+
+  GeneratedColumn<int> get proficiencyBonus => $composableBuilder(
+    column: $table.proficiencyBonus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get speed =>
+      $composableBuilder(column: $table.speed, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>?, String>
+  get savingThrowProficiencies => $composableBuilder(
+    column: $table.savingThrowProficiencies,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<List<String>?, String>
+  get skillProficiencies => $composableBuilder(
+    column: $table.skillProficiencies,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<List<String>?, String> get languages =>
+      $composableBuilder(column: $table.languages, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>?, String> get equipment =>
+      $composableBuilder(column: $table.equipment, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<Map<String, dynamic>>?, String>
+  get features =>
+      $composableBuilder(column: $table.features, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<String>?, String> get spells =>
+      $composableBuilder(column: $table.spells, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<Map<String, dynamic>?, String> get bio =>
+      $composableBuilder(column: $table.bio, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<bool> get deleted =>
+      $composableBuilder(column: $table.deleted, builder: (column) => column);
+
+  $$CampaignsTableAnnotationComposer get campaignId {
+    final $$CampaignsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.campaignId,
+      referencedTable: $db.campaigns,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CampaignsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.campaigns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PlayersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $PlayersTable,
+          Player,
+          $$PlayersTableFilterComposer,
+          $$PlayersTableOrderingComposer,
+          $$PlayersTableAnnotationComposer,
+          $$PlayersTableCreateCompanionBuilder,
+          $$PlayersTableUpdateCompanionBuilder,
+          (Player, $$PlayersTableReferences),
+          Player,
+          PrefetchHooks Function({bool campaignId})
+        > {
+  $$PlayersTableTableManager(_$AppDb db, $PlayersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlayersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlayersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlayersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> campaignId = const Value.absent(),
+                Value<String?> playerUid = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> className = const Value.absent(),
+                Value<String?> subclass = const Value.absent(),
+                Value<int> level = const Value.absent(),
+                Value<String?> race = const Value.absent(),
+                Value<String?> background = const Value.absent(),
+                Value<String?> alignment = const Value.absent(),
+                Value<int> str = const Value.absent(),
+                Value<int> dex = const Value.absent(),
+                Value<int> con = const Value.absent(),
+                Value<int> intl = const Value.absent(),
+                Value<int> wis = const Value.absent(),
+                Value<int> cha = const Value.absent(),
+                Value<int?> hpMax = const Value.absent(),
+                Value<int?> hpCurrent = const Value.absent(),
+                Value<int?> hpTemp = const Value.absent(),
+                Value<int?> ac = const Value.absent(),
+                Value<int?> proficiencyBonus = const Value.absent(),
+                Value<int?> speed = const Value.absent(),
+                Value<List<String>?> savingThrowProficiencies =
+                    const Value.absent(),
+                Value<List<String>?> skillProficiencies = const Value.absent(),
+                Value<List<String>?> languages = const Value.absent(),
+                Value<List<String>?> equipment = const Value.absent(),
+                Value<List<Map<String, dynamic>>?> features =
+                    const Value.absent(),
+                Value<List<String>?> spells = const Value.absent(),
+                Value<Map<String, dynamic>?> notes = const Value.absent(),
+                Value<Map<String, dynamic>?> bio = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion(
+                id: id,
+                campaignId: campaignId,
+                playerUid: playerUid,
+                name: name,
+                className: className,
+                subclass: subclass,
+                level: level,
+                race: race,
+                background: background,
+                alignment: alignment,
+                str: str,
+                dex: dex,
+                con: con,
+                intl: intl,
+                wis: wis,
+                cha: cha,
+                hpMax: hpMax,
+                hpCurrent: hpCurrent,
+                hpTemp: hpTemp,
+                ac: ac,
+                proficiencyBonus: proficiencyBonus,
+                speed: speed,
+                savingThrowProficiencies: savingThrowProficiencies,
+                skillProficiencies: skillProficiencies,
+                languages: languages,
+                equipment: equipment,
+                features: features,
+                spells: spells,
+                notes: notes,
+                bio: bio,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                deleted: deleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String campaignId,
+                Value<String?> playerUid = const Value.absent(),
+                required String name,
+                required String className,
+                Value<String?> subclass = const Value.absent(),
+                Value<int> level = const Value.absent(),
+                Value<String?> race = const Value.absent(),
+                Value<String?> background = const Value.absent(),
+                Value<String?> alignment = const Value.absent(),
+                Value<int> str = const Value.absent(),
+                Value<int> dex = const Value.absent(),
+                Value<int> con = const Value.absent(),
+                Value<int> intl = const Value.absent(),
+                Value<int> wis = const Value.absent(),
+                Value<int> cha = const Value.absent(),
+                Value<int?> hpMax = const Value.absent(),
+                Value<int?> hpCurrent = const Value.absent(),
+                Value<int?> hpTemp = const Value.absent(),
+                Value<int?> ac = const Value.absent(),
+                Value<int?> proficiencyBonus = const Value.absent(),
+                Value<int?> speed = const Value.absent(),
+                Value<List<String>?> savingThrowProficiencies =
+                    const Value.absent(),
+                Value<List<String>?> skillProficiencies = const Value.absent(),
+                Value<List<String>?> languages = const Value.absent(),
+                Value<List<String>?> equipment = const Value.absent(),
+                Value<List<Map<String, dynamic>>?> features =
+                    const Value.absent(),
+                Value<List<String>?> spells = const Value.absent(),
+                Value<Map<String, dynamic>?> notes = const Value.absent(),
+                Value<Map<String, dynamic>?> bio = const Value.absent(),
+                Value<DateTime?> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PlayersCompanion.insert(
+                id: id,
+                campaignId: campaignId,
+                playerUid: playerUid,
+                name: name,
+                className: className,
+                subclass: subclass,
+                level: level,
+                race: race,
+                background: background,
+                alignment: alignment,
+                str: str,
+                dex: dex,
+                con: con,
+                intl: intl,
+                wis: wis,
+                cha: cha,
+                hpMax: hpMax,
+                hpCurrent: hpCurrent,
+                hpTemp: hpTemp,
+                ac: ac,
+                proficiencyBonus: proficiencyBonus,
+                speed: speed,
+                savingThrowProficiencies: savingThrowProficiencies,
+                skillProficiencies: skillProficiencies,
+                languages: languages,
+                equipment: equipment,
+                features: features,
+                spells: spells,
+                notes: notes,
+                bio: bio,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rev: rev,
+                deleted: deleted,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PlayersTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({campaignId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (campaignId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.campaignId,
+                                referencedTable: $$PlayersTableReferences
+                                    ._campaignIdTable(db),
+                                referencedColumn: $$PlayersTableReferences
+                                    ._campaignIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PlayersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $PlayersTable,
+      Player,
+      $$PlayersTableFilterComposer,
+      $$PlayersTableOrderingComposer,
+      $$PlayersTableAnnotationComposer,
+      $$PlayersTableCreateCompanionBuilder,
+      $$PlayersTableUpdateCompanionBuilder,
+      (Player, $$PlayersTableReferences),
+      Player,
+      PrefetchHooks Function({bool campaignId})
+    >;
 typedef $$OutboxEntriesTableCreateCompanionBuilder =
     OutboxEntriesCompanion Function({
       required String id,
@@ -12013,6 +14964,8 @@ class $AppDbManager {
       $$MediaAssetsTableTableManager(_db, _db.mediaAssets);
   $$SessionsTableTableManager get sessions =>
       $$SessionsTableTableManager(_db, _db.sessions);
+  $$PlayersTableTableManager get players =>
+      $$PlayersTableTableManager(_db, _db.players);
   $$OutboxEntriesTableTableManager get outboxEntries =>
       $$OutboxEntriesTableTableManager(_db, _db.outboxEntries);
 }

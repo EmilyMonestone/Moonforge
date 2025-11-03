@@ -114,6 +114,25 @@ class InboundListener {
       final companion = entityFromFirestore(doc.id, data);
       await _db.entityDao.upsert(companion);
     }
+
+    // Sync players by campaign
+    final playersSnap = await _firestore
+        .collection('players')
+        .where('campaignId', isEqualTo: campaignId)
+        .get();
+
+    for (final doc in playersSnap.docs) {
+      final data = doc.data();
+      final deleted = (data['deleted'] ?? false) as bool;
+      if (deleted) {
+        await _db.playerDao.deleteById(doc.id);
+      } else {
+        final companion = playerFromFirestore(doc.id, data);
+        await _db.playerDao.upsert(companion);
+      }
+    }
+
+    // Players sync will be enabled after local DAO is generated
   }
 
   Future<void> _syncChapterRelated(String chapterId) async {
@@ -157,5 +176,7 @@ class InboundListener {
         await _db.sceneDao.upsert(companion);
       }
     }
+
+    // Additional per-adventure sync (entities/encounters) can be added here.
   }
 }

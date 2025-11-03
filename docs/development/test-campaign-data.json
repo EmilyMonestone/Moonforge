@@ -1,0 +1,848 @@
+{
+  "documents": [
+    {
+      "path": "campaigns/__CAMPAIGN_ID__",
+      "data": {
+        "name": "Moonforge Demo Campaign",
+        "description": "A tiny demo world to explore.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Moonforge Demo Campaign\n",
+              "attributes": {
+                "header": 1
+              }
+            },
+            {
+              "insert": "A tiny demo world to explore.\n"
+            }
+          ]
+        },
+        "ownerUid": "__UID__",
+        "memberUids": [
+          "__UID__"
+        ],
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "chapters/chap_1",
+      "data": {
+        "campaignId": "__CAMPAIGN_ID__",
+        "name": "Chapter 1: Into the Woods",
+        "order": 0,
+        "summary": "The party enters the forest.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Into the Woods\n",
+              "attributes": {
+                "header": 2
+              }
+            },
+            {
+              "insert": "The journey begins beneath ancient boughs.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "chapters/chap_2",
+      "data": {
+        "campaignId": "__CAMPAIGN_ID__",
+        "name": "Chapter 2: Town Intrigue",
+        "order": 1,
+        "summary": "Mysteries in the nearby town.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Town Intrigue\n",
+              "attributes": {
+                "header": 2
+              }
+            },
+            {
+              "insert": "Whispers and wary glances in the market square.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "adventures/adv_1a",
+      "data": {
+        "chapterId": "chap_1",
+        "name": "The Forest Path",
+        "order": 0,
+        "summary": "A quiet path turns perilous.",
+        "content": {
+          "ops": [
+            {
+              "insert": "The Forest Path\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "A tranquil trail hides sudden danger.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "adventures/adv_1b",
+      "data": {
+        "chapterId": "chap_1",
+        "name": "The Old Glade",
+        "order": 1,
+        "summary": "Strange lights among ancient trees.",
+        "content": {
+          "ops": [
+            {
+              "insert": "The Old Glade\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Moonlight reveals forgotten runes.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "adventures/adv_2a",
+      "data": {
+        "chapterId": "chap_2",
+        "name": "Shadows in Market Square",
+        "order": 0,
+        "summary": "Whispers and secret deals.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Shadows in Market Square\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Deals are struck in the shade of stalls.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "scenes/scene_1a_1",
+      "data": {
+        "adventureId": "adv_1a",
+        "name": "Trailhead",
+        "order": 0,
+        "summary": "The party sets off.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Trailhead\n",
+              "attributes": {
+                "bold": true
+              }
+            },
+            {
+              "insert": "Maps are checked and packs tightened.\n"
+            }
+          ]
+        },
+        "entityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "scenes/scene_1a_2",
+      "data": {
+        "adventureId": "adv_1a",
+        "name": "Ambush Clearing",
+        "order": 1,
+        "summary": "Bandits attack from the brush.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Ambush Clearing\n",
+              "attributes": {
+                "bold": true
+              }
+            },
+            {
+              "insert": "A sudden rustle — then arrows fly.\n"
+            }
+          ]
+        },
+        "entityIds": [
+          "e_bandit"
+        ],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "scenes/scene_1b_1",
+      "data": {
+        "adventureId": "adv_1b",
+        "name": "Moonlit Glade",
+        "order": 0,
+        "summary": "An eerie calm under the moon.",
+        "content": {
+          "ops": [
+            {
+              "insert": "Moonlit Glade\n",
+              "attributes": {
+                "italic": true
+              }
+            },
+            {
+              "insert": "Silver light dances over ancient stones.\n"
+            }
+          ]
+        },
+        "entityIds": [
+          "e_glade_spirit"
+        ],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_frodo",
+      "data": {
+        "kind": "npc",
+        "name": "Frodo",
+        "originId": "__CAMPAIGN_ID__",
+        "summary": "Brave but unassuming adventurer.",
+        "tags": [
+          "pc",
+          "ally"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Frodo\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Traits:\n"
+            },
+            {
+              "insert": "Brave",
+              "attributes": {
+                "bold": true
+              }
+            },
+            {
+              "insert": ", loyal, resilient.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_sam",
+      "data": {
+        "kind": "npc",
+        "name": "Sam",
+        "originId": "__CAMPAIGN_ID__",
+        "summary": "Loyal companion.",
+        "tags": [
+          "pc",
+          "ally"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Sam\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Notes: steadfast friend and excellent cook.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_eliara",
+      "data": {
+        "kind": "npc",
+        "name": "Eliara the Ranger",
+        "originId": "__CAMPAIGN_ID__",
+        "summary": "A watchful ranger of the woods.",
+        "tags": [
+          "ally",
+          "ranger"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Eliara the Ranger\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Knows hidden paths and woodland signs.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_bandit",
+      "data": {
+        "kind": "monster",
+        "name": "Forest Bandit",
+        "originId": "adv_1a",
+        "summary": "Preys on travelers.",
+        "tags": [
+          "enemy"
+        ],
+        "statblock": {
+          "data": {
+            "ac": 12,
+            "hp": 11
+          }
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Forest Bandit\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Uses ambush tactics and shortbows.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_glade_spirit",
+      "data": {
+        "kind": "monster",
+        "name": "Glade Spirit",
+        "originId": "adv_1b",
+        "summary": "A restless ancient guardian.",
+        "tags": [
+          "fey"
+        ],
+        "statblock": {
+          "data": {
+            "ac": 15,
+            "hp": 45
+          }
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Glade Spirit\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Bound to the old stones and moonlight.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_town",
+      "data": {
+        "kind": "place",
+        "name": "Riversmeet",
+        "originId": "__CAMPAIGN_ID__",
+        "summary": "A bustling riverside town.",
+        "placeType": "city",
+        "coords": {
+          "lat": 52.52,
+          "lng": 13.405
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Riversmeet\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Where two rivers and many roads converge.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_ring",
+      "data": {
+        "kind": "item",
+        "name": "Moonlit Ring",
+        "originId": "__CAMPAIGN_ID__",
+        "summary": "Glimmers under moonlight.",
+        "tags": [
+          "trinket"
+        ],
+        "content": {
+          "ops": [
+            {
+              "insert": "Shifts with lunar phases.\n",
+              "attributes": {
+                "italic": true
+              }
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_chap1_hermit",
+      "data": {
+        "kind": "npc",
+        "name": "Forest Hermit",
+        "originId": "chap_1",
+        "summary": "A reclusive sage living among oaks.",
+        "tags": [
+          "ally",
+          "hermit"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Forest Hermit\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Knows tales of old glades and hidden trails.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_chap1_tower",
+      "data": {
+        "kind": "place",
+        "name": "Watchtower Ruin",
+        "originId": "chap_1",
+        "summary": "Crumbling stones overlooking the forest path.",
+        "placeType": "place",
+        "content": {
+          "ops": [
+            {
+              "insert": "Watchtower Ruin\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Collapsed stairs and moss-covered battlements.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_chap2_sheriff",
+      "data": {
+        "kind": "npc",
+        "name": "Town Sheriff",
+        "originId": "chap_2",
+        "summary": "Keeps uneasy peace in Riversmeet.",
+        "tags": [
+          "npc",
+          "town"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Town Sheriff\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Suspicious of outsiders, but fair.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_adv2a_broker",
+      "data": {
+        "kind": "npc",
+        "name": "Shady Broker",
+        "originId": "adv_2a",
+        "summary": "Deals in secrets and rare goods.",
+        "tags": [
+          "neutral",
+          "merchant"
+        ],
+        "statblock": {
+          "data": {}
+        },
+        "content": {
+          "ops": [
+            {
+              "insert": "Shady Broker\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Knows who paid whom — for a price.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "entities/e_adv1a_cache",
+      "data": {
+        "kind": "item",
+        "name": "Bandit Cache",
+        "originId": "adv_1a",
+        "summary": "A stash of ill-gotten coins and notes.",
+        "tags": [
+          "treasure"
+        ],
+        "content": {
+          "ops": [
+            {
+              "insert": "Bandit Cache\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Hidden under loose roots near the clearing.\n"
+            }
+          ]
+        },
+        "images": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "parties/party_fellowship",
+      "data": {
+        "campaignId": "__CAMPAIGN_ID__",
+        "name": "The Fellowship",
+        "summary": "Primary adventuring group.",
+        "memberPlayerIds": [
+          "p_frodo",
+          "p_sam"
+        ],
+        "memberEntityIds": [],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "players/p_frodo",
+      "data": {
+        "campaignId": "__CAMPAIGN_ID__",
+        "playerUid": null,
+        "name": "Frodo",
+        "className": "Fighter",
+        "subclass": null,
+        "level": 1,
+        "race": "Halfling",
+        "background": "Folk Hero",
+        "alignment": "NG",
+        "str": 10,
+        "dex": 14,
+        "con": 12,
+        "int": 10,
+        "wis": 12,
+        "cha": 14,
+        "hpMax": 11,
+        "hpCurrent": 11,
+        "hpTemp": 0,
+        "ac": 12,
+        "proficiencyBonus": 2,
+        "speed": 25,
+        "savingThrowProficiencies": [
+          "dex",
+          "con"
+        ],
+        "skillProficiencies": [
+          "perception",
+          "stealth"
+        ],
+        "languages": [
+          "common",
+          "halfling"
+        ],
+        "equipment": [
+          "shortsword",
+          "leather armor",
+          "rations"
+        ],
+        "features": [
+          {
+            "name": "Lucky",
+            "text": "Reroll 1s."
+          }
+        ],
+        "spells": [],
+        "notes": {
+          "ops": [
+            {
+              "insert": "Personal notes...\n"
+            }
+          ]
+        },
+        "bio": {
+          "ops": [
+            {
+              "insert": "Backstory...\n"
+            }
+          ]
+        },
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "players/p_sam",
+      "data": {
+        "campaignId": "__CAMPAIGN_ID__",
+        "playerUid": null,
+        "name": "Sam",
+        "className": "Rogue",
+        "subclass": null,
+        "level": 1,
+        "race": "Human",
+        "background": "Farmer",
+        "alignment": "NG",
+        "str": 10,
+        "dex": 15,
+        "con": 12,
+        "int": 10,
+        "wis": 12,
+        "cha": 12,
+        "hpMax": 10,
+        "hpCurrent": 10,
+        "hpTemp": 0,
+        "ac": 13,
+        "proficiencyBonus": 2,
+        "speed": 30,
+        "savingThrowProficiencies": [
+          "dex",
+          "int"
+        ],
+        "skillProficiencies": [
+          "stealth",
+          "survival"
+        ],
+        "languages": [
+          "common"
+        ],
+        "equipment": [
+          "dagger",
+          "leather armor",
+          "rope"
+        ],
+        "features": [
+          {
+            "name": "Sneak Attack",
+            "text": "Extra damage when you have advantage."
+          }
+        ],
+        "spells": [],
+        "notes": {
+          "ops": [
+            {
+              "insert": "Prefers the shadows.\n"
+            }
+          ]
+        },
+        "bio": {
+          "ops": [
+            {
+              "insert": "Knows the woods and the town alleys.\n"
+            }
+          ]
+        },
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "encounters/enc_ambush",
+      "data": {
+        "name": "Forest Ambush",
+        "originId": "adv_1a",
+        "preset": true,
+        "notes": "Bandits strike from the trees.",
+        "loot": "50 gp, shortbow",
+        "combatants": [
+          {
+            "id": "c1",
+            "type": "entity",
+            "entityId": "e_bandit",
+            "hp": {
+              "current": 11,
+              "max": 11
+            },
+            "ac": 12,
+            "conditions": [],
+            "note": "Leader",
+            "initiative": 15
+          }
+        ],
+        "entityIds": [
+          "e_bandit"
+        ],
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "sessions/s_demo",
+      "data": {
+        "info": {
+          "ops": [
+            {
+              "insert": "Session Info\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Welcome, adventurers! Gather at sunset near Riversmeet's east gate.\n"
+            }
+          ]
+        },
+        "datetime": null,
+        "log": {
+          "ops": [
+            {
+              "insert": "Session Log\n",
+              "attributes": {
+                "header": 3
+              }
+            },
+            {
+              "insert": "Trail explored. Bandits foiled near the clearing.\n"
+            }
+          ]
+        },
+        "shareToken": "DEMO123",
+        "shareEnabled": false,
+        "shareExpiresAt": null,
+        "rev": 1,
+        "deleted": false
+      }
+    },
+    {
+      "path": "mediaAssets/asset_demo",
+      "data": {
+        "filename": "glade.jpg",
+        "size": 123456,
+        "mime": "image/jpeg",
+        "captions": [
+          "Moonlit glade"
+        ],
+        "alt": "A moonlit glade",
+        "variants": [
+          {
+            "kind": "original",
+            "path": "media/asset_demo/original.jpg",
+            "width": 1920,
+            "height": 1080,
+            "bytes": 123456
+          }
+        ],
+        "rev": 1
+      }
+    }
+  ]
+}
