@@ -22,6 +22,51 @@ class MapJsonConverter extends TypeConverter<Map<String, dynamic>, String>
   Map<String, dynamic> fromJson(Map<String, dynamic> json) => json;
 }
 
+/// Quill Delta JSON stored as TEXT, tolerant to legacy formats when reading
+/// from SQL (Map, List -> wraps as {ops: [...]}, String JSON), while keeping
+/// Drift's expected JSON type signature as Map<String,dynamic>.
+class QuillJsonConverter extends TypeConverter<Map<String, dynamic>, String>
+    with
+        JsonTypeConverter2<Map<String, dynamic>, String, Map<String, dynamic>> {
+  const QuillJsonConverter();
+
+  @override
+  Map<String, dynamic> fromSql(String fromDb) {
+    final decoded = jsonDecode(fromDb);
+    return _normalize(decoded);
+  }
+
+  @override
+  String toSql(Map<String, dynamic> value) => jsonEncode(value);
+
+  @override
+  Map<String, dynamic> toJson(Map<String, dynamic> value) => value;
+
+  @override
+  Map<String, dynamic> fromJson(Map<String, dynamic> json) => _normalize(json);
+
+  Map<String, dynamic> _normalize(dynamic v) {
+    if (v == null) return <String, dynamic>{};
+    if (v is Map<String, dynamic>) return v;
+    if (v is Map) return Map<String, dynamic>.from(v);
+    if (v is List) return <String, dynamic>{'ops': v};
+    if (v is String) {
+      try {
+        final d = jsonDecode(v);
+        return _normalize(d);
+      } catch (_) {
+        return <String, dynamic>{};
+      }
+    }
+    return <String, dynamic>{};
+  }
+}
+
+// Quill Delta JSON stored as TEXT
+typedef QuillDelta = Map<String, dynamic>;
+
+const quillConv = QuillJsonConverter();
+
 // List<String> <-> TEXT (JSON)
 class StringListConverter extends TypeConverter<List<String>, String>
     with JsonTypeConverter2<List<String>, String, List<dynamic>> {
@@ -41,10 +86,6 @@ class StringListConverter extends TypeConverter<List<String>, String>
   List<String> fromJson(List<dynamic> json) =>
       json.map((e) => e.toString()).toList();
 }
-
-// Quill Delta JSON stored as TEXT
-typedef QuillDelta = Map<String, dynamic>;
-const quillConv = MapJsonConverter();
 
 // List<Map<String,dynamic>>
 class MapListConverter extends TypeConverter<List<Map<String, dynamic>>, String>

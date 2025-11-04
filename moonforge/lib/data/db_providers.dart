@@ -13,6 +13,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'db/app_db.dart';
 import 'db/sync/sync_coordinator.dart';
+import 'providers/sync_state_provider.dart';
 
 List<SingleChildWidget> dbProviders(AppDb db) => [
   // Database instance
@@ -22,6 +23,11 @@ List<SingleChildWidget> dbProviders(AppDb db) => [
   Provider<SyncCoordinator>(
     create: (_) => SyncCoordinator(db, FirebaseFirestore.instance)..start(),
     dispose: (_, sync) => sync.stop(),
+  ),
+
+  // Sync state provider (polls outbox to show syncing/pending/error state)
+  ChangeNotifierProvider<SyncStateProvider>(
+    create: (_) => SyncStateProvider(db),
   ),
 
   // Drift streams for UI (reactive lists)

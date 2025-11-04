@@ -18,37 +18,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart">
-      <change afterPath="$PROJECT_DIR$/docs/development/seed-test-campaign.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/development/seed-test-campaign.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/development/test-campaign-data.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/development/test-campaign-seed.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/player_dao.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_10_07_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_10_07__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_15_59_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_10_2025_15_59__Changes_.xml" beforeDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="chore: clear CHANGELOG">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/reference/firebase-schema.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/reference/firebase-schema.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firebase/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firebase/firestore.rules" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/inbound_listener.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/outbox_processor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/outbox_processor.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +64,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="fd004ed184d8bd0983b131c1e2f86abebf91af65" />
+        <entry key="$PROJECT_DIR$" value="copilot/add-dnd-beyond-character-import" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -161,11 +137,11 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\features" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\migration_temp" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data\firebase\models" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data\firebase" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\lib\data" />
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -205,38 +181,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00029" summary="feat: add untranslated messages file for localization support">
-      <option name="closed" value="true" />
-      <created>1761468793884</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468793884</updated>
-    </task>
-    <task id="LOCAL-00030" summary="feat: add project guidelines for Moonforge repository">
-      <option name="closed" value="true" />
-      <created>1761468800787</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468800787</updated>
-    </task>
-    <task id="LOCAL-00031" summary="feat: add MultiProviderWrapper for managing multiple providers in the widget tree">
-      <option name="closed" value="true" />
-      <created>1761468811452</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468811452</updated>
-    </task>
-    <task id="LOCAL-00032" summary="feat: implement recent sections for campaigns, sessions, and parties in HomeScreen">
-      <option name="closed" value="true" />
-      <created>1761468829238</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468829238</updated>
     </task>
     <task id="LOCAL-00033" summary="feat: add AppSettingsProvider for managing app settings and user preferences">
       <option name="closed" value="true" />
@@ -598,7 +542,39 @@
       <option name="project" value="LOCAL" />
       <updated>1761920938502</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="feat: add Player DAO and Firestore integration for player synchronization">
+      <option name="closed" value="true" />
+      <created>1762190137625</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1762190137625</updated>
+    </task>
+    <task id="LOCAL-00079" summary="feat: add ddbCharacterId and lastDdbSync fields to Player model for D&amp;D Beyond integration">
+      <option name="closed" value="true" />
+      <created>1762205980379</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1762205980379</updated>
+    </task>
+    <task id="LOCAL-00080" summary="refactor: rename implementation summary to dnd_beyond_import for clarity">
+      <option name="closed" value="true" />
+      <created>1762206252539</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1762206252539</updated>
+    </task>
+    <task id="LOCAL-00081" summary="chore: clear CHANGELOG">
+      <option name="closed" value="true" />
+      <created>1762206486570</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1762206486570</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -625,10 +601,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: update download section to indicate upcoming releases and disable buttons" />
-    <MESSAGE value="feat: add Vercel configuration for static site deployment" />
-    <MESSAGE value="feat: update Vercel configuration for static site deployment paths" />
-    <MESSAGE value="feat: update .gitignore to exclude build directory while including web subdirectory" />
     <MESSAGE value="feat: add initial project files including configuration and asset manifests" />
     <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
     <MESSAGE value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
@@ -650,7 +622,11 @@
     <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
     <MESSAGE value="refactor: migrate DAO classes to new Drift database and enhance stream functionality" />
     <MESSAGE value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
+    <MESSAGE value="feat: add Player DAO and Firestore integration for player synchronization" />
+    <MESSAGE value="feat: add ddbCharacterId and lastDdbSync fields to Player model for D&amp;D Beyond integration" />
+    <MESSAGE value="refactor: rename implementation summary to dnd_beyond_import for clarity" />
+    <MESSAGE value="chore: clear CHANGELOG" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: clear CHANGELOG" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1039,6 +1015,30 @@
           <option name="totalLines" value="18392194" />
           <option name="info" value="refactor: add watchAll stream methods to DAOs, for" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762190152887" />
+          <option name="linesCode" value="244519" />
+          <option name="totalLines" value="18324498" />
+          <option name="info" value="feat: add Player DAO and Firestore integration for" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762205993106" />
+          <option name="linesCode" value="245758" />
+          <option name="totalLines" value="18326328" />
+          <option name="info" value="feat: add ddbCharacterId and lastDdbSync fields to" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762206255869" />
+          <option name="linesCode" value="245758" />
+          <option name="totalLines" value="18326328" />
+          <option name="info" value="refactor: rename implementation summary to dnd_bey" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762206490323" />
+          <option name="linesCode" value="245745" />
+          <option name="totalLines" value="18326292" />
+          <option name="info" value="chore: clear CHANGELOG" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1108,6 +1108,12 @@
           <option name="linesCode" value="239748" />
           <option name="totalLines" value="18392194" />
           <option name="info" value="Oct 31, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762206490323" />
+          <option name="linesCode" value="245745" />
+          <option name="totalLines" value="18326292" />
+          <option name="info" value="Nov 3, 2025" />
         </TimePoint>
       </list>
     </option>
