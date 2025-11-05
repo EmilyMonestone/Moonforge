@@ -9,12 +9,14 @@ The Parties feature manages player character groups (parties), individual player
 ### ✅ Implemented
 
 **Views** (4 files)
+
 - `party_screen.dart` - Party detail view
 - `party_edit_screen.dart` - Create/edit party
 - `member_screen.dart` - Player character detail
 - `member_edit_screen.dart` - Create/edit player character
 
 **Routes**
+
 - `PartyRootRoute` - `/party`
 - `PartyRoute` - `/party/:partyId`
 - `PartyEditRoute` - `/party/:partyId/edit`
@@ -22,6 +24,7 @@ The Parties feature manages player character groups (parties), individual player
 - `MemberEditRoute` - `/party/:partyId/member/:memberId/edit`
 
 **Data Layer**
+
 - `Parties` table
 - `Players` table (comprehensive PC schema)
 - `PartyDao`
@@ -34,56 +37,58 @@ The Parties feature manages player character groups (parties), individual player
 ### Controllers (0/2)
 
 **Missing:**
+
 1. `party_provider.dart`
-   - Current party state
-   - Party switching
-   - Party member management
-   - Session tracking
+    - Current party state
+    - Party switching
+    - Party member management
+    - Session tracking
 
 2. `player_provider.dart`
-   - Current player character state
-   - Character sheet state
-   - HP/resource tracking
-   - Level up state
+    - Current player character state
+    - Character sheet state
+    - HP/resource tracking
+    - Level up state
 
 **Impact**: High - No state management for parties or players
 
 ### Services (0/6)
 
 **Missing:**
+
 1. `party_service.dart`
-   - Party operations
-   - Member management
-   - Party statistics
-   - Session management
+    - Party operations
+    - Member management
+    - Party statistics
+    - Session management
 
 2. `player_character_service.dart`
-   - Character creation
-   - Level up calculations
-   - Ability score management
-   - HP calculations
+    - Character creation
+    - Level up calculations
+    - Ability score management
+    - HP calculations
 
 3. `character_sheet_service.dart`
-   - Character sheet display logic
-   - Stat calculations (modifiers, bonuses)
-   - Proficiency calculations
-   - Spell slot tracking
+    - Character sheet display logic
+    - Stat calculations (modifiers, bonuses)
+    - Proficiency calculations
+    - Spell slot tracking
 
 4. `dndbeyond_sync_service.dart`
-   - D&D Beyond integration
-   - Import character from D&D Beyond
-   - Sync character updates
-   - Handle ddbCharacterId field
+    - D&D Beyond integration
+    - Import character from D&D Beyond
+    - Sync character updates
+    - Handle ddbCharacterId field
 
 5. `party_balancing_service.dart`
-   - Party composition analysis
-   - Level balancing
-   - Role coverage (tank, healer, etc.)
+    - Party composition analysis
+    - Level balancing
+    - Role coverage (tank, healer, etc.)
 
 6. `session_scheduling_service.dart`
-   - Schedule party sessions
-   - Send notifications
-   - Track attendance
+    - Schedule party sessions
+    - Send notifications
+    - Track attendance
 
 **Impact**: High - Complex business logic needed
 
@@ -92,6 +97,7 @@ The Parties feature manages player character groups (parties), individual player
 **Missing:**
 
 **Party Widgets:**
+
 1. `party_card.dart` - Display party in lists
 2. `party_list.dart` - Browse parties
 3. `party_member_list.dart` - List members in party
@@ -100,6 +106,7 @@ The Parties feature manages player character groups (parties), individual player
 6. `add_member_to_party_dialog.dart` - Add existing PC to party
 
 **Player Character Widgets:**
+
 7. `character_sheet_widget.dart` - Full character sheet display
 8. `character_card.dart` - Character card in lists
 9. `ability_scores_widget.dart` - Ability scores display
@@ -122,20 +129,21 @@ The Parties feature manages player character groups (parties), individual player
 ### Utils (0/8)
 
 **Missing:**
+
 1. `party_validators.dart` - Validate party data
 2. `character_validators.dart` - Validate character data
 3. `character_calculations.dart` - Stat calculations, modifiers
-4. `character_level_up.dart` - Level up logic
-5. `character_formatters.dart` - Display formatting
-6. `rest_mechanics.dart` - Rest and recovery
-7. `character_export.dart` - Export character sheets
-8. `character_import.dart` - Import from D&D Beyond, etc.
+   4.`character_formatters.dart` - Display formatting
+   5.`rest_mechanics.dart` - Rest and recovery
+   6.`character_export.dart` - Export character sheets
+   7.`character_import.dart` - Import from D&D Beyond, etc.
 
 **Impact**: High - Complex D&D 5e rules
 
 ### Views (Missing: 3+)
 
 **Missing:**
+
 1. `party_list_screen.dart` - Browse all parties
 2. `character_sheet_screen.dart` - Full-page character sheet view
 3. `party_session_list_screen.dart` - Session history for party
@@ -145,6 +153,7 @@ The Parties feature manages player character groups (parties), individual player
 ### Routes (Missing: 3)
 
 **Missing:**
+
 - `/parties` - List all parties
 - `/party/:partyId/character/:characterId` - Full character sheet (separate from member context)
 - `/party/:partyId/sessions` - Party session history
@@ -158,6 +167,7 @@ The Parties feature manages player character groups (parties), individual player
 **Status:** Table exists with comprehensive schema but UI integration is minimal
 
 The `Players` table has:
+
 - ✅ All D&D 5e core stats (ability scores, HP, AC, etc.)
 - ✅ Skills, saving throws, proficiencies
 - ✅ Equipment, features, spells
@@ -165,6 +175,7 @@ The `Players` table has:
 - ✅ D&D Beyond integration fields (ddbCharacterId, lastDdbSync)
 
 **Missing UI:**
+
 - Character sheet display
 - Ability score management
 - Skill proficiency selection
@@ -178,6 +189,7 @@ The `Players` table has:
 ### Party Screen Enhancements
 
 **Missing:**
+
 - Party composition overview
 - Average party level
 - Session schedule
@@ -189,6 +201,7 @@ The `Players` table has:
 
 **Current:** Basic view exists
 **Missing:**
+
 - Full character sheet layout
 - Tabbed interface (Stats, Spells, Equipment, Bio)
 - Interactive stat blocks
@@ -202,6 +215,7 @@ The `Players` table has:
 **Status:** Fields exist but no implementation
 
 **Missing:**
+
 - Import character from D&D Beyond API
 - Sync character updates
 - Show last sync time
@@ -211,6 +225,7 @@ The `Players` table has:
 ### Party Features
 
 **Missing:**
+
 - Party loot tracking
 - Shared party resources
 - Party journal
@@ -275,9 +290,11 @@ The `Players` table has:
 ## Documentation
 
 **Existing:**
+
 - Players table schema documented
 
 **Missing:**
+
 - Feature README
 - D&D 5e rules implementation guide
 - Character sheet documentation
