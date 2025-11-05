@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
+import 'package:moonforge/features/settings/widgets/settings_section.dart';
+import 'package:moonforge/features/settings/widgets/settings_tile.dart';
+import 'package:moonforge/features/settings/widgets/settings_toggle.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -35,9 +39,9 @@ class SettingsScreen extends StatelessWidget {
             child: TabBarView(
               children: const [
                 _AppearanceSettingsTab(),
-                _PlaceholderTab(labelKey: 'profile'),
+                _ProfileTab(),
                 _PlaceholderTab(labelKey: 'hotkeys'),
-                _PlaceholderTab(labelKey: 'more'),
+                _MoreTab(),
               ],
             ),
           ),
@@ -63,7 +67,7 @@ class _AppearanceSettingsTab extends StatelessWidget {
           Text(l10n.language, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           DropdownButtonFormField<Locale?>(
-            initialValue: settings.locale,
+            value: settings.locale,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: l10n.language,
@@ -96,7 +100,7 @@ class _AppearanceSettingsTab extends StatelessWidget {
           Text(l10n.theme, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           DropdownButtonFormField<ThemeMode>(
-            initialValue: settings.themeMode,
+            value: settings.themeMode,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: l10n.theme,
@@ -113,6 +117,144 @@ class _AppearanceSettingsTab extends StatelessWidget {
             onChanged: (mode) {
               if (mode != null) settings.setThemeMode(mode);
             },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileTab extends StatelessWidget {
+  const _ProfileTab();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SettingsSection(
+            title: l10n.account,
+            children: [
+              SettingsTile(
+                leading: Icons.person_outline,
+                title: l10n.profile,
+                subtitle: l10n.accountDescription,
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () {
+                  // TODO: Navigate to profile screen when implemented
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${l10n.profile} ${l10n.ellipsis}')),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MoreTab extends StatelessWidget {
+  const _MoreTab();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final settings = Provider.of<AppSettingsProvider>(context);
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SettingsSection(
+            title: l10n.notifications,
+            children: [
+              SettingsToggle(
+                leading: Icons.notifications_outlined,
+                title: l10n.notifications,
+                subtitle: l10n.notificationsDescription,
+                value: settings.notificationsEnabled,
+                onChanged: (value) => settings.setNotificationsEnabled(value),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: l10n.privacy,
+            children: [
+              SettingsToggle(
+                leading: Icons.analytics_outlined,
+                title: l10n.analytics,
+                subtitle: l10n.analyticsDescription,
+                value: settings.analyticsEnabled,
+                onChanged: (value) => settings.setAnalyticsEnabled(value),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: l10n.about,
+            children: [
+              SettingsTile(
+                leading: Icons.info_outline,
+                title: l10n.appVersion,
+                trailing: FutureBuilder<PackageInfo>(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                        'v${snapshot.data!.version}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: l10n.dangerZone,
+            children: [
+              SettingsTile(
+                leading: Icons.restore,
+                title: l10n.resetSettings,
+                subtitle: l10n.resetSettingsDescription,
+                onTap: () => _showResetConfirmation(context, settings, l10n),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showResetConfirmation(
+    BuildContext context,
+    AppSettingsProvider settings,
+    AppLocalizations l10n,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.resetSettings),
+        content: Text(l10n.resetSettingsConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () async {
+              await settings.resetToDefaults();
+              if (context.mounted) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.resetSettings)),
+                );
+              }
+            },
+            child: Text(l10n.delete), // Reusing 'delete' as it's destructive
           ),
         ],
       ),

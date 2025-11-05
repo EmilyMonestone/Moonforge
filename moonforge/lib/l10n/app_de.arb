@@ -496,5 +496,65 @@
   "images": "Bilder",
   "@images": {
     "description": "Bezeichnung für Bilder-Abschnitt"
+  },
+  "notifications": "Benachrichtigungen",
+  "@notifications": {
+    "description": "Bezeichnung für Benachrichtigungseinstellungen"
+  },
+  "notificationsDescription": "Benachrichtigungseinstellungen verwalten",
+  "@notificationsDescription": {
+    "description": "Beschreibung für Benachrichtigungseinstellungen"
+  },
+  "privacy": "Datenschutz & Sicherheit",
+  "@privacy": {
+    "description": "Bezeichnung für Datenschutzeinstellungen"
+  },
+  "privacyDescription": "Datenschutz und Datenfreigabe verwalten",
+  "@privacyDescription": {
+    "description": "Beschreibung für Datenschutzeinstellungen"
+  },
+  "analytics": "Analysen",
+  "@analytics": {
+    "description": "Bezeichnung für Analyseeinstellungen"
+  },
+  "analyticsDescription": "Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen",
+  "@analyticsDescription": {
+    "description": "Beschreibung für Analyseeinstellungen"
+  },
+  "about": "Über",
+  "@about": {
+    "description": "Bezeichnung für Über-Abschnitt"
+  },
+  "aboutDescription": "App-Version, Credits und rechtliche Informationen",
+  "@aboutDescription": {
+    "description": "Beschreibung für Über-Abschnitt"
+  },
+  "appVersion": "App-Version",
+  "@appVersion": {
+    "description": "Bezeichnung für App-Version"
+  },
+  "resetSettings": "Einstellungen zurücksetzen",
+  "@resetSettings": {
+    "description": "Bezeichnung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsDescription": "Alle Einstellungen auf Standardwerte zurücksetzen",
+  "@resetSettingsDescription": {
+    "description": "Beschreibung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsConfirmation": "Möchten Sie wirklich alle Einstellungen auf die Standardwerte zurücksetzen?",
+  "@resetSettingsConfirmation": {
+    "description": "Bestätigungsmeldung für Einstellungen zurücksetzen"
+  },
+  "account": "Konto",
+  "@account": {
+    "description": "Bezeichnung für Kontobereich"
+  },
+  "accountDescription": "Verwalten Sie Ihr Konto und Profil",
+  "@accountDescription": {
+    "description": "Beschreibung für Kontoeinstellungen"
+  },
+  "dangerZone": "Gefahrenzone",
+  "@dangerZone": {
+    "description": "Bezeichnung für gefährliche Einstellungen"
   }
 }
