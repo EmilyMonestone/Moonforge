@@ -9,6 +9,7 @@ import 'package:moonforge/features/auth/views/register_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
+import 'package:moonforge/features/chapter/views/chapter_list_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_edit_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_screen.dart';
@@ -88,6 +89,7 @@ class AppRouter {
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<ChaptersListRoute>(path: 'chapters'),
             TypedGoRoute<AdventureListRoute>(path: 'adventures'),
             TypedGoRoute<ChapterRoute>(
               path: 'chapter/:chapterId',
@@ -215,6 +217,14 @@ class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CampaignEditScreen();
+}
+
+class ChaptersListRoute extends GoRouteData with $ChaptersListRoute {
+  const ChaptersListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ChapterListScreen();
 }
 
 class ChapterRoute extends GoRouteData with $ChapterRoute {
