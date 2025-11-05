@@ -496,5 +496,25 @@
   "images": "Bilder",
   "@images": {
     "description": "Bezeichnung für Bilder-Abschnitt"
+  },
+  "search": "Suchen",
+  "@search": {
+    "description": "Bezeichnung für Suchfeld"
+  },
+  "filterByKind": "Nach Art filtern",
+  "@filterByKind": {
+    "description": "Bezeichnung für Art-Filter Dropdown"
+  },
+  "allKinds": "Alle Arten",
+  "@allKinds": {
+    "description": "Option um alle Entitätsarten anzuzeigen"
+  },
+  "clearFilters": "Filter zurücksetzen",
+  "@clearFilters": {
+    "description": "Schaltfläche zum Zurücksetzen aller Filter"
+  },
+  "noEntitiesMatchingFilters": "Keine Entitäten entsprechen den Filtern",
+  "@noEntitiesMatchingFilters": {
+    "description": "Nachricht wenn keine Entitäten den aktuellen Filtern entsprechen"
   }
 }

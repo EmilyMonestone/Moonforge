@@ -500,5 +500,25 @@
   "images": "Images",
   "@images": {
     "description": "Label for images section"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Label for search field"
+  },
+  "filterByKind": "Filter by Kind",
+  "@filterByKind": {
+    "description": "Label for kind filter dropdown"
+  },
+  "allKinds": "All Kinds",
+  "@allKinds": {
+    "description": "Option to show all entity kinds"
+  },
+  "clearFilters": "Clear Filters",
+  "@clearFilters": {
+    "description": "Button to clear all filters"
+  },
+  "noEntitiesMatchingFilters": "No entities matching filters",
+  "@noEntitiesMatchingFilters": {
+    "description": "Message shown when no entities match the current filters"
   }
 }
