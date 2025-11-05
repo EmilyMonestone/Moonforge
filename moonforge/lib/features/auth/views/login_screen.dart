@@ -4,6 +4,9 @@ import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
+import 'package:moonforge/features/auth/utils/auth_validators.dart';
+import 'package:moonforge/features/auth/widgets/auth_form_field.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,8 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  bool _obscure = true;
 
   @override
   void didChangeDependencies() {
@@ -38,20 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String _mapAuthError(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'invalid-email':
-        return 'Invalid email address.';
-      case 'user-disabled':
-        return 'This user has been disabled.';
-      case 'user-not-found':
-        return 'No user found for that email.';
-      case 'wrong-password':
-        return 'Wrong password provided.';
-      case 'account-exists-with-different-credential':
-        return 'Account exists with different sign-in method.';
-      default:
-        return e.message ?? 'Authentication error.';
-    }
+    return AuthErrorHandler.getErrorMessage(e);
   }
 
   void _goToRegister() {
@@ -112,45 +100,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: theme.textTheme.titleLarge,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
+                  AuthFormField(
                     controller: _emailController,
+                    labelText: 'Email',
+                    prefixIcon: Icons.email_outlined,
                     keyboardType: TextInputType.emailAddress,
                     autofillHints: const [
                       AutofillHints.username,
                       AutofillHints.email,
                     ],
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
-                    ),
-                    validator: (v) {
-                      final value = v?.trim() ?? '';
-                      if (value.isEmpty) return 'Email required';
-                      if (!value.contains('@')) return 'Enter a valid email';
-                      return null;
-                    },
+                    validator: AuthValidators.validateEmail,
+                    enabled: !authProvider.isLoading,
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
+                  AuthFormField(
                     controller: _passwordController,
-                    obscureText: _obscure,
+                    labelText: 'Password',
+                    prefixIcon: Icons.lock_outline,
+                    isPassword: true,
                     autofillHints: const [AutofillHints.password],
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscure ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () => setState(() => _obscure = !_obscure),
-                      ),
-                    ),
+                    validator: AuthValidators.validatePassword,
                     onFieldSubmitted: (_) => _signInWithPasswordAndEmail(),
-                    validator: (v) {
-                      if ((v ?? '').isEmpty) return 'Password required';
-                      if ((v ?? '').length < 6) return 'Min 6 characters';
-                      return null;
-                    },
+                    enabled: !authProvider.isLoading,
                   ),
                   const SizedBox(height: 16),
                   FilledButton(

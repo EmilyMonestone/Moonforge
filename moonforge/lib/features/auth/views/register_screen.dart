@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
+import 'package:moonforge/features/auth/utils/auth_validators.dart';
+import 'package:moonforge/features/auth/widgets/auth_form_field.dart';
+import 'package:moonforge/features/auth/widgets/password_strength_indicator.dart';
 import 'package:toastification/toastification.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -16,8 +20,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  bool _obscure = true;
-  bool _obscureConfirm = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to password changes to update strength indicator
+    _passwordController.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {
@@ -73,18 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String _mapAuthError(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'email-already-in-use':
-        return 'An account already exists for that email.';
-      case 'invalid-email':
-        return 'Invalid email address.';
-      case 'operation-not-allowed':
-        return 'Email/password accounts are not enabled.';
-      case 'weak-password':
-        return 'Password is too weak.';
-      default:
-        return e.message ?? 'Authentication error.';
-    }
+    return AuthErrorHandler.getErrorMessage(e);
   }
 
   @override
@@ -105,72 +105,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   Text('Join Moonforge', style: theme.textTheme.titleLarge),
                   const SizedBox(height: 16),
-                  TextFormField(
+                  AuthFormField(
                     controller: _emailController,
+                    labelText: 'Email',
+                    prefixIcon: Icons.email_outlined,
                     keyboardType: TextInputType.emailAddress,
                     autofillHints: const [
                       AutofillHints.username,
                       AutofillHints.email,
                     ],
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
-                    ),
-                    validator: (v) {
-                      final value = v?.trim() ?? '';
-                      if (value.isEmpty) return 'Email required';
-                      if (!value.contains('@')) return 'Enter a valid email';
-                      return null;
-                    },
+                    validator: AuthValidators.validateEmail,
+                    enabled: !_isLoading,
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
+                  AuthFormField(
                     controller: _passwordController,
-                    obscureText: _obscure,
+                    labelText: 'Password',
+                    prefixIcon: Icons.lock_outline,
+                    isPassword: true,
                     autofillHints: const [AutofillHints.newPassword],
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscure ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () => setState(() => _obscure = !_obscure),
-                      ),
-                    ),
-                    validator: (v) {
-                      final value = v ?? '';
-                      if (value.isEmpty) return 'Password required';
-                      if (value.length < 6) return 'Min 6 characters';
-                      return null;
-                    },
+                    validator: AuthValidators.validatePassword,
+                    enabled: !_isLoading,
+                  ),
+                  const SizedBox(height: 8),
+                  PasswordStrengthIndicator(
+                    password: _passwordController.text,
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
+                  AuthFormField(
                     controller: _confirmController,
-                    obscureText: _obscureConfirm,
+                    labelText: 'Confirm password',
+                    prefixIcon: Icons.lock_outline,
+                    isPassword: true,
                     autofillHints: const [AutofillHints.newPassword],
-                    decoration: InputDecoration(
-                      labelText: 'Confirm password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureConfirm
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                        onPressed: () =>
-                            setState(() => _obscureConfirm = !_obscureConfirm),
-                      ),
+                    validator: (v) => AuthValidators.validatePasswordConfirmation(
+                      v,
+                      _passwordController.text,
                     ),
-                    validator: (v) {
-                      final value = v ?? '';
-                      if (value.isEmpty) return 'Please confirm password';
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
+                    enabled: !_isLoading,
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
