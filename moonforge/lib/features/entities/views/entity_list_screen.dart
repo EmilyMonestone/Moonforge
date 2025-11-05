@@ -8,6 +8,7 @@ import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/entities/controllers/entity_list_controller.dart';
 import 'package:moonforge/features/entities/utils/create_entity.dart';
+import 'package:moonforge/features/entities/widgets/entity_type_icon.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +72,7 @@ class _EntityListScreenState extends State<EntityListScreen> {
                     icon: const Icon(Icons.add),
                     label: Text(l10n.createEntity),
                     onPressed: () async {
-                      await createEntity(context, campaign.id);
+                      await createEntity(context, campaign);
                       _controller.loadEntities();
                     },
                   ),
