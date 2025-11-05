@@ -21,6 +21,7 @@ Welcome to the Moonforge developer documentation! This guide helps developers un
 - **[Sessions](features/sessions.md)** - Session planning and logs
 - **[Media](features/media.md)** - Media library and Firebase Storage
 - **[Multi-Window](features/multi-window.md)** - Multi-window support (desktop/web)
+- **[Missing Features](missing/)** - Comprehensive analysis of incomplete implementations
 
 ### Development
 - **[Code Generation](development/code-generation.md)** - build_runner, freezed, and ODM
@@ -51,6 +52,7 @@ Welcome to the Moonforge developer documentation! This guide helps developers un
 - Understand the [Data Layer](architecture/data-layer.md) and [Offline Sync](architecture/offline-sync.md)
 - Review relevant feature docs in [Features](features/)
 - Check [State Management](architecture/state-management.md) patterns
+- See [Missing Features](missing/) for gaps and implementation needs
 
 ### For Platform Work
 - See [Platform-Specific](development/platform-specific.md) configs
@@ -77,6 +79,7 @@ Welcome to the Moonforge developer documentation! This guide helps developers un
 - **Build failing?** → See [Troubleshooting](reference/troubleshooting.md)
 - **New to the codebase?** → Follow [Getting Started](getting-started.md)
 - **Making a release?** → Read [Deployment](deployment/) guides
+- **Feature incomplete?** → Check [Missing Features](missing/) analysis
 
 ## 💡 Documentation Principles
 
