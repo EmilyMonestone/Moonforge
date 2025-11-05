@@ -6,6 +6,7 @@ import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
 import 'package:moonforge/features/auth/views/register_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_list_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
@@ -83,6 +84,7 @@ class AppRouter {
     ),
     TypedStatefulShellBranch<StatefulShellBranchData>(
       routes: <TypedRoute<GoRouteData>>[
+        TypedGoRoute<CampaignsListRoute>(path: '/campaigns'),
         TypedGoRoute<CampaignRoute>(
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
@@ -197,6 +199,14 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ForgotPasswordScreen();
+}
+
+class CampaignsListRoute extends GoRouteData with $CampaignsListRoute {
+  const CampaignsListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignListScreen();
 }
 
 class CampaignRoute extends GoRouteData with $CampaignRoute {
