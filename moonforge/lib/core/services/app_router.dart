@@ -8,6 +8,7 @@ import 'package:moonforge/features/auth/views/register_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
+import 'package:moonforge/features/chapter/views/chapter_list_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_edit_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_screen.dart';
@@ -87,6 +88,7 @@ class AppRouter {
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<ChaptersListRoute>(path: 'chapters'),
             TypedGoRoute<ChapterRoute>(
               path: 'chapter/:chapterId',
               routes: <TypedRoute<GoRouteData>>[
