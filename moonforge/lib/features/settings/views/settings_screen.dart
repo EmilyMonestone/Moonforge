@@ -40,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
               children: const [
                 _AppearanceSettingsTab(),
                 _ProfileTab(),
-                _PlaceholderTab(labelKey: 'hotkeys'),
+                _HotkeysTab(),
                 _MoreTab(),
               ],
             ),
@@ -260,6 +260,62 @@ class _MoreTab extends StatelessWidget {
       ),
     );
   }
+}
+
+class _HotkeysTab extends StatelessWidget {
+  const _HotkeysTab();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // Define common keyboard shortcuts
+    final shortcuts = [
+      _Shortcut('Ctrl/Cmd + N', 'New Campaign'),
+      _Shortcut('Ctrl/Cmd + S', 'Save'),
+      _Shortcut('Ctrl/Cmd + F', 'Search'),
+      _Shortcut('Ctrl/Cmd + ,', l10n.settings),
+      _Shortcut('Ctrl/Cmd + Q', 'Quit'),
+      _Shortcut('F11', 'Toggle Fullscreen'),
+    ];
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Keyboard shortcuts help you navigate and use the app efficiently.',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          ...shortcuts.map((shortcut) => ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    shortcut.keys,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontFamily: 'monospace',
+                        ),
+                  ),
+                ),
+                title: Text(shortcut.description),
+              )),
+        ],
+      ),
+    );
+  }
+}
+
+class _Shortcut {
+  final String keys;
+  final String description;
+  
+  _Shortcut(this.keys, this.description);
 }
 
 class _PlaceholderTab extends StatelessWidget {
