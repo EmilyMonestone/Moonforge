@@ -504,5 +504,115 @@
   "allChapters": "Alle Kapitel",
   "@allChapters": {
     "description": "Option zum Anzeigen aller Kapitel im Filter"
+  "dashboardStats": "Dashboard-Statistiken",
+  "@dashboardStats": {
+    "description": "Titel für das Dashboard-Statistik-Widget"
+  },
+  "quickActions": "Schnellaktionen",
+  "@quickActions": {
+    "description": "Titel für das Schnellaktionen-Widget"
+  },
+  "upcomingSessions": "Anstehende Sitzungen",
+  "@upcomingSessions": {
+    "description": "Titel für das Widget für anstehende Sitzungen"
+  },
+  "totalCampaigns": "Kampagnen gesamt",
+  "@totalCampaigns": {
+    "description": "Bezeichnung für die Gesamtzahl der Kampagnen"
+  },
+  "totalSessions": "Sitzungen gesamt",
+  "@totalSessions": {
+    "description": "Bezeichnung für die Gesamtzahl der Sitzungen"
+  },
+  "totalParties": "Gruppen gesamt",
+  "@totalParties": {
+    "description": "Bezeichnung für die Gesamtzahl der Gruppen"
+  },
+  "totalEntities": "Entitäten gesamt",
+  "@totalEntities": {
+    "description": "Bezeichnung für die Gesamtzahl der Entitäten"
+  },
+  "upcomingSessionsCount": "Anstehende Sitzungen",
+  "@upcomingSessionsCount": {
+    "description": "Bezeichnung für die Anzahl anstehender Sitzungen"
+  },
+  "lastActivity": "Letzte Aktivität",
+  "@lastActivity": {
+    "description": "Bezeichnung für den Zeitstempel der letzten Aktivität"
+  },
+  "noUpcomingSessions": "Keine anstehenden Sitzungen",
+  "@noUpcomingSessions": {
+    "description": "Meldung, wenn keine anstehenden Sitzungen vorhanden sind"
+  },
+  "newCampaign": "Neue Kampagne",
+  "@newCampaign": {
+    "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Kampagne"
+  },
+  "newSession": "Neue Sitzung",
+  "@newSession": {
+    "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Sitzung"
+  },
+  "newParty": "Neue Gruppe",
+  "@newParty": {
+    "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Gruppe"
+  "notifications": "Benachrichtigungen",
+  "@notifications": {
+    "description": "Bezeichnung für Benachrichtigungseinstellungen"
+  },
+  "notificationsDescription": "Benachrichtigungseinstellungen verwalten",
+  "@notificationsDescription": {
+    "description": "Beschreibung für Benachrichtigungseinstellungen"
+  },
+  "privacy": "Datenschutz & Sicherheit",
+  "@privacy": {
+    "description": "Bezeichnung für Datenschutzeinstellungen"
+  },
+  "privacyDescription": "Datenschutz und Datenfreigabe verwalten",
+  "@privacyDescription": {
+    "description": "Beschreibung für Datenschutzeinstellungen"
+  },
+  "analytics": "Analysen",
+  "@analytics": {
+    "description": "Bezeichnung für Analyseeinstellungen"
+  },
+  "analyticsDescription": "Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen",
+  "@analyticsDescription": {
+    "description": "Beschreibung für Analyseeinstellungen"
+  },
+  "about": "Über",
+  "@about": {
+    "description": "Bezeichnung für Über-Abschnitt"
+  },
+  "aboutDescription": "App-Version, Credits und rechtliche Informationen",
+  "@aboutDescription": {
+    "description": "Beschreibung für Über-Abschnitt"
+  },
+  "appVersion": "App-Version",
+  "@appVersion": {
+    "description": "Bezeichnung für App-Version"
+  },
+  "resetSettings": "Einstellungen zurücksetzen",
+  "@resetSettings": {
+    "description": "Bezeichnung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsDescription": "Alle Einstellungen auf Standardwerte zurücksetzen",
+  "@resetSettingsDescription": {
+    "description": "Beschreibung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsConfirmation": "Möchten Sie wirklich alle Einstellungen auf die Standardwerte zurücksetzen?",
+  "@resetSettingsConfirmation": {
+    "description": "Bestätigungsmeldung für Einstellungen zurücksetzen"
+  },
+  "account": "Konto",
+  "@account": {
+    "description": "Bezeichnung für Kontobereich"
+  },
+  "accountDescription": "Verwalten Sie Ihr Konto und Profil",
+  "@accountDescription": {
+    "description": "Beschreibung für Kontoeinstellungen"
+  },
+  "dangerZone": "Gefahrenzone",
+  "@dangerZone": {
+    "description": "Bezeichnung für gefährliche Einstellungen"
   }
 }

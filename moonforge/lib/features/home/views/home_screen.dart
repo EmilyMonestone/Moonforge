@@ -10,7 +10,10 @@ import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/home/widgets/quick_actions_widget.dart';
 import 'package:moonforge/features/home/widgets/recent_section.dart';
+import 'package:moonforge/features/home/widgets/stats_overview_widget.dart';
+import 'package:moonforge/features/home/widgets/upcoming_sessions_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +36,27 @@ class HomeScreen extends StatelessWidget {
     return WrapLayout(
       minWidth: 420,
       children: [
+        SurfaceContainer(
+          title: Text(
+            l10n.dashboardStats,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          child: const StatsOverviewWidget(),
+        ),
+        SurfaceContainer(
+          title: Text(
+            l10n.quickActions,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          child: const QuickActionsWidget(),
+        ),
+        SurfaceContainer(
+          title: Text(
+            l10n.upcomingSessions,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          child: const UpcomingSessionsWidget(),
+        ),
         SurfaceContainer(
           title: Text(
             l10n.recentCampaigns,

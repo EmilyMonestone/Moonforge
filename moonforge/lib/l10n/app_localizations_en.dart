@@ -382,4 +382,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get images => 'Images';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationsDescription => 'Manage notification preferences';
+
+  @override
+  String get privacy => 'Privacy & Security';
+
+  @override
+  String get privacyDescription => 'Manage privacy and data sharing';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Help improve the app by sharing usage data';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get aboutDescription => 'App version, credits, and legal info';
+
+  @override
+  String get appVersion => 'App Version';
+
+  @override
+  String get resetSettings => 'Reset Settings';
+
+  @override
+  String get resetSettingsDescription => 'Restore all settings to defaults';
+
+  @override
+  String get resetSettingsConfirmation =>
+      'Are you sure you want to reset all settings to defaults?';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get accountDescription => 'Manage your account and profile';
+
+  @override
+  String get dangerZone => 'Danger Zone';
 }
