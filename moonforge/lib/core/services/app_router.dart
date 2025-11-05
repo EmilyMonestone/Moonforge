@@ -18,6 +18,7 @@ import 'package:moonforge/features/home/views/unknown_path_screen.dart';
 import 'package:moonforge/features/parties/views/member_edit_screen.dart';
 import 'package:moonforge/features/parties/views/member_screen.dart';
 import 'package:moonforge/features/parties/views/party_edit_screen.dart';
+import 'package:moonforge/features/parties/views/party_list_screen.dart';
 import 'package:moonforge/features/parties/views/party_screen.dart';
 import 'package:moonforge/features/scene/views/scene_edit_screen.dart';
 import 'package:moonforge/features/scene/views/scene_screen.dart';
@@ -344,7 +345,7 @@ class PartyRootRoute extends GoRouteData with $PartyRootRoute {
   final String? id; // query parameter
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      PartyScreen(partyId: id ?? '');
+      const PartyListScreen();
 }
 
 class PartyRoute extends GoRouteData with $PartyRoute {
