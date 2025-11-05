@@ -52,8 +52,8 @@ class _AuthUserButtonState extends State<AuthUserButton> {
       tooltip: 'Account',
       onSelected: (value) async {
         switch (value) {
-          case _AuthMenuAction.settings:
-            const SettingsRoute().go(context);
+          case _AuthMenuAction.profile:
+            const ProfileRoute().go(context);
             break;
           case _AuthMenuAction.logout:
             try {
@@ -86,11 +86,11 @@ class _AuthUserButtonState extends State<AuthUserButton> {
         ),
         const PopupMenuDivider(),
         const PopupMenuItem<_AuthMenuAction>(
-          value: _AuthMenuAction.settings,
+          value: _AuthMenuAction.profile,
           child: ListTile(
             dense: true,
-            leading: Icon(Icons.settings_outlined),
-            title: Text('Profile settings'),
+            leading: Icon(Icons.person_outline),
+            title: Text('Profile'),
           ),
         ),
         const PopupMenuItem<_AuthMenuAction>(
@@ -107,7 +107,7 @@ class _AuthUserButtonState extends State<AuthUserButton> {
   }
 }
 
-enum _AuthMenuAction { settings, logout }
+enum _AuthMenuAction { profile, logout }
 
 class _ProfileAvatar extends StatefulWidget {
   const _ProfileAvatar({required this.user, required this.expanded});
