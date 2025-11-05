@@ -91,6 +91,7 @@ class MenuRegistry {
     final l10n = AppLocalizations.of(context)!;
     return <MenuBarAction>[
       continueWhereLeft(l10n),
+      browseCampaigns(l10n),
       newCampaign(l10n, context),
       newParty(l10n),
       newEntity(l10n),
@@ -164,6 +165,17 @@ class MenuRegistry {
       icon: Icons.add_box_outlined,
       onPressed: (ctx) {
         createCampaignAndOpenEditor(context);
+      },
+    );
+  }
+
+  static MenuBarAction browseCampaigns(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: l10n.campaigns,
+      helpText: 'Browse all campaigns',
+      icon: Icons.folder_outlined,
+      onPressed: (ctx) {
+        const CampaignsListRoute().go(ctx);
       },
     );
   }
