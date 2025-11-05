@@ -520,5 +520,13 @@
   "noEntitiesMatchingFilters": "No entities matching filters",
   "@noEntitiesMatchingFilters": {
     "description": "Message shown when no entities match the current filters"
+  },
+  "browseEntities": "Browse Entities",
+  "@browseEntities": {
+    "description": "Label for browse entities menu action"
+  },
+  "browseAllEntities": "Browse all entities in the campaign",
+  "@browseAllEntities": {
+    "description": "Help text for browse entities action"
   }
 }

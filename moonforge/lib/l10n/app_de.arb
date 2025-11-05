@@ -516,5 +516,13 @@
   "noEntitiesMatchingFilters": "Keine Entitäten entsprechen den Filtern",
   "@noEntitiesMatchingFilters": {
     "description": "Nachricht wenn keine Entitäten den aktuellen Filtern entsprechen"
+  },
+  "browseEntities": "Entitäten durchsuchen",
+  "@browseEntities": {
+    "description": "Bezeichnung für Entitäten durchsuchen Menü-Aktion"
+  },
+  "browseAllEntities": "Alle Entitäten der Kampagne durchsuchen",
+  "@browseAllEntities": {
+    "description": "Hilfetext für Entitäten durchsuchen Aktion"
   }
 }
