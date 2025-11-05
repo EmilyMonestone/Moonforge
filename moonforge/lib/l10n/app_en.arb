@@ -501,6 +501,13 @@
   "@images": {
     "description": "Label for images section"
   },
+  "filterByChapter": "Filter by Chapter",
+  "@filterByChapter": {
+    "description": "Label for chapter filter dropdown"
+  },
+  "allChapters": "All Chapters",
+  "@allChapters": {
+    "description": "Option to show all chapters in filter"
   "dashboardStats": "Dashboard Stats",
   "@dashboardStats": {
     "description": "Title for dashboard statistics widget"

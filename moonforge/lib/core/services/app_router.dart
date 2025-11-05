@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/features/adventure/views/adventure_edit_screen.dart';
+import 'package:moonforge/features/adventure/views/adventure_list_screen.dart';
 import 'package:moonforge/features/adventure/views/adventure_screen.dart';
 import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
@@ -87,6 +88,7 @@ class AppRouter {
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<AdventureListRoute>(path: 'adventures'),
             TypedGoRoute<ChapterRoute>(
               path: 'chapter/:chapterId',
               routes: <TypedRoute<GoRouteData>>[
@@ -233,6 +235,14 @@ class ChapterEditRoute extends GoRouteData with $ChapterEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ChapterEditScreen(chapterId: chapterId);
+}
+
+class AdventureListRoute extends GoRouteData with $AdventureListRoute {
+  const AdventureListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AdventureListScreen();
 }
 
 class AdventureRoute extends GoRouteData with $AdventureRoute {
