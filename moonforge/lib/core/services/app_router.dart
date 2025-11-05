@@ -217,6 +217,14 @@ class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
       const CampaignEditScreen();
 }
 
+class ChaptersListRoute extends GoRouteData with $ChaptersListRoute {
+  const ChaptersListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ChapterListScreen();
+}
+
 class ChapterRoute extends GoRouteData with $ChapterRoute {
   const ChapterRoute({required this.chapterId});
 
