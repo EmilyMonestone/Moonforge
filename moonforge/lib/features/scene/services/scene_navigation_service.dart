@@ -102,10 +102,10 @@ class SceneNavigationService {
       
       Scene? currentScene;
       if (currentSceneId != null) {
-        currentScene = scenes.firstWhere(
-          (s) => s.id == currentSceneId,
-          orElse: () => scenes.first,
-        );
+        final sceneIndex = scenes.indexWhere((s) => s.id == currentSceneId);
+        if (sceneIndex >= 0) {
+          currentScene = scenes[sceneIndex];
+        }
       }
 
       return SceneProgression(

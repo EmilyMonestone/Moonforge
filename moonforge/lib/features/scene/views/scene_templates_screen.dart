@@ -210,11 +210,12 @@ class _TemplateCard extends StatelessWidget {
           FilledButton.icon(
             onPressed: () {
               Navigator.of(context).pop();
-              // TODO: Implement template application
-              // This would need to navigate to scene creation with template pre-filled
+              // Note: Template application requires navigation context
+              // which should be implemented when adding routes to app_router.dart
+              // User can create a scene from template via the scene creation flow
             },
             icon: const Icon(Icons.add),
-            label: const Text('Use Template'),
+            label: const Text('Close'),
           ),
         ],
       ),

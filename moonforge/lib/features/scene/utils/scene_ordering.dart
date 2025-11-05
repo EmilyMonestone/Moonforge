@@ -119,10 +119,15 @@ class SceneOrdering {
   /// Remove a scene and adjust orders
   static List<Scene> removeScene(List<Scene> scenes, String sceneId) {
     final sorted = sortByOrder(scenes);
-    final scene = sorted.firstWhere(
-      (s) => s.id == sceneId,
-      orElse: () => sorted.first,
-    );
+    
+    // Find the scene to remove
+    final sceneIndex = sorted.indexWhere((s) => s.id == sceneId);
+    if (sceneIndex == -1) {
+      // Scene not found, return original list
+      return scenes;
+    }
+    
+    final scene = sorted[sceneIndex];
     final removedOrder = scene.order;
 
     final updated = <Scene>[];
@@ -146,8 +151,16 @@ class SceneOrdering {
     String sceneId1,
     String sceneId2,
   ) {
-    final scene1 = scenes.firstWhere((s) => s.id == sceneId1);
-    final scene2 = scenes.firstWhere((s) => s.id == sceneId2);
+    final scene1Index = scenes.indexWhere((s) => s.id == sceneId1);
+    final scene2Index = scenes.indexWhere((s) => s.id == sceneId2);
+    
+    if (scene1Index == -1 || scene2Index == -1) {
+      // One or both scenes not found, return original list
+      return scenes;
+    }
+    
+    final scene1 = scenes[scene1Index];
+    final scene2 = scenes[scene2Index];
 
     final order1 = scene1.order;
     final order2 = scene2.order;

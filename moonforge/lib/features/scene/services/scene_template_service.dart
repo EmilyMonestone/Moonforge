@@ -163,11 +163,9 @@ class SceneTemplateService {
 
   /// Get a template by ID
   static SceneTemplate? getTemplateById(String id) {
-    try {
-      return getTemplates().firstWhere((t) => t.id == id);
-    } catch (e) {
-      return null;
-    }
+    final templates = getTemplates();
+    final index = templates.indexWhere((t) => t.id == id);
+    return index >= 0 ? templates[index] : null;
   }
 
   /// Create a scene from a template
