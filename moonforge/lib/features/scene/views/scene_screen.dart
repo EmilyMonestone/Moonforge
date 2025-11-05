@@ -10,6 +10,10 @@ import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/scene/controllers/scene_provider.dart';
+import 'package:moonforge/features/scene/widgets/scene_completion_indicator.dart';
+import 'package:moonforge/features/scene/widgets/scene_navigation_widget.dart';
+import 'package:moonforge/features/scene/utils/scene_export.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -72,6 +76,12 @@ class _SceneScreenState extends State<SceneScreen> {
         _scene = scene;
         _isLoading = false;
       });
+
+      // Update scene provider
+      if (scene != null && mounted) {
+        final sceneProvider = context.read<SceneProvider>();
+        await sceneProvider.setCurrentScene(scene);
+      }
     } catch (e) {
       logger.e('Error loading scene: $e');
       setState(() => _isLoading = false);
@@ -93,19 +103,44 @@ class _SceneScreenState extends State<SceneScreen> {
       return Center(child: Text(l10n.error));
     }
 
+    final sceneProvider = context.watch<SceneProvider>();
+    final readAloudText = SceneExport.extractReadAloudText(_scene!);
+
     return Column(
       children: [
+        // Scene navigation widget
+        if (sceneProvider.scenesInAdventure.length > 1)
+          SceneNavigationWidget(
+            currentScene: _scene!,
+            onNavigate: (scene) {
+              SceneRoute(
+                chapterId: widget.chapterId,
+                adventureId: widget.adventureId,
+                sceneId: scene.id,
+              ).go(context);
+            },
+          ),
         SurfaceContainer(
           title: Row(
             children: [
-              Text(
-                _scene!.name,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .displaySmall,
+              Expanded(
+                child: Text(
+                  _scene!.name,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .displaySmall,
+                ),
               ),
-              const Spacer(),
+              // Completion indicator
+              SceneCompletionIndicator(
+                isCompleted: sceneProvider.isCompleted,
+                onToggle: () {
+                  sceneProvider.toggleCompletion();
+                },
+                showLabel: false,
+              ),
+              const SizedBox(width: 8),
               ButtonM3E(
                 style: ButtonM3EStyle.tonal,
                 shape: ButtonM3EShape.square,
@@ -140,10 +175,40 @@ class _SceneScreenState extends State<SceneScreen> {
                     Text(_scene!.summary!),
                   ],
                 ),
+              if (readAloudText != null && readAloudText.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(
+                      'Read Aloud',
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        readAloudText,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontStyle: FontStyle.italic,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               if (_scene!.content != null && _scene!.content!.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 16),
                     Text(
                       l10n.content,
                       style: Theme
