@@ -105,6 +105,7 @@ class MenuRegistry {
       newChapter(l10n),
       newAdventure(l10n),
       newScene(l10n),
+      browseEncounters(l10n),
       newEncounter(l10n),
       newEntity(l10n),
     ];
@@ -319,6 +320,17 @@ class MenuRegistry {
           return;
         }
         createSceneInChapter(ctx, campaign, chapterId);
+      },
+    );
+  }
+
+  static MenuBarAction browseEncounters(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: 'Browse Encounters',
+      helpText: 'View all encounters in the campaign',
+      icon: Icons.list_outlined,
+      onPressed: (ctx) {
+        const EncountersListRoute().go(ctx);
       },
     );
   }
