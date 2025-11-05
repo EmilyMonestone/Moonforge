@@ -69,9 +69,9 @@ Note: The following widgets from the spec were not implemented as they require d
 
 ## What Needs to Be Done by User
 
-### 1. Add Routes to Router (Required)
+### 1. Add Routes to Router ✅ COMPLETED
 
-The new screens need routes added to `app_router.dart`. Since this requires Flutter's `build_runner`, it must be done manually:
+The new screens routes have been added to `app_router.dart` in commit 09bdca4:
 
 1. Add import in `app_router.dart`:
 ```dart
@@ -118,19 +118,61 @@ cd moonforge
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### 2. Register SceneProvider (Required)
+### 2. Register SceneProvider ✅ COMPLETED
 
-Add SceneProvider to the app's provider hierarchy (likely in `main.dart` or wherever providers are set up):
+SceneProvider has been registered in the app's provider hierarchy in commit 09bdca4:
 
 ```dart
-ChangeNotifierProvider(
-  create: (context) => SceneProvider(
-    context.read<SceneRepository>(),
-  ),
+ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
+  create: (context) => SceneProvider(context.read<SceneRepository>()),
+  update: (context, sceneRepo, previous) =>
+      previous ?? SceneProvider(sceneRepo),
 ),
 ```
 
-### 3. Add Menu Items (Optional)
+### 3. Run Code Generation (Required - User Action Needed)
+
+Since the routes have been added to `app_router.dart`, you need to run build_runner to generate the routing code:
+
+```bash
+cd moonforge
+dart run build_runner build --delete-conflicting-outputs
+```
+
+This will generate/update `app_router.g.dart` with the new route definitions.
+
+### 4. Add Menu Items (Optional)
+
+Update `menu_registry.dart` to add menu items for:
+- "All Scenes" - navigates to SceneListRoute
+- "Scene Templates" - navigates to SceneTemplatesRoute
+
+### 5. Add Tests (Optional but Recommended)
+
+Create test files:
+- `test/features/scene/services/scene_service_test.dart`
+- `test/features/scene/services/scene_navigation_service_test.dart`
+- `test/features/scene/utils/scene_ordering_test.dart`
+- `test/features/scene/utils/scene_validators_test.dart`
+- `test/features/scene/widgets/scene_card_test.dart`
+- `test/features/scene/widgets/scene_list_test.dart`
+
+### 6. Run Linter and Fix Issues (Recommended)
+
+```bash
+cd moonforge
+flutter analyze
+dart format .
+```
+
+### 7. Test the Implementation
+
+1. Start the app
+2. Navigate to a scene
+3. Test navigation buttons (previous/next)
+4. Test completion checkbox
+5. Navigate to scene list: `/campaign/scenes`
+6. Browse templates: `/campaign/scenes/templates`
 
 Update `menu_registry.dart` to add menu items for:
 - "All Scenes" - navigates to SceneListRoute
@@ -197,14 +239,18 @@ moonforge/lib/features/scene/
 
 ## Statistics
 
-- **Files Created**: 18
-- **Files Enhanced**: 1
-- **Lines of Code**: ~2,800
+- **Files Created**: 18 new feature files
+- **Files Enhanced**: 1 (scene_screen.dart)
+- **Documentation**: 2 files
+- **Integration**: 2 files (app_router.dart, providers.dart)
+- **Total Files Changed**: 22
+- **Lines of Code**: ~3,291 lines
 - **Controllers**: 1/1 (100%)
 - **Services**: 3/3 (100%)
 - **Widgets**: 7/10 (70%, remaining 3 need domain design)
 - **Utilities**: 4/4 (100%)
 - **Views**: 2/2 (100%)
+- **Integration**: 2/2 (100%) ✅
 
 ## Implementation Quality
 
