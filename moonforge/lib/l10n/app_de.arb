@@ -496,5 +496,13 @@
   "images": "Bilder",
   "@images": {
     "description": "Bezeichnung für Bilder-Abschnitt"
+  },
+  "filterByChapter": "Nach Kapitel filtern",
+  "@filterByChapter": {
+    "description": "Bezeichnung für Kapitelfilter-Dropdown"
+  },
+  "allChapters": "Alle Kapitel",
+  "@allChapters": {
+    "description": "Option zum Anzeigen aller Kapitel im Filter"
   }
 }
