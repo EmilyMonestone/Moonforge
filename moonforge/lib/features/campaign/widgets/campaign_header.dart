@@ -68,12 +68,23 @@ class CampaignHeader extends StatelessWidget {
                   icon: const Icon(Icons.settings_outlined),
                   tooltip: l10n.settings,
                   onPressed: onSettings,
+                )
+              else
+                IconButton(
+                  icon: const Icon(Icons.settings_outlined),
+                  tooltip: l10n.settings,
+                  onPressed: () {
+                    const CampaignSettingsRoute().go(context);
+                  },
                 ),
               PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert),
                 onSelected: (value) {
                   // Handle menu actions
                   switch (value) {
+                    case 'analytics':
+                      const CampaignAnalyticsRoute().go(context);
+                      break;
                     case 'duplicate':
                       // Duplicate campaign
                       break;
@@ -86,6 +97,16 @@ class CampaignHeader extends StatelessWidget {
                   }
                 },
                 itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'analytics',
+                    child: Row(
+                      children: [
+                        Icon(Icons.analytics_outlined),
+                        SizedBox(width: 8),
+                        Text('Analytics'),
+                      ],
+                    ),
+                  ),
                   const PopupMenuItem(
                     value: 'duplicate',
                     child: Row(

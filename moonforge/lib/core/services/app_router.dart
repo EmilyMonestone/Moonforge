@@ -5,9 +5,11 @@ import 'package:moonforge/features/adventure/views/adventure_screen.dart';
 import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
 import 'package:moonforge/features/auth/views/register_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_analytics_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_list_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_settings_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_edit_screen.dart';
@@ -89,6 +91,8 @@ class AppRouter {
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<CampaignSettingsRoute>(path: 'settings'),
+            TypedGoRoute<CampaignAnalyticsRoute>(path: 'analytics'),
             TypedGoRoute<ChapterRoute>(
               path: 'chapter/:chapterId',
               routes: <TypedRoute<GoRouteData>>[
@@ -223,6 +227,22 @@ class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CampaignEditScreen();
+}
+
+class CampaignSettingsRoute extends GoRouteData with $CampaignSettingsRoute {
+  const CampaignSettingsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignSettingsScreen();
+}
+
+class CampaignAnalyticsRoute extends GoRouteData with $CampaignAnalyticsRoute {
+  const CampaignAnalyticsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignAnalyticsScreen();
 }
 
 class ChapterRoute extends GoRouteData with $ChapterRoute {
