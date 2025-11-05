@@ -62,6 +62,8 @@ class SessionService {
   }
 
   /// Calculate session statistics
+  /// Note: Duration tracking is not yet implemented in the Session model.
+  /// This currently returns zero for duration-related stats.
   static SessionStats calculateStats(List<Session> sessions) {
     if (sessions.isEmpty) {
       return SessionStats(
@@ -71,26 +73,15 @@ class SessionService {
       );
     }
 
-    var totalDuration = Duration.zero;
-    var sessionsWithDuration = 0;
-
-    for (final session in sessions) {
-      // Note: Duration tracking would need to be added to the Session model
-      // For now, we're just counting sessions
-      sessionsWithDuration++;
-    }
-
-    final avgDuration = sessionsWithDuration > 0
-        ? Duration(
-            milliseconds:
-                totalDuration.inMilliseconds ~/ sessionsWithDuration,
-          )
-        : Duration.zero;
-
+    // TODO: When duration field is added to Session model, calculate:
+    // - Sum all session durations for totalDuration
+    // - Calculate average from total divided by count
+    // For now, return placeholder values
+    
     return SessionStats(
       totalSessions: sessions.length,
-      averageDuration: avgDuration,
-      totalDuration: totalDuration,
+      averageDuration: Duration.zero,
+      totalDuration: Duration.zero,
     );
   }
 

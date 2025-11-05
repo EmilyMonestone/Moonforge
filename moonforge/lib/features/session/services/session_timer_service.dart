@@ -36,8 +36,8 @@ class SessionTimerService extends ChangeNotifier {
     if (!_isRunning || _isPaused) return;
     
     _isPaused = true;
-    final pauseStart = DateTime.now();
-    _pausedDuration += pauseStart.difference(_startTime!.add(_elapsed));
+    // Calculate current elapsed time before pausing
+    _elapsed = DateTime.now().difference(_startTime!) - _pausedDuration;
     notifyListeners();
   }
 
@@ -46,6 +46,9 @@ class SessionTimerService extends ChangeNotifier {
     if (!_isRunning || !_isPaused) return;
     
     _isPaused = false;
+    // Store the paused duration and reset start time
+    _pausedDuration = _elapsed;
+    _startTime = DateTime.now();
     notifyListeners();
   }
 

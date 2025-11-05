@@ -67,8 +67,10 @@ class SessionFormatters {
         return '${absDiff.inDays} day${absDiff.inDays > 1 ? 's' : ''} ago';
       } else if (absDiff.inHours > 0) {
         return '${absDiff.inHours} hour${absDiff.inHours > 1 ? 's' : ''} ago';
-      } else {
+      } else if (absDiff.inMinutes > 0) {
         return '${absDiff.inMinutes} minute${absDiff.inMinutes > 1 ? 's' : ''} ago';
+      } else {
+        return 'just now';
       }
     }
     
@@ -76,8 +78,10 @@ class SessionFormatters {
       return 'in ${difference.inDays} day${difference.inDays > 1 ? 's' : ''}';
     } else if (difference.inHours > 0) {
       return 'in ${difference.inHours} hour${difference.inHours > 1 ? 's' : ''}';
-    } else {
+    } else if (difference.inMinutes > 0) {
       return 'in ${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''}';
+    } else {
+      return 'soon';
     }
   }
 }
