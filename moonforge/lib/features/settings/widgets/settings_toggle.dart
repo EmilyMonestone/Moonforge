@@ -22,11 +22,8 @@ class SettingsToggle extends StatelessWidget {
     return ListTile(
       leading: leading != null ? Icon(leading) : null,
       title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle) : null,
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-      ),
+      subtitle: subtitle != null ? Text(subtitle!) : null,
+      trailing: Switch(value: value, onChanged: onChanged),
       onTap: () => onChanged(!value),
     );
   }

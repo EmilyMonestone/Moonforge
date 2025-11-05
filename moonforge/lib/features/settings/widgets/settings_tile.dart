@@ -23,7 +23,7 @@ class SettingsTile extends StatelessWidget {
     return ListTile(
       leading: leading != null ? Icon(leading) : null,
       title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle) : null,
+      subtitle: subtitle != null ? Text(subtitle!) : null,
       trailing: trailing,
       onTap: onTap,
     );
