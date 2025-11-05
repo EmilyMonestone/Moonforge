@@ -29,25 +29,7 @@ class QuickActionsService {
         icon: Icons.add_circle_outline,
         tooltip: 'Create a new campaign',
         onTap: (context) {
-          const NewCampaignRoute().go(context);
-        },
-      ),
-      QuickAction(
-        id: 'new_session',
-        label: 'New Session',
-        icon: Icons.event,
-        tooltip: 'Schedule a new session',
-        onTap: (context) {
-          const SessionRoute().go(context);
-        },
-      ),
-      QuickAction(
-        id: 'new_party',
-        label: 'New Party',
-        icon: Icons.group,
-        tooltip: 'Create a new party',
-        onTap: (context) {
-          const PartyRootRoute().go(context);
+          const CampaignEditRoute().go(context);
         },
       ),
       QuickAction(
@@ -57,6 +39,24 @@ class QuickActionsService {
         tooltip: 'View all campaigns',
         onTap: (context) {
           const CampaignRoute().go(context);
+        },
+      ),
+      QuickAction(
+        id: 'parties',
+        label: 'Parties',
+        icon: Icons.group,
+        tooltip: 'View all parties',
+        onTap: (context) {
+          const PartyRootRoute().go(context);
+        },
+      ),
+      QuickAction(
+        id: 'settings',
+        label: 'Settings',
+        icon: Icons.settings,
+        tooltip: 'App settings',
+        onTap: (context) {
+          const SettingsRoute().go(context);
         },
       ),
     ];
