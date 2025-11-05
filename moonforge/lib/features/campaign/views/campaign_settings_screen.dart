@@ -102,7 +102,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   subtitle: Text('${campaign.memberUids.length} members'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // Navigate to members screen when implemented
+                    const CampaignMembersRoute().go(context);
                   },
                 ),
                 const Divider(),
