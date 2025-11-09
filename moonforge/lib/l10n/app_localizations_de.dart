@@ -21,6 +21,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get campaign => 'Kampagne';
 
   @override
+  String get campaigns => 'Campaigns';
+
+  @override
   String get chapter => 'Kapitel';
 
   @override
@@ -384,6 +387,73 @@ class AppLocalizationsDe extends AppLocalizations {
   String get images => 'Bilder';
 
   @override
+  String get search => 'Suchen';
+
+  @override
+  String get filterByKind => 'Nach Art filtern';
+
+  @override
+  String get allKinds => 'Alle Arten';
+
+  @override
+  String get clearFilters => 'Filter zurücksetzen';
+
+  @override
+  String get noEntitiesMatchingFilters =>
+      'Keine Entitäten entsprechen den Filtern';
+
+  @override
+  String get browseEntities => 'Entitäten durchsuchen';
+
+  @override
+  String get browseAllEntities => 'Alle Entitäten der Kampagne durchsuchen';
+
+  @override
+  String get filterByChapter => 'Nach Kapitel filtern';
+
+  @override
+  String get allChapters => 'Alle Kapitel';
+
+  @override
+  String get dashboardStats => 'Dashboard-Statistiken';
+
+  @override
+  String get quickActions => 'Schnellaktionen';
+
+  @override
+  String get upcomingSessions => 'Anstehende Sitzungen';
+
+  @override
+  String get totalCampaigns => 'Kampagnen gesamt';
+
+  @override
+  String get totalSessions => 'Sitzungen gesamt';
+
+  @override
+  String get totalParties => 'Gruppen gesamt';
+
+  @override
+  String get totalEntities => 'Entitäten gesamt';
+
+  @override
+  String get upcomingSessionsCount => 'Anstehende Sitzungen';
+
+  @override
+  String get lastActivity => 'Letzte Aktivität';
+
+  @override
+  String get noUpcomingSessions => 'Keine anstehenden Sitzungen';
+
+  @override
+  String get newCampaign => 'Neue Kampagne';
+
+  @override
+  String get newSession => 'Neue Sitzung';
+
+  @override
+  String get newParty => 'Neue Gruppe';
+
+  @override
   String get notifications => 'Benachrichtigungen';
 
   @override
@@ -397,11 +467,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get privacyDescription => 'Datenschutz und Datenfreigabe verwalten';
 
   @override
-  String get analytics => 'Analysen';
+  String get analytics => 'Analysen & Daten';
 
   @override
-  String get analyticsDescription =>
-      'Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen';
+  String get analyticsDescription => 'Nutzungsdaten und Tracking kontrollieren';
 
   @override
   String get about => 'Über';

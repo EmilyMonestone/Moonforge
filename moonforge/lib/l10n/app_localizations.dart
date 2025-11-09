@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Campaign'**
   String get campaign;
 
+  /// Label for Campaigns list
+  ///
+  /// In en, this message translates to:
+  /// **'Campaigns'**
+  String get campaigns;
+
   /// Label for Chapter feature
   ///
   /// In en, this message translates to:
@@ -842,6 +848,138 @@ abstract class AppLocalizations {
   /// **'Images'**
   String get images;
 
+  /// Label for search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// Label for kind filter dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Kind'**
+  String get filterByKind;
+
+  /// Option to show all entity kinds
+  ///
+  /// In en, this message translates to:
+  /// **'All Kinds'**
+  String get allKinds;
+
+  /// Button to clear all filters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
+
+  /// Message shown when no entities match the current filters
+  ///
+  /// In en, this message translates to:
+  /// **'No entities matching filters'**
+  String get noEntitiesMatchingFilters;
+
+  /// Label for browse entities menu action
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Entities'**
+  String get browseEntities;
+
+  /// Help text for browse entities action
+  ///
+  /// In en, this message translates to:
+  /// **'Browse all entities in the campaign'**
+  String get browseAllEntities;
+
+  /// Label for chapter filter dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Chapter'**
+  String get filterByChapter;
+
+  /// Option to show all chapters in filter
+  ///
+  /// In en, this message translates to:
+  /// **'All Chapters'**
+  String get allChapters;
+
+  /// Title for dashboard statistics widget
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard Stats'**
+  String get dashboardStats;
+
+  /// Title for quick actions widget
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// Title for upcoming sessions widget
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Sessions'**
+  String get upcomingSessions;
+
+  /// Label for total campaigns count
+  ///
+  /// In en, this message translates to:
+  /// **'Total Campaigns'**
+  String get totalCampaigns;
+
+  /// Label for total sessions count
+  ///
+  /// In en, this message translates to:
+  /// **'Total Sessions'**
+  String get totalSessions;
+
+  /// Label for total parties count
+  ///
+  /// In en, this message translates to:
+  /// **'Total Parties'**
+  String get totalParties;
+
+  /// Label for total entities count
+  ///
+  /// In en, this message translates to:
+  /// **'Total Entities'**
+  String get totalEntities;
+
+  /// Label for upcoming sessions count
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Sessions'**
+  String get upcomingSessionsCount;
+
+  /// Label for last activity timestamp
+  ///
+  /// In en, this message translates to:
+  /// **'Last Activity'**
+  String get lastActivity;
+
+  /// Message when there are no upcoming sessions
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming sessions'**
+  String get noUpcomingSessions;
+
+  /// Button label to create a new campaign
+  ///
+  /// In en, this message translates to:
+  /// **'New Campaign'**
+  String get newCampaign;
+
+  /// Button label to create a new session
+  ///
+  /// In en, this message translates to:
+  /// **'New Session'**
+  String get newSession;
+
+  /// Button label to create a new party
+  ///
+  /// In en, this message translates to:
+  /// **'New Party'**
+  String get newParty;
+
   /// Label for notifications settings
   ///
   /// In en, this message translates to:
@@ -854,7 +992,7 @@ abstract class AppLocalizations {
   /// **'Manage notification preferences'**
   String get notificationsDescription;
 
-  /// Label for privacy settings
+  /// Label for privacy settings section
   ///
   /// In en, this message translates to:
   /// **'Privacy & Security'**
@@ -863,19 +1001,19 @@ abstract class AppLocalizations {
   /// Description for privacy settings
   ///
   /// In en, this message translates to:
-  /// **'Manage privacy and data sharing'**
+  /// **'Manage your privacy and data'**
   String get privacyDescription;
 
-  /// Label for analytics settings
+  /// Label for analytics settings section
   ///
   /// In en, this message translates to:
-  /// **'Analytics'**
+  /// **'Analytics & Data'**
   String get analytics;
 
   /// Description for analytics settings
   ///
   /// In en, this message translates to:
-  /// **'Help improve the app by sharing usage data'**
+  /// **'Control usage data and tracking'**
   String get analyticsDescription;
 
   /// Label for about section

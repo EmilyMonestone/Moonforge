@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get campaign => 'Campaign';
 
   @override
+  String get campaigns => 'Campaigns';
+
+  @override
   String get chapter => 'Chapter';
 
   @override
@@ -384,6 +387,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get images => 'Images';
 
   @override
+  String get search => 'Search';
+
+  @override
+  String get filterByKind => 'Filter by Kind';
+
+  @override
+  String get allKinds => 'All Kinds';
+
+  @override
+  String get clearFilters => 'Clear Filters';
+
+  @override
+  String get noEntitiesMatchingFilters => 'No entities matching filters';
+
+  @override
+  String get browseEntities => 'Browse Entities';
+
+  @override
+  String get browseAllEntities => 'Browse all entities in the campaign';
+
+  @override
+  String get filterByChapter => 'Filter by Chapter';
+
+  @override
+  String get allChapters => 'All Chapters';
+
+  @override
+  String get dashboardStats => 'Dashboard Stats';
+
+  @override
+  String get quickActions => 'Quick Actions';
+
+  @override
+  String get upcomingSessions => 'Upcoming Sessions';
+
+  @override
+  String get totalCampaigns => 'Total Campaigns';
+
+  @override
+  String get totalSessions => 'Total Sessions';
+
+  @override
+  String get totalParties => 'Total Parties';
+
+  @override
+  String get totalEntities => 'Total Entities';
+
+  @override
+  String get upcomingSessionsCount => 'Upcoming Sessions';
+
+  @override
+  String get lastActivity => 'Last Activity';
+
+  @override
+  String get noUpcomingSessions => 'No upcoming sessions';
+
+  @override
+  String get newCampaign => 'New Campaign';
+
+  @override
+  String get newSession => 'New Session';
+
+  @override
+  String get newParty => 'New Party';
+
+  @override
   String get notifications => 'Notifications';
 
   @override
@@ -393,14 +462,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacy => 'Privacy & Security';
 
   @override
-  String get privacyDescription => 'Manage privacy and data sharing';
+  String get privacyDescription => 'Manage your privacy and data';
 
   @override
-  String get analytics => 'Analytics';
+  String get analytics => 'Analytics & Data';
 
   @override
-  String get analyticsDescription =>
-      'Help improve the app by sharing usage data';
+  String get analyticsDescription => 'Control usage data and tracking';
 
   @override
   String get about => 'About';

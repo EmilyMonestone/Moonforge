@@ -617,20 +617,6 @@
   "@analyticsDescription": {
     "description": "Description for analytics settings"
   },
-    "description": "Label for privacy settings"
-  },
-  "privacyDescription": "Manage privacy and data sharing",
-  "@privacyDescription": {
-    "description": "Description for privacy settings"
-  },
-  "analytics": "Analytics",
-  "@analytics": {
-    "description": "Label for analytics settings"
-  },
-  "analyticsDescription": "Help improve the app by sharing usage data",
-  "@analyticsDescription": {
-    "description": "Description for analytics settings"
-  },
   "about": "About",
   "@about": {
     "description": "Label for about section"

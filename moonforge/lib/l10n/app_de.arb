@@ -545,23 +545,6 @@
   "@upcomingSessions": {
     "description": "Titel für das Widget anstehende Sitzungen"
   },
-  "totalCampaigns": "Gesamtkampagnen",
-  "@totalCampaigns": {
-    "description": "Bezeichnung für die Gesamtanzahl der Kampagnen"
-  },
-  "totalSessions": "Gesamtsitzungen",
-  "@totalSessions": {
-    "description": "Bezeichnung für die Gesamtanzahl der Sitzungen"
-  },
-  "totalParties": "Gesamtgruppen",
-  "@totalParties": {
-    "description": "Bezeichnung für die Gesamtanzahl der Gruppen"
-  },
-  "totalEntities": "Gesamteinheiten",
-  "@totalEntities": {
-    "description": "Bezeichnung für die Gesamtanzahl der Entitäten"
-    "description": "Titel für das Widget für anstehende Sitzungen"
-  },
   "totalCampaigns": "Kampagnen gesamt",
   "@totalCampaigns": {
     "description": "Bezeichnung für die Gesamtzahl der Kampagnen"
@@ -585,11 +568,6 @@
   "lastActivity": "Letzte Aktivität",
   "@lastActivity": {
     "description": "Bezeichnung für den letzten Aktivitätszeitstempel"
-  },
-  "noUpcomingSessions": "Keine anstehenden Sitzungen",
-  "@noUpcomingSessions": {
-    "description": "Meldung wenn keine anstehenden Sitzungen vorhanden sind"
-    "description": "Bezeichnung für den Zeitstempel der letzten Aktivität"
   },
   "noUpcomingSessions": "Keine anstehenden Sitzungen",
   "@noUpcomingSessions": {
@@ -619,10 +597,6 @@
   "@privacy": {
     "description": "Bezeichnung für Datenschutzeinstellungen"
   },
-  "privacyDescription": "Verwalten Sie Ihre Privatsphäre und Daten",
-  "@privacyDescription": {
-    "description": "Beschreibung für Datenschutzeinstellungen"
-  },
   "analytics": "Analysen & Daten",
   "@analytics": {
     "description": "Bezeichnung für Analyseeinstellungen"
@@ -631,20 +605,9 @@
   "@analyticsDescription": {
     "description": "Beschreibung für Analyseeinstellungen"
   },
-  "account": "Konto",
-  "@account": {
-    "description": "Bezeichnung für Kontoabschnitt"
   "privacyDescription": "Datenschutz und Datenfreigabe verwalten",
   "@privacyDescription": {
     "description": "Beschreibung für Datenschutzeinstellungen"
-  },
-  "analytics": "Analysen",
-  "@analytics": {
-    "description": "Bezeichnung für Analyseeinstellungen"
-  },
-  "analyticsDescription": "Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen",
-  "@analyticsDescription": {
-    "description": "Beschreibung für Analyseeinstellungen"
   },
   "about": "Über",
   "@about": {
