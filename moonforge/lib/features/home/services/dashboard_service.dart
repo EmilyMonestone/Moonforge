@@ -67,11 +67,11 @@ class DashboardService {
       final lastActivity = await _fetchLastActivityTime(userId);
 
       return DashboardStats(
-        totalCampaigns: results[0] as int,
-        totalSessions: results[1] as int,
-        totalParties: results[2] as int,
-        totalEntities: results[3] as int,
-        upcomingSessions: results[4] as int,
+        totalCampaigns: results[0],
+        totalSessions: results[1],
+        totalParties: results[2],
+        totalEntities: results[3],
+        upcomingSessions: results[4],
         lastActivity: lastActivity,
       );
     } catch (e) {

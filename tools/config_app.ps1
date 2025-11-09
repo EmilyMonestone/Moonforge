@@ -1,10 +1,10 @@
-3# config_app.ps1
+# config_app.ps1
 # This script provides a menu-based interface for configuring the Sandi app.
 # It allows updating version numbers and app description.
 
 param (
-[switch]$Help,
-[switch]$NonInteractive  # For use by build.ps1
+    [switch]$Help,
+    [switch]$NonInteractive  # For use by build.ps1
 )
 
 # Function to display help information for version numbers
@@ -140,10 +140,10 @@ function Get-VersionInput
 $scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 
 # Pfade zu den relevanten Dateien
-$appConfigPath = Join-Path -Path $scriptDir -ChildPath "lib\core\constants\app_config.dart"
-$versionDartPath = Join-Path -Path $scriptDir -ChildPath "lib\core\constants\version.dart"
-$pubspecPath = Join-Path -Path $scriptDir -ChildPath "pubspec.yaml"
-$pkgbuildPath = Join-Path -Path $scriptDir -ChildPath "arch_build\PKGBUILD"
+$appConfigPath = Join-Path -Path $scriptDir -ChildPath "..\moonforge\lib\core\constants\app_config.dart"
+$versionDartPath = Join-Path -Path $scriptDir -ChildPath "..\moonforge\lib\core\constants\version.dart"
+$pubspecPath = Join-Path -Path $scriptDir -ChildPath "..\moonforge\pubspec.yaml"
+$pkgbuildPath = Join-Path -Path $scriptDir -ChildPath "..\moonforge\arch_build\PKGBUILD"
 
 # Use version.dart if app_config.dart doesn't exist yet
 if (-not (Test-Path $appConfigPath) -and (Test-Path $versionDartPath))
@@ -261,9 +261,24 @@ function Update-Version
 
     # PKGBUILD aktualisieren
     Write-Host "Updating PKGBUILD..."
-    $pkgbuildContent = Get-Content $pkgbuildPath -Raw
-    $pkgbuildContent = [regex]::Replace($pkgbuildContent, 'pkgver=[\d\.]+', "pkgver=$pkgbuildVersion")
-    Set-Content -Path $pkgbuildPath -Value $pkgbuildContent
+    if (Test-Path -LiteralPath $pkgbuildPath)
+    {
+        try
+        {
+            $pkgbuildContent = Get-Content -LiteralPath $pkgbuildPath -Raw
+            $pkgbuildContent = [regex]::Replace($pkgbuildContent, 'pkgver=[\d\.]+', "pkgver=$pkgbuildVersion")
+            Set-Content -LiteralPath $pkgbuildPath -Value $pkgbuildContent
+        }
+        catch
+        {
+            Write-Host "Skipping PKGBUILD update (error accessing file: $pkgbuildPath)"
+            Write-Host "  Details: $( $_.Exception.Message )"
+        }
+    }
+    else
+    {
+        Write-Host "Skipping PKGBUILD update (file not found: $pkgbuildPath)"
+    }
 
     Write-Host ""
     Write-Host "Version update completed successfully!"
@@ -347,9 +362,25 @@ function Update-Description
 
     # PKGBUILD aktualisieren
     Write-Host "Updating PKGBUILD description..."
-    $pkgbuildContent = Get-Content $pkgbuildPath -Raw
-    $pkgbuildContent = [regex]::Replace($pkgbuildContent, 'pkgdesc="[^"]+"', "pkgdesc=`"$newDescription`"")
-    Set-Content -Path $pkgbuildPath -Value $pkgbuildContent
+    if (Test-Path -LiteralPath $pkgbuildPath)
+    {
+        try
+        {
+            $pkgbuildContent = Get-Content -LiteralPath $pkgbuildPath -Raw
+            $replacement = "pkgdesc=`"$newDescription`""
+            $pkgbuildContent = [regex]::Replace($pkgbuildContent, 'pkgdesc="[^"]+"', $replacement)
+            Set-Content -LiteralPath $pkgbuildPath -Value $pkgbuildContent
+        }
+        catch
+        {
+            Write-Host "Skipping PKGBUILD description update (error accessing file: $pkgbuildPath)"
+            Write-Host "  Details: $( $_.Exception.Message )"
+        }
+    }
+    else
+    {
+        Write-Host "Skipping PKGBUILD description update (file not found: $pkgbuildPath)"
+    }
 
     Write-Host ""
     Write-Host "Description update completed successfully!"

@@ -7,13 +7,13 @@ library;
 const int versionMajor = 0;
 
 /// Minor version number
-const int versionMinor = 1;
+const int versionMinor = 6;
 
 /// Patch version number
 const int versionPatch = 0;
 
 /// Build number
-const int versionBuild = 0;
+const int versionBuild = 1;
 
 /// App description
 const String appDescription =
@@ -40,3 +40,5 @@ String get displayVersion =>
 
 /// Returns the app description
 String get appDescriptionText => appDescription;
+
+

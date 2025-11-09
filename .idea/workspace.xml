@@ -18,8 +18,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: enhance code readability and maintainability with consistent formatting and null safety improvements">
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes">
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/config_app.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/tools/config_app.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,14 +177,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00037" summary="feat: update project dependencies and reorganize workspace configuration for improved clarity">
-      <option name="closed" value="true" />
-      <created>1761469850525</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1761469850525</updated>
     </task>
     <task id="LOCAL-00038" summary="feat: add localization support for description and content fields in multiple languages">
       <option name="closed" value="true" />
@@ -568,7 +562,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762725099860</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes">
+      <option name="closed" value="true" />
+      <created>1762725773364</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1762725773364</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -595,7 +597,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix: update .gitignore to ignore all workspace.xml files" />
     <MESSAGE value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
     <MESSAGE value="refactor: rename documentation files for improved organization" />
     <MESSAGE value="feat: add beta badge to indicate beta version in adaptive scaffold" />
@@ -620,7 +621,8 @@
     <MESSAGE value="chore: rename documentation files for improved organization and clarity" />
     <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
     <MESSAGE value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
+    <MESSAGE value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1057,6 +1059,12 @@
           <option name="totalLines" value="1249141" />
           <option name="info" value="feat: enhance code readability and maintainability" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762725773538" />
+          <option name="linesCode" value="76375" />
+          <option name="totalLines" value="1249193" />
+          <option name="info" value="feat: update CHANGELOG for version 0.6.0 with new " />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1134,9 +1142,9 @@
           <option name="info" value="Nov 3, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1762725100030" />
-          <option name="linesCode" value="76345" />
-          <option name="totalLines" value="1249141" />
+          <option name="timestamp" value="1762725773538" />
+          <option name="linesCode" value="76375" />
+          <option name="totalLines" value="1249193" />
           <option name="info" value="Nov 9, 2025" />
         </TimePoint>
       </list>
