@@ -497,6 +497,34 @@
   "@images": {
     "description": "Bezeichnung für Bilder-Abschnitt"
   },
+  "search": "Suchen",
+  "@search": {
+    "description": "Bezeichnung für Suchfeld"
+  },
+  "filterByKind": "Nach Art filtern",
+  "@filterByKind": {
+    "description": "Bezeichnung für Art-Filter Dropdown"
+  },
+  "allKinds": "Alle Arten",
+  "@allKinds": {
+    "description": "Option um alle Entitätsarten anzuzeigen"
+  },
+  "clearFilters": "Filter zurücksetzen",
+  "@clearFilters": {
+    "description": "Schaltfläche zum Zurücksetzen aller Filter"
+  },
+  "noEntitiesMatchingFilters": "Keine Entitäten entsprechen den Filtern",
+  "@noEntitiesMatchingFilters": {
+    "description": "Nachricht wenn keine Entitäten den aktuellen Filtern entsprechen"
+  },
+  "browseEntities": "Entitäten durchsuchen",
+  "@browseEntities": {
+    "description": "Bezeichnung für Entitäten durchsuchen Menü-Aktion"
+  },
+  "browseAllEntities": "Alle Entitäten der Kampagne durchsuchen",
+  "@browseAllEntities": {
+    "description": "Hilfetext für Entitäten durchsuchen Aktion"
+  },
   "filterByChapter": "Nach Kapitel filtern",
   "@filterByChapter": {
     "description": "Bezeichnung für Kapitelfilter-Dropdown"
@@ -504,6 +532,7 @@
   "allChapters": "Alle Kapitel",
   "@allChapters": {
     "description": "Option zum Anzeigen aller Kapitel im Filter"
+  },
   "dashboardStats": "Dashboard-Statistiken",
   "@dashboardStats": {
     "description": "Titel für das Dashboard-Statistik-Widget"
@@ -514,6 +543,23 @@
   },
   "upcomingSessions": "Anstehende Sitzungen",
   "@upcomingSessions": {
+    "description": "Titel für das Widget anstehende Sitzungen"
+  },
+  "totalCampaigns": "Gesamtkampagnen",
+  "@totalCampaigns": {
+    "description": "Bezeichnung für die Gesamtanzahl der Kampagnen"
+  },
+  "totalSessions": "Gesamtsitzungen",
+  "@totalSessions": {
+    "description": "Bezeichnung für die Gesamtanzahl der Sitzungen"
+  },
+  "totalParties": "Gesamtgruppen",
+  "@totalParties": {
+    "description": "Bezeichnung für die Gesamtanzahl der Gruppen"
+  },
+  "totalEntities": "Gesamteinheiten",
+  "@totalEntities": {
+    "description": "Bezeichnung für die Gesamtanzahl der Entitäten"
     "description": "Titel für das Widget für anstehende Sitzungen"
   },
   "totalCampaigns": "Kampagnen gesamt",
@@ -538,6 +584,11 @@
   },
   "lastActivity": "Letzte Aktivität",
   "@lastActivity": {
+    "description": "Bezeichnung für den letzten Aktivitätszeitstempel"
+  },
+  "noUpcomingSessions": "Keine anstehenden Sitzungen",
+  "@noUpcomingSessions": {
+    "description": "Meldung wenn keine anstehenden Sitzungen vorhanden sind"
     "description": "Bezeichnung für den Zeitstempel der letzten Aktivität"
   },
   "noUpcomingSessions": "Keine anstehenden Sitzungen",
@@ -555,6 +606,7 @@
   "newParty": "Neue Gruppe",
   "@newParty": {
     "description": "Schaltflächenbeschriftung zum Erstellen einer neuen Gruppe"
+  },
   "notifications": "Benachrichtigungen",
   "@notifications": {
     "description": "Bezeichnung für Benachrichtigungseinstellungen"
@@ -567,6 +619,21 @@
   "@privacy": {
     "description": "Bezeichnung für Datenschutzeinstellungen"
   },
+  "privacyDescription": "Verwalten Sie Ihre Privatsphäre und Daten",
+  "@privacyDescription": {
+    "description": "Beschreibung für Datenschutzeinstellungen"
+  },
+  "analytics": "Analysen & Daten",
+  "@analytics": {
+    "description": "Bezeichnung für Analyseeinstellungen"
+  },
+  "analyticsDescription": "Nutzungsdaten und Tracking kontrollieren",
+  "@analyticsDescription": {
+    "description": "Beschreibung für Analyseeinstellungen"
+  },
+  "account": "Konto",
+  "@account": {
+    "description": "Bezeichnung für Kontoabschnitt"
   "privacyDescription": "Datenschutz und Datenfreigabe verwalten",
   "@privacyDescription": {
     "description": "Beschreibung für Datenschutzeinstellungen"

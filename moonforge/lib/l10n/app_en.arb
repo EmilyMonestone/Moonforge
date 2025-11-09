@@ -505,6 +505,34 @@
   "@images": {
     "description": "Label for images section"
   },
+  "search": "Search",
+  "@search": {
+    "description": "Label for search field"
+  },
+  "filterByKind": "Filter by Kind",
+  "@filterByKind": {
+    "description": "Label for kind filter dropdown"
+  },
+  "allKinds": "All Kinds",
+  "@allKinds": {
+    "description": "Option to show all entity kinds"
+  },
+  "clearFilters": "Clear Filters",
+  "@clearFilters": {
+    "description": "Button to clear all filters"
+  },
+  "noEntitiesMatchingFilters": "No entities matching filters",
+  "@noEntitiesMatchingFilters": {
+    "description": "Message shown when no entities match the current filters"
+  },
+  "browseEntities": "Browse Entities",
+  "@browseEntities": {
+    "description": "Label for browse entities menu action"
+  },
+  "browseAllEntities": "Browse all entities in the campaign",
+  "@browseAllEntities": {
+    "description": "Help text for browse entities action"
+  },
   "filterByChapter": "Filter by Chapter",
   "@filterByChapter": {
     "description": "Label for chapter filter dropdown"
@@ -512,6 +540,7 @@
   "allChapters": "All Chapters",
   "@allChapters": {
     "description": "Option to show all chapters in filter"
+  },
   "dashboardStats": "Dashboard Stats",
   "@dashboardStats": {
     "description": "Title for dashboard statistics widget"
@@ -563,6 +592,7 @@
   "newParty": "New Party",
   "@newParty": {
     "description": "Button label to create a new party"
+  },
   "notifications": "Notifications",
   "@notifications": {
     "description": "Label for notifications settings"
@@ -573,6 +603,20 @@
   },
   "privacy": "Privacy & Security",
   "@privacy": {
+    "description": "Label for privacy settings section"
+  },
+  "privacyDescription": "Manage your privacy and data",
+  "@privacyDescription": {
+    "description": "Description for privacy settings"
+  },
+  "analytics": "Analytics & Data",
+  "@analytics": {
+    "description": "Label for analytics settings section"
+  },
+  "analyticsDescription": "Control usage data and tracking",
+  "@analyticsDescription": {
+    "description": "Description for analytics settings"
+  },
     "description": "Label for privacy settings"
   },
   "privacyDescription": "Manage privacy and data sharing",

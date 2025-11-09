@@ -103,9 +103,11 @@ class MenuRegistry {
     final l10n = AppLocalizations.of(context)!;
     return <MenuBarAction>[
       continueWhereLeft(l10n),
+      browseEntities(l10n),
       newChapter(l10n),
       newAdventure(l10n),
       newScene(l10n),
+      browseEncounters(l10n),
       newEncounter(l10n),
       newEntity(l10n),
     ];
@@ -239,6 +241,17 @@ class MenuRegistry {
     );
   }
 
+  static MenuBarAction browseEntities(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: l10n.browseEntities,
+      helpText: l10n.browseAllEntities,
+      icon: Icons.list_alt_outlined,
+      onPressed: (ctx) {
+        const EntitiesListRoute().go(ctx);
+      },
+    );
+  }
+
   static MenuBarAction newChapter(AppLocalizations l10n) {
     return MenuBarAction(
       label: l10n.createChapter,
@@ -331,6 +344,17 @@ class MenuRegistry {
           return;
         }
         createSceneInChapter(ctx, campaign, chapterId);
+      },
+    );
+  }
+
+  static MenuBarAction browseEncounters(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: 'Browse Encounters',
+      helpText: 'View all encounters in the campaign',
+      icon: Icons.list_outlined,
+      onPressed: (ctx) {
+        const EncountersListRoute().go(ctx);
       },
     );
   }
