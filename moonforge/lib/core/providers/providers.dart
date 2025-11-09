@@ -4,7 +4,9 @@ import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/db_providers.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/scene/controllers/scene_provider.dart';
 import 'package:moonforge/features/settings/services/settings_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,6 +59,11 @@ class MultiProviderWrapper extends StatelessWidget {
             ),
             ChangeNotifierProvider<CampaignProvider>.value(value: campaignProvider),
             ChangeNotifierProvider<BestiaryProvider>.value(value: bestiaryProvider),
+            ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
+              create: (context) => SceneProvider(context.read<SceneRepository>()),
+              update: (context, sceneRepo, previous) =>
+                  previous ?? SceneProvider(sceneRepo),
+            ),
             ...dbProviders(db),
           ],
           child: child,

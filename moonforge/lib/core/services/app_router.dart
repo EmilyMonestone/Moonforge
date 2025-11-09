@@ -22,7 +22,9 @@ import 'package:moonforge/features/parties/views/member_screen.dart';
 import 'package:moonforge/features/parties/views/party_edit_screen.dart';
 import 'package:moonforge/features/parties/views/party_screen.dart';
 import 'package:moonforge/features/scene/views/scene_edit_screen.dart';
+import 'package:moonforge/features/scene/views/scene_list_screen.dart';
 import 'package:moonforge/features/scene/views/scene_screen.dart';
+import 'package:moonforge/features/scene/views/scene_templates_screen.dart';
 import 'package:moonforge/features/session/views/session_edit_screen.dart';
 import 'package:moonforge/features/session/views/session_list_screen.dart';
 import 'package:moonforge/features/session/views/session_public_share_screen.dart';
@@ -110,6 +112,8 @@ class AppRouter {
                 ),
               ],
             ),
+            TypedGoRoute<SceneListRoute>(path: 'scenes'),
+            TypedGoRoute<SceneTemplatesRoute>(path: 'scenes/templates'),
             TypedGoRoute<EncounterRoute>(
               path: 'encounter/:encounterId',
               routes: <TypedRoute<GoRouteData>>[
@@ -462,4 +466,20 @@ class SessionPublicShareRoute extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       SessionPublicShareScreen(token: token);
+}
+
+class SceneListRoute extends GoRouteData with $SceneListRoute {
+  const SceneListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SceneListScreen();
+}
+
+class SceneTemplatesRoute extends GoRouteData with $SceneTemplatesRoute {
+  const SceneTemplatesRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SceneTemplatesScreen();
 }
