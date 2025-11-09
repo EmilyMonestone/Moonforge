@@ -63,3 +63,7 @@ class _AppState extends State<App> {
     );
   }
 }
+
+extension BuildContextThemeX on BuildContext {
+  ThemeData get theme => Theme.of(this);
+}

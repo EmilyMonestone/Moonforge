@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
-    show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+    show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -105,7 +105,8 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                       border: const OutlineInputBorder(),
                       suffixIcon: Consumer<CampaignListController>(
                         builder: (context, controller, _) {
-                          if (controller.searchQuery.isEmpty) return const SizedBox.shrink();
+                          if (controller.searchQuery.isEmpty)
+                            return const SizedBox.shrink();
                           return IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () => controller.setSearchQuery(''),
@@ -183,7 +184,11 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                                 size: 16,
                               ),
                               const SizedBox(width: 8),
-                              Text(controller.descending ? 'Descending' : 'Ascending'),
+                              Text(
+                                controller.descending
+                                    ? 'Descending'
+                                    : 'Ascending',
+                              ),
                             ],
                           ),
                         ),
@@ -215,11 +220,15 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                       viewMode: controller.viewMode,
                       onCampaignTap: (campaign) {
                         // Set as current campaign and navigate
-                        context.read<CampaignProvider>().setCurrentCampaign(campaign);
+                        context.read<CampaignProvider>().setCurrentCampaign(
+                          campaign,
+                        );
                         const CampaignRoute().go(context);
                       },
                       onCampaignEdit: (campaign) {
-                        context.read<CampaignProvider>().setCurrentCampaign(campaign);
+                        context.read<CampaignProvider>().setCurrentCampaign(
+                          campaign,
+                        );
                         const CampaignEditRoute().go(context);
                       },
                       onCampaignDelete: (campaign) async {
@@ -233,11 +242,13 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                             ),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(false),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
                                 child: const Text('Cancel'),
                               ),
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(true),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
                                 child: const Text('Delete'),
                               ),
                             ],
@@ -245,8 +256,9 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                         );
 
                         if (confirmed == true && context.mounted) {
-                          await CampaignRepository(context.read<AppDb>())
-                              .delete(campaign.id);
+                          await CampaignRepository(
+                            context.read<AppDb>(),
+                          ).delete(campaign.id);
                         }
                       },
                     );

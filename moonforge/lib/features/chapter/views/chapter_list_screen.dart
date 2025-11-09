@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
-    show ButtonM3E, ButtonM3EStyle, ButtonM3EShape, BuildContextM3EX;
+    show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
@@ -26,10 +26,9 @@ class ChapterListScreen extends StatelessWidget {
 
     // Get chapters for the current campaign
     final allChapters = context.watch<List<db.Chapter>>();
-    final chapters = allChapters
-        .where((c) => c.campaignId == campaign.id)
-        .toList()
-      ..sort((a, b) => a.order.compareTo(b.order));
+    final chapters =
+        allChapters.where((c) => c.campaignId == campaign.id).toList()
+          ..sort((a, b) => a.order.compareTo(b.order));
 
     return Column(
       children: [
@@ -45,9 +44,9 @@ class ChapterListScreen extends StatelessWidget {
                 style: ButtonM3EStyle.filled,
                 shape: ButtonM3EShape.square,
                 icon: const Icon(Icons.add),
-                label: Text(l10n.addChapter),
+                label: Text(l10n.createChapter),
                 onPressed: () async {
-                  await createChapter(context, campaign.id);
+                  await createChapter(context, campaign);
                 },
               ),
             ],
@@ -66,16 +65,16 @@ class ChapterListScreen extends StatelessWidget {
                       Text(
                         'No chapters yet',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         'Create your first chapter to organize your campaign story',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),

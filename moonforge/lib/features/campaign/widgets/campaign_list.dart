@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_card.dart';

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
 
@@ -6,11 +7,9 @@ class ChapterService {
   final ChapterRepository _repository;
   final AppDb _db;
 
-  ChapterService({
-    required ChapterRepository repository,
-    required AppDb db,
-  })  : _repository = repository,
-        _db = db;
+  ChapterService({required ChapterRepository repository, required AppDb db})
+    : _repository = repository,
+      _db = db;
 
   /// Get chapter statistics
   Future<ChapterStats> getChapterStats(String chapterId) async {
@@ -60,7 +59,7 @@ class ChapterService {
   /// Get total word count for chapter content
   int getWordCount(Chapter chapter) {
     int count = 0;
-    
+
     // Count summary words
     if (chapter.summary != null && chapter.summary!.isNotEmpty) {
       count += chapter.summary!.split(RegExp(r'\s+')).length;
@@ -84,13 +83,15 @@ class ChapterService {
 
   /// Duplicate a chapter with a new name
   Future<Chapter> duplicateChapter(Chapter source, String newName) async {
-    final newId = 'chapter-${source.campaignId}-${DateTime.now().millisecondsSinceEpoch}';
-    
+    final newId =
+        'chapter-${source.campaignId}-${DateTime.now().millisecondsSinceEpoch}';
+
     final newChapter = Chapter(
       id: newId,
       campaignId: source.campaignId,
       name: newName,
-      order: source.order + 1, // Place after the source chapter
+      order: source.order + 1,
+      // Place after the source chapter
       summary: source.summary,
       content: source.content,
       entityIds: source.entityIds,
@@ -104,17 +105,20 @@ class ChapterService {
   }
 
   /// Reorder chapters in a campaign
-  Future<void> reorderChapters(String campaignId, List<String> chapterIds) async {
+  Future<void> reorderChapters(
+    String campaignId,
+    List<String> chapterIds,
+  ) async {
     final chapters = await _repository.getByCampaign(campaignId);
-    
+
     for (int i = 0; i < chapterIds.length; i++) {
       final chapterId = chapterIds[i];
       final chapter = chapters.firstWhere((c) => c.id == chapterId);
-      
+
       if (chapter.order != i) {
         final updated = chapter.copyWith(
           order: i,
-          updatedAt: DateTime.now(),
+          updatedAt: Value(DateTime.now()),
         );
         await _repository.update(updated);
       }

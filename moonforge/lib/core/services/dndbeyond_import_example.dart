@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:moonforge/core/services/dndbeyond_import_service.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 
@@ -23,19 +24,19 @@ class DnDBeyondImportExample {
     final result = await importService.importCharacter(ddbUrl, campaignId);
 
     if (result.success) {
-      print('✓ Character imported successfully!');
-      print('  Player ID: ${result.playerId}');
+      logger.i('Character imported successfully!');
+      logger.i('Player ID: ${result.playerId}');
 
       // Fetch the imported player to display details
       final player = await playerRepository.getById(result.playerId!);
       if (player != null) {
-        print('  Name: ${player.name}');
-        print('  Class: ${player.className} (Level ${player.level})');
-        print('  Race: ${player.race}');
-        print('  D&D Beyond ID: ${player.ddbCharacterId}');
+        logger.i('Name: ${player.name}');
+        logger.i('Class: ${player.className} (Level ${player.level})');
+        logger.i('Race: ${player.race}');
+        logger.i('D&D Beyond ID: ${player.ddbCharacterId}');
       }
     } else {
-      print('✗ Import failed: ${result.errorMessage}');
+      logger.e('Import failed: ${result.errorMessage}');
     }
   }
 
@@ -46,31 +47,31 @@ class DnDBeyondImportExample {
     final result = await importService.importCharacter(ddbId, campaignId);
 
     if (result.success) {
-      print('✓ Character imported successfully!');
-      print('  Player ID: ${result.playerId}');
+      logger.i('Character imported successfully!');
+      logger.i('Player ID: ${result.playerId}');
     } else {
-      print('✗ Import failed: ${result.errorMessage}');
+      logger.e('Import failed: ${result.errorMessage}');
     }
   }
 
   /// Example: Update an existing character from D&D Beyond
   Future<void> updateCharacter(String playerId) async {
-    print('Updating character from D&D Beyond...');
+    logger.i('Updating character from D&D Beyond...');
 
     final result = await importService.updateCharacter(playerId);
 
     if (result.success) {
-      print('✓ Character updated successfully!');
+      logger.i('Character updated successfully!');
 
       // Fetch the updated player
       final player = await playerRepository.getById(playerId);
       if (player != null) {
-        print('  Last sync: ${player.lastDdbSync}');
-        print('  Level: ${player.level}');
-        print('  HP: ${player.hpCurrent}/${player.hpMax}');
+        logger.i('Last sync: ${player.lastDdbSync}');
+        logger.i('Level: ${player.level}');
+        logger.i('HP: ${player.hpCurrent}/${player.hpMax}');
       }
     } else {
-      print('✗ Update failed: ${result.errorMessage}');
+      logger.e('Update failed: ${result.errorMessage}');
     }
   }
 
@@ -84,16 +85,16 @@ class DnDBeyondImportExample {
           p.deleted.equals(false),
     );
 
-    print('Found ${players.length} characters linked to D&D Beyond');
+    logger.i('Found ${players.length} characters linked to D&D Beyond');
 
     for (final player in players) {
-      print('\nSyncing ${player.name}...');
+      logger.i('Syncing ${player.name}...');
       final result = await importService.updateCharacter(player.id);
 
       if (result.success) {
-        print('  ✓ Updated successfully');
+        logger.i('✓ Updated successfully');
       } else {
-        print('  ✗ Failed: ${result.errorMessage}');
+        logger.e('✗ Failed: ${result.errorMessage}');
       }
     }
   }
@@ -104,10 +105,10 @@ class DnDBeyondImportExample {
     final result = await importService.importCharacter(userInput, campaignId);
 
     if (result.success) {
-      print('Character imported: ${result.playerId}');
+      logger.i('Character imported: ${result.playerId}');
       // Navigate to character details or show success message
     } else {
-      print('Import failed: ${result.errorMessage}');
+      logger.e('Import failed: ${result.errorMessage}');
       // Show error message to user
     }
   }
@@ -123,12 +124,12 @@ class DnDBeyondImportExample {
     final player = await playerRepository.getByDdbCharacterId(ddbCharacterId);
 
     if (player != null) {
-      print('Character found:');
-      print('  Name: ${player.name}');
-      print('  ID: ${player.id}');
-      print('  Campaign: ${player.campaignId}');
+      logger.i('Character found:');
+      logger.i('Name: ${player.name}');
+      logger.i('ID: ${player.id}');
+      logger.i('Campaign: ${player.campaignId}');
     } else {
-      print('No character found with D&D Beyond ID: $ddbCharacterId');
+      logger.i('No character found with D&D Beyond ID: $ddbCharacterId');
     }
   }
 }

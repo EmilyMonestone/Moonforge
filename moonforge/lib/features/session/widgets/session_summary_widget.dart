@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -18,7 +16,7 @@ class SessionSummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
+    final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return SurfaceContainer(
@@ -29,11 +27,7 @@ class SessionSummaryWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.summarize,
-                  color: colorScheme.primary,
-                  size: 24,
-                ),
+                Icon(Icons.summarize, color: colorScheme.primary, size: 24),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -83,7 +77,7 @@ class SessionSummaryWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              _buildQuillPreview(session.log!),
+              _buildQuillPreview(context, session.log!),
             ] else
               Text(
                 'No session log available',
@@ -103,7 +97,7 @@ class SessionSummaryWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              _buildQuillPreview(session.info!),
+              _buildQuillPreview(context, session.info!),
             ],
           ],
         ),
@@ -123,11 +117,7 @@ class SessionSummaryWidget extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16,
-          color: colorScheme.onSurfaceVariant,
-        ),
+        Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
         const SizedBox(width: 8),
         Text(
           '$label: ',
@@ -148,38 +138,23 @@ class SessionSummaryWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildQuillPreview(Map<String, dynamic> delta) {
-    try {
-      final ops = delta['ops'] as List<dynamic>?;
-      if (ops != null) {
-        final document = Document.fromJson(ops);
-        final controller = QuillController(
-          document: document,
-          selection: const TextSelection.collapsed(offset: 0),
-          readOnly: true,
-        );
-
-        return QuillEditor(
-          controller: controller,
-          scrollController: ScrollController(),
-          focusNode: FocusNode(),
-          configurations: const QuillEditorConfigurations(
-            showCursor: false,
-            padding: EdgeInsets.zero,
-          ),
-        );
+  Widget _buildQuillPreview(BuildContext context, Map<String, dynamic> delta) {
+    final buffer = StringBuffer();
+    final ops = delta['ops'] as List<dynamic>?;
+    if (ops != null) {
+      for (final op in ops) {
+        if (op is Map && op['insert'] is String) {
+          buffer.write(op['insert'] as String);
+        }
       }
-    } catch (e) {
-      // If parsing fails, show error message
-      return Text(
-        'Unable to display content',
-        style: TextStyle(
-          color: Colors.red.shade700,
-          fontStyle: FontStyle.italic,
-        ),
-      );
     }
-
-    return const Text('No content');
+    final text = buffer.toString().trim();
+    if (text.isEmpty) return const Text('No content');
+    return SingleChildScrollView(
+      child: SelectableText(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    );
   }
 }

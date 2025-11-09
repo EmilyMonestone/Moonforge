@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,15 +17,33 @@ class SceneTemplateService {
         defaultSummary: 'A tense combat encounter',
         defaultContent: {
           'ops': [
-            {'insert': 'Combat Scene\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Combat Scene\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Initiative Order\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Initiative Order\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Tactics\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Tactics\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe enemy tactics and strategy here.\n\n'},
-            {'insert': 'Terrain & Features\n', 'attributes': {'bold': true}},
-            {'insert': 'Describe the battlefield and any special terrain features.\n\n'},
-            {'insert': 'Treasure\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Terrain & Features\n',
+              'attributes': {'bold': true},
+            },
+            {
+              'insert':
+                  'Describe the battlefield and any special terrain features.\n\n',
+            },
+            {
+              'insert': 'Treasure\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'List any loot or rewards here.\n'},
           ],
         },
@@ -37,15 +56,30 @@ class SceneTemplateService {
         defaultSummary: 'A social encounter with NPCs',
         defaultContent: {
           'ops': [
-            {'insert': 'Social Encounter\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Social Encounter\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'NPCs Present\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'NPCs Present\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n\n'},
-            {'insert': 'Mood & Atmosphere\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Mood & Atmosphere\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe the social setting and atmosphere.\n\n'},
-            {'insert': 'Key Topics\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Key Topics\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Possible Outcomes\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Possible Outcomes\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'List potential outcomes based on player choices.\n'},
           ],
         },
@@ -58,15 +92,30 @@ class SceneTemplateService {
         defaultSummary: 'Exploring a new location',
         defaultContent: {
           'ops': [
-            {'insert': 'Exploration Scene\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Exploration Scene\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Location Description\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Location Description\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe what the players see, hear, and smell.\n\n'},
-            {'insert': 'Points of Interest\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Points of Interest\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Hidden Secrets\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Hidden Secrets\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'What can be found with investigation?\n\n'},
-            {'insert': 'Hazards & Challenges\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Hazards & Challenges\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Any environmental challenges or traps?\n'},
           ],
         },
@@ -79,15 +128,30 @@ class SceneTemplateService {
         defaultSummary: 'A challenging puzzle',
         defaultContent: {
           'ops': [
-            {'insert': 'Puzzle Scene\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Puzzle Scene\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Puzzle Description\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Puzzle Description\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe the puzzle as the players encounter it.\n\n'},
-            {'insert': 'Clues\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Clues\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Solution\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Solution\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'The solution to the puzzle.\n\n'},
-            {'insert': 'Reward\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Reward\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'What happens when the puzzle is solved?\n'},
           ],
         },
@@ -100,15 +164,33 @@ class SceneTemplateService {
         defaultSummary: 'A place to rest and recover',
         defaultContent: {
           'ops': [
-            {'insert': 'Rest Scene\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Rest Scene\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Location\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Location\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe where the party is resting.\n\n'},
-            {'insert': 'Safety Level\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Safety Level\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Is this a safe rest? Any chance of interruption?\n\n'},
-            {'insert': 'Activities\n', 'attributes': {'bold': true}},
-            {'insert': 'What can the party do during the rest?\n• Craft\n• Study\n• Keep watch\n\n'},
-            {'insert': 'Time Passage\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Activities\n',
+              'attributes': {'bold': true},
+            },
+            {
+              'insert':
+                  'What can the party do during the rest?\n• Craft\n• Study\n• Keep watch\n\n',
+            },
+            {
+              'insert': 'Time Passage\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'How much time passes? Long rest or short rest?\n'},
           ],
         },
@@ -121,16 +203,37 @@ class SceneTemplateService {
         defaultSummary: 'An important story moment',
         defaultContent: {
           'ops': [
-            {'insert': 'Cutscene\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Cutscene\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Read Aloud\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Read Aloud\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Read this narrative text to the players:\n\n'},
-            {'insert': '"', 'attributes': {'italic': true}},
-            {'insert': 'Your dramatic narrative text here...', 'attributes': {'italic': true}},
-            {'insert': '"\n\n', 'attributes': {'italic': true}},
-            {'insert': 'Key Events\n', 'attributes': {'bold': true}},
+            {
+              'insert': '"',
+              'attributes': {'italic': true},
+            },
+            {
+              'insert': 'Your dramatic narrative text here...',
+              'attributes': {'italic': true},
+            },
+            {
+              'insert': '"\n\n',
+              'attributes': {'italic': true},
+            },
+            {
+              'insert': 'Key Events\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Aftermath\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Aftermath\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'What happens next?\n'},
           ],
         },
@@ -143,17 +246,35 @@ class SceneTemplateService {
         defaultSummary: 'A climactic boss battle',
         defaultContent: {
           'ops': [
-            {'insert': 'Boss Fight\n', 'attributes': {'header': 1}},
+            {
+              'insert': 'Boss Fight\n',
+              'attributes': {'header': 1},
+            },
             {'insert': '\n'},
-            {'insert': 'Boss Introduction\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Boss Introduction\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'Describe the boss\'s dramatic entrance.\n\n'},
-            {'insert': 'Boss Stats\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Boss Stats\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• HP: \n• AC: \n• Special Abilities: \n\n'},
-            {'insert': 'Phase Transitions\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Phase Transitions\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'What happens at different HP thresholds?\n\n'},
-            {'insert': 'Legendary Actions\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Legendary Actions\n',
+              'attributes': {'bold': true},
+            },
             {'insert': '• \n• \n• \n\n'},
-            {'insert': 'Victory Conditions\n', 'attributes': {'bold': true}},
+            {
+              'insert': 'Victory Conditions\n',
+              'attributes': {'bold': true},
+            },
             {'insert': 'What happens when the boss is defeated?\n'},
           ],
         },
@@ -200,9 +321,13 @@ class SceneTemplateService {
   }) {
     return scene.copyWith(
       name: overwriteName ? template.name : scene.name,
-      summary: overwriteSummary ? template.defaultSummary : scene.summary,
-      content: overwriteContent ? template.defaultContent : scene.content,
-      updatedAt: DateTime.now(),
+      summary: overwriteSummary
+          ? Value(template.defaultSummary)
+          : const Value.absent(),
+      content: overwriteContent
+          ? Value(template.defaultContent)
+          : const Value.absent(),
+      updatedAt: Value(DateTime.now()),
       rev: scene.rev + 1,
     );
   }

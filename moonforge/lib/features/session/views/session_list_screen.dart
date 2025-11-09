@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
@@ -11,10 +10,7 @@ import 'package:provider/provider.dart';
 
 /// Screen for browsing and managing sessions
 class SessionListScreen extends StatefulWidget {
-  const SessionListScreen({
-    super.key,
-    required this.partyId,
-  });
+  const SessionListScreen({super.key, required this.partyId});
 
   final String partyId;
 
@@ -45,7 +41,6 @@ class _SessionListScreenState extends State<SessionListScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
-    final theme = context.theme;
 
     if (campaign == null) {
       return Scaffold(
@@ -103,9 +98,7 @@ class _SessionListScreenState extends State<SessionListScreen> {
                   }
 
                   if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
+                    return Center(child: Text('Error: ${snapshot.error}'));
                   }
 
                   final sessions = snapshot.data ?? [];

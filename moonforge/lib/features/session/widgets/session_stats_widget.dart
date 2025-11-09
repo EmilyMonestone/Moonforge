@@ -1,22 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart';
+import 'package:flutter/material.dart'; // import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/session/services/session_service.dart';
 import 'package:moonforge/features/session/utils/session_formatters.dart';
 
 /// Widget for displaying session statistics
 class SessionStatsWidget extends StatelessWidget {
-  const SessionStatsWidget({
-    super.key,
-    required this.stats,
-  });
+  const SessionStatsWidget({super.key, required this.stats});
 
   final SessionStats stats;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SurfaceContainer(
       child: Padding(
@@ -26,9 +21,9 @@ class SessionStatsWidget extends StatelessWidget {
           children: [
             Text(
               'Session Statistics',
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Row(
@@ -74,8 +69,6 @@ class SessionStatsWidget extends StatelessWidget {
     required String value,
     required Color color,
   }) {
-    final theme = Theme.of(context);
-
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12.0),
@@ -90,7 +83,7 @@ class SessionStatsWidget extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               value,
-              style: theme.textTheme.titleLarge?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: color,
               ),
@@ -98,8 +91,8 @@ class SessionStatsWidget extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               label,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),

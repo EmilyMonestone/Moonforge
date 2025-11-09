@@ -4,10 +4,12 @@ import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/db_providers.dart';
-import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/parties/controllers/party_provider.dart';
+import 'package:moonforge/features/parties/controllers/player_provider.dart';
 import 'package:moonforge/features/scene/controllers/scene_provider.dart';
 import 'package:moonforge/features/settings/services/settings_service.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,11 @@ class MultiProviderWrapper extends StatelessWidget {
   final AppDb db;
   final Widget child;
 
-  const MultiProviderWrapper({super.key, required this.db, required this.child});
+  const MultiProviderWrapper({
+    super.key,
+    required this.db,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +33,18 @@ class MultiProviderWrapper extends StatelessWidget {
         // While loading, show a loading indicator
         if (!snapshot.hasData) {
           return const MaterialApp(
-            home: Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
+            home: Scaffold(body: Center(child: CircularProgressIndicator())),
           );
         }
 
         final prefs = snapshot.data!;
         final settingsService = SettingsService(prefs);
-        
+
         // Providers
         AuthProvider authProvider = AuthProvider();
-        AppSettingsProvider appSettingsProvider = AppSettingsProvider(settingsService);
+        AppSettingsProvider appSettingsProvider = AppSettingsProvider(
+          settingsService,
+        );
         CampaignProvider campaignProvider = CampaignProvider();
         BestiaryProvider bestiaryProvider = BestiaryProvider();
         PartyProvider partyProvider = PartyProvider(PartyRepository(db));
@@ -61,10 +67,15 @@ class MultiProviderWrapper extends StatelessWidget {
                     return appSettingsProvider;
                   },
             ),
-            ChangeNotifierProvider<CampaignProvider>.value(value: campaignProvider),
-            ChangeNotifierProvider<BestiaryProvider>.value(value: bestiaryProvider),
+            ChangeNotifierProvider<CampaignProvider>.value(
+              value: campaignProvider,
+            ),
+            ChangeNotifierProvider<BestiaryProvider>.value(
+              value: bestiaryProvider,
+            ),
             ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
-              create: (context) => SceneProvider(context.read<SceneRepository>()),
+              create: (context) =>
+                  SceneProvider(context.read<SceneRepository>()),
               update: (context, sceneRepo, previous) =>
                   previous ?? SceneProvider(sceneRepo),
             ),

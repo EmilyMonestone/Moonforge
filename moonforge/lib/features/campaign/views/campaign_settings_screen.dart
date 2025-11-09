@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart'
-    show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -75,7 +73,8 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   secondary: const Icon(Icons.visibility_outlined),
                   title: const Text('Public Campaign'),
                   subtitle: const Text('Allow others to view this campaign'),
-                  value: false, // Placeholder
+                  value: false,
+                  // Placeholder
                   onChanged: (value) {
                     // TODO: Implement visibility toggle
                   },
@@ -99,7 +98,9 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                 ListTile(
                   leading: const Icon(Icons.people_outlined),
                   title: const Text('Members'),
-                  subtitle: Text('${campaign.memberUids.length} members'),
+                  subtitle: Text(
+                    '${(campaign.memberUids?.length ?? 0)} members',
+                  ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     const CampaignMembersRoute().go(context);
@@ -109,7 +110,9 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                 ListTile(
                   leading: const Icon(Icons.link_outlined),
                   title: const Text('Share Link'),
-                  subtitle: const Text('Generate a share link for this campaign'),
+                  subtitle: const Text(
+                    'Generate a share link for this campaign',
+                  ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     // TODO: Generate and show share link
@@ -148,7 +151,10 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
                     // Show dialog to enter new name
-                    final newName = await _showDuplicateDialog(context, campaign.name);
+                    final newName = await _showDuplicateDialog(
+                      context,
+                      campaign.name,
+                    );
                     if (newName != null && context.mounted) {
                       final newCampaign = await _service.duplicateCampaign(
                         campaign,
@@ -179,9 +185,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                 const SizedBox(width: 8),
                 Text(
                   'Danger Zone',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ],
             ),
@@ -226,12 +230,18 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   subtitle: const Text('Permanently delete this campaign'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    final confirmed = await _showDeleteDialog(context, campaign.name);
+                    final confirmed = await _showDeleteDialog(
+                      context,
+                      campaign.name,
+                    );
                     if (confirmed == true && context.mounted) {
-                      await CampaignRepository(context.read<AppDb>())
-                          .delete(campaign.id);
+                      await CampaignRepository(
+                        context.read<AppDb>(),
+                      ).delete(campaign.id);
                       if (context.mounted) {
-                        context.read<CampaignProvider>().clearPersistedCampaign();
+                        context
+                            .read<CampaignProvider>()
+                            .clearPersistedCampaign();
                         const HomeRoute().go(context);
                       }
                     }
@@ -247,7 +257,10 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
     );
   }
 
-  Future<String?> _showDuplicateDialog(BuildContext context, String currentName) async {
+  Future<String?> _showDuplicateDialog(
+    BuildContext context,
+    String currentName,
+  ) async {
     final controller = TextEditingController(text: '$currentName (Copy)');
     return showDialog<String>(
       context: context,
@@ -303,7 +316,10 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
     );
   }
 
-  Future<bool?> _showDeleteDialog(BuildContext context, String campaignName) async {
+  Future<bool?> _showDeleteDialog(
+    BuildContext context,
+    String campaignName,
+  ) async {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(

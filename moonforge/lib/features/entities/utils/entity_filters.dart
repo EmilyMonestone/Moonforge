@@ -11,14 +11,14 @@ class EntityFilters {
 
   /// Filter entities by tag
   static List<Entity> filterByTag(List<Entity> entities, String tag) {
-    return entities.where((e) => e.tags.contains(tag)).toList();
+    return entities.where((e) => (e.tags ?? const []).contains(tag)).toList();
   }
 
   /// Filter entities by multiple tags (AND logic)
   static List<Entity> filterByTags(List<Entity> entities, List<String> tags) {
     if (tags.isEmpty) return entities;
     return entities.where((e) {
-      return tags.every((tag) => e.tags.contains(tag));
+      return tags.every((tag) => (e.tags ?? const []).contains(tag));
     }).toList();
   }
 
@@ -26,7 +26,7 @@ class EntityFilters {
   static List<Entity> filterByAnyTag(List<Entity> entities, List<String> tags) {
     if (tags.isEmpty) return entities;
     return entities.where((e) {
-      return tags.any((tag) => e.tags.contains(tag));
+      return tags.any((tag) => (e.tags ?? const []).contains(tag));
     }).toList();
   }
 
@@ -85,12 +85,12 @@ class EntityFilters {
 
   /// Filter entities with images
   static List<Entity> filterWithImages(List<Entity> entities) {
-    return entities.where((e) => e.images.isNotEmpty).toList();
+    return entities.where((e) => (e.images?.isNotEmpty ?? false)).toList();
   }
 
   /// Filter entities with stat blocks
   static List<Entity> filterWithStatblock(List<Entity> entities) {
-    return entities.where((e) => e.statblock != null).toList();
+    return entities.where((e) => e.statblock.isNotEmpty).toList();
   }
 
   /// Complex filter combining multiple criteria

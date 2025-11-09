@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/combatant_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -91,8 +92,9 @@ class CombatantService {
     Combatant combatant,
     String condition,
   ) async {
-    final newConditions =
-        combatant.conditions.where((c) => c != condition).toList();
+    final newConditions = combatant.conditions
+        .where((c) => c != condition)
+        .toList();
     final updated = combatant.copyWith(conditions: newConditions);
     await _repository.update(updated);
     return updated;
@@ -107,7 +109,7 @@ class CombatantService {
 
   /// Update initiative for a combatant
   Future<Combatant> setInitiative(Combatant combatant, int initiative) async {
-    final updated = combatant.copyWith(initiative: initiative);
+    final updated = combatant.copyWith(initiative: Value(initiative));
     await _repository.update(updated);
     return updated;
   }
@@ -132,7 +134,7 @@ class CombatantService {
 
   /// Update combatant notes
   Future<Combatant> updateNotes(Combatant combatant, String notes) async {
-    final updated = combatant.copyWith(notes: notes);
+    final updated = combatant.copyWith(notes: Value(notes));
     await _repository.update(updated);
     return updated;
   }

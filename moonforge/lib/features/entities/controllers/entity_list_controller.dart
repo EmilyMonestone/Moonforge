@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/data/db/tables.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 
 /// Controller for managing entity list state, filters, and search
@@ -18,11 +17,17 @@ class EntityListController with ChangeNotifier {
   bool _sortAscending = true;
 
   List<Entity> get entities => _filteredEntities;
+
   bool get isLoading => _isLoading;
+
   String get searchQuery => _searchQuery;
+
   String? get selectedKind => _selectedKind;
+
   List<String> get selectedTags => _selectedTags;
+
   String get sortBy => _sortBy;
+
   bool get sortAscending => _sortAscending;
 
   EntityListController(this._repository);
@@ -110,8 +115,10 @@ class EntityListController with ChangeNotifier {
 
       // Tag filter
       if (_selectedTags.isNotEmpty) {
-        if (entity.tags.isEmpty) return false;
-        final hasMatchingTag = _selectedTags.any(entity.tags.contains);
+        if (entity.tags == null || entity.tags!.isEmpty) return false;
+        final hasMatchingTag = _selectedTags.any(
+          (t) => entity.tags!.contains(t),
+        );
         if (!hasMatchingTag) return false;
       }
 
@@ -126,12 +133,14 @@ class EntityListController with ChangeNotifier {
           comparison = a.kind.compareTo(b.kind);
           break;
         case 'createdAt':
-          comparison = (a.createdAt ?? DateTime(0))
-              .compareTo(b.createdAt ?? DateTime(0));
+          comparison = (a.createdAt ?? DateTime(0)).compareTo(
+            b.createdAt ?? DateTime(0),
+          );
           break;
         case 'updatedAt':
-          comparison = (a.updatedAt ?? DateTime(0))
-              .compareTo(b.updatedAt ?? DateTime(0));
+          comparison = (a.updatedAt ?? DateTime(0)).compareTo(
+            b.updatedAt ?? DateTime(0),
+          );
           break;
         case 'name':
         default:
@@ -159,7 +168,7 @@ class EntityListController with ChangeNotifier {
   Set<String> getAllTags() {
     final tags = <String>{};
     for (final entity in _entities) {
-      tags.addAll(entity.tags);
+      if (entity.tags != null) tags.addAll(entity.tags!);
     }
     return tags;
   }

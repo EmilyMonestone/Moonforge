@@ -22,7 +22,8 @@ class EntityCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: InkWell(
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
               EntityRoute(entityId: entity.id).push(context);
             },
@@ -55,12 +56,12 @@ class EntityCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
-              if (entity.tags.isNotEmpty) ...[
+              if (entity.tags != null && entity.tags!.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 4,
                   runSpacing: 4,
-                  children: entity.tags.take(5).map((tag) {
+                  children: entity.tags!.take(5).map((tag) {
                     return Chip(
                       label: Text(tag),
                       visualDensity: VisualDensity.compact,

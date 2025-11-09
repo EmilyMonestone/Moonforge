@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 
@@ -30,7 +31,9 @@ class SessionCalendarService {
   /// Get sessions for a specific week
   Future<List<Session>> getSessionsForWeek(DateTime date) async {
     final startOfWeek = date.subtract(Duration(days: date.weekday % 7));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
+    final endOfWeek = startOfWeek.add(
+      const Duration(days: 6, hours: 23, minutes: 59, seconds: 59),
+    );
     return await getSessionsInRange(startOfWeek, endOfWeek);
   }
 
@@ -43,7 +46,7 @@ class SessionCalendarService {
 
   /// Schedule a session for a specific date/time
   Future<void> scheduleSession(Session session, DateTime dateTime) async {
-    final updatedSession = session.copyWith(datetime: dateTime);
+    final updatedSession = session.copyWith(datetime: Value(dateTime));
     await _repository.update(updatedSession);
   }
 
@@ -94,7 +97,7 @@ class SessionCalendarService {
   Future<List<DateTime>> getDaysWithSessionsInMonth(int year, int month) async {
     final sessions = await getSessionsForMonth(year, month);
     final daysWithSessions = <DateTime>{};
-    
+
     for (final session in sessions) {
       if (session.datetime != null) {
         final date = DateTime(
@@ -105,7 +108,7 @@ class SessionCalendarService {
         daysWithSessions.add(date);
       }
     }
-    
+
     return daysWithSessions.toList()..sort();
   }
 
@@ -113,17 +116,16 @@ class SessionCalendarService {
   Duration calculateAverageSessionInterval(List<Session> sessions) {
     if (sessions.length < 2) return Duration.zero;
 
-    final sortedSessions = sessions
-        .where((s) => s.datetime != null)
-        .toList()
+    final sortedSessions = sessions.where((s) => s.datetime != null).toList()
       ..sort((a, b) => a.datetime!.compareTo(b.datetime!));
 
     if (sortedSessions.length < 2) return Duration.zero;
 
     var totalInterval = Duration.zero;
     for (var i = 1; i < sortedSessions.length; i++) {
-      totalInterval += sortedSessions[i].datetime!
-          .difference(sortedSessions[i - 1].datetime!);
+      totalInterval += sortedSessions[i].datetime!.difference(
+        sortedSessions[i - 1].datetime!,
+      );
     }
 
     return Duration(

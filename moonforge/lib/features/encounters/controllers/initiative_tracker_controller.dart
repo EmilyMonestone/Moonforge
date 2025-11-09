@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
@@ -12,10 +13,15 @@ class InitiativeTrackerController with ChangeNotifier {
   bool _isEncounterActive = false;
 
   List<Combatant> get combatants => _combatants;
+
   int get currentIndex => _currentIndex;
+
   int get round => _round;
+
   List<String> get combatLog => List.unmodifiable(_combatLog);
+
   bool get hasRolledInitiative => _hasRolledInitiative;
+
   bool get isEncounterActive => _isEncounterActive;
 
   Combatant? get currentCombatant =>
@@ -45,7 +51,7 @@ class InitiativeTrackerController with ChangeNotifier {
       // Generate random roll (1-20) + modifier
       final roll = (DateTime.now().microsecondsSinceEpoch % 20) + 1;
       final total = roll + c.initiativeModifier;
-      return c.copyWith(initiative: total);
+      return c.copyWith(initiative: Value(total));
     }).toList();
 
     sortByInitiative();
@@ -159,8 +165,9 @@ class InitiativeTrackerController with ChangeNotifier {
     if (index < 0 || index >= _combatants.length) return;
 
     final combatant = _combatants[index];
-    final newConditions =
-        combatant.conditions.where((c) => c != condition).toList();
+    final newConditions = combatant.conditions
+        .where((c) => c != condition)
+        .toList();
     _combatants[index] = combatant.copyWith(conditions: newConditions);
     addToLog('${combatant.name} loses condition: $condition');
     notifyListeners();
@@ -171,7 +178,7 @@ class InitiativeTrackerController with ChangeNotifier {
     if (index < 0 || index >= _combatants.length) return;
 
     final combatant = _combatants[index];
-    _combatants[index] = combatant.copyWith(initiative: initiative);
+    _combatants[index] = combatant.copyWith(initiative: Value(initiative));
     sortByInitiative();
     addToLog('${combatant.name}\'s initiative set to $initiative');
     notifyListeners();
@@ -214,7 +221,7 @@ class InitiativeTrackerController with ChangeNotifier {
       return c.copyWith(
         currentHp: c.maxHp,
         conditions: [],
-        initiative: null,
+        initiative: const Value(null),
       );
     }).toList();
 

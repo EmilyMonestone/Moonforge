@@ -126,7 +126,7 @@ class _CampaignAnalyticsScreenState extends State<CampaignAnalyticsScreen> {
           SurfaceContainer(
             title: const Row(
               children: [
-                Icon(Icons.pie_chart_outlined),
+                Icon(Icons.pie_chart),
                 SizedBox(width: 8),
                 Text('Entity Distribution'),
               ],

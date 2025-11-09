@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/session/utils/session_formatters.dart';
@@ -37,7 +36,7 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
+    final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return SurfaceContainer(
@@ -98,12 +97,16 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
 
   Widget _buildCalendarGrid(ThemeData theme, ColorScheme colorScheme) {
     final firstDayOfMonth = DateTime(_focusedMonth.year, _focusedMonth.month);
-    final lastDayOfMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1, 0);
+    final lastDayOfMonth = DateTime(
+      _focusedMonth.year,
+      _focusedMonth.month + 1,
+      0,
+    );
     final daysInMonth = lastDayOfMonth.day;
     final startWeekday = firstDayOfMonth.weekday % 7; // 0 = Sunday
 
     final days = <Widget>[];
-    
+
     // Add day headers
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     for (final name in dayNames) {
@@ -128,7 +131,8 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
     // Add day cells
     for (var day = 1; day <= daysInMonth; day++) {
       final date = DateTime(_focusedMonth.year, _focusedMonth.month, day);
-      final isSelected = _selectedDay != null && _isSameDay(date, _selectedDay!);
+      final isSelected =
+          _selectedDay != null && _isSameDay(date, _selectedDay!);
       final isToday = _isSameDay(date, DateTime.now());
       final hasEvents = _getEventsForDay(date).isNotEmpty;
 
@@ -146,8 +150,8 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
               color: isSelected
                   ? colorScheme.primary
                   : isToday
-                      ? colorScheme.primaryContainer
-                      : null,
+                  ? colorScheme.primaryContainer
+                  : null,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Stack(
@@ -159,8 +163,8 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
                       color: isSelected
                           ? colorScheme.onPrimary
                           : isToday
-                              ? colorScheme.onPrimaryContainer
-                              : colorScheme.onSurface,
+                          ? colorScheme.onPrimaryContainer
+                          : colorScheme.onSurface,
                       fontWeight: isToday || isSelected
                           ? FontWeight.bold
                           : FontWeight.normal,
@@ -231,37 +235,45 @@ class _SessionCalendarWidgetState extends State<SessionCalendarWidget> {
           ),
         ),
         const SizedBox(height: 8),
-        ...sessions.map((session) => Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.event,
-                size: 16,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  session.datetime != null
-                      ? SessionFormatters.formatTimeUntilSession(
-                          session.datetime!,
-                        )
-                      : 'No time set',
-                  style: theme.textTheme.bodyMedium,
+        ...sessions.map(
+          (session) => Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Row(
+              children: [
+                Icon(Icons.event, size: 16, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    session.datetime != null
+                        ? SessionFormatters.formatTimeUntilSession(
+                            session.datetime!,
+                          )
+                        : 'No time set',
+                    style: theme.textTheme.bodyMedium,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
 
   String _getMonthYearString(DateTime date) {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return '${months[date.month - 1]} ${date.year}';
   }

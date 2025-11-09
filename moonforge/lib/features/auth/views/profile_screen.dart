@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
@@ -51,9 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await _authService.updateDisplayName(_displayNameController.text);
 
       // Reload auth provider to reflect changes
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      // final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await _authService.reloadUser();
-      authProvider.notifyListeners();
+      // Trigger UI update by rebuilding; provider listeners will update on auth state changes.
 
       if (mounted) {
         toastification.show(
@@ -173,15 +173,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final user = authProvider.firebaseUser;
 
     if (user == null) {
-      return const Center(
-        child: Text('Not signed in'),
-      );
+      return const Center(child: Text('Not signed in'));
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      appBar: AppBar(title: const Text('Profile')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -233,7 +229,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const SizedBox(width: 8),
                               FilledButton(
-                                onPressed: _isLoading ? null : _updateDisplayName,
+                                onPressed: _isLoading
+                                    ? null
+                                    : _updateDisplayName,
                                 child: _isLoading
                                     ? const SizedBox(
                                         width: 16,
@@ -282,7 +280,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Theme.of(context).colorScheme.primary,
                           )
                         : TextButton(
-                            onPressed: _isLoading ? null : _sendVerificationEmail,
+                            onPressed: _isLoading
+                                ? null
+                                : _sendVerificationEmail,
                             child: const Text('Verify'),
                           ),
                   ),
@@ -295,9 +295,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: const Text('User ID'),
                     subtitle: Text(
                       user.uid,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontFamily: 'monospace',
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
                     ),
                   ),
 
@@ -327,8 +327,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Text(
                     'Danger Zone',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(

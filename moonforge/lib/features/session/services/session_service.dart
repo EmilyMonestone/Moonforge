@@ -1,4 +1,6 @@
 import 'dart:math';
+
+import 'package:drift/drift.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 
@@ -19,39 +21,34 @@ class SessionService {
   }
 
   /// Enable sharing for a session
-  Future<Session> enableSharing(
-    Session session, {
-    DateTime? expiresAt,
-  }) async {
+  Future<Session> enableSharing(Session session, {DateTime? expiresAt}) async {
     final token = generateShareToken();
-    final updatedSession = session.copyWith(
-      shareToken: token,
+    final updated = session.copyWith(
+      shareToken: Value(token),
       shareEnabled: true,
-      shareExpiresAt: expiresAt,
+      shareExpiresAt: Value(expiresAt),
     );
-    await _repository.update(updatedSession);
-    return updatedSession;
+    await _repository.update(updated);
+    return updated;
   }
 
   /// Disable sharing for a session
   Future<Session> disableSharing(Session session) async {
-    final updatedSession = session.copyWith(
+    final updated = session.copyWith(
       shareEnabled: false,
-      shareToken: null,
-      shareExpiresAt: null,
+      shareToken: const Value(null),
+      shareExpiresAt: const Value(null),
     );
-    await _repository.update(updatedSession);
-    return updatedSession;
+    await _repository.update(updated);
+    return updated;
   }
 
   /// Regenerate share token for a session
   Future<Session> regenerateShareToken(Session session) async {
     final token = generateShareToken();
-    final updatedSession = session.copyWith(
-      shareToken: token,
-    );
-    await _repository.update(updatedSession);
-    return updatedSession;
+    final updated = session.copyWith(shareToken: Value(token));
+    await _repository.update(updated);
+    return updated;
   }
 
   /// Check if a session share has expired
@@ -77,7 +74,7 @@ class SessionService {
     // - Sum all session durations for totalDuration
     // - Calculate average from total divided by count
     // For now, return placeholder values
-    
+
     return SessionStats(
       totalSessions: sessions.length,
       averageDuration: Duration.zero,

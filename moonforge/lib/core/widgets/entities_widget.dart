@@ -17,7 +17,7 @@ class EntitiesWidget extends StatelessWidget {
 
     // De-duplicate by entity ID and keep the most specific origin when collisions occur.
     // Specificity order: scene > encounter > adventure > chapter > campaign/direct (null)
-    int _rank(EntityOrigin? o) {
+    int rank(EntityOrigin? o) {
       if (o == null) return 0; // direct on current part
       switch (o.partType) {
         case 'scene':
@@ -43,7 +43,7 @@ class EntitiesWidget extends StatelessWidget {
         byId[id] = ewo;
       } else {
         // Keep the one with higher specificity
-        if (_rank(ewo.origin) > _rank(existing.origin)) {
+        if (rank(ewo.origin) > rank(existing.origin)) {
           byId[id] = ewo;
         }
       }

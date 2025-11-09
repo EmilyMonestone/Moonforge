@@ -16,14 +16,14 @@ class EntityService {
     required String kind,
     required String originId,
     String? summary,
-    List<String> tags = const [],
+    List<String>? tags,
     Map<String, dynamic>? statblock,
     String? placeType,
     String? parentPlaceId,
-    Map<String, dynamic> coords = const {},
+    Map<String, dynamic>? coords,
     Map<String, dynamic>? content,
-    List<Map<String, dynamic>> images = const [],
-    List<String> members = const [],
+    List<Map<String, dynamic>>? images,
+    List<String>? members,
   }) async {
     final entity = Entity(
       id: _uuid.v4(),
@@ -32,10 +32,10 @@ class EntityService {
       originId: originId,
       summary: summary,
       tags: tags,
-      statblock: statblock,
+      statblock: statblock ?? const {},
       placeType: placeType,
       parentPlaceId: parentPlaceId,
-      coords: coords,
+      coords: coords ?? const {},
       content: content,
       images: images,
       createdAt: DateTime.now(),
@@ -142,8 +142,8 @@ class EntityService {
     final entity = await _repository.getById(entityId);
     if (entity == null) return;
 
-    if (!entity.tags.contains(tag)) {
-      final updatedTags = [...entity.tags, tag];
+    if (!(entity.tags ?? const []).contains(tag)) {
+      final updatedTags = [...(entity.tags ?? const []), tag];
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,
@@ -172,8 +172,10 @@ class EntityService {
     final entity = await _repository.getById(entityId);
     if (entity == null) return;
 
-    if (entity.tags.contains(tag)) {
-      final updatedTags = entity.tags.where((t) => t != tag).toList();
+    if ((entity.tags ?? const []).contains(tag)) {
+      final updatedTags = (entity.tags ?? const [])
+          .where((t) => t != tag)
+          .toList();
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,
@@ -202,8 +204,8 @@ class EntityService {
     final entity = await _repository.getById(entityId);
     if (entity == null || entity.kind != 'group') return;
 
-    if (!entity.members.contains(memberId)) {
-      final updatedMembers = [...entity.members, memberId];
+    if (!(entity.members ?? const []).contains(memberId)) {
+      final updatedMembers = [...(entity.members ?? const []), memberId];
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,
@@ -232,9 +234,10 @@ class EntityService {
     final entity = await _repository.getById(entityId);
     if (entity == null || entity.kind != 'group') return;
 
-    if (entity.members.contains(memberId)) {
-      final updatedMembers =
-          entity.members.where((m) => m != memberId).toList();
+    if ((entity.members ?? const []).contains(memberId)) {
+      final updatedMembers = (entity.members ?? const [])
+          .where((m) => m != memberId)
+          .toList();
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -79,10 +78,10 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
               children: [
                 const Icon(Icons.group_outlined),
                 const SizedBox(width: 8),
-                Text('Members (${campaign.memberUids.length})'),
+                Text('Members (${(campaign.memberUids?.length ?? 0)})'),
               ],
             ),
-            child: campaign.memberUids.isEmpty
+            child: (campaign.memberUids == null || campaign.memberUids!.isEmpty)
                 ? const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(
@@ -93,15 +92,13 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
                 : ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: campaign.memberUids.length,
+                    itemCount: campaign.memberUids!.length,
                     separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
-                      final memberUid = campaign.memberUids[index];
+                      final memberUid = campaign.memberUids![index];
                       return ListTile(
                         leading: CircleAvatar(
-                          child: Text(
-                            memberUid.substring(0, 2).toUpperCase(),
-                          ),
+                          child: Text(memberUid.substring(0, 2).toUpperCase()),
                         ),
                         title: Text(memberUid),
                         subtitle: const Text('Member'),
@@ -175,7 +172,8 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
                   secondary: const Icon(Icons.link_outlined),
                   title: const Text('Share Link Enabled'),
                   subtitle: const Text('Allow users with link to join'),
-                  value: false, // Placeholder
+                  value: false,
+                  // Placeholder
                   onChanged: (value) {
                     // TODO: Toggle share link
                   },
@@ -225,18 +223,9 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
               ),
               value: 'member',
               items: const [
-                DropdownMenuItem(
-                  value: 'member',
-                  child: Text('Member'),
-                ),
-                DropdownMenuItem(
-                  value: 'editor',
-                  child: Text('Editor'),
-                ),
-                DropdownMenuItem(
-                  value: 'viewer',
-                  child: Text('Viewer'),
-                ),
+                DropdownMenuItem(value: 'member', child: Text('Member')),
+                DropdownMenuItem(value: 'editor', child: Text('Editor')),
+                DropdownMenuItem(value: 'viewer', child: Text('Viewer')),
               ],
               onChanged: (value) {},
             ),
@@ -304,18 +293,9 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
               ),
               value: 'member',
               items: const [
-                DropdownMenuItem(
-                  value: 'member',
-                  child: Text('Member'),
-                ),
-                DropdownMenuItem(
-                  value: 'editor',
-                  child: Text('Editor'),
-                ),
-                DropdownMenuItem(
-                  value: 'viewer',
-                  child: Text('Viewer'),
-                ),
+                DropdownMenuItem(value: 'member', child: Text('Member')),
+                DropdownMenuItem(value: 'editor', child: Text('Editor')),
+                DropdownMenuItem(value: 'viewer', child: Text('Viewer')),
               ],
               onChanged: (value) {},
             ),

@@ -37,10 +37,10 @@ class DashboardService {
     required SessionRepository sessionRepo,
     required PartyRepository partyRepo,
     required EntityRepository entityRepo,
-  })  : _campaignRepo = campaignRepo,
-        _sessionRepo = sessionRepo,
-        _partyRepo = partyRepo,
-        _entityRepo = entityRepo;
+  }) : _campaignRepo = campaignRepo,
+       _sessionRepo = sessionRepo,
+       _partyRepo = partyRepo,
+       _entityRepo = entityRepo;
 
   /// Fetch dashboard statistics for the current user
   Future<DashboardStats> fetchStats(String? userId) async {
@@ -83,7 +83,8 @@ class DashboardService {
   Future<int> _fetchCampaignCount(String userId) async {
     try {
       final campaigns = await _campaignRepo.customQuery(
-        filter: (c) => c.ownerUid.equals(userId) | c.memberUids.contains(userId),
+        filter: (c) =>
+            c.ownerUid.equals(userId) | c.memberUids.contains(userId),
       );
       return campaigns.length;
     } catch (e) {
@@ -126,7 +127,7 @@ class DashboardService {
     try {
       final now = DateTime.now();
       final sessions = await _sessionRepo.customQuery(
-        filter: (s) => s.datetime.isBiggerOrEqualValue(Value(now)),
+        filter: (s) => s.datetime.isBiggerOrEqual(Variable(now)),
       );
       return sessions.length;
     } catch (e) {
@@ -138,11 +139,14 @@ class DashboardService {
   Future<DateTime?> _fetchLastActivityTime(String userId) async {
     try {
       final campaigns = await _campaignRepo.customQuery(
-        filter: (c) => c.ownerUid.equals(userId) | c.memberUids.contains(userId),
-        sort: [(c) => OrderingTerm(expression: c.updatedAt, mode: OrderingMode.desc)],
+        filter: (c) =>
+            c.ownerUid.equals(userId) | c.memberUids.contains(userId),
+        sort: [
+          (c) => OrderingTerm(expression: c.updatedAt, mode: OrderingMode.desc),
+        ],
         limit: 1,
       );
-      
+
       if (campaigns.isNotEmpty) {
         return campaigns.first.updatedAt;
       }
@@ -158,8 +162,10 @@ class DashboardService {
     try {
       final now = DateTime.now();
       final sessions = await _sessionRepo.customQuery(
-        filter: (s) => s.datetime.isBiggerOrEqualValue(Value(now)),
-        sort: [(s) => OrderingTerm(expression: s.datetime, mode: OrderingMode.asc)],
+        filter: (s) => s.datetime.isBiggerOrEqual(Variable(now)),
+        sort: [
+          (s) => OrderingTerm(expression: s.datetime, mode: OrderingMode.asc),
+        ],
         limit: 5,
       );
       return sessions;
@@ -170,13 +176,19 @@ class DashboardService {
   }
 
   /// Fetch recent activity across all campaigns
-  Future<List<Campaign>> fetchRecentActivity(String? userId, {int limit = 10}) async {
+  Future<List<Campaign>> fetchRecentActivity(
+    String? userId, {
+    int limit = 10,
+  }) async {
     try {
       if (userId == null) return [];
-      
+
       final campaigns = await _campaignRepo.customQuery(
-        filter: (c) => c.ownerUid.equals(userId) | c.memberUids.contains(userId),
-        sort: [(c) => OrderingTerm(expression: c.updatedAt, mode: OrderingMode.desc)],
+        filter: (c) =>
+            c.ownerUid.equals(userId) | c.memberUids.contains(userId),
+        sort: [
+          (c) => OrderingTerm(expression: c.updatedAt, mode: OrderingMode.desc),
+        ],
         limit: limit,
       );
       return campaigns;

@@ -79,14 +79,14 @@ class EntitySorting {
   /// Sort entities by tag count (ascending)
   static List<Entity> sortByTagCountAsc(List<Entity> entities) {
     final sorted = List<Entity>.from(entities);
-    sorted.sort((a, b) => a.tags.length.compareTo(b.tags.length));
+    sorted.sort((a, b) => (a.tags?.length ?? 0).compareTo(b.tags?.length ?? 0));
     return sorted;
   }
 
   /// Sort entities by tag count (descending)
   static List<Entity> sortByTagCountDesc(List<Entity> entities) {
     final sorted = List<Entity>.from(entities);
-    sorted.sort((a, b) => b.tags.length.compareTo(a.tags.length));
+    sorted.sort((a, b) => (b.tags?.length ?? 0).compareTo(a.tags?.length ?? 0));
     return sorted;
   }
 
@@ -158,7 +158,7 @@ class EntitySorting {
             break;
           case 'tags':
           case 'tagcount':
-            comparison = a.tags.length.compareTo(b.tags.length);
+            comparison = (a.tags?.length ?? 0).compareTo(b.tags?.length ?? 0);
             break;
         }
 

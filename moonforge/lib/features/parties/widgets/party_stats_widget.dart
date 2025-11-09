@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/parties/services/party_service.dart';
 
 /// Widget displaying party statistics
@@ -99,9 +98,9 @@ class PartyStatsWidget extends StatelessWidget {
           Expanded(child: Text(label)),
           Text(
             value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

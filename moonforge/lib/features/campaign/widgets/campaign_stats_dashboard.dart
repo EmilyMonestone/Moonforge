@@ -53,7 +53,8 @@ class CampaignStatsDashboard extends StatelessWidget {
               _StatCard(
                 icon: Icons.category_outlined,
                 label: 'Entities',
-                value: stats?.entityCount.toString() ?? 
+                value:
+                    stats?.entityCount.toString() ??
                     campaign.entityIds.length.toString(),
                 color: Colors.green,
               ),
@@ -70,11 +71,11 @@ class CampaignStatsDashboard extends StatelessWidget {
                   value: _formatPlayTime(stats.totalPlayTimeMinutes),
                   color: Colors.purple,
                 ),
-              if (campaign.memberUids.isNotEmpty)
+              if ((campaign.memberUids?.isNotEmpty ?? false))
                 _StatCard(
                   icon: Icons.group_outlined,
                   label: 'Members',
-                  value: campaign.memberUids.length.toString(),
+                  value: (campaign.memberUids?.length ?? 0).toString(),
                   color: Colors.teal,
                 ),
             ],
@@ -120,11 +121,7 @@ class _StatCard extends StatelessWidget {
           width: 120,
           child: Column(
             children: [
-              Icon(
-                icon,
-                size: 32,
-                color: color,
-              ),
+              Icon(icon, size: 32, color: color),
               const SizedBox(height: 8),
               Text(
                 value,

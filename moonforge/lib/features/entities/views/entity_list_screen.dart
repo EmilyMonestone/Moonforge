@@ -8,7 +8,6 @@ import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/entities/controllers/entity_list_controller.dart';
 import 'package:moonforge/features/entities/utils/create_entity.dart';
-import 'package:moonforge/features/entities/widgets/entity_type_icon.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -214,10 +213,7 @@ class _EntityListScreenState extends State<EntityListScreen> {
 
 /// Widget for displaying an entity in the list
 class _EntityListItem extends StatelessWidget {
-  const _EntityListItem({
-    required this.entity,
-    required this.onTap,
-  });
+  const _EntityListItem({required this.entity, required this.onTap});
 
   final Entity entity;
   final VoidCallback onTap;
@@ -253,12 +249,12 @@ class _EntityListItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
-              if (entity.tags.isNotEmpty) ...[
+              if (entity.tags != null && entity.tags!.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 4,
                   runSpacing: 4,
-                  children: entity.tags.map((tag) {
+                  children: entity.tags!.map((tag) {
                     return Chip(
                       label: Text(tag),
                       visualDensity: VisualDensity.compact,
@@ -291,9 +287,9 @@ class _KindChip extends StatelessWidget {
       child: Text(
         _getKindLabel(kind),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: _getKindColorText(context, kind),
-              fontWeight: FontWeight.w600,
-            ),
+          color: _getKindColorText(context, kind),
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

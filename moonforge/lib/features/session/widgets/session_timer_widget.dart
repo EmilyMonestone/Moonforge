@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/session/services/session_timer_service.dart';
@@ -11,7 +10,7 @@ class SessionTimerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
+    final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final timerService = context.watch<SessionTimerService>();
 
@@ -48,54 +47,30 @@ class SessionTimerWidget extends StatelessWidget {
                   ButtonM3E(
                     onPressed: () => timerService.start(),
                     style: ButtonM3EStyle.filled,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.play_arrow, size: 20),
-                        SizedBox(width: 8),
-                        Text('Start'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.play_arrow, size: 20),
+                    label: const Text('Start'),
                   ),
                 if (timerService.isRunning && !timerService.isPaused)
                   ButtonM3E(
                     onPressed: () => timerService.pause(),
                     style: ButtonM3EStyle.filled,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.pause, size: 20),
-                        SizedBox(width: 8),
-                        Text('Pause'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.pause, size: 20),
+                    label: const Text('Pause'),
                   ),
                 if (timerService.isRunning && timerService.isPaused)
                   ButtonM3E(
                     onPressed: () => timerService.resume(),
                     style: ButtonM3EStyle.filled,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.play_arrow, size: 20),
-                        SizedBox(width: 8),
-                        Text('Resume'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.play_arrow, size: 20),
+                    label: const Text('Resume'),
                   ),
                 if (timerService.isRunning) ...[
                   const SizedBox(width: 12),
                   ButtonM3E(
                     onPressed: () => timerService.stop(),
                     style: ButtonM3EStyle.outlined,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.stop, size: 20),
-                        SizedBox(width: 8),
-                        Text('Stop'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.stop, size: 20),
+                    label: const Text('Stop'),
                   ),
                 ],
                 if (timerService.elapsed > Duration.zero &&
@@ -104,14 +79,8 @@ class SessionTimerWidget extends StatelessWidget {
                   ButtonM3E(
                     onPressed: () => timerService.reset(),
                     style: ButtonM3EStyle.outlined,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.refresh, size: 20),
-                        SizedBox(width: 8),
-                        Text('Reset'),
-                      ],
-                    ),
+                    icon: const Icon(Icons.refresh, size: 20),
+                    label: const Text('Reset'),
                   ),
                 ],
               ],

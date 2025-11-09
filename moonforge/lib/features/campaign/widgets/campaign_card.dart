@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 /// A card widget for displaying a campaign in a list or grid
 class CampaignCard extends StatelessWidget {
@@ -30,7 +28,7 @@ class CampaignCard extends StatelessWidget {
     return Card(
       elevation: selected ? 4 : 1,
       color: selected
-          ? theme.colorScheme.primaryContainer.withOpacity(0.3)
+          ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
           : null,
       child: InkWell(
         onTap: onTap,
@@ -113,17 +111,17 @@ class CampaignCard extends StatelessWidget {
                     icon: Icons.book_outlined,
                     label: '${campaign.entityIds.length} entities',
                   ),
-                  if (campaign.memberUids.isNotEmpty)
+                  if ((campaign.memberUids?.isNotEmpty ?? false))
                     _StatChip(
                       icon: Icons.group_outlined,
-                      label: '${campaign.memberUids.length} members',
+                      label: '${campaign.memberUids?.length ?? 0} members',
                     ),
                 ],
               ),
               if (lastUpdated != null) ...[
                 const SizedBox(height: 8),
                 Text(
-                  'Updated ${timeago.format(lastUpdated)}',
+                  'Updated ${_formatRelative(lastUpdated)}',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -141,10 +139,7 @@ class _StatChip extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _StatChip({
-    required this.icon,
-    required this.label,
-  });
+  const _StatChip({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -157,4 +152,18 @@ class _StatChip extends StatelessWidget {
       padding: EdgeInsets.zero,
     );
   }
+}
+
+String _formatRelative(DateTime dt) {
+  final now = DateTime.now();
+  final diff = now.difference(dt);
+  if (diff.inSeconds < 60) return 'just now';
+  if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+  if (diff.inHours < 24) return '${diff.inHours}h ago';
+  if (diff.inDays < 7) return '${diff.inDays}d ago';
+  if (diff.inDays < 30) return '${(diff.inDays / 7).floor()}w ago';
+  final months = (diff.inDays / 30).floor();
+  if (months < 12) return '${months}mo ago';
+  final years = (diff.inDays / 365).floor();
+  return '${years}y ago';
 }
