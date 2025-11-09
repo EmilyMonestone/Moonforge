@@ -7,7 +7,9 @@ import 'package:moonforge/data/db_providers.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/controllers/scene_provider.dart';
+import 'package:moonforge/features/settings/services/settings_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MultiProviderWrapper extends StatelessWidget {
   final AppDb db;
@@ -17,39 +19,56 @@ class MultiProviderWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Providers
-    AuthProvider authProvider = AuthProvider();
-    AppSettingsProvider appSettingsProvider = AppSettingsProvider();
-    CampaignProvider campaignProvider = CampaignProvider();
-    BestiaryProvider bestiaryProvider = BestiaryProvider();
+    return FutureBuilder<SharedPreferences>(
+      future: SharedPreferences.getInstance(),
+      builder: (context, snapshot) {
+        // While loading, show a loading indicator
+        if (!snapshot.hasData) {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
-        ChangeNotifierProxyProvider<AuthProvider, AppSettingsProvider>(
-          create: (BuildContext context) {
-            return AppSettingsProvider();
-          },
-          update:
-              (
-                BuildContext context,
-                AuthProvider value,
-                AppSettingsProvider? previous,
-              ) {
-                appSettingsProvider.updateOnAuthChange(value);
+        final prefs = snapshot.data!;
+        final settingsService = SettingsService(prefs);
+        
+        // Providers
+        AuthProvider authProvider = AuthProvider();
+        AppSettingsProvider appSettingsProvider = AppSettingsProvider(settingsService);
+        CampaignProvider campaignProvider = CampaignProvider();
+        BestiaryProvider bestiaryProvider = BestiaryProvider();
+
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
+            ChangeNotifierProxyProvider<AuthProvider, AppSettingsProvider>(
+              create: (BuildContext context) {
                 return appSettingsProvider;
               },
-        ),
-        ChangeNotifierProvider<CampaignProvider>.value(value: campaignProvider),
-        ChangeNotifierProvider<BestiaryProvider>.value(value: bestiaryProvider),
-        ...dbProviders(db),
-        ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
-          create: (context) => SceneProvider(context.read<SceneRepository>()),
-          update: (context, sceneRepo, previous) =>
-              previous ?? SceneProvider(sceneRepo),
-        ),
-      ],
-      child: child,
+              update:
+                  (
+                    BuildContext context,
+                    AuthProvider value,
+                    AppSettingsProvider? previous,
+                  ) {
+                    appSettingsProvider.updateOnAuthChange(value);
+                    return appSettingsProvider;
+                  },
+            ),
+            ChangeNotifierProvider<CampaignProvider>.value(value: campaignProvider),
+            ChangeNotifierProvider<BestiaryProvider>.value(value: bestiaryProvider),
+            ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
+              create: (context) => SceneProvider(context.read<SceneRepository>()),
+              update: (context, sceneRepo, previous) =>
+                  previous ?? SceneProvider(sceneRepo),
+            ),
+            ...dbProviders(db),
+          ],
+          child: child,
+        );
+      },
     );
   }
 }

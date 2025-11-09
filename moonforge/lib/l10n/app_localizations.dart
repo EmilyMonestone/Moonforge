@@ -841,6 +841,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Images'**
   String get images;
+
+  /// Label for notifications settings
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Description for notification settings
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notification preferences'**
+  String get notificationsDescription;
+
+  /// Label for privacy settings
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Security'**
+  String get privacy;
+
+  /// Description for privacy settings
+  ///
+  /// In en, this message translates to:
+  /// **'Manage privacy and data sharing'**
+  String get privacyDescription;
+
+  /// Label for analytics settings
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
+
+  /// Description for analytics settings
+  ///
+  /// In en, this message translates to:
+  /// **'Help improve the app by sharing usage data'**
+  String get analyticsDescription;
+
+  /// Label for about section
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// Description for about section
+  ///
+  /// In en, this message translates to:
+  /// **'App version, credits, and legal info'**
+  String get aboutDescription;
+
+  /// Label for app version
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// Label for reset settings action
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Settings'**
+  String get resetSettings;
+
+  /// Description for reset settings
+  ///
+  /// In en, this message translates to:
+  /// **'Restore all settings to defaults'**
+  String get resetSettingsDescription;
+
+  /// Confirmation message for reset settings
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reset all settings to defaults?'**
+  String get resetSettingsConfirmation;
+
+  /// Label for account section
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// Description for account settings
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your account and profile'**
+  String get accountDescription;
+
+  /// Label for dangerous settings section
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Zone'**
+  String get dangerZone;
 }
 
 class _AppLocalizationsDelegate
