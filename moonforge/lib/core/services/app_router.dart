@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/features/adventure/views/adventure_edit_screen.dart';
+import 'package:moonforge/features/adventure/views/adventure_list_screen.dart';
 import 'package:moonforge/features/adventure/views/adventure_screen.dart';
 import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
@@ -8,6 +9,7 @@ import 'package:moonforge/features/auth/views/register_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
+import 'package:moonforge/features/chapter/views/chapter_list_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_edit_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_screen.dart';
@@ -21,8 +23,11 @@ import 'package:moonforge/features/parties/views/party_edit_screen.dart';
 import 'package:moonforge/features/parties/views/party_list_screen.dart';
 import 'package:moonforge/features/parties/views/party_screen.dart';
 import 'package:moonforge/features/scene/views/scene_edit_screen.dart';
+import 'package:moonforge/features/scene/views/scene_list_screen.dart';
 import 'package:moonforge/features/scene/views/scene_screen.dart';
+import 'package:moonforge/features/scene/views/scene_templates_screen.dart';
 import 'package:moonforge/features/session/views/session_edit_screen.dart';
+import 'package:moonforge/features/session/views/session_list_screen.dart';
 import 'package:moonforge/features/session/views/session_public_share_screen.dart';
 import 'package:moonforge/features/session/views/session_screen.dart';
 import 'package:moonforge/features/settings/views/settings_screen.dart';
@@ -88,6 +93,8 @@ class AppRouter {
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<ChaptersListRoute>(path: 'chapters'),
+            TypedGoRoute<AdventureListRoute>(path: 'adventures'),
             TypedGoRoute<ChapterRoute>(
               path: 'chapter/:chapterId',
               routes: <TypedRoute<GoRouteData>>[
@@ -106,6 +113,8 @@ class AppRouter {
                 ),
               ],
             ),
+            TypedGoRoute<SceneListRoute>(path: 'scenes'),
+            TypedGoRoute<SceneTemplatesRoute>(path: 'scenes/templates'),
             TypedGoRoute<EncounterRoute>(
               path: 'encounter/:encounterId',
               routes: <TypedRoute<GoRouteData>>[
@@ -137,6 +146,7 @@ class AppRouter {
                     TypedGoRoute<MemberEditRoute>(path: 'edit'),
                   ],
                 ),
+                TypedGoRoute<SessionListRoute>(path: 'sessions'),
                 TypedGoRoute<SessionRoute>(
                   path: 'session/:sessionId',
                   routes: <TypedRoute<GoRouteData>>[
@@ -216,6 +226,14 @@ class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
       const CampaignEditScreen();
 }
 
+class ChaptersListRoute extends GoRouteData with $ChaptersListRoute {
+  const ChaptersListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ChapterListScreen();
+}
+
 class ChapterRoute extends GoRouteData with $ChapterRoute {
   const ChapterRoute({required this.chapterId});
 
@@ -234,6 +252,14 @@ class ChapterEditRoute extends GoRouteData with $ChapterEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ChapterEditScreen(chapterId: chapterId);
+}
+
+class AdventureListRoute extends GoRouteData with $AdventureListRoute {
+  const AdventureListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AdventureListScreen();
 }
 
 class AdventureRoute extends GoRouteData with $AdventureRoute {
@@ -390,6 +416,16 @@ class MemberEditRoute extends GoRouteData with $MemberEditRoute {
       MemberEditScreen(partyId: partyId, memberId: memberId);
 }
 
+class SessionListRoute extends GoRouteData with $SessionListRoute {
+  const SessionListRoute({required this.partyId});
+
+  final String partyId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      SessionListScreen(partyId: partyId);
+}
+
 class SessionRoute extends GoRouteData with $SessionRoute {
   const SessionRoute({required this.partyId, required this.sessionId});
 
@@ -431,4 +467,20 @@ class SessionPublicShareRoute extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       SessionPublicShareScreen(token: token);
+}
+
+class SceneListRoute extends GoRouteData with $SceneListRoute {
+  const SceneListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SceneListScreen();
+}
+
+class SceneTemplatesRoute extends GoRouteData with $SceneTemplatesRoute {
+  const SceneTemplatesRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SceneTemplatesScreen();
 }
