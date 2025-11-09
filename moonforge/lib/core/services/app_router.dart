@@ -12,7 +12,9 @@ import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_list_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_edit_screen.dart';
+import 'package:moonforge/features/encounters/views/encounter_list_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_screen.dart';
+import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
 import 'package:moonforge/features/entities/views/entity_edit_screen.dart';
 import 'package:moonforge/features/entities/views/entity_screen.dart';
 import 'package:moonforge/features/home/views/home_screen.dart';
@@ -113,12 +115,14 @@ class AppRouter {
                 ),
               ],
             ),
+            TypedGoRoute<EncountersListRoute>(path: 'encounters'),
             TypedGoRoute<SceneListRoute>(path: 'scenes'),
             TypedGoRoute<SceneTemplatesRoute>(path: 'scenes/templates'),
             TypedGoRoute<EncounterRoute>(
               path: 'encounter/:encounterId',
               routes: <TypedRoute<GoRouteData>>[
                 TypedGoRoute<EncounterEditRoute>(path: 'edit'),
+                TypedGoRoute<InitiativeTrackerRoute>(path: 'initiative'),
               ],
             ),
             TypedGoRoute<EntityRoute>(
@@ -325,6 +329,14 @@ class SceneEditRoute extends GoRouteData with $SceneEditRoute {
   );
 }
 
+class EncountersListRoute extends GoRouteData with $EncountersListRoute {
+  const EncountersListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const EncounterListScreen();
+}
+
 class EncounterRoute extends GoRouteData with $EncounterRoute {
   const EncounterRoute({required this.encounterId});
 
@@ -343,6 +355,22 @@ class EncounterEditRoute extends GoRouteData with $EncounterEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       EncounterEditScreen(encounterId: encounterId);
+}
+
+class InitiativeTrackerRoute extends GoRouteData with $InitiativeTrackerRoute {
+  const InitiativeTrackerRoute({required this.encounterId});
+
+  final String encounterId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // Note: This is a temporary implementation
+    // The actual implementation should load combatants from the encounter
+    return const InitiativeTrackerScreen(
+      initialCombatants: [],
+      encounterName: 'Initiative Tracker',
+    );
+  }
 }
 
 class EntityRoute extends GoRouteData with $EntityRoute {
