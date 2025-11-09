@@ -131,6 +131,10 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
                   ],
                 ),
                 GoRouteData.$route(
+                  path: 'sessions',
+                  factory: $SessionListRoute._fromState,
+                ),
+                GoRouteData.$route(
                   path: 'session/:sessionId',
                   factory: $SessionRoute._fromState,
                   routes: [
@@ -683,6 +687,32 @@ mixin $MemberEditRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
     '/party/${Uri.encodeComponent(_self.partyId)}/member/${Uri.encodeComponent(_self.memberId)}/edit',
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $SessionListRoute on GoRouteData {
+  static SessionListRoute _fromState(GoRouterState state) => SessionListRoute(
+    partyId: state.pathParameters['partyId']!,
+  );
+
+  SessionListRoute get _self => this as SessionListRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/party/${Uri.encodeComponent(_self.partyId)}/sessions',
   );
 
   @override

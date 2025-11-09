@@ -528,5 +528,101 @@
   "browseAllEntities": "Browse all entities in the campaign",
   "@browseAllEntities": {
     "description": "Help text for browse entities action"
+  },
+  "filterByChapter": "Filter by Chapter",
+  "@filterByChapter": {
+    "description": "Label for chapter filter dropdown"
+  },
+  "allChapters": "All Chapters",
+  "@allChapters": {
+    "description": "Option to show all chapters in filter"
+  },
+  "dashboardStats": "Dashboard Stats",
+  "@dashboardStats": {
+    "description": "Title for dashboard statistics widget"
+  },
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Title for quick actions widget"
+  },
+  "upcomingSessions": "Upcoming Sessions",
+  "@upcomingSessions": {
+    "description": "Title for upcoming sessions widget"
+  },
+  "totalCampaigns": "Total Campaigns",
+  "@totalCampaigns": {
+    "description": "Label for total campaigns count"
+  },
+  "totalSessions": "Total Sessions",
+  "@totalSessions": {
+    "description": "Label for total sessions count"
+  },
+  "totalParties": "Total Parties",
+  "@totalParties": {
+    "description": "Label for total parties count"
+  },
+  "totalEntities": "Total Entities",
+  "@totalEntities": {
+    "description": "Label for total entities count"
+  },
+  "upcomingSessionsCount": "Upcoming Sessions",
+  "@upcomingSessionsCount": {
+    "description": "Label for upcoming sessions count"
+  },
+  "lastActivity": "Last Activity",
+  "@lastActivity": {
+    "description": "Label for last activity timestamp"
+  },
+  "noUpcomingSessions": "No upcoming sessions",
+  "@noUpcomingSessions": {
+    "description": "Message when there are no upcoming sessions"
+  },
+  "newCampaign": "New Campaign",
+  "@newCampaign": {
+    "description": "Button label to create a new campaign"
+  },
+  "newSession": "New Session",
+  "@newSession": {
+    "description": "Button label to create a new session"
+  },
+  "newParty": "New Party",
+  "@newParty": {
+    "description": "Button label to create a new party"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Label for notifications settings"
+  },
+  "notificationsDescription": "Manage notification preferences",
+  "@notificationsDescription": {
+    "description": "Description for notification settings"
+  },
+  "privacy": "Privacy & Security",
+  "@privacy": {
+    "description": "Label for privacy settings section"
+  },
+  "privacyDescription": "Manage your privacy and data",
+  "@privacyDescription": {
+    "description": "Description for privacy settings"
+  },
+  "analytics": "Analytics & Data",
+  "@analytics": {
+    "description": "Label for analytics settings section"
+  },
+  "analyticsDescription": "Control usage data and tracking",
+  "@analyticsDescription": {
+    "description": "Description for analytics settings"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Label for account section"
+  },
+  "accountDescription": "Manage your account and profile",
+  "@accountDescription": {
+    "description": "Description for account settings"
+  },
+  "dangerZone": "Danger Zone",
+  "@dangerZone": {
+    "description": "Label for dangerous settings section"
   }
 }
