@@ -18,13 +18,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="chore: clear CHANGELOG">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add new migration for schemaVersion 4 with OutboxEntries table, legacy date normalization, and improved Firestore mapping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/converters.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db_providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/missing/parties.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/missing/parties.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/settings/widgets/settings_tile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/settings/widgets/settings_tile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/settings/widgets/settings_toggle.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/settings/widgets/settings_toggle.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +65,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="copilot/add-dnd-beyond-character-import" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,7 +114,7 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "#42 on copilot/complete-settings-feature…ation",
     "ignore.virus.scanning.warn.message": "true",
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -181,14 +182,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00033" summary="feat: add AppSettingsProvider for managing app settings and user preferences">
-      <option name="closed" value="true" />
-      <created>1761468841733</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1761468841733</updated>
     </task>
     <task id="LOCAL-00034" summary="feat: refactor app initialization to use AppSettingsProvider and MultiProviderWrapper">
       <option name="closed" value="true" />
@@ -574,7 +567,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762206486570</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="feat: add new migration for schemaVersion 4 with OutboxEntries table, legacy date normalization, and improved Firestore mapping">
+      <option name="closed" value="true" />
+      <created>1762287639663</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1762287639663</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -601,7 +602,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add initial project files including configuration and asset manifests" />
     <MESSAGE value="feat: enhance hero section with new decorations and adjust logo size" />
     <MESSAGE value="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display" />
     <MESSAGE value="fix: update .gitignore to ignore all workspace.xml files" />
@@ -626,7 +626,8 @@
     <MESSAGE value="feat: add ddbCharacterId and lastDdbSync fields to Player model for D&amp;D Beyond integration" />
     <MESSAGE value="refactor: rename implementation summary to dnd_beyond_import for clarity" />
     <MESSAGE value="chore: clear CHANGELOG" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: clear CHANGELOG" />
+    <MESSAGE value="feat: add new migration for schemaVersion 4 with OutboxEntries table, legacy date normalization, and improved Firestore mapping" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add new migration for schemaVersion 4 with OutboxEntries table, legacy date normalization, and improved Firestore mapping" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1039,6 +1040,12 @@
           <option name="totalLines" value="18326292" />
           <option name="info" value="chore: clear CHANGELOG" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762287639777" />
+          <option name="linesCode" value="48148" />
+          <option name="totalLines" value="68099" />
+          <option name="info" value="feat: add new migration for schemaVersion 4 with O" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1114,6 +1121,12 @@
           <option name="linesCode" value="245745" />
           <option name="totalLines" value="18326292" />
           <option name="info" value="Nov 3, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762287639777" />
+          <option name="linesCode" value="48148" />
+          <option name="totalLines" value="68099" />
+          <option name="info" value="Nov 4, 2025" />
         </TimePoint>
       </list>
     </option>
