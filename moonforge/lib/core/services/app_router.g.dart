@@ -89,6 +89,10 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
               ],
             ),
             GoRouteData.$route(
+              path: 'entities',
+              factory: $EntitiesListRoute._fromState,
+            ),
+            GoRouteData.$route(
               path: 'entity/:entityId',
               factory: $EntityRoute._fromState,
               routes: [
@@ -479,6 +483,31 @@ mixin $EncounterEditRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
     '/campaign/encounter/${Uri.encodeComponent(_self.encounterId)}/edit',
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $EntitiesListRoute on GoRouteData {
+  static EntitiesListRoute _fromState(GoRouterState state) =>
+      const EntitiesListRoute();
+
+  EntitiesListRoute get _self => this as EntitiesListRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/campaign/entities',
   );
 
   @override

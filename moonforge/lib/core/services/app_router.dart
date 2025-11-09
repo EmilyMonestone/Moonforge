@@ -16,6 +16,7 @@ import 'package:moonforge/features/encounters/views/encounter_list_screen.dart';
 import 'package:moonforge/features/encounters/views/encounter_screen.dart';
 import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
 import 'package:moonforge/features/entities/views/entity_edit_screen.dart';
+import 'package:moonforge/features/entities/views/entity_list_screen.dart';
 import 'package:moonforge/features/entities/views/entity_screen.dart';
 import 'package:moonforge/features/home/views/home_screen.dart';
 import 'package:moonforge/features/home/views/unknown_path_screen.dart';
@@ -125,6 +126,7 @@ class AppRouter {
                 TypedGoRoute<InitiativeTrackerRoute>(path: 'initiative'),
               ],
             ),
+            TypedGoRoute<EntitiesListRoute>(path: 'entities'),
             TypedGoRoute<EntityRoute>(
               path: 'entity/:entityId',
               routes: <TypedRoute<GoRouteData>>[
@@ -357,6 +359,12 @@ class EncounterEditRoute extends GoRouteData with $EncounterEditRoute {
       EncounterEditScreen(encounterId: encounterId);
 }
 
+class EntitiesListRoute extends GoRouteData with $EntitiesListRoute {
+  const EntitiesListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const EntityListScreen();
 class InitiativeTrackerRoute extends GoRouteData with $InitiativeTrackerRoute {
   const InitiativeTrackerRoute({required this.encounterId});
 

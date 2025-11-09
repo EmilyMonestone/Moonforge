@@ -102,6 +102,7 @@ class MenuRegistry {
     final l10n = AppLocalizations.of(context)!;
     return <MenuBarAction>[
       continueWhereLeft(l10n),
+      browseEntities(l10n),
       newChapter(l10n),
       newAdventure(l10n),
       newScene(l10n),
@@ -224,6 +225,17 @@ class MenuRegistry {
 
         // Fallback: create as campaign-level entity
         entity_utils.createEntity(ctx, campaign);
+      },
+    );
+  }
+
+  static MenuBarAction browseEntities(AppLocalizations l10n) {
+    return MenuBarAction(
+      label: l10n.browseEntities,
+      helpText: l10n.browseAllEntities,
+      icon: Icons.list_alt_outlined,
+      onPressed: (ctx) {
+        const EntitiesListRoute().go(ctx);
       },
     );
   }
