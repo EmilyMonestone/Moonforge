@@ -24,6 +24,7 @@ import 'package:moonforge/features/parties/views/party_screen.dart';
 import 'package:moonforge/features/scene/views/scene_edit_screen.dart';
 import 'package:moonforge/features/scene/views/scene_screen.dart';
 import 'package:moonforge/features/session/views/session_edit_screen.dart';
+import 'package:moonforge/features/session/views/session_list_screen.dart';
 import 'package:moonforge/features/session/views/session_public_share_screen.dart';
 import 'package:moonforge/features/session/views/session_screen.dart';
 import 'package:moonforge/features/settings/views/settings_screen.dart';
@@ -140,6 +141,7 @@ class AppRouter {
                     TypedGoRoute<MemberEditRoute>(path: 'edit'),
                   ],
                 ),
+                TypedGoRoute<SessionListRoute>(path: 'sessions'),
                 TypedGoRoute<SessionRoute>(
                   path: 'session/:sessionId',
                   routes: <TypedRoute<GoRouteData>>[
@@ -407,6 +409,16 @@ class MemberEditRoute extends GoRouteData with $MemberEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       MemberEditScreen(partyId: partyId, memberId: memberId);
+}
+
+class SessionListRoute extends GoRouteData with $SessionListRoute {
+  const SessionListRoute({required this.partyId});
+
+  final String partyId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      SessionListScreen(partyId: partyId);
 }
 
 class SessionRoute extends GoRouteData with $SessionRoute {
