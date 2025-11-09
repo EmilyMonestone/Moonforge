@@ -5,6 +5,7 @@ import 'package:moonforge/features/adventure/views/adventure_list_screen.dart';
 import 'package:moonforge/features/adventure/views/adventure_screen.dart';
 import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
+import 'package:moonforge/features/auth/views/profile_screen.dart';
 import 'package:moonforge/features/auth/views/register_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_analytics_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
@@ -176,6 +177,7 @@ class AppRouter {
     TypedStatefulShellBranch<StatefulShellBranchData>(
       routes: <TypedRoute<GoRouteData>>[
         TypedGoRoute<SettingsRoute>(path: '/settings'),
+        TypedGoRoute<ProfileRoute>(path: '/profile'),
       ],
     ),
   ],
@@ -530,6 +532,14 @@ class SettingsRoute extends GoRouteData with $SettingsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SettingsScreen();
+}
+
+class ProfileRoute extends GoRouteData with $ProfileRoute {
+  const ProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ProfileScreen();
 }
 
 // Public share route (outside shell, no authentication required)

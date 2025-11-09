@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
+import 'package:moonforge/features/auth/utils/auth_validators.dart';
+import 'package:moonforge/features/auth/widgets/auth_form_field.dart';
 import 'package:toastification/toastification.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -63,16 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   String _mapAuthError(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'invalid-email':
-        return 'Invalid email address.';
-      case 'user-not-found':
-        return 'No user found for that email.';
-      case 'missing-email':
-        return 'Please enter your email.';
-      default:
-        return e.message ?? 'Authentication error.';
-    }
+    return AuthErrorHandler.getErrorMessage(e);
   }
 
   @override
@@ -101,24 +95,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
+                  AuthFormField(
                     controller: _emailController,
+                    labelText: 'Email',
+                    prefixIcon: Icons.email_outlined,
                     keyboardType: TextInputType.emailAddress,
                     autofillHints: const [
                       AutofillHints.username,
                       AutofillHints.email,
                     ],
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
-                    ),
-                    validator: (v) {
-                      final value = v?.trim() ?? '';
-                      if (value.isEmpty) return 'Email required';
-                      if (!value.contains('@')) return 'Enter a valid email';
-                      return null;
-                    },
+                    validator: AuthValidators.validateEmail,
                     onFieldSubmitted: (_) => _sendResetEmail(),
+                    enabled: !_isLoading,
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
