@@ -560,6 +560,23 @@
   "totalEntities": "Gesamteinheiten",
   "@totalEntities": {
     "description": "Bezeichnung für die Gesamtanzahl der Entitäten"
+    "description": "Titel für das Widget für anstehende Sitzungen"
+  },
+  "totalCampaigns": "Kampagnen gesamt",
+  "@totalCampaigns": {
+    "description": "Bezeichnung für die Gesamtzahl der Kampagnen"
+  },
+  "totalSessions": "Sitzungen gesamt",
+  "@totalSessions": {
+    "description": "Bezeichnung für die Gesamtzahl der Sitzungen"
+  },
+  "totalParties": "Gruppen gesamt",
+  "@totalParties": {
+    "description": "Bezeichnung für die Gesamtzahl der Gruppen"
+  },
+  "totalEntities": "Entitäten gesamt",
+  "@totalEntities": {
+    "description": "Bezeichnung für die Gesamtzahl der Entitäten"
   },
   "upcomingSessionsCount": "Anstehende Sitzungen",
   "@upcomingSessionsCount": {
@@ -572,6 +589,11 @@
   "noUpcomingSessions": "Keine anstehenden Sitzungen",
   "@noUpcomingSessions": {
     "description": "Meldung wenn keine anstehenden Sitzungen vorhanden sind"
+    "description": "Bezeichnung für den Zeitstempel der letzten Aktivität"
+  },
+  "noUpcomingSessions": "Keine anstehenden Sitzungen",
+  "@noUpcomingSessions": {
+    "description": "Meldung, wenn keine anstehenden Sitzungen vorhanden sind"
   },
   "newCampaign": "Neue Kampagne",
   "@newCampaign": {
@@ -612,12 +634,51 @@
   "account": "Konto",
   "@account": {
     "description": "Bezeichnung für Kontoabschnitt"
+  "privacyDescription": "Datenschutz und Datenfreigabe verwalten",
+  "@privacyDescription": {
+    "description": "Beschreibung für Datenschutzeinstellungen"
+  },
+  "analytics": "Analysen",
+  "@analytics": {
+    "description": "Bezeichnung für Analyseeinstellungen"
+  },
+  "analyticsDescription": "Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen",
+  "@analyticsDescription": {
+    "description": "Beschreibung für Analyseeinstellungen"
+  },
+  "about": "Über",
+  "@about": {
+    "description": "Bezeichnung für Über-Abschnitt"
+  },
+  "aboutDescription": "App-Version, Credits und rechtliche Informationen",
+  "@aboutDescription": {
+    "description": "Beschreibung für Über-Abschnitt"
+  },
+  "appVersion": "App-Version",
+  "@appVersion": {
+    "description": "Bezeichnung für App-Version"
+  },
+  "resetSettings": "Einstellungen zurücksetzen",
+  "@resetSettings": {
+    "description": "Bezeichnung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsDescription": "Alle Einstellungen auf Standardwerte zurücksetzen",
+  "@resetSettingsDescription": {
+    "description": "Beschreibung für Einstellungen zurücksetzen"
+  },
+  "resetSettingsConfirmation": "Möchten Sie wirklich alle Einstellungen auf die Standardwerte zurücksetzen?",
+  "@resetSettingsConfirmation": {
+    "description": "Bestätigungsmeldung für Einstellungen zurücksetzen"
+  },
+  "account": "Konto",
+  "@account": {
+    "description": "Bezeichnung für Kontobereich"
   },
   "accountDescription": "Verwalten Sie Ihr Konto und Profil",
   "@accountDescription": {
     "description": "Beschreibung für Kontoeinstellungen"
   },
-  "dangerZone": "Gefahrenbereich",
+  "dangerZone": "Gefahrenzone",
   "@dangerZone": {
     "description": "Bezeichnung für gefährliche Einstellungen"
   }

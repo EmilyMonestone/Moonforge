@@ -613,6 +613,44 @@
   "@analyticsDescription": {
     "description": "Description for analytics settings"
   },
+    "description": "Label for privacy settings"
+  },
+  "privacyDescription": "Manage privacy and data sharing",
+  "@privacyDescription": {
+    "description": "Description for privacy settings"
+  },
+  "analytics": "Analytics",
+  "@analytics": {
+    "description": "Label for analytics settings"
+  },
+  "analyticsDescription": "Help improve the app by sharing usage data",
+  "@analyticsDescription": {
+    "description": "Description for analytics settings"
+  },
+  "about": "About",
+  "@about": {
+    "description": "Label for about section"
+  },
+  "aboutDescription": "App version, credits, and legal info",
+  "@aboutDescription": {
+    "description": "Description for about section"
+  },
+  "appVersion": "App Version",
+  "@appVersion": {
+    "description": "Label for app version"
+  },
+  "resetSettings": "Reset Settings",
+  "@resetSettings": {
+    "description": "Label for reset settings action"
+  },
+  "resetSettingsDescription": "Restore all settings to defaults",
+  "@resetSettingsDescription": {
+    "description": "Description for reset settings"
+  },
+  "resetSettingsConfirmation": "Are you sure you want to reset all settings to defaults?",
+  "@resetSettingsConfirmation": {
+    "description": "Confirmation message for reset settings"
+  },
   "account": "Account",
   "@account": {
     "description": "Label for account section"

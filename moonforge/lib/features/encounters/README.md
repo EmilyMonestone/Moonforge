@@ -6,16 +6,35 @@ This directory contains the implementation of the Encounter Builder and Initiati
 
 ```
 encounters/
-├── models/
-│   └── combatant.dart           # Combatant model (player, monster, NPC in an encounter)
+├── controllers/
+│   ├── encounter_provider.dart           # Encounter state management
+│   └── initiative_tracker_controller.dart # Initiative tracker state
 ├── services/
-│   ├── encounter_difficulty_service.dart  # D&D 5e difficulty calculations
-│   └── initiative_tracker_service.dart    # Initiative order and turn management
+│   ├── combatant_service.dart            # Combatant CRUD and HP management
+│   ├── encounter_difficulty_service.dart # D&D 5e difficulty calculations
+│   └── initiative_tracker_service.dart   # Initiative order and turn management
 ├── utils/
-│   └── create_encounter.dart    # Utility for creating new encounters
-└── views/
-    ├── encounter_screen.dart    # View encounter details
-    └── encounter_edit_screen.dart  # Encounter builder UI
+│   ├── create_encounter.dart             # Utility for creating new encounters
+│   ├── create_encounter_in_adventure.dart
+│   ├── create_encounter_in_chapter.dart
+│   └── create_encounter_in_scene.dart
+├── views/
+│   ├── encounter_edit_screen.dart        # Encounter builder UI
+│   ├── encounter_list_screen.dart        # Browse all encounters
+│   ├── encounter_screen.dart             # View encounter details
+│   └── initiative_tracker_screen.dart    # Initiative tracker UI
+└── widgets/
+    ├── add_combatant_dialog.dart         # Dialog to add combatants
+    ├── combatant_card.dart               # Combatant display card
+    ├── combatant_conditions_widget.dart  # Status effects display
+    ├── combatant_hp_bar.dart             # HP bar widget
+    ├── condition_selector.dart           # Condition picker dialog
+    ├── damage_heal_dialog.dart           # Quick HP adjustment
+    ├── encounter_card.dart               # Encounter list item
+    ├── encounter_difficulty_badge.dart   # Difficulty indicator
+    ├── encounter_list.dart               # Encounter list widget
+    ├── initiative_order_list.dart        # Initiative order display
+    └── round_counter.dart                # Round number display
 ```
 
 ## Features
@@ -38,17 +57,58 @@ Manages turn-based combat:
 - Detects encounter completion
 - Tracks HP, AC, and conditions
 
-### Combatant Model
+### Combatant Service
 
-Represents participants in combat:
-- Support for players, monsters, and NPCs
-- HP and AC tracking
-- Initiative values and modifiers
-- Conditions/status effects
-- References to bestiary or campaign entities
-- Ally/enemy designation
+Business logic for combatant operations:
+- CRUD operations for combatants
+- HP management (damage, healing, setting HP)
+- Condition management (add, remove, clear)
+- Initiative tracking
+- Utility methods (duplicate combatants, check status)
+
+### State Management
+
+**EncounterProvider**: Manages encounter state
+- Load encounters by origin (campaign, chapter, etc.)
+- Current encounter tracking
+- CRUD operations with automatic UI updates
+
+**InitiativeTrackerController**: Manages combat state
+- Roll initiative for all combatants
+- Turn navigation (next/previous)
+- HP and condition management during combat
+- Combat log tracking
+- Round counter
+- Encounter completion detection
+
+### Reusable Widgets
+
+**Display Widgets:**
+- `CombatantCard`: Full combatant display with HP bar, AC, conditions
+- `CombatantHpBar`: Visual HP indicator with color coding
+- `CombatantConditionsWidget`: Condition badges with icons
+- `EncounterCard`: Encounter list item with preview
+- `EncounterDifficultyBadge`: Visual difficulty indicator
+- `RoundCounter`: Current round display
+
+**List Widgets:**
+- `EncounterList`: Browse encounters with empty state
+- `InitiativeOrderList`: Combatant list sorted by initiative
+
+**Dialog Widgets:**
+- `AddCombatantDialog`: Add new combatant form
+- `DamageHealDialog`: Quick HP adjustment
+- `ConditionSelector`: Multi-select condition picker
 
 ## Usage
+
+### Browsing Encounters
+
+From the campaign menu, select "Browse Encounters" to view all encounters:
+
+```dart
+const EncountersListRoute().go(context);
+```
 
 ### Creating an Encounter
 
@@ -134,46 +194,110 @@ if (InitiativeTrackerService.isEncounterOver(sorted)) {
 
 ### Working with Combatants
 
+Using the CombatantService:
+
 ```dart
+import 'package:moonforge/features/encounters/services/combatant_service.dart';
+
 // Apply damage
-final damaged = combatant.applyDamage(10);
+final damaged = await combatantService.applyDamage(combatant, 10);
 
 // Heal
-final healed = combatant.heal(5);
+final healed = await combatantService.heal(combatant, 5);
+
+// Set HP directly
+final updated = await combatantService.setHp(combatant, 20);
 
 // Add condition
-final poisoned = combatant.addCondition('poisoned');
+final poisoned = await combatantService.addCondition(combatant, 'poisoned');
 
 // Remove condition
-final cured = combatant.removeCondition('poisoned');
+final cured = await combatantService.removeCondition(combatant, 'poisoned');
+
+// Clear all conditions
+final cleared = await combatantService.clearConditions(combatant);
 
 // Check status
-if (combatant.isAlive) {
+if (combatantService.isAlive(combatant)) {
   // Combatant has HP > 0
 }
 
-if (combatant.isEnemy) {
-  // Combatant is not an ally
+if (combatantService.isBloodied(combatant)) {
+  // Combatant is below 50% HP
 }
 ```
 
-## Testing
+### Using the Initiative Tracker Controller
 
-Run the test suite:
+```dart
+import 'package:moonforge/features/encounters/controllers/initiative_tracker_controller.dart';
+import 'package:provider/provider.dart';
 
-```bash
-flutter test test/features/encounters/
+// Initialize controller with combatants
+final controller = context.read<InitiativeTrackerController>();
+controller.initialize(combatants);
+
+// Roll initiative for all
+controller.rollInitiativeForAll();
+
+// Navigate turns
+controller.nextTurn();
+controller.previousTurn();
+
+// Apply damage/healing
+controller.applyDamage(combatantIndex, damageAmount);
+controller.heal(combatantIndex, healingAmount);
+
+// Manage conditions
+controller.addCondition(combatantIndex, 'stunned');
+controller.removeCondition(combatantIndex, 'stunned');
+
+// Access state
+final currentCombatant = controller.currentCombatant;
+final round = controller.round;
+final log = controller.combatLog;
+final isOver = controller.isEncounterOver();
 ```
 
-This runs:
-- `encounter_difficulty_service_test.dart` - 31 tests for difficulty calculations
-- `initiative_tracker_service_test.dart` - 22 tests for initiative management
+### Using Widgets
 
-All tests validate against D&D 5e rules with examples from the rulebook.
+```dart
+import 'package:moonforge/features/encounters/widgets/combatant_card.dart';
+import 'package:moonforge/features/encounters/widgets/damage_heal_dialog.dart';
+
+// Display a combatant
+CombatantCard(
+  combatant: combatant,
+  isCurrentTurn: true,
+  onTap: () => _showDetails(combatant),
+  onDamage: () async {
+    final damage = await showDamageDialog(
+      context,
+      combatantName: combatant.name,
+      currentHp: combatant.currentHp,
+      maxHp: combatant.maxHp,
+    );
+    if (damage != null) {
+      controller.applyDamage(index, damage);
+    }
+  },
+  onHeal: () async {
+    final healing = await showHealDialog(
+      context,
+      combatantName: combatant.name,
+      currentHp: combatant.currentHp,
+      maxHp: combatant.maxHp,
+    );
+    if (healing != null) {
+      controller.heal(index, healing);
+    }
+  },
+);
+```
 
 ## Code Generation
 
-The Combatant model requires code generation. After modifying the model:
+Routes and data models require code generation. After modifying:
 
 ```bash
 dart run build_runner build --delete-conflicting-outputs
@@ -209,15 +333,19 @@ This implementation follows D&D 5e Basic Rules Chapter 13: Building Combat Encou
 
 ## Status
 
-**Current Status:** Phase 1 Complete (Core Services & Tests)
+**Current Status:** Phase 2 Complete (UI Components & State Management)
 
 ✅ Completed:
 - Encounter difficulty calculation service
 - Initiative tracker service
-- Combatant data model
-- Comprehensive unit tests (53 tests)
+- Combatant data model and service
+- Combatant repository for data operations
+- State management (EncounterProvider, InitiativeTrackerController)
+- Complete widget library (11 reusable widgets)
+- Encounter list screen
+- Routes for initiative tracker and encounter browsing
+- Menu integration for "Browse Encounters"
 - Basic UI scaffolding
-- Menu integration
 - Localization (EN, DE)
 
 🚧 In Progress:
@@ -226,10 +354,11 @@ This implementation follows D&D 5e Basic Rules Chapter 13: Building Combat Encou
 - Live difficulty calculation display
 
 📋 Planned:
-- Full initiative tracker UI
-- HP and condition management
-- Encounter persistence
-- Combat log
+- Enhanced initiative tracker features (concentration, death saves, etc.)
+- Encounter persistence during combat
+- Combat log with history
+- Preset encounter templates
+- Random encounter generator
 - Preset templates
 
 ## Contributing
