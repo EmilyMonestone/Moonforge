@@ -382,4 +382,54 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get images => 'Bilder';
+
+  @override
+  String get notifications => 'Benachrichtigungen';
+
+  @override
+  String get notificationsDescription =>
+      'Benachrichtigungseinstellungen verwalten';
+
+  @override
+  String get privacy => 'Datenschutz & Sicherheit';
+
+  @override
+  String get privacyDescription => 'Datenschutz und Datenfreigabe verwalten';
+
+  @override
+  String get analytics => 'Analysen';
+
+  @override
+  String get analyticsDescription =>
+      'Helfen Sie uns, die App zu verbessern, indem Sie Nutzungsdaten teilen';
+
+  @override
+  String get about => 'Über';
+
+  @override
+  String get aboutDescription =>
+      'App-Version, Credits und rechtliche Informationen';
+
+  @override
+  String get appVersion => 'App-Version';
+
+  @override
+  String get resetSettings => 'Einstellungen zurücksetzen';
+
+  @override
+  String get resetSettingsDescription =>
+      'Alle Einstellungen auf Standardwerte zurücksetzen';
+
+  @override
+  String get resetSettingsConfirmation =>
+      'Möchten Sie wirklich alle Einstellungen auf die Standardwerte zurücksetzen?';
+
+  @override
+  String get account => 'Konto';
+
+  @override
+  String get accountDescription => 'Verwalten Sie Ihr Konto und Profil';
+
+  @override
+  String get dangerZone => 'Gefahrenzone';
 }
