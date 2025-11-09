@@ -15,6 +15,10 @@
   "@campaign": {
     "description": "Label for Campaign feature"
   },
+  "campaigns": "Campaigns",
+  "@campaigns": {
+    "description": "Label for Campaigns list"
+  },
   "chapter": "Chapter",
   "@chapter": {
     "description": "Label for Chapter feature"

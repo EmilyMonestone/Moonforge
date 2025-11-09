@@ -6,8 +6,12 @@ import 'package:moonforge/features/adventure/views/adventure_screen.dart';
 import 'package:moonforge/features/auth/views/forgot_password_screen.dart';
 import 'package:moonforge/features/auth/views/login_screen.dart';
 import 'package:moonforge/features/auth/views/register_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_analytics_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_list_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_members_screen.dart';
 import 'package:moonforge/features/campaign/views/campaign_screen.dart';
+import 'package:moonforge/features/campaign/views/campaign_settings_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_list_screen.dart';
 import 'package:moonforge/features/chapter/views/chapter_screen.dart';
@@ -92,10 +96,14 @@ class AppRouter {
     ),
     TypedStatefulShellBranch<StatefulShellBranchData>(
       routes: <TypedRoute<GoRouteData>>[
+        TypedGoRoute<CampaignsListRoute>(path: '/campaigns'),
         TypedGoRoute<CampaignRoute>(
           path: '/campaign',
           routes: <TypedRoute<GoRouteData>>[
             TypedGoRoute<CampaignEditRoute>(path: 'edit'),
+            TypedGoRoute<CampaignSettingsRoute>(path: 'settings'),
+            TypedGoRoute<CampaignAnalyticsRoute>(path: 'analytics'),
+            TypedGoRoute<CampaignMembersRoute>(path: 'members'),
             TypedGoRoute<ChaptersListRoute>(path: 'chapters'),
             TypedGoRoute<AdventureListRoute>(path: 'adventures'),
             TypedGoRoute<ChapterRoute>(
@@ -216,6 +224,14 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
       const ForgotPasswordScreen();
 }
 
+class CampaignsListRoute extends GoRouteData with $CampaignsListRoute {
+  const CampaignsListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignListScreen();
+}
+
 class CampaignRoute extends GoRouteData with $CampaignRoute {
   const CampaignRoute();
 
@@ -230,6 +246,30 @@ class CampaignEditRoute extends GoRouteData with $CampaignEditRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const CampaignEditScreen();
+}
+
+class CampaignSettingsRoute extends GoRouteData with $CampaignSettingsRoute {
+  const CampaignSettingsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignSettingsScreen();
+}
+
+class CampaignAnalyticsRoute extends GoRouteData with $CampaignAnalyticsRoute {
+  const CampaignAnalyticsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignAnalyticsScreen();
+}
+
+class CampaignMembersRoute extends GoRouteData with $CampaignMembersRoute {
+  const CampaignMembersRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const CampaignMembersScreen();
 }
 
 class ChaptersListRoute extends GoRouteData with $ChaptersListRoute {

@@ -12,7 +12,12 @@ import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/campaign/services/campaign_service.dart';
+import 'package:moonforge/features/campaign/widgets/campaign_header.dart';
+import 'package:moonforge/features/campaign/widgets/campaign_quick_actions.dart';
+import 'package:moonforge/features/campaign/widgets/campaign_stats_dashboard.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -81,15 +86,32 @@ class _CampaignScreenState extends State<CampaignScreen> {
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
     }
+
+    final service = CampaignService(
+      CampaignRepository(context.read<AppDb>()),
+    );
+
     return Column(
       children: [
+        CampaignHeader(campaign: campaign),
         SurfaceContainer(
           title: Row(
             children: [
-              Text(
-                campaign.name,
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
+              const Icon(Icons.flash_on_outlined),
+              const SizedBox(width: 8),
+              const Text('Quick Actions'),
+              const Spacer(),
+            ],
+          ),
+          child: CampaignQuickActions(campaign: campaign),
+        ),
+        CampaignStatsDashboard(
+          campaign: campaign,
+          service: service,
+        ),
+        SurfaceContainer(
+          title: Row(
+            children: [
               const Spacer(),
               ButtonM3E(
                 style: ButtonM3EStyle.tonal,
