@@ -97,43 +97,56 @@ class AppDb extends _$AppDb {
         // to integer milliseconds since epoch for DateTime columns.
         // This block is idempotent and only touches TEXT-typed cells.
         Future<void> normalize(String table, String column) async {
-          // Skip if column is not present (older DBs before migration)
-          if (!await hasColumn(table, column)) return;
-          
-          // Log what we're about to check
-          logger.d('Checking $table.$column for legacy date formats');
-          
-          // Check how many TEXT values exist
-          final countResult = await customSelect(
-            'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
-          ).getSingleOrNull();
-          final textCount = countResult?.data['count'] ?? 0;
-          
-          if (textCount > 0) {
-            logger.w('Found $textCount TEXT values in $table.$column');
+          try {
+            // Skip if column is not present (older DBs before migration)
+            if (!await hasColumn(table, column)) return;
             
-            // Log sample values
-            final sampleResult = await customSelect(
-              'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
-            ).get();
-            for (final row in sampleResult) {
-              logger.w('  Sample TEXT value: ${row.data[column]}');
+            // Log what we're about to check
+            logger.d('Checking $table.$column for legacy date formats');
+            
+            // Check how many TEXT values exist
+            try {
+              final countResult = await customSelect(
+                'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
+              ).getSingleOrNull();
+              final textCount = countResult?.data['count'] ?? 0;
+              
+              if (textCount > 0) {
+                logger.w('Found $textCount TEXT values in $table.$column');
+                
+                // Log sample values
+                try {
+                  final sampleResult = await customSelect(
+                    'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
+                  ).get();
+                  for (final row in sampleResult) {
+                    logger.w('  Sample TEXT value: ${row.data[column]}');
+                  }
+                } catch (e) {
+                  logger.e('Error sampling values from $table.$column: $e');
+                }
+              }
+            } catch (e) {
+              logger.e('Error counting TEXT values in $table.$column: $e');
             }
-          }
-          
-          // First, handle epoch seconds with 'Z' suffix (e.g., '1761490548Z')
-          // Use a more flexible pattern that handles any number of digits followed by Z
-          await customStatement('''
+            
+            // First, handle epoch seconds with 'Z' suffix (e.g., '1761490548Z')
+            try {
+              await customStatement('''
 UPDATE "$table"
 SET "$column" = CAST(REPLACE("$column", 'Z', '') AS INTEGER) * 1000
 WHERE typeof("$column") = 'text' 
   AND "$column" LIKE '%Z'
   AND CAST(REPLACE("$column", 'Z', '') AS INTEGER) > 0;
 ''');
-          logger.d('Processed rows with Z suffix in $table.$column');
-          
-          // Then, handle plain epoch seconds (9-11 digits, common epoch second range)
-          await customStatement('''
+              logger.d('Processed rows with Z suffix in $table.$column');
+            } catch (e) {
+              logger.e('Error normalizing Z-suffix values in $table.$column: $e');
+            }
+            
+            // Then, handle plain epoch seconds (9-11 digits, common epoch second range)
+            try {
+              await customStatement('''
 UPDATE "$table"
 SET "$column" = CAST("$column" AS INTEGER) * 1000
 WHERE typeof("$column") = 'text' 
@@ -141,46 +154,74 @@ WHERE typeof("$column") = 'text'
   AND length("$column") <= 11
   AND CAST("$column" AS INTEGER) > 0;
 ''');
-          logger.d('Processed plain epoch seconds in $table.$column');
-          
-          // Check if any TEXT values remain
-          final remainingResult = await customSelect(
-            'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
-          ).getSingleOrNull();
-          final remainingCount = remainingResult?.data['count'] ?? 0;
-          
-          if (remainingCount > 0) {
-            logger.e('Still have $remainingCount TEXT values in $table.$column after normalization!');
-            
-            // Log remaining problematic values
-            final remainingSample = await customSelect(
-              'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
-            ).get();
-            for (final row in remainingSample) {
-              logger.e('  Remaining TEXT value: ${row.data[column]}');
+              logger.d('Processed plain epoch seconds in $table.$column');
+            } catch (e) {
+              logger.e('Error normalizing plain epoch values in $table.$column: $e');
             }
-          } else {
-            logger.i('Successfully normalized all TEXT dates in $table.$column');
+            
+            // Check if any TEXT values remain
+            try {
+              final remainingResult = await customSelect(
+                'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
+              ).getSingleOrNull();
+              final remainingCount = remainingResult?.data['count'] ?? 0;
+              
+              if (remainingCount > 0) {
+                logger.e('Still have $remainingCount TEXT values in $table.$column after normalization!');
+                
+                // Log remaining problematic values
+                try {
+                  final remainingSample = await customSelect(
+                    'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
+                  ).get();
+                  for (final row in remainingSample) {
+                    logger.e('  Remaining TEXT value: ${row.data[column]}');
+                  }
+                } catch (e) {
+                  logger.e('Error sampling remaining values from $table.$column: $e');
+                }
+              } else {
+                logger.i('Successfully normalized all TEXT dates in $table.$column');
+              }
+            } catch (e) {
+              logger.e('Error checking remaining TEXT values in $table.$column: $e');
+            }
+          } catch (e, stackTrace) {
+            logger.e('Error normalizing $table.$column: $e', error: e, stackTrace: stackTrace);
+            // Don't rethrow - allow app to continue even if normalization fails
           }
         }
 
         // Fix NULL values in non-nullable JSON fields
         Future<void> fixNullJsonFields(String table, String column, String defaultValue) async {
-          if (!await hasColumn(table, column)) return;
-          
-          final nullCount = await customSelect(
-            'SELECT COUNT(*) as count FROM "$table" WHERE "$column" IS NULL'
-          ).getSingleOrNull();
-          final count = nullCount?.data['count'] ?? 0;
-          
-          if (count > 0) {
-            logger.w('Found $count NULL values in $table.$column, setting defaults');
-            await customStatement('''
+          try {
+            if (!await hasColumn(table, column)) return;
+            
+            try {
+              final nullCount = await customSelect(
+                'SELECT COUNT(*) as count FROM "$table" WHERE "$column" IS NULL'
+              ).getSingleOrNull();
+              final count = nullCount?.data['count'] ?? 0;
+              
+              if (count > 0) {
+                logger.w('Found $count NULL values in $table.$column, setting defaults');
+                try {
+                  await customStatement('''
 UPDATE "$table"
 SET "$column" = '$defaultValue'
 WHERE "$column" IS NULL;
 ''');
-            logger.i('Set default values for $count rows in $table.$column');
+                  logger.i('Set default values for $count rows in $table.$column');
+                } catch (e) {
+                  logger.e('Error updating NULL values in $table.$column: $e');
+                }
+              }
+            } catch (e) {
+              logger.e('Error counting NULL values in $table.$column: $e');
+            }
+          } catch (e, stackTrace) {
+            logger.e('Error fixing NULL fields in $table.$column: $e', error: e, stackTrace: stackTrace);
+            // Don't rethrow - allow app to continue
           }
         }
 
