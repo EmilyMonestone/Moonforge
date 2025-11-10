@@ -164,6 +164,26 @@ WHERE typeof("$column") = 'text'
           }
         }
 
+        // Fix NULL values in non-nullable JSON fields
+        Future<void> fixNullJsonFields(String table, String column, String defaultValue) async {
+          if (!await hasColumn(table, column)) return;
+          
+          final nullCount = await customSelect(
+            'SELECT COUNT(*) as count FROM "$table" WHERE "$column" IS NULL'
+          ).getSingleOrNull();
+          final count = nullCount?.data['count'] ?? 0;
+          
+          if (count > 0) {
+            logger.w('Found $count NULL values in $table.$column, setting defaults');
+            await customStatement('''
+UPDATE "$table"
+SET "$column" = '$defaultValue'
+WHERE "$column" IS NULL;
+''');
+            logger.i('Set default values for $count rows in $table.$column');
+          }
+        }
+
         // Campaigns
         await normalize('campaigns', 'created_at');
         await normalize('campaigns', 'updated_at');
@@ -185,6 +205,9 @@ WHERE typeof("$column") = 'text'
         // Entities
         await normalize('entities', 'created_at');
         await normalize('entities', 'updated_at');
+        // Fix NULL values in non-nullable JSON fields for Entities
+        await fixNullJsonFields('entities', 'statblock', '{}');
+        await fixNullJsonFields('entities', 'coords', '{}');
         // Media assets
         await normalize('media_assets', 'created_at');
         await normalize('media_assets', 'updated_at');
