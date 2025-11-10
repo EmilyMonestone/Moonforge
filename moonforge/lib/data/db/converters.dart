@@ -3,6 +3,28 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:moonforge/core/utils/safe_data_parser.dart';
 
+/// Safe DateTime converter for Drift that handles malformed date strings
+/// and epoch timestamps with trailing 'Z' characters.
+///
+/// This converter provides a safety layer for DateTime columns to prevent
+/// parsing errors from malformed data like "1761490548Z".
+class SafeDateTimeConverter extends TypeConverter<DateTime?, int?> {
+  const SafeDateTimeConverter();
+
+  @override
+  DateTime? fromSql(int? fromDb) {
+    if (fromDb == null) return null;
+    return SafeDataParser.tryParseDateTime(fromDb);
+  }
+
+  @override
+  int? toSql(DateTime? value) {
+    return value?.millisecondsSinceEpoch;
+  }
+}
+
+const safeDateTimeConverter = SafeDateTimeConverter();
+
 // Generic JSON <-> TEXT for Map<String,dynamic>
 class MapJsonConverter extends TypeConverter<Map<String, dynamic>, String>
     with
