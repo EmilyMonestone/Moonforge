@@ -187,30 +187,42 @@ WHERE "$column" IS NULL;
         // Campaigns
         await normalize('campaigns', 'created_at');
         await normalize('campaigns', 'updated_at');
+        await fixNullJsonFields('campaigns', 'name', 'Untitled Campaign');
+        await fixNullJsonFields('campaigns', 'description', '');
         // Chapters
         await normalize('chapters', 'created_at');
         await normalize('chapters', 'updated_at');
+        await fixNullJsonFields('chapters', 'name', 'Untitled Chapter');
         // Adventures
         await normalize('adventures', 'created_at');
         await normalize('adventures', 'updated_at');
+        await fixNullJsonFields('adventures', 'name', 'Untitled Adventure');
         // Scenes
         await normalize('scenes', 'created_at');
         await normalize('scenes', 'updated_at');
+        await fixNullJsonFields('scenes', 'name', 'Untitled Scene');
         // Parties
         await normalize('parties', 'created_at');
         await normalize('parties', 'updated_at');
+        await fixNullJsonFields('parties', 'name', 'Untitled Party');
         // Encounters
         await normalize('encounters', 'created_at');
         await normalize('encounters', 'updated_at');
+        await fixNullJsonFields('encounters', 'name', 'Untitled Encounter');
+        await fixNullJsonFields('encounters', 'origin_id', '');
         // Entities
         await normalize('entities', 'created_at');
         await normalize('entities', 'updated_at');
-        // Fix NULL values in non-nullable JSON fields for Entities
+        // Fix NULL values in non-nullable fields for Entities
         await fixNullJsonFields('entities', 'statblock', '{}');
         await fixNullJsonFields('entities', 'coords', '{}');
+        await fixNullJsonFields('entities', 'kind', 'unknown');
+        await fixNullJsonFields('entities', 'name', 'Unnamed Entity');
+        await fixNullJsonFields('entities', 'origin_id', '');
         // Media assets
         await normalize('media_assets', 'created_at');
         await normalize('media_assets', 'updated_at');
+        await fixNullJsonFields('media_assets', 'filename', 'unknown');
         // Sessions
         await normalize('sessions', 'created_at');
         await normalize('sessions', 'updated_at');
@@ -220,6 +232,9 @@ WHERE "$column" IS NULL;
         await normalize('players', 'created_at');
         await normalize('players', 'updated_at');
         await normalize('players', 'last_ddb_sync');
+        await fixNullJsonFields('players', 'name', 'Unnamed Player');
+        // Combatants
+        await fixNullJsonFields('combatants', 'name', 'Unnamed Combatant');
         // OutboxEntries
         await normalize('outbox_entries', 'changed_at');
       },
