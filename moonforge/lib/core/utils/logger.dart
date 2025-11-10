@@ -7,4 +7,10 @@ import 'package:logger/logger.dart';
 ///  logger.e('Error message', error: exception, stackTrace: stackTrace);
 ///  logger.d('Debug message');
 ///  logger.w('Warning message');
-Logger logger = Logger(printer: PrettyPrinter());
+Logger logger = Logger(
+  printer: PrettyPrinter(
+    noBoxingByDefault: true,
+    errorMethodCount: 12,
+    methodCount: 4,
+  ),
+);
