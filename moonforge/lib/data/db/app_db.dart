@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:moonforge/core/utils/logger.dart';
 
 import 'converters.dart';
 import 'daos/adventure_dao.dart';
@@ -99,22 +100,68 @@ class AppDb extends _$AppDb {
           // Skip if column is not present (older DBs before migration)
           if (!await hasColumn(table, column)) return;
           
+          // Log what we're about to check
+          logger.d('Checking $table.$column for legacy date formats');
+          
+          // Check how many TEXT values exist
+          final countResult = await customSelect(
+            'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
+          ).getSingleOrNull();
+          final textCount = countResult?.data['count'] ?? 0;
+          
+          if (textCount > 0) {
+            logger.w('Found $textCount TEXT values in $table.$column');
+            
+            // Log sample values
+            final sampleResult = await customSelect(
+              'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
+            ).get();
+            for (final row in sampleResult) {
+              logger.w('  Sample TEXT value: ${row.data[column]}');
+            }
+          }
+          
           // First, handle epoch seconds with 'Z' suffix (e.g., '1761490548Z')
+          // Use a more flexible pattern that handles any number of digits followed by Z
           await customStatement('''
 UPDATE "$table"
 SET "$column" = CAST(REPLACE("$column", 'Z', '') AS INTEGER) * 1000
 WHERE typeof("$column") = 'text' 
-  AND "$column" GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]Z';
+  AND "$column" LIKE '%Z'
+  AND CAST(REPLACE("$column", 'Z', '') AS INTEGER) > 0;
 ''');
+          logger.d('Processed rows with Z suffix in $table.$column');
           
-          // Then, handle plain epoch seconds (exactly 10 digits, no suffix)
+          // Then, handle plain epoch seconds (9-11 digits, common epoch second range)
           await customStatement('''
 UPDATE "$table"
 SET "$column" = CAST("$column" AS INTEGER) * 1000
 WHERE typeof("$column") = 'text' 
-  AND "$column" GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
-  AND length("$column") = 10;
+  AND length("$column") >= 9
+  AND length("$column") <= 11
+  AND CAST("$column" AS INTEGER) > 0;
 ''');
+          logger.d('Processed plain epoch seconds in $table.$column');
+          
+          // Check if any TEXT values remain
+          final remainingResult = await customSelect(
+            'SELECT COUNT(*) as count FROM "$table" WHERE typeof("$column") = \'text\''
+          ).getSingleOrNull();
+          final remainingCount = remainingResult?.data['count'] ?? 0;
+          
+          if (remainingCount > 0) {
+            logger.e('Still have $remainingCount TEXT values in $table.$column after normalization!');
+            
+            // Log remaining problematic values
+            final remainingSample = await customSelect(
+              'SELECT "$column" FROM "$table" WHERE typeof("$column") = \'text\' LIMIT 5'
+            ).get();
+            for (final row in remainingSample) {
+              logger.e('  Remaining TEXT value: ${row.data[column]}');
+            }
+          } else {
+            logger.i('Successfully normalized all TEXT dates in $table.$column');
+          }
         }
 
         // Campaigns
