@@ -98,17 +98,22 @@ class AppDb extends _$AppDb {
         Future<void> normalize(String table, String column) async {
           // Skip if column is not present (older DBs before migration)
           if (!await hasColumn(table, column)) return;
-          // Strip trailing 'Z' if present, cast to INTEGER seconds, multiply to ms
+          
+          // First, handle epoch seconds with 'Z' suffix (e.g., '1761490548Z')
           await customStatement('''
 UPDATE "$table"
-SET "$column" = (
-  CASE
-    WHEN typeof("$column") = 'text' AND "$column" GLOB '*Z' THEN CAST(REPLACE("$column", 'Z', '') AS INTEGER) * 1000
-    WHEN typeof("$column") = 'text' AND "$column" GLOB '[0-9]*' THEN CAST("$column" AS INTEGER) * 1000
-    ELSE "$column"
-  END
-)
-WHERE typeof("$column") = 'text' AND ("$column" GLOB '*Z' OR "$column" GLOB '[0-9]*');
+SET "$column" = CAST(REPLACE("$column", 'Z', '') AS INTEGER) * 1000
+WHERE typeof("$column") = 'text' 
+  AND "$column" GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]Z';
+''');
+          
+          // Then, handle plain epoch seconds (exactly 10 digits, no suffix)
+          await customStatement('''
+UPDATE "$table"
+SET "$column" = CAST("$column" AS INTEGER) * 1000
+WHERE typeof("$column") = 'text' 
+  AND "$column" GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+  AND length("$column") = 10;
 ''');
         }
 
