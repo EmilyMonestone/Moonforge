@@ -93,7 +93,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
               items: [
                 AdaptiveBreadcrumbItem(
                   content: Text(AppLocalizations.of(context)!.home),
-                  onTap: () => const HomeRoute().go(context),
+                  onTap: () => context.go(const HomeRoute().location),
                 ),
               ],
               divider: const Icon(Icons.chevron_right, size: 16),

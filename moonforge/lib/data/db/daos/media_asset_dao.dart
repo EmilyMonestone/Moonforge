@@ -7,11 +7,15 @@ part 'media_asset_dao.g.dart';
 
 @DriftAccessor(tables: [MediaAssets])
 class MediaAssetDao extends DatabaseAccessor<AppDb> with _$MediaAssetDaoMixin {
-  MediaAssetDao(AppDb db) : super(db);
+  MediaAssetDao(super.db);
 
   Stream<List<MediaAsset>> watchAll() => (select(
     mediaAssets,
   )..orderBy([(m) => OrderingTerm.desc(m.createdAt)])).watch();
+
+  Future<List<MediaAsset>> getAll() => (select(
+    mediaAssets,
+  )..orderBy([(m) => OrderingTerm.desc(m.createdAt)])).get();
 
   Future<MediaAsset?> getById(String id) =>
       (select(mediaAssets)..where((m) => m.id.equals(id))).getSingleOrNull();

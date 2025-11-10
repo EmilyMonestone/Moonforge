@@ -11,6 +11,8 @@ class PlayerRepository {
 
   Stream<List<Player>> watchAll() => _db.playerDao.watchAll();
 
+  Future<List<Player>> getAll() => _db.playerDao.getAll();
+
   /// Watch players for a campaign
   Stream<List<Player>> watchByCampaign(String campaignId) =>
       _db.playerDao.watchByCampaign(campaignId);
@@ -43,7 +45,9 @@ class PlayerRepository {
   /// Update an existing player
   Future<void> update(Player player) async {
     await _db.transaction(() async {
-      await _db.playerDao.upsert(_buildPlayerCompanion(player, isCreate: false));
+      await _db.playerDao.upsert(
+        _buildPlayerCompanion(player, isCreate: false),
+      );
 
       await _db.outboxDao.enqueue(
         table: 'players',
@@ -54,7 +58,10 @@ class PlayerRepository {
   }
 
   /// Build a PlayersCompanion from a Player object
-  PlayersCompanion _buildPlayerCompanion(Player player, {required bool isCreate}) {
+  PlayersCompanion _buildPlayerCompanion(
+    Player player, {
+    required bool isCreate,
+  }) {
     if (isCreate) {
       return PlayersCompanion.insert(
         id: player.id,

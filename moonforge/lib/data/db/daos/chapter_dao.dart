@@ -7,10 +7,13 @@ part 'chapter_dao.g.dart';
 
 @DriftAccessor(tables: [Chapters])
 class ChapterDao extends DatabaseAccessor<AppDb> with _$ChapterDaoMixin {
-  ChapterDao(AppDb db) : super(db);
+  ChapterDao(super.db);
 
   Stream<List<Chapter>> watchAll() =>
       (select(chapters)..orderBy([(c) => OrderingTerm.asc(c.order)])).watch();
+
+  Future<List<Chapter>> getAll() =>
+      (select(chapters)..orderBy([(c) => OrderingTerm.asc(c.order)])).get();
 
   Stream<List<Chapter>> watchByCampaign(String campaignId) =>
       (select(chapters)

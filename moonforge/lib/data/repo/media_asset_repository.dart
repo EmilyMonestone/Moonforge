@@ -12,6 +12,8 @@ class MediaAssetRepository {
   /// Watch all media assets
   Stream<List<MediaAsset>> watchAll() => _db.mediaAssetDao.watchAll();
 
+  Future<List<MediaAsset>> getAll() => _db.mediaAssetDao.getAll();
+
   /// Get a single media asset by ID
   Future<MediaAsset?> getById(String id) => _db.mediaAssetDao.getById(id);
 

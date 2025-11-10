@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
@@ -10,7 +11,6 @@ import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
-import 'package:moonforge/features/home/widgets/quick_actions_widget.dart';
 import 'package:moonforge/features/home/widgets/recent_section.dart';
 import 'package:moonforge/features/home/widgets/stats_overview_widget.dart';
 import 'package:moonforge/features/home/widgets/upcoming_sessions_widget.dart';
@@ -45,13 +45,6 @@ class HomeScreen extends StatelessWidget {
         ),
         SurfaceContainer(
           title: Text(
-            l10n.quickActions,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          child: const QuickActionsWidget(),
-        ),
-        SurfaceContainer(
-          title: Text(
             l10n.upcomingSessions,
             style: Theme.of(context).textTheme.titleLarge,
           ),
@@ -82,7 +75,7 @@ class HomeScreen extends StatelessWidget {
             subtitleOf: (c) => c.description,
             onTap: (item) {
               campaignProvider.setCurrentCampaign(item);
-              const CampaignRoute().go(context);
+              context.go(const CampaignRoute().location);
             },
             onError: (error, _) {
               logger.e('Error fetching recent campaigns: $error');

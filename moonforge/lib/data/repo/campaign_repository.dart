@@ -9,8 +9,13 @@ class CampaignRepository {
 
   CampaignRepository(this._db);
 
+  /// Expose underlying db for low-level maintenance (internal use only)
+  AppDb get db => _db;
+
   /// Watch all campaigns as a stream
   Stream<List<Campaign>> watchAll() => _db.campaignDao.watchAll();
+
+  Future<List<Campaign>> getAll() => _db.campaignDao.getAll();
 
   /// Get a single campaign by ID
   Future<Campaign?> getById(String id) => _db.campaignDao.getById(id);

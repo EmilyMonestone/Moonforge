@@ -7,10 +7,13 @@ part 'scene_dao.g.dart';
 
 @DriftAccessor(tables: [Scenes])
 class SceneDao extends DatabaseAccessor<AppDb> with _$SceneDaoMixin {
-  SceneDao(AppDb db) : super(db);
+  SceneDao(super.db);
 
   Stream<List<Scene>> watchAll() =>
       (select(scenes)..orderBy([(s) => OrderingTerm.asc(s.order)])).watch();
+
+  Future<List<Scene>> getAll() =>
+      (select(scenes)..orderBy([(s) => OrderingTerm.asc(s.order)])).get();
 
   Stream<List<Scene>> watchByAdventure(String adventureId) =>
       (select(scenes)

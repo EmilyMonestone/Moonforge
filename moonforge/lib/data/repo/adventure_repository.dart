@@ -9,6 +9,10 @@ class AdventureRepository {
 
   AdventureRepository(this._db);
 
+  Stream<List<Adventure>> watchAll() => _db.adventureDao.watchAll();
+
+  Future<List<Adventure>> getAll() => _db.adventureDao.getAll();
+
   /// Watch adventures for a chapter
   Stream<List<Adventure>> watchByChapter(String chapterId) =>
       _db.adventureDao.watchByChapter(chapterId);

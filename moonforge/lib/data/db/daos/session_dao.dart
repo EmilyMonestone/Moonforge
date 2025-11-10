@@ -7,11 +7,14 @@ part 'session_dao.g.dart';
 
 @DriftAccessor(tables: [Sessions])
 class SessionDao extends DatabaseAccessor<AppDb> with _$SessionDaoMixin {
-  SessionDao(AppDb db) : super(db);
+  SessionDao(super.db);
 
   Stream<List<Session>> watchAll() => (select(
     sessions,
   )..orderBy([(s) => OrderingTerm.desc(s.datetime)])).watch();
+
+  Future<List<Session>> getAll() =>
+      (select(sessions)..orderBy([(s) => OrderingTerm.desc(s.datetime)])).get();
 
   Future<Session?> getById(String id) =>
       (select(sessions)..where((s) => s.id.equals(id))).getSingleOrNull();

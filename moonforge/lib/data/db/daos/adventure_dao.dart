@@ -7,10 +7,13 @@ part 'adventure_dao.g.dart';
 
 @DriftAccessor(tables: [Adventures])
 class AdventureDao extends DatabaseAccessor<AppDb> with _$AdventureDaoMixin {
-  AdventureDao(AppDb db) : super(db);
+  AdventureDao(super.db);
 
   Stream<List<Adventure>> watchAll() =>
       (select(adventures)..orderBy([(a) => OrderingTerm.asc(a.order)])).watch();
+
+  Future<List<Adventure>> getAll() =>
+      (select(adventures)..orderBy([(a) => OrderingTerm.asc(a.order)])).get();
 
   Stream<List<Adventure>> watchByChapter(String chapterId) =>
       (select(adventures)

@@ -19,9 +19,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes">
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/config_app.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/tools/config_app.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/test/home_controller_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/utils/logger.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/utils/logger.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/campaign_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/chapter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/combatant_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/encounter_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/entity_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/media_asset_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/party_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/player_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/player_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/scene_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/session_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/player_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/player_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/controllers/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/controllers/home_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/services/dashboard_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/services/dashboard_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/services/quick_actions_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/services/quick_actions_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +92,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="copilot/add-dnd-beyond-character-import" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,12 +109,16 @@
     &quot;accountId&quot;: &quot;b98d26bd-cc39-4b73-bbe4-e0bbd2bd58ce&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="AISelfReview" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="33jhjEZr9i9M4jo3w5CZPReF1c0" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
@@ -98,34 +133,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#56 on copilot/implement-safe-data-storage&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
@@ -177,14 +213,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00038" summary="feat: add localization support for description and content fields in multiple languages">
-      <option name="closed" value="true" />
-      <created>1761474172227</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1761474172227</updated>
     </task>
     <task id="LOCAL-00039" summary="feat: enhance campaign screen with QuillEditor for rich text display and improve layout structure">
       <option name="closed" value="true" />
@@ -570,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762725773364</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes">
+      <option name="closed" value="true" />
+      <created>1762726301141</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1762726301141</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1065,6 +1101,12 @@
           <option name="totalLines" value="1249193" />
           <option name="info" value="feat: update CHANGELOG for version 0.6.0 with new " />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762726301374" />
+          <option name="linesCode" value="76409" />
+          <option name="totalLines" value="1249233" />
+          <option name="info" value="feat: update CHANGELOG for version 0.6.0 with new " />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1142,9 +1184,9 @@
           <option name="info" value="Nov 3, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1762725773538" />
-          <option name="linesCode" value="76375" />
-          <option name="totalLines" value="1249193" />
+          <option name="timestamp" value="1762726301374" />
+          <option name="linesCode" value="76409" />
+          <option name="totalLines" value="1249233" />
           <option name="info" value="Nov 9, 2025" />
         </TimePoint>
       </list>

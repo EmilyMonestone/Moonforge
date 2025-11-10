@@ -9,6 +9,10 @@ class SceneRepository {
 
   SceneRepository(this._db);
 
+  Stream<List<Scene>> watchAll() => _db.sceneDao.watchAll();
+
+  Future<List<Scene>> getAll() => _db.sceneDao.getAll();
+
   /// Watch scenes for an adventure
   Stream<List<Scene>> watchByAdventure(String adventureId) =>
       _db.sceneDao.watchByAdventure(adventureId);

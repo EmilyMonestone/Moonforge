@@ -9,6 +9,10 @@ class ChapterRepository {
 
   ChapterRepository(this._db);
 
+  Stream<List<Chapter>> watchAll() => _db.chapterDao.watchAll();
+
+  Future<List<Chapter>> getAll() => _db.chapterDao.getAll();
+
   /// Watch chapters for a campaign
   Stream<List<Chapter>> watchByCampaign(String campaignId) =>
       _db.chapterDao.watchByCampaign(campaignId);

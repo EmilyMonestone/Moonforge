@@ -12,6 +12,8 @@ class SessionRepository {
   /// Watch all sessions
   Stream<List<Session>> watchAll() => _db.sessionDao.watchAll();
 
+  Future<List<Session>> getAll() => _db.sessionDao.getAll();
+
   /// Get a single session by ID
   Future<Session?> getById(String id) => _db.sessionDao.getById(id);
 

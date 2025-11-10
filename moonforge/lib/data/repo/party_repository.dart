@@ -11,6 +11,8 @@ class PartyRepository {
 
   Stream<List<Party>> watchAll() => _db.partyDao.watchAll();
 
+  Future<List<Party>> getAll() => _db.partyDao.getAll();
+
   /// Watch parties for a campaign
   Stream<List<Party>> watchByCampaign(String campaignId) =>
       _db.partyDao.watchByCampaign(campaignId);

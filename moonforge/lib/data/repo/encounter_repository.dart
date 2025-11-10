@@ -9,6 +9,10 @@ class EncounterRepository {
 
   EncounterRepository(this._db);
 
+  Stream<List<Encounter>> watchAll() => _db.encounterDao.watchAll();
+
+  Future<List<Encounter>> getAll() => _db.encounterDao.getAll();
+
   /// Watch encounters for an origin (campaign/chapter/adventure/scene)
   Stream<List<Encounter>> watchByOrigin(String originId) =>
       _db.encounterDao.watchByOrigin(originId);

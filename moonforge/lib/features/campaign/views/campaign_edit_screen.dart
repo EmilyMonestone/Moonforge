@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:go_router/go_router.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/app_router.dart';
@@ -27,7 +28,8 @@ class CampaignEditScreen extends StatefulWidget {
 }
 
 class _CampaignEditScreenState extends State<CampaignEditScreen> {
-  late final CampaignProvider _campaignProvider;
+  // Removed final so it can be assigned safely once in initState without LateInitializationError.
+  late CampaignProvider _campaignProvider;
   final _nameController = TextEditingController();
   final _descriptionTextController = TextEditingController();
   late QuillController _contentController;
@@ -37,17 +39,26 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
   bool _isLoading = false;
   bool _isSaving = false;
   Campaign? _campaign;
+  bool _loadedOnce = false; // guard to ensure we only load once
 
   @override
   void initState() {
     super.initState();
     _contentController = QuillController.basic();
+    // Access provider without listening; safe in initState.
+    // Use addPostFrameCallback to ensure context is fully mounted before loading data.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_loadedOnce) {
+        _campaignProvider = context.read<CampaignProvider>();
+        _loadedOnce = true;
+        _loadCampaign();
+      }
+    });
   }
 
   @override
   void didChangeDependencies() {
-    _campaignProvider = Provider.of<CampaignProvider>(context, listen: true);
-    _loadCampaign();
+    // Intentionally no re-assignment of _campaignProvider to avoid LateInitializationError & duplicate loads.
     super.didChangeDependencies();
   }
 
@@ -67,18 +78,15 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
       debugPrint(campaign.toString());
 
       if (campaign != null) {
-        // Load Quill delta from content if available, otherwise use description
         Document document;
         if (campaign.content != null && campaign.content!.isNotEmpty) {
           try {
             final deltaJson = jsonDecode(jsonEncode(campaign.content!));
             document = Document.fromJson(deltaJson);
           } catch (e) {
-            // If content is not valid JSON, fall back to plain text description
             document = Document()..insert(0, campaign.description);
           }
         } else if (campaign.description.isNotEmpty) {
-          // Use description as plain text if content is null
           document = Document()..insert(0, campaign.description);
         } else {
           document = Document();
@@ -88,20 +96,24 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           _campaign = campaign;
           _nameController.text = campaign.name;
           _descriptionTextController.text = campaign.description;
-          _contentController.document = document;
+          // Recreate controller with loaded document to avoid mutating underlying document reference unsafely.
+          _contentController.dispose();
+          _contentController = QuillController(
+            document: document,
+            selection: const TextSelection.collapsed(offset: 0),
+          );
         });
 
-        // Initialize autosave after loading the campaign
+        // Dispose any previous autosave instance before creating a new one.
+        _autosave?.dispose();
         _autosave = QuillAutosave(
           controller: _contentController,
           storageKey: 'campaign_${campaign.id}_content_draft',
           delay: const Duration(seconds: 2),
           onSave: (content) async {
-            // Autosave is handled locally, no remote save needed here
             logger.d('Content autosaved locally for campaign ${campaign.id}');
           },
-        );
-        _autosave?.start();
+        )..start();
       }
     } catch (e) {
       if (mounted) {
@@ -122,8 +134,6 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
     setState(() => _isSaving = true);
     try {
       final repository = context.read<CampaignRepository>();
-
-      // Save as Delta JSON
       final delta = _contentController.document.toDelta();
       final contentJson = delta.toJson();
 
@@ -136,14 +146,10 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
       );
 
       await repository.update(updatedCampaign);
-
-      // Fetch updated campaign and update provider with latest data
       final refreshed = await repository.getById(_campaign!.id);
       if (refreshed != null && mounted) {
         context.read<CampaignProvider>().setCurrentCampaign(refreshed);
       }
-
-      // Clear autosaved draft after successful save
       await _autosave?.clear();
 
       if (mounted) {
@@ -151,7 +157,8 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           type: ToastificationType.success,
           title: const Text('Campaign saved successfully'),
         );
-        CampaignRoute().go(context);
+        // Avoid calling .go(context) since generated extensions may be missing; navigate via context.go.
+        context.go(const CampaignRoute().location);
       }
     } catch (e) {
       if (mounted) {
@@ -204,8 +211,8 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           ),
           Spacer(),
           ButtonM3E(
-            onPressed: () => CampaignRoute().go(context),
-            label: Text('l10n.cancel'),
+            onPressed: () => context.go(const CampaignRoute().location),
+            label: Text(l10n.cancel),
             icon: const Icon(Icons.cancel),
             style: ButtonM3EStyle.outlined,
             shape: ButtonM3EShape.square,

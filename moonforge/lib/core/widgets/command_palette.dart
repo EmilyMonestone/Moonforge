@@ -1,5 +1,6 @@
 import 'package:command_palette/command_palette.dart' as cp;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/services/app_router.dart';
 
 /// Moonforge App Command Palette wrapper.
@@ -112,7 +113,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Home',
         shortcut: const ['ctrl', 'h'],
         leading: const Icon(Icons.home_outlined),
-        onSelect: () => const HomeRoute().go(context),
+        onSelect: () => context.go(const HomeRoute().location),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_campaign',
@@ -120,7 +121,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Campaign',
         shortcut: const ['ctrl', 'shift', 'c'],
         leading: const Icon(Icons.book_outlined),
-        onSelect: () => const CampaignRoute().go(context),
+        onSelect: () => context.go(const CampaignRoute().location),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_party',
@@ -128,7 +129,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Party',
         shortcut: const ['ctrl', 'shift', 'p'],
         leading: const Icon(Icons.group_outlined),
-        onSelect: () => const PartyRootRoute().go(context),
+        onSelect: () => context.go(const PartyRootRoute().location),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_settings',
@@ -136,7 +137,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Settings',
         shortcut: const ['ctrl', 'comma'],
         leading: const Icon(Icons.settings_outlined),
-        onSelect: () => const SettingsRoute().go(context),
+        onSelect: () => context.go(const SettingsRoute().location),
       ),
 
       // Create / Edit
@@ -146,7 +147,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Open Campaign editor',
         shortcut: const ['ctrl', 'n', 'c'],
         leading: const Icon(Icons.add_box_outlined),
-        onSelect: () => const CampaignEditRoute().go(context),
+        onSelect: () => context.go(const CampaignEditRoute().location),
       ),
       cp.CommandPaletteAction.single(
         id: 'create_encounter',
@@ -156,7 +157,7 @@ class CommandPaletteState extends State<CommandPalette> {
         onSelect: () async {
           final id = await _promptForInput(title: 'Encounter ID');
           if (id != null && id.isNotEmpty) {
-            EncounterEditRoute(encounterId: id).go(context);
+            context.go(EncounterEditRoute(encounterId: id).location);
           }
         },
       ),
@@ -168,7 +169,7 @@ class CommandPaletteState extends State<CommandPalette> {
         onSelect: () async {
           final id = await _promptForInput(title: 'Entity ID');
           if (id != null && id.isNotEmpty) {
-            EntityEditRoute(entityId: id).go(context);
+            context.go(EntityEditRoute(entityId: id).location);
           }
         },
       ),
@@ -185,7 +186,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final chapterId = await _promptForInput(title: 'Chapter ID');
               if (chapterId != null && chapterId.isNotEmpty) {
-                ChapterEditRoute(chapterId: chapterId).go(context);
+                context.go(ChapterEditRoute(chapterId: chapterId).location);
               }
             },
           ),
@@ -201,7 +202,13 @@ class CommandPaletteState extends State<CommandPalette> {
               AdventureEditRoute(
                 chapterId: chapterId,
                 adventureId: adventureId,
-              ).go(context);
+              );
+              context.go(
+                AdventureEditRoute(
+                  chapterId: chapterId,
+                  adventureId: adventureId,
+                ).location,
+              );
             },
           ),
           cp.CommandPaletteAction.single(
@@ -219,7 +226,14 @@ class CommandPaletteState extends State<CommandPalette> {
                 chapterId: chapterId,
                 adventureId: adventureId,
                 sceneId: sceneId,
-              ).go(context);
+              );
+              context.go(
+                SceneEditRoute(
+                  chapterId: chapterId,
+                  adventureId: adventureId,
+                  sceneId: sceneId,
+                ).location,
+              );
             },
           ),
         ],
@@ -238,7 +252,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final chapterId = await _promptForInput(title: 'Chapter ID');
               if (chapterId != null && chapterId.isNotEmpty) {
-                ChapterRoute(chapterId: chapterId).go(context);
+                context.go(ChapterRoute(chapterId: chapterId).location);
               }
             },
           ),
@@ -250,10 +264,13 @@ class CommandPaletteState extends State<CommandPalette> {
               if (chapterId == null || chapterId.isEmpty) return;
               final adventureId = await _promptForInput(title: 'Adventure ID');
               if (adventureId == null || adventureId.isEmpty) return;
-              AdventureRoute(
-                chapterId: chapterId,
-                adventureId: adventureId,
-              ).go(context);
+              AdventureRoute(chapterId: chapterId, adventureId: adventureId);
+              context.go(
+                AdventureRoute(
+                  chapterId: chapterId,
+                  adventureId: adventureId,
+                ).location,
+              );
             },
           ),
           cp.CommandPaletteAction.single(
@@ -270,7 +287,14 @@ class CommandPaletteState extends State<CommandPalette> {
                 chapterId: chapterId,
                 adventureId: adventureId,
                 sceneId: sceneId,
-              ).go(context);
+              );
+              context.go(
+                SceneRoute(
+                  chapterId: chapterId,
+                  adventureId: adventureId,
+                  sceneId: sceneId,
+                ).location,
+              );
             },
           ),
           cp.CommandPaletteAction.single(
@@ -279,7 +303,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final entityId = await _promptForInput(title: 'Entity ID');
               if (entityId != null && entityId.isNotEmpty) {
-                EntityRoute(entityId: entityId).go(context);
+                context.go(EntityRoute(entityId: entityId).location);
               }
             },
           ),
@@ -289,7 +313,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final encounterId = await _promptForInput(title: 'Encounter ID');
               if (encounterId != null && encounterId.isNotEmpty) {
-                EncounterRoute(encounterId: encounterId).go(context);
+                context.go(EncounterRoute(encounterId: encounterId).location);
               }
             },
           ),
@@ -299,7 +323,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final partyId = await _promptForInput(title: 'Party ID');
               if (partyId != null && partyId.isNotEmpty) {
-                PartyRoute(partyId: partyId).go(context);
+                context.go(PartyRoute(partyId: partyId).location);
               }
             },
           ),
@@ -311,7 +335,9 @@ class CommandPaletteState extends State<CommandPalette> {
               if (partyId == null || partyId.isEmpty) return;
               final sessionId = await _promptForInput(title: 'Session ID');
               if (sessionId == null || sessionId.isEmpty) return;
-              SessionRoute(partyId: partyId, sessionId: sessionId).go(context);
+              context.go(
+                SessionRoute(partyId: partyId, sessionId: sessionId).location,
+              );
             },
           ),
         ],

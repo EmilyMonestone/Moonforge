@@ -7,7 +7,7 @@ part 'combatant_dao.g.dart';
 
 @DriftAccessor(tables: [Combatants])
 class CombatantDao extends DatabaseAccessor<AppDb> with _$CombatantDaoMixin {
-  CombatantDao(AppDb db) : super(db);
+  CombatantDao(super.db);
 
   Stream<List<Combatant>> watchByEncounter(String encounterId) =>
       (select(combatants)

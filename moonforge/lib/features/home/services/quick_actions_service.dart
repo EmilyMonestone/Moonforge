@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/services/app_router.dart';
 
 /// A quick action that can be performed from the dashboard
@@ -29,7 +30,7 @@ class QuickActionsService {
         icon: Icons.add_circle_outline,
         tooltip: 'Create a new campaign',
         onTap: (context) {
-          const CampaignEditRoute().go(context);
+          context.go(const CampaignEditRoute().location);
         },
       ),
       QuickAction(
@@ -38,7 +39,7 @@ class QuickActionsService {
         icon: Icons.book,
         tooltip: 'View all campaigns',
         onTap: (context) {
-          const CampaignRoute().go(context);
+          context.go(const CampaignRoute().location);
         },
       ),
       QuickAction(
@@ -47,7 +48,7 @@ class QuickActionsService {
         icon: Icons.group,
         tooltip: 'View all parties',
         onTap: (context) {
-          const PartyRootRoute().go(context);
+          context.go(const PartyRootRoute().location);
         },
       ),
       QuickAction(
@@ -56,7 +57,7 @@ class QuickActionsService {
         icon: Icons.settings,
         tooltip: 'App settings',
         onTap: (context) {
-          const SettingsRoute().go(context);
+          context.go(const SettingsRoute().location);
         },
       ),
     ];

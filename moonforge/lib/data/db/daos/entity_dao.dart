@@ -7,7 +7,7 @@ part 'entity_dao.g.dart';
 
 @DriftAccessor(tables: [Entities])
 class EntityDao extends DatabaseAccessor<AppDb> with _$EntityDaoMixin {
-  EntityDao(AppDb db) : super(db);
+  EntityDao(super.db);
 
   Stream<List<Entity>> watchAll() =>
       (select(entities)
