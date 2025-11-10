@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/utils/safe_data_parser.dart';
 
 // Generic JSON <-> TEXT for Map<String,dynamic>
 class MapJsonConverter extends TypeConverter<Map<String, dynamic>, String>
@@ -9,8 +10,13 @@ class MapJsonConverter extends TypeConverter<Map<String, dynamic>, String>
   const MapJsonConverter();
 
   @override
-  Map<String, dynamic> fromSql(String fromDb) =>
-      jsonDecode(fromDb) as Map<String, dynamic>;
+  Map<String, dynamic> fromSql(String fromDb) {
+    try {
+      return SafeDataParser.tryParseMap(fromDb);
+    } catch (e) {
+      return {};
+    }
+  }
 
   @override
   String toSql(Map<String, dynamic> value) => jsonEncode(value);
@@ -73,8 +79,13 @@ class StringListConverter extends TypeConverter<List<String>, String>
   const StringListConverter();
 
   @override
-  List<String> fromSql(String fromDb) =>
-      (jsonDecode(fromDb) as List).cast<String>();
+  List<String> fromSql(String fromDb) {
+    try {
+      return SafeDataParser.tryParseStringList(fromDb);
+    } catch (e) {
+      return [];
+    }
+  }
 
   @override
   String toSql(List<String> value) => jsonEncode(value);
@@ -83,8 +94,13 @@ class StringListConverter extends TypeConverter<List<String>, String>
   List<dynamic> toJson(List<String> value) => value;
 
   @override
-  List<String> fromJson(List<dynamic> json) =>
-      json.map((e) => e.toString()).toList();
+  List<String> fromJson(List<dynamic> json) {
+    try {
+      return SafeDataParser.tryParseStringList(json);
+    } catch (e) {
+      return [];
+    }
+  }
 }
 
 // List<Map<String,dynamic>>
@@ -93,11 +109,13 @@ class MapListConverter extends TypeConverter<List<Map<String, dynamic>>, String>
   const MapListConverter();
 
   @override
-  List<Map<String, dynamic>> fromSql(String fromDb) =>
-      (jsonDecode(fromDb) as List)
-          .cast<Map>()
-          .map((e) => Map<String, dynamic>.from(e))
-          .toList();
+  List<Map<String, dynamic>> fromSql(String fromDb) {
+    try {
+      return SafeDataParser.tryParseMapList(fromDb);
+    } catch (e) {
+      return [];
+    }
+  }
 
   @override
   String toSql(List<Map<String, dynamic>> value) => jsonEncode(value);
@@ -106,6 +124,11 @@ class MapListConverter extends TypeConverter<List<Map<String, dynamic>>, String>
   List<dynamic> toJson(List<Map<String, dynamic>> value) => value;
 
   @override
-  List<Map<String, dynamic>> fromJson(List<dynamic> json) =>
-      json.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  List<Map<String, dynamic>> fromJson(List<dynamic> json) {
+    try {
+      return SafeDataParser.tryParseMapList(json);
+    } catch (e) {
+      return [];
+    }
+  }
 }
