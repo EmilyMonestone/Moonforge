@@ -39,40 +39,43 @@ class HomeScreen extends StatelessWidget {
         SurfaceContainer(
           title: Text(
             l10n.dashboardStats,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           child: const StatsOverviewWidget(),
         ),
         SurfaceContainer(
           title: Text(
-            l10n.quickActions,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          child: const QuickActionsWidget(),
-        ),
-        SurfaceContainer(
-          title: Text(
             l10n.upcomingSessions,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           child: const UpcomingSessionsWidget(),
         ),
         SurfaceContainer(
           title: Text(
             l10n.recentCampaigns,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           child: RecentSection<Campaign>(
             future: (() async {
               if (uid == null) return const <Campaign>[];
               final list = await campaignsRepo.customQuery(
                 filter: (c) =>
-                    c.ownerUid.equals(uid) | c.memberUids.contains(uid),
+                c.ownerUid.equals(uid) | c.memberUids.contains(uid),
                 sort: [
-                  (c) => OrderingTerm(
-                    expression: c.updatedAt,
-                    mode: OrderingMode.desc,
-                  ),
+                      (c) =>
+                      OrderingTerm(
+                        expression: c.updatedAt,
+                        mode: OrderingMode.desc,
+                      ),
                 ],
                 limit: 5,
               );
@@ -92,23 +95,28 @@ class HomeScreen extends StatelessWidget {
         SurfaceContainer(
           title: Text(
             l10n.recentSessions,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           child: RecentSection<Session>(
             future: (() async {
               if (uid == null) return const <Session>[];
               final list = await sessionsRepo.customQuery(
                 sort: [
-                  (s) => OrderingTerm(
-                    expression: s.datetime,
-                    mode: OrderingMode.desc,
-                  ),
+                      (s) =>
+                      OrderingTerm(
+                        expression: s.datetime,
+                        mode: OrderingMode.desc,
+                      ),
                 ],
                 limit: 5,
               );
               return list;
             })(),
-            titleOf: (ses) => ses.datetime != null
+            titleOf: (ses) =>
+            ses.datetime != null
                 ? ses.datetime!.toLocal().toString()
                 : 'Session ${ses.id.substring(0, 6)}',
             onTap: (session) {
@@ -120,17 +128,21 @@ class HomeScreen extends StatelessWidget {
           backgroundType: SurfaceBackgroundType.surfaceContainer,
           title: Text(
             l10n.recentParties,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           child: RecentSection<Party>(
             future: () async {
               if (uid == null) return const <Party>[];
               final list = await partiesRepo.customQuery(
                 sort: [
-                  (p) => OrderingTerm(
-                    expression: p.updatedAt,
-                    mode: OrderingMode.desc,
-                  ),
+                      (p) =>
+                      OrderingTerm(
+                        expression: p.updatedAt,
+                        mode: OrderingMode.desc,
+                      ),
                 ],
                 limit: 5,
               );
