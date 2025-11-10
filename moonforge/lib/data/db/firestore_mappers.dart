@@ -2,9 +2,74 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// Firestore <-> Drift mapping helpers
+
+// Tolerant date parser that handles various formats
+DateTime? _asDate(dynamic v) {
+  if (v == null) return null;
+  
+  // Handle Firestore Timestamp
+  if (v is Timestamp) {
+    return v.toDate();
+  }
+  
+  // Handle integer (seconds or milliseconds since epoch)
+  if (v is int) {
+    // Heuristic: if < year 3000 in seconds (32503680000), treat as seconds
+    // Otherwise treat as milliseconds
+    if (v < 32503680000) {
+      return DateTime.fromMillisecondsSinceEpoch(v * 1000);
+    } else {
+      return DateTime.fromMillisecondsSinceEpoch(v);
+    }
+  }
+  
+  // Handle string representations
+  if (v is String) {
+    // Handle epoch seconds with optional 'Z' suffix (e.g., "1761490548Z" or "1761490548")
+    final trimmed = v.trim();
+    if (trimmed.endsWith('Z')) {
+      // Strip trailing Z and parse as int seconds
+      final withoutZ = trimmed.substring(0, trimmed.length - 1);
+      final seconds = int.tryParse(withoutZ);
+      if (seconds != null) {
+        return DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
+      }
+    }
+    
+    // Try parsing as plain integer (epoch seconds)
+    final seconds = int.tryParse(trimmed);
+    if (seconds != null) {
+      // Same heuristic as above
+      if (seconds < 32503680000) {
+        return DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
+      } else {
+        return DateTime.fromMillisecondsSinceEpoch(seconds);
+      }
+    }
+    
+    // Try parsing as ISO8601 or other standard DateTime format
+    try {
+      return DateTime.parse(trimmed);
+    } catch (_) {
+      logger.w('Failed to parse date string: $v');
+      return null;
+    }
+  }
+  
+  logger.w('Unexpected date type: ${v.runtimeType} for value: $v');
+  return null;
+}
+
+// Helper for required string fields with safe fallback
+String _reqString(dynamic v, {String fallback = ''}) {
+  if (v == null) return fallback;
+  if (v is String) return v;
+  return v.toString();
+}
 
 // Helpers to coerce dynamic Firestore values to expected shapes
 Map<String, dynamic>? _asMap(dynamic v) {
@@ -63,14 +128,14 @@ Map<String, Object?> campaignToFirestore(Campaign c) => {
 CampaignsCompanion campaignFromFirestore(String id, Map<String, dynamic> d) {
   return CampaignsCompanion(
     id: drift.Value(id),
-    name: drift.Value(d['name'] as String),
-    description: drift.Value(d['description'] as String),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Campaign')),
+    description: drift.Value(_reqString(d['description'])),
     content: drift.Value(_asMap(d['content'])),
     ownerUid: drift.Value(d['ownerUid'] as String?),
     memberUids: drift.Value(_asStringList(d['memberUids']) ?? <String>[]),
     entityIds: drift.Value(_asStringList(d['entityIds']) ?? <String>[]),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -91,14 +156,14 @@ Map<String, Object?> chapterToFirestore(Chapter c) => {
 ChaptersCompanion chapterFromFirestore(String id, Map<String, dynamic> d) {
   return ChaptersCompanion(
     id: drift.Value(id),
-    campaignId: drift.Value(d['campaignId'] as String),
-    name: drift.Value(d['name'] as String),
-    order: drift.Value(d['order'] as int),
+    campaignId: drift.Value(_reqString(d['campaignId'], fallback: '')),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Chapter')),
+    order: drift.Value((d['order'] as int?) ?? 0),
     summary: drift.Value(d['summary'] as String?),
     content: drift.Value(_asMap(d['content'])),
     entityIds: drift.Value(_asStringList(d['entityIds']) ?? <String>[]),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -119,14 +184,14 @@ Map<String, Object?> adventureToFirestore(Adventure a) => {
 AdventuresCompanion adventureFromFirestore(String id, Map<String, dynamic> d) {
   return AdventuresCompanion(
     id: drift.Value(id),
-    chapterId: drift.Value(d['chapterId'] as String),
-    name: drift.Value(d['name'] as String),
-    order: drift.Value(d['order'] as int),
+    chapterId: drift.Value(_reqString(d['chapterId'], fallback: '')),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Adventure')),
+    order: drift.Value((d['order'] as int?) ?? 0),
     summary: drift.Value(d['summary'] as String?),
     content: drift.Value(_asMap(d['content'])),
     entityIds: drift.Value(_asStringList(d['entityIds']) ?? <String>[]),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -147,14 +212,14 @@ Map<String, Object?> sceneToFirestore(Scene s) => {
 ScenesCompanion sceneFromFirestore(String id, Map<String, dynamic> d) {
   return ScenesCompanion(
     id: drift.Value(id),
-    adventureId: drift.Value(d['adventureId'] as String),
-    name: drift.Value(d['name'] as String),
-    order: drift.Value(d['order'] as int),
+    adventureId: drift.Value(_reqString(d['adventureId'], fallback: '')),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Scene')),
+    order: drift.Value((d['order'] as int?) ?? 0),
     summary: drift.Value(d['summary'] as String?),
     content: drift.Value(_asMap(d['content'])),
     entityIds: drift.Value(_asStringList(d['entityIds']) ?? <String>[]),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -174,13 +239,13 @@ Map<String, Object?> partyToFirestore(Party p) => {
 PartiesCompanion partyFromFirestore(String id, Map<String, dynamic> d) {
   return PartiesCompanion(
     id: drift.Value(id),
-    campaignId: drift.Value(d['campaignId'] as String),
-    name: drift.Value(d['name'] as String),
+    campaignId: drift.Value(_reqString(d['campaignId'], fallback: '')),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Party')),
     summary: drift.Value(d['summary'] as String?),
     memberEntityIds: drift.Value(_asStringList(d['memberEntityIds'])),
     memberPlayerIds: drift.Value(_asStringList(d['memberPlayerIds'])),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -202,15 +267,15 @@ Map<String, Object?> encounterToFirestore(Encounter e) => {
 EncountersCompanion encounterFromFirestore(String id, Map<String, dynamic> d) {
   return EncountersCompanion(
     id: drift.Value(id),
-    name: drift.Value(d['name'] as String),
-    originId: drift.Value(d['originId'] as String),
-    preset: drift.Value(d['preset'] as bool),
+    name: drift.Value(_reqString(d['name'], fallback: 'Untitled Encounter')),
+    originId: drift.Value(_reqString(d['originId'], fallback: '')),
+    preset: drift.Value((d['preset'] as bool?) ?? false),
     notes: drift.Value(d['notes'] as String?),
     loot: drift.Value(d['loot'] as String?),
     combatants: drift.Value(_asMapList(d['combatants'])),
     entityIds: drift.Value(_asStringList(d['entityIds']) ?? <String>[]),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -238,9 +303,9 @@ Map<String, Object?> entityToFirestore(Entity e) => {
 EntitiesCompanion entityFromFirestore(String id, Map<String, dynamic> d) {
   return EntitiesCompanion(
     id: drift.Value(id),
-    kind: drift.Value(d['kind'] as String),
-    name: drift.Value(d['name'] as String),
-    originId: drift.Value(d['originId'] as String),
+    kind: drift.Value(_reqString(d['kind'], fallback: 'unknown')),
+    name: drift.Value(_reqString(d['name'], fallback: 'Unnamed Entity')),
+    originId: drift.Value(_reqString(d['originId'], fallback: '')),
     summary: drift.Value(d['summary'] as String?),
     tags: drift.Value(_asStringList(d['tags'])),
     statblock: drift.Value(_asMap(d['statblock']) ?? <String, dynamic>{}),
@@ -249,8 +314,8 @@ EntitiesCompanion entityFromFirestore(String id, Map<String, dynamic> d) {
     coords: drift.Value(_asMap(d['coords']) ?? <String, dynamic>{}),
     content: drift.Value(_asMap(d['content'])),
     images: drift.Value(_asMapList(d['images'])),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
     deleted: drift.Value((d['deleted'] ?? false) as bool),
     members: drift.Value(_asStringList(d['members'])),
@@ -296,14 +361,14 @@ MediaAssetsCompanion mediaAssetFromFirestore(
 ) {
   return MediaAssetsCompanion(
     id: drift.Value(id),
-    filename: drift.Value(d['filename'] as String),
-    size: drift.Value(d['size'] as int),
-    mime: drift.Value(d['mime'] as String),
+    filename: drift.Value(_reqString(d['filename'], fallback: 'unknown')),
+    size: drift.Value((d['size'] as int?) ?? 0),
+    mime: drift.Value(_reqString(d['mime'], fallback: 'application/octet-stream')),
     captions: drift.Value(_asStringList(d['captions'])),
     alt: drift.Value(d['alt'] as String?),
     variants: drift.Value(_asMapList(d['variants'])),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -326,14 +391,14 @@ Map<String, Object?> sessionToFirestore(Session s) => {
 SessionsCompanion sessionFromFirestore(String id, Map<String, dynamic> d) {
   return SessionsCompanion(
     id: drift.Value(id),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
     info: drift.Value(_asMap(d['info'])),
-    datetime: drift.Value((d['datetime'] as Timestamp?)?.toDate()),
+    datetime: drift.Value(_asDate(d['datetime'])),
     log: drift.Value(_asMap(d['log'])),
     shareToken: drift.Value(d['shareToken'] as String?),
     shareEnabled: drift.Value((d['shareEnabled'] ?? false) as bool),
-    shareExpiresAt: drift.Value((d['shareExpiresAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    shareExpiresAt: drift.Value(_asDate(d['shareExpiresAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
   );
 }
@@ -378,10 +443,10 @@ Map<String, Object?> playerToFirestore(Player p) => {
 PlayersCompanion playerFromFirestore(String id, Map<String, dynamic> d) {
   return PlayersCompanion(
     id: drift.Value(id),
-    campaignId: drift.Value(d['campaignId'] as String),
+    campaignId: drift.Value(_reqString(d['campaignId'], fallback: '')),
     playerUid: drift.Value(d['playerUid'] as String?),
-    name: drift.Value(d['name'] as String),
-    className: drift.Value(d['className'] as String),
+    name: drift.Value(_reqString(d['name'], fallback: 'Unnamed Character')),
+    className: drift.Value(_reqString(d['className'], fallback: '')),
     subclass: drift.Value(d['subclass'] as String?),
     level: drift.Value((d['level'] as int?) ?? 1),
     race: drift.Value(d['race'] as String?),
@@ -409,8 +474,8 @@ PlayersCompanion playerFromFirestore(String id, Map<String, dynamic> d) {
     spells: drift.Value(_asStringList(d['spells'])),
     notes: drift.Value(_asMap(d['notes'])),
     bio: drift.Value(_asMap(d['bio'])),
-    createdAt: drift.Value((d['createdAt'] as Timestamp?)?.toDate()),
-    updatedAt: drift.Value((d['updatedAt'] as Timestamp?)?.toDate()),
+    createdAt: drift.Value(_asDate(d['createdAt'])),
+    updatedAt: drift.Value(_asDate(d['updatedAt'])),
     rev: drift.Value((d['rev'] as int?) ?? 0),
     deleted: drift.Value((d['deleted'] ?? false) as bool),
   );
