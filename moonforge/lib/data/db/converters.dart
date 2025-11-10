@@ -1,6 +1,28 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/utils/logger.dart';
+
+// Tolerant DateTime converter that handles legacy epoch string formats
+class TolerantDateTimeConverter extends TypeConverter<DateTime?, int?> {
+  const TolerantDateTimeConverter();
+
+  @override
+  DateTime? fromSql(int? fromDb) {
+    if (fromDb == null) return null;
+    try {
+      return DateTime.fromMillisecondsSinceEpoch(fromDb);
+    } catch (e) {
+      logger.w('Failed to parse DateTime from SQL: $fromDb, error: $e');
+      return null;
+    }
+  }
+
+  @override
+  int? toSql(DateTime? value) {
+    return value?.millisecondsSinceEpoch;
+  }
+}
 
 // Generic JSON <-> TEXT for Map<String,dynamic>
 class MapJsonConverter extends TypeConverter<Map<String, dynamic>, String>

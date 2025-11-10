@@ -87,8 +87,8 @@ class DashboardService {
             c.ownerUid.equals(userId) | c.memberUids.contains(userId),
       );
       return campaigns.length;
-    } catch (e) {
-      logger.e('Error fetching campaign count: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching campaign count: $e', error: e, stackTrace: stackTrace);
       return 0;
     }
   }
@@ -97,8 +97,8 @@ class DashboardService {
     try {
       final sessions = await _sessionRepo.customQuery();
       return sessions.length;
-    } catch (e) {
-      logger.e('Error fetching session count: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching session count: $e', error: e, stackTrace: stackTrace);
       return 0;
     }
   }
@@ -107,8 +107,8 @@ class DashboardService {
     try {
       final parties = await _partyRepo.customQuery();
       return parties.length;
-    } catch (e) {
-      logger.e('Error fetching party count: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching party count: $e', error: e, stackTrace: stackTrace);
       return 0;
     }
   }
@@ -117,8 +117,8 @@ class DashboardService {
     try {
       final entities = await _entityRepo.customQuery();
       return entities.length;
-    } catch (e) {
-      logger.e('Error fetching entity count: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching entity count: $e', error: e, stackTrace: stackTrace);
       return 0;
     }
   }
@@ -130,8 +130,8 @@ class DashboardService {
         filter: (s) => s.datetime.isBiggerOrEqual(Variable(now)),
       );
       return sessions.length;
-    } catch (e) {
-      logger.e('Error fetching upcoming session count: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching upcoming session count: $e', error: e, stackTrace: stackTrace);
       return 0;
     }
   }
@@ -151,8 +151,8 @@ class DashboardService {
         return campaigns.first.updatedAt;
       }
       return null;
-    } catch (e) {
-      logger.e('Error fetching last activity time: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching last activity time: $e', error: e, stackTrace: stackTrace);
       return null;
     }
   }
@@ -169,8 +169,8 @@ class DashboardService {
         limit: 5,
       );
       return sessions;
-    } catch (e) {
-      logger.e('Error fetching upcoming sessions: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching upcoming sessions: $e', error: e, stackTrace: stackTrace);
       return [];
     }
   }
@@ -192,8 +192,8 @@ class DashboardService {
         limit: limit,
       );
       return campaigns;
-    } catch (e) {
-      logger.e('Error fetching recent activity: $e');
+    } catch (e, stackTrace) {
+      logger.e('Error fetching recent activity: $e', error: e, stackTrace: stackTrace);
       return [];
     }
   }
