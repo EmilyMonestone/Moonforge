@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moonforge/core/utils/logger.dart';
 
 import '../app_db.dart';
 import '../firestore_mappers.dart';
@@ -22,7 +23,7 @@ class OutboxProcessor {
         await _db.outboxDao.removeById(item.id);
       } catch (e) {
         // Log error but continue processing other entries
-        print('Error processing outbox entry ${item.id}: $e');
+        logger.e('Error processing outbox entry ${item.id}: $e');
       }
     }
   }
