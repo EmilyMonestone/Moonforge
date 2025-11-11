@@ -6,7 +6,7 @@ import 'package:moonforge/features/parties/utils/character_calculations.dart';
 class CharacterFormatters {
   /// Format character level with suffix (e.g., "5th Level")
   static String formatLevel(int level) {
-    return '${level}${_getLevelSuffix(level)} Level';
+    return '$level${_getLevelSuffix(level)} Level';
   }
 
   /// Get ordinal suffix for level
@@ -27,19 +27,19 @@ class CharacterFormatters {
   /// Format character title (e.g., "5th Level Human Fighter")
   static String formatCharacterTitle(Player player) {
     final parts = <String>[];
-    
+
     parts.add(formatLevel(player.level));
-    
+
     if (player.race != null && player.race!.isNotEmpty) {
       parts.add(player.race!);
     }
-    
+
     parts.add(player.className);
-    
+
     if (player.subclass != null && player.subclass!.isNotEmpty) {
       parts.add('(${player.subclass})');
     }
-    
+
     return parts.join(' ');
   }
 
@@ -48,7 +48,7 @@ class CharacterFormatters {
     final current = player.hpCurrent ?? 0;
     final max = player.hpMax ?? 0;
     final temp = player.hpTemp ?? 0;
-    
+
     if (temp > 0) {
       return '$current/$max (+$temp temp)';
     }
@@ -59,9 +59,9 @@ class CharacterFormatters {
   static String formatHpPercentage(Player player) {
     final current = player.hpCurrent ?? 0;
     final max = player.hpMax ?? 0;
-    
+
     if (max == 0) return '0%';
-    
+
     final percentage = (current / max * 100).round();
     return '$percentage%';
   }
@@ -76,7 +76,7 @@ class CharacterFormatters {
   /// Format all ability scores as a compact string
   static String formatAllAbilityScores(Player player) {
     return 'STR ${player.str} | DEX ${player.dex} | CON ${player.con} | '
-           'INT ${player.intl} | WIS ${player.wis} | CHA ${player.cha}';
+        'INT ${player.intl} | WIS ${player.wis} | CHA ${player.cha}';
   }
 
   /// Format speed (e.g., "30 ft.")
@@ -86,31 +86,37 @@ class CharacterFormatters {
 
   /// Format initiative modifier
   static String formatInitiative(Player player) {
-    final initiative = CharacterCalculations.calculateInitiativeModifier(player.dex);
+    final initiative = CharacterCalculations.calculateInitiativeModifier(
+      player.dex,
+    );
     return CharacterCalculations.formatModifier(initiative);
   }
 
   /// Format passive perception
-  static String formatPassivePerception(Player player, {bool isProficient = false}) {
-    final proficiencyBonus = player.proficiencyBonus ?? 
-      CharacterCalculations.calculateProficiencyBonus(player.level);
-    
+  static String formatPassivePerception(
+    Player player, {
+    bool isProficient = false,
+  }) {
+    final proficiencyBonus =
+        player.proficiencyBonus ??
+        CharacterCalculations.calculateProficiencyBonus(player.level);
+
     final pp = CharacterCalculations.calculatePassivePerception(
       wisdom: player.wis,
       proficiencyBonus: proficiencyBonus,
       isProficient: isProficient,
     );
-    
+
     return pp.toString();
   }
 
   /// Format last sync time for D&D Beyond
   static String formatLastDdbSync(DateTime? lastSync) {
     if (lastSync == null) return 'Never synced';
-    
+
     final now = DateTime.now();
     final difference = now.difference(lastSync);
-    
+
     if (difference.inMinutes < 1) {
       return 'Just now';
     } else if (difference.inMinutes < 60) {
@@ -152,15 +158,15 @@ class CharacterFormatters {
   /// Format character summary for tooltips/cards
   static String formatCharacterSummary(Player player) {
     final parts = <String>[];
-    
+
     parts.add(formatCharacterTitle(player));
     parts.add('HP: ${formatHp(player)}');
     parts.add('AC: ${player.ac ?? 10}');
-    
+
     if (player.alignment != null && player.alignment!.isNotEmpty) {
       parts.add('Alignment: ${player.alignment}');
     }
-    
+
     return parts.join(' • ');
   }
 }

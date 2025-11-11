@@ -7,7 +7,7 @@ part 'player_dao.g.dart';
 
 @DriftAccessor(tables: [Players])
 class PlayerDao extends DatabaseAccessor<AppDb> with _$PlayerDaoMixin {
-  PlayerDao(AppDb db) : super(db);
+  PlayerDao(super.db);
 
   Stream<List<Player>> watchAll() =>
       (select(players)..orderBy([(p) => OrderingTerm.asc(p.name)])).watch();

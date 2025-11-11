@@ -40,12 +40,18 @@ class PartyService {
       );
     }
 
-    final totalLevel = members.fold<int>(0, (sum, member) => sum + member.level);
+    final totalLevel = members.fold<int>(
+      0,
+      (sum, member) => sum + member.level,
+    );
     final totalHp = members.fold<int>(
       0,
       (sum, member) => sum + (member.hpMax ?? 0),
     );
-    final totalAc = members.fold<int>(0, (sum, member) => sum + (member.ac ?? 0));
+    final totalAc = members.fold<int>(
+      0,
+      (sum, member) => sum + (member.ac ?? 0),
+    );
 
     return PartyStatistics(
       memberCount: members.length,
@@ -71,7 +77,7 @@ class PartyService {
   /// Check if party is balanced (has diverse roles)
   Future<PartyBalanceCheck> checkPartyBalance(String partyId) async {
     final members = await getPartyMembers(partyId);
-    
+
     if (members.isEmpty) {
       return PartyBalanceCheck(
         isBalanced: false,
@@ -84,10 +90,11 @@ class PartyService {
     final suggestions = <String>[];
 
     // Check for healers (Cleric, Druid, Bard)
-    final hasHealer = members.any((m) => 
-      m.className.toLowerCase().contains('cleric') ||
-      m.className.toLowerCase().contains('druid') ||
-      m.className.toLowerCase().contains('bard')
+    final hasHealer = members.any(
+      (m) =>
+          m.className.toLowerCase().contains('cleric') ||
+          m.className.toLowerCase().contains('druid') ||
+          m.className.toLowerCase().contains('bard'),
     );
 
     if (!hasHealer) {
@@ -96,10 +103,11 @@ class PartyService {
     }
 
     // Check for tanks (Barbarian, Fighter, Paladin)
-    final hasTank = members.any((m) =>
-      m.className.toLowerCase().contains('barbarian') ||
-      m.className.toLowerCase().contains('fighter') ||
-      m.className.toLowerCase().contains('paladin')
+    final hasTank = members.any(
+      (m) =>
+          m.className.toLowerCase().contains('barbarian') ||
+          m.className.toLowerCase().contains('fighter') ||
+          m.className.toLowerCase().contains('paladin'),
     );
 
     if (!hasTank) {
@@ -108,12 +116,13 @@ class PartyService {
     }
 
     // Check for damage dealers
-    final hasDamageDealer = members.any((m) =>
-      m.className.toLowerCase().contains('rogue') ||
-      m.className.toLowerCase().contains('ranger') ||
-      m.className.toLowerCase().contains('warlock') ||
-      m.className.toLowerCase().contains('sorcerer') ||
-      m.className.toLowerCase().contains('wizard')
+    final hasDamageDealer = members.any(
+      (m) =>
+          m.className.toLowerCase().contains('rogue') ||
+          m.className.toLowerCase().contains('ranger') ||
+          m.className.toLowerCase().contains('warlock') ||
+          m.className.toLowerCase().contains('sorcerer') ||
+          m.className.toLowerCase().contains('wizard'),
     );
 
     if (!hasDamageDealer) {
@@ -134,9 +143,9 @@ class PartyService {
     final levels = members.map((m) => m.level).toList();
     final minLevel = levels.reduce((a, b) => a < b ? a : b);
     final maxLevel = levels.reduce((a, b) => a > b ? a : b);
-    
+
     if (maxLevel - minLevel > 2) {
-      warnings.add('Large level variance (${minLevel}-${maxLevel})');
+      warnings.add('Large level variance ($minLevel-$maxLevel)');
       suggestions.add('Consider balancing character levels');
     }
 

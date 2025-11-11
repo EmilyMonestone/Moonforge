@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moonforge/core/utils/logger.dart';
 
 import '../app_db.dart';
 import '../firestore_mappers.dart';
@@ -38,7 +39,7 @@ class InboundListener {
   }
 
   void _handleError(Object error, StackTrace stackTrace) {
-    print('Inbound sync error: $error');
+    logger.e('Inbound sync error: $error');
   }
 
   void _handleCampaignChanges(QuerySnapshot snapshot) async {
