@@ -11,24 +11,24 @@ List<RouteBase> get $appRoutes => [
   $sessionPublicShareRouteData,
 ];
 
-RouteBase get $appShellRouteData => StatefulShellRouteData.$RouteData(
+RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
   factory: $AppShellRouteDataExtension._fromState,
   branches: [
     StatefulShellBranchData.$branch(
       routes: [
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/',
           factory: $HomeRouteData._fromState,
           routes: [
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'login',
               factory: $LoginRouteData._fromState,
               routes: [
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'register',
                   factory: $RegisterRouteData._fromState,
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'forgot',
                   factory: $ForgotPasswordRouteData._fromState,
                 ),
@@ -40,59 +40,59 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$RouteData(
     ),
     StatefulShellBranchData.$branch(
       routes: [
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/campaigns',
           factory: $CampaignsListRouteData._fromState,
         ),
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/campaign',
           factory: $CampaignRouteData._fromState,
           routes: [
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'edit',
               factory: $CampaignEditRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'settings',
               factory: $CampaignSettingsRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'analytics',
               factory: $CampaignAnalyticsRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'members',
               factory: $CampaignMembersRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'chapters',
               factory: $ChaptersListRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'adventures',
               factory: $AdventureListRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'chapter/:chapterId',
               factory: $ChapterRouteData._fromState,
               routes: [
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'edit',
                   factory: $ChapterEditRouteData._fromState,
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'adventure/:adventureId',
                   factory: $AdventureRouteData._fromState,
                   routes: [
-                    GoRouteData.$RouteData(
+                    GoRouteData.$route(
                       path: 'edit',
                       factory: $AdventureEditRouteData._fromState,
                     ),
-                    GoRouteData.$RouteData(
+                    GoRouteData.$route(
                       path: 'scene/:sceneId',
                       factory: $SceneRouteData._fromState,
                       routes: [
-                        GoRouteData.$RouteData(
+                        GoRouteData.$route(
                           path: 'edit',
                           factory: $SceneEditRouteData._fromState,
                         ),
@@ -102,41 +102,41 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$RouteData(
                 ),
               ],
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'encounters',
               factory: $EncountersListRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'scenes',
               factory: $ScenesListRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'scenes/templates',
               factory: $SceneTemplatesRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'encounter/:encounterId',
               factory: $EncounterRouteData._fromState,
               routes: [
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'edit',
                   factory: $EncounterEditRouteData._fromState,
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'initiative',
                   factory: $InitiativeTrackerRouteData._fromState,
                 ),
               ],
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'entities',
               factory: $EntitiesListRouteData._fromState,
             ),
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: 'entity/:entityId',
               factory: $EntityRouteData._fromState,
               routes: [
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'edit',
                   factory: $EntityEditRouteData._fromState,
                 ),
@@ -148,37 +148,37 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$RouteData(
     ),
     StatefulShellBranchData.$branch(
       routes: [
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/party',
           factory: $PartyRootRouteData._fromState,
           routes: [
-            GoRouteData.$RouteData(
+            GoRouteData.$route(
               path: ':partyId',
               factory: $PartyRouteData._fromState,
               routes: [
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'edit',
                   factory: $PartyEditRouteData._fromState,
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'member/:memberId',
                   factory: $MemberRouteData._fromState,
                   routes: [
-                    GoRouteData.$RouteData(
+                    GoRouteData.$route(
                       path: 'edit',
                       factory: $MemberEditRouteData._fromState,
                     ),
                   ],
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'sessions',
                   factory: $SessionListRouteData._fromState,
                 ),
-                GoRouteData.$RouteData(
+                GoRouteData.$route(
                   path: 'session/:sessionId',
                   factory: $SessionRouteData._fromState,
                   routes: [
-                    GoRouteData.$RouteData(
+                    GoRouteData.$route(
                       path: 'edit',
                       factory: $SessionEditRouteData._fromState,
                     ),
@@ -192,11 +192,11 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$RouteData(
     ),
     StatefulShellBranchData.$branch(
       routes: [
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/settings',
           factory: $SettingsRouteData._fromState,
         ),
-        GoRouteData.$RouteData(
+        GoRouteData.$route(
           path: '/profile',
           factory: $ProfileRouteData._fromState,
         ),
@@ -1082,7 +1082,7 @@ mixin $ProfileRouteData on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $sessionPublicShareRouteData => GoRouteData.$RouteData(
+RouteBase get $sessionPublicShareRouteData => GoRouteData.$route(
   path: '/share/session/:token',
   factory: $SessionPublicShareRouteData._fromState,
 );
