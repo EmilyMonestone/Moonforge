@@ -7,7 +7,7 @@ part 'media_asset_dao.g.dart';
 
 @DriftAccessor(tables: [MediaAssets])
 class MediaAssetDao extends DatabaseAccessor<AppDb> with _$MediaAssetDaoMixin {
-  MediaAssetDao(AppDb db) : super(db);
+  MediaAssetDao(super.db);
 
   Stream<List<MediaAsset>> watchAll() => (select(
     mediaAssets,

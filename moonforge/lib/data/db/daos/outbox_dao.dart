@@ -10,7 +10,7 @@ const _uuid = Uuid();
 
 @DriftAccessor(tables: [OutboxEntries])
 class OutboxDao extends DatabaseAccessor<AppDb> with _$OutboxDaoMixin {
-  OutboxDao(AppDb db) : super(db);
+  OutboxDao(super.db);
 
   Stream<List<OutboxEntry>> watchAll() => (select(
     outboxEntries,

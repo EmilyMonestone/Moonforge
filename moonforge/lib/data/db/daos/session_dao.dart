@@ -7,7 +7,7 @@ part 'session_dao.g.dart';
 
 @DriftAccessor(tables: [Sessions])
 class SessionDao extends DatabaseAccessor<AppDb> with _$SessionDaoMixin {
-  SessionDao(AppDb db) : super(db);
+  SessionDao(super.db);
 
   Stream<List<Session>> watchAll() => (select(
     sessions,
