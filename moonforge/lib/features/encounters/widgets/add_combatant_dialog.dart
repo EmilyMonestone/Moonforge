@@ -63,7 +63,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
               const SizedBox(height: 16),
               // Type dropdown
               DropdownButtonFormField<String>(
-                value: _type,
+                initialValue: _type,
                 decoration: const InputDecoration(
                   labelText: 'Type',
                   border: OutlineInputBorder(),

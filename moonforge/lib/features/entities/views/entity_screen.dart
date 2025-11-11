@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
@@ -70,7 +70,7 @@ class _EntityScreenState extends State<EntityScreen> {
 
   Widget _buildKindSpecificFields(BuildContext context, db.Entity entity) {
     final theme = Theme.of(context);
-    final _l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
     switch (entity.kind) {
       case 'place':
@@ -82,7 +82,7 @@ class _EntityScreenState extends State<EntityScreen> {
               _buildInfoRow(
                 context,
                 Icons.location_on_outlined,
-                _l10n.placeType,
+                l10n.placeType,
                 entity.placeType!,
               ),
             if (entity.parentPlaceId != null &&
@@ -90,14 +90,14 @@ class _EntityScreenState extends State<EntityScreen> {
               _buildInfoRow(
                 context,
                 Icons.place_outlined,
-                _l10n.parentPlace,
+                l10n.parentPlace,
                 entity.parentPlaceId!,
               ),
             if (entity.coords.isNotEmpty)
               _buildInfoRow(
                 context,
                 Icons.map_outlined,
-                _l10n.coordinates,
+                l10n.coordinates,
                 'Lat: ${entity.coords['lat'] ?? '-'}, Lng: ${entity.coords['lng'] ?? '-'}',
               ),
           ],
@@ -111,7 +111,7 @@ class _EntityScreenState extends State<EntityScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_l10n.members, style: theme.textTheme.titleMedium),
+                  Text(l10n.members, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
                   ...entity.members!.map(
                     (memberId) => Padding(
@@ -139,7 +139,7 @@ class _EntityScreenState extends State<EntityScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_l10n.statblock, style: theme.textTheme.titleMedium),
+                  Text(l10n.statblock, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -262,7 +262,7 @@ class _EntityScreenState extends State<EntityScreen> {
                 icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
-                  EntityEditRoute(entityId: widget.entityId).go(context);
+                  EntityEditRouteData(entityId: widget.entityId).go(context);
                 },
               ),
             ],
@@ -377,7 +377,7 @@ class _EntityScreenState extends State<EntityScreen> {
                     CustomQuillViewer(
                       controller: _controller,
                       onMentionTap: (entityId, mentionType) async {
-                        EntityRoute(entityId: entityId).push(context);
+                        EntityRouteData(entityId: entityId).push(context);
                       },
                     ),
                   ],

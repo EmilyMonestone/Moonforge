@@ -7,19 +7,23 @@ The Parties feature manages player character groups (parties) and individual pla
 ## Architecture
 
 ### Data Layer (Already Existed)
+
 - **Tables**: `Parties`, `Players` (comprehensive D&D 5e schema)
 - **DAOs**: `PartyDao`, `PlayerDao`
 - **Repositories**: `PartyRepository`, `PlayerRepository`
 
 ### Controllers (State Management)
+
 - **PartyProvider**: Manages current party state, party switching, member management
 - **PlayerProvider**: Manages current player state, HP tracking, ability scores, level up
 
 ### Services (Business Logic)
+
 - **PartyService**: Party operations, statistics, composition analysis, balance checking
 - **PlayerCharacterService**: D&D 5e calculations, skill modifiers, saving throws, rest mechanics
 
 ### Utils
+
 - **CharacterCalculations**: D&D 5e math (ability modifiers, proficiency bonus, skill checks, etc.)
 - **PartyValidators**: Validation for party data
 - **CharacterValidators**: Validation for character data
@@ -28,6 +32,7 @@ The Parties feature manages player character groups (parties) and individual pla
 ### Widgets (10 created)
 
 #### Character Widgets
+
 - **CharacterSheetWidget**: Complete character sheet combining all components
 - **CharacterHeaderWidget**: Name, class, level, race display
 - **AbilityScoresWidget**: 6 ability scores with modifiers
@@ -37,11 +42,13 @@ The Parties feature manages player character groups (parties) and individual pla
 - **CharacterCard**: Character display in lists
 
 #### Party Widgets
+
 - **PartyCard**: Party display in lists
 - **PartyStatsWidget**: Party statistics (member count, avg level, total HP, avg AC)
 - **PartyCompositionWidget**: Class distribution visualization
 
 ### Views (5 screens)
+
 - **PartyListScreen**: Browse all parties (NEW - shows at `/party`)
 - **PartyScreen**: Party detail with members, stats, composition (at `/party/:partyId`)
 - **MemberScreen**: Full character sheet view (at `/party/:partyId/member/:memberId`)
@@ -51,6 +58,7 @@ The Parties feature manages player character groups (parties) and individual pla
 ## Features Implemented
 
 ### D&D 5e Mechanics
+
 - ✅ Ability score modifiers
 - ✅ Skill checks with proficiency
 - ✅ Saving throws with proficiency
@@ -64,6 +72,7 @@ The Parties feature manages player character groups (parties) and individual pla
 - ✅ Spell attack bonus calculation
 
 ### Party Management
+
 - ✅ Create and list parties
 - ✅ View party details
 - ✅ Add/remove members
@@ -72,6 +81,7 @@ The Parties feature manages player character groups (parties) and individual pla
 - ✅ Party balance checking (tank/healer/DPS analysis)
 
 ### Character Display
+
 - ✅ Complete character sheet
 - ✅ Character header (name, class, level, race, background, alignment)
 - ✅ Core combat stats (HP, AC, Initiative, Speed, Proficiency Bonus, Passive Perception)
@@ -83,6 +93,7 @@ The Parties feature manages player character groups (parties) and individual pla
 - ✅ Spells list
 
 ### HP Tracking
+
 - ✅ Visual HP bar with color coding (green/orange/red)
 - ✅ Apply damage
 - ✅ Apply healing
@@ -92,18 +103,20 @@ The Parties feature manages player character groups (parties) and individual pla
 ## Usage
 
 ### Navigating to Parties
+
 ```dart
 // Go to party list
-const PartyRootRoute().go(context);
+const PartyRootRouteData().go(context);
 
 // Go to specific party
-PartyRoute(partyId: 'party123').go(context);
+PartyRouteData(partyId: 'party123').go(context);
 
 // Go to character sheet
-MemberRoute(partyId: 'party123', memberId: 'player456').go(context);
+MemberRouteData(partyId: 'party123', memberId: 'player456').go(context);
 ```
 
 ### Using Providers
+
 ```dart
 // Get party provider
 final partyProvider = Provider.of<PartyProvider>(context);
@@ -126,6 +139,7 @@ await playerProvider.levelUp();
 ```
 
 ### Using Services
+
 ```dart
 // Party service
 final partyService = PartyService(partyRepo, playerRepo);
@@ -145,6 +159,7 @@ final updatedPlayer = await characterService.performLongRest(player);
 Based on `docs/missing/parties.md`, the following were marked as lower priority:
 
 ### Medium Priority
+
 - D&D Beyond integration (import/sync)
 - Advanced spell management UI
 - Equipment management UI
@@ -152,6 +167,7 @@ Based on `docs/missing/parties.md`, the following were marked as lower priority:
 - Rest dialogs (short/long rest UI)
 
 ### Low Priority
+
 - Death saving throws tracker
 - Inspiration tracker
 - Party inventory/loot tracking
@@ -163,6 +179,7 @@ Based on `docs/missing/parties.md`, the following were marked as lower priority:
 ## Database Schema
 
 ### Parties Table
+
 ```dart
 - id: String (PK)
 - campaignId: String (FK)
@@ -176,6 +193,7 @@ Based on `docs/missing/parties.md`, the following were marked as lower priority:
 ```
 
 ### Players Table (Comprehensive D&D 5e)
+
 ```dart
 - id: String (PK)
 - campaignId: String (FK)

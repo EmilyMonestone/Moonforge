@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 
@@ -27,8 +27,8 @@ class ChapterAdventureList extends StatelessWidget {
           child: Text(
             emptyMessage ?? 'No adventures yet',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       );
@@ -41,18 +41,17 @@ class ChapterAdventureList extends StatelessWidget {
       items: sortedAdventures,
       titleOf: (a) => a.name,
       subtitleOf: (a) => a.summary ?? '',
-      onTap: onAdventureTap ??
+      onTap:
+          onAdventureTap ??
           (a) {
-            AdventureRoute(
+            AdventureRouteData(
               chapterId: chapterId,
               adventureId: a.id,
             ).go(context);
           },
       enableContextMenu: true,
-      routeOf: (a) => AdventureRoute(
-        chapterId: chapterId,
-        adventureId: a.id,
-      ).location,
+      routeOf: (a) =>
+          AdventureRouteData(chapterId: chapterId, adventureId: a.id).location,
     );
   }
 }

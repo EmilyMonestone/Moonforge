@@ -1,6 +1,6 @@
 import 'package:command_palette/command_palette.dart' as cp;
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 
 /// Moonforge App Command Palette wrapper.
 ///
@@ -112,7 +112,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Home',
         shortcut: const ['ctrl', 'h'],
         leading: const Icon(Icons.home_outlined),
-        onSelect: () => const HomeRoute().go(context),
+        onSelect: () => const HomeRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_campaign',
@@ -120,7 +120,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Campaign',
         shortcut: const ['ctrl', 'shift', 'c'],
         leading: const Icon(Icons.book_outlined),
-        onSelect: () => const CampaignRoute().go(context),
+        onSelect: () => const CampaignRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_party',
@@ -128,7 +128,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Party',
         shortcut: const ['ctrl', 'shift', 'p'],
         leading: const Icon(Icons.group_outlined),
-        onSelect: () => const PartyRootRoute().go(context),
+        onSelect: () => const PartyRootRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(
         id: 'nav_settings',
@@ -136,7 +136,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Go to Settings',
         shortcut: const ['ctrl', 'comma'],
         leading: const Icon(Icons.settings_outlined),
-        onSelect: () => const SettingsRoute().go(context),
+        onSelect: () => const SettingsRouteData().go(context),
       ),
 
       // Create / Edit
@@ -146,7 +146,7 @@ class CommandPaletteState extends State<CommandPalette> {
         description: 'Open Campaign editor',
         shortcut: const ['ctrl', 'n', 'c'],
         leading: const Icon(Icons.add_box_outlined),
-        onSelect: () => const CampaignEditRoute().go(context),
+        onSelect: () => const CampaignEditRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(
         id: 'create_encounter',
@@ -156,7 +156,7 @@ class CommandPaletteState extends State<CommandPalette> {
         onSelect: () async {
           final id = await _promptForInput(title: 'Encounter ID');
           if (id != null && id.isNotEmpty) {
-            EncounterEditRoute(encounterId: id).go(context);
+            EncounterEditRouteData(encounterId: id).go(context);
           }
         },
       ),
@@ -168,7 +168,7 @@ class CommandPaletteState extends State<CommandPalette> {
         onSelect: () async {
           final id = await _promptForInput(title: 'Entity ID');
           if (id != null && id.isNotEmpty) {
-            EntityEditRoute(entityId: id).go(context);
+            EntityEditRouteData(entityId: id).go(context);
           }
         },
       ),
@@ -185,7 +185,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final chapterId = await _promptForInput(title: 'Chapter ID');
               if (chapterId != null && chapterId.isNotEmpty) {
-                ChapterEditRoute(chapterId: chapterId).go(context);
+                ChapterEditRouteData(chapterId: chapterId).go(context);
               }
             },
           ),
@@ -198,7 +198,7 @@ class CommandPaletteState extends State<CommandPalette> {
               if (chapterId == null || chapterId.isEmpty) return;
               final adventureId = await _promptForInput(title: 'Adventure ID');
               if (adventureId == null || adventureId.isEmpty) return;
-              AdventureEditRoute(
+              AdventureEditRouteData(
                 chapterId: chapterId,
                 adventureId: adventureId,
               ).go(context);
@@ -215,7 +215,7 @@ class CommandPaletteState extends State<CommandPalette> {
               if (adventureId == null || adventureId.isEmpty) return;
               final sceneId = await _promptForInput(title: 'Scene ID');
               if (sceneId == null || sceneId.isEmpty) return;
-              SceneEditRoute(
+              SceneEditRouteData(
                 chapterId: chapterId,
                 adventureId: adventureId,
                 sceneId: sceneId,
@@ -238,7 +238,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final chapterId = await _promptForInput(title: 'Chapter ID');
               if (chapterId != null && chapterId.isNotEmpty) {
-                ChapterRoute(chapterId: chapterId).go(context);
+                ChapterRouteData(chapterId: chapterId).go(context);
               }
             },
           ),
@@ -250,7 +250,7 @@ class CommandPaletteState extends State<CommandPalette> {
               if (chapterId == null || chapterId.isEmpty) return;
               final adventureId = await _promptForInput(title: 'Adventure ID');
               if (adventureId == null || adventureId.isEmpty) return;
-              AdventureRoute(
+              AdventureRouteData(
                 chapterId: chapterId,
                 adventureId: adventureId,
               ).go(context);
@@ -266,7 +266,7 @@ class CommandPaletteState extends State<CommandPalette> {
               if (adventureId == null || adventureId.isEmpty) return;
               final sceneId = await _promptForInput(title: 'Scene ID');
               if (sceneId == null || sceneId.isEmpty) return;
-              SceneRoute(
+              SceneRouteData(
                 chapterId: chapterId,
                 adventureId: adventureId,
                 sceneId: sceneId,
@@ -279,7 +279,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final entityId = await _promptForInput(title: 'Entity ID');
               if (entityId != null && entityId.isNotEmpty) {
-                EntityRoute(entityId: entityId).go(context);
+                EntityRouteData(entityId: entityId).go(context);
               }
             },
           ),
@@ -289,7 +289,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final encounterId = await _promptForInput(title: 'Encounter ID');
               if (encounterId != null && encounterId.isNotEmpty) {
-                EncounterRoute(encounterId: encounterId).go(context);
+                EncounterRouteData(encounterId: encounterId).go(context);
               }
             },
           ),
@@ -299,7 +299,7 @@ class CommandPaletteState extends State<CommandPalette> {
             onSelect: () async {
               final partyId = await _promptForInput(title: 'Party ID');
               if (partyId != null && partyId.isNotEmpty) {
-                PartyRoute(partyId: partyId).go(context);
+                PartyRouteData(partyId: partyId).go(context);
               }
             },
           ),
@@ -311,7 +311,10 @@ class CommandPaletteState extends State<CommandPalette> {
               if (partyId == null || partyId.isEmpty) return;
               final sessionId = await _promptForInput(title: 'Session ID');
               if (sessionId == null || sessionId.isEmpty) return;
-              SessionRoute(partyId: partyId, sessionId: sessionId).go(context);
+              SessionRouteData(
+                partyId: partyId,
+                sessionId: sessionId,
+              ).go(context);
             },
           ),
         ],

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/hotkey/hotkey_config.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// HotkeyManagerService
@@ -357,28 +357,28 @@ class HotkeyManagerService {
       // Simple exact matches
       switch (route) {
         case '/':
-          const HomeRoute().go(context);
+          const HomeRouteData().go(context);
           return;
         case '/login':
-          const LoginRoute().go(context);
+          const LoginRouteData().go(context);
           return;
         case '/login/register':
-          const RegisterRoute().go(context);
+          const RegisterRouteData().go(context);
           return;
         case '/login/forgot':
-          const ForgotPasswordRoute().go(context);
+          const ForgotPasswordRouteData().go(context);
           return;
         case '/campaign':
-          const CampaignRoute().go(context);
+          const CampaignRouteData().go(context);
           return;
         case '/campaign/edit':
-          const CampaignEditRoute().go(context);
+          const CampaignEditRouteData().go(context);
           return;
         case '/party':
-          const PartyRootRoute().go(context);
+          const PartyRootRouteData().go(context);
           return;
         case '/settings':
-          const SettingsRoute().go(context);
+          const SettingsRouteData().go(context);
           return;
       }
 
@@ -387,12 +387,12 @@ class HotkeyManagerService {
       final entity = RegExp(r'^/campaign/entity/([^/]+)$');
       final entityEditMatch = entityEdit.firstMatch(route);
       if (entityEditMatch != null) {
-        EntityEditRoute(entityId: entityEditMatch.group(1)!).go(context);
+        EntityEditRouteData(entityId: entityEditMatch.group(1)!).go(context);
         return;
       }
       final entityMatch = entity.firstMatch(route);
       if (entityMatch != null) {
-        EntityRoute(entityId: entityMatch.group(1)!).go(context);
+        EntityRouteData(entityId: entityMatch.group(1)!).go(context);
         return;
       }
 
@@ -401,14 +401,14 @@ class HotkeyManagerService {
       final encounter = RegExp(r'^/campaign/encounter/([^/]+)$');
       final encounterEditMatch = encounterEdit.firstMatch(route);
       if (encounterEditMatch != null) {
-        EncounterEditRoute(
+        EncounterEditRouteData(
           encounterId: encounterEditMatch.group(1)!,
         ).go(context);
         return;
       }
       final encounterMatch = encounter.firstMatch(route);
       if (encounterMatch != null) {
-        EncounterRoute(encounterId: encounterMatch.group(1)!).go(context);
+        EncounterRouteData(encounterId: encounterMatch.group(1)!).go(context);
         return;
       }
 
@@ -430,17 +430,17 @@ class HotkeyManagerService {
 
       final mChapterEdit = chapterEdit.firstMatch(route);
       if (mChapterEdit != null) {
-        ChapterEditRoute(chapterId: mChapterEdit.group(1)!).go(context);
+        ChapterEditRouteData(chapterId: mChapterEdit.group(1)!).go(context);
         return;
       }
       final mChapter = chapter.firstMatch(route);
       if (mChapter != null) {
-        ChapterRoute(chapterId: mChapter.group(1)!).go(context);
+        ChapterRouteData(chapterId: mChapter.group(1)!).go(context);
         return;
       }
       final mAdventureEdit = adventureEdit.firstMatch(route);
       if (mAdventureEdit != null) {
-        AdventureEditRoute(
+        AdventureEditRouteData(
           chapterId: mAdventureEdit.group(1)!,
           adventureId: mAdventureEdit.group(2)!,
         ).go(context);
@@ -448,7 +448,7 @@ class HotkeyManagerService {
       }
       final mAdventure = adventure.firstMatch(route);
       if (mAdventure != null) {
-        AdventureRoute(
+        AdventureRouteData(
           chapterId: mAdventure.group(1)!,
           adventureId: mAdventure.group(2)!,
         ).go(context);
@@ -456,7 +456,7 @@ class HotkeyManagerService {
       }
       final mSceneEdit = sceneEdit.firstMatch(route);
       if (mSceneEdit != null) {
-        SceneEditRoute(
+        SceneEditRouteData(
           chapterId: mSceneEdit.group(1)!,
           adventureId: mSceneEdit.group(2)!,
           sceneId: mSceneEdit.group(3)!,
@@ -465,7 +465,7 @@ class HotkeyManagerService {
       }
       final mScene = scene.firstMatch(route);
       if (mScene != null) {
-        SceneRoute(
+        SceneRouteData(
           chapterId: mScene.group(1)!,
           adventureId: mScene.group(2)!,
           sceneId: mScene.group(3)!,
@@ -482,12 +482,12 @@ class HotkeyManagerService {
 
       final mParty = party.firstMatch(route);
       if (mParty != null) {
-        PartyRoute(partyId: mParty.group(1)!).go(context);
+        PartyRouteData(partyId: mParty.group(1)!).go(context);
         return;
       }
       final mMemberEdit = memberEdit.firstMatch(route);
       if (mMemberEdit != null) {
-        MemberEditRoute(
+        MemberEditRouteData(
           partyId: mMemberEdit.group(1)!,
           memberId: mMemberEdit.group(2)!,
         ).go(context);
@@ -495,7 +495,7 @@ class HotkeyManagerService {
       }
       final mMember = member.firstMatch(route);
       if (mMember != null) {
-        MemberRoute(
+        MemberRouteData(
           partyId: mMember.group(1)!,
           memberId: mMember.group(2)!,
         ).go(context);
@@ -503,7 +503,7 @@ class HotkeyManagerService {
       }
       final mSessionEdit = sessionEdit.firstMatch(route);
       if (mSessionEdit != null) {
-        SessionEditRoute(
+        SessionEditRouteData(
           partyId: mSessionEdit.group(1)!,
           sessionId: mSessionEdit.group(2)!,
         ).go(context);
@@ -511,7 +511,7 @@ class HotkeyManagerService {
       }
       final mSession = session.firstMatch(route);
       if (mSession != null) {
-        SessionRoute(
+        SessionRouteData(
           partyId: mSession.group(1)!,
           sessionId: mSession.group(2)!,
         ).go(context);

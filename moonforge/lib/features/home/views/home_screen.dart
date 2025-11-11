@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
@@ -10,7 +10,6 @@ import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
-import 'package:moonforge/features/home/widgets/quick_actions_widget.dart';
 import 'package:moonforge/features/home/widgets/recent_section.dart';
 import 'package:moonforge/features/home/widgets/stats_overview_widget.dart';
 import 'package:moonforge/features/home/widgets/upcoming_sessions_widget.dart';
@@ -39,43 +38,33 @@ class HomeScreen extends StatelessWidget {
         SurfaceContainer(
           title: Text(
             l10n.dashboardStats,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           child: const StatsOverviewWidget(),
         ),
         SurfaceContainer(
           title: Text(
             l10n.upcomingSessions,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           child: const UpcomingSessionsWidget(),
         ),
         SurfaceContainer(
           title: Text(
             l10n.recentCampaigns,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           child: RecentSection<Campaign>(
             future: (() async {
               if (uid == null) return const <Campaign>[];
               final list = await campaignsRepo.customQuery(
                 filter: (c) =>
-                c.ownerUid.equals(uid) | c.memberUids.contains(uid),
+                    c.ownerUid.equals(uid) | c.memberUids.contains(uid),
                 sort: [
-                      (c) =>
-                      OrderingTerm(
-                        expression: c.updatedAt,
-                        mode: OrderingMode.desc,
-                      ),
+                  (c) => OrderingTerm(
+                    expression: c.updatedAt,
+                    mode: OrderingMode.desc,
+                  ),
                 ],
                 limit: 5,
               );
@@ -85,7 +74,7 @@ class HomeScreen extends StatelessWidget {
             subtitleOf: (c) => c.description,
             onTap: (item) {
               campaignProvider.setCurrentCampaign(item);
-              const CampaignRoute().go(context);
+              const CampaignRouteData().go(context);
             },
             onError: (error, _) {
               logger.e('Error fetching recent campaigns: $error');
@@ -95,28 +84,23 @@ class HomeScreen extends StatelessWidget {
         SurfaceContainer(
           title: Text(
             l10n.recentSessions,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           child: RecentSection<Session>(
             future: (() async {
               if (uid == null) return const <Session>[];
               final list = await sessionsRepo.customQuery(
                 sort: [
-                      (s) =>
-                      OrderingTerm(
-                        expression: s.datetime,
-                        mode: OrderingMode.desc,
-                      ),
+                  (s) => OrderingTerm(
+                    expression: s.datetime,
+                    mode: OrderingMode.desc,
+                  ),
                 ],
                 limit: 5,
               );
               return list;
             })(),
-            titleOf: (ses) =>
-            ses.datetime != null
+            titleOf: (ses) => ses.datetime != null
                 ? ses.datetime!.toLocal().toString()
                 : 'Session ${ses.id.substring(0, 6)}',
             onTap: (session) {
@@ -128,21 +112,17 @@ class HomeScreen extends StatelessWidget {
           backgroundType: SurfaceBackgroundType.surfaceContainer,
           title: Text(
             l10n.recentParties,
-            style: Theme
-                .of(context)
-                .textTheme
-                .titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           child: RecentSection<Party>(
             future: () async {
               if (uid == null) return const <Party>[];
               final list = await partiesRepo.customQuery(
                 sort: [
-                      (p) =>
-                      OrderingTerm(
-                        expression: p.updatedAt,
-                        mode: OrderingMode.desc,
-                      ),
+                  (p) => OrderingTerm(
+                    expression: p.updatedAt,
+                    mode: OrderingMode.desc,
+                  ),
                 ],
                 limit: 5,
               );
@@ -151,7 +131,7 @@ class HomeScreen extends StatelessWidget {
             titleOf: (p) => p.name,
             onTap: (party) {
               // TODO: Navigate to specific party
-              const PartyRootRoute().go(context);
+              const PartyRootRouteData().go(context);
             },
           ),
         ),

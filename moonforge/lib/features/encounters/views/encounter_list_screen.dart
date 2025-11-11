@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -21,10 +21,9 @@ class EncounterListScreen extends StatelessWidget {
     }
 
     final encounters = context.watch<List<db.Encounter>>();
-    final campaignEncounters = encounters
-        .where((e) => e.originId == campaign.id)
-        .toList()
-      ..sort((a, b) => a.name.compareTo(b.name));
+    final campaignEncounters =
+        encounters.where((e) => e.originId == campaign.id).toList()
+          ..sort((a, b) => a.name.compareTo(b.name));
 
     return Column(
       children: [
@@ -52,7 +51,7 @@ class EncounterListScreen extends StatelessWidget {
           child: EncounterList(
             encounters: campaignEncounters,
             onEncounterTap: (encounter) {
-              EncounterRoute(encounterId: encounter.id).go(context);
+              EncounterRouteData(encounterId: encounter.id).go(context);
             },
           ),
         ),

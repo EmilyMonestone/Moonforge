@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -123,7 +123,7 @@ class _SessionListScreenState extends State<SessionListScreen> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            SessionEditRoute(
+            SessionEditRouteData(
               partyId: widget.partyId,
               sessionId: 'new',
             ).push(context);

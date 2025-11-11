@@ -18,10 +18,86 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes">
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/constants/app_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/config_app.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/tools/config_app.ps1" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: clean up formatting and improve readability in multiple files">
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/architecture/routing.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/architecture/routing.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/code-generation.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/code-generation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/features/multi-window.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/features/multi-window.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/features/quill-mentions.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/features/quill-mentions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/temp/IMPLEMENTATION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/temp/IMPLEMENTATION_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/temp/chapter_implementation_notes.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/temp/chapter_implementation_notes.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/docs/routing-migration.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/docs/routing-migration.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/hotkey/hotkey_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/router_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/router_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/utils/safe_data_parser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/utils/safe_data_parser.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/auth_user_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/auth_user_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/command_palette.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_example.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/quill_mention/quill_mention_example.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/adventure_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/adventure_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/widgets/adventure_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/widgets/adventure_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/widgets/adventure_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/widgets/adventure_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/auth/views/forgot_password_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/auth/views/forgot_password_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/auth/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/auth/views/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/auth/views/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/auth/views/profile_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/auth/views/register_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/auth/views/register_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_members_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_members_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_settings_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_quick_actions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_quick_actions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_adventure_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_adventure_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/add_combatant_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/add_combatant_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/encounter_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/encounter_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/controllers/entity_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/controllers/entity_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/widgets/entity_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/widgets/entity_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/services/quick_actions_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/services/quick_actions_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/parties/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/parties/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/character_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/character_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/party_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/party_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/views/session_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/session_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/session_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/upcoming_session_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/upcoming_session_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +137,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="copilot/add-dnd-beyond-character-import" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -84,6 +160,7 @@
 }</component>
   <component name="ProjectId" id="33jhjEZr9i9M4jo3w5CZPReF1c0" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
@@ -98,34 +175,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#58 on copilot/add-type-safe-routes-implementation&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
@@ -177,62 +254,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00038" summary="feat: add localization support for description and content fields in multiple languages">
-      <option name="closed" value="true" />
-      <created>1761474172227</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1761474172227</updated>
-    </task>
-    <task id="LOCAL-00039" summary="feat: enhance campaign screen with QuillEditor for rich text display and improve layout structure">
-      <option name="closed" value="true" />
-      <created>1761474180491</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1761474180491</updated>
-    </task>
-    <task id="LOCAL-00040" summary="feat: add TitleCard and WrapLayout widgets for improved UI structure and layout flexibility">
-      <option name="closed" value="true" />
-      <created>1761474185377</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1761474185377</updated>
-    </task>
-    <task id="LOCAL-00041" summary="feat: add get and get_storage packages for state management and data persistence">
-      <option name="closed" value="true" />
-      <created>1761474252651</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1761474252651</updated>
-    </task>
-    <task id="LOCAL-00042" summary="feat: enhance campaign editing experience with new UI components and localization support">
-      <option name="closed" value="true" />
-      <created>1761477013047</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1761477013047</updated>
-    </task>
-    <task id="LOCAL-00043" summary="feat: integrate Quill editor and custom toolbar for enhanced rich text editing in campaign details">
-      <option name="closed" value="true" />
-      <created>1761477623042</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1761477623042</updated>
-    </task>
-    <task id="LOCAL-00044" summary="feat: refactor home screen layout with SurfaceContainer and WrapLayout for improved UI structure">
-      <option name="closed" value="true" />
-      <created>1761479248679</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1761479248679</updated>
     </task>
     <task id="LOCAL-00045" summary="feat: update breadcrumb divider from icon to text for improved clarity">
       <option name="closed" value="true" />
@@ -570,7 +591,63 @@
       <option name="project" value="LOCAL" />
       <updated>1762725773364</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="feat: enhance logger configuration with improved PrettyPrinter settings">
+      <option name="closed" value="true" />
+      <created>1762809305918</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1762809305919</updated>
+    </task>
+    <task id="LOCAL-00088" summary="feat: remove QuickActionsWidget from home screen for improved layout">
+      <option name="closed" value="true" />
+      <created>1762811662134</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1762811662134</updated>
+    </task>
+    <task id="LOCAL-00089" summary="feat: implement type-safe data storage with improved migration handling and logging">
+      <option name="closed" value="true" />
+      <created>1762812998488</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1762812998488</updated>
+    </task>
+    <task id="LOCAL-00090" summary="feat: add support for additional extensions in devtools_options.yaml">
+      <option name="closed" value="true" />
+      <created>1762813003379</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1762813003379</updated>
+    </task>
+    <task id="LOCAL-00091" summary="refactor: simplify constructor syntax for DAO classes">
+      <option name="closed" value="true" />
+      <created>1762849324014</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849324014</updated>
+    </task>
+    <task id="LOCAL-00092" summary="feat: replace print statements with logger for improved error handling and logging">
+      <option name="closed" value="true" />
+      <created>1762849461487</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849461487</updated>
+    </task>
+    <task id="LOCAL-00093" summary="refactor: clean up formatting and improve readability in multiple files">
+      <option name="closed" value="true" />
+      <created>1762849526033</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1762849526033</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -597,14 +674,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories" />
-    <MESSAGE value="refactor: rename documentation files for improved organization" />
-    <MESSAGE value="feat: add beta badge to indicate beta version in adaptive scaffold" />
-    <MESSAGE value="refactor: improve code readability and organization in auto_updater_service and persistence_service" />
-    <MESSAGE value="feat: enhance WindowTopBar with dynamic title widget and adjust layout for improved UI" />
-    <MESSAGE value="docs: update copilot-instructions to include offline-first data persistence details" />
-    <MESSAGE value="docs: add offline-first data persistence details to copilot instructions" />
-    <MESSAGE value="refactor: rename files and update imports to use new data structure" />
     <MESSAGE value="refactor: replace SizedBox with ConstrainedBox for adaptive button group layout" />
     <MESSAGE value="refactor: update imports to include new Firebase model types in app_database.dart" />
     <MESSAGE value="refactor: replace Row with Wrap for improved layout in adaptive_scaffold.dart" />
@@ -622,7 +691,15 @@
     <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
     <MESSAGE value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
     <MESSAGE value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
+    <MESSAGE value="feat: implement safe data storage with improved null safety and context navigation" />
+    <MESSAGE value="feat: enhance logger configuration with improved PrettyPrinter settings" />
+    <MESSAGE value="feat: remove QuickActionsWidget from home screen for improved layout" />
+    <MESSAGE value="feat: implement type-safe data storage with improved migration handling and logging" />
+    <MESSAGE value="feat: add support for additional extensions in devtools_options.yaml" />
+    <MESSAGE value="refactor: simplify constructor syntax for DAO classes" />
+    <MESSAGE value="feat: replace print statements with logger for improved error handling and logging" />
+    <MESSAGE value="refactor: clean up formatting and improve readability in multiple files" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: clean up formatting and improve readability in multiple files" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1065,6 +1142,42 @@
           <option name="totalLines" value="1249193" />
           <option name="info" value="feat: update CHANGELOG for version 0.6.0 with new " />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762809312371" />
+          <option name="linesCode" value="266619" />
+          <option name="totalLines" value="13096597" />
+          <option name="info" value="feat: enhance logger configuration with improved P" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762811664953" />
+          <option name="linesCode" value="267174" />
+          <option name="totalLines" value="13103164" />
+          <option name="info" value="feat: remove QuickActionsWidget from home screen f" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762813003737" />
+          <option name="linesCode" value="267120" />
+          <option name="totalLines" value="13091549" />
+          <option name="info" value="feat: add support for additional extensions in dev" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762849331531" />
+          <option name="linesCode" value="267117" />
+          <option name="totalLines" value="13091546" />
+          <option name="info" value="refactor: simplify constructor syntax for DAO clas" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762849463726" />
+          <option name="linesCode" value="267117" />
+          <option name="totalLines" value="13091551" />
+          <option name="info" value="feat: replace print statements with logger for imp" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762849528171" />
+          <option name="linesCode" value="267136" />
+          <option name="totalLines" value="13091570" />
+          <option name="info" value="refactor: clean up formatting and improve readabil" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1146,6 +1259,18 @@
           <option name="linesCode" value="76375" />
           <option name="totalLines" value="1249193" />
           <option name="info" value="Nov 9, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762813003737" />
+          <option name="linesCode" value="267120" />
+          <option name="totalLines" value="13091549" />
+          <option name="info" value="Nov 10, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762849528171" />
+          <option name="linesCode" value="267136" />
+          <option name="totalLines" value="13091570" />
+          <option name="info" value="Nov 11, 2025" />
         </TimePoint>
       </list>
     </option>

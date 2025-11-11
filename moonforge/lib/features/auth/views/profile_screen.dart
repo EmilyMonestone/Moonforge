@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/auth/services/auth_service.dart';
 import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
@@ -145,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: const Text('Account deleted'),
           description: const Text('Your account has been deleted.'),
         );
-        const HomeRoute().go(context);
+        const HomeRouteData().go(context);
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {

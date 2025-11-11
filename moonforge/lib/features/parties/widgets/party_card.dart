@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/core/services/app_router.dart';
 
 /// Card widget for displaying a party in a list
 class PartyCard extends StatelessWidget {
   final Party party;
   final int memberCount;
 
-  const PartyCard({
-    super.key,
-    required this.party,
-    this.memberCount = 0,
-  });
+  const PartyCard({super.key, required this.party, this.memberCount = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,7 @@ class PartyCard extends StatelessWidget {
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          PartyRoute(partyId: party.id).go(context);
+          PartyRouteData(partyId: party.id).go(context);
         },
       ),
     );

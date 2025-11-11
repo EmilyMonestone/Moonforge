@@ -18,11 +18,13 @@ Moonforge's rich text editor (Flutter Quill) includes custom mention and hashtag
 ## Entity Types
 
 ### @ Mentions
+
 - NPCs (`npc`)
 - Monsters (`monster`)
 - Groups/Parties (`group`)
 
 ### # Hashtags
+
 - Places (`place`)
 - Items (`item`)
 - Handouts (`handout`)
@@ -51,6 +53,7 @@ CustomQuillEditor(
 ```
 
 **User Experience:**
+
 1. Type `@` or `#`
 2. Start typing entity name
 3. Dropdown shows matching entities
@@ -65,13 +68,14 @@ CustomQuillViewer(
   controller: _quillController,
   onMentionTap: (entityId, mentionType) async {
     // Navigate to entity
-    EntityRoute(entityId: entityId).push(context);
+    EntityRouteData(entityId: entityId).push(context);
   },
   padding: const EdgeInsets.all(16),
 )
 ```
 
 **User Experience:**
+
 - Mentions appear as styled links in text
 - Click mention to navigate to entity details
 - Falls back to dialog if no tap handler provided
@@ -81,23 +85,27 @@ CustomQuillViewer(
 ### Core Components
 
 **CustomQuillEditor** (`lib/core/widgets/quill_mention/custom_quill_editor.dart`)
+
 - Wraps QuillEditor with mention autocomplete overlay
 - Detects `@` and `#` triggers
 - Shows dropdown with entity suggestions
 - Inserts mention on selection
 
 **CustomQuillViewer** (`lib/core/widgets/quill_mention/custom_quill_viewer.dart`)
+
 - Wraps QuillEditor in read-only mode
 - Makes mentions clickable
 - Handles navigation on tap
 
 **EntityMentionService** (`lib/core/widgets/quill_mention/entity_mention_service.dart`)
+
 - Searches entities in Firestore
 - Filters by kind and query string
 - Campaign-scoped queries
 - Configurable result limit
 
 **Constants** (`lib/core/widgets/quill_mention/quill_mention_constants.dart`)
+
 - Link prefixes: `-moonforge-mention-entity-` and `-moonforge-hashtag-entity-`
 - Default styles for mentions
 
@@ -119,10 +127,12 @@ Hashtags use `-moonforge-hashtag-entity-` prefix instead.
 ## Where It's Used
 
 Currently integrated in:
+
 - **Campaign edit screen** - Mention entities in campaign description
 - **Campaign view screen** - Clickable mentions in campaign description
 
 **Can be added to:**
+
 - Chapter/Adventure/Scene editors
 - Session notes
 - Entity descriptions
@@ -156,7 +166,7 @@ Replace `QuillEditor` with `CustomQuillViewer`:
 CustomQuillViewer(
   controller: _controller,
   onMentionTap: (entityId, mentionType) async {
-    EntityRoute(entityId: entityId).push(context);
+    EntityRouteData(entityId: entityId).push(context);
   },
 )
 ```
@@ -184,6 +194,7 @@ static Future<List<Entity>> searchEntities({
 ### Mention Detection
 
 Editor listens for:
+
 - `@` character → triggers NPC/monster/group search
 - `#` character → triggers place/item/handout/journal search
 - Text after trigger → filters results
@@ -191,6 +202,7 @@ Editor listens for:
 ### Link Handling
 
 Viewer checks link attributes:
+
 - Starts with `-moonforge-mention-entity-` → mention
 - Starts with `-moonforge-hashtag-entity-` → hashtag
 - Extracts entity ID from link

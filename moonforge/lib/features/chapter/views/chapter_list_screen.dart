@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -83,7 +83,7 @@ class ChapterListScreen extends StatelessWidget {
                   chapters: chapters,
                   showOrder: true,
                   onChapterTap: (chapter) {
-                    ChapterRoute(chapterId: chapter.id).go(context);
+                    ChapterRouteData(chapterId: chapter.id).go(context);
                   },
                 ),
         ),

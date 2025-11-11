@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/adventure/widgets/adventure_card.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -41,7 +41,7 @@ class AdventureList extends StatelessWidget {
         return AdventureCard(
           adventure: adventure,
           onTap: () {
-            AdventureRoute(
+            AdventureRouteData(
               chapterId: adventure.chapterId,
               adventureId: adventure.id,
             ).go(context);

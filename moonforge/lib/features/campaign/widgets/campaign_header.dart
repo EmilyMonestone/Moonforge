@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
@@ -32,10 +32,7 @@ class CampaignHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      campaign.name,
-                      style: theme.textTheme.displaySmall,
-                    ),
+                    Text(campaign.name, style: theme.textTheme.displaySmall),
                     if (campaign.description.isNotEmpty) ...[
                       const SizedBox(height: 4),
                       Text(
@@ -54,7 +51,7 @@ class CampaignHeader extends StatelessWidget {
                 icon: const Icon(Icons.edit_outlined),
                 tooltip: l10n.edit,
                 onPressed: () {
-                  const CampaignEditRoute().go(context);
+                  const CampaignEditRouteData().go(context);
                 },
               ),
               if (onShare != null)
@@ -74,7 +71,7 @@ class CampaignHeader extends StatelessWidget {
                   icon: const Icon(Icons.settings_outlined),
                   tooltip: l10n.settings,
                   onPressed: () {
-                    const CampaignSettingsRoute().go(context);
+                    const CampaignSettingsRouteData().go(context);
                   },
                 ),
               PopupMenuButton<String>(
@@ -83,7 +80,7 @@ class CampaignHeader extends StatelessWidget {
                   // Handle menu actions
                   switch (value) {
                     case 'analytics':
-                      const CampaignAnalyticsRoute().go(context);
+                      const CampaignAnalyticsRouteData().go(context);
                       break;
                     case 'duplicate':
                       // Duplicate campaign

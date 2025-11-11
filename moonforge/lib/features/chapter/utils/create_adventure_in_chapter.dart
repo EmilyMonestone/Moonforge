@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -77,7 +77,10 @@ Future<void> createAdventureInChapter(
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createAdventure));
-    AdventureRoute(chapterId: chapterId, adventureId: adventureId).go(context);
+    AdventureRouteData(
+      chapterId: chapterId,
+      adventureId: adventureId,
+    ).go(context);
   } catch (e, st) {
     logger.e('Create adventure failed', error: e, stackTrace: st);
     if (!context.mounted) return;

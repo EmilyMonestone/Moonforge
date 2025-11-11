@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/chapter/widgets/chapter_card.dart';
 
@@ -29,8 +29,8 @@ class ChapterList extends StatelessWidget {
           child: Text(
             emptyMessage ?? 'No chapters yet',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       );
@@ -54,7 +54,7 @@ class ChapterList extends StatelessWidget {
               onTap: onChapterTap != null
                   ? () => onChapterTap!(chapter)
                   : () {
-                      ChapterRoute(chapterId: chapter.id).go(context);
+                      ChapterRouteData(chapterId: chapter.id).go(context);
                     },
             ),
           );
@@ -76,7 +76,7 @@ class ChapterList extends StatelessWidget {
           onTap: onChapterTap != null
               ? () => onChapterTap!(chapter)
               : () {
-                  ChapterRoute(chapterId: chapter.id).go(context);
+                  ChapterRouteData(chapterId: chapter.id).go(context);
                 },
         );
       },

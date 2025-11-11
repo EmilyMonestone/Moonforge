@@ -48,9 +48,9 @@ CardList<Entity>
 (
 items: entities,
 titleOf: (e) => e.name,
-onTap: (e) => EntityRoute(entityId: e.id).go(context),
+onTap: (e) => EntityRouteData(entityId: e.id).go(context),
 enableContextMenu: true, // Enable right-click menu
-routeOf: (e) => EntityRoute(entityId: e.id)
+routeOf: (e) => EntityRouteData(entityId: e.id)
 .
 location
 , // Provide route

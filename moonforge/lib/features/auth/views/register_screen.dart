@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
 import 'package:moonforge/features/auth/utils/auth_validators.dart';
 import 'package:moonforge/features/auth/widgets/auth_form_field.dart';
@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
       } else {
-        const HomeRoute().go(context);
+        const HomeRouteData().go(context);
       }
     } on FirebaseAuthException catch (e) {
       final message = _mapAuthError(e);
@@ -128,9 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     enabled: !_isLoading,
                   ),
                   const SizedBox(height: 8),
-                  PasswordStrengthIndicator(
-                    password: _passwordController.text,
-                  ),
+                  PasswordStrengthIndicator(password: _passwordController.text),
                   const SizedBox(height: 12),
                   AuthFormField(
                     controller: _confirmController,
@@ -138,10 +136,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     autofillHints: const [AutofillHints.newPassword],
-                    validator: (v) => AuthValidators.validatePasswordConfirmation(
-                      v,
-                      _passwordController.text,
-                    ),
+                    validator: (v) =>
+                        AuthValidators.validatePasswordConfirmation(
+                          v,
+                          _passwordController.text,
+                        ),
                     enabled: !_isLoading,
                   ),
                   const SizedBox(height: 16),

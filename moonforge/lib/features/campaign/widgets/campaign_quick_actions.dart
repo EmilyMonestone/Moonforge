@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/chapter/utils/create_chapter.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -10,10 +10,7 @@ import 'package:moonforge/l10n/app_localizations.dart';
 class CampaignQuickActions extends StatelessWidget {
   final Campaign campaign;
 
-  const CampaignQuickActions({
-    super.key,
-    required this.campaign,
-  });
+  const CampaignQuickActions({super.key, required this.campaign});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,7 @@ class CampaignQuickActions extends StatelessWidget {
           icon: const Icon(Icons.edit_outlined),
           label: Text(l10n.edit),
           onPressed: () {
-            const CampaignEditRoute().go(context);
+            const CampaignEditRouteData().go(context);
           },
         ),
       ],

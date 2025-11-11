@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -151,7 +151,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           type: ToastificationType.success,
           title: const Text('Campaign saved successfully'),
         );
-        CampaignRoute().go(context);
+        CampaignRouteData().go(context);
       }
     } catch (e) {
       if (mounted) {
@@ -204,7 +204,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           ),
           Spacer(),
           ButtonM3E(
-            onPressed: () => CampaignRoute().go(context),
+            onPressed: () => CampaignRouteData().go(context),
             label: Text('l10n.cancel'),
             icon: const Icon(Icons.cancel),
             style: ButtonM3EStyle.outlined,

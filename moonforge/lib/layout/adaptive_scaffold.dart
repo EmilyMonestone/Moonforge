@@ -4,10 +4,10 @@ import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/breadcrumb_service.dart'
     as breadcrumb_service;
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/app_version.dart';
 import 'package:moonforge/core/widgets/adaptive_breadcrumb.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
@@ -93,7 +93,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
               items: [
                 AdaptiveBreadcrumbItem(
                   content: Text(AppLocalizations.of(context)!.home),
-                  onTap: () => const HomeRoute().go(context),
+                  onTap: () => const HomeRouteData().go(context),
                 ),
               ],
               divider: const Icon(Icons.chevron_right, size: 16),

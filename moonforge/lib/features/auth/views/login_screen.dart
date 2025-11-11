@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
 import 'package:moonforge/features/auth/utils/auth_validators.dart';
 import 'package:moonforge/features/auth/widgets/auth_form_field.dart';
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void didChangeDependencies() {
     authProvider = Provider.of<AuthProvider>(context, listen: true);
     if (authProvider.isLoggedIn) {
-      const HomeRoute().go(context);
+      const HomeRouteData().go(context);
     }
     super.didChangeDependencies();
   }
@@ -43,11 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _goToRegister() {
-    const RegisterRoute().go(context);
+    const RegisterRouteData().go(context);
   }
 
   void _goToForgotPassword() {
-    const ForgotPasswordRoute().push(context);
+    const ForgotPasswordRouteData().push(context);
   }
 
   void _signInWithPasswordAndEmail() {
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           });
       if (authProvider.isLoggedIn) {
-        const HomeRoute().go(context);
+        const HomeRouteData().go(context);
       }
     }
   }

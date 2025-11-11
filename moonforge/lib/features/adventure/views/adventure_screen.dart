@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
@@ -38,9 +38,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final campaign = context
-        .watch<CampaignProvider>()
-        .currentCampaign;
+    final campaign = context.watch<CampaignProvider>().currentCampaign;
 
     if (campaign == null) {
       return Center(child: Text(l10n.noCampaignSelected));
@@ -86,10 +84,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
                 children: [
                   Text(
                     adventure.name,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .displaySmall,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                   const Spacer(),
                   ButtonM3E(
@@ -98,7 +93,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
                     icon: const Icon(Icons.edit_outlined),
                     label: Text(l10n.edit),
                     onPressed: () {
-                      AdventureEditRoute(
+                      AdventureEditRouteData(
                         chapterId: widget.chapterId,
                         adventureId: widget.adventureId,
                       ).go(context);
@@ -117,10 +112,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
                       children: [
                         Text(
                           l10n.description,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .titleMedium,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 8),
                         Text(adventure.summary!),
@@ -129,7 +121,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
                   CustomQuillViewer(
                     controller: _controller,
                     onMentionTap: (entityId, mentionType) async {
-                      EntityRoute(entityId: entityId).push(context);
+                      EntityRouteData(entityId: entityId).push(context);
                     },
                   ),
                 ],
@@ -156,10 +148,7 @@ class _AdventureScreenState extends State<AdventureScreen> {
 }
 
 class _ScenesSection extends StatelessWidget {
-  const _ScenesSection({
-    required this.chapterId,
-    required this.adventureId,
-  });
+  const _ScenesSection({required this.chapterId, required this.adventureId});
 
   final String chapterId;
   final String adventureId;
@@ -198,15 +187,13 @@ class _ScenesSection extends StatelessWidget {
             items: scenes,
             titleOf: (s) => s.name,
             subtitleOf: (s) => formatDateTime(s.updatedAt),
-            onTap: (s) =>
-                SceneRoute(
-                  chapterId: chapterId,
-                  adventureId: adventureId,
-                  sceneId: s.id,
-                ).go(context),
+            onTap: (s) => SceneRouteData(
+              chapterId: chapterId,
+              adventureId: adventureId,
+              sceneId: s.id,
+            ).go(context),
             enableContextMenu: true,
-            routeOf: (s) =>
-            SceneRoute(
+            routeOf: (s) => SceneRouteData(
               chapterId: chapterId,
               adventureId: adventureId,
               sceneId: s.id,

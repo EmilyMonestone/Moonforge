@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// Card widget for displaying a chapter in lists
@@ -30,10 +30,7 @@ class ChapterCard extends StatelessWidget {
                 child: Text('${chapter.order + 1}'),
               )
             : const Icon(Icons.menu_book_outlined),
-        title: Text(
-          chapter.name,
-          style: textTheme.titleMedium,
-        ),
+        title: Text(chapter.name, style: textTheme.titleMedium),
         subtitle: chapter.summary != null && chapter.summary!.isNotEmpty
             ? Text(
                 chapter.summary!,
@@ -43,9 +40,10 @@ class ChapterCard extends StatelessWidget {
               )
             : null,
         trailing: const Icon(Icons.chevron_right),
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
-              ChapterRoute(chapterId: chapter.id).go(context);
+              ChapterRouteData(chapterId: chapter.id).go(context);
             },
       ),
     );

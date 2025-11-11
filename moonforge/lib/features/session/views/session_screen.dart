@@ -3,7 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/permissions_utils.dart';
@@ -173,7 +173,7 @@ class _SessionScreenState extends State<SessionScreen> {
                       CustomQuillViewer(
                         controller: _infoController,
                         onMentionTap: (entityId, mentionType) async {
-                          EntityRoute(entityId: entityId).push(context);
+                          EntityRouteData(entityId: entityId).push(context);
                         },
                       ),
                     const Divider(height: 32),
@@ -205,7 +205,7 @@ class _SessionScreenState extends State<SessionScreen> {
                     CustomQuillViewer(
                       controller: _logController,
                       onMentionTap: (entityId, mentionType) async {
-                        EntityRoute(entityId: entityId).push(context);
+                        EntityRouteData(entityId: entityId).push(context);
                       },
                     ),
                 ],

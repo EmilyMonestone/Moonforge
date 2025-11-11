@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -82,7 +82,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 icon: Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
-                  ChapterEditRoute(chapterId: widget.chapterId).go(context);
+                  ChapterEditRouteData(chapterId: widget.chapterId).go(context);
                 },
               ),
             ],
@@ -107,7 +107,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 CustomQuillViewer(
                   controller: _controller,
                   onMentionTap: (entityId, mentionType) async {
-                    EntityRoute(entityId: entityId).push(context);
+                    EntityRouteData(entityId: entityId).push(context);
                   },
                 ),
             ],
@@ -166,12 +166,12 @@ class _AdventuresSection extends StatelessWidget {
             items: adventures,
             titleOf: (a) => a.name,
             subtitleOf: (a) => a.summary ?? '',
-            onTap: (a) => AdventureRoute(
+            onTap: (a) => AdventureRouteData(
               chapterId: chapterId,
               adventureId: a.id,
             ).go(context),
             enableContextMenu: true,
-            routeOf: (a) => AdventureRoute(
+            routeOf: (a) => AdventureRouteData(
               chapterId: chapterId,
               adventureId: a.id,
             ).location,

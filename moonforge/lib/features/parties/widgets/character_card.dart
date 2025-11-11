@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/core/services/app_router.dart';
 
 /// Card widget for displaying a character in a list
 class CharacterCard extends StatelessWidget {
   final Player player;
   final String? partyId;
 
-  const CharacterCard({
-    super.key,
-    required this.player,
-    this.partyId,
-  });
+  const CharacterCard({super.key, required this.player, this.partyId});
 
   @override
   Widget build(BuildContext context) {
     final hpPercentage = (player.hpMax != null && player.hpMax! > 0)
-      ? (player.hpCurrent ?? 0) / player.hpMax!
-      : 1.0;
+        ? (player.hpCurrent ?? 0) / player.hpMax!
+        : 1.0;
 
     return Card(
       child: ListTile(
@@ -54,7 +50,7 @@ class CharacterCard extends StatelessWidget {
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           if (partyId != null) {
-            MemberRoute(partyId: partyId!, memberId: player.id).go(context);
+            MemberRouteData(partyId: partyId!, memberId: player.id).go(context);
           }
         },
       ),

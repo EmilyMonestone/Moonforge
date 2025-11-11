@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -55,67 +55,64 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     context: context,
     builder: (ctx) {
       return StatefulBuilder(
-        builder: (ctx, setState) =>
-            AlertDialog(
-              title: Text('${l10n.createScene}: Nr. $nextOrder'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedChapter.id,
-                    decoration: InputDecoration(labelText: l10n.selectChapter),
-                    items: [
-                      for (final c in chapters)
-                        DropdownMenuItem(value: c.id, child: Text(c.name)),
-                    ],
-                    onChanged: (id) async {
-                      if (id == null) return;
-                      final ch = chapters.firstWhere((c) => c.id == id);
-                      setState(() => selectedChapter = ch);
-                      adventures = await loadAdventures(ch.id);
-                      if (adventures.isNotEmpty) {
-                        setState(() => selectedAdventure = adventures.first);
-                        nextOrder =
-                        await computeNextOrder(selectedAdventure.id);
-                      } else {
-                        setState(() => adventures = <Adventure>[]);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedAdventure.id,
-                    decoration: InputDecoration(
-                        labelText: l10n.selectAdventure),
-                    items: [
-                      for (final a in adventures)
-                        DropdownMenuItem(value: a.id, child: Text(a.name)),
-                    ],
-                    onChanged: (id) async {
-                      if (id == null) return;
-                      final adv = adventures.firstWhere((a) => a.id == id);
-                      setState(() => selectedAdventure = adv);
-                      nextOrder = await computeNextOrder(selectedAdventure.id);
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(labelText: l10n.name),
-                  ),
+        builder: (ctx, setState) => AlertDialog(
+          title: Text('${l10n.createScene}: Nr. $nextOrder'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButtonFormField<String>(
+                initialValue: selectedChapter.id,
+                decoration: InputDecoration(labelText: l10n.selectChapter),
+                items: [
+                  for (final c in chapters)
+                    DropdownMenuItem(value: c.id, child: Text(c.name)),
                 ],
+                onChanged: (id) async {
+                  if (id == null) return;
+                  final ch = chapters.firstWhere((c) => c.id == id);
+                  setState(() => selectedChapter = ch);
+                  adventures = await loadAdventures(ch.id);
+                  if (adventures.isNotEmpty) {
+                    setState(() => selectedAdventure = adventures.first);
+                    nextOrder = await computeNextOrder(selectedAdventure.id);
+                  } else {
+                    setState(() => adventures = <Adventure>[]);
+                  }
+                },
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(false),
-                  child: Text(l10n.cancel),
-                ),
-                FilledButton(
-                  onPressed: () => Navigator.of(ctx).pop(true),
-                  child: Text(l10n.create),
-                ),
-              ],
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: selectedAdventure.id,
+                decoration: InputDecoration(labelText: l10n.selectAdventure),
+                items: [
+                  for (final a in adventures)
+                    DropdownMenuItem(value: a.id, child: Text(a.name)),
+                ],
+                onChanged: (id) async {
+                  if (id == null) return;
+                  final adv = adventures.firstWhere((a) => a.id == id);
+                  setState(() => selectedAdventure = adv);
+                  nextOrder = await computeNextOrder(selectedAdventure.id);
+                },
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: l10n.name),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
             ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.create),
+            ),
+          ],
+        ),
       );
     },
   );
@@ -142,7 +139,7 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createScene));
-    SceneRoute(
+    SceneRouteData(
       chapterId: selectedChapter.id,
       adventureId: selectedAdventure.id,
       sceneId: scene.id,
