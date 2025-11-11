@@ -26,7 +26,10 @@ class PartyValidators {
   }
 
   /// Check if party is valid for gameplay
-  static List<String> validatePartyReadiness(Party party, List<Player> members) {
+  static List<String> validatePartyReadiness(
+    Party party,
+    List<Player> members,
+  ) {
     final issues = <String>[];
 
     if (members.isEmpty) {
@@ -40,7 +43,9 @@ class PartyValidators {
     final maxLevel = levels.reduce((a, b) => a > b ? a : b);
 
     if (maxLevel - minLevel > 3) {
-      issues.add('Large level variance (${minLevel}-${maxLevel}) may cause balance issues');
+      issues.add(
+        'Large level variance ($minLevel-$maxLevel) may cause balance issues',
+      );
     }
 
     // Check for invalid HP

@@ -28,9 +28,7 @@ class ChapterOutline extends StatelessWidget {
         // Chapter header
         Text(
           chapter.name,
-          style: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         if (chapter.summary != null && chapter.summary!.isNotEmpty) ...[
           const SizedBox(height: 8),
@@ -42,7 +40,7 @@ class ChapterOutline extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 16),
-        
+
         // Adventures outline
         if (sortedAdventures.isEmpty)
           Padding(
@@ -87,7 +85,7 @@ class ChapterOutline extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    
+
                     // Adventure info
                     Expanded(
                       child: Column(
@@ -99,7 +97,8 @@ class ChapterOutline extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          if (adventure.summary != null && adventure.summary!.isNotEmpty)
+                          if (adventure.summary != null &&
+                              adventure.summary!.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4.0),
                               child: Text(
@@ -118,7 +117,7 @@ class ChapterOutline extends StatelessWidget {
                 ),
               ),
             );
-          }).toList(),
+          }),
       ],
     );
   }
