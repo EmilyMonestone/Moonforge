@@ -2,7 +2,8 @@
 
 ## Overview
 
-The Home feature provides the main landing page/dashboard for Moonforge, displaying key statistics, quick actions, and recent activity to help users navigate and manage their D&D campaigns.
+The Home feature provides the main landing page/dashboard for Moonforge, displaying key statistics, quick actions, and recent activity to help users navigate and manage their D&D
+campaigns.
 
 ## Structure
 
@@ -29,7 +30,9 @@ lib/features/home/
 ## Features
 
 ### Dashboard Statistics
+
 Displays key metrics at a glance:
+
 - Total Campaigns
 - Total Sessions
 - Total Parties
@@ -37,17 +40,22 @@ Displays key metrics at a glance:
 - Upcoming Sessions
 
 ### Quick Actions
+
 Provides fast access to common operations:
+
 - Create New Campaign
 - View Campaigns
 - View Parties
 - Access Settings
 
 ### Upcoming Sessions
+
 Shows the next scheduled game sessions with date and time.
 
 ### Recent Items
+
 Lists recently modified:
+
 - Campaigns
 - Sessions
 - Parties
@@ -57,13 +65,16 @@ Lists recently modified:
 ### Controllers
 
 #### HomeController
+
 Manages dashboard state and preferences:
+
 - Widget visibility toggles
 - Refresh state
 - Preferences persistence
 - Last refresh timestamp
 
 **Usage:**
+
 ```dart
 final controller = HomeController();
 controller.setWidgetVisibility('stats', true);
@@ -74,13 +85,16 @@ await controller.refresh();
 ### Services
 
 #### DashboardService
+
 Aggregates data from multiple repositories:
+
 - Fetches statistics
 - Queries upcoming sessions
 - Tracks recent activity
 - User-scoped data filtering
 
 **Usage:**
+
 ```dart
 final service = DashboardService(
   campaignRepo: campaignRepository,
@@ -93,12 +107,15 @@ final upcomingSessions = await service.fetchUpcomingSessions();
 ```
 
 #### QuickActionsService
+
 Provides quick action buttons:
+
 - Default actions (campaigns, parties, settings)
 - Extensible for context-aware actions
 - Icon and tooltip support
 
 **Usage:**
+
 ```dart
 final service = QuickActionsService();
 final actions = service.getDefaultActions();
@@ -107,15 +124,19 @@ final actions = service.getDefaultActions();
 ### Widgets
 
 #### StatsOverviewWidget
+
 Displays statistics in card format with icons and numbers.
 
 #### QuickActionsWidget
+
 Shows interactive buttons for common operations.
 
 #### UpcomingSessionsWidget
+
 Lists upcoming game sessions with formatted dates.
 
 #### RecentSection<T>
+
 Generic widget for displaying recent items of any type.
 
 ## Data Flow
@@ -128,6 +149,7 @@ Generic widget for displaying recent items of any type.
 ## Internationalization
 
 All user-facing strings are internationalized:
+
 - `dashboardStats` - Dashboard statistics title
 - `quickActions` - Quick actions title
 - `upcomingSessions` - Upcoming sessions title
@@ -141,6 +163,7 @@ All user-facing strings are internationalized:
 - `newParty` - New party button
 
 Supported languages:
+
 - English (`app_en.arb`)
 - German (`app_de.arb`)
 
@@ -149,18 +172,20 @@ Supported languages:
 The home screen is accessible at the root path (`/`):
 
 ```dart
-const HomeRoute().go(context);
+const HomeRouteData().go(context);
 ```
 
 Quick actions navigate to:
-- `CampaignEditRoute()` - Create new campaign
-- `CampaignRoute()` - View campaigns
-- `PartyRootRoute()` - View parties
-- `SettingsRoute()` - App settings
+
+- `CampaignEditRouteData()` - Create new campaign
+- `CampaignRouteData()` - View campaigns
+- `PartyRootRouteData()` - View parties
+- `SettingsRouteData()` - App settings
 
 ## Dependencies
 
 ### Internal
+
 - `data/repo/*_repository.dart` - Data access layer
 - `core/services/persistence_service.dart` - Preferences storage
 - `core/utils/logger.dart` - Logging
@@ -168,6 +193,7 @@ Quick actions navigate to:
 - `features/campaign/controllers/campaign_provider.dart` - Campaign state
 
 ### External
+
 - `firebase_auth` - User authentication
 - `provider` - State management
 - `drift` - Database queries
@@ -176,6 +202,7 @@ Quick actions navigate to:
 ## Error Handling
 
 All widgets include proper error handling:
+
 - Loading states with `LoadingPlaceholder`
 - Error states with `ErrorPlaceholder`
 - Empty states with `EmptyPlaceholder` or custom messages
@@ -184,6 +211,7 @@ All widgets include proper error handling:
 ## Future Enhancements
 
 ### Planned Features (from specification)
+
 1. **Global Search** - Find campaigns, sessions, entities across the app
 2. **Activity Feed** - Recent changes and updates
 3. **Favorites/Pinned Items** - Quick access to frequently used items
@@ -194,6 +222,7 @@ All widgets include proper error handling:
 8. **Search Widget** - Global search from home
 
 ### Technical TODOs
+
 - [ ] Implement session detail navigation
 - [ ] Implement party detail navigation
 - [ ] Add widget tests
@@ -208,6 +237,7 @@ All widgets include proper error handling:
 Currently, no tests exist for the home feature. Recommended tests:
 
 ### Widget Tests
+
 - `home_screen_test.dart` - Test dashboard rendering
 - `stats_overview_widget_test.dart` - Test statistics display
 - `quick_actions_widget_test.dart` - Test action buttons
@@ -215,6 +245,7 @@ Currently, no tests exist for the home feature. Recommended tests:
 - `recent_section_test.dart` - Test recent items
 
 ### Unit Tests
+
 - `dashboard_service_test.dart` - Test data aggregation
 - `quick_actions_service_test.dart` - Test action configuration
 - `home_controller_test.dart` - Test state management

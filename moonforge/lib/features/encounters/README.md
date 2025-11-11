@@ -42,6 +42,7 @@ encounters/
 ### Encounter Difficulty Calculator
 
 Implements D&D 5e encounter building rules:
+
 - Calculates XP thresholds for parties (Easy, Medium, Hard, Deadly)
 - Maps Challenge Rating to XP for monsters
 - Applies encounter multipliers based on monster count
@@ -51,6 +52,7 @@ Implements D&D 5e encounter building rules:
 ### Initiative Tracker
 
 Manages turn-based combat:
+
 - Sorts combatants by initiative (with modifier tiebreakers)
 - Tracks rounds and turn order
 - Skips defeated combatants
@@ -60,6 +62,7 @@ Manages turn-based combat:
 ### Combatant Service
 
 Business logic for combatant operations:
+
 - CRUD operations for combatants
 - HP management (damage, healing, setting HP)
 - Condition management (add, remove, clear)
@@ -69,11 +72,13 @@ Business logic for combatant operations:
 ### State Management
 
 **EncounterProvider**: Manages encounter state
+
 - Load encounters by origin (campaign, chapter, etc.)
 - Current encounter tracking
 - CRUD operations with automatic UI updates
 
 **InitiativeTrackerController**: Manages combat state
+
 - Roll initiative for all combatants
 - Turn navigation (next/previous)
 - HP and condition management during combat
@@ -84,6 +89,7 @@ Business logic for combatant operations:
 ### Reusable Widgets
 
 **Display Widgets:**
+
 - `CombatantCard`: Full combatant display with HP bar, AC, conditions
 - `CombatantHpBar`: Visual HP indicator with color coding
 - `CombatantConditionsWidget`: Condition badges with icons
@@ -92,10 +98,12 @@ Business logic for combatant operations:
 - `RoundCounter`: Current round display
 
 **List Widgets:**
+
 - `EncounterList`: Browse encounters with empty state
 - `InitiativeOrderList`: Combatant list sorted by initiative
 
 **Dialog Widgets:**
+
 - `AddCombatantDialog`: Add new combatant form
 - `DamageHealDialog`: Quick HP adjustment
 - `ConditionSelector`: Multi-select condition picker
@@ -107,7 +115,7 @@ Business logic for combatant operations:
 From the campaign menu, select "Browse Encounters" to view all encounters:
 
 ```dart
-const EncountersListRoute().go(context);
+const EncountersListRouteData().go(context);
 ```
 
 ### Creating an Encounter
@@ -309,14 +317,14 @@ This implementation follows D&D 5e Basic Rules Chapter 13: Building Combat Encou
 
 ### XP Thresholds by Level
 
-| Level | Easy | Medium | Hard | Deadly |
-|-------|------|--------|------|--------|
-| 1     | 25   | 50     | 75   | 100    |
-| 2     | 50   | 100    | 150  | 200    |
-| 3     | 75   | 150    | 225  | 400    |
-| 5     | 250  | 500    | 750  | 1,100  |
-| 10    | 600  | 1,200  | 1,900| 2,800  |
-| 20    | 2,800| 5,700  | 8,500|12,700  |
+| Level | Easy  | Medium | Hard  | Deadly |
+|-------|-------|--------|-------|--------|
+| 1     | 25    | 50     | 75    | 100    |
+| 2     | 50    | 100    | 150   | 200    |
+| 3     | 75    | 150    | 225   | 400    |
+| 5     | 250   | 500    | 750   | 1,100  |
+| 10    | 600   | 1,200  | 1,900 | 2,800  |
+| 20    | 2,800 | 5,700  | 8,500 | 12,700 |
 
 (See `EncounterDifficultyService` for the complete table)
 
@@ -336,6 +344,7 @@ This implementation follows D&D 5e Basic Rules Chapter 13: Building Combat Encou
 **Current Status:** Phase 2 Complete (UI Components & State Management)
 
 ✅ Completed:
+
 - Encounter difficulty calculation service
 - Initiative tracker service
 - Combatant data model and service
@@ -349,11 +358,13 @@ This implementation follows D&D 5e Basic Rules Chapter 13: Building Combat Encou
 - Localization (EN, DE)
 
 🚧 In Progress:
+
 - Complete encounter builder UI
 - Monster/NPC selection interface
 - Live difficulty calculation display
 
 📋 Planned:
+
 - Enhanced initiative tracker features (concentration, death saves, etc.)
 - Encounter persistence during combat
 - Combat log with history

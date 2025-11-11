@@ -23,20 +23,24 @@ final _editorKey = GlobalKey();
 String? _campaignId; // Set this to your current campaign ID
 
 // In your build method:
-CustomQuillEditor(
-  controller: _quillController,
-  keyForPosition: _editorKey,
-  onSearchEntities: (kind, query) async {
-    // Fetch entities from the database
-    return await EntityMentionService.searchEntities(
-      campaignId: _campaignId!,
-      kinds: kind,
-      query: query,
-      limit: 10,
-    );
-  },
-  padding: const EdgeInsets.all(16),
-  maxHeight: 400,
+CustomQuillEditor
+(
+controller: _quillController,
+keyForPosition: _editorKey,
+onSearchEntities: (kind, query) async {
+// Fetch entities from the database
+return await EntityMentionService.searchEntities(
+campaignId: _campaignId!,
+kinds: kind,
+query: query,
+limit: 10,
+);
+},
+padding: const EdgeInsets.all(16),
+maxHeight
+:
+400
+,
 )
 ```
 
@@ -45,14 +49,16 @@ CustomQuillEditor(
 ```dart
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 
-CustomQuillViewer(
-  controller: _quillController,
-  onMentionTap: (entityId, mentionType) async {
-    // Navigate to entity details
-    EntityRoute(entityId: entityId).push(context);
-  },
-  padding: const EdgeInsets.all(16),
+CustomQuillViewer
+(
+controller: _quillController,
+onMentionTap: (entityId, mentionType) async {
+// Navigate to entity details
+EntityRouteData(entityId: entityId).push(context);
+},
+padding: const EdgeInsets.all(16),
 )
 ```
 

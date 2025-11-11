@@ -39,35 +39,39 @@ class AppRouter {
 ## Route Tree
 
 ### Branch 1: Home & Auth
+
 - `/` → `HomeRoute`
 - `/login` → `LoginRoute`
-  - `/login/register` → `RegisterRoute`
-  - `/login/forgot` → `ForgotPasswordRoute`
+    - `/login/register` → `RegisterRoute`
+    - `/login/forgot` → `ForgotPasswordRoute`
 
 ### Branch 2: Campaign
+
 - `/campaign` → `CampaignRoute`
-  - `/campaign/edit` → `CampaignEditRoute`
-  - `/campaign/chapter/:chapterId` → `ChapterRoute`
-    - `/campaign/chapter/:chapterId/edit` → `ChapterEditRoute`
-    - `/campaign/chapter/:chapterId/adventure/:adventureId` → `AdventureRoute`
-      - `.../adventure/:adventureId/edit` → `AdventureEditRoute`
-      - `.../adventure/:adventureId/scene/:sceneId` → `SceneRoute`
-        - `.../scene/:sceneId/edit` → `SceneEditRoute`
-  - `/campaign/encounter/:encounterId` → `EncounterRoute`
-    - `/campaign/encounter/:encounterId/edit` → `EncounterEditRoute`
-  - `/campaign/entity/:entityId` → `EntityRoute`
-    - `/campaign/entity/:entityId/edit` → `EntityEditRoute`
+    - `/campaign/edit` → `CampaignEditRoute`
+    - `/campaign/chapter/:chapterId` → `ChapterRoute`
+        - `/campaign/chapter/:chapterId/edit` → `ChapterEditRoute`
+        - `/campaign/chapter/:chapterId/adventure/:adventureId` → `AdventureRoute`
+            - `.../adventure/:adventureId/edit` → `AdventureEditRoute`
+            - `.../adventure/:adventureId/scene/:sceneId` → `SceneRoute`
+                - `.../scene/:sceneId/edit` → `SceneEditRoute`
+    - `/campaign/encounter/:encounterId` → `EncounterRoute`
+        - `/campaign/encounter/:encounterId/edit` → `EncounterEditRoute`
+    - `/campaign/entity/:entityId` → `EntityRoute`
+        - `/campaign/entity/:entityId/edit` → `EntityEditRoute`
 
 ### Branch 3: Party
+
 - `/party[?id=<query>]` → `PartyRootRoute`
-  - `/party/:partyId` → `PartyRoute`
-    - `/party/:partyId/edit` → `PartyEditRoute`
-    - `/party/:partyId/member/:memberId` → `MemberRoute`
-      - `/party/:partyId/member/:memberId/edit` → `MemberEditRoute`
-    - `/party/:partyId/session/:sessionId` → `SessionRoute`
-      - `/party/:partyId/session/:sessionId/edit` → `SessionEditRoute`
+    - `/party/:partyId` → `PartyRoute`
+        - `/party/:partyId/edit` → `PartyEditRoute`
+        - `/party/:partyId/member/:memberId` → `MemberRoute`
+            - `/party/:partyId/member/:memberId/edit` → `MemberEditRoute`
+        - `/party/:partyId/session/:sessionId` → `SessionRoute`
+            - `/party/:partyId/session/:sessionId/edit` → `SessionEditRoute`
 
 ### Branch 4: Settings
+
 - `/settings` → `SettingsRoute`
 
 ## Type-Safe Navigation
@@ -78,7 +82,7 @@ Routes are defined as classes extending `GoRouteData`:
 
 ```dart
 class ChapterRoute extends GoRouteData with _$ChapterRoute {
-  const ChapterRoute({required this.chapterId});
+  const ChapterRouteData({required this.chapterId});
   final String chapterId;
   
   @override
@@ -92,7 +96,7 @@ Path parameters are constructor fields. Query parameters use optional fields:
 
 ```dart
 class PartyRootRoute extends GoRouteData with _$PartyRootRoute {
-  const PartyRootRoute({this.id});
+  const PartyRootRouteData({this.id});
   final String? id;  // Query parameter
 }
 ```
@@ -103,32 +107,32 @@ Use typed route instances for navigation:
 
 ```dart
 // Navigate (replace current)
-const ChapterRoute(chapterId: 'c1').go(context);
+const ChapterRouteData(chapterId: 'c1').go(context);
 
 // Push (stack new screen)
-const ChapterRoute(chapterId: 'c1').push(context);
+const ChapterRouteData(chapterId: 'c1').push(context);
 
 // Replace current route
-const ChapterRoute(chapterId: 'c1').replace(context);
+const ChapterRouteData(chapterId: 'c1').replace(context);
 
 // Push and await result
-final result = await const ChapterEditRoute(chapterId: 'c1').push<bool>(context);
+final result = await const ChapterEditRouteData(chapterId: 'c1').push<bool>(context);
 ```
 
 **Examples:**
 
 ```dart
 // Navigate to campaign
-const CampaignRoute().go(context);
+const CampaignRouteData().go(context);
 
 // Open entity editor
-const EntityEditRoute(entityId: 'e123').push(context);
+const EntityEditRouteData(entityId: 'e123').push(context);
 
 // Navigate with query parameter
-const PartyRootRoute(id: 'p456').go(context);
+const PartyRootRouteData(id: 'p456').go(context);
 
 // Nested route
-const SceneRoute(
+const SceneRouteData(
   chapterId: 'ch1',
   adventureId: 'adv2',
   sceneId: 's3',
@@ -308,7 +312,7 @@ Create a class in `app_router.dart`:
 
 ```dart
 class MyNewRoute extends GoRouteData with _$MyNewRoute {
-  const MyNewRoute({required this.id});
+  const MyNewRouteData({required this.id});
   final String id;
   
   @override
@@ -337,7 +341,7 @@ dart run build_runner build --delete-conflicting-outputs
 ### Step 4: Use the Route
 
 ```dart
-const MyNewRoute(id: 'abc').go(context);
+const MyNewRouteData(id: 'abc').go(context);
 ```
 
 ### Custom Page Transitions
@@ -362,6 +366,7 @@ Page<void> buildPage(BuildContext context, GoRouterState state) {
 ### Route Not Found
 
 **Solutions**:
+
 - Ensure route is defined in `app_router.dart`
 - Run `dart run build_runner build --delete-conflicting-outputs`
 - Restart IDE analyzer
@@ -369,6 +374,7 @@ Page<void> buildPage(BuildContext context, GoRouterState state) {
 ### Generated File Not Found
 
 **Solutions**:
+
 - Ensure `part 'app_router.g.dart';` exists
 - Run code generation
 - Restart IDE
@@ -378,6 +384,7 @@ Page<void> buildPage(BuildContext context, GoRouterState state) {
 See [Platform-Specific Guide](../development/platform-specific.md) for detailed platform configurations.
 
 Common checks:
+
 - Verify platform configuration files
 - Check console logs for errors
 - Ensure `DeepLinkService.initialize()` is called in `main.dart`
@@ -386,6 +393,7 @@ Common checks:
 ### Type Errors After Adding Routes
 
 **Solutions**:
+
 - Ensure class mixes in generated mixin: `with _$YourRoute`
 - Clean and rebuild: `dart run build_runner clean && dart run build_runner build`
 

@@ -5,6 +5,7 @@ Moonforge uses extensive code generation for models, routes, assets, and databas
 ## When to Run Code Generation
 
 Run code generation when you:
+
 - Add/modify Freezed models (`@freezed`)
 - Change JSON serializable classes (`@JsonSerializable`)
 - Update routes in `app_router.dart`
@@ -40,13 +41,13 @@ Removes all generated files. Run this if generation is stuck.
 
 ##Generated File Types
 
-| Pattern | Generator | Purpose |
-|---------|-----------|---------|
-| `*.g.dart` | json_serializable, firestore_odm | JSON serialization, Firestore models |
-| `*.freezed.dart` | freezed | Immutable models, unions, copyWith |
-| `*.gr.dart` | go_router_builder | Type-safe routes |
-| `lib/gen/assets.gen.dart` | flutter_gen | Asset constants |
-| `lib/gen/colors.gen.dart` | flutter_gen | Color constants |
+| Pattern                   | Generator                        | Purpose                              |
+|---------------------------|----------------------------------|--------------------------------------|
+| `*.g.dart`                | json_serializable, firestore_odm | JSON serialization, Firestore models |
+| `*.freezed.dart`          | freezed                          | Immutable models, unions, copyWith   |
+| `*.gr.dart`               | go_router_builder                | Type-safe routes                     |
+| `lib/gen/assets.gen.dart` | flutter_gen                      | Asset constants                      |
+| `lib/gen/colors.gen.dart` | flutter_gen                      | Color constants                      |
 
 **Never edit generated files directly!** They'll be overwritten on next generation.
 
@@ -76,6 +77,7 @@ class Campaign with _$Campaign {
 ```
 
 Generates:
+
 - Immutable class with copyWith()
 - Equality and toString()
 - JSON serialization
@@ -108,7 +110,7 @@ Define routes in `app_router.dart`:
 
 ```dart
 class MyRoute extends GoRouteData with _$MyRoute {
-  const MyRoute({required this.id});
+  const MyRouteData({required this.id});
   final String id;
   
   @override
@@ -176,6 +178,7 @@ Use `--delete-conflicting-outputs` flag to auto-resolve.
 ### Slow Generation
 
 Watch mode can be slow with many files. To speed up:
+
 - Only run watch when actively editing generated code
 - Use one-time generation (`build`) for occasional changes
 - Exclude unnecessary directories in `build.yaml`

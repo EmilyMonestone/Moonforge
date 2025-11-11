@@ -11,13 +11,17 @@ The Entities feature allows users to create, view, browse, filter, and manage ca
 ### Controllers
 
 #### `entity_provider.dart`
+
 State management for the current entity being viewed or edited.
+
 - Load entity by ID
 - Set/clear current entity
 - Update current entity
 
 #### `entity_list_controller.dart`
+
 State management for entity browsing with filters and search.
+
 - Load all entities
 - Search entities by name or summary
 - Filter by kind (NPC, monster, place, etc.)
@@ -28,7 +32,9 @@ State management for entity browsing with filters and search.
 ### Services
 
 #### `entity_service.dart`
+
 Business logic for entity operations.
+
 - Create new entities with full metadata
 - Update existing entities
 - Delete entities (soft delete)
@@ -40,7 +46,9 @@ Business logic for entity operations.
 ### Views
 
 #### `entity_list_screen.dart`
+
 Browse all entities in the campaign with advanced filtering.
+
 - Search bar for quick filtering
 - Kind filter dropdown
 - Tag filter chips
@@ -49,22 +57,28 @@ Browse all entities in the campaign with advanced filtering.
 - Create new entity button
 
 #### `entity_screen.dart` (existing)
+
 View entity details.
 
 #### `entity_edit_screen.dart` (existing)
+
 Create or edit an entity.
 
 ### Widgets
 
 #### `entity_card.dart`
+
 Reusable card widget for displaying entities in lists.
+
 - Shows entity name, kind, summary
 - Displays first 5 tags
 - Customizable tap and long-press handlers
 - Optional trailing widget
 
 #### `entity_type_icon.dart`
+
 Icon representation for entity kinds.
+
 - Kind-specific icons (person, pets, groups, place, etc.)
 - Color-coded by kind category
 - Helper functions for getting icons, colors, and labels
@@ -72,7 +86,9 @@ Icon representation for entity kinds.
 ### Utils
 
 #### `entity_validators.dart`
+
 Validation logic for entity data.
+
 - Validate entity name (required, max 100 chars)
 - Validate entity kind (must be valid type)
 - Validate summary (max 500 chars)
@@ -81,7 +97,9 @@ Validation logic for entity data.
 - Check required fields by kind
 
 #### `entity_formatters.dart`
+
 Formatting utilities for entity display.
+
 - Format kind as human-readable label
 - Format summary with ellipsis
 - Format tags as comma-separated string
@@ -91,7 +109,9 @@ Formatting utilities for entity display.
 - Format member counts
 
 #### `entity_filters.dart`
+
 Filter utilities for entity lists.
+
 - Filter by kind, tag(s), search query, origin
 - Filter by date ranges (created/updated after)
 - Filter NPCs/monsters, places, items, groups
@@ -99,7 +119,9 @@ Filter utilities for entity lists.
 - Complex multi-criteria filtering
 
 #### `entity_sorting.dart`
+
 Sorting utilities for entity lists.
+
 - Sort by name (asc/desc)
 - Sort by kind (asc/desc)
 - Sort by created/updated date (asc/desc)
@@ -171,7 +193,7 @@ final entity = await service.createEntity(
 
 ```dart
 // Navigate to entity list
-const EntitiesListRoute().go(context);
+const EntitiesListRouteData().go(context);
 
 // Or from menu
 // Click "Browse Entities" in campaign menu
@@ -203,7 +225,7 @@ controller.clearFilters();
 EntityCard(
   entity: entity,
   onTap: () {
-    EntityRoute(entityId: entity.id).push(context);
+    EntityRouteData(entityId: entity.id).push(context);
   },
 );
 
@@ -217,10 +239,12 @@ EntityTypeIcon(
 ## Localization
 
 All user-facing strings are internationalized in:
+
 - `lib/l10n/app_en.arb` - English
 - `lib/l10n/app_de.arb` - German
 
 New strings added:
+
 - `search` - Search
 - `filterByKind` - Filter by Kind
 - `allKinds` - All Kinds

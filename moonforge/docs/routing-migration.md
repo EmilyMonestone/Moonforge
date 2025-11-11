@@ -5,6 +5,7 @@ This document explains the migration from string-based routing to type-safe rout
 ## What Changed?
 
 ### Before (String-Based)
+
 ```dart
 // Navigating with strings - error-prone!
 context.go('/campaign');
@@ -13,6 +14,7 @@ context.go('/party/$partyId/session/$sessionId/edit');
 ```
 
 ### After (Type-Safe)
+
 ```dart
 // Navigating with typed route data - compile-time safe!
 const CampaignRouteData().go(context);
@@ -86,6 +88,7 @@ If you need to add or modify routes:
 ## Common Patterns
 
 ### Simple Route (No Parameters)
+
 ```dart
 @TypedGoRoute<SettingsRouteData>(path: '/settings')
 class SettingsRouteData extends GoRouteData {
@@ -101,6 +104,7 @@ const SettingsRouteData().go(context);
 ```
 
 ### Route with Path Parameters
+
 ```dart
 @TypedGoRoute<EntityRouteData>(path: 'entity/:entityId')
 class EntityRouteData extends GoRouteData {
@@ -118,6 +122,7 @@ EntityRouteData(entityId: 'entity123').go(context);
 ```
 
 ### Nested Routes
+
 ```dart
 @TypedGoRoute<PartyRouteData>(
   path: ':partyId',
@@ -141,6 +146,7 @@ PartyEditRouteData(partyId: 'party123').push(context);
 ```
 
 ### Multiple Parameters
+
 ```dart
 @TypedGoRoute<SceneRouteData>(path: 'scene/:sceneId')
 class SceneRouteData extends GoRouteData {
@@ -181,7 +187,7 @@ typedef CampaignRoute = CampaignRouteData;
 // ... and so on
 ```
 
-This means existing code using `const HomeRoute().go(context)` will continue to work without changes.
+This means existing code using `const HomeRouteData().go(context)` will continue to work without changes.
 
 ## Shell Routes and Branches
 
@@ -205,16 +211,21 @@ Each branch maintains its own navigation stack, so users can switch between tabs
 ## Troubleshooting
 
 ### "Undefined name '$appRoutes'"
+
 Run code generation: `dart run build_runner build --delete-conflicting-outputs`
 
 ### "The getter 'location' isn't defined"
+
 Make sure you're using a route data class (e.g., `HomeRouteData`) not a plain string.
 
 ### "Missing required parameter"
+
 Check the route data class definition to see what parameters are required.
 
 ### Navigation doesn't work
+
 Verify that:
+
 1. The route is defined in `router_config.dart`
 2. Code generation has been run
 3. You're using the correct route data class
