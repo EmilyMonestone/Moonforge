@@ -221,7 +221,7 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
                 labelText: 'Role',
                 border: OutlineInputBorder(),
               ),
-              value: 'member',
+              initialValue: 'member',
               items: const [
                 DropdownMenuItem(value: 'member', child: Text('Member')),
                 DropdownMenuItem(value: 'editor', child: Text('Editor')),
@@ -291,7 +291,7 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
                 labelText: 'New Role',
                 border: OutlineInputBorder(),
               ),
-              value: 'member',
+              initialValue: 'member',
               items: const [
                 DropdownMenuItem(value: 'member', child: Text('Member')),
                 DropdownMenuItem(value: 'editor', child: Text('Editor')),

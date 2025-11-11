@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
@@ -55,7 +55,7 @@ class EncounterScreen extends StatelessWidget {
                 icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
-                  EncounterEditRoute(encounterId: encounterId).go(context);
+                  EncounterEditRouteData(encounterId: encounterId).go(context);
                 },
               ),
             ],

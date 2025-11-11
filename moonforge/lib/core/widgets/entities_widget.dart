@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -138,7 +138,7 @@ class _EntityGroupWidget extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        EntityRoute(entityId: entity.id).push(context);
+                        EntityRouteData(entityId: entity.id).push(context);
                       },
                       hoverColor: Theme.of(
                         context,

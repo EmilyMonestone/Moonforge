@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -51,24 +51,26 @@ class _SceneListScreenState extends State<SceneListScreen> {
 
       // Load all chapters
       final chapters = await chapterRepo.getByCampaign(campaign.id);
-      
+
       final allScenes = <_SceneWithContext>[];
 
       // For each chapter, load adventures and scenes
       for (final chapter in chapters) {
         final adventures = await adventureRepo.getByChapter(chapter.id);
-        
+
         for (final adventure in adventures) {
           final scenes = await sceneRepo.getByAdventure(adventure.id);
-          
+
           for (final scene in scenes) {
-            allScenes.add(_SceneWithContext(
-              scene: scene,
-              chapterId: chapter.id,
-              chapterName: chapter.name,
-              adventureId: adventure.id,
-              adventureName: adventure.name,
-            ));
+            allScenes.add(
+              _SceneWithContext(
+                scene: scene,
+                chapterId: chapter.id,
+                chapterName: chapter.name,
+                adventureId: adventure.id,
+                adventureName: adventure.name,
+              ),
+            );
           }
         }
       }
@@ -77,10 +79,10 @@ class _SceneListScreenState extends State<SceneListScreen> {
       allScenes.sort((a, b) {
         final chapterCompare = a.chapterName.compareTo(b.chapterName);
         if (chapterCompare != 0) return chapterCompare;
-        
+
         final adventureCompare = a.adventureName.compareTo(b.adventureName);
         if (adventureCompare != 0) return adventureCompare;
-        
+
         return a.scene.order.compareTo(b.scene.order);
       });
 
@@ -102,106 +104,104 @@ class _SceneListScreenState extends State<SceneListScreen> {
     final theme = Theme.of(context);
 
     return SurfaceContainer(
-      title: Text(
-        'All Scenes',
-        style: theme.textTheme.displaySmall,
-      ),
+      title: Text('All Scenes', style: theme.textTheme.displaySmall),
       child: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                      const SizedBox(height: 16),
-                      Text(
-                        _errorMessage!,
-                        style: theme.textTheme.titleMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      FilledButton.icon(
-                        onPressed: _loadAllScenes,
-                        icon: const Icon(Icons.refresh),
-                        label: const Text('Retry'),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    _errorMessage!,
+                    style: theme.textTheme.titleMedium,
+                    textAlign: TextAlign.center,
                   ),
-                )
-              : _scenes.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.movie_outlined,
-                            size: 64,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'No scenes found',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: _scenes.length,
-                      itemBuilder: (context, index) {
-                        final sceneWithContext = _scenes[index];
-                        final scene = sceneWithContext.scene;
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: _loadAllScenes,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            )
+          : _scenes.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.movie_outlined,
+                    size: 64,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No scenes found',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: _scenes.length,
+              itemBuilder: (context, index) {
+                final sceneWithContext = _scenes[index];
+                final scene = sceneWithContext.scene;
 
-                        // Show chapter/adventure headers
-                        bool showHeader = index == 0 ||
-                            _scenes[index - 1].chapterName !=
-                                sceneWithContext.chapterName ||
-                            _scenes[index - 1].adventureName !=
-                                sceneWithContext.adventureName;
+                // Show chapter/adventure headers
+                bool showHeader =
+                    index == 0 ||
+                    _scenes[index - 1].chapterName !=
+                        sceneWithContext.chapterName ||
+                    _scenes[index - 1].adventureName !=
+                        sceneWithContext.adventureName;
 
-                        return Column(
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (showHeader) ...[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (showHeader) ...[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      sceneWithContext.chapterName,
-                                      style: theme.textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      sceneWithContext.adventureName,
-                                      style: theme.textTheme.titleMedium?.copyWith(
-                                        color: theme.colorScheme.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            Text(
+                              sceneWithContext.chapterName,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                            SceneCard(
-                              scene: scene,
-                              onTap: () {
-                                SceneRoute(
-                                  chapterId: sceneWithContext.chapterId,
-                                  adventureId: sceneWithContext.adventureId,
-                                  sceneId: scene.id,
-                                ).go(context);
-                              },
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              sceneWithContext.adventureName,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: theme.colorScheme.primary,
+                              ),
                             ),
                           ],
-                        );
+                        ),
+                      ),
+                    ],
+                    SceneCard(
+                      scene: scene,
+                      onTap: () {
+                        SceneRouteData(
+                          chapterId: sceneWithContext.chapterId,
+                          adventureId: sceneWithContext.adventureId,
+                          sceneId: scene.id,
+                        ).go(context);
                       },
                     ),
+                  ],
+                );
+              },
+            ),
     );
   }
 }

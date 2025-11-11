@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -40,44 +40,43 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
     context: context,
     builder: (ctx) {
       return StatefulBuilder(
-        builder: (ctx, setState) =>
-            AlertDialog(
-              title: Text('${l10n.createAdventure}: Nr. $nextOrder'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  DropdownButtonFormField<String>(
-                    initialValue: selected.id,
-                    decoration: InputDecoration(labelText: l10n.selectChapter),
-                    items: [
-                      for (final c in chapters)
-                        DropdownMenuItem(value: c.id, child: Text(c.name)),
-                    ],
-                    onChanged: (id) async {
-                      if (id == null) return;
-                      final found = chapters.firstWhere((c) => c.id == id);
-                      setState(() => selected = found);
-                      nextOrder = await computeNextOrder(selected.id);
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(labelText: l10n.name),
-                  ),
+        builder: (ctx, setState) => AlertDialog(
+          title: Text('${l10n.createAdventure}: Nr. $nextOrder'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButtonFormField<String>(
+                initialValue: selected.id,
+                decoration: InputDecoration(labelText: l10n.selectChapter),
+                items: [
+                  for (final c in chapters)
+                    DropdownMenuItem(value: c.id, child: Text(c.name)),
                 ],
+                onChanged: (id) async {
+                  if (id == null) return;
+                  final found = chapters.firstWhere((c) => c.id == id);
+                  setState(() => selected = found);
+                  nextOrder = await computeNextOrder(selected.id);
+                },
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(false),
-                  child: Text(l10n.cancel),
-                ),
-                FilledButton(
-                  onPressed: () => Navigator.of(ctx).pop(true),
-                  child: Text(l10n.create),
-                ),
-              ],
+              const SizedBox(height: 12),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: l10n.name),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
             ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.create),
+            ),
+          ],
+        ),
       );
     },
   );
@@ -104,10 +103,7 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createAdventure));
-    AdventureRoute(
-      chapterId: selected.id,
-      adventureId: adv.id,
-    ).go(context);
+    AdventureRouteData(chapterId: selected.id, adventureId: adv.id).go(context);
   } catch (e, st) {
     logger.e('Create adventure failed', error: e, stackTrace: st);
     if (!context.mounted) return;

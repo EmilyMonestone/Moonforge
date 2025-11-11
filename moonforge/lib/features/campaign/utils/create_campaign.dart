@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:moonforge/core/models/return_message.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -35,7 +36,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
       return ReturnMessage.failure('Bitte zuerst anmelden.', null);
     }
     // Capture target location before async operations.
-    final location = const CampaignEditRoute().location;
+    final location = const CampaignEditRouteData().location;
 
     // Generate a unique ID for the campaign
     final campaignId = 'campaign-${DateTime.now().millisecondsSinceEpoch}';

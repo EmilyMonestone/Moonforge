@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/features/adventure/utils/create_adventure.dart'
     as adventure_utils;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -177,7 +177,7 @@ class MenuRegistry {
       helpText: 'Browse all campaigns',
       icon: Icons.folder_outlined,
       onPressed: (ctx) {
-        const CampaignsListRoute().go(ctx);
+        const CampaignsListRouteData().go(ctx);
       },
     );
   }
@@ -189,7 +189,7 @@ class MenuRegistry {
       icon: Icons.group_add_outlined,
       onPressed: (ctx) {
         // TODO: Implement party creation (navigate to edit/new flow)
-        const PartyRootRoute().go(ctx);
+        const PartyRootRouteData().go(ctx);
       },
     );
   }
@@ -247,7 +247,7 @@ class MenuRegistry {
       helpText: l10n.browseAllEntities,
       icon: Icons.list_alt_outlined,
       onPressed: (ctx) {
-        const EntitiesListRoute().go(ctx);
+        const EntitiesListRouteData().go(ctx);
       },
     );
   }
@@ -354,7 +354,7 @@ class MenuRegistry {
       helpText: 'View all encounters in the campaign',
       icon: Icons.list_outlined,
       onPressed: (ctx) {
-        const EncountersListRoute().go(ctx);
+        const EncountersListRouteData().go(ctx);
       },
     );
   }

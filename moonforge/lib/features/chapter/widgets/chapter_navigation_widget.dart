@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// Widget for navigating between chapters (previous/next)
@@ -35,13 +35,15 @@ class ChapterNavigationWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   onPressed: () {
-                    ChapterRoute(chapterId: previousChapter!.id).go(context);
+                    ChapterRouteData(
+                      chapterId: previousChapter!.id,
+                    ).go(context);
                   },
                 )
               : Container(),
         ),
         const SizedBox(width: 16),
-        
+
         // Next chapter button
         Expanded(
           child: nextChapter != null
@@ -54,7 +56,7 @@ class ChapterNavigationWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   onPressed: () {
-                    ChapterRoute(chapterId: nextChapter!.id).go(context);
+                    ChapterRouteData(chapterId: nextChapter!.id).go(context);
                   },
                 )
               : Container(),

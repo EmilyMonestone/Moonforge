@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
@@ -105,8 +105,9 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                       border: const OutlineInputBorder(),
                       suffixIcon: Consumer<CampaignListController>(
                         builder: (context, controller, _) {
-                          if (controller.searchQuery.isEmpty)
+                          if (controller.searchQuery.isEmpty) {
                             return const SizedBox.shrink();
+                          }
                           return IconButton(
                             icon: const Icon(Icons.clear),
                             onPressed: () => controller.setSearchQuery(''),
@@ -223,13 +224,13 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                         context.read<CampaignProvider>().setCurrentCampaign(
                           campaign,
                         );
-                        const CampaignRoute().go(context);
+                        const CampaignRouteData().go(context);
                       },
                       onCampaignEdit: (campaign) {
                         context.read<CampaignProvider>().setCurrentCampaign(
                           campaign,
                         );
-                        const CampaignEditRoute().go(context);
+                        const CampaignEditRouteData().go(context);
                       },
                       onCampaignDelete: (campaign) async {
                         // Show confirmation dialog

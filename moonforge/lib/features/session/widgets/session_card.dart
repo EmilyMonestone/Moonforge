@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -27,7 +27,7 @@ class SessionCard extends StatelessWidget {
         onTap:
             onTap ??
             () {
-              SessionRoute(
+              SessionRouteData(
                 partyId: partyId,
                 sessionId: session.id,
               ).push(context);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -11,9 +11,9 @@ import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/controllers/scene_provider.dart';
+import 'package:moonforge/features/scene/utils/scene_export.dart';
 import 'package:moonforge/features/scene/widgets/scene_completion_indicator.dart';
 import 'package:moonforge/features/scene/widgets/scene_navigation_widget.dart';
-import 'package:moonforge/features/scene/utils/scene_export.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -62,12 +62,10 @@ class _SceneScreenState extends State<SceneScreen> {
           if (ops != null) {
             _controller.document = Document.fromJson(ops);
           } else {
-            _controller.document = Document()
-              ..insert(0, scene.summary ?? '');
+            _controller.document = Document()..insert(0, scene.summary ?? '');
           }
         } catch (e) {
-          _controller.document = Document()
-            ..insert(0, scene.summary ?? '');
+          _controller.document = Document()..insert(0, scene.summary ?? '');
         }
       }
       _controller.readOnly = true;
@@ -91,9 +89,7 @@ class _SceneScreenState extends State<SceneScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final campaign = context
-        .watch<CampaignProvider>()
-        .currentCampaign;
+    final campaign = context.watch<CampaignProvider>().currentCampaign;
 
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -113,7 +109,7 @@ class _SceneScreenState extends State<SceneScreen> {
           SceneNavigationWidget(
             currentScene: _scene!,
             onNavigate: (scene) {
-              SceneRoute(
+              SceneRouteData(
                 chapterId: widget.chapterId,
                 adventureId: widget.adventureId,
                 sceneId: scene.id,
@@ -126,10 +122,7 @@ class _SceneScreenState extends State<SceneScreen> {
               Expanded(
                 child: Text(
                   _scene!.name,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .displaySmall,
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
               // Completion indicator
@@ -147,7 +140,7 @@ class _SceneScreenState extends State<SceneScreen> {
                 icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
-                  SceneEditRoute(
+                  SceneEditRouteData(
                     chapterId: widget.chapterId,
                     adventureId: widget.adventureId,
                     sceneId: widget.sceneId,
@@ -166,10 +159,7 @@ class _SceneScreenState extends State<SceneScreen> {
                   children: [
                     Text(
                       l10n.description,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(_scene!.summary!),
@@ -182,16 +172,15 @@ class _SceneScreenState extends State<SceneScreen> {
                     const SizedBox(height: 16),
                     Text(
                       'Read Aloud',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primaryContainer.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -211,16 +200,13 @@ class _SceneScreenState extends State<SceneScreen> {
                     const SizedBox(height: 16),
                     Text(
                       l10n.content,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     CustomQuillViewer(
                       controller: _controller,
                       onMentionTap: (entityId, mentionType) async {
-                        EntityRoute(entityId: entityId).push(context);
+                        EntityRouteData(entityId: entityId).push(context);
                       },
                     ),
                   ],

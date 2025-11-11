@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:provider/provider.dart';
 
 /// A small auth-aware widget:
@@ -39,7 +39,7 @@ class _AuthUserButtonState extends State<AuthUserButton> {
   Widget build(BuildContext context) {
     if (_authProvider.firebaseUser == null) {
       return FilledButton(
-        onPressed: () => const LoginRoute().go(context),
+        onPressed: () => const LoginRouteData().go(context),
         child: const Text('Login'),
       );
     }
@@ -53,14 +53,14 @@ class _AuthUserButtonState extends State<AuthUserButton> {
       onSelected: (value) async {
         switch (value) {
           case _AuthMenuAction.profile:
-            const ProfileRoute().go(context);
+            const ProfileRouteData().go(context);
             break;
           case _AuthMenuAction.logout:
             try {
               await _authProvider.signOut();
             } catch (_) {}
             if (context.mounted) {
-              const HomeRoute().go(context);
+              const HomeRouteData().go(context);
             }
             break;
         }

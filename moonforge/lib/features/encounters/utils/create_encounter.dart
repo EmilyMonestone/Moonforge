@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +26,6 @@ Future<void> createEncounter(BuildContext context, db.Campaign campaign) async {
   await repository.upsertLocal(encounter);
 
   if (context.mounted) {
-    EncounterEditRoute(encounterId: encounter.id).go(context);
+    EncounterEditRouteData(encounterId: encounter.id).go(context);
   }
 }

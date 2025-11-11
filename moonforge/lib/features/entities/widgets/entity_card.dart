@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// A card widget for displaying an entity in lists and grids
@@ -25,7 +25,7 @@ class EntityCard extends StatelessWidget {
         onTap:
             onTap ??
             () {
-              EntityRoute(entityId: entity.id).push(context);
+              EntityRouteData(entityId: entity.id).push(context);
             },
         onLongPress: onLongPress,
         child: Padding(

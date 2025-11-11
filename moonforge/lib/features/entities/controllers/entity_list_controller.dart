@@ -12,7 +12,7 @@ class EntityListController with ChangeNotifier {
   bool _isLoading = false;
   String _searchQuery = '';
   String? _selectedKind;
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
   String _sortBy = 'name'; // 'name', 'kind', 'createdAt', 'updatedAt'
   bool _sortAscending = true;
 

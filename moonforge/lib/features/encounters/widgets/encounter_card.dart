@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// Card widget to display an encounter in a list
@@ -7,11 +7,7 @@ class EncounterCard extends StatelessWidget {
   final Encounter encounter;
   final VoidCallback? onTap;
 
-  const EncounterCard({
-    super.key,
-    required this.encounter,
-    this.onTap,
-  });
+  const EncounterCard({super.key, required this.encounter, this.onTap});
 
   int get _combatantCount {
     if (encounter.combatants == null) return 0;
@@ -25,9 +21,10 @@ class EncounterCard extends StatelessWidget {
 
     return Card(
       child: InkWell(
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
-              EncounterRoute(encounterId: encounter.id).go(context);
+              EncounterRouteData(encounterId: encounter.id).go(context);
             },
         child: Padding(
           padding: const EdgeInsets.all(16),

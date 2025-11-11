@@ -71,7 +71,7 @@ class _AdventureListScreenState extends State<AdventureListScreen> {
                   }
 
                   return DropdownButtonFormField<String?>(
-                    value: _selectedChapterId,
+                    initialValue: _selectedChapterId,
                     decoration: InputDecoration(
                       labelText: l10n.filterByChapter,
                       border: const OutlineInputBorder(),

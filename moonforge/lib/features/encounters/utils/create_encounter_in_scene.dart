@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -35,6 +35,6 @@ Future<void> createEncounterInScene(
 
   if (context.mounted) {
     notification.success(context, title: Text(l10n.createEncounter));
-    EncounterEditRoute(encounterId: encounter.id).go(context);
+    EncounterEditRouteData(encounterId: encounter.id).go(context);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
@@ -87,9 +87,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
-    final service = CampaignService(
-      CampaignRepository(context.read<AppDb>()),
-    );
+    final service = CampaignService(CampaignRepository(context.read<AppDb>()));
 
     return Column(
       children: [
@@ -105,10 +103,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
           ),
           child: CampaignQuickActions(campaign: campaign),
         ),
-        CampaignStatsDashboard(
-          campaign: campaign,
-          service: service,
-        ),
+        CampaignStatsDashboard(campaign: campaign, service: service),
         SurfaceContainer(
           title: Row(
             children: [
@@ -119,7 +114,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
                 icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.edit),
                 onPressed: () {
-                  CampaignEditRoute().go(context);
+                  CampaignEditRouteData().go(context);
                 },
               ),
             ],
@@ -153,7 +148,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
                 controller: _controller,
                 onMentionTap: (entityId, mentionType) async {
                   // Navigate to entity details when mention is clicked
-                  EntityRoute(entityId: entityId).push(context);
+                  EntityRouteData(entityId: entityId).push(context);
                 },
               ),
             ],
@@ -212,9 +207,9 @@ class _ChaptersSection extends StatelessWidget {
             items: chapters,
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => c.summary ?? '',
-            onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            onTap: (c) => ChapterRouteData(chapterId: c.id).go(context),
             enableContextMenu: true,
-            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
+            routeOf: (c) => ChapterRouteData(chapterId: c.id).location,
           );
         },
       ),
@@ -270,9 +265,9 @@ class _RecentChaptersSection extends StatelessWidget {
             items: recentItems,
             titleOf: (c) => '${c.order}. ${c.name}',
             subtitleOf: (c) => c.summary ?? '',
-            onTap: (c) => ChapterRoute(chapterId: c.id).go(context),
+            onTap: (c) => ChapterRouteData(chapterId: c.id).go(context),
             enableContextMenu: true,
-            routeOf: (c) => ChapterRoute(chapterId: c.id).location,
+            routeOf: (c) => ChapterRouteData(chapterId: c.id).location,
           );
         },
       ),
@@ -390,7 +385,7 @@ class _RecentAdventuresSection extends StatelessWidget {
             items: items,
             titleOf: (t) => '${t.$1.order}. ${t.$1.name}',
             subtitleOf: (t) => t.$1.summary ?? '',
-            onTap: (t) => AdventureRoute(
+            onTap: (t) => AdventureRouteData(
               chapterId: t.$2,
               adventureId: t.$1.id,
             ).go(context),
@@ -534,7 +529,7 @@ class _RecentScenesSection extends StatelessWidget {
             items: items,
             titleOf: (t) => '${t.$1.order}. ${t.$1.name}',
             subtitleOf: (t) => t.$1.summary ?? '',
-            onTap: (t) => SceneRoute(
+            onTap: (t) => SceneRouteData(
               chapterId: t.$2,
               adventureId: t.$3,
               sceneId: t.$1.id,

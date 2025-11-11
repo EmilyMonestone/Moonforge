@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 
@@ -25,7 +25,7 @@ class AdventureNavigation {
     }
 
     if (nextScene != null && context.mounted) {
-      SceneRoute(
+      SceneRouteData(
         chapterId: chapterId,
         adventureId: adventureId,
         sceneId: nextScene.id,
@@ -53,7 +53,7 @@ class AdventureNavigation {
     }
 
     if (previousScene != null && context.mounted) {
-      SceneRoute(
+      SceneRouteData(
         chapterId: chapterId,
         adventureId: adventureId,
         sceneId: previousScene.id,
@@ -73,7 +73,7 @@ class AdventureNavigation {
     final scene = scenes.where((s) => s.order == order).firstOrNull;
 
     if (scene != null && context.mounted) {
-      SceneRoute(
+      SceneRouteData(
         chapterId: chapterId,
         adventureId: adventureId,
         sceneId: scene.id,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -65,7 +65,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   subtitle: const Text('Update name, description, and content'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    const CampaignEditRoute().go(context);
+                    const CampaignEditRouteData().go(context);
                   },
                 ),
                 const Divider(),
@@ -103,7 +103,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                   ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    const CampaignMembersRoute().go(context);
+                    const CampaignMembersRouteData().go(context);
                   },
                 ),
                 const Divider(),
@@ -210,7 +210,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                     if (confirmed == true && context.mounted) {
                       await _service.archiveCampaign(campaign);
                       if (context.mounted) {
-                        const HomeRoute().go(context);
+                        const HomeRouteData().go(context);
                       }
                     }
                   },
@@ -242,7 +242,7 @@ class _CampaignSettingsScreenState extends State<CampaignSettingsScreen> {
                         context
                             .read<CampaignProvider>()
                             .clearPersistedCampaign();
-                        const HomeRoute().go(context);
+                        const HomeRouteData().go(context);
                       }
                     }
                   },

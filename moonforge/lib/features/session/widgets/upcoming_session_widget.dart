@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -24,7 +24,10 @@ class UpcomingSessionWidget extends StatelessWidget {
     return SurfaceContainer(
       child: InkWell(
         onTap: () {
-          SessionRoute(partyId: partyId, sessionId: session.id).push(context);
+          SessionRouteData(
+            partyId: partyId,
+            sessionId: session.id,
+          ).push(context);
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(

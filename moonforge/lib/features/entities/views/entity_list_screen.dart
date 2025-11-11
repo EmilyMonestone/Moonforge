@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
@@ -124,7 +124,7 @@ class _EntityListScreenState extends State<EntityListScreen> {
                         return _EntityListItem(
                           entity: entity,
                           onTap: () {
-                            EntityRoute(entityId: entity.id).push(context);
+                            EntityRouteData(entityId: entity.id).push(context);
                           },
                         );
                       },

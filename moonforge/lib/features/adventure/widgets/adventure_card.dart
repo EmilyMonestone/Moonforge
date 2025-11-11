@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/app_router.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/widgets/link_context_menu.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -49,7 +49,7 @@ class AdventureCard extends StatelessWidget {
     // Wrap with context menu if enabled
     if (enableContextMenu) {
       return LinkContextMenu(
-        route: AdventureRoute(
+        route: AdventureRouteData(
           chapterId: adventure.chapterId,
           adventureId: adventure.id,
         ).location,

@@ -117,8 +117,8 @@ class SafeDataParser {
       // If it's a List of maps, convert them
       if (value is List) {
         return value
-            .where((e) => e is Map)
-            .map((e) => Map<String, dynamic>.from(e as Map))
+            .whereType<Map>()
+            .map((e) => Map<String, dynamic>.from(e))
             .toList();
       }
 
@@ -128,8 +128,8 @@ class SafeDataParser {
         final decoded = jsonDecode(value);
         if (decoded is List) {
           return decoded
-              .where((e) => e is Map)
-              .map((e) => Map<String, dynamic>.from(e as Map))
+              .whereType<Map>()
+              .map((e) => Map<String, dynamic>.from(e))
               .toList();
         }
       }
