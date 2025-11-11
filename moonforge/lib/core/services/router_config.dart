@@ -189,7 +189,7 @@ class SettingsBranchData extends StatefulShellBranchData {
 
 // Home Branch Routes
 @immutable
-class HomeRouteData extends GoRouteData {
+class HomeRouteData extends GoRouteData with _$HomeRouteData {
   const HomeRouteData();
 
   @override
@@ -197,7 +197,7 @@ class HomeRouteData extends GoRouteData {
 }
 
 @immutable
-class LoginRouteData extends GoRouteData {
+class LoginRouteData extends GoRouteData with _$LoginRouteData {
   const LoginRouteData();
 
   @override
@@ -206,7 +206,7 @@ class LoginRouteData extends GoRouteData {
 }
 
 @immutable
-class RegisterRouteData extends GoRouteData {
+class RegisterRouteData extends GoRouteData with _$RegisterRouteData {
   const RegisterRouteData();
 
   @override
@@ -215,7 +215,7 @@ class RegisterRouteData extends GoRouteData {
 }
 
 @immutable
-class ForgotPasswordRouteData extends GoRouteData {
+class ForgotPasswordRouteData extends GoRouteData with _$ForgotPasswordRouteData {
   const ForgotPasswordRouteData();
 
   @override
@@ -225,7 +225,7 @@ class ForgotPasswordRouteData extends GoRouteData {
 
 // Campaign Branch Routes
 @immutable
-class CampaignsListRouteData extends GoRouteData {
+class CampaignsListRouteData extends GoRouteData with _$CampaignsListRouteData {
   const CampaignsListRouteData();
 
   @override
@@ -234,7 +234,7 @@ class CampaignsListRouteData extends GoRouteData {
 }
 
 @immutable
-class CampaignRouteData extends GoRouteData {
+class CampaignRouteData extends GoRouteData with _$CampaignRouteData {
   const CampaignRouteData();
 
   @override
@@ -243,7 +243,7 @@ class CampaignRouteData extends GoRouteData {
 }
 
 @immutable
-class CampaignEditRouteData extends GoRouteData {
+class CampaignEditRouteData extends GoRouteData with _$CampaignEditRouteData {
   const CampaignEditRouteData();
 
   @override
@@ -252,7 +252,7 @@ class CampaignEditRouteData extends GoRouteData {
 }
 
 @immutable
-class CampaignSettingsRouteData extends GoRouteData {
+class CampaignSettingsRouteData extends GoRouteData with _$CampaignSettingsRouteData {
   const CampaignSettingsRouteData();
 
   @override
@@ -261,7 +261,7 @@ class CampaignSettingsRouteData extends GoRouteData {
 }
 
 @immutable
-class CampaignAnalyticsRouteData extends GoRouteData {
+class CampaignAnalyticsRouteData extends GoRouteData with _$CampaignAnalyticsRouteData {
   const CampaignAnalyticsRouteData();
 
   @override
@@ -270,7 +270,7 @@ class CampaignAnalyticsRouteData extends GoRouteData {
 }
 
 @immutable
-class CampaignMembersRouteData extends GoRouteData {
+class CampaignMembersRouteData extends GoRouteData with _$CampaignMembersRouteData {
   const CampaignMembersRouteData();
 
   @override
@@ -279,7 +279,7 @@ class CampaignMembersRouteData extends GoRouteData {
 }
 
 @immutable
-class ChaptersListRouteData extends GoRouteData {
+class ChaptersListRouteData extends GoRouteData with _$ChaptersListRouteData {
   const ChaptersListRouteData();
 
   @override
@@ -288,7 +288,7 @@ class ChaptersListRouteData extends GoRouteData {
 }
 
 @immutable
-class ChapterRouteData extends GoRouteData {
+class ChapterRouteData extends GoRouteData with _$ChapterRouteData {
   const ChapterRouteData({required this.chapterId});
 
   final String chapterId;
@@ -299,7 +299,7 @@ class ChapterRouteData extends GoRouteData {
 }
 
 @immutable
-class ChapterEditRouteData extends GoRouteData {
+class ChapterEditRouteData extends GoRouteData with _$ChapterEditRouteData {
   const ChapterEditRouteData({required this.chapterId});
 
   final String chapterId;
@@ -310,7 +310,7 @@ class ChapterEditRouteData extends GoRouteData {
 }
 
 @immutable
-class AdventureListRouteData extends GoRouteData {
+class AdventureListRouteData extends GoRouteData with _$AdventureListRouteData {
   const AdventureListRouteData();
 
   @override
@@ -319,7 +319,7 @@ class AdventureListRouteData extends GoRouteData {
 }
 
 @immutable
-class AdventureRouteData extends GoRouteData {
+class AdventureRouteData extends GoRouteData with _$AdventureRouteData {
   const AdventureRouteData({
     required this.chapterId,
     required this.adventureId,
@@ -334,7 +334,7 @@ class AdventureRouteData extends GoRouteData {
 }
 
 @immutable
-class AdventureEditRouteData extends GoRouteData {
+class AdventureEditRouteData extends GoRouteData with _$AdventureEditRouteData {
   const AdventureEditRouteData({
     required this.chapterId,
     required this.adventureId,
@@ -349,7 +349,7 @@ class AdventureEditRouteData extends GoRouteData {
 }
 
 @immutable
-class SceneRouteData extends GoRouteData {
+class SceneRouteData extends GoRouteData with _$SceneRouteData {
   const SceneRouteData({
     required this.chapterId,
     required this.adventureId,
@@ -369,7 +369,7 @@ class SceneRouteData extends GoRouteData {
 }
 
 @immutable
-class SceneEditRouteData extends GoRouteData {
+class SceneEditRouteData extends GoRouteData with _$SceneEditRouteData {
   const SceneEditRouteData({
     required this.chapterId,
     required this.adventureId,
@@ -389,7 +389,7 @@ class SceneEditRouteData extends GoRouteData {
 }
 
 @immutable
-class EncountersListRouteData extends GoRouteData {
+class EncountersListRouteData extends GoRouteData with _$EncountersListRouteData {
   const EncountersListRouteData();
 
   @override
@@ -398,7 +398,7 @@ class EncountersListRouteData extends GoRouteData {
 }
 
 @immutable
-class ScenesListRouteData extends GoRouteData {
+class ScenesListRouteData extends GoRouteData with _$ScenesListRouteData {
   const ScenesListRouteData();
 
   @override
@@ -407,7 +407,7 @@ class ScenesListRouteData extends GoRouteData {
 }
 
 @immutable
-class SceneTemplatesRouteData extends GoRouteData {
+class SceneTemplatesRouteData extends GoRouteData with _$SceneTemplatesRouteData {
   const SceneTemplatesRouteData();
 
   @override
@@ -416,7 +416,7 @@ class SceneTemplatesRouteData extends GoRouteData {
 }
 
 @immutable
-class EncounterRouteData extends GoRouteData {
+class EncounterRouteData extends GoRouteData with _$EncounterRouteData {
   const EncounterRouteData({required this.encounterId});
 
   final String encounterId;
@@ -427,7 +427,7 @@ class EncounterRouteData extends GoRouteData {
 }
 
 @immutable
-class EncounterEditRouteData extends GoRouteData {
+class EncounterEditRouteData extends GoRouteData with _$EncounterEditRouteData {
   const EncounterEditRouteData({required this.encounterId});
 
   final String encounterId;
@@ -438,7 +438,7 @@ class EncounterEditRouteData extends GoRouteData {
 }
 
 @immutable
-class InitiativeTrackerRouteData extends GoRouteData {
+class InitiativeTrackerRouteData extends GoRouteData with _$InitiativeTrackerRouteData {
   const InitiativeTrackerRouteData({required this.encounterId});
 
   final String encounterId;
@@ -453,7 +453,7 @@ class InitiativeTrackerRouteData extends GoRouteData {
 }
 
 @immutable
-class EntitiesListRouteData extends GoRouteData {
+class EntitiesListRouteData extends GoRouteData with _$EntitiesListRouteData {
   const EntitiesListRouteData();
 
   @override
@@ -462,7 +462,7 @@ class EntitiesListRouteData extends GoRouteData {
 }
 
 @immutable
-class EntityRouteData extends GoRouteData {
+class EntityRouteData extends GoRouteData with _$EntityRouteData {
   const EntityRouteData({required this.entityId});
 
   final String entityId;
@@ -473,7 +473,7 @@ class EntityRouteData extends GoRouteData {
 }
 
 @immutable
-class EntityEditRouteData extends GoRouteData {
+class EntityEditRouteData extends GoRouteData with _$EntityEditRouteData {
   const EntityEditRouteData({required this.entityId});
 
   final String entityId;
@@ -485,7 +485,7 @@ class EntityEditRouteData extends GoRouteData {
 
 // Party Branch Routes
 @immutable
-class PartyRootRouteData extends GoRouteData {
+class PartyRootRouteData extends GoRouteData with _$PartyRootRouteData {
   const PartyRootRouteData();
 
   @override
@@ -494,7 +494,7 @@ class PartyRootRouteData extends GoRouteData {
 }
 
 @immutable
-class PartyRouteData extends GoRouteData {
+class PartyRouteData extends GoRouteData with _$PartyRouteData {
   const PartyRouteData({required this.partyId});
 
   final String partyId;
@@ -505,7 +505,7 @@ class PartyRouteData extends GoRouteData {
 }
 
 @immutable
-class PartyEditRouteData extends GoRouteData {
+class PartyEditRouteData extends GoRouteData with _$PartyEditRouteData {
   const PartyEditRouteData({required this.partyId});
 
   final String partyId;
@@ -516,7 +516,7 @@ class PartyEditRouteData extends GoRouteData {
 }
 
 @immutable
-class MemberRouteData extends GoRouteData {
+class MemberRouteData extends GoRouteData with _$MemberRouteData {
   const MemberRouteData({required this.partyId, required this.memberId});
 
   final String partyId;
@@ -528,7 +528,7 @@ class MemberRouteData extends GoRouteData {
 }
 
 @immutable
-class MemberEditRouteData extends GoRouteData {
+class MemberEditRouteData extends GoRouteData with _$MemberEditRouteData {
   const MemberEditRouteData({required this.partyId, required this.memberId});
 
   final String partyId;
@@ -540,7 +540,7 @@ class MemberEditRouteData extends GoRouteData {
 }
 
 @immutable
-class SessionListRouteData extends GoRouteData {
+class SessionListRouteData extends GoRouteData with _$SessionListRouteData {
   const SessionListRouteData({required this.partyId});
 
   final String partyId;
@@ -551,7 +551,7 @@ class SessionListRouteData extends GoRouteData {
 }
 
 @immutable
-class SessionRouteData extends GoRouteData {
+class SessionRouteData extends GoRouteData with _$SessionRouteData {
   const SessionRouteData({required this.partyId, required this.sessionId});
 
   final String partyId;
@@ -563,7 +563,7 @@ class SessionRouteData extends GoRouteData {
 }
 
 @immutable
-class SessionEditRouteData extends GoRouteData {
+class SessionEditRouteData extends GoRouteData with _$SessionEditRouteData {
   const SessionEditRouteData({required this.partyId, required this.sessionId});
 
   final String partyId;
@@ -576,7 +576,7 @@ class SessionEditRouteData extends GoRouteData {
 
 // Settings Branch Routes
 @immutable
-class SettingsRouteData extends GoRouteData {
+class SettingsRouteData extends GoRouteData with _$SettingsRouteData {
   const SettingsRouteData();
 
   @override
@@ -585,7 +585,7 @@ class SettingsRouteData extends GoRouteData {
 }
 
 @immutable
-class ProfileRouteData extends GoRouteData {
+class ProfileRouteData extends GoRouteData with _$ProfileRouteData {
   const ProfileRouteData();
 
   @override
@@ -596,7 +596,7 @@ class ProfileRouteData extends GoRouteData {
 // Public routes (outside shell)
 @TypedGoRoute<SessionPublicShareRouteData>(path: '/share/session/:token')
 @immutable
-class SessionPublicShareRouteData extends GoRouteData {
+class SessionPublicShareRouteData extends GoRouteData with _$SessionPublicShareRouteData {
   const SessionPublicShareRouteData({required this.token});
 
   final String token;
