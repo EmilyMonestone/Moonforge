@@ -18,11 +18,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
   bool _isAlly = false;
   String _type = 'monster';
 
-  final List<String> _combatantTypes = [
-    'monster',
-    'player',
-    'npc',
-  ];
+  final List<String> _combatantTypes = ['monster', 'player', 'npc'];
 
   @override
   void dispose() {
@@ -35,7 +31,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    Theme.of(context);
 
     return AlertDialog(
       title: const Text('Add Combatant'),
@@ -90,9 +86,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
                   suffixText: 'HP',
                 ),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter HP';
@@ -114,9 +108,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
                   suffixText: 'AC',
                 ),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter AC';
@@ -174,10 +166,7 @@ class _AddCombatantDialogState extends State<AddCombatantDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
-        FilledButton(
-          onPressed: _submit,
-          child: const Text('Add'),
-        ),
+        FilledButton(onPressed: _submit, child: const Text('Add')),
       ],
     );
   }

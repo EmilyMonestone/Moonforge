@@ -7,7 +7,6 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/widgets/scene_card.dart';
-import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// Screen for browsing all scenes across all adventures in a campaign
@@ -100,7 +99,6 @@ class _SceneListScreenState extends State<SceneListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return SurfaceContainer(

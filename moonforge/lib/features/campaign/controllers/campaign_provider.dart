@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 
 class CampaignProvider with ChangeNotifier {
   static const String _currentCampaignKey = 'current_campaign_id';
@@ -16,13 +17,22 @@ class CampaignProvider with ChangeNotifier {
   }
 
   /// Load the persisted campaign ID on initialization
-  void _loadPersistedCampaignId() {
+  Future<void> _loadPersistedCampaignId() async {
     try {
       final campaignId = _persistence.read<String>(_currentCampaignKey);
       if (campaignId != null) {
         logger.i('Loaded persisted campaign ID: $campaignId');
-        // Note: The actual campaign data will be loaded from Firestore
-        // This just restores the ID so the app knows which campaign to load
+        // Fetch the campaign from the database
+        final campaign = await CampaignRepository(
+          constructDb(),
+        ).getById(campaignId);
+        if (campaign != null) {
+          _currentCampaign = campaign;
+          logger.i('Restored current campaign: ${campaign.name}');
+        } else {
+          logger.w('No campaign found with ID: $campaignId');
+        }
+        notifyListeners();
       }
     } catch (e) {
       logger.e('Failed to load persisted campaign ID: $e');

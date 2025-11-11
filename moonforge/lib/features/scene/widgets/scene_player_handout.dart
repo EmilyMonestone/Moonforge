@@ -19,7 +19,7 @@ class ScenePlayerHandout extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.all(8),
-      color: theme.colorScheme.primaryContainer.withOpacity(0.3),
+      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -63,10 +63,10 @@ class ScenePlayerHandout extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface.withOpacity(0.5),
+                  color: theme.colorScheme.surface.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: theme.colorScheme.outline.withOpacity(0.2),
+                    color: theme.colorScheme.outline.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Text(
@@ -82,7 +82,9 @@ class ScenePlayerHandout extends StatelessWidget {
               Text(
                 'No read-aloud text. Add player-facing content in the editor.',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onPrimaryContainer.withOpacity(0.7),
+                  color: theme.colorScheme.onPrimaryContainer.withValues(
+                    alpha: 0.7,
+                  ),
                   fontStyle: FontStyle.italic,
                 ),
               ),

@@ -249,9 +249,9 @@ class _MoreTab extends StatelessWidget {
               await settings.resetToDefaults();
               if (context.mounted) {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.resetSettings)),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(l10n.resetSettings)));
               }
             },
             child: Text(l10n.delete), // Reusing 'delete' as it's destructive
@@ -268,7 +268,7 @@ class _HotkeysTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     // Define common keyboard shortcuts
     final shortcuts = [
       _Shortcut('Ctrl/Cmd + N', 'New Campaign'),
@@ -289,22 +289,27 @@ class _HotkeysTab extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          ...shortcuts.map((shortcut) => ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    shortcut.keys,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontFamily: 'monospace',
-                        ),
-                  ),
+          ...shortcuts.map(
+            (shortcut) => ListTile(
+              leading: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
                 ),
-                title: Text(shortcut.description),
-              )),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  shortcut.keys,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(fontFamily: 'monospace'),
+                ),
+              ),
+              title: Text(shortcut.description),
+            ),
+          ),
         ],
       ),
     );
@@ -314,32 +319,6 @@ class _HotkeysTab extends StatelessWidget {
 class _Shortcut {
   final String keys;
   final String description;
-  
+
   _Shortcut(this.keys, this.description);
-}
-
-class _PlaceholderTab extends StatelessWidget {
-  const _PlaceholderTab({required this.labelKey});
-
-  final String labelKey;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    String label;
-    switch (labelKey) {
-      case 'profile':
-        label = l10n.profile;
-        break;
-      case 'hotkeys':
-        label = l10n.hotkeys;
-        break;
-      case 'more':
-        label = l10n.more;
-        break;
-      default:
-        label = l10n.settings;
-    }
-    return Center(child: Text('$label ${l10n.ellipsis}'));
-  }
 }

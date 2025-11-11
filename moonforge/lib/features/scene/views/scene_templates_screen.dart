@@ -10,14 +10,11 @@ class SceneTemplatesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final templates = SceneTemplates.getAllTemplates();
+    SceneTemplates.getAllTemplates();
     final templatesByCategory = SceneTemplates.getTemplatesByCategory();
 
     return SurfaceContainer(
-      title: Text(
-        'Scene Templates',
-        style: theme.textTheme.displaySmall,
-      ),
+      title: Text('Scene Templates', style: theme.textTheme.displaySmall),
       child: ListView(
         padding: const EdgeInsets.all(8),
         children: [
@@ -148,10 +145,7 @@ class _TemplateCard extends StatelessWidget {
             Text(displayIcon, style: const TextStyle(fontSize: 24)),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                template.name,
-                style: theme.textTheme.titleLarge,
-              ),
+              child: Text(template.name, style: theme.textTheme.titleLarge),
             ),
           ],
         ),
@@ -174,10 +168,7 @@ class _TemplateCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                template.defaultSummary,
-                style: theme.textTheme.bodySmall,
-              ),
+              Text(template.defaultSummary, style: theme.textTheme.bodySmall),
               const SizedBox(height: 16),
               Text(
                 'Template Content Preview:',

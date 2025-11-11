@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 
 /// A widget that catches exceptions in its child widget tree and displays a fallback UI.
 ///
@@ -34,19 +35,17 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
   void _initializeErrorHandling() {
     // Set a custom error widget builder if not already set
     ErrorWidget.builder = (FlutterErrorDetails details) {
-      // Log the error
       debugPrint('Error caught by ErrorWidget.builder: ${details.exception}');
       debugPrint('Stack trace: ${details.stack}');
-
-      // Return a custom error widget
+      // Ensure we have a Directionality; if no context yet available, default to LTR
       return Material(
         color: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.all(16),
           alignment: Alignment.center,
-          child: const Text(
-            'Ein Fehler ist aufgetreten.\nBitte versuchen Sie es später erneut.',
-            style: TextStyle(color: Colors.red),
+          child: Text(
+            'ERROR.\nPlease restart the app.',
+            style: const TextStyle(color: Colors.red),
             textAlign: TextAlign.center,
           ),
         ),
@@ -76,6 +75,12 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
   }
 
   Widget _buildDefaultErrorWidget(BuildContext context, Object error) {
+    final l10n = AppLocalizations.of(context);
+    final code = Localizations.localeOf(context).languageCode;
+    final title = l10n?.error ?? (code == 'de' ? 'Fehler' : 'Error');
+    final msg = code == 'de'
+        ? 'Bitte versuchen Sie es später erneut.'
+        : 'Please try again later.';
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -94,7 +99,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Ein Fehler ist aufgetreten',
+              title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onErrorContainer,
               ),
@@ -102,7 +107,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Bitte versuchen Sie es später erneut.',
+              msg,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onErrorContainer,
               ),
@@ -135,7 +140,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
                   _error = null;
                 });
               },
-              child: const Text('Erneut versuchen'),
+              child: Text(code == 'de' ? 'Erneut versuchen' : 'Retry'),
             ),
           ],
         ),

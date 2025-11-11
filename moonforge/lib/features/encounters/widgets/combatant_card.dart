@@ -32,8 +32,8 @@ class CombatantCard extends StatelessWidget {
       color: isCurrentTurn
           ? colorScheme.primaryContainer
           : _isAlive
-              ? null
-              : colorScheme.surfaceContainerHighest.withOpacity(0.5),
+          ? null
+          : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -68,8 +68,9 @@ class CombatantCard extends StatelessWidget {
                     child: Text(
                       combatant.name,
                       style: theme.textTheme.titleMedium?.copyWith(
-                        decoration:
-                            _isAlive ? null : TextDecoration.lineThrough,
+                        decoration: _isAlive
+                            ? null
+                            : TextDecoration.lineThrough,
                       ),
                     ),
                   ),

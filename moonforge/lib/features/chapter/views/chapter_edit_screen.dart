@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -14,7 +15,6 @@ import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
-import 'package:drift/drift.dart' as drift;
 
 class ChapterEditScreen extends StatefulWidget {
   const ChapterEditScreen({super.key, required this.chapterId});
@@ -84,12 +84,10 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
             if (ops != null) {
               document = Document.fromJson(ops);
             } else {
-              document = Document()
-                ..insert(0, chapter.summary ?? '');
+              document = Document()..insert(0, chapter.summary ?? '');
             }
           } catch (e) {
-            document = Document()
-              ..insert(0, chapter.summary ?? '');
+            document = Document()..insert(0, chapter.summary ?? '');
           }
         } else {
           document = Document();
@@ -142,11 +140,11 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
 
       final updated = _chapter!.copyWith(
         name: _nameController.text.trim(),
-        summary: drift.Value(_summaryTextController.text
-            .trim()
-            .isEmpty
-            ? null
-            : _summaryTextController.text.trim()),
+        summary: drift.Value(
+          _summaryTextController.text.trim().isEmpty
+              ? null
+              : _summaryTextController.text.trim(),
+        ),
         content: drift.Value(deltaMap),
         updatedAt: drift.Value(DateTime.now()),
         rev: _chapter!.rev + 1,
@@ -161,7 +159,12 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
           type: ToastificationType.success,
           title: const Text('Chapter saved successfully'),
         );
-        Navigator.of(context).pop();
+        // Defer navigation to the next frame to avoid re-entrant mouse updates
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
       }
     } catch (e) {
       if (mounted) {
@@ -194,7 +197,14 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
             Text('No chapter found', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             FilledButton.icon(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                // Defer navigation to the next frame to avoid re-entrant mouse updates
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    Navigator.of(context).pop();
+                  }
+                });
+              },
               icon: const Icon(Icons.arrow_back),
               label: const Text('Go back'),
             ),
@@ -209,10 +219,7 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
         children: [
           Text(
             '${l10n.chapter} ${l10n.edit}',
-            style: Theme
-                .of(context)
-                .textTheme
-                .displaySmall,
+            style: Theme.of(context).textTheme.displaySmall,
           ),
           const Spacer(),
           ButtonM3E(
@@ -220,18 +227,28 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
             shape: ButtonM3EShape.square,
             label: Text(l10n.cancel),
             icon: const Icon(Icons.cancel_outlined),
-            onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+            onPressed: _isSaving
+                ? null
+                : () {
+                    // Defer navigation to the next frame to avoid re-entrant mouse updates
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    });
+                  },
           ),
+          const SizedBox(width: 12),
           ButtonM3E(
             style: ButtonM3EStyle.filled,
             shape: ButtonM3EShape.square,
             label: Text(l10n.save),
             icon: _isSaving
                 ? const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(Icons.save),
             onPressed: _isSaving ? null : _saveChapter,
           ),
@@ -264,17 +281,10 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
                 labelText: 'Short summary',
                 hintText: 'Enter a brief summary of the chapter',
               ),
-              maxLines: 3,
+              minLines: 3,
             ),
             const SizedBox(height: 24),
             Text(l10n.content, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text(
-              'Rich text content of the chapter',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
             const SizedBox(height: 12),
             Container(
               decoration: BoxDecoration(

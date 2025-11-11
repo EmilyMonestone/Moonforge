@@ -95,5 +95,8 @@ class AppDb extends _$AppDb {
   }
 }
 
-// Simplified factory - now just creates AppDb with default connection
-AppDb constructDb() => AppDb();
+// Lazily initialized singleton to avoid creating multiple AppDb instances with
+// the same underlying QueryExecutor, which can cause race conditions.
+AppDb? _singletonDb;
+
+AppDb constructDb() => _singletonDb ??= AppDb();

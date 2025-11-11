@@ -57,11 +57,8 @@ class EncounterDifficultyBadge extends StatelessWidget {
     return Chip(
       avatar: Icon(icon, size: 16),
       label: Text(difficulty),
-      backgroundColor: color.withOpacity(0.2),
-      labelStyle: TextStyle(
-        color: color,
-        fontWeight: FontWeight.bold,
-      ),
+      backgroundColor: color.withValues(alpha: 0.2),
+      labelStyle: TextStyle(color: color, fontWeight: FontWeight.bold),
       padding: const EdgeInsets.symmetric(horizontal: 8),
       visualDensity: VisualDensity.compact,
     );

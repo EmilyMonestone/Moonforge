@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 /// A widget for displaying DM-only notes for a scene
 class SceneNotesWidget extends StatelessWidget {
-  const SceneNotesWidget({
-    super.key,
-    required this.notes,
-    this.onEdit,
-  });
+  const SceneNotesWidget({super.key, required this.notes, this.onEdit});
 
   final String? notes;
   final VoidCallback? onEdit;
@@ -17,7 +13,7 @@ class SceneNotesWidget extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.all(8),
-      color: theme.colorScheme.tertiaryContainer.withOpacity(0.5),
+      color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -60,7 +56,9 @@ class SceneNotesWidget extends StatelessWidget {
               Text(
                 'No DM notes yet. Click edit to add private notes.',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onTertiaryContainer.withOpacity(0.7),
+                  color: theme.colorScheme.onTertiaryContainer.withValues(
+                    alpha: 0.7,
+                  ),
                   fontStyle: FontStyle.italic,
                 ),
               ),

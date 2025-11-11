@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
@@ -16,7 +14,6 @@ import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_header.dart';
-import 'package:moonforge/features/campaign/widgets/campaign_quick_actions.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_stats_dashboard.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
@@ -31,7 +28,7 @@ class CampaignScreen extends StatefulWidget {
 }
 
 class _CampaignScreenState extends State<CampaignScreen> {
-  final QuillController _controller = QuillController.basic();
+  QuillController _controller = QuillController.basic();
 
   // Keep dedicated controllers/nodes to dispose properly.
   final ScrollController _quillScrollController = ScrollController();
@@ -42,32 +39,39 @@ class _CampaignScreenState extends State<CampaignScreen> {
   @override
   void initState() {
     super.initState();
-    // Ensure read-only editor once; avoid toggling during build.
-    // Some versions expose readOnly on the controller; if not available, this is a no-op at compile time.
-    // ignore: invalid_use
-    _controller.readOnly = true;
+    _controller.readOnly = true; // ensure viewer only
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Update the editor's document only when the campaign actually changes.
     final camp = context.read<CampaignProvider>().currentCampaign;
     if ((_lastCampaign?.id) != (camp?.id)) {
+      Document doc;
       try {
         if (camp?.content != null) {
-          _controller.document = Document.fromJson(
-            jsonDecode(jsonEncode(camp!.content!)),
-          );
+          final ops = camp!.content!['ops'] as List<dynamic>?;
+          if (ops != null) {
+            doc = Document.fromJson(ops);
+          } else {
+            doc = Document();
+          }
         } else {
-          _controller.document = Document();
+          doc = Document();
         }
       } catch (e) {
-        logger.w('Invalid campaign content JSON: $e');
-        logger.t('Stacktrace for invalid campaign content', error: e);
-        _controller.document = Document();
+        logger.w('Invalid campaign content structure: $e');
+        doc = Document();
       }
+      // Replace controller so listeners rebuild properly
+      _controller.dispose();
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      )..readOnly = true;
       _lastCampaign = camp;
+      // Trigger rebuild for new controller
+      setState(() {});
     }
   }
 
@@ -92,17 +96,6 @@ class _CampaignScreenState extends State<CampaignScreen> {
     return Column(
       children: [
         CampaignHeader(campaign: campaign),
-        SurfaceContainer(
-          title: Row(
-            children: [
-              const Icon(Icons.flash_on_outlined),
-              const SizedBox(width: 8),
-              const Text('Quick Actions'),
-              const Spacer(),
-            ],
-          ),
-          child: CampaignQuickActions(campaign: campaign),
-        ),
         CampaignStatsDashboard(campaign: campaign, service: service),
         SurfaceContainer(
           title: Row(
@@ -147,7 +140,6 @@ class _CampaignScreenState extends State<CampaignScreen> {
               CustomQuillViewer(
                 controller: _controller,
                 onMentionTap: (entityId, mentionType) async {
-                  // Navigate to entity details when mention is clicked
                   EntityRouteData(entityId: entityId).push(context);
                 },
               ),

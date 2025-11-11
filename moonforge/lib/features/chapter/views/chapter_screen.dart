@@ -25,7 +25,48 @@ class ChapterScreen extends StatefulWidget {
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
-  final QuillController _controller = QuillController.basic();
+  QuillController _controller = QuillController.basic();
+  db.Chapter? _lastChapter;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final chapters = context.watch<List<db.Chapter>>();
+    final chapter = chapters.firstWhere(
+      (c) => c.id == widget.chapterId,
+      orElse: () => db.Chapter(
+        id: '',
+        campaignId: '',
+        name: '',
+        order: 0,
+        entityIds: const <String>[],
+        rev: 0,
+      ),
+    );
+    if (chapter.id.isEmpty) return; // not found, skip controller update
+    if (_lastChapter?.id != chapter.id || _lastChapter?.rev != chapter.rev) {
+      Document doc;
+      try {
+        final contentMap = chapter.content;
+        if (contentMap != null) {
+          final ops = contentMap['ops'] as List<dynamic>?;
+          doc = ops != null ? Document.fromJson(ops) : Document();
+        } else {
+          doc = Document();
+        }
+      } catch (e) {
+        logger.e('Error parsing chapter content: $e');
+        doc = Document();
+      }
+      _controller.dispose();
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      )..readOnly = true;
+      _lastChapter = chapter;
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +94,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
       return Center(child: Text('Chapter not found'));
     }
 
-    final contentMap = chapter.content;
-    if (contentMap != null) {
-      try {
-        final ops = contentMap['ops'] as List<dynamic>?;
-        if (ops != null) {
-          _controller.document = Document.fromJson(ops);
-        }
-      } catch (e) {
-        logger.e('Error parsing chapter content: $e');
-      }
-    }
     _controller.readOnly = true;
 
     return Column(
@@ -103,7 +133,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                     Text(chapter.summary ?? ''),
                   ],
                 ),
-              if (chapter.content != null)
+              if (chapter.content != null && (_controller.document.length > 0))
                 CustomQuillViewer(
                   controller: _controller,
                   onMentionTap: (entityId, mentionType) async {

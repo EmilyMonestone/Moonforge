@@ -205,7 +205,7 @@ class _CampaignEditScreenState extends State<CampaignEditScreen> {
           Spacer(),
           ButtonM3E(
             onPressed: () => CampaignRouteData().go(context),
-            label: Text('l10n.cancel'),
+            label: Text(l10n.cancel),
             icon: const Icon(Icons.cancel),
             style: ButtonM3EStyle.outlined,
             shape: ButtonM3EShape.square,

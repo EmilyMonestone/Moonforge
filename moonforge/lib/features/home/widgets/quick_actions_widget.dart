@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/features/home/services/quick_actions_service.dart';
-import 'package:moonforge/l10n/app_localizations.dart';
 
 /// Widget displaying quick action buttons for common operations
 class QuickActionsWidget extends StatelessWidget {
@@ -8,7 +7,6 @@ class QuickActionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final quickActionsService = QuickActionsService();
     final actions = quickActionsService.getDefaultActions();

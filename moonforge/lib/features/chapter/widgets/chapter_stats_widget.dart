@@ -3,17 +3,13 @@ import 'package:moonforge/features/chapter/services/chapter_service.dart';
 
 /// Widget for displaying chapter statistics
 class ChapterStatsWidget extends StatelessWidget {
-  const ChapterStatsWidget({
-    super.key,
-    required this.stats,
-  });
+  const ChapterStatsWidget({super.key, required this.stats});
 
   final ChapterStats stats;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,14 +61,10 @@ class _StatItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            color: color,
-            size: 24,
-          ),
+          child: Icon(icon, color: color, size: 24),
         ),
         const SizedBox(height: 8),
         Text(
