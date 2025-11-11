@@ -117,7 +117,14 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           _nameController.text = entity.name;
           _summaryController.text = entity.summary ?? '';
           _tagsController.text = (entity.tags ?? const <String>[]).join(', ');
-          _contentController.document = document;
+          // Reinitialize quill controller with loaded document to avoid direct mutation issues.
+          _autosave?.dispose();
+          _autosave = null;
+          _contentController.dispose();
+          _contentController = QuillController(
+            document: document,
+            selection: const TextSelection.collapsed(offset: 0),
+          );
 
           // Load kind-specific fields
           if (entity.kind == 'place') {

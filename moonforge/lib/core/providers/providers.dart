@@ -73,15 +73,15 @@ class MultiProviderWrapper extends StatelessWidget {
             ChangeNotifierProvider<BestiaryProvider>.value(
               value: bestiaryProvider,
             ),
+            ChangeNotifierProvider<PartyProvider>.value(value: partyProvider),
+            ChangeNotifierProvider<PlayerProvider>.value(value: playerProvider),
+            ...dbProviders(db),
             ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
               create: (context) =>
                   SceneProvider(context.read<SceneRepository>()),
               update: (context, sceneRepo, previous) =>
                   previous ?? SceneProvider(sceneRepo),
             ),
-            ChangeNotifierProvider<PartyProvider>.value(value: partyProvider),
-            ChangeNotifierProvider<PlayerProvider>.value(value: playerProvider),
-            ...dbProviders(db),
           ],
           child: child,
         );

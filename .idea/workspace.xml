@@ -18,41 +18,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add generated type-safe route data for application navigation">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection">
+      <change afterPath="$PROJECT_DIR$/moonforge/test/features/scene/utils/scene_export_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/architecture/state-management.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/adventure.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/auth.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/campaign.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/chapter.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/encounters.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/entities.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/home.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/index.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/parties.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/scene.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/session.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/missing/settings.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/error_boundary.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/error_boundary.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_stats_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_stats_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/add_combatant_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/add_combatant_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/combatant_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/combatant_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/encounter_difficulty_badge.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/widgets/encounter_difficulty_badge.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/quick_actions_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/quick_actions_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/scene_export.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/scene_export.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_templates_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_templates_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_notes_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_notes_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_player_handout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_player_handout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/session_stats_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/session/widgets/session_stats_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/settings/views/settings_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,14 +182,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00049" summary="feat: enhance GitHub Actions workflow for deploying website with conditional Pages setup">
-      <option name="closed" value="true" />
-      <created>1761502656633</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1761502656633</updated>
     </task>
     <task id="LOCAL-00050" summary="remove">
       <option name="closed" value="true" />
@@ -603,7 +567,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762865485456</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection">
+      <option name="closed" value="true" />
+      <created>1762876808583</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1762876808584</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -630,7 +602,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: add documentation for core logger instance in logger.dart" />
     <MESSAGE value="feat: implement entity creation in chapter, adventure, and scene contexts" />
     <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
     <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
@@ -655,7 +626,8 @@
     <MESSAGE value="feat: implement type-safe routes by updating route classes and improving initial values in dropdowns" />
     <MESSAGE value="feat: update navigation to use type-safe route data classes for entity and adventure screens" />
     <MESSAGE value="feat: add generated type-safe route data for application navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add generated type-safe route data for application navigation" />
+    <MESSAGE value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1158,6 +1130,12 @@
           <option name="totalLines" value="13092128" />
           <option name="info" value="feat: add generated type-safe route data for appli" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762876816370" />
+          <option name="linesCode" value="265677" />
+          <option name="totalLines" value="13090064" />
+          <option name="info" value="refactor: improve code readability and performance" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1253,9 +1231,9 @@
           <option name="info" value="Nov 11, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1762865491608" />
-          <option name="linesCode" value="267968" />
-          <option name="totalLines" value="13092128" />
+          <option name="timestamp" value="1762876816370" />
+          <option name="linesCode" value="265677" />
+          <option name="totalLines" value="13090064" />
           <option name="info" value="Nov 11, 2025" />
         </TimePoint>
       </list>
