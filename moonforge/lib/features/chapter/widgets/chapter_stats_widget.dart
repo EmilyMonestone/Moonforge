@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/features/chapter/services/chapter_service.dart';
 
 /// Widget for displaying chapter statistics
@@ -15,19 +17,19 @@ class ChapterStatsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _StatItem(
-          icon: Icons.auto_stories_outlined,
+          icon: DomainType.adventure.icon,
           label: 'Adventures',
           value: stats.adventureCount.toString(),
           color: theme.colorScheme.primary,
         ),
         _StatItem(
-          icon: Icons.theaters_outlined,
+          icon: DomainType.scene.icon,
           label: 'Scenes',
           value: stats.sceneCount.toString(),
           color: theme.colorScheme.secondary,
         ),
         _StatItem(
-          icon: Icons.group_outlined,
+          icon: DomainType.entityGeneric.icon,
           label: 'Entities',
           value: stats.entityCount.toString(),
           color: theme.colorScheme.tertiary,

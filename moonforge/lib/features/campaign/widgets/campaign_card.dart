@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// A card widget for displaying a campaign in a list or grid
@@ -108,12 +110,12 @@ class CampaignCard extends StatelessWidget {
                 runSpacing: 4,
                 children: [
                   _StatChip(
-                    icon: Icons.book_outlined,
+                    icon: DomainType.entityGeneric.icon,
                     label: '${campaign.entityIds.length} entities',
                   ),
                   if ((campaign.memberUids?.isNotEmpty ?? false))
                     _StatChip(
-                      icon: Icons.group_outlined,
+                      icon: DomainType.party.icon,
                       label: '${campaign.memberUids?.length ?? 0} members',
                     ),
                 ],
