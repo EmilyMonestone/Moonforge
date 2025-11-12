@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
@@ -42,7 +44,7 @@ class PartyListScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.group_outlined,
+                  DomainType.party.icon,
                   size: 64,
                   color: Theme.of(context).colorScheme.secondary,
                 ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -263,7 +265,7 @@ class _ChapterEditScreenState extends State<ChapterEditScreen> {
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: l10n.name,
-                prefixIcon: const Icon(Icons.menu_book_outlined),
+                prefixIcon: Icon(DomainType.chapter.icon),
                 helperText: 'Give your chapter a descriptive name',
               ),
               validator: (v) {

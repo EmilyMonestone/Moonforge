@@ -1,5 +1,7 @@
 import 'package:command_palette/command_palette.dart' as cp;
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 
 /// Moonforge App Command Palette wrapper.
@@ -119,7 +121,7 @@ class CommandPaletteState extends State<CommandPalette> {
         label: 'Campaign',
         description: 'Go to Campaign',
         shortcut: const ['ctrl', 'shift', 'c'],
-        leading: const Icon(Icons.book_outlined),
+        leading: Icon(DomainType.campaign.icon),
         onSelect: () => const CampaignRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(
@@ -127,7 +129,7 @@ class CommandPaletteState extends State<CommandPalette> {
         label: 'Party',
         description: 'Go to Party',
         shortcut: const ['ctrl', 'shift', 'p'],
-        leading: const Icon(Icons.group_outlined),
+        leading: Icon(DomainType.party.icon),
         onSelect: () => const PartyRootRouteData().go(context),
       ),
       cp.CommandPaletteAction.single(

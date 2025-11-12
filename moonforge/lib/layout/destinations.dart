@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 
 /// Specification for a top-level destination in the app's adaptive nav
 class TabSpec {
@@ -15,8 +17,8 @@ class TabSpec {
 
 final List<TabSpec> kPrimaryTabs = <TabSpec>[
   TabSpec(label: 'Home', icon: Icons.home_outlined, location: '/'),
-  TabSpec(label: 'Campaign', icon: Icons.book_outlined, location: '/campaign'),
-  TabSpec(label: 'Party', icon: Icons.group_outlined, location: '/party'),
+  TabSpec(label: 'Campaign', icon: DomainType.campaign.icon, location: '/campaign'),
+  TabSpec(label: 'Party', icon: DomainType.party.icon, location: '/party'),
   TabSpec(
     label: 'Settings',
     icon: Icons.settings_outlined,

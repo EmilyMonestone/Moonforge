@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
@@ -37,7 +39,7 @@ class ChapterListScreen extends StatelessWidget {
             children: [
               SectionHeader(
                 title: l10n.chapters,
-                icon: Icons.menu_book_outlined,
+                icon: DomainType.chapter.icon,
               ),
               const Spacer(),
               ButtonM3E(
@@ -57,7 +59,7 @@ class ChapterListScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Icon(
-                        Icons.menu_book_outlined,
+                        DomainType.chapter.icon,
                         size: 64,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),

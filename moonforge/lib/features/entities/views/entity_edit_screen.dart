@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -407,9 +409,9 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _parentPlaceIdController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Parent Place ID',
-                prefixIcon: Icon(Icons.place_outlined),
+                prefixIcon: Icon(DomainType.entityPlace.icon),
                 hintText: 'Optional',
               ),
             ),
@@ -456,9 +458,9 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
             const SizedBox(height: 8),
             TextFormField(
               controller: _membersController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Members',
-                prefixIcon: Icon(Icons.groups_outlined),
+                prefixIcon: Icon(DomainType.entityGroup.icon),
                 hintText: 'Comma-separated member IDs or names',
               ),
               maxLines: 3,
@@ -664,7 +666,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.image_outlined,
+                      DomainType.mediaAsset.icon,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 12),

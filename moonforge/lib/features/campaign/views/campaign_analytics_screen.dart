@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -76,8 +78,8 @@ class _CampaignAnalyticsScreenState extends State<CampaignAnalyticsScreen> {
                     _MetricCard(
                       title: 'Total Chapters',
                       value: stats?.chapterCount.toString() ?? '0',
-                      icon: Icons.library_books_outlined,
-                      color: Colors.blue,
+                      icon: DomainType.chapter.icon,
+                      color: DomainType.chapter.color ?? Colors.blue,
                     ),
                     _MetricCard(
                       title: 'Total Entities',

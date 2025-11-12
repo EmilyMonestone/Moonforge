@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -89,7 +91,7 @@ class _EntityScreenState extends State<EntityScreen> {
                 entity.parentPlaceId!.isNotEmpty)
               _buildInfoRow(
                 context,
-                Icons.place_outlined,
+                DomainType.entityPlace.icon,
                 l10n.parentPlace,
                 entity.parentPlaceId!,
               ),
