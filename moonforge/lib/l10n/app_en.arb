@@ -668,5 +668,29 @@
   "export": "Export",
   "@export": {
     "description": "Generic export action label"
+  },
+  "origin": "Origin",
+  "@origin": {
+    "description": "Section header for selecting the entity origin (campaign/chapter/adventure/scene)"
+  },
+  "selectScene": "Select Scene",
+  "@selectScene": {
+    "description": "Label for selecting a scene"
+  },
+  "entityId": "Entity ID",
+  "@entityId": {
+    "description": "Label for entity ID metadata"
+  },
+  "revision": "Revision",
+  "@revision": {
+    "description": "Label for entity revision number"
+  },
+  "created": "Created",
+  "@created": {
+    "description": "Label for created timestamp"
+  },
+  "updated": "Updated",
+  "@updated": {
+    "description": "Label for updated timestamp"
   }
 }

@@ -18,26 +18,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: enhance read-aloud text extraction and improve entity edit screen initialization">
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/fair_split_row.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/sync_coordinator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/sync_coordinator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -196,14 +191,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00051" summary="feat: add Contents.json for Moonforge icons and logos">
-      <option name="closed" value="true" />
-      <created>1761504331214</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1761504331214</updated>
     </task>
     <task id="LOCAL-00052" summary="feat: update download section to indicate upcoming releases and disable buttons">
       <option name="closed" value="true" />
@@ -589,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762886349824</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group">
+      <option name="closed" value="true" />
+      <created>1762963750974</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1762963750975</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -616,7 +611,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
     <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
     <MESSAGE value="refactor: migrate DAO classes to new Drift database and enhance stream functionality" />
     <MESSAGE value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
@@ -641,7 +635,8 @@
     <MESSAGE value="feat: add generated type-safe route data for application navigation" />
     <MESSAGE value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
     <MESSAGE value="refactor: enhance read-aloud text extraction and improve entity edit screen initialization" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: enhance read-aloud text extraction and improve entity edit screen initialization" />
+    <MESSAGE value="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">

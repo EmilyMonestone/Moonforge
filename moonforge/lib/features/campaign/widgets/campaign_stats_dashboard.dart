@@ -43,18 +43,18 @@ class CampaignStatsDashboard extends StatelessWidget {
                 color: DomainType.chapter.color ?? Colors.blue,
               ),
               _StatCard(
-                icon: Icons.category_outlined,
+                icon: DomainType.entityGroup.icon,
                 label: 'Entities',
                 value:
                     stats?.entityCount.toString() ??
                     campaign.entityIds.length.toString(),
-                color: Colors.green,
+                color: DomainType.entityGroup.color ?? Colors.green,
               ),
               _StatCard(
-                icon: Icons.event_outlined,
+                icon: DomainType.session.icon,
                 label: 'Sessions',
                 value: stats?.sessionCount.toString() ?? '0',
-                color: Colors.orange,
+                color: DomainType.session.color ?? Colors.orange,
               ),
               if (stats != null && stats.totalPlayTimeMinutes > 0)
                 _StatCard(

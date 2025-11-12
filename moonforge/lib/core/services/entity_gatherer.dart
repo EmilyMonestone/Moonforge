@@ -29,6 +29,266 @@ class EntityOrigin {
   });
 }
 
+Future<EntityOrigin?> getTrueOrigin(
+  String entityOriginId, {
+  required final CampaignRepository campaignRepo,
+  required final ChapterRepository chapterRepo,
+  required final AdventureRepository adventureRepo,
+  required final SceneRepository sceneRepo,
+  required final EncounterRepository encounterRepo,
+}) async {
+  if (entityOriginId.isEmpty) return null;
+
+  // Fallback: originId is a plain id without type tokens
+  if (!entityOriginId.contains('-')) {
+    // Try resolve by ID across repos
+    final campaign = await campaignRepo.getById(entityOriginId);
+    if (campaign != null) {
+      return const EntityOrigin(
+        partType: 'campaign',
+        partId: '',
+        label: 'Campaign',
+        path: '',
+      ).copyWith(partId: campaign.id); // we'll add copyWith below
+    }
+
+    final chapter = await chapterRepo.getById(entityOriginId);
+    if (chapter != null) {
+      // compute chapter index
+      final chapters = await chapterRepo.getByCampaign(chapter.campaignId);
+      chapters.sort((a, b) => a.order.compareTo(b.order));
+      final idx = chapters.indexWhere((c) => c.id == chapter.id);
+      final label = idx >= 0 ? 'Chapter ${idx + 1}' : 'Chapter';
+      final path = chapter.id; // simple path by id
+      return EntityOrigin(
+        partType: 'chapter',
+        partId: chapter.id,
+        label: label,
+        path: path,
+      );
+    }
+
+    final adventure = await adventureRepo.getById(entityOriginId);
+    if (adventure != null) {
+      // compute chapter/adventure index
+      final ch = await chapterRepo.getById(adventure.chapterId);
+      String label = 'Adventure';
+      String path = adventure.id;
+      if (ch != null) {
+        final chapters = await chapterRepo.getByCampaign(ch.campaignId);
+        chapters.sort((a, b) => a.order.compareTo(b.order));
+        final chapterIndex = chapters.indexWhere((c) => c.id == ch.id);
+        final adventures = await adventureRepo.getByChapter(ch.id);
+        adventures.sort((a, b) => a.order.compareTo(b.order));
+        final advIndex = adventures.indexWhere((a) => a.id == adventure.id);
+        if (chapterIndex >= 0 && advIndex >= 0) {
+          label = 'Adventure ${chapterIndex + 1}.${advIndex + 1}';
+          path = '${ch.id}/${adventure.id}';
+        }
+      }
+      return EntityOrigin(
+        partType: 'adventure',
+        partId: adventure.id,
+        label: label,
+        path: path,
+      );
+    }
+
+    final scene = await sceneRepo.getById(entityOriginId);
+    if (scene != null) {
+      // compute chapter/adventure/scene index
+      final adv = await adventureRepo.getById(scene.adventureId);
+      String label = 'Scene';
+      String path = scene.id;
+      if (adv != null) {
+        final ch = await chapterRepo.getById(adv.chapterId);
+        if (ch != null) {
+          final chapters = await chapterRepo.getByCampaign(ch.campaignId);
+          chapters.sort((a, b) => a.order.compareTo(b.order));
+          final chapterIndex = chapters.indexWhere((c) => c.id == ch.id);
+          final adventures = await adventureRepo.getByChapter(ch.id);
+          adventures.sort((a, b) => a.order.compareTo(b.order));
+          final advIndex = adventures.indexWhere((a) => a.id == adv.id);
+          final scenes = await sceneRepo.getByAdventure(adv.id);
+          scenes.sort((a, b) => a.order.compareTo(b.order));
+          final sceneIndex = scenes.indexWhere((s) => s.id == scene.id);
+          if (chapterIndex >= 0 && advIndex >= 0 && sceneIndex >= 0) {
+            label =
+                'Scene ${chapterIndex + 1}.${advIndex + 1}.${sceneIndex + 1}';
+            path = '${ch.id}/${adv.id}/${scene.id}';
+          }
+        }
+      }
+      return EntityOrigin(
+        partType: 'scene',
+        partId: scene.id,
+        label: label,
+        path: path,
+      );
+    }
+
+    final encounter = await encounterRepo.getById(entityOriginId);
+    if (encounter != null) {
+      return EntityOrigin(
+        partType: 'encounter',
+        partId: encounter.id,
+        label: 'Encounter: ${encounter.name}',
+        path: encounter.name,
+      );
+    }
+
+    return null;
+  }
+
+  final tokens = entityOriginId.split('-').where((t) => t.isNotEmpty).toList();
+  if (tokens.length < 2) return null;
+
+  bool isIdToken(String t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t);
+  final firstIdIndex = tokens.indexWhere(isIdToken);
+  if (firstIdIndex == -1) {
+    return null;
+  }
+  final typeTokens = tokens.sublist(0, firstIdIndex);
+  final idTokens = tokens.sublist(firstIdIndex);
+  if (typeTokens.isEmpty || idTokens.isEmpty) return null;
+
+  // Allow any of these to be the leaf in a leaf-first encoding
+  const leafTypes = {'scene', 'adventure', 'encounter', 'chapter', 'campaign'};
+  const allTypes = {'campaign', 'chapter', 'adventure', 'scene', 'encounter'};
+
+  final filteredTypeTokens = typeTokens.where(allTypes.contains).toList();
+  if (filteredTypeTokens.isEmpty) return null;
+
+  final variantLeafFirst = leafTypes.contains(filteredTypeTokens.first);
+
+  final mapping = <String, String>{};
+  final lenTypes = filteredTypeTokens.length;
+  final lenIds = idTokens.length;
+  if (lenIds < lenTypes) {
+    return null;
+  }
+
+  if (variantLeafFirst) {
+    for (var i = 0; i < lenTypes; i++) {
+      mapping[filteredTypeTokens[i]] = idTokens[lenIds - 1 - i];
+    }
+  } else {
+    for (var i = 0; i < lenTypes; i++) {
+      mapping[filteredTypeTokens[i]] = idTokens[i];
+    }
+  }
+
+  final leafType = variantLeafFirst
+      ? filteredTypeTokens.first
+      : filteredTypeTokens.last;
+  final leafId = mapping[leafType]!;
+
+  // Build numbering
+  String numbers = '';
+  try {
+    if (leafType == 'campaign') {
+      numbers = ''; // no numbering for campaign
+    } else if (leafType == 'chapter') {
+      final campaignId = mapping['campaign'];
+      if (campaignId != null) {
+        final chapters = await chapterRepo.getByCampaign(campaignId);
+        chapters.sort((a, b) => a.order.compareTo(b.order));
+        final idx = chapters.indexWhere((c) => c.id == leafId);
+        if (idx >= 0) numbers = '${idx + 1}';
+      }
+    } else if (leafType == 'adventure') {
+      final chapterId = mapping['chapter'];
+      final campaignId = mapping['campaign'];
+      if (chapterId != null && campaignId != null) {
+        final chapters = await chapterRepo.getByCampaign(campaignId);
+        chapters.sort((a, b) => a.order.compareTo(b.order));
+        final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
+        final adventures = await adventureRepo.getByChapter(chapterId);
+        adventures.sort((a, b) => a.order.compareTo(b.order));
+        final advIndex = adventures.indexWhere((a) => a.id == leafId);
+        if (chapterIndex >= 0 && advIndex >= 0) {
+          numbers = '${chapterIndex + 1}.${advIndex + 1}';
+        }
+      }
+    } else if (leafType == 'scene') {
+      final chapterId = mapping['chapter'];
+      final campaignId = mapping['campaign'];
+      final adventureId = mapping['adventure'];
+      if (chapterId != null && campaignId != null && adventureId != null) {
+        final chapters = await chapterRepo.getByCampaign(campaignId);
+        chapters.sort((a, b) => a.order.compareTo(b.order));
+        final chapterIndex = chapters.indexWhere((c) => c.id == chapterId);
+        final adventures = await adventureRepo.getByChapter(chapterId);
+        adventures.sort((a, b) => a.order.compareTo(b.order));
+        final advIndex = adventures.indexWhere((a) => a.id == adventureId);
+        final scenes = await sceneRepo.getByAdventure(adventureId);
+        scenes.sort((a, b) => a.order.compareTo(b.order));
+        final sceneIndex = scenes.indexWhere((s) => s.id == leafId);
+        if (chapterIndex >= 0 && advIndex >= 0 && sceneIndex >= 0) {
+          numbers = '${chapterIndex + 1}.${advIndex + 1}.${sceneIndex + 1}';
+        }
+      }
+    } else if (leafType == 'encounter') {
+      numbers = ''; // keep encounter label as is
+    }
+  } catch (e) {
+    logger.w('Failed to build origin numbers for $entityOriginId: $e');
+  }
+
+  final typeLabel = _originTypeLabel(leafType);
+  final label = numbers.isNotEmpty ? '$typeLabel $numbers' : typeLabel;
+
+  return EntityOrigin(
+    partType: leafType,
+    partId: leafId,
+    label: label,
+    path: _originPathCanonical(mapping),
+  );
+}
+
+// Add a tiny extension to help copy immutable EntityOrigin with updates (used above)
+extension on EntityOrigin {
+  EntityOrigin copyWith({
+    String? partType,
+    String? partId,
+    String? label,
+    String? path,
+  }) {
+    return EntityOrigin(
+      partType: partType ?? this.partType,
+      partId: partId ?? this.partId,
+      label: label ?? this.label,
+      path: path ?? this.path,
+    );
+  }
+}
+
+String _originTypeLabel(String partType) {
+  switch (partType) {
+    case 'campaign':
+      return 'Campaign';
+    case 'chapter':
+      return 'Chapter';
+    case 'adventure':
+      return 'Adventure';
+    case 'scene':
+      return 'Scene';
+    case 'encounter':
+      return 'Encounter';
+    default:
+      return partType;
+  }
+}
+
+String _originPathCanonical(Map<String, String> mapping) {
+  // Canonical root->leaf order
+  const order = ['campaign', 'chapter', 'adventure', 'scene', 'encounter'];
+  return order
+      .map((t) => mapping[t] ?? '')
+      .where((v) => v.isNotEmpty)
+      .join('/');
+}
+
 /// Service to gather entities from parts and their children
 class EntityGatherer {
   final CampaignRepository campaignRepo;

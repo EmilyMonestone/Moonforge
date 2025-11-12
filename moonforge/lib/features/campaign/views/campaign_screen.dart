@@ -158,10 +158,7 @@ class _ChaptersSection extends StatelessWidget {
     final allChapters = context.watch<List<Chapter>>();
 
     return SurfaceContainer(
-      title: SectionHeader(
-        title: l10n.chapters,
-        icon: DomainType.chapter.icon,
-      ),
+      title: SectionHeader(title: l10n.chapters, icon: DomainType.chapter.icon),
       child: Builder(
         builder: (context) {
           // Filter chapters for this campaign by ID prefix using startsWith
@@ -232,9 +229,6 @@ class _RecentChaptersSection extends StatelessWidget {
 
           if (recentItems.isEmpty) {
             return const SizedBox.shrink();
-          }
-          if (recentItems.isNotEmpty) {
-            logger.i(recentItems.first.updatedAt);
           }
           return CardList<Chapter>(
             items: recentItems,

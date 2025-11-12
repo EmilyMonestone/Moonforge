@@ -4,12 +4,19 @@ import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
+import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/entities_widget.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +33,7 @@ class EntityScreen extends StatefulWidget {
 class _EntityScreenState extends State<EntityScreen> {
   final QuillController _controller = QuillController.basic();
   db.Entity? _entity;
+  EntityOrigin? _resolvedOrigin;
   bool _isLoading = true;
 
   @override
@@ -60,14 +68,74 @@ class _EntityScreenState extends State<EntityScreen> {
       }
       _controller.readOnly = true;
 
+      // Resolve true origin label with numbering (async)
+      EntityOrigin? resolved;
+      if (entity != null) {
+        resolved = await getTrueOrigin(
+          entity.originId,
+          campaignRepo: context.read<CampaignRepository>(),
+          chapterRepo: context.read<ChapterRepository>(),
+          adventureRepo: context.read<AdventureRepository>(),
+          sceneRepo: context.read<SceneRepository>(),
+          encounterRepo: context.read<EncounterRepository>(),
+        );
+      }
+
       setState(() {
         _entity = entity;
+        _resolvedOrigin = resolved;
         _isLoading = false;
       });
     } catch (e) {
       logger.e('Error loading entity: $e');
       setState(() => _isLoading = false);
     }
+  }
+
+  Widget _buildStatblock(db.Entity entity, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    if (entity.statblock.isEmpty) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.statblock, style: theme.textTheme.titleMedium),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            children: entity.statblock.entries.map((entry) {
+              return SizedBox(
+                width: 160,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.key,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      entry.value.toString(),
+                      style: theme.textTheme.bodySmall,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildKindSpecificFields(BuildContext context, db.Entity entity) {
@@ -149,28 +217,27 @@ class _EntityScreenState extends State<EntityScreen> {
                       color: theme.colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Wrap(
+                      spacing: 12,
+                      runSpacing: 8,
                       children: entity.statblock.entries.map((entry) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(
+                        return SizedBox(
+                          width: 160,
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  '${entry.key}:',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              Text(
+                                entry.key,
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
                                 ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              Expanded(
-                                child: Text(
-                                  entry.value.toString(),
-                                  style: theme.textTheme.bodyMedium,
-                                ),
+                              const SizedBox(height: 2),
+                              Text(
+                                entry.value.toString(),
+                                style: theme.textTheme.bodySmall,
+                                overflow: TextOverflow.fade,
                               ),
                             ],
                           ),
@@ -248,12 +315,9 @@ class _EntityScreenState extends State<EntityScreen> {
                       _entity!.name,
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
-                    Text(
-                      _entity!.kind.toUpperCase(),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
+                    KindChip(kind: _entity!.kind),
+                    if (_resolvedOrigin != null)
+                      OriginBadge(origin: _resolvedOrigin!),
                   ],
                 ),
               ),
@@ -367,6 +431,8 @@ class _EntityScreenState extends State<EntityScreen> {
                   ],
                 ),
               _buildKindSpecificFields(context, _entity!),
+              if (_entity!.kind == 'npc' || _entity!.kind == 'monster')
+                _buildStatblock(_entity!, l10n),
               if (_entity!.content != null && _entity!.content!.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

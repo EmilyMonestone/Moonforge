@@ -3,6 +3,7 @@ import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/router_config.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -17,10 +18,43 @@ class EntitiesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // De-duplicate by entity ID and keep the most specific origin when collisions occur.
-    // Specificity order: scene > encounter > adventure > chapter > campaign/direct (null)
+    // Helper to extract leaf id from composite originId
+    String extractLeafId(String originId) {
+      if (originId.isEmpty) return originId;
+      if (!originId.contains('-')) return originId;
+      final parts = originId.split('-').where((t) => t.isNotEmpty).toList();
+      final idTokens = parts
+          .where((t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t))
+          .toList();
+      return idTokens.isEmpty ? originId : idTokens.last;
+    }
+
+    // Helper to extract leaf type
+    String? extractLeafType(String originId) {
+      if (originId.isEmpty) return null;
+      if (!originId.contains('-')) return null; // plain id only
+      final parts = originId.split('-').where((t) => t.isNotEmpty).toList();
+      final firstIdIndex = parts.indexWhere(
+        (t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t),
+      );
+      if (firstIdIndex == -1) return null;
+      final typeTokens = parts.sublist(0, firstIdIndex);
+      if (typeTokens.isEmpty) return null;
+      const leafSet = {
+        'scene',
+        'adventure',
+        'encounter',
+        'chapter',
+        'campaign',
+      };
+      // Leaf-first if first token is a leaf; else root-first
+      final leafFirst = leafSet.contains(typeTokens.first);
+      return leafFirst ? typeTokens.first : typeTokens.last;
+    }
+
+    // De-duplicate by entity ID and keep the most appropriate origin.
     int rank(EntityOrigin? o) {
-      if (o == null) return 0; // direct on current part
+      if (o == null) return 0; // direct
       switch (o.partType) {
         case 'scene':
           return 5;
@@ -41,13 +75,42 @@ class EntitiesWidget extends StatelessWidget {
     for (final ewo in entities) {
       final id = ewo.entity.id;
       final existing = byId[id];
+      final leafId = extractLeafId(ewo.entity.originId);
+      final leafType = extractLeafType(ewo.entity.originId);
+      bool isTrueOrigin(EntityWithOrigin e) {
+        return e.origin != null &&
+            leafType != null &&
+            e.origin!.partType == leafType &&
+            e.origin!.partId == leafId;
+      }
+
       if (existing == null) {
         byId[id] = ewo;
-      } else {
-        // Keep the one with higher specificity
-        if (rank(ewo.origin) > rank(existing.origin)) {
-          byId[id] = ewo;
-        }
+        logger.d(
+          '[EntitiesWidget] Initial origin for entity=$id originId=${ewo.entity.originId} chosen=${ewo.origin?.partType}:${ewo.origin?.partId}',
+        );
+        continue;
+      }
+      final existingTrue = isTrueOrigin(existing);
+      final newTrue = isTrueOrigin(ewo);
+      if (existingTrue && !newTrue) {
+        logger.d(
+          '[EntitiesWidget] Keep existing TRUE origin for entity=$id (${existing.origin?.label})',
+        );
+        continue;
+      } else if (newTrue && !existingTrue) {
+        byId[id] = ewo;
+        logger.d(
+          '[EntitiesWidget] Replace with new TRUE origin for entity=$id (${ewo.origin?.label})',
+        );
+        continue;
+      }
+      // Neither explicitly true or both true; fall back to specificity rank
+      if (rank(ewo.origin) > rank(existing.origin)) {
+        byId[id] = ewo;
+        logger.d(
+          '[EntitiesWidget] Specificity override for entity=$id new=${ewo.origin?.label} old=${existing.origin?.label}',
+        );
       }
     }
 
@@ -154,10 +217,10 @@ class _EntityGroupWidget extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(width: 8),
-                          _KindChip(kind: entity.kind),
+                          KindChip(kind: entity.kind),
                           if (origin != null) ...[
                             const SizedBox(width: 6),
-                            _OriginBadge(origin: origin),
+                            OriginBadge(origin: origin),
                           ],
                         ],
                       ),
@@ -174,8 +237,8 @@ class _EntityGroupWidget extends StatelessWidget {
 }
 
 /// Widget to display entity kind as a chip
-class _KindChip extends StatelessWidget {
-  const _KindChip({required this.kind});
+class KindChip extends StatelessWidget {
+  const KindChip({required this.kind});
 
   final String kind;
 
@@ -245,8 +308,8 @@ class _KindChip extends StatelessWidget {
 }
 
 /// Widget to display origin badge
-class _OriginBadge extends StatelessWidget {
-  const _OriginBadge({required this.origin});
+class OriginBadge extends StatelessWidget {
+  const OriginBadge({required this.origin});
 
   final EntityOrigin origin;
 

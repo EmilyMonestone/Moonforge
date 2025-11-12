@@ -105,6 +105,7 @@ dependencies:
   auto_updater: ^1.0.0
   local_notifier: ^0.1.6
   http: ^1.2.2
+  chips_input_autocomplete: ^1.2.2
 
 
 dev_dependencies:

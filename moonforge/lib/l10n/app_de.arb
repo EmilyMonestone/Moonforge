@@ -660,5 +660,29 @@
   "export": "Exportieren",
   "@export": {
     "description": "Allgemeines Label für Exportieren"
+  },
+  "origin": "Ursprung",
+  "@origin": {
+    "description": "Abschnittstitel für Auswahl des Ursprungs (Kampagne/Kapitel/Abenteuer/Szene)"
+  },
+  "selectScene": "Szene wählen",
+  "@selectScene": {
+    "description": "Beschriftung für Szenenauswahl"
+  },
+  "entityId": "Entitäts-ID",
+  "@entityId": {
+    "description": "Bezeichnung für Entitäts-ID"
+  },
+  "revision": "Revision",
+  "@revision": {
+    "description": "Bezeichnung für Revisionsnummer"
+  },
+  "created": "Erstellt",
+  "@created": {
+    "description": "Bezeichnung für Erstellungszeitpunkt"
+  },
+  "updated": "Aktualisiert",
+  "@updated": {
+    "description": "Bezeichnung für Aktualisierungszeitpunkt"
   }
 }

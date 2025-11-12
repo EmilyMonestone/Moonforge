@@ -1,3 +1,4 @@
+import 'package:chips_input_autocomplete/chips_input_autocomplete.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -10,8 +11,12 @@ import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
+import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +34,10 @@ class EntityEditScreen extends StatefulWidget {
 class _EntityEditScreenState extends State<EntityEditScreen> {
   final _nameController = TextEditingController();
   final _summaryController = TextEditingController();
-  final _tagsController = TextEditingController();
+  final ChipsAutocompleteController _tagsChipsController =
+      ChipsAutocompleteController();
+  final _originController =
+      TextEditingController(); // will be removed from UI but kept for compatibility
   late QuillController _contentController;
   QuillAutosave? _autosave;
   final _formKey = GlobalKey<FormState>();
@@ -47,6 +55,18 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
   final _membersController = TextEditingController();
   final Map<String, TextEditingController> _statblockControllers = {};
   List<Map<String, dynamic>> _images = [];
+
+  // Dropdown selections
+  String? _selectedChapterId;
+  String? _selectedAdventureId;
+  String? _selectedSceneId;
+  List<db.Chapter> _chapters = [];
+  List<db.Adventure> _adventures = [];
+  List<db.Scene> _scenes = [];
+  bool _loadingOriginLists = false;
+
+  // Tag options for autocomplete
+  List<String> _tagOptions = [];
 
   @override
   void initState() {
@@ -66,7 +86,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
   void dispose() {
     _nameController.dispose();
     _summaryController.dispose();
-    _tagsController.dispose();
+    _originController.dispose();
     _contentController.dispose();
     _autosave?.dispose();
     _placeTypeController.dispose();
@@ -118,7 +138,7 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           _entity = entity;
           _nameController.text = entity.name;
           _summaryController.text = entity.summary ?? '';
-          _tagsController.text = (entity.tags ?? const <String>[]).join(', ');
+          _originController.text = entity.originId; // retain raw origin
           // Reinitialize quill controller with loaded document to avoid direct mutation issues.
           _autosave?.dispose();
           _autosave = null;
@@ -161,6 +181,12 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
           },
         );
         _autosave?.start();
+
+        // After entity loaded, fetch chapters/adventures/scenes and preselect
+        await _initializeOriginSelections(entity.originId);
+
+        // Load tag options for autocomplete
+        await _loadTagOptions();
       }
     } catch (e) {
       logger.e('Error loading entity: $e');
@@ -175,6 +201,175 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
     }
   }
 
+  Future<void> _loadTagOptions() async {
+    try {
+      final repo = context.read<EntityRepository>();
+      final all = await repo.getAll();
+      final set = <String>{};
+      for (final e in all) {
+        final list = e.tags ?? const <String>[];
+        set.addAll(list);
+      }
+      final options = set.toList()..sort();
+      if (mounted) {
+        setState(() {
+          _tagOptions = options;
+          // Optionally also update controller options for live filtering
+          _tagsChipsController.options = options;
+        });
+      }
+    } catch (e) {
+      logger.w('Failed to load tag options: $e');
+    }
+  }
+
+  Future<void> _initializeOriginSelections(String originId) async {
+    if (_campaignId == null) return;
+    setState(() => _loadingOriginLists = true);
+    try {
+      final chapterRepo = context.read<ChapterRepository>();
+      _chapters = await chapterRepo.getByCampaign(_campaignId!);
+
+      // Determine if originId matches a scene, adventure, or chapter
+      db.Scene? matchedScene;
+      db.Adventure? matchedAdventure;
+      db.Chapter? matchedChapter;
+
+      // Check chapters first
+      matchedChapter = _chapters.firstWhere(
+        (c) => c.id == originId,
+        orElse: () => db.Chapter(
+          id: '',
+          campaignId: _campaignId!,
+          name: '',
+          order: 0,
+          summary: '',
+          content: const {},
+          entityIds: const [],
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          rev: 0,
+        ),
+      );
+      if (matchedChapter.id.isEmpty) matchedChapter = null;
+
+      // If not a chapter, need to search adventures in chapters
+      if (matchedChapter == null) {
+        final adventureRepo = context.read<AdventureRepository>();
+        for (final ch in _chapters) {
+          final advs = await adventureRepo.getByChapter(ch.id);
+          for (final adv in advs) {
+            if (adv.id == originId) {
+              matchedAdventure = adv;
+              matchedChapter = ch;
+              _adventures = advs; // seed adventures list with this chapter
+              break;
+            }
+          }
+          if (matchedAdventure != null) break;
+        }
+      }
+
+      // If still not found, search scenes
+      if (matchedAdventure == null) {
+        final sceneRepo = context.read<SceneRepository>();
+        final adventureRepo = context.read<AdventureRepository>();
+        for (final ch in _chapters) {
+          final advs = await adventureRepo.getByChapter(ch.id);
+          for (final adv in advs) {
+            final scs = await sceneRepo.getByAdventure(adv.id);
+            for (final sc in scs) {
+              if (sc.id == originId) {
+                matchedScene = sc;
+                matchedAdventure = adv;
+                matchedChapter = ch;
+                _adventures = advs;
+                _scenes = scs;
+                break;
+              }
+            }
+            if (matchedScene != null) break;
+          }
+          if (matchedScene != null) break;
+        }
+      }
+
+      setState(() {
+        _selectedChapterId = matchedChapter?.id;
+        _selectedAdventureId = matchedAdventure?.id;
+        _selectedSceneId = matchedScene?.id;
+      });
+
+      // If we have a chapter but no adventures loaded yet (chapter-level origin)
+      if (_selectedChapterId != null && _selectedAdventureId == null) {
+        final adventureRepo = context.read<AdventureRepository>();
+        _adventures = await adventureRepo.getByChapter(_selectedChapterId!);
+      }
+
+      // If we have adventure but no scenes loaded yet
+      if (_selectedAdventureId != null && _selectedSceneId == null) {
+        final sceneRepo = context.read<SceneRepository>();
+        _scenes = await sceneRepo.getByAdventure(_selectedAdventureId!);
+      }
+    } catch (e) {
+      logger.w('Failed to init origin selections: $e');
+    } finally {
+      if (mounted) setState(() => _loadingOriginLists = false);
+    }
+  }
+
+  Future<void> _onSelectChapter(String? chapterId) async {
+    setState(() {
+      _selectedChapterId = chapterId;
+      _selectedAdventureId = null;
+      _selectedSceneId = null;
+      _adventures = [];
+      _scenes = [];
+    });
+    if (chapterId == null) return;
+    final adventureRepo = context.read<AdventureRepository>();
+    _adventures = await adventureRepo.getByChapter(chapterId);
+    setState(() {});
+  }
+
+  Future<void> _onSelectAdventure(String? adventureId) async {
+    setState(() {
+      _selectedAdventureId = adventureId;
+      _selectedSceneId = null;
+      _scenes = [];
+    });
+    if (adventureId == null) return;
+    final sceneRepo = context.read<SceneRepository>();
+    _scenes = await sceneRepo.getByAdventure(adventureId);
+    setState(() {});
+  }
+
+  void _onSelectScene(String? sceneId) {
+    setState(() => _selectedSceneId = sceneId);
+  }
+
+  void _clearAdventure() {
+    setState(() {
+      _selectedAdventureId = null;
+      _selectedSceneId = null;
+      _scenes = [];
+    });
+  }
+
+  void _clearScene() {
+    setState(() {
+      _selectedSceneId = null;
+    });
+  }
+
+  String _computeOriginId() {
+    // Priority: scene -> adventure -> chapter -> campaign
+    if (_selectedSceneId != null) return _selectedSceneId!;
+    if (_selectedAdventureId != null) return _selectedAdventureId!;
+    if (_selectedChapterId != null) return _selectedChapterId!;
+    return _campaignId ?? _originController.text.trim();
+  }
+
   Future<void> _saveEntity() async {
     if (!_formKey.currentState!.validate()) return;
     if (_entity == null || _campaignId == null) return;
@@ -185,12 +380,8 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
       final contentMap = {'ops': delta.toJson()};
 
       final repo = context.read<EntityRepository>();
-      // Parse tags
-      final tags = _tagsController.text
-          .split(',')
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList();
+      // Get tags from chips controller instead of parsing text
+      final tags = List<String>.from(_tagsChipsController.chips);
 
       // Build kind-specific data
       Map<String, dynamic> statblock = {};
@@ -227,6 +418,8 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
 
       final updatedEntity = _entity!.copyWith(
         name: _nameController.text.trim(),
+        originId: _computeOriginId(),
+        // include origin change
         summary: Value(_summaryController.text.trim()),
         tags: Value(tags),
         content: Value(contentMap),
@@ -621,7 +814,140 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
                 return null;
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            // Origin selection section
+            Text(l10n.origin, style: theme.textTheme.titleMedium),
+
+            if (_loadingOriginLists)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: LinearProgressIndicator(),
+              )
+            else
+              WrapLayout(
+                spacing: 12,
+                runSpacing: 12,
+                minWidth: 150,
+                maxWidth: 300,
+                children: [
+                  DropdownButtonFormField<String>(
+                    key: ValueKey('chapter_${_selectedChapterId ?? 'none'}'),
+                    initialValue: _selectedChapterId,
+                    decoration: InputDecoration(
+                      labelText: l10n.selectChapter,
+                      prefixIcon: const Icon(Icons.book_outlined),
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 12,
+                      ),
+                    ),
+                    items: _chapters
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c.id,
+                            child: Text(c.name),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (v) => _onSelectChapter(v),
+                  ),
+                  // Adventure dropdown with clear suffix icon
+                  DropdownButtonFormField<String>(
+                    key: ValueKey(
+                      'adventure_${_selectedAdventureId ?? 'none'}',
+                    ),
+                    initialValue: _selectedAdventureId,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: l10n.selectAdventure,
+                      prefixIcon: const Icon(Icons.explore_outlined),
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 12,
+                      ),
+                      suffixIconConstraints: const BoxConstraints.tightFor(
+                        width: 32,
+                        height: 32,
+                      ),
+                      suffixIcon: _selectedAdventureId != null
+                          ? IconButton(
+                              tooltip: 'Clear',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 24,
+                                minHeight: 24,
+                              ),
+                              icon: const Icon(Icons.clear, size: 18),
+                              onPressed: _clearAdventure,
+                            )
+                          : null,
+                    ),
+                    items: _adventures
+                        .map(
+                          (a) => DropdownMenuItem(
+                            value: a.id,
+                            child: Text(
+                              a.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: _adventures.isEmpty
+                        ? null
+                        : (v) => _onSelectAdventure(v),
+                  ),
+                  // Scene dropdown with clear suffix icon
+                  DropdownButtonFormField<String>(
+                    key: ValueKey('scene_${_selectedSceneId ?? 'none'}'),
+                    initialValue: _selectedSceneId,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: l10n.selectScene,
+                      prefixIcon: const Icon(Icons.theaters_outlined),
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 12,
+                      ),
+                      suffixIconConstraints: const BoxConstraints.tightFor(
+                        width: 32,
+                        height: 32,
+                      ),
+                      suffixIcon: _selectedSceneId != null
+                          ? IconButton(
+                              tooltip: 'Clear',
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 24,
+                                minHeight: 24,
+                              ),
+                              icon: const Icon(Icons.clear, size: 18),
+                              onPressed: _clearScene,
+                            )
+                          : null,
+                    ),
+                    items: _scenes
+                        .map(
+                          (s) => DropdownMenuItem(
+                            value: s.id,
+                            child: Text(
+                              s.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: _scenes.isEmpty
+                        ? null
+                        : (v) => _onSelectScene(v),
+                  ),
+                ],
+              ),
+
+            const SizedBox(height: 16),
             Text(l10n.description, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             TextFormField(
@@ -633,15 +959,29 @@ class _EntityEditScreenState extends State<EntityEditScreen> {
               maxLines: 3,
             ),
             const SizedBox(height: 24),
-            Text('Tags', style: theme.textTheme.titleMedium),
+            Text(l10n.tags, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
-            TextFormField(
-              controller: _tagsController,
-              decoration: const InputDecoration(
-                labelText: 'Tags',
-                prefixIcon: Icon(Icons.tag),
-                hintText: 'Comma-separated tags',
+            ChipsInputAutocomplete(
+              controller: _tagsChipsController,
+              options: _tagOptions,
+              initialChips: _entity?.tags ?? const <String>[],
+              decorationTextField: InputDecoration(
+                labelText: l10n.tags,
+                prefixIcon: const Icon(Icons.tag),
+                hintText: l10n.search,
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
               ),
+              addChipOnSelection: true,
+              showOnlyUnselectedOptions: true,
+              showClearButton: true,
+              onChanged: (chips) {
+                // keep state reactive if needed
+                // setState(() {});
+              },
             ),
             const SizedBox(height: 24),
             Row(

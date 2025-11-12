@@ -24,67 +24,74 @@ class CampaignHeader extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Text(campaign.name, style: theme.textTheme.displaySmall),
-              Spacer(),
-              ButtonGroupM3E(
-                type: ButtonGroupM3EType.connected,
-                style: ButtonM3EStyle.tonal,
-                actions: [
+          Text(
+            campaign.name,
+            style: theme.textTheme.displaySmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(width: 16),
+          Flexible(
+            fit: FlexFit.loose,
+            child: ButtonGroupM3E(
+              type: ButtonGroupM3EType.connected,
+              style: ButtonM3EStyle.tonal,
+              overflow: ButtonGroupM3EOverflow.menu,
+              expanded: true,
+              linearMainAxisAlignment: MainAxisAlignment.end,
+              actions: [
+                ButtonGroupM3EAction(
+                  label: Text(l10n.edit),
+                  icon: const Icon(Icons.edit_outlined),
+                  onPressed: () {
+                    const CampaignEditRouteData().go(context);
+                  },
+                ),
+                if (onShare != null)
                   ButtonGroupM3EAction(
-                    label: Text(l10n.edit),
-                    icon: const Icon(Icons.edit_outlined),
+                    label: Text(l10n.share),
+                    icon: const Icon(Icons.share_outlined),
+                    onPressed: onShare,
+                  ),
+                if (onSettings != null)
+                  ButtonGroupM3EAction(
+                    label: Text(l10n.settings),
+                    icon: const Icon(Icons.settings_outlined),
+                    onPressed: onSettings,
+                  )
+                else
+                  ButtonGroupM3EAction(
+                    label: Text(l10n.settings),
+                    icon: const Icon(Icons.settings_outlined),
                     onPressed: () {
-                      const CampaignEditRouteData().go(context);
+                      const CampaignSettingsRouteData().go(context);
                     },
                   ),
-                  if (onShare != null)
-                    ButtonGroupM3EAction(
-                      label: Text(l10n.share),
-                      icon: const Icon(Icons.share_outlined),
-                      onPressed: onShare,
-                    ),
-                  if (onSettings != null)
-                    ButtonGroupM3EAction(
-                      label: Text(l10n.settings),
-                      icon: const Icon(Icons.settings_outlined),
-                      onPressed: onSettings,
-                    )
-                  else
-                    ButtonGroupM3EAction(
-                      label: Text(l10n.settings),
-                      icon: const Icon(Icons.settings_outlined),
-                      onPressed: () {
-                        const CampaignSettingsRouteData().go(context);
-                      },
-                    ),
-                  ButtonGroupM3EAction(
-                    label: Text(l10n.analytics),
-                    icon: const Icon(Icons.analytics_outlined),
-                    onPressed: () {},
-                  ),
-                  ButtonGroupM3EAction(
-                    label: Text(l10n.duplicate),
-                    icon: const Icon(Icons.content_copy_outlined),
-                    onPressed: () {},
-                  ),
-                  ButtonGroupM3EAction(
-                    label: Text(l10n.archive),
-                    icon: const Icon(Icons.archive_outlined),
-                    onPressed: () {},
-                  ),
-                  ButtonGroupM3EAction(
-                    label: Text(l10n.export),
-                    icon: const Icon(Icons.download_outlined),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ],
+                ButtonGroupM3EAction(
+                  label: Text(l10n.analytics),
+                  icon: const Icon(Icons.analytics_outlined),
+                  onPressed: () {},
+                ),
+                ButtonGroupM3EAction(
+                  label: Text(l10n.duplicate),
+                  icon: const Icon(Icons.content_copy_outlined),
+                  onPressed: () {},
+                ),
+                ButtonGroupM3EAction(
+                  label: Text(l10n.archive),
+                  icon: const Icon(Icons.archive_outlined),
+                  onPressed: () {},
+                ),
+                ButtonGroupM3EAction(
+                  label: Text(l10n.export),
+                  icon: const Icon(Icons.download_outlined),
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ),
         ],
       ),

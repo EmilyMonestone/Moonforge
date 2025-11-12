@@ -509,4 +509,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get export => 'Export';
+
+  @override
+  String get origin => 'Origin';
+
+  @override
+  String get selectScene => 'Select Scene';
+
+  @override
+  String get entityId => 'Entity ID';
+
+  @override
+  String get revision => 'Revision';
+
+  @override
+  String get created => 'Created';
+
+  @override
+  String get updated => 'Updated';
 }

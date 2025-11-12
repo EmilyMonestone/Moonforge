@@ -1093,6 +1093,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export'**
   String get export;
+
+  /// Section header for selecting the entity origin (campaign/chapter/adventure/scene)
+  ///
+  /// In en, this message translates to:
+  /// **'Origin'**
+  String get origin;
+
+  /// Label for selecting a scene
+  ///
+  /// In en, this message translates to:
+  /// **'Select Scene'**
+  String get selectScene;
+
+  /// Label for entity ID metadata
+  ///
+  /// In en, this message translates to:
+  /// **'Entity ID'**
+  String get entityId;
+
+  /// Label for entity revision number
+  ///
+  /// In en, this message translates to:
+  /// **'Revision'**
+  String get revision;
+
+  /// Label for created timestamp
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
+  /// Label for updated timestamp
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get updated;
 }
 
 class _AppLocalizationsDelegate

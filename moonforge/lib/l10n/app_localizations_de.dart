@@ -513,4 +513,22 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get export => 'Exportieren';
+
+  @override
+  String get origin => 'Ursprung';
+
+  @override
+  String get selectScene => 'Szene wählen';
+
+  @override
+  String get entityId => 'Entitäts-ID';
+
+  @override
+  String get revision => 'Revision';
+
+  @override
+  String get created => 'Erstellt';
+
+  @override
+  String get updated => 'Aktualisiert';
 }
