@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -76,7 +78,7 @@ class _CampaignMembersScreenState extends State<CampaignMembersScreen> {
           SurfaceContainer(
             title: Row(
               children: [
-                const Icon(Icons.group_outlined),
+                Icon(DomainType.party.icon),
                 const SizedBox(width: 8),
                 Text('Members (${(campaign.memberUids?.length ?? 0)})'),
               ],

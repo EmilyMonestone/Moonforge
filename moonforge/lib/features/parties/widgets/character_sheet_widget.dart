@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/parties/services/player_character_service.dart';
 import 'package:moonforge/features/parties/widgets/ability_scores_widget.dart';
@@ -180,7 +182,7 @@ class CharacterSheetWidget extends StatelessWidget {
             const SizedBox(height: 8),
             ...player.equipment!.map((item) => ListTile(
               dense: true,
-              leading: const Icon(Icons.inventory_2_outlined, size: 20),
+              leading: Icon(DomainType.entityItem.icon, size: 20),
               title: Text(item),
             )),
           ],

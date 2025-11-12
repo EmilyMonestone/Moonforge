@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/share_token_utils.dart';
@@ -186,7 +188,7 @@ class _SessionPublicShareScreenState extends State<SessionPublicShareScreen> {
                               child: Column(
                                 children: [
                                   Icon(
-                                    Icons.description_outlined,
+                                    DomainType.entityHandout.icon,
                                     size: 48,
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),

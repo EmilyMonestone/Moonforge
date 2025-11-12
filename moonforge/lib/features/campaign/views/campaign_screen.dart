@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -158,7 +160,7 @@ class _ChaptersSection extends StatelessWidget {
     return SurfaceContainer(
       title: SectionHeader(
         title: l10n.chapters,
-        icon: Icons.library_books_outlined,
+        icon: DomainType.chapter.icon,
       ),
       child: Builder(
         builder: (context) {

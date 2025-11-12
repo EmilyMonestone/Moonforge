@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 
@@ -35,10 +37,10 @@ class CampaignStatsDashboard extends StatelessWidget {
             runSpacing: 16,
             children: [
               _StatCard(
-                icon: Icons.library_books_outlined,
+                icon: DomainType.chapter.icon,
                 label: 'Chapters',
                 value: stats?.chapterCount.toString() ?? '0',
-                color: Colors.blue,
+                color: DomainType.chapter.color ?? Colors.blue,
               ),
               _StatCard(
                 icon: Icons.category_outlined,
@@ -63,7 +65,7 @@ class CampaignStatsDashboard extends StatelessWidget {
                 ),
               if ((campaign.memberUids?.isNotEmpty ?? false))
                 _StatCard(
-                  icon: Icons.group_outlined,
+                  icon: DomainType.party.icon,
                   label: 'Members',
                   value: (campaign.memberUids?.length ?? 0).toString(),
                   color: Colors.teal,

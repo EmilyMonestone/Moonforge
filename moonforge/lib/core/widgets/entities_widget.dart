@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
@@ -88,7 +90,7 @@ class EntitiesWidget extends StatelessWidget {
         if (npcsMontersGroups.isNotEmpty)
           _EntityGroupWidget(
             title: 'NPCs, Monsters & Groups',
-            icon: Icons.group_outlined,
+            icon: DomainType.entityGroup.icon,
             entities: npcsMontersGroups,
           ),
         if (places.isNotEmpty)
@@ -100,7 +102,7 @@ class EntitiesWidget extends StatelessWidget {
         if (itemsOthers.isNotEmpty)
           _EntityGroupWidget(
             title: 'Items & Others',
-            icon: Icons.inventory_2_outlined,
+            icon: DomainType.entityItem.icon,
             entities: itemsOthers,
           ),
       ],

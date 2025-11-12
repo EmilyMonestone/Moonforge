@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:provider/provider.dart';
 import 'package:moonforge/features/parties/controllers/player_provider.dart';
@@ -116,7 +118,7 @@ class _HpTrackerWidgetState extends State<HpTrackerWidget> {
               context,
               'Temp HP',
               _tempHpController,
-              Icons.shield_outlined,
+              DomainType.combatant.icon,
               Colors.blue,
               () => _applyTempHp(context),
             ),

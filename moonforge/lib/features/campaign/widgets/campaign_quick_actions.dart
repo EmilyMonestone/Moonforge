@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/chapter/utils/create_chapter.dart';
@@ -23,7 +25,7 @@ class CampaignQuickActions extends StatelessWidget {
         ButtonM3E(
           style: ButtonM3EStyle.filled,
           shape: ButtonM3EShape.square,
-          icon: const Icon(Icons.library_books_outlined),
+          icon: Icon(DomainType.chapter.icon),
           label: Text(l10n.createChapter),
           onPressed: () => createChapter(context, campaign),
         ),

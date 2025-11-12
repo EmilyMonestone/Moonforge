@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -255,7 +257,7 @@ class MenuRegistry {
   static MenuBarAction newChapter(AppLocalizations l10n) {
     return MenuBarAction(
       label: l10n.createChapter,
-      icon: Icons.library_books_outlined,
+      icon: DomainType.chapter.icon,
       onPressed: (ctx) {
         final campaign = Provider.of<CampaignProvider>(
           ctx,
@@ -273,7 +275,7 @@ class MenuRegistry {
   static MenuBarAction newAdventure(AppLocalizations l10n) {
     return MenuBarAction(
       label: l10n.createAdventure,
-      icon: Icons.auto_stories_outlined,
+      icon: DomainType.adventure.icon,
       onPressed: (ctx) {
         final campaign = Provider.of<CampaignProvider>(
           ctx,
@@ -312,7 +314,7 @@ class MenuRegistry {
   ) {
     return MenuBarAction(
       label: l10n.createAdventure,
-      icon: Icons.auto_stories_outlined,
+      icon: DomainType.adventure.icon,
       onPressed: (ctx) {
         final campaign = Provider.of<CampaignProvider>(
           ctx,
@@ -362,7 +364,7 @@ class MenuRegistry {
   static MenuBarAction newEncounter(AppLocalizations l10n) {
     return MenuBarAction(
       label: l10n.createEncounter,
-      icon: Icons.shield_outlined,
+      icon: DomainType.encounter.icon,
       onPressed: (ctx) {
         final campaign = Provider.of<CampaignProvider>(
           ctx,
