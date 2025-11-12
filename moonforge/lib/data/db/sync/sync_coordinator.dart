@@ -26,12 +26,9 @@ class SyncCoordinator {
 
   /// Start the sync coordinator
   void start() {
-    logger.i('SyncCoordinator: Starting...');
-
     // React to auth changes
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen(
       (user) {
-        logger.i('SyncCoordinator: Auth state changed, uid=${user?.uid}');
         if (user != null) {
           _inboundListener.start(user.uid);
           _startPushLoop();

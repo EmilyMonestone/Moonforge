@@ -1069,6 +1069,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Danger Zone'**
   String get dangerZone;
+
+  /// Label for share button
+  ///
+  /// In en, this message translates to:
+  /// **'share'**
+  String get share;
+
+  /// Generic duplicate action label
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicate;
+
+  /// Generic archive action label
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archive;
+
+  /// Generic export action label
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
 }
 
 class _AppLocalizationsDelegate

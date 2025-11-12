@@ -497,4 +497,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dangerZone => 'Danger Zone';
+
+  @override
+  String get share => 'share';
+
+  @override
+  String get duplicate => 'Duplicate';
+
+  @override
+  String get archive => 'Archive';
+
+  @override
+  String get export => 'Export';
 }

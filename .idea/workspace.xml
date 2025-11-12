@@ -18,13 +18,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection">
-      <change afterPath="$PROJECT_DIR$/moonforge/test/features/scene/utils/scene_export_test.dart" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactor: enhance read-aloud text extraction and improve entity edit screen initialization">
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/fair_split_row.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/providers.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/scene_export.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/scene_export.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/adaptive_button_group.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/sync/sync_coordinator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/sync/sync_coordinator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,35 +116,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "PowerShell.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
@@ -182,14 +196,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00050" summary="remove">
-      <option name="closed" value="true" />
-      <created>1761502968007</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1761502968007</updated>
     </task>
     <task id="LOCAL-00051" summary="feat: add Contents.json for Moonforge icons and logos">
       <option name="closed" value="true" />
@@ -575,7 +581,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762876808584</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="refactor: enhance read-aloud text extraction and improve entity edit screen initialization">
+      <option name="closed" value="true" />
+      <created>1762886349824</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1762886349824</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -602,7 +616,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: implement entity creation in chapter, adventure, and scene contexts" />
     <MESSAGE value="refactor: improve logging and Firebase sync mechanisms in SyncEngine and DAO" />
     <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
     <MESSAGE value="refactor: migrate DAO classes to new Drift database and enhance stream functionality" />
@@ -627,7 +640,8 @@
     <MESSAGE value="feat: update navigation to use type-safe route data classes for entity and adventure screens" />
     <MESSAGE value="feat: add generated type-safe route data for application navigation" />
     <MESSAGE value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
+    <MESSAGE value="refactor: enhance read-aloud text extraction and improve entity edit screen initialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: enhance read-aloud text extraction and improve entity edit screen initialization" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1136,6 +1150,12 @@
           <option name="totalLines" value="13090064" />
           <option name="info" value="refactor: improve code readability and performance" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762886360359" />
+          <option name="linesCode" value="266161" />
+          <option name="totalLines" value="13826901" />
+          <option name="info" value="refactor: enhance read-aloud text extraction and i" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1231,9 +1251,9 @@
           <option name="info" value="Nov 11, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1762876816370" />
-          <option name="linesCode" value="265677" />
-          <option name="totalLines" value="13090064" />
+          <option name="timestamp" value="1762886360359" />
+          <option name="linesCode" value="266161" />
+          <option name="totalLines" value="13826901" />
           <option name="info" value="Nov 11, 2025" />
         </TimePoint>
       </list>

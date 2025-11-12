@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 
@@ -16,31 +15,22 @@ class CampaignStatsDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SurfaceContainer(
-      title: Row(
-        children: [
-          const Icon(Icons.analytics_outlined),
-          const SizedBox(width: 8),
-          Text(
-            'Campaign Statistics',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
-      ),
-      child: FutureBuilder<CampaignStats>(
-        future: service?.getCampaignStats(campaign),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+    return FutureBuilder<CampaignStats>(
+      future: service?.getCampaignStats(campaign),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
 
-          final stats = snapshot.data;
-          return Wrap(
+        final stats = snapshot.data;
+        return Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Wrap(
             spacing: 16,
             runSpacing: 16,
             children: [
@@ -79,9 +69,9 @@ class CampaignStatsDashboard extends StatelessWidget {
                   color: Colors.teal,
                 ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

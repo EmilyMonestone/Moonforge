@@ -644,5 +644,21 @@
   "dangerZone": "Gefahrenzone",
   "@dangerZone": {
     "description": "Bezeichnung für gefährliche Einstellungen"
+  },
+  "share": "Teilen",
+  "@share": {
+    "description": "Allgemeines Label für Teilen"
+  },
+  "duplicate": "Duplizieren",
+  "@duplicate": {
+    "description": "Allgemeines Label für Duplizieren"
+  },
+  "archive": "Archivieren",
+  "@archive": {
+    "description": "Allgemeines Label für Archivieren"
+  },
+  "export": "Exportieren",
+  "@export": {
+    "description": "Allgemeines Label für Exportieren"
   }
 }

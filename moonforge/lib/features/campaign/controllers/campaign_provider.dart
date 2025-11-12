@@ -21,14 +21,12 @@ class CampaignProvider with ChangeNotifier {
     try {
       final campaignId = _persistence.read<String>(_currentCampaignKey);
       if (campaignId != null) {
-        logger.i('Loaded persisted campaign ID: $campaignId');
         // Fetch the campaign from the database
         final campaign = await CampaignRepository(
           constructDb(),
         ).getById(campaignId);
         if (campaign != null) {
           _currentCampaign = campaign;
-          logger.i('Restored current campaign: ${campaign.name}');
         } else {
           logger.w('No campaign found with ID: $campaignId');
         }
@@ -50,7 +48,6 @@ class CampaignProvider with ChangeNotifier {
     // Persist the campaign ID
     if (campaign != null) {
       _persistence.write(_currentCampaignKey, campaign.id);
-      logger.i('Persisted campaign ID: ${campaign.id}');
     } else {
       _persistence.remove(_currentCampaignKey);
       logger.i('Removed persisted campaign ID');

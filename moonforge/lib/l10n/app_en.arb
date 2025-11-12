@@ -652,5 +652,21 @@
   "dangerZone": "Danger Zone",
   "@dangerZone": {
     "description": "Label for dangerous settings section"
+  },
+  "share": "share",
+  "@share": {
+    "description": "Label for share button"
+  },
+  "duplicate": "Duplicate",
+  "@duplicate": {
+    "description": "Generic duplicate action label"
+  },
+  "archive": "Archive",
+  "@archive": {
+    "description": "Generic archive action label"
+  },
+  "export": "Export",
+  "@export": {
+    "description": "Generic export action label"
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:m3e_collection/m3e_collection.dart'
-    show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -94,24 +93,11 @@ class _CampaignScreenState extends State<CampaignScreen> {
     final service = CampaignService(CampaignRepository(context.read<AppDb>()));
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CampaignHeader(campaign: campaign),
         CampaignStatsDashboard(campaign: campaign, service: service),
         SurfaceContainer(
-          title: Row(
-            children: [
-              const Spacer(),
-              ButtonM3E(
-                style: ButtonM3EStyle.tonal,
-                shape: ButtonM3EShape.square,
-                icon: const Icon(Icons.edit_outlined),
-                label: Text(l10n.edit),
-                onPressed: () {
-                  CampaignEditRouteData().go(context);
-                },
-              ),
-            ],
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: context.m3e.spacing.sm,
@@ -131,11 +117,6 @@ class _CampaignScreenState extends State<CampaignScreen> {
                         : l10n.noDescriptionProvided,
                   ),
                 ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.description,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
               CustomQuillViewer(
                 controller: _controller,

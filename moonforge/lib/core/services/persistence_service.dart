@@ -29,7 +29,6 @@ class PersistenceService {
       for (final boxName in StorageBox.values.map((e) => e.boxName)) {
         await GetStorage.init(boxName);
       }
-      logger.i('PersistenceService initialized');
     } catch (e) {
       logger.e('Failed to initialize PersistenceService: $e');
       rethrow;

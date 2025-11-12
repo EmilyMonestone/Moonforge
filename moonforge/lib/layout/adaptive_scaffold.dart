@@ -192,13 +192,15 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
-        title: topbar.WindowTopBar(
+        flexibleSpace: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
           leading: breadcrumbs,
           // Hide the top menu bar on compact/mobile; use FAB instead
           trailing: const SizedBox.shrink(),
         ),
         centerTitle: false,
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
         toolbarHeight: topbar.kWindowCaptionHeight * 2,
       ),
       body: SafeArea(
@@ -293,11 +295,14 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         surfaceTintColor: Theme.of(context).colorScheme.surface,
-        title: topbar.WindowTopBar(
+        title: null,
+        centerTitle: false,
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        flexibleSpace: topbar.WindowTopBar(
           /*title: appBarTitleText ?? const Text('Moonforge'),*/
           leading: breadcrumbs,
         ),
-        centerTitle: false,
       ),
       body: SafeArea(
         child: Row(

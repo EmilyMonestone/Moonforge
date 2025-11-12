@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart' as mb_actions;
 import 'package:moonforge/core/repositories/menu_registry.dart';
-import 'package:moonforge/core/widgets/adaptive_button_group.dart';
+import 'package:moonforge/core/widgets/fair_split_row.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:window_manager/window_manager.dart';
 
 const double kWindowCaptionHeight = 56;
-const double kTitleWidth = 300;
+const double kTitleWidth = 316;
 
 class WindowTopBar extends StatefulWidget {
   const WindowTopBar({
@@ -61,6 +62,40 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
     super.dispose();
   }
 
+  // Build a ButtonGroupM3E from action items (replacing AdaptiveButtonGroup).
+  Widget _buildActionGroup(
+    List<mb_actions.MenuBarAction> actions,
+    bool showLabels,
+  ) {
+    if (actions.isEmpty) return const SizedBox.shrink();
+
+    final mapped = <ButtonGroupM3EAction>[
+      for (final action in actions)
+        ButtonGroupM3EAction(
+          label: (!showLabels && action.icon != null)
+              ? const SizedBox.shrink()
+              : Text(action.label),
+          icon: action.icon == null
+              ? null
+              : Tooltip(
+                  message: action.helpText ?? action.label,
+                  child: Icon(action.icon),
+                ),
+          onPressed: action.onPressed == null
+              ? null
+              : () => action.onPressed!(context),
+        ),
+    ];
+
+    return ButtonGroupM3E(
+      actions: mapped,
+      shape: ButtonGroupM3EShape.square,
+      style: ButtonM3EStyle.tonal,
+      expanded: true,
+      linearMainAxisAlignment: MainAxisAlignment.end,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isCompact = MediaQuery.of(context).size.width < 600;
@@ -79,9 +114,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
             Platform.isMacOS))
         ? Row(
             children: [
-              // const SizedBox(
-              //   width: 8,
-              // ),
+              SizedBox(width: 16),
               WindowCaptionButton.minimize(
                 brightness: widget.brightness ?? Theme.of(context).brightness,
                 onPressed: () async {
@@ -129,6 +162,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
       width: kTitleWidth,
       child: Row(
         children: [
+          SizedBox(width: 16),
           Image.asset(
             Assets.icon.moonforgeLogoPurple.moonforgeLogoPurple256.path,
             height: 40,
@@ -214,9 +248,9 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                                     Flexible(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: AdaptiveButtonGroup(
-                                          actions: actionItems,
-                                          showLabels: showLabels,
+                                        child: _buildActionGroup(
+                                          actionItems,
+                                          showLabels,
                                         ),
                                       ),
                                     )
@@ -237,43 +271,63 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                                     Platform.isFuchsia ||
                                     Platform.isMacOS);
 
-                            // Estimate window button widths (3 buttons × 46px each)
-                            const windowButtonsWidth = 138.0;
+                            // Estimate window button widths (3 buttons × 46px each + 16px padding)
+                            const windowButtonsWidth = (3 * 46) + 16;
                             final availableWidth =
                                 constraints.maxWidth -
                                 kTitleWidth -
                                 (hasWindowButtons ? windowButtonsWidth : 0);
 
-                            // Default 50/50 split
-                            final halfWidth = availableWidth / 2;
-
-                            // Use adaptive button group when no custom trailing is provided
+                            // Use action group when no custom trailing is provided
                             final adaptiveTrailing =
                                 widget.trailing ??
                                 (actionItems.isEmpty
                                     ? const SizedBox.shrink()
-                                    : AdaptiveButtonGroup(
-                                        actions: actionItems,
-                                        showLabels: showLabels,
-                                        maxWidth: halfWidth,
+                                    : _buildActionGroup(
+                                        actionItems,
+                                        showLabels,
                                       ));
+
+                            final hasLeading = widget.leading != null;
+                            final hasTrailing =
+                                widget.trailing != null ||
+                                actionItems.isNotEmpty;
+
+                            Widget centerArea = const SizedBox.shrink();
+                            if (availableWidth > 0) {
+                              if (hasLeading && hasTrailing) {
+                                centerArea = SizedBox(
+                                  width: availableWidth,
+                                  child: FairSplitRow(
+                                    left: widget.leading!,
+                                    right: adaptiveTrailing,
+                                    minLeft: 100,
+                                    minRight: 100,
+                                  ),
+                                );
+                              } else if (hasLeading) {
+                                centerArea = SizedBox(
+                                  width: availableWidth,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: widget.leading!,
+                                  ),
+                                );
+                              } else if (hasTrailing) {
+                                centerArea = SizedBox(
+                                  width: availableWidth,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: adaptiveTrailing,
+                                  ),
+                                );
+                              }
+                            }
 
                             return Row(
                               children: [
                                 titleWidget,
-                                if (widget.leading != null) widget.leading!,
-                                Spacer(),
-                                if (widget.trailing != null ||
-                                    actionItems.isNotEmpty)
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: halfWidth,
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: adaptiveTrailing,
-                                    ),
-                                  ),
+                                centerArea,
                                 if (hasWindowButtons) buttons,
                               ],
                             );
@@ -298,10 +352,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                               widget.trailing ??
                               (actionItems.isEmpty
                                   ? const SizedBox.shrink()
-                                  : AdaptiveButtonGroup(
-                                      actions: actionItems,
-                                      showLabels: showLabels,
-                                    )),
+                                  : _buildActionGroup(actionItems, showLabels)),
                         ),
                       ],
                     ),

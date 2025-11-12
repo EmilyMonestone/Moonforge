@@ -501,4 +501,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dangerZone => 'Gefahrenzone';
+
+  @override
+  String get share => 'Teilen';
+
+  @override
+  String get duplicate => 'Duplizieren';
+
+  @override
+  String get archive => 'Archivieren';
+
+  @override
+  String get export => 'Exportieren';
 }

@@ -29,9 +29,6 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       try {
         // Accessing it ensures the provider is created and started
         final _ = context.read<SyncCoordinator>();
-        logger.i(
-          'Ensured SyncCoordinator is initialized via AppStateInitializer',
-        );
       } catch (e) {
         logger.w(
           'Failed to ensure SyncCoordinator from AppStateInitializer: $e',
@@ -48,15 +45,12 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       final campaignId = campaignProvider.getPersistedCampaignId();
 
       if (campaignId != null) {
-        logger.i('Restoring persisted campaign: $campaignId');
-
         // Load the campaign from Drift via repository
         final campaignRepository = context.read<CampaignRepository>();
         try {
           final campaign = await campaignRepository.getById(campaignId);
           if (campaign != null) {
             campaignProvider.setCurrentCampaign(campaign);
-            logger.i('Successfully restored campaign: ${campaign.name}');
           } else {
             logger.w('Persisted campaign not found: $campaignId');
             // Clear the invalid persisted ID
