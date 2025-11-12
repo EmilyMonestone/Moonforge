@@ -18,41 +18,9 @@ class EntitiesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Helper to extract leaf id from composite originId
-    String extractLeafId(String originId) {
-      if (originId.isEmpty) return originId;
-      if (!originId.contains('-')) return originId;
-      final parts = originId.split('-').where((t) => t.isNotEmpty).toList();
-      final idTokens = parts
-          .where((t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t))
-          .toList();
-      return idTokens.isEmpty ? originId : idTokens.last;
-    }
-
-    // Helper to extract leaf type
-    String? extractLeafType(String originId) {
-      if (originId.isEmpty) return null;
-      if (!originId.contains('-')) return null; // plain id only
-      final parts = originId.split('-').where((t) => t.isNotEmpty).toList();
-      final firstIdIndex = parts.indexWhere(
-        (t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t),
-      );
-      if (firstIdIndex == -1) return null;
-      final typeTokens = parts.sublist(0, firstIdIndex);
-      if (typeTokens.isEmpty) return null;
-      const leafSet = {
-        'scene',
-        'adventure',
-        'encounter',
-        'chapter',
-        'campaign',
-      };
-      // Leaf-first if first token is a leaf; else root-first
-      final leafFirst = leafSet.contains(typeTokens.first);
-      return leafFirst ? typeTokens.first : typeTokens.last;
-    }
-
     // De-duplicate by entity ID and keep the most appropriate origin.
+    // Strategy: prefer origin that matches entity.originId directly (true origin)
+    // Fall back to specificity ranking if no direct match
     int rank(EntityOrigin? o) {
       if (o == null) return 0; // direct
       switch (o.partType) {
@@ -75,24 +43,24 @@ class EntitiesWidget extends StatelessWidget {
     for (final ewo in entities) {
       final id = ewo.entity.id;
       final existing = byId[id];
-      final leafId = extractLeafId(ewo.entity.originId);
-      final leafType = extractLeafType(ewo.entity.originId);
+
+      // Check if this origin matches the entity's stored originId (true origin)
       bool isTrueOrigin(EntityWithOrigin e) {
-        return e.origin != null &&
-            leafType != null &&
-            e.origin!.partType == leafType &&
-            e.origin!.partId == leafId;
+        // Direct match: entity.originId == origin.partId
+        return e.origin != null && e.entity.originId == e.origin!.partId;
       }
 
       if (existing == null) {
         byId[id] = ewo;
         logger.d(
-          '[EntitiesWidget] Initial origin for entity=$id originId=${ewo.entity.originId} chosen=${ewo.origin?.partType}:${ewo.origin?.partId}',
+          '[EntitiesWidget] Initial origin for entity=$id originId=${ewo.entity.originId} chosen=${ewo.origin?.partType}:${ewo.origin?.partId} label="${ewo.origin?.label}"',
         );
         continue;
       }
+
       final existingTrue = isTrueOrigin(existing);
       final newTrue = isTrueOrigin(ewo);
+
       if (existingTrue && !newTrue) {
         logger.d(
           '[EntitiesWidget] Keep existing TRUE origin for entity=$id (${existing.origin?.label})',
@@ -105,6 +73,7 @@ class EntitiesWidget extends StatelessWidget {
         );
         continue;
       }
+
       // Neither explicitly true or both true; fall back to specificity rank
       if (rank(ewo.origin) > rank(existing.origin)) {
         byId[id] = ewo;
