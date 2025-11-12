@@ -1,9 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
 /// Formatting utilities for entity display
 class EntityFormatters {
   EntityFormatters._();
+
+  /// Get the icon for an entity kind
+  static IconData getKindIcon(String kind) {
+    return DomainVisuals.getEntityKindIcon(kind);
+  }
+
+  /// Get the color for an entity kind (may be null)
+  static Color? getKindColor(String kind) {
+    return DomainVisuals.getEntityKindColor(kind);
+  }
 
   /// Format entity kind as a human-readable label
   static String formatKind(String kind) {

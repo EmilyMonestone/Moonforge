@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 
@@ -29,7 +31,7 @@ class ChapterCard extends StatelessWidget {
                 foregroundColor: theme.colorScheme.onPrimaryContainer,
                 child: Text('${chapter.order + 1}'),
               )
-            : const Icon(Icons.menu_book_outlined),
+            : Icon(DomainType.chapter.icon),
         title: Text(chapter.name, style: textTheme.titleMedium),
         subtitle: chapter.summary != null && chapter.summary!.isNotEmpty
             ? Text(
