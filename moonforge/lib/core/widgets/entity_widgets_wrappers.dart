@@ -65,6 +65,12 @@ class CampaignEntitiesWidget extends StatelessWidget {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
         final result = snapshot.data ?? const <EntityWithOrigin>[];
+        // Log gathered entities with their origins for troubleshooting
+        for (final ewo in result) {
+          logger.d(
+            '[CampaignEntitiesWidget] entity=${ewo.entity.id} name="${ewo.entity.name}" originId=${ewo.entity.originId} gatheredOrigin=${ewo.origin?.partType}:${ewo.origin?.partId} label="${ewo.origin?.label}"',
+          );
+        }
         return EntitiesWidget(entities: result);
       },
     );
