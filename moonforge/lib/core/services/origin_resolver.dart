@@ -57,7 +57,7 @@ class OriginResolver {
           '[OriginResolver] Composite resolution failed for $originId, attempting fallback to leaf ID',
         );
         final tokens = originId.split('-').where((t) => t.isNotEmpty).toList();
-        bool isIdToken(String t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t);
+        bool isIdToken(String t) => RegExp(r'^\d+$').hasMatch(t) && t.length >= 6;
         final firstIdIndex = tokens.indexWhere(isIdToken);
         if (firstIdIndex != -1) {
           final idTokens = tokens.sublist(firstIdIndex);
@@ -199,7 +199,8 @@ class OriginResolver {
     }
 
     // Separate type tokens from ID tokens
-    bool isIdToken(String t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t);
+    // ID tokens are numeric strings (timestamps like 1762812675441)
+    bool isIdToken(String t) => RegExp(r'^\d+$').hasMatch(t) && t.length >= 6;
     final firstIdIndex = tokens.indexWhere(isIdToken);
     if (firstIdIndex == -1) {
       logger.w('[OriginResolver] No ID tokens found in: $originId');
