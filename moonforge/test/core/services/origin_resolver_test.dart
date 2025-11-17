@@ -113,11 +113,11 @@ class FakeEncounterRepository implements EncounterRepository {
 }
 
 void main() {
-  // Configure logger for testing to avoid hanging on log output
+  // Configure logger for testing - allow warnings to help debug
   setUpAll(() {
     logger = Logger(
       printer: SimplePrinter(),
-      level: Level.nothing, // Disable all logging in tests
+      level: Level.warning, // Allow warnings to see what's failing
     );
   });
 
