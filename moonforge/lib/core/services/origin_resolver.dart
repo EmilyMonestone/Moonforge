@@ -50,6 +50,28 @@ class OriginResolver {
     } else {
       // Composite ID - parse and validate
       result = await _resolveCompositeId(originId);
+      
+      // Fallback: If composite resolution fails, try to extract and resolve the leaf ID
+      if (result == null) {
+        logger.d(
+          '[OriginResolver] Composite resolution failed for $originId, attempting fallback to leaf ID',
+        );
+        final tokens = originId.split('-').where((t) => t.isNotEmpty).toList();
+        bool isIdToken(String t) => RegExp(r'^[0-9A-Za-z]{6,}$').hasMatch(t);
+        final firstIdIndex = tokens.indexWhere(isIdToken);
+        if (firstIdIndex != -1) {
+          final idTokens = tokens.sublist(firstIdIndex);
+          // Try the first ID token (likely the leaf in leaf-first encoding)
+          if (idTokens.isNotEmpty) {
+            result = await _resolvePlainId(idTokens.first);
+            if (result != null) {
+              logger.d(
+                '[OriginResolver] Fallback successful: resolved ${idTokens.first} as ${result.partType}: ${result.label}',
+              );
+            }
+          }
+        }
+      }
     }
 
     // Cache result (even if null)
@@ -308,17 +330,32 @@ class OriginResolver {
 
         case 'adventure':
           final adventure = await adventureRepo.getById(leafId);
-          if (adventure == null) return false;
+          if (adventure == null) {
+            logger.d('[OriginResolver] Adventure not found: $leafId');
+            return false;
+          }
           // Verify chapter relationship if specified
           final chapterId = mapping['chapter'];
           if (chapterId != null && adventure.chapterId != chapterId) {
+            logger.d(
+              '[OriginResolver] Adventure chapter mismatch: adventure.chapterId=${adventure.chapterId} != expected=$chapterId',
+            );
             return false;
           }
           // Verify campaign relationship if specified
           final campaignId = mapping['campaign'];
           if (campaignId != null) {
             final chapter = await chapterRepo.getById(adventure.chapterId);
-            if (chapter == null || chapter.campaignId != campaignId) {
+            if (chapter == null) {
+              logger.d(
+                '[OriginResolver] Chapter not found for adventure: ${adventure.chapterId}',
+              );
+              return false;
+            }
+            if (chapter.campaignId != campaignId) {
+              logger.d(
+                '[OriginResolver] Chapter campaign mismatch: chapter.campaignId=${chapter.campaignId} != expected=$campaignId',
+              );
               return false;
             }
           }
