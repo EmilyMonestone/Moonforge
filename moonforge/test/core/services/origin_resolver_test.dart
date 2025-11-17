@@ -290,6 +290,20 @@ void main() {
   });
 
   group('OriginResolver - Composite IDs (Leaf-First)', () {
+    test('DEBUG: check test data setup', () async {
+      // Verify test data is set up correctly
+      final adv = await fakeAdventureRepo.getById(adventureId);
+      expect(adv, isNotNull, reason: 'Adventure should exist');
+      expect(adv!.chapterId, chapterId, reason: 'Adventure chapter ID should match');
+      
+      final ch = await fakeChapterRepo.getById(chapterId);
+      expect(ch, isNotNull, reason: 'Chapter should exist');
+      expect(ch!.campaignId, campaignId, reason: 'Chapter campaign ID should match');
+      
+      final camp = await fakeCampaignRepo.getById(campaignId);
+      expect(camp, isNotNull, reason: 'Campaign should exist');
+    });
+    
     test('resolves leaf-first adventure composite ID', () async {
       // Format: adventure-chapter-campaign-advId-chapterId-campaignId
       final compositeId =
