@@ -125,25 +125,6 @@ void main() {
   const sceneId = '1762812675442';
   const encounterId = '1762812675443';
 
-  setUp(() {
-    fakeCampaignRepo = FakeCampaignRepository();
-    fakeChapterRepo = FakeChapterRepository();
-    fakeAdventureRepo = FakeAdventureRepository();
-    fakeSceneRepo = FakeSceneRepository();
-    fakeEncounterRepo = FakeEncounterRepository();
-
-    resolver = OriginResolver(
-      campaignRepo: fakeCampaignRepo,
-      chapterRepo: fakeChapterRepo,
-      adventureRepo: fakeAdventureRepo,
-      sceneRepo: fakeSceneRepo,
-      encounterRepo: fakeEncounterRepo,
-    );
-
-    // Setup test data
-    _setupTestData();
-  });
-
   void _setupTestData() {
     // Campaign
     fakeCampaignRepo.addCampaign(
@@ -215,8 +196,10 @@ void main() {
         id: encounterId,
         originId: campaignId,
         name: 'Test Encounter',
-        summary: '',
-        combatantIds: const [],
+        preset: false,
+        notes: null,
+        loot: null,
+        combatants: const [],
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         rev: 1,
@@ -224,6 +207,25 @@ void main() {
       ),
     );
   }
+
+  setUp(() {
+    fakeCampaignRepo = FakeCampaignRepository();
+    fakeChapterRepo = FakeChapterRepository();
+    fakeAdventureRepo = FakeAdventureRepository();
+    fakeSceneRepo = FakeSceneRepository();
+    fakeEncounterRepo = FakeEncounterRepository();
+
+    resolver = OriginResolver(
+      campaignRepo: fakeCampaignRepo,
+      chapterRepo: fakeChapterRepo,
+      adventureRepo: fakeAdventureRepo,
+      sceneRepo: fakeSceneRepo,
+      encounterRepo: fakeEncounterRepo,
+    );
+
+    // Setup test data
+    _setupTestData();
+  });
 
   group('OriginResolver - Plain IDs', () {
     test('resolves plain campaign ID', () async {
