@@ -239,16 +239,12 @@ class OriginResolver {
     final lenTypes = typeTokens.length;
     final lenIds = idTokens.length;
 
-    if (leafFirst) {
-      // Leaf-first: adventure-chapter-campaign with IDs in reverse order
-      for (var i = 0; i < lenTypes; i++) {
-        mapping[typeTokens[i]] = idTokens[lenIds - 1 - i];
-      }
-    } else {
-      // Root-first: campaign-chapter-adventure with IDs in same order
-      for (var i = 0; i < lenTypes; i++) {
-        mapping[typeTokens[i]] = idTokens[i];
-      }
+    // Both leaf-first and root-first use direct positional mapping
+    // Leaf-first: adventure-chapter-campaign-advId-chapterId-campaignId
+    // Root-first: campaign-chapter-adventure-campaignId-chapterId-advId
+    // In both cases, typeTokens[i] maps to idTokens[i]
+    for (var i = 0; i < lenTypes; i++) {
+      mapping[typeTokens[i]] = idTokens[i];
     }
 
     // Determine leaf type
