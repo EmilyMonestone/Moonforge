@@ -317,7 +317,15 @@ class OriginResolver {
       switch (leafType) {
         case 'campaign':
           final campaign = await campaignRepo.getById(leafId);
-          return campaign != null;
+          if (campaign == null) return false;
+          // If more specific types exist in mapping, campaign cannot be the leaf
+          if (mapping.containsKey('chapter') || 
+              mapping.containsKey('adventure') || 
+              mapping.containsKey('scene') || 
+              mapping.containsKey('encounter')) {
+            return false;
+          }
+          return true;
 
         case 'chapter':
           final chapter = await chapterRepo.getById(leafId);
@@ -325,6 +333,12 @@ class OriginResolver {
           // If campaign specified, verify match
           final campaignId = mapping['campaign'];
           if (campaignId != null && chapter.campaignId != campaignId) {
+            return false;
+          }
+          // If more specific types exist in mapping, chapter cannot be the leaf
+          if (mapping.containsKey('adventure') || 
+              mapping.containsKey('scene') || 
+              mapping.containsKey('encounter')) {
             return false;
           }
           return true;
@@ -359,6 +373,10 @@ class OriginResolver {
               );
               return false;
             }
+          }
+          // If more specific types exist in mapping, adventure cannot be the leaf
+          if (mapping.containsKey('scene') || mapping.containsKey('encounter')) {
+            return false;
           }
           return true;
 
