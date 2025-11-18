@@ -85,9 +85,28 @@ class OriginResolver {
   }
 
   /// Resolve a plain (non-composite) originId
+  /// 
+  /// Tries both the originId as-is and with type prefixes (e.g., "campaign-123")
+  /// since IDs may be stored with prefixes in the database
   Future<EntityOrigin?> _resolvePlainId(String originId) async {
+    // Helper to try lookup with and without prefix
+    Future<T?> _tryWithPrefix<T>(
+      String prefix,
+      Future<T?> Function(String) lookup,
+    ) async {
+      // Try with originId as-is first
+      var result = await lookup(originId);
+      if (result != null) return result;
+      
+      // If originId doesn't already start with prefix, try adding it
+      if (!originId.startsWith('$prefix-')) {
+        result = await lookup('$prefix-$originId');
+      }
+      return result;
+    }
+
     // Try campaign
-    final campaign = await campaignRepo.getById(originId);
+    final campaign = await _tryWithPrefix('campaign', campaignRepo.getById);
     if (campaign != null) {
       logger.d('[OriginResolver] Resolved plain ID $originId as campaign');
       return EntityOrigin(
@@ -99,7 +118,7 @@ class OriginResolver {
     }
 
     // Try chapter
-    final chapter = await chapterRepo.getById(originId);
+    final chapter = await _tryWithPrefix('chapter', chapterRepo.getById);
     if (chapter != null) {
       final chapters = await chapterRepo.getByCampaign(chapter.campaignId);
       chapters.sort((a, b) => a.order.compareTo(b.order));
@@ -117,7 +136,7 @@ class OriginResolver {
     }
 
     // Try adventure
-    final adventure = await adventureRepo.getById(originId);
+    final adventure = await _tryWithPrefix('adventure', adventureRepo.getById);
     if (adventure != null) {
       final ch = await chapterRepo.getById(adventure.chapterId);
       if (ch != null) {
@@ -143,7 +162,7 @@ class OriginResolver {
     }
 
     // Try scene
-    final scene = await sceneRepo.getById(originId);
+    final scene = await _tryWithPrefix('scene', sceneRepo.getById);
     if (scene != null) {
       final adv = await adventureRepo.getById(scene.adventureId);
       if (adv != null) {
@@ -175,7 +194,7 @@ class OriginResolver {
     }
 
     // Try encounter
-    final encounter = await encounterRepo.getById(originId);
+    final encounter = await _tryWithPrefix('encounter', encounterRepo.getById);
     if (encounter != null) {
       logger.d(
         '[OriginResolver] Resolved plain ID $originId as encounter: ${encounter.name}',
