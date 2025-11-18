@@ -5,6 +5,7 @@ import 'package:m3e_collection/m3e_collection.dart'
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
+import 'package:moonforge/core/services/origin_resolver.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entities_widget.dart';
@@ -68,16 +69,19 @@ class _EntityScreenState extends State<EntityScreen> {
       }
       _controller.readOnly = true;
 
-      // Resolve true origin label with numbering (async)
+      // Resolve true origin label with numbering using OriginResolver
       EntityOrigin? resolved;
       if (entity != null) {
-        resolved = await getTrueOrigin(
-          entity.originId,
+        final resolver = OriginResolver(
           campaignRepo: context.read<CampaignRepository>(),
           chapterRepo: context.read<ChapterRepository>(),
           adventureRepo: context.read<AdventureRepository>(),
           sceneRepo: context.read<SceneRepository>(),
           encounterRepo: context.read<EncounterRepository>(),
+        );
+        resolved = await resolver.resolve(entity.originId);
+        logger.d(
+          '[EntityScreen] Resolved origin for entity=${entity.id} originId=${entity.originId}: ${resolved?.partType}:${resolved?.partId} label="${resolved?.label}"',
         );
       }
 
