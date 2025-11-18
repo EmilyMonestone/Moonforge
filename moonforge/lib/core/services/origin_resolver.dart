@@ -51,8 +51,9 @@ class OriginResolver {
       // Composite ID - parse and validate
       result = await _resolveCompositeId(originId);
       
-      // Fallback: If composite resolution fails, try to extract and resolve the leaf ID
-      if (result == null) {
+      // Fallback: If composite resolution fails due to missing data (not malformed format),
+      // try to extract and resolve the leaf ID
+      if (result == null && _isWellFormedComposite(originId)) {
         logger.d(
           '[OriginResolver] Composite resolution failed for $originId, attempting fallback to leaf ID',
         );
@@ -185,6 +186,35 @@ class OriginResolver {
 
     logger.w('[OriginResolver] Could not resolve plain ID: $originId');
     return null;
+  }
+
+  /// Check if a composite originId has well-formed structure (valid type/ID token counts)
+  /// Returns true if the format is valid, even if the IDs don't exist in the database
+  bool _isWellFormedComposite(String originId) {
+    final tokens = originId.split('-').where((t) => t.isNotEmpty).toList();
+    if (tokens.length < 2) {
+      return false;
+    }
+
+    // Separate type tokens from ID tokens
+    bool isIdToken(String t) => RegExp(r'^\d+$').hasMatch(t) && t.length >= 6;
+    final firstIdIndex = tokens.indexWhere(isIdToken);
+    if (firstIdIndex == -1) {
+      return false;
+    }
+
+    final typeTokens = tokens.sublist(0, firstIdIndex);
+    final idTokens = tokens.sublist(firstIdIndex);
+
+    // Must have equal or more IDs than types
+    if (typeTokens.isEmpty || idTokens.isEmpty || idTokens.length < typeTokens.length) {
+      return false;
+    }
+
+    // Must have at least one valid type token
+    const validTypes = {'campaign', 'chapter', 'adventure', 'scene', 'encounter'};
+    final filteredTypes = typeTokens.where(validTypes.contains).toList();
+    return filteredTypes.isNotEmpty;
   }
 
   /// Resolve a composite originId by parsing and validating tokens
