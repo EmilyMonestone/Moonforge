@@ -54,7 +54,7 @@ class OriginResolver {
       // Fallback: If composite resolution fails due to missing data (not malformed format),
       // try to extract and resolve the leaf ID
       if (result == null && _isWellFormedComposite(originId)) {
-        logger.d(
+        logger.w(
           '[OriginResolver] Composite resolution failed for $originId, attempting fallback to leaf ID',
         );
         final tokens = originId.split('-').where((t) => t.isNotEmpty).toList();
@@ -66,8 +66,12 @@ class OriginResolver {
           if (idTokens.isNotEmpty) {
             result = await _resolvePlainId(idTokens.first);
             if (result != null) {
-              logger.d(
+              logger.w(
                 '[OriginResolver] Fallback successful: resolved ${idTokens.first} as ${result.partType}: ${result.label}',
+              );
+            } else {
+              logger.w(
+                '[OriginResolver] Fallback failed: could not resolve ${idTokens.first} as plain ID',
               );
             }
           }
