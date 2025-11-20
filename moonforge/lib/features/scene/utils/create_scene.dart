@@ -175,7 +175,7 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     Map<String, dynamic>? contentDelta;
     if (aiContent != null && aiContent.isNotEmpty) {
       final document = Document()..insert(0, aiContent);
-      contentDelta = document.toDelta().toJson();
+      contentDelta = {'ops': document.toDelta().toJson()};
     }
 
     final scene = Scene(

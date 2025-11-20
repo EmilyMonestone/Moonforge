@@ -358,10 +358,16 @@ class GeminiService {
       jsonStr = jsonStr.trim();
 
       // Parse JSON
-      final Map<String, dynamic> parsed = 
-          Map<String, dynamic>.from(jsonDecode(jsonStr));
+      final decoded = jsonDecode(jsonStr);
       
-      return parsed;
+      // Ensure it's a Map
+      if (decoded is Map<String, dynamic>) {
+        return decoded;
+      } else if (decoded is Map) {
+        return Map<String, dynamic>.from(decoded);
+      } else {
+        throw FormatException('Expected JSON object, got ${decoded.runtimeType}');
+      }
     } catch (e) {
       logger.e('Failed to parse NPC JSON response: $e');
       logger.d('Content was: $content');
