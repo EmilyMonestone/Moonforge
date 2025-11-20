@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
-import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_configvice.dart';
 import 'package:moonforge/core/services/story_context_builder.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/ai/ai_creation_dialog.dart';
@@ -77,7 +77,9 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
       entityRepo: context.read<EntityRepository>(),
     );
 
-    final storyContext = await contextBuilder.buildForAdventure(selectedAdventure.id);
+    final storyContext = await contextBuilder.buildForAdventure(
+      selectedAdventure.id,
+    );
 
     if (!context.mounted) return;
 
