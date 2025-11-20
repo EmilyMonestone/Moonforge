@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:moonforge/core/models/ai/generation_request.dart';
 import 'package:moonforge/core/models/ai/generation_response.dart';
@@ -323,79 +325,105 @@ class GeminiService {
     }
 
     buffer.writeln();
-    buffer.writeln('Generate the NPC in the following format:');
-    buffer.writeln('NAME: [Character name]');
-    buffer.writeln('APPEARANCE: [Physical description]');
-    buffer.writeln('PERSONALITY: [Character traits and demeanor]');
-    buffer.writeln('BACKSTORY: [Brief history and background]');
-    buffer.writeln('ROLE: [Their role in the story/world]');
-    buffer.writeln('MOTIVATIONS: [What drives them]');
-    buffer.writeln('SECRETS: [Hidden information or plot hooks]');
+    buffer.writeln('IMPORTANT: Return ONLY a valid JSON object with no additional text, markdown, or code blocks.');
+    buffer.writeln('Use this exact structure:');
+    buffer.writeln('{');
+    buffer.writeln('  "name": "Character name",');
+    buffer.writeln('  "appearance": "Physical description",');
+    buffer.writeln('  "personality": "Character traits and demeanor",');
+    buffer.writeln('  "backstory": "Brief history and background",');
+    buffer.writeln('  "role": "Their role in the story/world",');
+    buffer.writeln('  "motivations": "What drives them",');
+    buffer.writeln('  "secrets": "Hidden information or plot hooks"');
+    buffer.writeln('}');
     buffer.writeln();
     buffer.writeln('Make the NPC memorable, fit naturally into the campaign setting, and provide interesting roleplay opportunities.');
 
     return buffer.toString();
   }
 
-  /// Parse structured NPC response from Gemini
+  /// Parse structured NPC response from Gemini (now expects JSON)
   Map<String, dynamic> _parseNpcResponse(String content) {
-    final result = <String, dynamic>{};
+    try {
+      // Remove any markdown code blocks if present
+      var jsonStr = content.trim();
+      if (jsonStr.startsWith('```json')) {
+        jsonStr = jsonStr.substring(7);
+      } else if (jsonStr.startsWith('```')) {
+        jsonStr = jsonStr.substring(3);
+      }
+      if (jsonStr.endsWith('```')) {
+        jsonStr = jsonStr.substring(0, jsonStr.length - 3);
+      }
+      jsonStr = jsonStr.trim();
 
-    // Simple parsing of the structured format
-    final nameMatch = RegExp(r'NAME:\s*(.+?)(?=\n|$)', caseSensitive: false)
-        .firstMatch(content);
-    if (nameMatch != null) {
-      result['name'] = nameMatch.group(1)?.trim();
+      // Parse JSON
+      final Map<String, dynamic> parsed = 
+          Map<String, dynamic>.from(jsonDecode(jsonStr));
+      
+      return parsed;
+    } catch (e) {
+      logger.e('Failed to parse NPC JSON response: $e');
+      logger.d('Content was: $content');
+      
+      // Fallback to regex parsing
+      final result = <String, dynamic>{};
+
+      final nameMatch = RegExp(r'NAME:\s*(.+?)(?=\n|$)', caseSensitive: false)
+          .firstMatch(content);
+      if (nameMatch != null) {
+        result['name'] = nameMatch.group(1)?.trim();
+      }
+
+      final appearanceMatch =
+          RegExp(r'APPEARANCE:\s*(.+?)(?=\n(?:NAME|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (appearanceMatch != null) {
+        result['appearance'] = appearanceMatch.group(1)?.trim();
+      }
+
+      final personalityMatch =
+          RegExp(r'PERSONALITY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (personalityMatch != null) {
+        result['personality'] = personalityMatch.group(1)?.trim();
+      }
+
+      final backstoryMatch =
+          RegExp(r'BACKSTORY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|ROLE|MOTIVATIONS|SECRETS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (backstoryMatch != null) {
+        result['backstory'] = backstoryMatch.group(1)?.trim();
+      }
+
+      final roleMatch =
+          RegExp(r'ROLE:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|MOTIVATIONS|SECRETS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (roleMatch != null) {
+        result['role'] = roleMatch.group(1)?.trim();
+      }
+
+      final motivationsMatch =
+          RegExp(r'MOTIVATIONS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|SECRETS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (motivationsMatch != null) {
+        result['motivations'] = motivationsMatch.group(1)?.trim();
+      }
+
+      final secretsMatch =
+          RegExp(r'SECRETS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS):|$)', 
+              caseSensitive: false, dotAll: true)
+              .firstMatch(content);
+      if (secretsMatch != null) {
+        result['secrets'] = secretsMatch.group(1)?.trim();
+      }
+
+      return result;
     }
-
-    final appearanceMatch =
-        RegExp(r'APPEARANCE:\s*(.+?)(?=\n(?:NAME|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (appearanceMatch != null) {
-      result['appearance'] = appearanceMatch.group(1)?.trim();
-    }
-
-    final personalityMatch =
-        RegExp(r'PERSONALITY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (personalityMatch != null) {
-      result['personality'] = personalityMatch.group(1)?.trim();
-    }
-
-    final backstoryMatch =
-        RegExp(r'BACKSTORY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (backstoryMatch != null) {
-      result['backstory'] = backstoryMatch.group(1)?.trim();
-    }
-
-    final roleMatch =
-        RegExp(r'ROLE:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|MOTIVATIONS|SECRETS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (roleMatch != null) {
-      result['role'] = roleMatch.group(1)?.trim();
-    }
-
-    final motivationsMatch =
-        RegExp(r'MOTIVATIONS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|SECRETS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (motivationsMatch != null) {
-      result['motivations'] = motivationsMatch.group(1)?.trim();
-    }
-
-    final secretsMatch =
-        RegExp(r'SECRETS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS):|$)', 
-            caseSensitive: false, dotAll: true)
-            .firstMatch(content);
-    if (secretsMatch != null) {
-      result['secrets'] = secretsMatch.group(1)?.trim();
-    }
-
-    return result;
   }
 }

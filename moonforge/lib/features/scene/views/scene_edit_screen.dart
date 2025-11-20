@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/models/ai/generation_request.dart';
+import 'package:moonforge/core/providers/gemini_provider.dart';
+import 'package:moonforge/core/services/story_context_builder.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/data/repo/adventure_repository.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -41,6 +47,7 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
   final _editorKey = GlobalKey();
   bool _isLoading = false;
   bool _isSaving = false;
+  bool _isGeneratingAi = false;
   db.Scene? _scene;
   String? _campaignId;
 
@@ -181,6 +188,68 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
     }
   }
 
+  Future<void> _continueStoryWithAi() async {
+    final geminiProvider = context.read<GeminiProvider?>();
+    if (geminiProvider == null) return;
+
+    setState(() => _isGeneratingAi = true);
+
+    try {
+      // Build story context
+      final contextBuilder = StoryContextBuilder(
+        campaignRepo: context.read<CampaignRepository>(),
+        chapterRepo: context.read<ChapterRepository>(),
+        adventureRepo: context.read<AdventureRepository>(),
+        sceneRepo: context.read<SceneRepository>(),
+        entityRepo: context.read<EntityRepository>(),
+      );
+
+      final storyContext = await contextBuilder.buildForScene(widget.sceneId);
+
+      // Get current content
+      final currentContent = _contentController.document.toPlainText();
+
+      // Make AI request
+      final request = CompletionRequest(
+        context: storyContext,
+        currentContent: currentContent,
+      );
+
+      final response = await geminiProvider.service.continueStory(request);
+
+      if (!mounted) return;
+
+      if (response.success && response.content != null) {
+        // Insert generated content at the end
+        final length = _contentController.document.length;
+        _contentController.document.insert(length - 1, '\n\n${response.content}');
+
+        toastification.show(
+          type: ToastificationType.success,
+          title: const Text('Story continued with AI'),
+          autoCloseDuration: const Duration(seconds: 3),
+        );
+      } else {
+        toastification.show(
+          type: ToastificationType.error,
+          title: Text(response.error ?? 'Failed to generate content'),
+          autoCloseDuration: const Duration(seconds: 5),
+        );
+      }
+    } catch (e) {
+      logger.e('Error continuing story with AI: $e');
+      if (mounted) {
+        toastification.show(
+          type: ToastificationType.error,
+          title: Text('Error: $e'),
+          autoCloseDuration: const Duration(seconds: 5),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isGeneratingAi = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -270,7 +339,25 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
               maxLines: 3,
             ),
             const SizedBox(height: 24),
-            Text(l10n.content, style: theme.textTheme.titleMedium),
+            Row(
+              children: [
+                Text(l10n.content, style: theme.textTheme.titleMedium),
+                const Spacer(),
+                // AI Continue Story button
+                if (context.watch<GeminiProvider?>() != null)
+                  OutlinedButton.icon(
+                    onPressed: _isGeneratingAi ? null : _continueStoryWithAi,
+                    icon: _isGeneratingAi
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.auto_fix_high),
+                    label: const Text('Continue Story'),
+                  ),
+              ],
+            ),
             const SizedBox(height: 8),
             Text(
               'Rich text content of the scene',
