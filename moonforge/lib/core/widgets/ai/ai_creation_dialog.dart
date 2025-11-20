@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/models/ai/generation_request.dart';
-import 'package:moonforge/core/models/ai/generation_response.dart';
 import 'package:moonforge/core/models/ai/story_context.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -13,11 +12,7 @@ class AiCreationResult {
   final String? content;
   final Map<String, dynamic>? structuredData;
 
-  AiCreationResult({
-    this.title,
-    this.content,
-    this.structuredData,
-  });
+  AiCreationResult({this.title, this.content, this.structuredData});
 }
 
 /// Shows a dialog for AI-assisted creation with appropriate inputs based on type
@@ -27,7 +22,7 @@ Future<AiCreationResult?> showAiCreationDialog(
   required String creationType, // 'scene', 'chapter', 'adventure', 'npc', etc.
 }) async {
   final geminiProvider = context.read<GeminiProvider?>();
-  
+
   if (geminiProvider == null) {
     toastification.show(
       context: context,
@@ -68,14 +63,14 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
   final _titleController = TextEditingController();
   final _outlineController = TextEditingController();
   final _elementsController = TextEditingController();
-  
+
   // NPC-specific controllers
   final _roleController = TextEditingController();
   final _speciesController = TextEditingController();
   final _alignmentController = TextEditingController();
   final _relationshipController = TextEditingController();
   final _traitsController = TextEditingController();
-  
+
   bool _isGenerating = false;
   String? _error;
 
@@ -92,13 +87,14 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
     super.dispose();
   }
 
-  bool get _isNpcType => widget.creationType.toLowerCase() == 'npc' || 
-                         widget.creationType.toLowerCase() == 'entity';
+  bool get _isNpcType =>
+      widget.creationType.toLowerCase() == 'npc' ||
+      widget.creationType.toLowerCase() == 'entity';
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return AlertDialog(
       title: Text('AI-Generate ${widget.creationType}'),
       content: SizedBox(
@@ -124,7 +120,10 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
                 ),
                 const SizedBox(height: 16),
               ],
-              if (_isNpcType) ..._buildNpcInputs() else ..._buildSectionInputs(),
+              if (_isNpcType)
+                ..._buildNpcInputs()
+              else
+                ..._buildSectionInputs(),
             ],
           ),
         ),
@@ -132,7 +131,7 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
       actions: [
         TextButton(
           onPressed: _isGenerating ? null : () => Navigator.of(context).pop(),
-          child: Text(l10n.cancel),
+          child: Text(l10n?.cancel ?? 'Cancel'),
         ),
         FilledButton.icon(
           onPressed: _isGenerating ? null : _generateWithAi,
@@ -264,8 +263,8 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
       context: widget.storyContext,
       sectionType: widget.creationType.toLowerCase(),
       title: title,
-      outline: _outlineController.text.trim().isEmpty 
-          ? null 
+      outline: _outlineController.text.trim().isEmpty
+          ? null
           : _outlineController.text.trim(),
       keyElements: _elementsController.text
           .split(',')
@@ -274,15 +273,16 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
           .toList(),
     );
 
-    final response = await widget.geminiProvider.service.generateSection(request);
+    final response = await widget.geminiProvider.service.generateSection(
+      request,
+    );
 
     if (!mounted) return;
 
     if (response.success && response.content != null) {
-      Navigator.of(context).pop(AiCreationResult(
-        title: title,
-        content: response.content,
-      ));
+      Navigator.of(
+        context,
+      ).pop(AiCreationResult(title: title, content: response.content));
     } else {
       setState(() {
         _error = response.error ?? 'Failed to generate content';
@@ -294,17 +294,17 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
   Future<void> _generateNpc() async {
     final request = NpcGenerationRequest(
       context: widget.storyContext,
-      role: _roleController.text.trim().isEmpty 
-          ? null 
+      role: _roleController.text.trim().isEmpty
+          ? null
           : _roleController.text.trim(),
-      species: _speciesController.text.trim().isEmpty 
-          ? null 
+      species: _speciesController.text.trim().isEmpty
+          ? null
           : _speciesController.text.trim(),
-      alignment: _alignmentController.text.trim().isEmpty 
-          ? null 
+      alignment: _alignmentController.text.trim().isEmpty
+          ? null
           : _alignmentController.text.trim(),
-      relationshipToParty: _relationshipController.text.trim().isEmpty 
-          ? null 
+      relationshipToParty: _relationshipController.text.trim().isEmpty
+          ? null
           : _relationshipController.text.trim(),
       traits: _traitsController.text
           .split(',')
@@ -322,7 +322,7 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
       final name = _titleController.text.trim().isNotEmpty
           ? _titleController.text.trim()
           : response.name ?? 'Unnamed NPC';
-      
+
       // Format NPC data as structured content
       final buffer = StringBuffer();
       if (response.appearance != null) {
@@ -349,19 +349,21 @@ class _AiCreationDialogState extends State<_AiCreationDialog> {
         buffer.writeln('**Secrets:** ${response.secrets}');
       }
 
-      Navigator.of(context).pop(AiCreationResult(
-        title: name,
-        content: buffer.toString(),
-        structuredData: {
-          'name': name,
-          'appearance': response.appearance,
-          'personality': response.personality,
-          'backstory': response.backstory,
-          'role': response.role,
-          'motivations': response.motivations,
-          'secrets': response.secrets,
-        },
-      ));
+      Navigator.of(context).pop(
+        AiCreationResult(
+          title: name,
+          content: buffer.toString(),
+          structuredData: {
+            'name': name,
+            'appearance': response.appearance,
+            'personality': response.personality,
+            'backstory': response.backstory,
+            'role': response.role,
+            'motivations': response.motivations,
+            'secrets': response.secrets,
+          },
+        ),
+      );
     } else {
       setState(() {
         _error = response.error ?? 'Failed to generate NPC';

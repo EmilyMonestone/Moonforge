@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 /// Enum for creation method choice
-enum CreationMethod {
-  manual,
-  ai,
-}
+enum CreationMethod { manual, ai }
 
 /// Shows a dialog asking user to choose between manual or AI-assisted creation
 Future<CreationMethod?> showCreationMethodDialog(
@@ -44,7 +41,7 @@ Future<CreationMethod?> showCreationMethodDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.cancel),
+          child: Text(l10n?.cancel ?? 'Cancel'),
         ),
       ],
     ),
