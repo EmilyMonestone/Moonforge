@@ -107,6 +107,9 @@ dependencies:
   http: ^1.2.2
   chips_input_autocomplete: ^1.2.2
 
+  # AI Integration
+  flutter_gemini: ^3.0.0
+
 
 dev_dependencies:
   # Testing
