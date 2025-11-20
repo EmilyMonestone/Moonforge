@@ -6,6 +6,7 @@ import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new adventure in a specific chapter context
 Future<void> createAdventureInChapter(
@@ -19,9 +20,7 @@ Future<void> createAdventureInChapter(
   // Get adventures for this chapter from provider (already in memory)
   final allAdventures = context.read<List<db.Adventure>>();
   final chapterAdventures =
-      allAdventures
-          .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
-          .toList()
+      allAdventures.where((adv) => adv.chapterId == chapterId).toList()
         ..sort((a, b) => b.order.compareTo(a.order));
 
   final nextOrder = chapterAdventures.isNotEmpty
@@ -58,8 +57,7 @@ Future<void> createAdventureInChapter(
   if (name.isEmpty) return;
 
   try {
-    final adventureId =
-        'adventure-$chapterId-${DateTime.now().millisecondsSinceEpoch}';
+    final adventureId = const Uuid().v7();
     final adv = db.Adventure(
       id: adventureId,
       chapterId: chapterId,

@@ -99,7 +99,7 @@ dependencies:
   json_annotation: ^4.9.0
 
   # Utilities
-  uuid: ^4.5.1
+  uuid: ^4.5.2
   logger: ^2.6.2
   flutter_quill_extensions: ^11.0.0
   auto_updater: ^1.0.0
@@ -181,6 +181,3 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
-
-
-

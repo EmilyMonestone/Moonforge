@@ -8,6 +8,7 @@ import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Creates a new Campaign in Drift (local-first) and navigates to the Campaign edit page.
 ///
@@ -39,7 +40,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
     final location = const CampaignEditRouteData().location;
 
     // Generate a unique ID for the campaign
-    final campaignId = 'campaign-${DateTime.now().millisecondsSinceEpoch}';
+    final campaignId = const Uuid().v7();
 
     final data = Campaign(
       id: campaignId,

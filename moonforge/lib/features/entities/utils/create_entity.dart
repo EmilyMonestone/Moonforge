@@ -6,6 +6,7 @@ import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> createEntity(BuildContext context, db.Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
@@ -71,12 +72,13 @@ Future<void> createEntity(BuildContext context, db.Campaign campaign) async {
 
   try {
     // Embed campaign ID in entity ID for filtering
-    final entityId =
-        'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final entityId = const Uuid().v7();
     final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
+      originType: 'campaign',
+      // new default when created at campaign level
       originId: campaign.id,
       summary: '',
       tags: const <String>[],

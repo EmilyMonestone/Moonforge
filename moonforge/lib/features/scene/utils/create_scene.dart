@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -121,7 +121,7 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
   if (title.isEmpty || adventures.isEmpty) return;
 
   try {
-    final newId = const Uuid().v4();
+    final newId = const Uuid().v7();
     final scene = Scene(
       id: newId,
       adventureId: selectedAdventure.id,

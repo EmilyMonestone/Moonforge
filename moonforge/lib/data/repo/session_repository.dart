@@ -20,7 +20,7 @@ class SessionRepository {
     await _db.transaction(() async {
       await _db.sessionDao.upsert(
         SessionsCompanion.insert(
-          id: session.id,
+          id: Value(session.id),
           createdAt: Value(session.createdAt ?? DateTime.now()),
           info: Value(session.info),
           datetime: Value(session.datetime),

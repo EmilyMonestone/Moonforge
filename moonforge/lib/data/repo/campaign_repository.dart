@@ -21,7 +21,7 @@ class CampaignRepository {
       // Insert into local database
       await _db.campaignDao.upsert(
         CampaignsCompanion.insert(
-          id: campaign.id,
+          id: Value(campaign.id),
           name: campaign.name,
           description: campaign.description,
           content: Value(campaign.content),

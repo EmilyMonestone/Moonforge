@@ -18,22 +18,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group">
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/moonforge/test/db_uuid_default_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/entity_gatherer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/origin_resolver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/origin_resolver.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/entities_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/app_db.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/outbox_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/firestore_mappers.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/tables.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/campaign_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/chapter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/combatant_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/combatant_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/encounter_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/entity_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/entity_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/media_asset_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/party_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/player_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/player_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/scene_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/session_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/utils/create_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/services/campaign_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/services/campaign_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/utils/create_campaign.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_edit_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/views/entity_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_de.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_en.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_de.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/services/chapter_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/services/chapter_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_adventure_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/utils/create_scene_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/utils/create_encounter_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_edit_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/encounters/views/encounter_edit_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/services/entity_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/services/entity_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_adventure.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_chapter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/utils/create_entity_in_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/utils/create_scene.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/origin_resolver_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/core/services/origin_resolver_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +101,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="copilot/add-type-safe-routes-implementation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,6 +141,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Flutter Test.tests in origin_resolver_test.dart.executor&quot;: &quot;Run&quot;,
     &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
@@ -122,8 +151,7 @@
     &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#65 on copilot/integrate-gemini-ai-flutter&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
@@ -134,7 +162,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-project&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -155,6 +183,11 @@
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="tests in origin_resolver_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/moonforge/test/core/services/origin_resolver_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
     <configuration name="drift_setup.sh" type="ShConfigurationType" temporary="true">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -172,11 +205,13 @@
     </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter Test.tests in origin_resolver_test.dart" />
       <item itemvalue="PowerShell.build" />
       <item itemvalue="Shell Script.drift_setup.sh" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter Test.tests in origin_resolver_test.dart" />
         <item itemvalue="Shell Script.drift_setup.sh" />
       </list>
     </recent_temporary>
@@ -191,14 +226,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00052" summary="feat: update download section to indicate upcoming releases and disable buttons">
-      <option name="closed" value="true" />
-      <created>1761504744045</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1761504744045</updated>
     </task>
     <task id="LOCAL-00053" summary="feat: add Vercel configuration for static site deployment">
       <option name="closed" value="true" />
@@ -584,7 +611,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762963750975</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="feat: add localization for entity metadata and enhance entity edit screen with origin selection">
+      <option name="closed" value="true" />
+      <created>1762980741584</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1762980741584</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -611,7 +646,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: update CMake version and enhance error handling in StreamProviders" />
     <MESSAGE value="refactor: migrate DAO classes to new Drift database and enhance stream functionality" />
     <MESSAGE value="refactor: add watchAll stream methods to DAOs, format Firestore mappers, improve provider streams in db_providers.dart" />
     <MESSAGE value="feat: add Player DAO and Firestore integration for player synchronization" />
@@ -636,7 +670,8 @@
     <MESSAGE value="refactor: improve code readability and performance by simplifying widget builds and optimizing singleton pattern for database connection" />
     <MESSAGE value="refactor: enhance read-aloud text extraction and improve entity edit screen initialization" />
     <MESSAGE value="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add share, duplicate, archive, and export labels to localization files and update campaign header with new button group" />
+    <MESSAGE value="feat: add localization for entity metadata and enhance entity edit screen with origin selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add localization for entity metadata and enhance entity edit screen with origin selection" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1151,6 +1186,12 @@
           <option name="totalLines" value="13826901" />
           <option name="info" value="refactor: enhance read-aloud text extraction and i" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762980750262" />
+          <option name="linesCode" value="268181" />
+          <option name="totalLines" value="13836771" />
+          <option name="info" value="feat: add localization for entity metadata and enh" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1251,7 +1292,21 @@
           <option name="totalLines" value="13826901" />
           <option name="info" value="Nov 11, 2025" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1762980750262" />
+          <option name="linesCode" value="268181" />
+          <option name="totalLines" value="13836771" />
+          <option name="info" value="Nov 12, 2025" />
+        </TimePoint>
       </list>
     </option>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

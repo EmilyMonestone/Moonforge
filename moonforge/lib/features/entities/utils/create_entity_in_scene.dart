@@ -1,13 +1,14 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new entity and attach it to the given scene (entityIds)
 Future<void> createEntityInScene(
@@ -78,13 +79,13 @@ Future<void> createEntityInScene(
   if (name.isEmpty) return;
 
   try {
-    final entityId =
-        'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final entityId = const Uuid().v7();
     final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
-      originId: campaign.id,
+      originType: 'scene',
+      originId: sceneId,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},

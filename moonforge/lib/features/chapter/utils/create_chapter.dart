@@ -6,6 +6,7 @@ import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
@@ -45,8 +46,7 @@ Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   if (name.isEmpty) return;
 
   try {
-    final chapterId =
-        'chapter-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final chapterId = const Uuid().v7();
     final chapter = db.Chapter(
       id: chapterId,
       campaignId: campaign.id,

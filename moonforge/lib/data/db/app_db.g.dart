@@ -16,7 +16,8 @@ class $CampaignsTable extends Campaigns
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -134,8 +135,6 @@ class $CampaignsTable extends Campaigns
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -504,7 +503,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     this.rowid = const Value.absent(),
   });
   CampaignsCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String name,
     required String description,
     this.content = const Value.absent(),
@@ -515,8 +514,7 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       name = Value(name),
+  }) : name = Value(name),
        description = Value(description),
        entityIds = Value(entityIds),
        rev = Value(rev);
@@ -652,7 +650,8 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _campaignIdMeta = const VerificationMeta(
     'campaignId',
@@ -773,8 +772,6 @@ class $ChaptersTable extends Chapters with TableInfo<$ChaptersTable, Chapter> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
@@ -1130,7 +1127,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     this.rowid = const Value.absent(),
   });
   ChaptersCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String campaignId,
     required String name,
     required int order,
@@ -1141,8 +1138,7 @@ class ChaptersCompanion extends UpdateCompanion<Chapter> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
+  }) : campaignId = Value(campaignId),
        name = Value(name),
        order = Value(order),
        entityIds = Value(entityIds),
@@ -1278,7 +1274,8 @@ class $AdventuresTable extends Adventures
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _chapterIdMeta = const VerificationMeta(
     'chapterId',
@@ -1399,8 +1396,6 @@ class $AdventuresTable extends Adventures
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('chapter_id')) {
       context.handle(
@@ -1754,7 +1749,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     this.rowid = const Value.absent(),
   });
   AdventuresCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String chapterId,
     required String name,
     required int order,
@@ -1765,8 +1760,7 @@ class AdventuresCompanion extends UpdateCompanion<Adventure> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       chapterId = Value(chapterId),
+  }) : chapterId = Value(chapterId),
        name = Value(name),
        order = Value(order),
        entityIds = Value(entityIds),
@@ -1901,7 +1895,8 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _adventureIdMeta = const VerificationMeta(
     'adventureId',
@@ -2022,8 +2017,6 @@ class $ScenesTable extends Scenes with TableInfo<$ScenesTable, Scene> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('adventure_id')) {
       context.handle(
@@ -2382,7 +2375,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     this.rowid = const Value.absent(),
   });
   ScenesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String adventureId,
     required String name,
     required int order,
@@ -2393,8 +2386,7 @@ class ScenesCompanion extends UpdateCompanion<Scene> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       adventureId = Value(adventureId),
+  }) : adventureId = Value(adventureId),
        name = Value(name),
        order = Value(order),
        entityIds = Value(entityIds),
@@ -2529,7 +2521,8 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _campaignIdMeta = const VerificationMeta(
     'campaignId',
@@ -2640,8 +2633,6 @@ class $PartiesTable extends Parties with TableInfo<$PartiesTable, Party> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
@@ -2983,7 +2974,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     this.rowid = const Value.absent(),
   });
   PartiesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String campaignId,
     required String name,
     this.summary = const Value.absent(),
@@ -2993,8 +2984,7 @@ class PartiesCompanion extends UpdateCompanion<Party> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
+  }) : campaignId = Value(campaignId),
        name = Value(name),
        rev = Value(rev);
   static Insertable<Party> custom({
@@ -3120,7 +3110,8 @@ class $EncountersTable extends Encounters
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -3255,8 +3246,6 @@ class $EncountersTable extends Encounters
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -3638,7 +3627,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     this.rowid = const Value.absent(),
   });
   EncountersCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String name,
     required String originId,
     required bool preset,
@@ -3650,8 +3639,7 @@ class EncountersCompanion extends UpdateCompanion<Encounter> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       name = Value(name),
+  }) : name = Value(name),
        originId = Value(originId),
        preset = Value(preset),
        entityIds = Value(entityIds),
@@ -3794,7 +3782,8 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _kindMeta = const VerificationMeta('kind');
   @override
@@ -3813,6 +3802,18 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _originTypeMeta = const VerificationMeta(
+    'originType',
+  );
+  @override
+  late final GeneratedColumn<String> originType = GeneratedColumn<String>(
+    'origin_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('campaign'),
   );
   static const VerificationMeta _originIdMeta = const VerificationMeta(
     'originId',
@@ -3969,6 +3970,7 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
     id,
     kind,
     name,
+    originType,
     originId,
     summary,
     tags,
@@ -3998,8 +4000,6 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('kind')) {
       context.handle(
@@ -4016,6 +4016,12 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
       );
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('origin_type')) {
+      context.handle(
+        _originTypeMeta,
+        originType.isAcceptableOrUnknown(data['origin_type']!, _originTypeMeta),
+      );
     }
     if (data.containsKey('origin_id')) {
       context.handle(
@@ -4092,6 +4098,10 @@ class $EntitiesTable extends Entities with TableInfo<$EntitiesTable, Entity> {
       name: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}name'],
+      )!,
+      originType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}origin_type'],
       )!,
       originId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -4203,6 +4213,7 @@ class Entity extends DataClass implements Insertable<Entity> {
   final String id;
   final String kind;
   final String name;
+  final String originType;
   final String originId;
   final String? summary;
   final List<String>? tags;
@@ -4221,6 +4232,7 @@ class Entity extends DataClass implements Insertable<Entity> {
     required this.id,
     required this.kind,
     required this.name,
+    required this.originType,
     required this.originId,
     this.summary,
     this.tags,
@@ -4242,6 +4254,7 @@ class Entity extends DataClass implements Insertable<Entity> {
     map['id'] = Variable<String>(id);
     map['kind'] = Variable<String>(kind);
     map['name'] = Variable<String>(name);
+    map['origin_type'] = Variable<String>(originType);
     map['origin_id'] = Variable<String>(originId);
     if (!nullToAbsent || summary != null) {
       map['summary'] = Variable<String>(summary);
@@ -4298,6 +4311,7 @@ class Entity extends DataClass implements Insertable<Entity> {
       id: Value(id),
       kind: Value(kind),
       name: Value(name),
+      originType: Value(originType),
       originId: Value(originId),
       summary: summary == null && nullToAbsent
           ? const Value.absent()
@@ -4340,6 +4354,7 @@ class Entity extends DataClass implements Insertable<Entity> {
       id: serializer.fromJson<String>(json['id']),
       kind: serializer.fromJson<String>(json['kind']),
       name: serializer.fromJson<String>(json['name']),
+      originType: serializer.fromJson<String>(json['originType']),
       originId: serializer.fromJson<String>(json['originId']),
       summary: serializer.fromJson<String?>(json['summary']),
       tags: $EntitiesTable.$convertertagsn.fromJson(
@@ -4375,6 +4390,7 @@ class Entity extends DataClass implements Insertable<Entity> {
       'id': serializer.toJson<String>(id),
       'kind': serializer.toJson<String>(kind),
       'name': serializer.toJson<String>(name),
+      'originType': serializer.toJson<String>(originType),
       'originId': serializer.toJson<String>(originId),
       'summary': serializer.toJson<String?>(summary),
       'tags': serializer.toJson<List<dynamic>?>(
@@ -4408,6 +4424,7 @@ class Entity extends DataClass implements Insertable<Entity> {
     String? id,
     String? kind,
     String? name,
+    String? originType,
     String? originId,
     Value<String?> summary = const Value.absent(),
     Value<List<String>?> tags = const Value.absent(),
@@ -4426,6 +4443,7 @@ class Entity extends DataClass implements Insertable<Entity> {
     id: id ?? this.id,
     kind: kind ?? this.kind,
     name: name ?? this.name,
+    originType: originType ?? this.originType,
     originId: originId ?? this.originId,
     summary: summary.present ? summary.value : this.summary,
     tags: tags.present ? tags.value : this.tags,
@@ -4448,6 +4466,9 @@ class Entity extends DataClass implements Insertable<Entity> {
       id: data.id.present ? data.id.value : this.id,
       kind: data.kind.present ? data.kind.value : this.kind,
       name: data.name.present ? data.name.value : this.name,
+      originType: data.originType.present
+          ? data.originType.value
+          : this.originType,
       originId: data.originId.present ? data.originId.value : this.originId,
       summary: data.summary.present ? data.summary.value : this.summary,
       tags: data.tags.present ? data.tags.value : this.tags,
@@ -4473,6 +4494,7 @@ class Entity extends DataClass implements Insertable<Entity> {
           ..write('id: $id, ')
           ..write('kind: $kind, ')
           ..write('name: $name, ')
+          ..write('originType: $originType, ')
           ..write('originId: $originId, ')
           ..write('summary: $summary, ')
           ..write('tags: $tags, ')
@@ -4496,6 +4518,7 @@ class Entity extends DataClass implements Insertable<Entity> {
     id,
     kind,
     name,
+    originType,
     originId,
     summary,
     tags,
@@ -4518,6 +4541,7 @@ class Entity extends DataClass implements Insertable<Entity> {
           other.id == this.id &&
           other.kind == this.kind &&
           other.name == this.name &&
+          other.originType == this.originType &&
           other.originId == this.originId &&
           other.summary == this.summary &&
           other.tags == this.tags &&
@@ -4538,6 +4562,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
   final Value<String> id;
   final Value<String> kind;
   final Value<String> name;
+  final Value<String> originType;
   final Value<String> originId;
   final Value<String?> summary;
   final Value<List<String>?> tags;
@@ -4557,6 +4582,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.id = const Value.absent(),
     this.kind = const Value.absent(),
     this.name = const Value.absent(),
+    this.originType = const Value.absent(),
     this.originId = const Value.absent(),
     this.summary = const Value.absent(),
     this.tags = const Value.absent(),
@@ -4574,9 +4600,10 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.rowid = const Value.absent(),
   });
   EntitiesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String kind,
     required String name,
+    this.originType = const Value.absent(),
     required String originId,
     this.summary = const Value.absent(),
     this.tags = const Value.absent(),
@@ -4592,8 +4619,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.deleted = const Value.absent(),
     this.members = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       kind = Value(kind),
+  }) : kind = Value(kind),
        name = Value(name),
        originId = Value(originId),
        statblock = Value(statblock),
@@ -4603,6 +4629,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     Expression<String>? id,
     Expression<String>? kind,
     Expression<String>? name,
+    Expression<String>? originType,
     Expression<String>? originId,
     Expression<String>? summary,
     Expression<String>? tags,
@@ -4623,6 +4650,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
       if (id != null) 'id': id,
       if (kind != null) 'kind': kind,
       if (name != null) 'name': name,
+      if (originType != null) 'origin_type': originType,
       if (originId != null) 'origin_id': originId,
       if (summary != null) 'summary': summary,
       if (tags != null) 'tags': tags,
@@ -4645,6 +4673,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     Value<String>? id,
     Value<String>? kind,
     Value<String>? name,
+    Value<String>? originType,
     Value<String>? originId,
     Value<String?>? summary,
     Value<List<String>?>? tags,
@@ -4665,6 +4694,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
       id: id ?? this.id,
       kind: kind ?? this.kind,
       name: name ?? this.name,
+      originType: originType ?? this.originType,
       originId: originId ?? this.originId,
       summary: summary ?? this.summary,
       tags: tags ?? this.tags,
@@ -4694,6 +4724,9 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (originType.present) {
+      map['origin_type'] = Variable<String>(originType.value);
     }
     if (originId.present) {
       map['origin_id'] = Variable<String>(originId.value);
@@ -4761,6 +4794,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
           ..write('id: $id, ')
           ..write('kind: $kind, ')
           ..write('name: $name, ')
+          ..write('originType: $originType, ')
           ..write('originId: $originId, ')
           ..write('summary: $summary, ')
           ..write('tags: $tags, ')
@@ -4794,7 +4828,8 @@ class $CombatantsTable extends Combatants
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _encounterIdMeta = const VerificationMeta(
     'encounterId',
@@ -4993,8 +5028,6 @@ class $CombatantsTable extends Combatants
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('encounter_id')) {
       context.handle(
@@ -5535,7 +5568,7 @@ class CombatantsCompanion extends UpdateCompanion<Combatant> {
     this.rowid = const Value.absent(),
   });
   CombatantsCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String encounterId,
     required String name,
     required String type,
@@ -5553,8 +5586,7 @@ class CombatantsCompanion extends UpdateCompanion<Combatant> {
     this.notes = const Value.absent(),
     required int order,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       encounterId = Value(encounterId),
+  }) : encounterId = Value(encounterId),
        name = Value(name),
        type = Value(type),
        isAlly = Value(isAlly),
@@ -5750,7 +5782,8 @@ class $MediaAssetsTable extends MediaAssets
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _filenameMeta = const VerificationMeta(
     'filename',
@@ -5872,8 +5905,6 @@ class $MediaAssetsTable extends MediaAssets
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('filename')) {
       context.handle(
@@ -6229,7 +6260,7 @@ class MediaAssetsCompanion extends UpdateCompanion<MediaAsset> {
     this.rowid = const Value.absent(),
   });
   MediaAssetsCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String filename,
     required int size,
     required String mime,
@@ -6240,8 +6271,7 @@ class MediaAssetsCompanion extends UpdateCompanion<MediaAsset> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       filename = Value(filename),
+  }) : filename = Value(filename),
        size = Value(size),
        mime = Value(mime),
        rev = Value(rev);
@@ -6375,7 +6405,8 @@ class $SessionsTable extends Sessions with TableInfo<$SessionsTable, Session> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
@@ -6502,8 +6533,6 @@ class $SessionsTable extends Sessions with TableInfo<$SessionsTable, Session> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(
@@ -6875,7 +6904,7 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     this.rowid = const Value.absent(),
   });
   SessionsCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.info = const Value.absent(),
     this.datetime = const Value.absent(),
@@ -6886,8 +6915,7 @@ class SessionsCompanion extends UpdateCompanion<Session> {
     this.updatedAt = const Value.absent(),
     required int rev,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       rev = Value(rev);
+  }) : rev = Value(rev);
   static Insertable<Session> custom({
     Expression<String>? id,
     Expression<DateTime>? createdAt,
@@ -7018,7 +7046,8 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _campaignIdMeta = const VerificationMeta(
     'campaignId',
@@ -7438,8 +7467,6 @@ class $PlayersTable extends Players with TableInfo<$PlayersTable, Player> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
@@ -8569,7 +8596,7 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     this.rowid = const Value.absent(),
   });
   PlayersCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String campaignId,
     this.playerUid = const Value.absent(),
     required String name,
@@ -8606,8 +8633,7 @@ class PlayersCompanion extends UpdateCompanion<Player> {
     this.rev = const Value.absent(),
     this.deleted = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
+  }) : campaignId = Value(campaignId),
        name = Value(name),
        className = Value(className);
   static Insertable<Player> custom({
@@ -8967,7 +8993,8 @@ class $OutboxEntriesTable extends OutboxEntries
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => uuid.v8(),
   );
   static const VerificationMeta _tableMeta = const VerificationMeta('table');
   @override
@@ -9041,8 +9068,6 @@ class $OutboxEntriesTable extends OutboxEntries
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('table')) {
       context.handle(
@@ -9261,15 +9286,14 @@ class OutboxEntriesCompanion extends UpdateCompanion<OutboxEntry> {
     this.rowid = const Value.absent(),
   });
   OutboxEntriesCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String table,
     required String rowId,
     required String op,
     required DateTime changedAt,
     this.payload = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       table = Value(table),
+  }) : table = Value(table),
        rowId = Value(rowId),
        op = Value(op),
        changedAt = Value(changedAt);
@@ -9452,7 +9476,7 @@ abstract class _$AppDb extends GeneratedDatabase {
 
 typedef $$CampaignsTableCreateCompanionBuilder =
     CampaignsCompanion Function({
-      required String id,
+      Value<String> id,
       required String name,
       required String description,
       Value<Map<String, dynamic>?> content,
@@ -9921,7 +9945,7 @@ class $$CampaignsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String name,
                 required String description,
                 Value<Map<String, dynamic>?> content = const Value.absent(),
@@ -10060,7 +10084,7 @@ typedef $$CampaignsTableProcessedTableManager =
     >;
 typedef $$ChaptersTableCreateCompanionBuilder =
     ChaptersCompanion Function({
-      required String id,
+      Value<String> id,
       required String campaignId,
       required String name,
       required int order,
@@ -10454,7 +10478,7 @@ class $$ChaptersTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String campaignId,
                 required String name,
                 required int order,
@@ -10570,7 +10594,7 @@ typedef $$ChaptersTableProcessedTableManager =
     >;
 typedef $$AdventuresTableCreateCompanionBuilder =
     AdventuresCompanion Function({
-      required String id,
+      Value<String> id,
       required String chapterId,
       required String name,
       required int order,
@@ -10965,7 +10989,7 @@ class $$AdventuresTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String chapterId,
                 required String name,
                 required int order,
@@ -11076,7 +11100,7 @@ typedef $$AdventuresTableProcessedTableManager =
     >;
 typedef $$ScenesTableCreateCompanionBuilder =
     ScenesCompanion Function({
-      required String id,
+      Value<String> id,
       required String adventureId,
       required String name,
       required int order,
@@ -11400,7 +11424,7 @@ class $$ScenesTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String adventureId,
                 required String name,
                 required int order,
@@ -11491,7 +11515,7 @@ typedef $$ScenesTableProcessedTableManager =
     >;
 typedef $$PartiesTableCreateCompanionBuilder =
     PartiesCompanion Function({
-      required String id,
+      Value<String> id,
       required String campaignId,
       required String name,
       Value<String?> summary,
@@ -11801,7 +11825,7 @@ class $$PartiesTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String campaignId,
                 required String name,
                 Value<String?> summary = const Value.absent(),
@@ -11892,7 +11916,7 @@ typedef $$PartiesTableProcessedTableManager =
     >;
 typedef $$EncountersTableCreateCompanionBuilder =
     EncountersCompanion Function({
-      required String id,
+      Value<String> id,
       required String name,
       required String originId,
       required bool preset,
@@ -12236,7 +12260,7 @@ class $$EncountersTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String name,
                 required String originId,
                 required bool preset,
@@ -12323,9 +12347,10 @@ typedef $$EncountersTableProcessedTableManager =
     >;
 typedef $$EntitiesTableCreateCompanionBuilder =
     EntitiesCompanion Function({
-      required String id,
+      Value<String> id,
       required String kind,
       required String name,
+      Value<String> originType,
       required String originId,
       Value<String?> summary,
       Value<List<String>?> tags,
@@ -12347,6 +12372,7 @@ typedef $$EntitiesTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> kind,
       Value<String> name,
+      Value<String> originType,
       Value<String> originId,
       Value<String?> summary,
       Value<List<String>?> tags,
@@ -12384,6 +12410,11 @@ class $$EntitiesTableFilterComposer extends Composer<_$AppDb, $EntitiesTable> {
 
   ColumnFilters<String> get name => $composableBuilder(
     column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get originType => $composableBuilder(
+    column: $table.originType,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -12504,6 +12535,11 @@ class $$EntitiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get originType => $composableBuilder(
+    column: $table.originType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get originId => $composableBuilder(
     column: $table.originId,
     builder: (column) => ColumnOrderings(column),
@@ -12593,6 +12629,11 @@ class $$EntitiesTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
+  GeneratedColumn<String> get originType => $composableBuilder(
+    column: $table.originType,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get originId =>
       $composableBuilder(column: $table.originId, builder: (column) => column);
 
@@ -12671,6 +12712,7 @@ class $$EntitiesTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> kind = const Value.absent(),
                 Value<String> name = const Value.absent(),
+                Value<String> originType = const Value.absent(),
                 Value<String> originId = const Value.absent(),
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> tags = const Value.absent(),
@@ -12691,6 +12733,7 @@ class $$EntitiesTableTableManager
                 id: id,
                 kind: kind,
                 name: name,
+                originType: originType,
                 originId: originId,
                 summary: summary,
                 tags: tags,
@@ -12709,9 +12752,10 @@ class $$EntitiesTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String kind,
                 required String name,
+                Value<String> originType = const Value.absent(),
                 required String originId,
                 Value<String?> summary = const Value.absent(),
                 Value<List<String>?> tags = const Value.absent(),
@@ -12732,6 +12776,7 @@ class $$EntitiesTableTableManager
                 id: id,
                 kind: kind,
                 name: name,
+                originType: originType,
                 originId: originId,
                 summary: summary,
                 tags: tags,
@@ -12772,7 +12817,7 @@ typedef $$EntitiesTableProcessedTableManager =
     >;
 typedef $$CombatantsTableCreateCompanionBuilder =
     CombatantsCompanion Function({
-      required String id,
+      Value<String> id,
       required String encounterId,
       required String name,
       required String type,
@@ -13224,7 +13269,7 @@ class $$CombatantsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String encounterId,
                 required String name,
                 required String type,
@@ -13331,7 +13376,7 @@ typedef $$CombatantsTableProcessedTableManager =
     >;
 typedef $$MediaAssetsTableCreateCompanionBuilder =
     MediaAssetsCompanion Function({
-      required String id,
+      Value<String> id,
       required String filename,
       required int size,
       required String mime,
@@ -13580,7 +13625,7 @@ class $$MediaAssetsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String filename,
                 required int size,
                 required String mime,
@@ -13629,7 +13674,7 @@ typedef $$MediaAssetsTableProcessedTableManager =
     >;
 typedef $$SessionsTableCreateCompanionBuilder =
     SessionsCompanion Function({
-      required String id,
+      Value<String> id,
       Value<DateTime?> createdAt,
       Value<Map<String, dynamic>?> info,
       Value<DateTime?> datetime,
@@ -13885,7 +13930,7 @@ class $$SessionsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 Value<DateTime?> createdAt = const Value.absent(),
                 Value<Map<String, dynamic>?> info = const Value.absent(),
                 Value<DateTime?> datetime = const Value.absent(),
@@ -13933,7 +13978,7 @@ typedef $$SessionsTableProcessedTableManager =
     >;
 typedef $$PlayersTableCreateCompanionBuilder =
     PlayersCompanion Function({
-      required String id,
+      Value<String> id,
       required String campaignId,
       Value<String?> playerUid,
       required String name,
@@ -14731,7 +14776,7 @@ class $$PlayersTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String campaignId,
                 Value<String?> playerUid = const Value.absent(),
                 required String name,
@@ -14878,7 +14923,7 @@ typedef $$PlayersTableProcessedTableManager =
     >;
 typedef $$OutboxEntriesTableCreateCompanionBuilder =
     OutboxEntriesCompanion Function({
-      required String id,
+      Value<String> id,
       required String table,
       required String rowId,
       required String op,
@@ -15054,7 +15099,7 @@ class $$OutboxEntriesTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 required String table,
                 required String rowId,
                 required String op,

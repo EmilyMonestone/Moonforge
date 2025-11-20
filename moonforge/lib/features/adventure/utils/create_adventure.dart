@@ -85,7 +85,7 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
   if (name.isEmpty) return;
 
   try {
-    final newId = const Uuid().v4();
+    final newId = const Uuid().v7();
     final adv = Adventure(
       id: newId,
       chapterId: selected.id,

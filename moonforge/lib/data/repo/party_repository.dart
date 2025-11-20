@@ -23,7 +23,7 @@ class PartyRepository {
     await _db.transaction(() async {
       await _db.partyDao.upsert(
         PartiesCompanion.insert(
-          id: party.id,
+          id: Value(party.id),
           campaignId: party.campaignId,
           name: party.name,
           summary: Value(party.summary),

@@ -28,7 +28,7 @@ class AdventureRepository {
     await _db.transaction(() async {
       await _db.adventureDao.upsert(
         AdventuresCompanion.insert(
-          id: adventure.id,
+          id: Value(adventure.id),
           chapterId: adventure.chapterId,
           name: adventure.name,
           order: adventure.order,

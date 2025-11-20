@@ -32,7 +32,7 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
   @override
   Widget build(BuildContext context) {
     final geminiProvider = context.watch<GeminiProvider?>();
-    
+
     // Don't show if Gemini is not initialized
     if (geminiProvider == null) {
       return const SizedBox.shrink();
@@ -42,26 +42,33 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
       spacing: 8,
       runSpacing: 8,
       children: [
-        if (widget.type == AiAssistanceType.content && widget.currentContent != null)
+        if (widget.type == AiAssistanceType.content &&
+            widget.currentContent != null)
           _buildButton(
             context,
             icon: Icons.auto_fix_high,
             label: 'Continue Writing',
-            onPressed: _isGenerating ? null : () => _continueWriting(geminiProvider),
+            onPressed: _isGenerating
+                ? null
+                : () => _continueWriting(geminiProvider),
           ),
         if (widget.type == AiAssistanceType.content)
           _buildButton(
             context,
             icon: Icons.edit_note,
             label: 'Generate Content',
-            onPressed: _isGenerating ? null : () => _generateContent(geminiProvider),
+            onPressed: _isGenerating
+                ? null
+                : () => _generateContent(geminiProvider),
           ),
         if (widget.type == AiAssistanceType.npc)
           _buildButton(
             context,
             icon: Icons.person_add,
             label: 'Generate NPC',
-            onPressed: _isGenerating ? null : () => _generateNpc(geminiProvider),
+            onPressed: _isGenerating
+                ? null
+                : () => _generateNpc(geminiProvider),
           ),
       ],
     );
@@ -119,9 +126,8 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
     // Show dialog to get section details
     final result = await showDialog<Map<String, String>>(
       context: context,
-      builder: (context) => _GenerateContentDialog(
-        sectionType: _getSectionType(),
-      ),
+      builder: (context) =>
+          _GenerateContentDialog(sectionType: _getSectionType()),
     );
 
     if (result == null || !mounted) return;
@@ -134,7 +140,8 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
         sectionType: _getSectionType(),
         title: result['title'] ?? 'Untitled',
         outline: result['outline'],
-        keyElements: result['elements']?.split(',').map((e) => e.trim()).toList() ?? [],
+        keyElements:
+            result['elements']?.split(',').map((e) => e.trim()).toList() ?? [],
       );
 
       final response = await provider.service.generateSection(request);
@@ -170,7 +177,8 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
         species: result['species'],
         alignment: result['alignment'],
         relationshipToParty: result['relationship'],
-        traits: result['traits']?.split(',').map((e) => e.trim()).toList() ?? [],
+        traits:
+            result['traits']?.split(',').map((e) => e.trim()).toList() ?? [],
       );
 
       final response = await provider.service.generateNpc(request);
@@ -206,35 +214,35 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
 
   String _formatNpcResponse(NpcGenerationResponse response) {
     final buffer = StringBuffer();
-    
+
     if (response.name != null) {
       buffer.writeln('# ${response.name}\n');
     }
-    
+
     if (response.appearance != null) {
       buffer.writeln('**Appearance:** ${response.appearance}\n');
     }
-    
+
     if (response.personality != null) {
       buffer.writeln('**Personality:** ${response.personality}\n');
     }
-    
+
     if (response.role != null) {
       buffer.writeln('**Role:** ${response.role}\n');
     }
-    
+
     if (response.backstory != null) {
       buffer.writeln('**Backstory:** ${response.backstory}\n');
     }
-    
+
     if (response.motivations != null) {
       buffer.writeln('**Motivations:** ${response.motivations}\n');
     }
-    
+
     if (response.secrets != null) {
       buffer.writeln('**Secrets:** ${response.secrets}\n');
     }
-    
+
     return buffer.toString();
   }
 
@@ -259,13 +267,7 @@ class _AiAssistanceWidgetState extends State<AiAssistanceWidget> {
   }
 }
 
-enum AiAssistanceType {
-  content,
-  chapter,
-  adventure,
-  scene,
-  npc,
-}
+enum AiAssistanceType { content, chapter, adventure, scene, npc }
 
 class _GenerateContentDialog extends StatefulWidget {
   final String sectionType;
@@ -330,7 +332,7 @@ class _GenerateContentDialogState extends State<_GenerateContentDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.cancel),
+          child: Text(l10n?.cancel ?? 'Cancel'),
         ),
         FilledButton(
           onPressed: () {
@@ -429,7 +431,7 @@ class _GenerateNpcDialogState extends State<_GenerateNpcDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.cancel),
+          child: Text(l10n?.cancel ?? 'Cancel'),
         ),
         FilledButton(
           onPressed: () {

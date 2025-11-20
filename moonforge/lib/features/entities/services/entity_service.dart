@@ -14,6 +14,7 @@ class EntityService {
   Future<Entity> createEntity({
     required String name,
     required String kind,
+    required String originType,
     required String originId,
     String? summary,
     List<String>? tags,
@@ -29,6 +30,7 @@ class EntityService {
       id: _uuid.v4(),
       kind: kind,
       name: name,
+      originType: originType,
       originId: originId,
       summary: summary,
       tags: tags,
@@ -84,6 +86,7 @@ class EntityService {
       id: _uuid.v4(),
       kind: original.kind,
       name: newName ?? '${original.name} (Copy)',
+      originType: original.originType,
       originId: original.originId,
       summary: original.summary,
       tags: original.tags,
@@ -106,7 +109,11 @@ class EntityService {
   }
 
   /// Move entity to different origin
-  Future<void> moveEntity(String entityId, String newOriginId) async {
+  Future<void> moveEntity(
+    String entityId,
+    String newOriginId,
+    String newOriginType,
+  ) async {
     final entity = await _repository.getById(entityId);
     if (entity == null) {
       logger.e('Entity not found: $entityId');
@@ -117,6 +124,7 @@ class EntityService {
       id: entity.id,
       kind: entity.kind,
       name: entity.name,
+      originType: newOriginType,
       originId: newOriginId,
       summary: entity.summary,
       tags: entity.tags,
@@ -148,6 +156,7 @@ class EntityService {
         id: entity.id,
         kind: entity.kind,
         name: entity.name,
+        originType: entity.originType,
         originId: entity.originId,
         summary: entity.summary,
         tags: updatedTags,
@@ -180,6 +189,7 @@ class EntityService {
         id: entity.id,
         kind: entity.kind,
         name: entity.name,
+        originType: entity.originType,
         originId: entity.originId,
         summary: entity.summary,
         tags: updatedTags,
@@ -210,6 +220,7 @@ class EntityService {
         id: entity.id,
         kind: entity.kind,
         name: entity.name,
+        originType: entity.originType,
         originId: entity.originId,
         summary: entity.summary,
         tags: entity.tags,
@@ -242,6 +253,7 @@ class EntityService {
         id: entity.id,
         kind: entity.kind,
         name: entity.name,
+        originType: entity.originType,
         originId: entity.originId,
         summary: entity.summary,
         tags: entity.tags,

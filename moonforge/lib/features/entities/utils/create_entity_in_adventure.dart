@@ -8,6 +8,7 @@ import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new entity and attach it to the given adventure (entityIds)
 Future<void> createEntityInAdventure(
@@ -78,13 +79,13 @@ Future<void> createEntityInAdventure(
   if (name.isEmpty) return;
 
   try {
-    final entityId =
-        'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final entityId = const Uuid().v7();
     final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
-      originId: campaign.id,
+      originType: 'adventure',
+      originId: adventureId,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},

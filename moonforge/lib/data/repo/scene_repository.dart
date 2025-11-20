@@ -28,7 +28,7 @@ class SceneRepository {
     await _db.transaction(() async {
       await _db.sceneDao.upsert(
         ScenesCompanion.insert(
-          id: scene.id,
+          id: Value(scene.id),
           adventureId: scene.adventureId,
           name: scene.name,
           order: scene.order,

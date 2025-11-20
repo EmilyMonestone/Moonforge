@@ -6,6 +6,7 @@ import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new scene in a specific chapter context
 Future<void> createSceneInChapter(
@@ -19,9 +20,7 @@ Future<void> createSceneInChapter(
   // Get all adventures from Drift and filter by chapter using startsWith
   final allAdventures = context.read<List<db.Adventure>>();
   final adventures =
-      allAdventures
-          .where((adv) => adv.id.startsWith('adventure-$chapterId-'))
-          .toList()
+      allAdventures.where((adv) => adv.chapterId == chapterId).toList()
         ..sort((a, b) => a.order.compareTo(b.order));
 
   if (adventures.isEmpty) {
@@ -87,16 +86,13 @@ Future<void> createSceneInChapter(
     // Compute next order for scenes of this adventure by id prefix
     final allScenes = context.read<List<db.Scene>>();
     final scenesOfAdventure =
-        allScenes
-            .where((s) => s.id.startsWith('scene-${selectedAdventure.id}-'))
-            .toList()
+        allScenes.where((s) => s.adventureId == selectedAdventure.id).toList()
           ..sort((a, b) => b.order.compareTo(a.order));
     final nextOrder = scenesOfAdventure.isNotEmpty
         ? (scenesOfAdventure.first.order + 1)
         : 1;
 
-    final sceneId =
-        'scene-${selectedAdventure.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final sceneId = const Uuid().v7();
     final scene = db.Scene(
       id: sceneId,
       adventureId: selectedAdventure.id,

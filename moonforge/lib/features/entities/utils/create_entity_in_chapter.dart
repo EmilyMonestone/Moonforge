@@ -1,13 +1,14 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
-import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new entity and attach it to the given chapter (entityIds)
 Future<void> createEntityInChapter(
@@ -79,13 +80,13 @@ Future<void> createEntityInChapter(
 
   try {
     // Create entity under this campaign
-    final entityId =
-        'entity-${campaign.id}-${DateTime.now().millisecondsSinceEpoch}';
+    final entityId = const Uuid().v7();
     final entity = db.Entity(
       id: entityId,
       kind: selectedKind,
       name: name,
-      originId: campaign.id,
+      originType: 'chapter',
+      originId: chapterId,
       summary: '',
       tags: const <String>[],
       statblock: const <String, dynamic>{},

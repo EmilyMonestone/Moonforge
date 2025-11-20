@@ -207,7 +207,7 @@ class _EntityGroupWidget extends StatelessWidget {
 
 /// Widget to display entity kind as a chip
 class KindChip extends StatelessWidget {
-  const KindChip({required this.kind});
+  const KindChip({super.key, required this.kind});
 
   final String kind;
 
@@ -278,7 +278,7 @@ class KindChip extends StatelessWidget {
 
 /// Widget to display origin badge
 class OriginBadge extends StatelessWidget {
-  const OriginBadge({required this.origin});
+  const OriginBadge({super.key, required this.origin});
 
   final EntityOrigin origin;
 
