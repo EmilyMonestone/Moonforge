@@ -181,3 +181,12 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
+
+
+msix_config:
+  display_name: Moonforge
+  publisher_display_name: BruckCode
+  identity_name: de.bruckcode.moonforge
+  msix_version: 0.6.0.0
+  logo_path: D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge\assets\icon\Moonforge-Icon-purple.appiconset\Moonforge-Icon-purple_512.png
+  capabilities: internetClient, location, microphone, webcam
