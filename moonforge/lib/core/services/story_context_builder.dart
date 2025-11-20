@@ -182,8 +182,14 @@ class StoryContextBuilder {
     if (delta == null) return null;
 
     try {
-      final document = Document.fromJson(delta);
-      return document.toPlainText();
+      final ops = delta['ops'];
+      if (ops is List) {
+        final document = Document.fromJson(
+          List<Map<String, dynamic>>.from(ops),
+        );
+        return document.toPlainText();
+      }
+      return null;
     } catch (e) {
       return null;
     }

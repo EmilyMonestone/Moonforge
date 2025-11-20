@@ -19,7 +19,7 @@ class GeminiService {
       logger.d('Sending completion request to Gemini');
 
       final response = await _gemini.text(prompt);
-      final content = response?.content?.parts?.first.text ?? '';
+      final content = response?.output ?? '';
 
       if (content.isEmpty) {
         return GenerationResponse(
@@ -53,7 +53,7 @@ class GeminiService {
       logger.d('Sending section generation request to Gemini');
 
       final response = await _gemini.text(prompt);
-      final content = response?.content?.parts?.first.text ?? '';
+      final content = response?.output ?? '';
 
       if (content.isEmpty) {
         return GenerationResponse(
@@ -87,7 +87,7 @@ class GeminiService {
       logger.d('Sending NPC generation request to Gemini');
 
       final response = await _gemini.text(prompt);
-      final content = response?.content?.parts?.first.text ?? '';
+      final content = response?.output ?? '';
 
       if (content.isEmpty) {
         return NpcGenerationResponse(
