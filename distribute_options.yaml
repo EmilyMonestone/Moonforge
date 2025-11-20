@@ -91,6 +91,22 @@ releases:
               APP_ENV: beta
         publish_to: github
 
+  # Development/dev Android Play Store release configuration
+  - name: dev
+    jobs:
+      - name: build-aab
+        package:
+          platform: android
+          target: aab
+          build_args:
+            target-platform: android-arm
+        # Publish to Play Store
+        publish:
+          target: playstore
+          args:
+            package-name: de.bruckcode.moonforge
+            track: alpha
+
 # Publishers configuration
 publishers:
   github:
