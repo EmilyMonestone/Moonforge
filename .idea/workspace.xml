@@ -18,12 +18,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="fix: correct import path for router_config in create_scene.dart">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="feat: add MSIX configuration for Moonforge application">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distribute_options.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/distribute_options.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/ai/ai_creation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/ai/ai_creation_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/ai/creation_method_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/ai/creation_method_dialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,46 +187,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00057" summary="feat: add initial project files including configuration and asset manifests">
-      <option name="closed" value="true" />
-      <created>1761506494182</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1761506494182</updated>
-    </task>
-    <task id="LOCAL-00058" summary="feat: add initial project files including configuration and asset manifests">
-      <option name="closed" value="true" />
-      <created>1761507046168</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1761507046168</updated>
-    </task>
-    <task id="LOCAL-00059" summary="feat: enhance hero section with new decorations and adjust logo size">
-      <option name="closed" value="true" />
-      <created>1761510862497</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1761510862497</updated>
-    </task>
-    <task id="LOCAL-00060" summary="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display">
-      <option name="closed" value="true" />
-      <created>1761596271500</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1761596271500</updated>
-    </task>
-    <task id="LOCAL-00061" summary="fix: update .gitignore to ignore all workspace.xml files">
-      <option name="closed" value="true" />
-      <created>1761602376431</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1761602376431</updated>
     </task>
     <task id="LOCAL-00062" summary="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories">
       <option name="closed" value="true" />
@@ -583,7 +540,47 @@
       <option name="project" value="LOCAL" />
       <updated>1763672028603</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="feat: enhance release workflow to support Linux and Android builds">
+      <option name="closed" value="true" />
+      <created>1763674304215</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1763674304215</updated>
+    </task>
+    <task id="LOCAL-00107" summary="feat: add development configuration for Android Play Store release">
+      <option name="closed" value="true" />
+      <created>1763674309514</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1763674309514</updated>
+    </task>
+    <task id="LOCAL-00108" summary="refactor: clean up code formatting and remove unnecessary line breaks in AI creation dialogs">
+      <option name="closed" value="true" />
+      <created>1763674320502</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1763674320502</updated>
+    </task>
+    <task id="LOCAL-00109" summary="feat: add MSIX configuration for Moonforge application">
+      <option name="closed" value="true" />
+      <created>1763674325745</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1763674325746</updated>
+    </task>
+    <task id="LOCAL-00110" summary="feat: add MSIX configuration for Moonforge application">
+      <option name="closed" value="true" />
+      <created>1763674591512</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1763674591512</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -610,10 +607,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: rename implementation summary to dnd_beyond_import for clarity" />
-    <MESSAGE value="chore: clear CHANGELOG" />
-    <MESSAGE value="chore: rename documentation files for improved organization and clarity" />
-    <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
     <MESSAGE value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
     <MESSAGE value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
     <MESSAGE value="feat: implement safe data storage with improved null safety and context navigation" />
@@ -635,7 +628,11 @@
     <MESSAGE value="feat: add package.json for development environment with firebase-admin dependency" />
     <MESSAGE value="fix: correct import path for router_config and format code for readability" />
     <MESSAGE value="fix: correct import path for router_config in create_scene.dart" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: correct import path for router_config in create_scene.dart" />
+    <MESSAGE value="feat: enhance release workflow to support Linux and Android builds" />
+    <MESSAGE value="feat: add development configuration for Android Play Store release" />
+    <MESSAGE value="refactor: clean up code formatting and remove unnecessary line breaks in AI creation dialogs" />
+    <MESSAGE value="feat: add MSIX configuration for Moonforge application" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add MSIX configuration for Moonforge application" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1180,6 +1177,24 @@
           <option name="totalLines" value="18453354" />
           <option name="info" value="fix: correct import path for router_config in crea" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1763674316968" />
+          <option name="linesCode" value="273505" />
+          <option name="totalLines" value="18445379" />
+          <option name="info" value="feat: add development configuration for Android Pl" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1763674333461" />
+          <option name="linesCode" value="273505" />
+          <option name="totalLines" value="18445379" />
+          <option name="info" value="feat: add MSIX configuration for Moonforge applica" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1763674604352" />
+          <option name="linesCode" value="273555" />
+          <option name="totalLines" value="18445458" />
+          <option name="info" value="feat: add MSIX configuration for Moonforge applica" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1287,9 +1302,9 @@
           <option name="info" value="Nov 12, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1763672042116" />
-          <option name="linesCode" value="273500" />
-          <option name="totalLines" value="18453354" />
+          <option name="timestamp" value="1763674604352" />
+          <option name="linesCode" value="273555" />
+          <option name="totalLines" value="18445458" />
           <option name="info" value="Nov 20, 2025" />
         </TimePoint>
       </list>
