@@ -22,7 +22,7 @@ import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:quill_delta/quill_delta.dart' as quill_delta;
+import 'package:dart_quill_delta/dart_quill_delta.dart' as quill_delta;
 import 'package:toastification/toastification.dart';
 
 class SceneEditScreen extends StatefulWidget {
@@ -235,7 +235,7 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
         final length = _contentController.document.length;
         _contentController.document.insert(length - 1, '\n\n');
         _contentController.document.compose(
-          quill_delta.Delta()..retain(length + 1)..addAll(contentDelta.toList()),
+          quill_delta.Delta()..retain(length + 1)..concat(contentDelta),
           ChangeSource.local,
         );
 

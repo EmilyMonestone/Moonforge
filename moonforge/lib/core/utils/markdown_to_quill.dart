@@ -1,7 +1,7 @@
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
-import 'package:quill_delta/quill_delta.dart';
+import 'package:dart_quill_delta/dart_quill_delta.dart' as quill;
 
 /// Converts markdown text to Quill delta format
 Map<String, dynamic> markdownToQuillDelta(String markdown) {
@@ -31,7 +31,7 @@ String quillDeltaToMarkdown(Map<String, dynamic> deltaJson) {
     if (ops == null) return '';
     
     // Create Delta from JSON
-    final delta = Delta.fromJson(ops);
+    final delta = quill.Delta.fromJson(ops);
     
     // Convert to markdown
     return deltaToMd.convert(delta);
