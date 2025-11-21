@@ -9,6 +9,7 @@
 Break down large, complex widgets into smaller, focused components. This improves readability, testability, and reusability while making the codebase easier to maintain and extend.
 
 By the end of this step:
+
 - No widget build method exceeds 100 lines
 - Complex widget trees are decomposed into logical sub-widgets
 - Widget responsibilities are clear and focused
@@ -17,11 +18,13 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Large view widgets (screens/pages)
 - Complex custom widgets
 - Deeply nested widget trees
 
 **What's excluded:**
+
 - Simple widgets that are already focused
 - Generated widget code
 - Third-party widgets
@@ -40,6 +43,7 @@ find . -name "*.dart" -not -path "*/gen/*" -not -name "*.g.dart" \
 ```
 
 Target widgets with:
+
 - Build methods > 100 lines
 - Nesting depth > 5 levels
 - Multiple responsibilities
@@ -47,6 +51,7 @@ Target widgets with:
 ### 2. Extract Builder Methods
 
 **Before** (complex inline build):
+
 ```dart
 class CampaignDetailView extends StatelessWidget {
   @override
@@ -102,6 +107,7 @@ class CampaignDetailView extends StatelessWidget {
 ```
 
 **After** (extracted sub-widgets):
+
 ```dart
 class CampaignDetailView extends StatelessWidget {
   @override
@@ -287,6 +293,7 @@ class _CampaignChaptersList extends StatelessWidget {
 Each widget should have one clear purpose:
 
 **Bad** (multiple responsibilities):
+
 ```dart
 class CampaignCard extends StatelessWidget {
   final Campaign campaign;
@@ -315,6 +322,7 @@ class CampaignCard extends StatelessWidget {
 ```
 
 **Good** (focused widgets):
+
 ```dart
 class CampaignCard extends StatelessWidget {
   final Campaign campaign;
@@ -498,6 +506,7 @@ class CampaignDetailView extends StatelessWidget {
 ### 6. Simplify Conditional Rendering
 
 **Before** (complex nested conditions):
+
 ```dart
 Widget build(BuildContext context) {
   if (isLoading) {
@@ -527,6 +536,7 @@ Widget build(BuildContext context) {
 ```
 
 **After** (early returns):
+
 ```dart
 Widget build(BuildContext context) {
   if (isLoading) return LoadingIndicator();
@@ -551,25 +561,28 @@ Widget _buildItem(Item item) {
 Add tests for complex widgets:
 
 ```dart
-testWidgets('CampaignCard displays campaign info', (tester) async {
-  final campaign = Campaign(
-    id: '1',
-    name: 'Test Campaign',
-    chapterCount: 5,
-    sessionCount: 10,
-  );
+testWidgets
+('CampaignCard displays campaign info
+'
+, (tester) async {
+final campaign = Campaign(
+id: '1',
+name: 'Test Campaign',
+chapterCount: 5,
+sessionCount: 10,
+);
 
-  await tester.pumpWidget(
-    MaterialApp(
-      home: Scaffold(
-        body: CampaignCard(campaign: campaign),
-      ),
-    ),
-  );
+await tester.pumpWidget(
+MaterialApp(
+home: Scaffold(
+body: CampaignCard(campaign: campaign),
+),
+),
+);
 
-  expect(find.text('Test Campaign'), findsOneWidget);
-  expect(find.text('5'), findsOneWidget); // Chapter count
-  expect(find.text('10'), findsOneWidget); // Session count
+expect(find.text('Test Campaign'), findsOneWidget);
+expect(find.text('5'), findsOneWidget); // Chapter count
+expect(find.text('10'), findsOneWidget); // Session count
 });
 ```
 
@@ -584,10 +597,6 @@ testWidgets('CampaignCard displays campaign info', (tester) async {
 - [ ] `flutter analyze` passes
 - [ ] `flutter test` passes
 - [ ] Visual appearance unchanged
-
-## Git Workflow Tip
-
-**Branch naming**: `refactor/08-widget-simplification`
 
 ## Impact Assessment
 

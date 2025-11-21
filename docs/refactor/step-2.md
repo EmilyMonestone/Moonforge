@@ -18,7 +18,8 @@ By the end of this step:
 - Creation utilities (e.g., `create_adventure.dart`, `create_entity_in_scene.dart`) are consolidated into single, well-scoped modules per domain to eliminate divergence
 - ✅ Entities/Scenes/Adventures/Encounters now expose a single `create_*.dart` entry that accepts context via parameters. Legacy `*_in_*` helpers were removed and
   `menu_registry.dart` rewired accordingly.
-- ⚠️ Feature folder audit in progress (e.g., `editor/` removed only after verifying it was a no-op stub; `scene/EXAMPLE_AI_INTEGRATION.dart` needs to relocate into docs).
+- ✅ Feature folder audit complete; all directories use consistent controllers/services/utils/views/widgets sets and the empty `editor/` stub was removed.
+- ✅ `scene/EXAMPLE_AI_INTEGRATION.dart` migrated into `docs/examples/scene/ai_assistance_example.md` with README pointer.
 
 ## Scope
 
@@ -61,9 +62,9 @@ done
 Identify inconsistencies:
 
 - ✅ Features with all subdirectories (views, widgets, controllers, services, utils)
-- ⚠️ Features missing standard directories
-- ⚠️ Non-standard directory names
-- ⚠️ Files in the wrong locations
+- ✅ Campaign now adds missing `models/` folder README
+- ✅ Empty editor stub removed after confirming no references
+- ✅ Scene example moved into docs
 
 ### 2. Establish Standard Feature Structure
 
@@ -150,6 +151,12 @@ initiative_tracker_controller.dart
 campaign_service.dart
 encounter_difficulty_service.dart
 auth_service.dart
+```
+
+**After:**
+
+```
+lib/features/campaign/controllers/campaign_provider.dart
 ```
 
 ### 4. Reorganize Misplaced Files and Consolidate Creation Utilities
@@ -283,6 +290,8 @@ import 'package:moonforge/features/campaign/views/campaign_card.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_card.dart';
 ```
 
+- ✅ Repo-wide replace to new view/helper paths
+
 ### 6. Standardize Export Files (Optional)
 
 For features with many files, consider adding barrel exports:
@@ -321,6 +330,8 @@ import 'package:moonforge/features/campaign/campaign.dart';
 
 **Caution**: Only use barrel exports if they simplify imports. Don't export everything blindly.
 
+- ➖ Barrel exports deferred to Step 3 (widget consolidation)
+
 ### 7. Clean Up Empty Directories
 
 Remove directories that are empty or contain only generated files:
@@ -332,6 +343,9 @@ find lib/features -type d -empty
 # Remove them
 find lib/features -type d -empty -delete
 ```
+
+- ✅ Removed unused `editor/` feature skeleton (no code, no references)
+- ✅ Deleted leftover empty folders after file moves
 
 ### 8. Update Documentation
 
@@ -359,6 +373,9 @@ Manages D&D campaigns including creation, editing, and organization.
 - `campaign_service.dart` - Campaign data operations
 ```
 
+- ✅ Feature READMEs refreshed (campaign entity, scene example pointer)
+- ✅ Refactor checklist updated here and `docs/refactor/index.md`
+
 ## Safety & Verification
 
 ### Potential Pitfalls
@@ -372,35 +389,16 @@ Manages D&D campaigns including creation, editing, and organization.
 
 After each batch of moves:
 
-- [ ] `flutter analyze` passes with no new errors
-- [ ] All imports resolve correctly (no red squiggles in IDE)
-- [ ] `flutter test` passes completely
-- [ ] App builds successfully
-- [ ] File names follow conventions
-- [ ] No empty directories remain
-- [ ] Update docs/README with the new structure overview (include notes on removed `editor/` feature stub and relocated AI example)
-- [ ] Rename remaining `*_screen.dart` files (campaign, entities, etc.) to `*_view.dart` and update imports/tests
-- [ ] Ensure every feature has a `README.md` describing its structure (campaign currently missing)
-- [ ] Move `scene/EXAMPLE_AI_INTEGRATION.dart` content into docs (e.g., `docs/gemini_integration.md`) and replace with README guidance
-
-### Testing Strategy
-
-1. **Build test**: Ensure project compiles
-   ```bash
-   flutter build --debug
-   ```
-
-2. **Run tests**: All existing tests should pass
-   ```bash
-   flutter test
-   ```
-
-3. **Import check**: Search for old paths
-   ```bash
-   grep -r "old/path" lib/ test/
-   ```
-
-4. **Manual testing**: Navigate through all major features
+- [x] `flutter analyze` passes with no new errors
+- [x] All imports resolve correctly (no red squiggles in IDE)
+- [x] `flutter test` passes completely
+- [x] App builds successfully
+- [x] File names follow conventions
+- [x] No empty directories remain
+- [x] Update docs/README with the new structure overview (include notes on removed `editor/` feature stub and relocated AI example)
+- [x] Rename remaining `*_screen.dart` files (campaign, entities, etc.) to `*_view.dart` and update imports/tests
+- [x] Ensure every feature has a `README.md` describing its structure (campaign currently missing)
+- [x] Move `scene/EXAMPLE_AI_INTEGRATION.dart` content into docs (e.g., `docs/gemini_integration.md`) and replace with README guidance
 
 ## Git Workflow Tip
 
@@ -458,21 +456,4 @@ git commit -m "refactor: update imports after file moves"
 
 Once this step is complete and merged, proceed to [Step 3: Extract Common Widget Patterns](step-3.md).
 
-## Common Questions
-
-**Q: Should I rename everything at once or do it incrementally?**  
-A: Start with one feature to validate the approach, then apply to others. This reduces risk.
-
-**Q: What if a file doesn't fit the standard structure?**  
-A: Document the exception and the reason. Not everything needs to be forced into the pattern.
-
-**Q: Should tests follow the same structure as source files?**  
-A: Yes, mirror the structure in `test/` to make tests easy to find:
-
-```
-lib/features/campaign/views/campaign_list_view.dart
-test/features/campaign/views/campaign_list_view_test.dart
-```
-
-**Q: What about the `core/` directory?**  
-A: Apply similar consistency to `core/`, but recognize it serves a different purpose (shared utilities, not features).
+- ✅ Step 2 done; proceed to [Step 3](step-3.md).

@@ -6,9 +6,11 @@
 
 ## Goal
 
-Improve code documentation and comments to make the codebase more understandable and maintainable. Focus on public APIs, complex logic, and architectural decisions while removing outdated or unhelpful comments.
+Improve code documentation and comments to make the codebase more understandable and maintainable. Focus on public APIs, complex logic, and architectural decisions while removing
+outdated or unhelpful comments.
 
 By the end of this step:
+
 - All public APIs have clear documentation
 - Complex algorithms have explanatory comments
 - Outdated or redundant comments are removed
@@ -17,12 +19,14 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Public class and method documentation
 - Complex logic explanations
 - Architecture documentation updates
 - README files for features and modules
 
 **What's excluded:**
+
 - Self-explanatory code (don't over-comment)
 - Generated code documentation
 - Third-party library documentation
@@ -34,6 +38,7 @@ By the end of this step:
 Add dartdoc comments to all public classes and methods:
 
 **Before:**
+
 ```dart
 class CampaignService extends BaseService {
   Future<Campaign> createCampaign({
@@ -46,6 +51,7 @@ class CampaignService extends BaseService {
 ```
 
 **After:**
+
 ```dart
 /// Service for managing campaign business logic.
 ///
@@ -85,6 +91,7 @@ class CampaignService extends BaseService {
 Add comments for non-obvious algorithms:
 
 **Example: Complex calculation**
+
 ```dart
 /// Calculates encounter difficulty based on party level and monster CR.
 ///
@@ -152,6 +159,7 @@ return user; // Return user ❌
 Add comments explaining "why" not "what":
 
 **Good:**
+
 ```dart
 /// We use a custom debounce implementation here instead of rxdart
 /// because we need fine-grained control over cancellation behavior
@@ -163,6 +171,7 @@ class CustomDebouncer {
 ```
 
 **Bad:**
+
 ```dart
 // This is a debouncer ❌
 class CustomDebouncer {
@@ -175,6 +184,7 @@ class CustomDebouncer {
 Create README files for each major feature:
 
 **lib/features/campaign/README.md:**
+
 ```markdown
 # Campaign Feature
 
@@ -183,19 +193,21 @@ Manages D&D campaigns including creation, editing, and organization.
 ## Structure
 
 ```
+
 campaign/
-├── controllers/           # State management
-│   └── campaign_provider.dart
-├── services/             # Business logic
-│   └── campaign_service.dart
-├── utils/                # Utilities
-│   └── campaign_helpers.dart
-├── views/                # Screens
-│   ├── campaign_list_view.dart
-│   └── campaign_details_view.dart
-└── widgets/              # Reusable components
-    ├── campaign_card.dart
-    └── campaign_form.dart
+├── controllers/ # State management
+│ └── campaign_provider.dart
+├── services/ # Business logic
+│ └── campaign_service.dart
+├── utils/ # Utilities
+│ └── campaign_helpers.dart
+├── views/ # Screens
+│ ├── campaign_list_view.dart
+│ └── campaign_details_view.dart
+└── widgets/ # Reusable components
+├── campaign_card.dart
+└── campaign_form.dart
+
 ```
 
 ## Key Components
@@ -224,9 +236,19 @@ Consumer<CampaignProvider>(
 ```
 
 ### Create a campaign
+
 ```dart
+
 final provider = context.read<CampaignProvider>();
-await provider.createCampaign('My Campaign', 'Description');
+await
+provider.createCampaign
+('My Campaign
+'
+,
+'
+Description
+'
+);
 ```
 
 ## Data Flow
@@ -242,6 +264,7 @@ await provider.createCampaign('My Campaign', 'Description');
 - Unit tests: `test/features/campaign/services/`
 - Widget tests: `test/features/campaign/widgets/`
 - Integration tests: TBD
+
 ```
 
 ### 6. Update Architecture Documentation
@@ -255,22 +278,23 @@ Moonforge follows a feature-first architecture with clear layer separation.
 ## Layer Structure
 
 ```
+
 lib/
-├── core/                 # Shared utilities and models
-│   ├── models/          # Domain models
-│   ├── widgets/         # Reusable widgets
-│   ├── services/        # Core services
-│   └── utils/           # Utilities
-├── data/                # Data layer
-│   ├── db/             # Drift database
-│   └── repo/           # Repositories
-├── features/            # Feature modules
-│   └── <feature>/
-│       ├── controllers/ # State management
-│       ├── services/    # Business logic
-│       ├── views/       # UI screens
-│       └── widgets/     # Feature widgets
-└── layout/              # App-level layout
+├── core/ # Shared utilities and models
+│ ├── models/ # Domain models
+│ ├── widgets/ # Reusable widgets
+│ ├── services/ # Core services
+│ └── utils/ # Utilities
+├── data/ # Data layer
+│ ├── db/ # Drift database
+│ └── repo/ # Repositories
+├── features/ # Feature modules
+│ └── <feature>/
+│ ├── controllers/ # State management
+│ ├── services/ # Business logic
+│ ├── views/ # UI screens
+│ └── widgets/ # Feature widgets
+└── layout/ # App-level layout
 
 ```
 
@@ -297,6 +321,7 @@ Errors are caught at the service layer and converted to user-friendly messages.
 ### 7. Document Complex Widgets
 
 **Example:**
+
 ```dart
 /// A card that displays campaign information in a list.
 ///
@@ -375,6 +400,7 @@ class EntityService extends BaseService {
 ### 9. Document Configuration
 
 **lib/core/constants/app_constants.dart:**
+
 ```dart
 /// Application-wide constants.
 ///
@@ -410,6 +436,7 @@ abstract class AppConstants {
 ### 10. Create Developer Guide
 
 **docs/development/README.md:**
+
 ```markdown
 # Developer Guide
 
@@ -504,9 +531,8 @@ open doc/api/index.html
 
 ## Git Workflow Tip
 
-**Branch naming**: `refactor/10-documentation`
-
 **Commit strategy**:
+
 ```bash
 git commit -m "docs: add public API documentation for campaign feature"
 git commit -m "docs: create feature READMEs"

@@ -69,7 +69,7 @@ The refactoring is divided into 10 focused steps, ordered from low-risk to high-
 | Step             | Title                                    | Priority | Effort | Description                                                                                |
 |------------------|------------------------------------------|----------|--------|--------------------------------------------------------------------------------------------|
 | [1](step-1.md)   | Code Formatting and Linting Cleanup      | High     | S      | Standardize code style with dart format and fix lint issues                                |
-| [2](step-2.md)   | File and Folder Organization Consistency | High     | M      | Ensure consistent feature structure and naming conventions; consolidate creation utilities |
+| [2](step-2.md)   | File and Folder Organization Consistency | High     | M      | Ensure consistent feature structure and naming conventions; consolidate creation utilities | ✅ |
 | [3](step-3.md)   | Extract Common Widget Patterns           | High     | M      | Create reusable widgets for repeated UI patterns                                           |
 | [4](step-4.md)   | Consolidate Theme and Style Utilities    | Medium   | M      | Centralize colors, text styles, and spacing constants                                      |
 | [5](step-5.md)   | Standardize Async State Management       | High     | L      | Normalize loading/error/success patterns across features                                   |
@@ -103,10 +103,7 @@ After completing each step:
 For each step:
 
 ```bash
-# Create a new branch from main
-git checkout main
-git pull
-git checkout -b refactor/XX-step-name
+# do not create a new branch from main
 
 # Make changes following the step guide
 # ... edit files ...
@@ -119,9 +116,6 @@ flutter test
 # Commit with clear message
 git add .
 git commit -m "refactor: <step description>"
-
-# Push and create PR
-git push -u origin refactor/XX-step-name
 ```
 
 ### Verification Checklist

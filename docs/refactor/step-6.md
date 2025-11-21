@@ -6,9 +6,11 @@
 
 ## Goal
 
-Standardize how data is accessed across the application by ensuring all repositories follow a consistent pattern. This improves code predictability, makes testing easier, and provides a clear separation between business logic and data access.
+Standardize how data is accessed across the application by ensuring all repositories follow a consistent pattern. This improves code predictability, makes testing easier, and
+provides a clear separation between business logic and data access.
 
 By the end of this step:
+
 - All repositories implement a common interface pattern
 - Data access methods follow naming conventions
 - Error handling is consistent across repositories
@@ -17,17 +19,20 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - All repository classes in `lib/data/repo/`
 - Data access patterns
 - Repository interfaces
 - Error handling in repositories
 
 **What's excluded:**
+
 - DAOs and database tables (Drift-specific)
 - Service layer (covered in Step 7)
 - Firebase/Firestore direct access (use repositories)
 
 **Types of changes allowed:**
+
 - Creating base repository classes
 - Standardizing method signatures
 - Adding repository interfaces
@@ -40,6 +45,7 @@ By the end of this step:
 Define a common interface for CRUD operations:
 
 **lib/data/repo/base_repository.dart:**
+
 ```dart
 import 'package:moonforge/core/models/async_state.dart';
 
@@ -114,6 +120,7 @@ abstract class BaseRepository<T, ID> implements IRepository<T, ID> {
 Apply consistent naming across all repositories:
 
 **Standard CRUD operations:**
+
 - `getById(id)` - Fetch single entity
 - `getAll()` - Fetch all entities
 - `create(entity)` - Create new entity
@@ -123,11 +130,13 @@ Apply consistent naming across all repositories:
 - `watchAll()` - Stream all entities
 
 **Query operations:**
+
 - `getByField(value)` - Fetch by specific field
 - `search(query)` - Search with criteria
 - `paginate(page, size)` - Paginated results
 
 **Bulk operations:**
+
 - `createBatch(entities)` - Create multiple
 - `updateBatch(entities)` - Update multiple
 - `deleteBatch(ids)` - Delete multiple
@@ -296,6 +305,7 @@ Future<List<Campaign>> query(CampaignQuery query) async {
 Create a factory for dependency injection:
 
 **lib/data/repo/repository_factory.dart:**
+
 ```dart
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -351,6 +361,7 @@ class RepositoryFactory {
 ```
 
 **Usage in providers:**
+
 ```dart
 class CampaignProvider extends BaseAsyncProvider<List<Campaign>> {
   final RepositoryFactory _repos;
@@ -368,6 +379,7 @@ class CampaignProvider extends BaseAsyncProvider<List<Campaign>> {
 Standardize pagination across repositories:
 
 **lib/data/repo/pagination.dart:**
+
 ```dart
 /// Pagination parameters
 class PaginationParams {
@@ -404,6 +416,7 @@ class PaginatedResult<T> {
 ```
 
 **In repository:**
+
 ```dart
 Future<PaginatedResult<Campaign>> getPaginated(
   PaginationParams params,
@@ -516,6 +529,7 @@ class CampaignRepository extends BaseRepository<Campaign, String> {
 Define specific repository error types:
 
 **lib/data/repo/repository_errors.dart:**
+
 ```dart
 /// Base class for repository errors
 abstract class RepositoryError implements Exception {
@@ -556,6 +570,7 @@ class ConflictError extends RepositoryError {
 ```
 
 **Usage:**
+
 ```dart
 @override
 Future<Campaign?> getById(String id) async {
@@ -577,6 +592,7 @@ Future<Campaign?> getById(String id) async {
 Create comprehensive tests for repositories:
 
 **test/data/repo/campaign_repository_test.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -627,6 +643,7 @@ void main() {
 ### 10. Update All Repositories
 
 Systematically update each repository:
+
 1. Campaign Repository ✓
 2. Encounter Repository
 3. Entity Repository
@@ -666,9 +683,8 @@ Systematically update each repository:
 
 ## Git Workflow Tip
 
-**Branch naming**: `refactor/06-repository-pattern`
-
 **Commit strategy**:
+
 ```bash
 git commit -m "refactor: create base repository classes"
 git commit -m "refactor: add repository error types"

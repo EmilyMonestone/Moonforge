@@ -9,6 +9,7 @@
 Strengthen the testing infrastructure by adding missing tests, improving test coverage, and establishing testing patterns that make the codebase more maintainable and reliable.
 
 By the end of this step:
+
 - Core business logic has unit test coverage
 - Complex widgets have widget tests
 - Testing patterns are documented and consistent
@@ -17,12 +18,14 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Unit tests for services, repositories, and utilities
 - Widget tests for complex UI components
 - Test utilities and helpers
 - Mock and fixture setup
 
 **What's excluded:**
+
 - Integration tests (can be added later)
 - End-to-end tests
 - Performance tests
@@ -32,6 +35,7 @@ By the end of this step:
 ### 1. Set Up Test Infrastructure
 
 **test/test_helpers.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -47,10 +51,8 @@ import 'package:moonforge/features/campaign/services/campaign_service.dart';
 void main() {}
 
 /// Pump a widget with MaterialApp wrapper
-Future<void> pumpTestWidget(
-  WidgetTester tester,
-  Widget widget,
-) async {
+Future<void> pumpTestWidget(WidgetTester tester,
+    Widget widget,) async {
   await tester.pumpWidget(
     MaterialApp(
       home: Scaffold(body: widget),
@@ -75,6 +77,7 @@ Campaign createTestCampaign({
 ```
 
 Generate mocks:
+
 ```bash
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
@@ -82,6 +85,7 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ### 2. Add Unit Tests for Services
 
 **test/features/campaign/services/campaign_service_test.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -184,6 +188,7 @@ void main() {
 ### 3. Add Unit Tests for Providers
 
 **test/features/campaign/controllers/campaign_provider_test.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -260,6 +265,7 @@ void main() {
 ### 4. Add Widget Tests
 
 **test/features/campaign/widgets/campaign_card_test.dart:**
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -334,6 +340,7 @@ void main() {
 ### 5. Add Tests for Utilities
 
 **test/core/utils/validation_service_test.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moonforge/core/services/validation_service.dart';
@@ -414,6 +421,7 @@ void main() {
 ### 6. Add Integration Helpers (Optional)
 
 **test/integration_helpers.dart:**
+
 ```dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -436,6 +444,7 @@ Future<void> cleanupTestDatabase(AppDatabase db) async {
 ### 7. Document Testing Patterns
 
 **test/README.md:**
+
 ```markdown
 # Testing Guide
 
@@ -478,13 +487,16 @@ test/
 Test business logic in isolation using mocks:
 
 ```dart
-test('creates campaign with valid data', () async {
-  when(mockRepository.create(any))
-      .thenAnswer((_) async => campaign);
+test
+('creates campaign with valid data
+'
+, () async {
+when(mockRepository.create(any))
+    .thenAnswer((_) async => campaign);
 
-  final result = await service.createCampaign(name: 'Test');
+final result = await service.createCampaign(name: 'Test');
 
-  expect(result.name, equals('Test'));
+expect(result.name, equals('Test'));
 });
 ```
 
@@ -493,12 +505,15 @@ test('creates campaign with valid data', () async {
 Test UI components:
 
 ```dart
-testWidgets('displays campaign name', (tester) async {
-  await tester.pumpWidget(
-    MaterialApp(home: CampaignCard(campaign: campaign)),
-  );
+testWidgets
+('displays campaign name
+'
+, (tester) async {
+await tester.pumpWidget(
+MaterialApp(home: CampaignCard(campaign: campaign)),
+);
 
-  expect(find.text('Campaign Name'), findsOneWidget);
+expect(find.text('Campaign Name'), findsOneWidget);
 });
 ```
 
@@ -507,14 +522,18 @@ testWidgets('displays campaign name', (tester) async {
 Test state management:
 
 ```dart
-test('loadCampaigns sets data state', () async {
-  when(mockService.getAll()).thenAnswer((_) async => [campaign]);
+test
+('loadCampaigns sets data state
+'
+, () async {
+when(mockService.getAll()).thenAnswer((_) async => [campaign]);
 
-  await provider.load();
+await provider.load();
 
-  expect(provider.state.hasData, true);
+expect(provider.state.hasData, true);
 });
 ```
+
 ```
 
 ### 8. Set Up Coverage Reporting
@@ -530,6 +549,7 @@ open coverage/html/index.html
 ```
 
 Make executable:
+
 ```bash
 chmod +x coverage.sh
 ```
@@ -537,6 +557,7 @@ chmod +x coverage.sh
 ### 9. Add CI Test Configuration
 
 **.github/workflows/test.yml:**
+
 ```yaml
 name: Tests
 
@@ -575,10 +596,6 @@ jobs:
 - [ ] All tests pass
 - [ ] CI runs tests automatically
 - [ ] Coverage report generated
-
-## Git Workflow Tip
-
-**Branch naming**: `refactor/09-testing-infrastructure`
 
 ## Impact Assessment
 

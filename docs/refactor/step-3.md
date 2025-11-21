@@ -6,9 +6,11 @@
 
 ## Goal
 
-Identify and extract repeated UI patterns into reusable widgets. This reduces code duplication, ensures consistency across the app, and makes UI updates easier by providing a single source of truth for common patterns.
+Identify and extract repeated UI patterns into reusable widgets. This reduces code duplication, ensures consistency across the app, and makes UI updates easier by providing a
+single source of truth for common patterns.
 
 By the end of this step:
+
 - Common UI patterns are extracted into reusable widgets
 - Duplicate code is eliminated across features
 - Styling is more consistent
@@ -17,6 +19,7 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Repeated UI patterns across features
 - Common layouts and containers
 - Frequently used button styles
@@ -24,11 +27,13 @@ By the end of this step:
 - Common form inputs
 
 **What's excluded:**
+
 - Feature-specific widgets (keep those in feature folders)
 - Complex widgets that aren't truly reusable
 - Generated UI code
 
 **Types of changes allowed:**
+
 - Creating new reusable widgets in `lib/core/widgets/`
 - Replacing duplicated code with widget calls
 - Adding theme extensions for styling
@@ -51,6 +56,7 @@ grep -r "TextFormField" . | wc -l
 ```
 
 Common duplication patterns to look for:
+
 - Similar card layouts
 - Repeated button styles
 - Common dialog structures
@@ -65,31 +71,34 @@ Moonforge already uses M3E buttons, but you may find custom styling patterns wor
 #### Example: Primary Action Button
 
 **Before** (duplicated across features):
+
 ```dart
 // In campaign_list_view.dart
-ElevatedButton(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Theme.of(context).colorScheme.primary,
-    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  ),
-  onPressed: onCreateCampaign,
-  child: const Text('Create Campaign'),
+ElevatedButton
+(
+style: ElevatedButton.styleFrom(
+backgroundColor: Theme.of(context).colorScheme.primary,
+foregroundColor: Theme.of(context).colorScheme.onPrimary,
+padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+),
+onPressed: onCreateCampaign,
+child: const Text('Create Campaign'),
 );
 
 // In encounter_list_view.dart (same pattern)
 ElevatedButton(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Theme.of(context).colorScheme.primary,
-    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  ),
-  onPressed: onCreateEncounter,
-  child: const Text('Create Encounter'),
+style: ElevatedButton.styleFrom(
+backgroundColor: Theme.of(context).colorScheme.primary,
+foregroundColor: Theme.of(context).colorScheme.onPrimary,
+padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+),
+onPressed: onCreateEncounter,
+child: const Text('Create Encounter'),
 );
 ```
 
 **After** (reusable widget):
+
 ```dart
 // lib/core/widgets/action_button.dart
 class ActionButton extends StatelessWidget {
@@ -108,8 +117,14 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final button = ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
+        foregroundColor: Theme
+            .of(context)
+            .colorScheme
+            .onPrimary,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
       onPressed: onPressed,
@@ -130,15 +145,16 @@ class ActionButton extends StatelessWidget {
 }
 
 // Usage in features
-ActionButton(
-  label: 'Create Campaign',
-  onPressed: onCreateCampaign,
+ActionButton
+(
+label: 'Create Campaign',
+onPressed: onCreateCampaign,
 );
 
 ActionButton(
-  label: 'Create Encounter',
-  icon: Icons.add,
-  onPressed: onCreateEncounter,
+label: 'Create Encounter',
+icon: Icons.add,
+onPressed: onCreateEncounter,
 );
 ```
 
@@ -149,31 +165,36 @@ Many features likely use similar card layouts for list items.
 #### Example: Content Card
 
 **Before** (duplicated):
+
 ```dart
 // In multiple features
-Card(
-  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  child: Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          description,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-      ],
-    ),
-  ),
+Card
+(
+margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+child: Padding(
+padding: const EdgeInsets.all(16),
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+Text(
+title,
+style: Theme.of(context).textTheme.titleMedium,
+),
+const SizedBox(height: 8),
+Text(
+description,
+style: Theme.of(context).textTheme.bodyMedium,
+),
+],
+)
+,
+)
+,
 );
 ```
 
 **After**:
+
 ```dart
 // lib/core/widgets/content_card.dart
 class ContentCard extends StatelessWidget {
@@ -213,49 +234,58 @@ class ContentCard extends StatelessWidget {
 }
 
 // Usage
-ContentCard(
-  onTap: () => navigateToCampaign(campaign),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(title, style: context.theme.textTheme.titleMedium),
-      const SizedBox(height: 8),
-      Text(description, style: context.theme.textTheme.bodyMedium),
-    ],
-  ),
+ContentCard
+(
+onTap: () => navigateToCampaign(campaign),
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+Text(title, style: context.theme.textTheme.titleMedium),
+const SizedBox(height: 8),
+Text(description, style: context.theme.textTheme.bodyMedium),
+]
+,
+)
+,
 );
 ```
 
 ### 4. Extract Empty State Widgets
 
 **Before** (duplicated across features):
+
 ```dart
-Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(Icons.inbox, size: 64, color: Colors.grey),
-      const SizedBox(height: 16),
-      Text(
-        'No campaigns yet',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-      const SizedBox(height: 8),
-      Text(
-        'Create your first campaign to get started',
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
-      const SizedBox(height: 24),
-      ElevatedButton(
-        onPressed: onCreateCampaign,
-        child: const Text('Create Campaign'),
-      ),
-    ],
-  ),
+Center
+(
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+Icon(Icons.inbox, size: 64, color: Colors.grey),
+const SizedBox(height: 16),
+Text(
+'No campaigns yet',
+style: Theme.of(context).textTheme.titleMedium,
+),
+const SizedBox(height: 8),
+Text(
+'Create your first campaign to get started',
+style: Theme.of(context).textTheme.bodyMedium,
+),
+const SizedBox(height: 24),
+ElevatedButton(
+onPressed: onCreateCampaign,
+child: const Text('Create Campaign'),
+)
+,
+]
+,
+)
+,
 );
 ```
 
 **After**:
+
 ```dart
 // lib/core/widgets/empty_state.dart
 class EmptyState extends StatelessWidget {
@@ -285,19 +315,28 @@ class EmptyState extends StatelessWidget {
             Icon(
               icon,
               size: 64,
-              color: Theme.of(context).colorScheme.outline,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .outline,
             ),
             const SizedBox(height: 16),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium,
               textAlign: TextAlign.center,
             ),
             if (message != null) ...[
               const SizedBox(height: 8),
               Text(
                 message!,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -316,27 +355,35 @@ class EmptyState extends StatelessWidget {
 }
 
 // Usage
-EmptyState(
-  icon: Icons.campaign,
-  title: 'No campaigns yet',
-  message: 'Create your first campaign to get started',
-  actionLabel: 'Create Campaign',
-  onAction: onCreateCampaign,
+EmptyState
+(
+icon: Icons.campaign,
+title: 'No campaigns yet',
+message: 'Create your first campaign to get started',
+actionLabel: 'Create Campaign
+'
+,
+onAction
+:
+onCreateCampaign
+,
 );
 ```
 
 ### 5. Extract Loading State Widgets
 
 **Before** (duplicated):
+
 ```dart
 if (isLoading) {
-  return const Center(
-    child: CircularProgressIndicator(),
-  );
+return const Center(
+child: CircularProgressIndicator(),
+);
 }
 ```
 
 **After**:
+
 ```dart
 // lib/core/widgets/loading_indicator.dart
 class LoadingIndicator extends StatelessWidget {
@@ -355,7 +402,10 @@ class LoadingIndicator extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               message!,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
             ),
           ],
         ],
@@ -378,7 +428,10 @@ class InlineLoadingIndicator extends StatelessWidget {
       child: CircularProgressIndicator(
         strokeWidth: 2,
         valueColor: AlwaysStoppedAnimation<Color>(
-          Theme.of(context).colorScheme.onPrimary,
+          Theme
+              .of(context)
+              .colorScheme
+              .onPrimary,
         ),
       ),
     );
@@ -386,48 +439,57 @@ class InlineLoadingIndicator extends StatelessWidget {
 }
 
 // Usage
-if (isLoading) {
-  return const LoadingIndicator(message: 'Loading campaigns...');
+if (
+isLoading) {
+return const LoadingIndicator(message: 'Loading campaigns...');
 }
 
 // In button
 ElevatedButton(
-  onPressed: isLoading ? null : onSave,
-  child: isLoading
-      ? const InlineLoadingIndicator()
-      : const Text('Save'),
+onPressed: isLoading ? null : onSave,
+child: isLoading
+? const InlineLoadingIndicator()
+    : const Text
+(
+'
+Save
+'
+)
+,
 );
 ```
 
 ### 6. Extract Error Display Widgets
 
 **Before**:
+
 ```dart
 if (error != null) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.error_outline, size: 64, color: Colors.red),
-        const SizedBox(height: 16),
-        Text(
-          'Something went wrong',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Text(error.toString()),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: onRetry,
-          child: const Text('Retry'),
-        ),
-      ],
-    ),
-  );
+return Center(
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+Icon(Icons.error_outline, size: 64, color: Colors.red),
+const SizedBox(height: 16),
+Text(
+'Something went wrong',
+style: Theme.of(context).textTheme.titleMedium,
+),
+const SizedBox(height: 8),
+Text(error.toString()),
+const SizedBox(height: 24),
+ElevatedButton(
+onPressed: onRetry,
+child: const Text('Retry'),
+),
+],
+),
+);
 }
 ```
 
 **After**:
+
 ```dart
 // lib/core/widgets/error_display.dart
 class ErrorDisplay extends StatelessWidget {
@@ -453,19 +515,28 @@ class ErrorDisplay extends StatelessWidget {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Theme.of(context).colorScheme.error,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .error,
             ),
             const SizedBox(height: 16),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium,
               textAlign: TextAlign.center,
             ),
             if (message != null) ...[
               const SizedBox(height: 8),
               Text(
                 message!,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -484,35 +555,39 @@ class ErrorDisplay extends StatelessWidget {
 }
 
 // Usage
-if (state.hasError) {
-  return ErrorDisplay(
-    title: 'Failed to load campaigns',
-    message: state.error?.toString(),
-    onRetry: () => provider.loadCampaigns(),
-  );
+if (
+state.hasError) {
+return ErrorDisplay(
+title: 'Failed to load campaigns',
+message: state.error?.toString(),
+onRetry: () => provider.loadCampaigns(),
+);
 }
 ```
 
 ### 7. Extract Common Form Fields
 
 **Before** (duplicated TextFormField styling):
+
 ```dart
-TextFormField(
-  decoration: InputDecoration(
-    labelText: 'Campaign Name',
-    border: OutlineInputBorder(),
-    filled: true,
-  ),
-  validator: (value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a name';
-    }
-    return null;
-  },
+TextFormField
+(
+decoration: InputDecoration(
+labelText: 'Campaign Name',
+border: OutlineInputBorder(),
+filled: true,
+),
+validator: (value) {
+if (value == null || value.isEmpty) {
+return 'Please enter a name';
+}
+return null;
+},
 );
 ```
 
 **After**:
+
 ```dart
 // lib/core/widgets/app_text_field.dart
 class AppTextField extends StatelessWidget {
@@ -550,28 +625,34 @@ class AppTextField extends StatelessWidget {
       validator: validator ??
           (isRequired
               ? (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter $label';
-                  }
-                  return null;
-                }
+            if (value == null || value.isEmpty) {
+              return 'Please enter $label';
+            }
+            return null;
+          }
               : null),
     );
   }
 }
 
 // Usage
-AppTextField(
-  label: 'Campaign Name',
-  controller: nameController,
-  isRequired: true,
+AppTextField
+(
+label: 'Campaign Name',
+controller: nameController,
+isRequired: true,
 );
 
 AppTextField(
-  label: 'Description',
-  hint: 'Enter a description...',
-  maxLines: 3,
-  controller: descriptionController,
+label: 'Description',
+hint: 'Enter a description...',
+maxLines:
+3
+,
+controller
+:
+descriptionController
+,
 );
 ```
 
@@ -585,6 +666,7 @@ Systematically replace duplicated code across features:
 4. Apply to remaining features
 
 Use IDE search/replace to find instances:
+
 ```
 Search for: "Center.*Column.*mainAxisAlignment.*center.*Icon.*size: 64"
 ```
@@ -637,32 +719,35 @@ class ContentCard extends StatelessWidget {
 4. **Edge cases**: Test with empty states, errors, loading
 
 Example widget test:
-```dart
-testWidgets('EmptyState displays correctly', (tester) async {
-  await tester.pumpWidget(
-    MaterialApp(
-      home: EmptyState(
-        icon: Icons.inbox,
-        title: 'No items',
-        message: 'Add an item to get started',
-        actionLabel: 'Add Item',
-        onAction: () {},
-      ),
-    ),
-  );
 
-  expect(find.text('No items'), findsOneWidget);
-  expect(find.text('Add an item to get started'), findsOneWidget);
-  expect(find.text('Add Item'), findsOneWidget);
-  expect(find.byIcon(Icons.inbox), findsOneWidget);
+```dart
+testWidgets
+('EmptyState displays correctly
+'
+, (tester) async {
+await tester.pumpWidget(
+MaterialApp(
+home: EmptyState(
+icon: Icons.inbox,
+title: 'No items',
+message: 'Add an item to get started',
+actionLabel: 'Add Item',
+onAction: () {},
+),
+),
+);
+
+expect(find.text('No items'), findsOneWidget);
+expect(find.text('Add an item to get started'), findsOneWidget);
+expect(find.text('Add Item'), findsOneWidget);
+expect(find.byIcon(Icons.inbox), findsOneWidget);
 });
 ```
 
 ## Git Workflow Tip
 
-**Branch naming**: `refactor/03-common-widgets`
-
 **Commit strategy**:
+
 ```bash
 git commit -m "refactor: extract EmptyState widget"
 git commit -m "refactor: extract LoadingIndicator widget"

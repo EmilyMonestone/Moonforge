@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/services/router_config.dart';
-import 'package:moonforge/features/home/views/unknown_path_screen.dart';
+import 'package:moonforge/features/home/views/unknown_path_view.dart';
 
 /// Main application router using type-safe routes via go_router_builder
 class AppRouter {

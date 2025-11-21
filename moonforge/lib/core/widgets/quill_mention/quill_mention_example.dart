@@ -20,10 +20,10 @@ class QuillMentionExampleScreen extends StatefulWidget {
 
   @override
   State<QuillMentionExampleScreen> createState() =>
-      _QuillMentionExampleScreenState();
+      _QuillMentionExampleViewState();
 }
 
-class _QuillMentionExampleScreenState extends State<QuillMentionExampleScreen> {
+class _QuillMentionExampleViewState extends State<QuillMentionExampleScreen> {
   final GlobalKey _editorKey = GlobalKey();
   final QuillController _editorController = QuillController.basic();
   final QuillController _viewerController = QuillController.basic();

@@ -6,9 +6,11 @@
 
 ## Goal
 
-Consolidate and standardize the service layer to eliminate duplication, clarify responsibilities, and ensure consistent business logic patterns across features. Services should focus purely on business logic without direct UI concerns.
+Consolidate and standardize the service layer to eliminate duplication, clarify responsibilities, and ensure consistent business logic patterns across features. Services should
+focus purely on business logic without direct UI concerns.
 
 By the end of this step:
+
 - Clear separation between services and controllers/providers
 - Reduced service duplication
 - Standardized service interfaces
@@ -17,11 +19,13 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - All service classes in `lib/features/*/services/` and `lib/core/services/`
 - Business logic consolidation
 - Service interfaces and contracts
 
 **What's excluded:**
+
 - UI controllers/providers (use services, don't duplicate logic)
 - Repositories (covered in Step 6)
 - Utilities (pure functions without state)
@@ -40,6 +44,7 @@ done
 ```
 
 Look for:
+
 - Similar validation logic across features
 - Duplicated calculation methods
 - Repeated API call patterns
@@ -47,6 +52,7 @@ Look for:
 ### 2. Create Service Base Classes
 
 **lib/core/services/base_service.dart:**
+
 ```dart
 import 'package:moonforge/core/utils/logger.dart';
 
@@ -91,6 +97,7 @@ abstract class BaseService {
 ### 3. Extract Common Validation Services
 
 **lib/core/services/validation_service.dart:**
+
 ```dart
 /// Common validation rules used across features
 class ValidationService {
@@ -145,6 +152,7 @@ class ValidationService {
 Identify and merge duplicate services:
 
 **Before** (duplicated validation):
+
 ```dart
 // In campaign_service.dart
 class CampaignService {
@@ -166,10 +174,20 @@ class EncounterService {
 ```
 
 **After** (consolidated):
+
 ```dart
 // Both use ValidationService
-ValidationService.validateRequired(name, 'Name');
-ValidationService.validateMinLength(name, 3, 'Name');
+ValidationService.validateRequired
+(
+name, 'Name');
+ValidationService.validateMinLength(name
+,
+3
+,
+'
+Name
+'
+);
 ```
 
 ### 5. Standardize Service Methods
@@ -265,6 +283,7 @@ class CampaignService extends BaseService {
 For complex calculations used across features:
 
 **lib/core/services/calculation_service.dart:**
+
 ```dart
 /// Common calculation utilities
 class CalculationService {
@@ -291,6 +310,7 @@ class CalculationService {
 ### 7. Remove Service-Controller Duplication
 
 **Before** (logic in controller):
+
 ```dart
 class CampaignProvider extends ChangeNotifier {
   Future<void> createCampaign(String name, String description) async {
@@ -314,6 +334,7 @@ class CampaignProvider extends ChangeNotifier {
 ```
 
 **After** (logic in service):
+
 ```dart
 // Service handles all business logic
 class CampaignService extends BaseService {
@@ -389,10 +410,6 @@ class CampaignService extends BaseService {
 - [ ] Tests updated
 - [ ] `flutter analyze` passes
 - [ ] `flutter test` passes
-
-## Git Workflow Tip
-
-**Branch naming**: `refactor/07-service-consolidation`
 
 ## Impact Assessment
 

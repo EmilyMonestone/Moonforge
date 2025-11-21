@@ -6,9 +6,11 @@
 
 ## Goal
 
-Normalize how asynchronous operations and their states (loading, success, error) are handled across all features. This eliminates inconsistent patterns, makes the codebase more predictable, and simplifies error handling.
+Normalize how asynchronous operations and their states (loading, success, error) are handled across all features. This eliminates inconsistent patterns, makes the codebase more
+predictable, and simplifies error handling.
 
 By the end of this step:
+
 - All async operations use a consistent state pattern
 - Loading, error, and success states are handled uniformly
 - Error messages are user-friendly and consistent
@@ -17,17 +19,20 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Provider/Controller classes that handle async operations
 - API calls and data fetching
 - Form submissions and mutations
 - Error handling patterns
 
 **What's excluded:**
+
 - UI widgets (covered in other steps)
 - Synchronous state management
 - Simple boolean flags (unless they represent async state)
 
 **Types of changes allowed:**
+
 - Creating async state wrapper classes
 - Refactoring providers to use async state
 - Standardizing error handling
@@ -40,6 +45,7 @@ By the end of this step:
 Define a generic class to represent async operation states:
 
 **lib/core/models/async_state.dart:**
+
 ```dart
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -93,6 +99,7 @@ class AsyncState<T> with _$AsyncState<T> {
 ```
 
 Run code generation:
+
 ```bash
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
@@ -102,6 +109,7 @@ flutter pub run build_runner build --delete-conflicting-outputs
 Create a base class for providers that handle async operations:
 
 **lib/core/providers/base_async_provider.dart:**
+
 ```dart
 import 'package:flutter/foundation.dart';
 import 'package:moonforge/core/models/async_state.dart';
@@ -260,6 +268,7 @@ class CampaignDetailsProvider extends ChangeNotifier {
 Create a widget to easily consume async state in UI:
 
 **lib/core/widgets/async_state_builder.dart:**
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/models/async_state.dart';
@@ -344,6 +353,7 @@ class CampaignListView extends StatelessWidget {
 Create user-friendly error messages:
 
 **lib/core/utils/error_handler.dart:**
+
 ```dart
 /// Converts technical errors into user-friendly messages
 class ErrorHandler {
@@ -394,11 +404,11 @@ class ServerError implements Exception {
 Update AsyncStateBuilder to use ErrorHandler:
 
 ```dart
-error: (error, _) =>
-    onError?.call(context, error) ??
-    ErrorDisplay(
-      message: ErrorHandler.getUserMessage(error),
-    ),
+error: (error, _) =>onError?.call
+(context, error) ??ErrorDisplay
+(
+message: ErrorHandler.getUserMessage(error),
+),
 ```
 
 ### 7. Handle Form Submission States
@@ -441,23 +451,24 @@ class CampaignFormProvider extends ChangeNotifier {
 **Usage in form:**
 
 ```dart
-ElevatedButton(
-  onPressed: provider.isSubmitting ? null : () async {
-    await provider.createCampaign(campaign);
-    if (provider.submitSuccess) {
-      Navigator.of(context).pop();
-    } else if (provider.submitError != null) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ErrorHandler.getUserMessage(provider.submitError!)),
-        ),
-      );
-    }
-  },
-  child: provider.isSubmitting
-      ? const InlineLoadingIndicator()
-      : const Text('Create'),
+ElevatedButton
+(
+onPressed: provider.isSubmitting ? null : () async {
+await provider.createCampaign(campaign);
+if (provider.submitSuccess) {
+Navigator.of(context).pop();
+} else if (provider.submitError != null) {
+// Show error message
+ScaffoldMessenger.of(context).showSnackBar(
+SnackBar(
+content: Text(ErrorHandler.getUserMessage(provider.submitError!)),
+),
+);
+}
+},
+child: provider.isSubmitting
+? const InlineLoadingIndicator()
+    : const Text('Create'),
 );
 ```
 
@@ -510,60 +521,65 @@ Systematically update each feature:
 **Unit tests for providers:**
 
 ```dart
-test('CampaignProvider loads campaigns successfully', () async {
-  final service = MockCampaignService();
-  final provider = CampaignProvider(service);
+test
+('CampaignProvider loads campaigns successfully
+'
+, () async {
+final service = MockCampaignService();
+final provider = CampaignProvider(service);
 
-  when(service.fetchCampaigns()).thenAnswer(
-    (_) async => [Campaign(id: '1', name: 'Test')],
-  );
+when(service.fetchCampaigns()).thenAnswer(
+(_) async => [Campaign(id: '1', name: 'Test')],
+);
 
-  expect(provider.state.isIdle, true);
+expect(provider.state.isIdle, true);
 
-  await provider.loadCampaigns();
+await provider.loadCampaigns();
 
-  expect(provider.state.hasData, true);
-  expect(provider.campaigns, hasLength(1));
+expect(provider.state.hasData, true);
+expect(provider.campaigns, hasLength(1));
 });
 
 test('CampaignProvider handles errors', () async {
-  final service = MockCampaignService();
-  final provider = CampaignProvider(service);
+final service = MockCampaignService();
+final provider = CampaignProvider(service);
 
-  when(service.fetchCampaigns()).thenThrow(NetworkError());
+when(service.fetchCampaigns()).thenThrow(NetworkError());
 
-  await provider.loadCampaigns();
+await provider.loadCampaigns();
 
-  expect(provider.state.hasError, true);
-  expect(provider.state.errorOrNull, isA<NetworkError>());
+expect(provider.state.hasError, true);
+expect(provider.state.errorOrNull, isA<NetworkError>());
 });
 ```
 
 **Widget tests:**
 
 ```dart
-testWidgets('Shows loading indicator while loading', (tester) async {
-  final provider = CampaignProvider(MockCampaignService());
-  provider.updateState(const AsyncState.loading());
+testWidgets
+('Shows loading indicator while loading
+'
+, (tester) async {
+final provider = CampaignProvider(MockCampaignService());
+provider.updateState(const AsyncState.loading());
 
-  await tester.pumpWidget(
-    MaterialApp(
-      home: ChangeNotifierProvider.value(
-        value: provider,
-        child: CampaignListView(),
-      ),
-    ),
-  );
+await tester.pumpWidget(
+MaterialApp(
+home: ChangeNotifierProvider.value(
+value: provider,
+child: CampaignListView(),
+),
+),
+);
 
-  expect(find.byType(LoadingIndicator), findsOneWidget);
+expect(find.byType(LoadingIndicator), findsOneWidget);
 });
 ```
 
 ## Git Workflow Tip
 
-**Branch naming**: `refactor/05-async-state`
-
 **Commit strategy**:
+
 ```bash
 git commit -m "refactor: create AsyncState wrapper class"
 git commit -m "refactor: create BaseAsyncProvider"

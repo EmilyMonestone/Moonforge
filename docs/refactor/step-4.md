@@ -6,9 +6,11 @@
 
 ## Goal
 
-Centralize all styling-related constants and utilities to ensure consistent visual design across the app. This eliminates magic numbers and hardcoded colors, making theme changes easier and maintaining visual consistency.
+Centralize all styling-related constants and utilities to ensure consistent visual design across the app. This eliminates magic numbers and hardcoded colors, making theme changes
+easier and maintaining visual consistency.
 
 By the end of this step:
+
 - All colors, spacing, and typography are defined in one place
 - Magic numbers are replaced with named constants
 - Theme extensions provide easy access to custom styles
@@ -17,6 +19,7 @@ By the end of this step:
 ## Scope
 
 **What's included:**
+
 - Color definitions and constants
 - Spacing and padding constants
 - Custom theme extensions
@@ -24,11 +27,13 @@ By the end of this step:
 - Border radius and shape utilities
 
 **What's excluded:**
+
 - Feature-specific styling that isn't reused
 - Animation timings (handle in a separate step)
 - Platform-specific styling
 
 **Types of changes allowed:**
+
 - Creating utility classes and extensions
 - Replacing magic numbers with constants
 - Adding theme extensions
@@ -60,6 +65,7 @@ grep -r "fontSize: [0-9]" . --include="*.dart" | wc -l
 Define standard spacing values:
 
 **lib/core/design/spacing.dart:**
+
 ```dart
 /// Standard spacing constants used throughout the app.
 ///
@@ -103,38 +109,43 @@ abstract class AppSpacing {
 ```
 
 **Before** (scattered magic numbers):
+
 ```dart
-Padding(
-  padding: const EdgeInsets.all(16),
-  child: Column(
-    children: [
-      const SizedBox(height: 8),
-      Text('Title'),
-      const SizedBox(height: 16),
-      Text('Body'),
-    ],
-  ),
+Padding
+(
+padding: const EdgeInsets.all(16),
+child: Column(
+children: [
+const SizedBox(height: 8),
+Text('Title'),
+const SizedBox(height: 16),
+Text('Body'),
+],
+),
 );
 ```
 
 **After** (using constants):
+
 ```dart
-Padding(
-  padding: AppSpacing.paddingLg,
-  child: Column(
-    children: [
-      SizedBox(height: AppSpacing.sm),
-      Text('Title'),
-      SizedBox(height: AppSpacing.lg),
-      Text('Body'),
-    ],
-  ),
+Padding
+(
+padding: AppSpacing.paddingLg,
+child: Column(
+children: [
+SizedBox(height: AppSpacing.sm),
+Text('Title'),
+SizedBox(height: AppSpacing.lg),
+Text('Body'),
+],
+),
 );
 ```
 
 ### 3. Create Border Radius Constants
 
 **lib/core/design/borders.dart:**
+
 ```dart
 /// Standard border radius and shape constants.
 abstract class AppBorders {
@@ -188,6 +199,7 @@ abstract class AppBorders {
 For styles not covered by Material theme:
 
 **lib/core/design/app_theme_extensions.dart:**
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -275,28 +287,38 @@ extension ThemeContextExtension on BuildContext {
 ```
 
 **Update App widget to include extensions:**
+
 ```dart
 // In lib/app.dart
-ThemeData(
-  colorScheme: lightDynamic ?? App._defaultLightColorScheme,
-  useMaterial3: true,
-  extensions: [
-    AppThemeExtension.light(),
-  ],
+ThemeData
+(
+colorScheme: lightDynamic ?? App._defaultLightColorScheme,
+useMaterial3: true,
+extensions: [
+AppThemeExtension.light(),
+],
 ).colorScheme.toM3EThemeData(),
 ```
 
 **Usage:**
+
 ```dart
-Container(
-  color: context.appTheme.surfaceContainerLow,
-  child: Text('Content'),
+Container
+(
+color: context.appTheme.surfaceContainerLow,
+child: Text(
+'
+Content
+'
+)
+,
 );
 ```
 
 ### 5. Create Typography Utilities
 
 **lib/core/design/typography.dart:**
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -348,27 +370,35 @@ extension TextThemeContext on BuildContext {
 ```
 
 **Before:**
+
 ```dart
-Text(
-  'Title',
-  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-    fontWeight: FontWeight.bold,
-    color: Theme.of(context).colorScheme.primary,
-  ),
+Text
+('Title
+'
+,style: Theme.of(context).textTheme.titleMedium?.copyWith(
+fontWeight: FontWeight.bold,
+color: Theme.of(context).colorScheme.
+primary
+,
+)
+,
 );
 ```
 
 **After:**
+
 ```dart
-Text(
-  'Title',
-  style: context.titleMedium.bold.colored(context.theme.colorScheme.primary),
+Text
+('Title
+'
+,style: context.titleMedium.bold.colored(context.theme.colorScheme.primary),
 );
 ```
 
 ### 6. Create Color Utilities
 
 **lib/core/design/colors.dart:**
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -446,6 +476,7 @@ extension ColorSchemeContext on BuildContext {
 Systematically replace hardcoded values:
 
 **Pattern 1: Spacing**
+
 ```bash
 # Search for: EdgeInsets.all(16)
 # Replace with: AppSpacing.paddingLg
@@ -455,12 +486,14 @@ Systematically replace hardcoded values:
 ```
 
 **Pattern 2: Colors**
+
 ```bash
 # Search for: Colors.red
 # Replace with: context.colorScheme.error (or AppColors.warningLight if appropriate)
 ```
 
 **Pattern 3: Border radius**
+
 ```bash
 # Search for: BorderRadius.circular(12)
 # Replace with: AppBorders.borderRadiusLg
@@ -469,6 +502,7 @@ Systematically replace hardcoded values:
 ### 8. Create Design System Export
 
 **lib/core/design/design_system.dart:**
+
 ```dart
 /// Moonforge Design System
 ///
@@ -483,20 +517,22 @@ export 'app_theme_extensions.dart';
 ```
 
 **Usage in features:**
+
 ```dart
 import 'package:moonforge/core/design/design_system.dart';
 
 // Now you have access to all design tokens
-Container(
-  padding: AppSpacing.paddingLg,
-  decoration: BoxDecoration(
-    color: context.surface,
-    borderRadius: AppBorders.borderRadiusLg,
-  ),
-  child: Text(
-    'Content',
-    style: context.bodyMedium,
-  ),
+Container
+(
+padding: AppSpacing.paddingLg,
+decoration: BoxDecoration(
+color: context.surface,
+borderRadius: AppBorders.borderRadiusLg,
+),
+child: Text(
+'Content',
+style: context.bodyMedium,
+),
 );
 ```
 
@@ -505,6 +541,7 @@ Container(
 Create documentation for the design system:
 
 **lib/core/design/README.md:**
+
 ```markdown
 # Moonforge Design System
 
@@ -601,9 +638,8 @@ Use `AppBorders` for border radius:
 
 ## Git Workflow Tip
 
-**Branch naming**: `refactor/04-theme-consolidation`
-
 **Commit strategy**:
+
 ```bash
 git commit -m "refactor: create design system constants"
 git commit -m "refactor: add theme extensions"

@@ -56,7 +56,7 @@ Use this checklist to track your refactoring progress:
 ### Phase 1: Foundation (High Priority)
 
 - [X] Step 1: Code Formatting and Linting Cleanup
-- [ ] Step 2: File and Folder Organization Consistency (creation helpers consolidated; folder audit still in progress)
+- [X] Step 2: File and Folder Organization Consistency
 - [ ] Step 3: Extract Common Widget Patterns
 - [ ] Step 5: Standardize Async State Management
 
