@@ -196,6 +196,12 @@ class GeminiService {
     }
 
     buffer.writeln('Continue the story from where it left off. Maintain consistency with the established characters, setting, and tone. Write in an engaging, descriptive style suitable for a tabletop RPG campaign.');
+    
+    // Add language instruction
+    if (context.language != null && context.language != 'English') {
+      buffer.writeln();
+      buffer.writeln('IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.');
+    }
 
     return buffer.toString();
   }
@@ -269,6 +275,12 @@ class GeminiService {
     buffer.writeln('Write a complete ${request.sectionType} that fits naturally into the campaign. Maintain consistency with established lore, characters, and tone. Include vivid descriptions, engaging dialogue, and clear plot progression. Write in a style suitable for a tabletop RPG campaign.');
     buffer.writeln();
     buffer.writeln('Format your response in Markdown. Use headers (##, ###), bold, italic, lists, blockquotes, and other Markdown formatting as appropriate for better readability.');
+    
+    // Add language instruction
+    if (context.language != null && context.language != 'English') {
+      buffer.writeln();
+      buffer.writeln('IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.');
+    }
 
     return buffer.toString();
   }
@@ -340,6 +352,12 @@ class GeminiService {
     buffer.writeln('}');
     buffer.writeln();
     buffer.writeln('Make the NPC memorable, fit naturally into the campaign setting, and provide interesting roleplay opportunities.');
+    
+    // Add language instruction
+    if (context.language != null && context.language != 'English') {
+      buffer.writeln();
+      buffer.writeln('IMPORTANT: Write all text fields in ${context.language}. The campaign is written in ${context.language}, so the NPC information must be in the same language.');
+    }
 
     return buffer.toString();
   }
