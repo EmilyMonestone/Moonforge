@@ -5,6 +5,7 @@ import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/services/story_context_builder.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/utils/markdown_to_quill.dart';
 import 'package:moonforge/core/widgets/ai/ai_creation_dialog.dart';
 import 'package:moonforge/core/widgets/ai/creation_method_dialog.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -174,8 +175,8 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     // Convert AI content to Quill document if provided
     Map<String, dynamic>? contentDelta;
     if (aiContent != null && aiContent.isNotEmpty) {
-      final document = Document()..insert(0, aiContent);
-      contentDelta = {'ops': document.toDelta().toJson()};
+      // Convert markdown to Quill delta format
+      contentDelta = markdownToQuillDelta(aiContent);
     }
 
     final scene = Scene(

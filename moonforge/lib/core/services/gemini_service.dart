@@ -267,6 +267,8 @@ class GeminiService {
 
     buffer.writeln();
     buffer.writeln('Write a complete ${request.sectionType} that fits naturally into the campaign. Maintain consistency with established lore, characters, and tone. Include vivid descriptions, engaging dialogue, and clear plot progression. Write in a style suitable for a tabletop RPG campaign.');
+    buffer.writeln();
+    buffer.writeln('Format your response in Markdown. Use headers (##, ###), bold, italic, lists, blockquotes, and other Markdown formatting as appropriate for better readability.');
 
     return buffer.toString();
   }

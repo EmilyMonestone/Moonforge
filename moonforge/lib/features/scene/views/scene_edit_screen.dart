@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:markdown/markdown.dart' as md;
+import 'package:markdown_quill/markdown_quill.dart';
 import 'package:moonforge/core/models/ai/generation_request.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/story_context_builder.dart';
@@ -220,9 +222,21 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
       if (!mounted) return;
 
       if (response.success && response.content != null) {
+        // Convert markdown to Quill delta
+        final mdDocument = md.Document(
+          encodeHtml: false,
+          extensionSet: md.ExtensionSet.gitHubFlavored,
+        );
+        final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
+        final contentDelta = mdToDelta.convert(response.content!);
+        
         // Insert generated content at the end
         final length = _contentController.document.length;
-        _contentController.document.insert(length - 1, '\n\n${response.content}');
+        _contentController.document.insert(length - 1, '\n\n');
+        _contentController.document.compose(
+          Delta()..retain(length + 1)..addAll(contentDelta.toList()),
+          ChangeSource.local,
+        );
 
         toastification.show(
           type: ToastificationType.success,
