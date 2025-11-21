@@ -9,6 +9,54 @@ import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Helper service to build story context for AI generation
 class StoryContextBuilder {
+  /// Detects the language of the text content
+  String? _detectLanguage(String? text) {
+    if (text == null || text.trim().isEmpty) {
+      return null;
+    }
+    
+    // Simple language detection based on character patterns
+    // This is a basic heuristic - for production, consider using a proper language detection library
+    
+    // Check for common German words/patterns
+    final germanPatterns = ['der', 'die', 'das', 'und', 'ist', 'ein', 'eine', 'zu', 'auf', 'mit'];
+    // Check for common French words/patterns
+    final frenchPatterns = ['le', 'la', 'les', 'et', 'est', 'un', 'une', 'de', 'pour', 'dans'];
+    // Check for common Spanish words/patterns
+    final spanishPatterns = ['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'de', 'en'];
+    // Check for common Italian words/patterns
+    final italianPatterns = ['il', 'la', 'i', 'le', 'e', 'è', 'un', 'una', 'di', 'in'];
+    
+    final lowerText = text.toLowerCase();
+    final words = lowerText.split(RegExp(r'\s+'));
+    
+    // Count matches for each language
+    int germanCount = 0;
+    int frenchCount = 0;
+    int spanishCount = 0;
+    int italianCount = 0;
+    
+    for (final word in words.take(100)) { // Check first 100 words
+      if (germanPatterns.contains(word)) germanCount++;
+      if (frenchPatterns.contains(word)) frenchCount++;
+      if (spanishPatterns.contains(word)) spanishCount++;
+      if (italianPatterns.contains(word)) italianCount++;
+    }
+    
+    // Return the language with most matches (if significant)
+    final maxCount = [germanCount, frenchCount, spanishCount, italianCount].reduce((a, b) => a > b ? a : b);
+    
+    if (maxCount >= 3) { // At least 3 matches to be confident
+      if (germanCount == maxCount) return 'German';
+      if (frenchCount == maxCount) return 'French';
+      if (spanishCount == maxCount) return 'Spanish';
+      if (italianCount == maxCount) return 'Italian';
+    }
+    
+    // Default to English if no clear pattern
+    return 'English';
+  }
+
   final CampaignRepository _campaignRepo;
   final ChapterRepository _chapterRepo;
   final AdventureRepository _adventureRepo;
@@ -35,12 +83,15 @@ class StoryContextBuilder {
     }
 
     final entities = await _getEntitiesInfo(campaign.entityIds);
+    final contentText = _extractQuillText(campaign.content);
+    final language = _detectLanguage(contentText ?? campaign.description ?? campaign.name);
 
     return StoryContext(
       campaignName: campaign.name,
       campaignDescription: campaign.description,
       entities: entities,
-      recentContent: _extractQuillText(campaign.content),
+      recentContent: contentText,
+      language: language,
     );
   }
 
@@ -59,6 +110,9 @@ class StoryContextBuilder {
     final entities = await _getEntitiesInfo(
       [...campaign.entityIds, ...chapter.entityIds].toSet().toList(),
     );
+    
+    final contentText = _extractQuillText(chapter.content);
+    final language = _detectLanguage(contentText ?? chapter.summary ?? campaign.description ?? campaign.name);
 
     return StoryContext(
       campaignName: campaign.name,
@@ -66,7 +120,8 @@ class StoryContextBuilder {
       chapterName: chapter.name,
       chapterSummary: chapter.summary,
       entities: entities,
-      recentContent: _extractQuillText(chapter.content),
+      recentContent: contentText,
+      language: language,
     );
   }
 
@@ -95,6 +150,9 @@ class StoryContextBuilder {
       ].toSet().toList(),
     );
 
+    final contentText = _extractQuillText(adventure.content);
+    final language = _detectLanguage(contentText ?? adventure.summary ?? chapter.summary ?? campaign.description ?? campaign.name);
+
     return StoryContext(
       campaignName: campaign.name,
       campaignDescription: campaign.description,
@@ -103,7 +161,8 @@ class StoryContextBuilder {
       adventureName: adventure.name,
       adventureSummary: adventure.summary,
       entities: entities,
-      recentContent: _extractQuillText(adventure.content),
+      recentContent: contentText,
+      language: language,
     );
   }
 
@@ -142,6 +201,10 @@ class StoryContextBuilder {
     // Get recent scenes for context
     final recentScenes = await _sceneRepo.getByAdventure(scene.adventureId);
     final recentContent = _buildRecentScenesContent(recentScenes, scene.id);
+    
+    // Detect language from scene content or fallback to campaign content
+    final sceneText = _extractQuillText(scene.content);
+    final language = _detectLanguage(sceneText ?? recentContent ?? scene.summary ?? adventure.summary ?? campaign.description ?? campaign.name);
 
     return StoryContext(
       campaignName: campaign.name,
@@ -154,6 +217,7 @@ class StoryContextBuilder {
       sceneSummary: scene.summary,
       entities: entities,
       recentContent: recentContent,
+      language: language,
     );
   }
 

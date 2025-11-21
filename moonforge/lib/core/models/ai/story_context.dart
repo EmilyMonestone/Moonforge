@@ -30,6 +30,9 @@ class StoryContext {
   /// Tone/style guidelines
   final String? styleNotes;
 
+  /// Detected language of the campaign content
+  final String? language;
+
   const StoryContext({
     required this.campaignName,
     this.campaignDescription,
@@ -43,6 +46,7 @@ class StoryContext {
     this.entities = const [],
     this.worldNotes,
     this.styleNotes,
+    this.language,
   });
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +62,7 @@ class StoryContext {
         'entities': entities.map((e) => e.toJson()).toList(),
         'worldNotes': worldNotes,
         'styleNotes': styleNotes,
+        'language': language,
       };
 
   factory StoryContext.fromJson(Map<String, dynamic> json) => StoryContext(
@@ -76,6 +81,7 @@ class StoryContext {
             const [],
         worldNotes: json['worldNotes'] as String?,
         styleNotes: json['styleNotes'] as String?,
+        language: json['language'] as String?,
       );
 }
 
