@@ -1,6 +1,5 @@
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
@@ -90,7 +89,7 @@ class OriginResolver {
   /// since IDs may be stored with prefixes in the database
   Future<EntityOrigin?> _resolvePlainId(String originId) async {
     // Helper to try lookup with and without prefix
-    Future<T?> _tryWithPrefix<T>(
+    Future<T?> tryWithPrefix<T>(
       String prefix,
       Future<T?> Function(String) lookup,
     ) async {
@@ -106,7 +105,7 @@ class OriginResolver {
     }
 
     // Try campaign
-    final campaign = await _tryWithPrefix('campaign', campaignRepo.getById);
+    final campaign = await tryWithPrefix('campaign', campaignRepo.getById);
     if (campaign != null) {
       logger.d('[OriginResolver] Resolved plain ID $originId as campaign');
       return EntityOrigin(
@@ -118,7 +117,7 @@ class OriginResolver {
     }
 
     // Try chapter
-    final chapter = await _tryWithPrefix('chapter', chapterRepo.getById);
+    final chapter = await tryWithPrefix('chapter', chapterRepo.getById);
     if (chapter != null) {
       final chapters = await chapterRepo.getByCampaign(chapter.campaignId);
       chapters.sort((a, b) => a.order.compareTo(b.order));
@@ -136,7 +135,7 @@ class OriginResolver {
     }
 
     // Try adventure
-    final adventure = await _tryWithPrefix('adventure', adventureRepo.getById);
+    final adventure = await tryWithPrefix('adventure', adventureRepo.getById);
     if (adventure != null) {
       final ch = await chapterRepo.getById(adventure.chapterId);
       if (ch != null) {
@@ -162,7 +161,7 @@ class OriginResolver {
     }
 
     // Try scene
-    final scene = await _tryWithPrefix('scene', sceneRepo.getById);
+    final scene = await tryWithPrefix('scene', sceneRepo.getById);
     if (scene != null) {
       final adv = await adventureRepo.getById(scene.adventureId);
       if (adv != null) {
@@ -194,7 +193,7 @@ class OriginResolver {
     }
 
     // Try encounter
-    final encounter = await _tryWithPrefix('encounter', encounterRepo.getById);
+    final encounter = await tryWithPrefix('encounter', encounterRepo.getById);
     if (encounter != null) {
       logger.d(
         '[OriginResolver] Resolved plain ID $originId as encounter: ${encounter.name}',

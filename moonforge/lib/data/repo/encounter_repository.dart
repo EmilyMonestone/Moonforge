@@ -25,7 +25,7 @@ class EncounterRepository {
     await _db.transaction(() async {
       await _db.encounterDao.upsert(
         EncountersCompanion.insert(
-          id: encounter.id,
+          id: Value(encounter.id),
           name: encounter.name,
           originId: encounter.originId,
           preset: encounter.preset,

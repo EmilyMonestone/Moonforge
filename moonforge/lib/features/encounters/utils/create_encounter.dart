@@ -10,7 +10,7 @@ Future<void> createEncounter(BuildContext context, db.Campaign campaign) async {
   final repository = Provider.of<EncounterRepository>(context, listen: false);
 
   final encounter = db.Encounter(
-    id: const Uuid().v4(),
+    id: const Uuid().v7(),
     name: 'New Encounter',
     originId: campaign.id,
     preset: false,

@@ -26,9 +26,10 @@ class EntityRepository {
     await _db.transaction(() async {
       await _db.entityDao.upsert(
         EntitiesCompanion.insert(
-          id: entity.id,
+          id: Value(entity.id),
           kind: entity.kind,
           name: entity.name,
+          originType: Value(entity.originType),
           originId: entity.originId,
           summary: Value(entity.summary),
           tags: Value(entity.tags),
@@ -62,6 +63,7 @@ class EntityRepository {
           id: Value(entity.id),
           kind: Value(entity.kind),
           name: Value(entity.name),
+          originType: Value(entity.originType),
           originId: Value(entity.originId),
           summary: Value(entity.summary),
           tags: Value(entity.tags),
@@ -93,6 +95,7 @@ class EntityRepository {
         id: Value(entity.id),
         kind: Value(entity.kind),
         name: Value(entity.name),
+        originType: Value(entity.originType),
         originId: Value(entity.originId),
         summary: Value(entity.summary),
         tags: Value(entity.tags),

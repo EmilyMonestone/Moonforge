@@ -43,7 +43,7 @@ Future<void> main(List<String> args) async {
   }
 
   // Initialize Drift database (local-first storage)
-  final db = constructDb();
+  final db = constructDb(clearExistingData: false);
 
   // Initialize get_storage for persistence
   await PersistenceService.init();

@@ -164,12 +164,9 @@ class _ChaptersSection extends StatelessWidget {
           // Filter chapters for this campaign by ID prefix using startsWith
           // Format: chapter-{campaignId}-{timestamp}
           var chapters = allChapters
-              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .where((ch) => ch.campaignId == campaign.id)
               .toList();
-          if (chapters.isEmpty && allChapters.isNotEmpty) {
-            // Fallback: show all chapters when relation is not encoded in IDs.
-            chapters = List.of(allChapters);
-          }
+          // No fallback needed with explicit relationships
           chapters.sort((a, b) => a.order.compareTo(b.order));
 
           if (chapters.isEmpty) {
@@ -210,12 +207,9 @@ class _RecentChaptersSection extends StatelessWidget {
         builder: (context) {
           // Filter chapters for this campaign by ID prefix using startsWith, sort by updatedAt desc, take 5
           var items = allChapters
-              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .where((ch) => ch.campaignId == campaign.id)
               .toList();
-          if (items.isEmpty && allChapters.isNotEmpty) {
-            // Fallback: use all chapters
-            items = List.of(allChapters);
-          }
+          // No fallback needed with explicit relationships
           items.sort((a, b) {
             final ad = a.updatedAt;
             final bd = b.updatedAt;
@@ -266,7 +260,7 @@ class _RecentAdventuresSection extends StatelessWidget {
         builder: (context) {
           // Filter chapters for this campaign by ID pattern using startsWith
           final chapters = allChapters
-              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .where((ch) => ch.campaignId == campaign.id)
               .toList();
 
           if (chapters.isEmpty) {
@@ -295,7 +289,7 @@ class _RecentAdventuresSection extends StatelessWidget {
           final List<(Adventure, String)> adventuresWithChapter = [];
           for (final ch in chapters) {
             final chapterAdvs = allAdventures
-                .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
+                .where((adv) => adv.chapterId == ch.id)
                 .map((adv) => (adv, ch.id));
             adventuresWithChapter.addAll(chapterAdvs);
           }
@@ -388,7 +382,7 @@ class _RecentScenesSection extends StatelessWidget {
         builder: (context) {
           // Filter chapters for this campaign by ID pattern using startsWith
           final chapters = allChapters
-              .where((ch) => ch.id.startsWith('chapter-${campaign.id}-'))
+              .where((ch) => ch.campaignId == campaign.id)
               .toList();
 
           // If we cannot scope by chapter, fall back to global scenes list
@@ -418,7 +412,7 @@ class _RecentScenesSection extends StatelessWidget {
           final List<(Adventure, String)> adventuresWithChapter = [];
           for (final ch in chapters) {
             final chapterAdvs = allAdventures
-                .where((adv) => adv.id.startsWith('adventure-${ch.id}-'))
+                .where((adv) => adv.chapterId == ch.id)
                 .map((adv) => (adv, ch.id));
             adventuresWithChapter.addAll(chapterAdvs);
           }
@@ -431,7 +425,7 @@ class _RecentScenesSection extends StatelessWidget {
             final adv = advPair.$1;
             final chId = advPair.$2;
             final adventureScenes = allScenes
-                .where((scene) => scene.id.startsWith('scene-${adv.id}-'))
+                .where((scene) => scene.adventureId == adv.id)
                 .map((scene) => (scene, chId, adv.id));
             scenesWithContext.addAll(adventureScenes);
           }

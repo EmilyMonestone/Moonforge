@@ -56,7 +56,9 @@ class FakeAdventureRepository implements AdventureRepository {
 
   void addAdventure(Adventure adventure) {
     _adventures[adventure.id] = adventure;
-    _chapterAdventures.putIfAbsent(adventure.chapterId, () => []).add(adventure);
+    _chapterAdventures
+        .putIfAbsent(adventure.chapterId, () => [])
+        .add(adventure);
   }
 
   @override
@@ -135,7 +137,7 @@ void main() {
   const sceneId = '1762812675442';
   const encounterId = '1762812675443';
 
-  void _setupTestData() {
+  void setupTestData() {
     // Campaign
     fakeCampaignRepo.addCampaign(
       Campaign(
@@ -234,7 +236,7 @@ void main() {
     );
 
     // Setup test data
-    _setupTestData();
+    setupTestData();
   });
 
   group('OriginResolver - Plain IDs', () {
@@ -294,16 +296,24 @@ void main() {
       // Verify test data is set up correctly
       final adv = await fakeAdventureRepo.getById(adventureId);
       expect(adv, isNotNull, reason: 'Adventure should exist');
-      expect(adv!.chapterId, chapterId, reason: 'Adventure chapter ID should match');
-      
+      expect(
+        adv!.chapterId,
+        chapterId,
+        reason: 'Adventure chapter ID should match',
+      );
+
       final ch = await fakeChapterRepo.getById(chapterId);
       expect(ch, isNotNull, reason: 'Chapter should exist');
-      expect(ch!.campaignId, campaignId, reason: 'Chapter campaign ID should match');
-      
+      expect(
+        ch!.campaignId,
+        campaignId,
+        reason: 'Chapter campaign ID should match',
+      );
+
       final camp = await fakeCampaignRepo.getById(campaignId);
       expect(camp, isNotNull, reason: 'Campaign should exist');
     });
-    
+
     test('resolves leaf-first adventure composite ID', () async {
       // Format: adventure-chapter-campaign-advId-chapterId-campaignId
       final compositeId =
@@ -374,8 +384,9 @@ void main() {
       final result2 = await resolver.resolve('invalid-tokens-only');
       expect(result2, isNull);
 
-      final result3 =
-          await resolver.resolve('adventure-chapter-$adventureId'); // missing IDs
+      final result3 = await resolver.resolve(
+        'adventure-chapter-$adventureId',
+      ); // missing IDs
       expect(result3, isNull);
     });
 

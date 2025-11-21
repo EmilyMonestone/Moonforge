@@ -21,7 +21,7 @@ class CombatantRepository {
     await _db.transaction(() async {
       await _db.combatantDao.upsert(
         CombatantsCompanion.insert(
-          id: combatant.id,
+          id: Value(combatant.id),
           encounterId: combatant.encounterId,
           name: combatant.name,
           type: combatant.type,
@@ -87,11 +87,7 @@ class CombatantRepository {
     await _db.transaction(() async {
       await _db.combatantDao.deleteById(id);
 
-      await _db.outboxDao.enqueue(
-        table: 'combatants',
-        rowId: id,
-        op: 'delete',
-      );
+      await _db.outboxDao.enqueue(table: 'combatants', rowId: id, op: 'delete');
     });
   }
 

@@ -9,6 +9,7 @@ import 'package:moonforge/features/encounters/services/encounter_difficulty_serv
 import 'package:moonforge/features/encounters/views/initiative_tracker_screen.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class EncounterEditScreen extends StatefulWidget {
   const EncounterEditScreen({super.key, required this.encounterId});
@@ -834,7 +835,7 @@ class _BestiaryMonsterList extends StatelessWidget {
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () {
               final combatant = db.Combatant(
-                id: 'monster_${DateTime.now().millisecondsSinceEpoch}',
+                id: 'monster_${const Uuid().v7()}',
                 encounterId: 'local',
                 name: name,
                 type: 'monster',
@@ -850,7 +851,7 @@ class _BestiaryMonsterList extends StatelessWidget {
                 xp: xp,
                 conditions: const <String>[],
                 notes: null,
-                order: DateTime.now().millisecondsSinceEpoch % 1000000,
+                order: DateTime.now().microsecondsSinceEpoch % 1000000,
               );
               onAdd(combatant);
               Navigator.of(context).pop();
@@ -932,7 +933,7 @@ class _CampaignEntityList extends StatelessWidget {
             icon: const Icon(Icons.add_circle_outline),
             onPressed: () {
               final combatant = db.Combatant(
-                id: 'entity_${DateTime.now().millisecondsSinceEpoch}',
+                id: 'entity_${const Uuid().v7()}',
                 encounterId: 'local',
                 name: entity.name,
                 type: entity.kind == 'npc' ? 'npc' : 'monster',
@@ -948,7 +949,7 @@ class _CampaignEntityList extends StatelessWidget {
                 xp: xp,
                 conditions: const <String>[],
                 notes: null,
-                order: DateTime.now().millisecondsSinceEpoch % 1000000,
+                order: DateTime.now().microsecondsSinceEpoch % 1000000,
               );
               onAdd(combatant);
               Navigator.of(context).pop();

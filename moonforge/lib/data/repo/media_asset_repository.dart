@@ -20,7 +20,7 @@ class MediaAssetRepository {
     await _db.transaction(() async {
       await _db.mediaAssetDao.upsert(
         MediaAssetsCompanion.insert(
-          id: asset.id,
+          id: Value(asset.id),
           filename: asset.filename,
           size: asset.size,
           mime: asset.mime,

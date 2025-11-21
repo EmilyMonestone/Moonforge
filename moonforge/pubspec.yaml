@@ -99,13 +99,19 @@ dependencies:
   json_annotation: ^4.9.0
 
   # Utilities
-  uuid: ^4.5.1
+  uuid: ^4.5.2
   logger: ^2.6.2
   flutter_quill_extensions: ^11.0.0
   auto_updater: ^1.0.0
   local_notifier: ^0.1.6
   http: ^1.2.2
   chips_input_autocomplete: ^1.2.2
+
+  # AI Integration
+  flutter_gemini: ^3.0.0
+  markdown_quill: ^4.3.0
+  markdown: 7.3.0
+  quill_delta: ^3.0.0-nullsafety.2
 
 
 dev_dependencies:
@@ -127,6 +133,7 @@ dev_dependencies:
   json_serializable: ^6.9.5
   go_router_builder: ^4.1.1
   drift_dev: ^2.29.0
+  msix: ^3.16.12
 
 
 flutter:
@@ -179,5 +186,34 @@ flutter_gen:
     inputs:
       - assets/color/colors.xml
 
+# --- Create MSIX package for Windows ---
+# dart run msix:create --certificate-password "CertificatePassword"
 
+msix_config:
+  display_name: Moonforge
+  publisher_display_name: BruckCode
+  identity_name: BruckCode.Moonforge
+  publisher: CN=D596F5C0-2AA1-4CF6-8BE0-66076479EC9E
+  msix_version: 0.6.0.0
+  capabilities: internetClient, webcam, userNotificationListener
+  logo_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_512.png"
+  languages: de-de, en-us
+  store: true
+  output_path: releases
+  output_name: moonforge-store
+  certificate_path: D:\Nextcloud\04 BruckCode\Certificates\CERTIFICATE-BRUCKCODE.pfx
+  app_uri_handler_hosts: moonforge.de
 
+#msix_config:
+#  display_name: Moonforge
+#  publisher_display_name: BruckCode
+#  identity_name: BruckCode.Moonforge
+#  publisher: CN=D596F5C0-2AA1-4CF6-8BE0-66076479EC9E
+#  msix_version: 0.6.0.0
+#  capabilities: internetClient, webcam, userNotificationListener
+#  logo_path: "assets/icon/Moonforge-Icon-purple.appiconset/Moonforge-Icon-purple_512.png"
+#  languages: de-de, en-us
+#  output_path: releases
+#  output_name: moonforge
+#  certificate_path: D:\Nextcloud\04 BruckCode\Certificates\CERTIFICATE-BRUCKCODE.pfx
+#  app_uri_handler_hosts: moonforge.de

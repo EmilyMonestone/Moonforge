@@ -1,6 +1,7 @@
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
+import 'package:uuid/uuid.dart';
 
 /// Service for campaign lifecycle management and operations
 class CampaignService {
@@ -9,13 +10,10 @@ class CampaignService {
   CampaignService(this._repository);
 
   /// Duplicate a campaign with a new name
-  Future<Campaign?> duplicateCampaign(
-    Campaign campaign,
-    String newName,
-  ) async {
+  Future<Campaign?> duplicateCampaign(Campaign campaign, String newName) async {
     try {
       final newCampaign = Campaign(
-        id: 'campaign-${DateTime.now().millisecondsSinceEpoch}',
+        id: const Uuid().v7(),
         name: newName,
         description: campaign.description,
         content: campaign.content,
@@ -89,9 +87,9 @@ class CampaignService {
   }) async {
     // Implement filtering logic
     final campaigns = await _repository.customQuery();
-    
+
     var filtered = campaigns;
-    
+
     if (searchQuery != null && searchQuery.isNotEmpty) {
       filtered = filtered.where((c) {
         return c.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
@@ -101,9 +99,10 @@ class CampaignService {
 
     // Sort
     if (sortBy == 'name') {
-      filtered.sort((a, b) => descending
-          ? b.name.compareTo(a.name)
-          : a.name.compareTo(b.name));
+      filtered.sort(
+        (a, b) =>
+            descending ? b.name.compareTo(a.name) : a.name.compareTo(b.name),
+      );
     } else if (sortBy == 'updated') {
       filtered.sort((a, b) {
         final aDate = a.updatedAt ?? a.createdAt ?? DateTime(1970);

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
+import 'package:moonforge/core/providers/gemini_provider.dart';
+import 'package:moonforge/core/services/gemini_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/db_providers.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
@@ -40,6 +44,16 @@ class MultiProviderWrapper extends StatelessWidget {
         final prefs = snapshot.data!;
         final settingsService = SettingsService(prefs);
 
+        // Initialize Gemini if API key is available
+        final geminiApiKey = dotenv.env['GEMINI_API_KEY'];
+        if (geminiApiKey != null && geminiApiKey.isNotEmpty) {
+          try {
+            GeminiProvider.initialize(geminiApiKey);
+          } catch (e) {
+            debugPrint('Failed to initialize Gemini: $e');
+          }
+        }
+
         // Providers
         AuthProvider authProvider = AuthProvider();
         AppSettingsProvider appSettingsProvider = AppSettingsProvider(
@@ -75,6 +89,12 @@ class MultiProviderWrapper extends StatelessWidget {
             ),
             ChangeNotifierProvider<PartyProvider>.value(value: partyProvider),
             ChangeNotifierProvider<PlayerProvider>.value(value: playerProvider),
+            // Gemini AI provider - only if initialized
+            if (GeminiProvider.isInitialized)
+              ChangeNotifierProvider<GeminiProvider>(
+                create: (context) =>
+                    GeminiProvider(GeminiService(Gemini.instance)),
+              ),
             ...dbProviders(db),
             ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
               create: (context) =>

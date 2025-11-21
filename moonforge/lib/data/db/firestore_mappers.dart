@@ -219,6 +219,7 @@ EncountersCompanion encounterFromFirestore(String id, Map<String, dynamic> d) {
 Map<String, Object?> entityToFirestore(Entity e) => {
   'kind': e.kind,
   'name': e.name,
+  'originType': e.originType, // new
   'originId': e.originId,
   'summary': e.summary,
   'tags': e.tags,
@@ -240,6 +241,7 @@ EntitiesCompanion entityFromFirestore(String id, Map<String, dynamic> d) {
     id: drift.Value(id),
     kind: drift.Value(d['kind'] as String),
     name: drift.Value(d['name'] as String),
+    originType: drift.Value((d['originType'] as String?) ?? 'campaign'),
     originId: drift.Value(d['originId'] as String),
     summary: drift.Value(d['summary'] as String?),
     tags: drift.Value(_asStringList(d['tags'])),

@@ -34,7 +34,6 @@ class OutboxDao extends DatabaseAccessor<AppDb> with _$OutboxDaoMixin {
   }) async {
     await into(outboxEntries).insert(
       OutboxEntriesCompanion.insert(
-        id: _uuid.v4(),
         table: table,
         rowId: rowId,
         op: op,

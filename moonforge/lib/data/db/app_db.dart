@@ -53,7 +53,7 @@ class AppDb extends _$AppDb {
   AppDb([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5; // bumped from 4 for originType addition
 
   @override
   MigrationStrategy get migration {
@@ -65,21 +65,36 @@ class AppDb extends _$AppDb {
         if (from < 2) {
           // Add Players table
           await m.createTable(players);
-          // Add memberPlayerIds to Parties if it doesn't exist
           await m.addColumn(parties, parties.memberPlayerIds);
         }
         if (from < 3) {
-          // Add D&D Beyond integration fields to Players
           await m.addColumn(players, players.ddbCharacterId);
           await m.addColumn(players, players.lastDdbSync);
         }
         if (from < 4) {
-          // Ensure OutboxEntries exists for sync
           await m.createTable(outboxEntries);
+        }
+        if (from < 5) {
+          // Add originType to Entities, default to 'campaign' for existing rows
+          // Be defensive in case the column already exists (e.g. partially
+          // migrated dev databases).
+          final result = await customSelect(
+            "PRAGMA table_info(entities);",
+          ).get();
+          final hasOriginTypeColumn = result.any(
+            (row) => row.data['name'] == 'origin_type',
+          );
+
+          if (!hasOriginTypeColumn) {
+            await m.addColumn(entities, entities.originType);
+          }
+
+          await customStatement(
+            "UPDATE entities SET origin_type = 'campaign' WHERE origin_type IS NULL OR origin_type = ''",
+          );
         }
       },
       beforeOpen: (details) async {
-        // Enable foreign key constraints
         await customStatement('PRAGMA foreign_keys = ON');
       },
     );
@@ -99,4 +114,44 @@ class AppDb extends _$AppDb {
 // the same underlying QueryExecutor, which can cause race conditions.
 AppDb? _singletonDb;
 
-AppDb constructDb() => _singletonDb ??= AppDb();
+/// Returns the shared [AppDb] instance.
+///
+/// For typical app usage, this should be the only entry point to construct
+/// the database. If [clearExistingData] is true, all existing rows in all
+/// tables will be deleted on first creation of the singleton. This is
+/// intended for development/troubleshooting only.
+AppDb constructDb({bool clearExistingData = false}) {
+  if (_singletonDb == null) {
+    _singletonDb = AppDb();
+    if (clearExistingData) {
+      // Fire-and-forget; caller can await deleteEverything() explicitly
+      // if they need to block on completion.
+      _singletonDb!.deleteEverything();
+    }
+  }
+  return _singletonDb!;
+}
+
+extension AppDbDevTools on AppDb {
+  /// Deletes all rows from all tables in this database.
+  ///
+  /// This keeps the table schemas intact but removes all data. It temporarily
+  /// disables foreign key enforcement while truncating to avoid constraint
+  /// violations.
+  ///
+  /// This helper is meant for development and troubleshooting scenarios
+  /// (e.g., resetting a broken local database) and should not normally be
+  /// used in production flows.
+  Future<void> deleteEverything() async {
+    await customStatement('PRAGMA foreign_keys = OFF');
+    try {
+      await transaction(() async {
+        for (final table in allTables) {
+          await delete(table).go();
+        }
+      });
+    } finally {
+      await customStatement('PRAGMA foreign_keys = ON');
+    }
+  }
+}

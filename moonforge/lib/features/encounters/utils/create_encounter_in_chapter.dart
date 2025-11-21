@@ -5,6 +5,7 @@ import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Create a new encounter scoped to a chapter via ID prefix
 Future<void> createEncounterInChapter(
@@ -16,7 +17,7 @@ Future<void> createEncounterInChapter(
   final repository = Provider.of<EncounterRepository>(context, listen: false);
 
   final encounter = db.Encounter(
-    id: 'encounter-$chapterId-${DateTime.now().millisecondsSinceEpoch}',
+    id: const Uuid().v7(),
     name: 'New Encounter',
     originId: chapterId,
     preset: false,

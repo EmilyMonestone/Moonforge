@@ -25,7 +25,7 @@ class ChapterRepository {
     await _db.transaction(() async {
       await _db.chapterDao.upsert(
         ChaptersCompanion.insert(
-          id: chapter.id,
+          id: Value(chapter.id),
           campaignId: chapter.campaignId,
           name: chapter.name,
           order: chapter.order,

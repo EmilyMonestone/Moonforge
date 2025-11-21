@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:uuid/uuid.dart';
 
 /// Service for chapter operations, statistics, and progression
 class ChapterService {
@@ -83,8 +84,7 @@ class ChapterService {
 
   /// Duplicate a chapter with a new name
   Future<Chapter> duplicateChapter(Chapter source, String newName) async {
-    final newId =
-        'chapter-${source.campaignId}-${DateTime.now().millisecondsSinceEpoch}';
+    final newId = const Uuid().v7();
 
     final newChapter = Chapter(
       id: newId,
