@@ -38,7 +38,7 @@ Future<void> createEntityInScene(
 
   String name = '';
   String selectedKind = 'npc';
-  NpcData? npcData;
+  Map<String, dynamic>? npcStructuredData;
 
   if (creationMethod == CreationMethod.ai) {
     // AI-assisted creation
@@ -60,10 +60,10 @@ Future<void> createEntityInScene(
       creationType: 'npc',
     );
 
-    if (aiResult == null || aiResult.npcData == null) return;
+    if (aiResult == null || aiResult.structuredData == null) return;
 
-    npcData = aiResult.npcData!;
-    name = npcData.name;
+    npcStructuredData = aiResult.structuredData!;
+    name = npcStructuredData['name'] as String? ?? 'Unnamed NPC';
     selectedKind = 'npc'; // AI always creates NPCs
   } else {
     // Manual creation
@@ -131,8 +131,10 @@ Future<void> createEntityInScene(
 
     // Build summary from NPC data if available
     String summary = '';
-    if (npcData != null) {
-      summary = npcData.backstory ?? '';
+    Map<String, dynamic> statblock = {};
+    if (npcStructuredData != null) {
+      summary = npcStructuredData['backstory'] as String? ?? '';
+      statblock = npcStructuredData; // Store full NPC data in statblock
     }
 
     final entity = db.Entity(
@@ -143,7 +145,7 @@ Future<void> createEntityInScene(
       originId: sceneId,
       summary: summary,
       tags: const <String>[],
-      statblock: npcData?.toStatblock() ?? const <String, dynamic>{},
+      statblock: statblock,
       placeType: null,
       parentPlaceId: null,
       coords: const <String, dynamic>{},

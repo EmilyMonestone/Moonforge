@@ -1,6 +1,7 @@
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
+import 'package:quill_delta/quill_delta.dart';
 
 /// Converts markdown text to Quill delta format
 Map<String, dynamic> markdownToQuillDelta(String markdown) {
