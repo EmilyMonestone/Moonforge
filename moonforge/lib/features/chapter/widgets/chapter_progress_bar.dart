@@ -20,7 +20,9 @@ class ChapterProgressBar extends StatelessWidget {
     final sortedChapters = List<Chapter>.from(chapters)
       ..sort((a, b) => a.order.compareTo(b.order));
 
-    final currentIndex = sortedChapters.indexWhere((c) => c.id == currentChapterId);
+    final currentIndex = sortedChapters.indexWhere(
+      (c) => c.id == currentChapterId,
+    );
     final progress = currentIndex >= 0
         ? (currentIndex + 1) / sortedChapters.length
         : 0.0;
@@ -52,7 +54,7 @@ class ChapterProgressBar extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        
+
         // Chapter indicators
         SizedBox(
           height: 40,
@@ -77,8 +79,8 @@ class ChapterProgressBar extends StatelessWidget {
                     color: isCurrent
                         ? theme.colorScheme.primary
                         : isPast
-                            ? theme.colorScheme.primaryContainer
-                            : theme.colorScheme.surfaceContainer,
+                        ? theme.colorScheme.primaryContainer
+                        : theme.colorScheme.surfaceContainer,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: isCurrent
@@ -94,9 +96,11 @@ class ChapterProgressBar extends StatelessWidget {
                         color: isCurrent
                             ? theme.colorScheme.onPrimary
                             : isPast
-                                ? theme.colorScheme.onPrimaryContainer
-                                : theme.colorScheme.onSurfaceVariant,
-                        fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                            ? theme.colorScheme.onPrimaryContainer
+                            : theme.colorScheme.onSurfaceVariant,
+                        fontWeight: isCurrent
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                   ),

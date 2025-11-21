@@ -56,20 +56,20 @@ class PartyCompositionWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 16),
-                ...composition.entries.map((entry) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(entry.key),
-                      ),
-                      Chip(
-                        label: Text('${entry.value}'),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                    ],
+                ...composition.entries.map(
+                  (entry) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(entry.key)),
+                        Chip(
+                          label: Text('${entry.value}'),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                      ],
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
           ),

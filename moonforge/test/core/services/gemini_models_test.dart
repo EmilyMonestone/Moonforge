@@ -5,9 +5,7 @@ import 'package:moonforge/core/models/ai/story_context.dart';
 void main() {
   group('StoryContext', () {
     test('creates instance with required fields', () {
-      const context = StoryContext(
-        campaignName: 'Test Campaign',
-      );
+      const context = StoryContext(campaignName: 'Test Campaign');
 
       expect(context.campaignName, 'Test Campaign');
       expect(context.entities, isEmpty);
@@ -46,7 +44,7 @@ void main() {
             'kind': 'character',
             'summary': 'A friendly NPC',
             'tags': ['friendly', 'merchant'],
-          }
+          },
         ],
       };
 
@@ -122,9 +120,7 @@ void main() {
   group('NpcGenerationRequest', () {
     test('creates instance with required fields', () {
       const context = StoryContext(campaignName: 'Test');
-      const request = NpcGenerationRequest(
-        context: context,
-      );
+      const request = NpcGenerationRequest(context: context);
 
       expect(request.context.campaignName, 'Test');
       expect(request.traits, isEmpty);

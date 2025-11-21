@@ -36,7 +36,10 @@ class ResponsiveSectionsGrid extends StatelessWidget {
             : MediaQuery.of(context).size.width;
 
         // Determine how many columns can fit based on the minimum width.
-        int columns = (maxWidth / minColumnWidth).floor().clamp(1, sections.length);
+        int columns = (maxWidth / minColumnWidth).floor().clamp(
+          1,
+          sections.length,
+        );
         if (columns < 1) columns = 1;
 
         // Compute width each item should take. Account for spacing between items.

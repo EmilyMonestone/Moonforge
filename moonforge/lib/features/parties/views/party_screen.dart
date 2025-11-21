@@ -55,11 +55,11 @@ class PartyScreen extends StatelessWidget {
                     children: [
                       Text(
                         party.name,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      if (party.summary != null && party.summary!.isNotEmpty) ...[
+                      if (party.summary != null &&
+                          party.summary!.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text(party.summary!),
                       ],
@@ -107,8 +107,11 @@ class PartyScreen extends StatelessWidget {
                       FutureBuilder<List<Player>>(
                         future: partyService.getPartyMembers(partyId),
                         builder: (context, membersSnapshot) {
-                          if (membersSnapshot.connectionState == ConnectionState.waiting) {
-                            return const Center(child: CircularProgressIndicator());
+                          if (membersSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
                           }
 
                           final members = membersSnapshot.data ?? [];

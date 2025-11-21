@@ -17,7 +17,11 @@ import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-Future<void> createAdventure(BuildContext context, Campaign campaign) async {
+Future<void> createAdventure(
+  BuildContext context,
+  Campaign campaign, {
+  String? chapterId,
+}) async {
   final l10n = AppLocalizations.of(context)!;
   final chapterRepo = context.read<ChapterRepository>();
   final adventureRepo = context.read<AdventureRepository>();
@@ -38,7 +42,12 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
     }
     return;
   }
-  var selected = chapters.first;
+  var selected = chapterId != null
+      ? chapters.firstWhere(
+          (c) => c.id == chapterId,
+          orElse: () => chapters.first,
+        )
+      : chapters.first;
 
   // Compute next order in chapter
   Future<int> computeNextOrder(String chapterId) async {
@@ -90,21 +99,23 @@ Future<void> createAdventure(BuildContext context, Campaign campaign) async {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                DropdownButtonFormField<String>(
-                  initialValue: selected.id,
-                  decoration: InputDecoration(labelText: l10n.selectChapter),
-                  items: [
-                    for (final c in chapters)
-                      DropdownMenuItem(value: c.id, child: Text(c.name)),
-                  ],
-                  onChanged: (id) async {
-                    if (id == null) return;
-                    final found = chapters.firstWhere((c) => c.id == id);
-                    setState(() => selected = found);
-                    nextOrder = await computeNextOrder(selected.id);
-                  },
-                ),
-                const SizedBox(height: 12),
+                if (chapterId == null) ...[
+                  DropdownButtonFormField<String>(
+                    initialValue: selected.id,
+                    decoration: InputDecoration(labelText: l10n.selectChapter),
+                    items: [
+                      for (final c in chapters)
+                        DropdownMenuItem(value: c.id, child: Text(c.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final found = chapters.firstWhere((c) => c.id == id);
+                      setState(() => selected = found);
+                      nextOrder = await computeNextOrder(selected.id);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                ],
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(labelText: l10n.name),

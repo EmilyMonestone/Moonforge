@@ -8,10 +8,7 @@ import 'package:provider/provider.dart';
 
 /// Screen for viewing sessions in a calendar format
 class SessionCalendarScreen extends StatefulWidget {
-  const SessionCalendarScreen({
-    super.key,
-    required this.partyId,
-  });
+  const SessionCalendarScreen({super.key, required this.partyId});
 
   final String partyId;
 
@@ -58,9 +55,7 @@ class _SessionCalendarScreenState extends State<SessionCalendarScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           final sessions = snapshot.data ?? [];

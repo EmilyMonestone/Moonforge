@@ -9,52 +9,53 @@ import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Helper service to build story context for AI generation
 class StoryContextBuilder {
-  /// Detects the language of the text content
+  /// Detect language via simple heuristic; falls back to English when uncertain
   String? _detectLanguage(String? text) {
-    if (text == null || text.trim().isEmpty) {
+    final normalized = text?.trim();
+    if (normalized == null || normalized.isEmpty) {
       return null;
     }
-    
-    // Simple language detection based on character patterns
-    // This is a basic heuristic - for production, consider using a proper language detection library
-    
-    // Check for common German words/patterns
-    final germanPatterns = ['der', 'die', 'das', 'und', 'ist', 'ein', 'eine', 'zu', 'auf', 'mit'];
-    // Check for common French words/patterns
-    final frenchPatterns = ['le', 'la', 'les', 'et', 'est', 'un', 'une', 'de', 'pour', 'dans'];
-    // Check for common Spanish words/patterns
-    final spanishPatterns = ['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'de', 'en'];
-    // Check for common Italian words/patterns
-    final italianPatterns = ['il', 'la', 'i', 'le', 'e', 'è', 'un', 'una', 'di', 'in'];
-    
-    final lowerText = text.toLowerCase();
-    final words = lowerText.split(RegExp(r'\s+'));
-    
-    // Count matches for each language
-    int germanCount = 0;
-    int frenchCount = 0;
-    int spanishCount = 0;
-    int italianCount = 0;
-    
-    for (final word in words.take(100)) { // Check first 100 words
-      if (germanPatterns.contains(word)) germanCount++;
-      if (frenchPatterns.contains(word)) frenchCount++;
-      if (spanishPatterns.contains(word)) spanishCount++;
-      if (italianPatterns.contains(word)) italianCount++;
+
+    const languagePatterns = {
+      'German': {
+        'der',
+        'die',
+        'das',
+        'und',
+        'ist',
+        'ein',
+        'eine',
+        'zu',
+        'auf',
+        'mit',
+      },
+      'French': {
+        'le',
+        'la',
+        'les',
+        'et',
+        'est',
+        'un',
+        'une',
+        'de',
+        'pour',
+        'dans',
+      },
+      'Spanish': {'el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'de', 'en'},
+      'Italian': {'il', 'la', 'i', 'le', 'e', 'è', 'un', 'una', 'di', 'in'},
+    };
+
+    final words = normalized.toLowerCase().split(RegExp(r'\s+'));
+    final matches = <String, int>{};
+    for (final entry in languagePatterns.entries) {
+      matches[entry.key] = words.take(100).where(entry.value.contains).length;
     }
-    
-    // Return the language with most matches (if significant)
-    final maxCount = [germanCount, frenchCount, spanishCount, italianCount].reduce((a, b) => a > b ? a : b);
-    
-    if (maxCount >= 3) { // At least 3 matches to be confident
-      if (germanCount == maxCount) return 'German';
-      if (frenchCount == maxCount) return 'French';
-      if (spanishCount == maxCount) return 'Spanish';
-      if (italianCount == maxCount) return 'Italian';
-    }
-    
-    // Default to English if no clear pattern
-    return 'English';
+
+    final bestMatch = matches.entries.reduce(
+      (current, next) => next.value > current.value ? next : current,
+    );
+
+    return bestMatch.value >= 3 ? bestMatch.key : 'English';
   }
 
   final CampaignRepository _campaignRepo;
@@ -69,11 +70,11 @@ class StoryContextBuilder {
     required AdventureRepository adventureRepo,
     required SceneRepository sceneRepo,
     required EntityRepository entityRepo,
-  })  : _campaignRepo = campaignRepo,
-        _chapterRepo = chapterRepo,
-        _adventureRepo = adventureRepo,
-        _sceneRepo = sceneRepo,
-        _entityRepo = entityRepo;
+  }) : _campaignRepo = campaignRepo,
+       _chapterRepo = chapterRepo,
+       _adventureRepo = adventureRepo,
+       _sceneRepo = sceneRepo,
+       _entityRepo = entityRepo;
 
   /// Build context for a campaign
   Future<StoryContext> buildForCampaign(String campaignId) async {
@@ -84,7 +85,9 @@ class StoryContextBuilder {
 
     final entities = await _getEntitiesInfo(campaign.entityIds);
     final contentText = _extractQuillText(campaign.content);
-    final language = _detectLanguage(contentText ?? campaign.description ?? campaign.name);
+    final language = _detectLanguage(
+      contentText ?? campaign.description ?? campaign.name,
+    );
 
     return StoryContext(
       campaignName: campaign.name,
@@ -110,9 +113,11 @@ class StoryContextBuilder {
     final entities = await _getEntitiesInfo(
       [...campaign.entityIds, ...chapter.entityIds].toSet().toList(),
     );
-    
+
     final contentText = _extractQuillText(chapter.content);
-    final language = _detectLanguage(contentText ?? chapter.summary ?? campaign.description ?? campaign.name);
+    final language = _detectLanguage(
+      contentText ?? chapter.summary ?? campaign.description ?? campaign.name,
+    );
 
     return StoryContext(
       campaignName: campaign.name,
@@ -146,12 +151,18 @@ class StoryContextBuilder {
       [
         ...campaign.entityIds,
         ...chapter.entityIds,
-        ...adventure.entityIds
+        ...adventure.entityIds,
       ].toSet().toList(),
     );
 
     final contentText = _extractQuillText(adventure.content);
-    final language = _detectLanguage(contentText ?? adventure.summary ?? chapter.summary ?? campaign.description ?? campaign.name);
+    final language = _detectLanguage(
+      contentText ??
+          adventure.summary ??
+          chapter.summary ??
+          campaign.description ??
+          campaign.name,
+    );
 
     return StoryContext(
       campaignName: campaign.name,
@@ -194,17 +205,24 @@ class StoryContextBuilder {
         ...campaign.entityIds,
         ...chapter.entityIds,
         ...adventure.entityIds,
-        ...scene.entityIds
+        ...scene.entityIds,
       ].toSet().toList(),
     );
 
     // Get recent scenes for context
     final recentScenes = await _sceneRepo.getByAdventure(scene.adventureId);
     final recentContent = _buildRecentScenesContent(recentScenes, scene.id);
-    
+
     // Detect language from scene content or fallback to campaign content
     final sceneText = _extractQuillText(scene.content);
-    final language = _detectLanguage(sceneText ?? recentContent ?? scene.summary ?? adventure.summary ?? campaign.description ?? campaign.name);
+    final language = _detectLanguage(
+      sceneText ??
+          recentContent ??
+          scene.summary ??
+          adventure.summary ??
+          campaign.description ??
+          campaign.name,
+    );
 
     return StoryContext(
       campaignName: campaign.name,
@@ -229,13 +247,15 @@ class StoryContextBuilder {
     for (final id in entityIds) {
       final entity = await _entityRepo.getById(id);
       if (entity != null && !entity.deleted) {
-        entities.add(EntityInfo(
-          id: entity.id,
-          name: entity.name,
-          kind: entity.kind,
-          summary: entity.summary,
-          tags: entity.tags ?? [],
-        ));
+        entities.add(
+          EntityInfo(
+            id: entity.id,
+            name: entity.name,
+            kind: entity.kind,
+            summary: entity.summary,
+            tags: entity.tags ?? [],
+          ),
+        );
       }
     }
     return entities;
@@ -272,6 +292,10 @@ class StoryContextBuilder {
     final startIndex = (currentIndex - 3).clamp(0, scenes.length);
     final recentScenes = scenes.sublist(startIndex, currentIndex);
 
+    if (recentScenes.isEmpty) {
+      return '';
+    }
+
     final buffer = StringBuffer();
     for (final scene in recentScenes) {
       buffer.writeln('Scene: ${scene.name}');
@@ -280,9 +304,9 @@ class StoryContextBuilder {
       }
       final content = _extractQuillText(scene.content);
       if (content != null && content.isNotEmpty) {
-        // Limit content length
-        final truncated =
-            content.length > 500 ? '${content.substring(0, 500)}...' : content;
+        final truncated = content.length > 500
+            ? '${content.substring(0, 500)}...'
+            : content;
         buffer.writeln(truncated);
       }
       buffer.writeln();

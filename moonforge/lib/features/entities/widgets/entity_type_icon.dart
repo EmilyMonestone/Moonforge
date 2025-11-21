@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Widget that displays an icon representing an entity type/kind
 class EntityTypeIcon extends StatelessWidget {
-  const EntityTypeIcon({
-    super.key,
-    required this.kind,
-    this.size,
-    this.color,
-  });
+  const EntityTypeIcon({super.key, required this.kind, this.size, this.color});
 
   final String kind;
   final double? size;

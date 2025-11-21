@@ -56,7 +56,8 @@ class AuthErrorHandler {
 
       default:
         // Return the Firebase message if available, otherwise a generic error
-        return exception.message ?? 'An authentication error occurred. Please try again.';
+        return exception.message ??
+            'An authentication error occurred. Please try again.';
     }
   }
 

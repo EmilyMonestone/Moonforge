@@ -12,11 +12,11 @@ class ChapterOrdering {
   /// Get the next available order value for a new chapter
   static int getNextOrder(List<Chapter> existingChapters) {
     if (existingChapters.isEmpty) return 0;
-    
+
     final maxOrder = existingChapters
         .map((c) => c.order)
         .reduce((a, b) => a > b ? a : b);
-    
+
     return maxOrder + 1;
   }
 
@@ -24,18 +24,16 @@ class ChapterOrdering {
   static List<Chapter> normalizeOrder(List<Chapter> chapters) {
     final sorted = sortByOrder(chapters);
     final normalized = <Chapter>[];
-    
+
     for (int i = 0; i < sorted.length; i++) {
       final chapter = sorted[i];
       if (chapter.order != i) {
-        normalized.add(
-          chapter.copyWith(order: i),
-        );
+        normalized.add(chapter.copyWith(order: i));
       } else {
         normalized.add(chapter);
       }
     }
-    
+
     return normalized;
   }
 
@@ -47,14 +45,14 @@ class ChapterOrdering {
   ) {
     final sorted = sortByOrder(chapters);
     final chapterIndex = sorted.indexWhere((c) => c.id == chapterId);
-    
+
     if (chapterIndex == -1) {
       throw Exception('Chapter not found: $chapterId');
     }
 
     final chapter = sorted.removeAt(chapterIndex);
     sorted.insert(newOrder, chapter);
-    
+
     return normalizeOrder(sorted);
   }
 

@@ -125,7 +125,9 @@ class AuthService {
       await user.sendEmailVerification();
       logger.i('Email verification sent to: ${user.email}');
     } on FirebaseAuthException catch (e) {
-      logger.e('Email verification failed: ${AuthErrorHandler.getErrorCode(e)}');
+      logger.e(
+        'Email verification failed: ${AuthErrorHandler.getErrorCode(e)}',
+      );
       rethrow;
     }
   }
@@ -169,7 +171,9 @@ class AuthService {
       await user.reload();
       logger.i('Display name updated successfully');
     } on FirebaseAuthException catch (e) {
-      logger.e('Display name update failed: ${AuthErrorHandler.getErrorCode(e)}');
+      logger.e(
+        'Display name update failed: ${AuthErrorHandler.getErrorCode(e)}',
+      );
       rethrow;
     }
   }

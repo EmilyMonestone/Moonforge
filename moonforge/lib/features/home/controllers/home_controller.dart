@@ -6,7 +6,7 @@ import 'package:moonforge/core/utils/logger.dart';
 class HomeController with ChangeNotifier {
   static const String _refreshKey = 'home_refresh_timestamp';
   static const String _widgetVisibilityKey = 'home_widget_visibility';
-  
+
   final PersistenceService _persistence = PersistenceService();
 
   bool _isRefreshing = false;
@@ -29,7 +29,9 @@ class HomeController with ChangeNotifier {
   /// Load persisted preferences
   void _loadPreferences() {
     try {
-      final visibility = _persistence.read<Map<String, dynamic>>(_widgetVisibilityKey);
+      final visibility = _persistence.read<Map<String, dynamic>>(
+        _widgetVisibilityKey,
+      );
       if (visibility != null) {
         _widgetVisibility = visibility.map(
           (key, value) => MapEntry(key, value as bool),

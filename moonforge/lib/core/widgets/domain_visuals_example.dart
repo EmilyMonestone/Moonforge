@@ -13,9 +13,7 @@ class DomainVisualsExample extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Domain Visuals Examples'),
-      ),
+      appBar: AppBar(title: const Text('Domain Visuals Examples')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -82,10 +80,7 @@ class DomainVisualsExample extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            Text(
-              'All Entity Types',
-              style: theme.textTheme.headlineSmall,
-            ),
+            Text('All Entity Types', style: theme.textTheme.headlineSmall),
             const SizedBox(height: 16),
             _buildDomainTypeGrid([
               DomainType.entityNpc,
@@ -113,10 +108,7 @@ class DomainVisualsExample extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Example 5: Usage in common UI patterns
-            Text(
-              'Common UI Patterns',
-              style: theme.textTheme.headlineSmall,
-            ),
+            Text('Common UI Patterns', style: theme.textTheme.headlineSmall),
             const SizedBox(height: 16),
             _buildListTileExample(context),
             const SizedBox(height: 8),
@@ -131,10 +123,7 @@ class DomainVisualsExample extends StatelessWidget {
 
   Widget _buildExampleCard(BuildContext context, String title, Widget icon) {
     return Card(
-      child: ListTile(
-        leading: icon,
-        title: Text(title),
-      ),
+      child: ListTile(leading: icon, title: Text(title)),
     );
   }
 
@@ -215,10 +204,7 @@ class DomainVisualsExample extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(
-                  DomainType.chapter.icon,
-                  color: theme.colorScheme.primary,
-                ),
+                Icon(DomainType.chapter.icon, color: theme.colorScheme.primary),
                 const SizedBox(width: 8),
                 Text(
                   'Chapter 1: The Beginning',

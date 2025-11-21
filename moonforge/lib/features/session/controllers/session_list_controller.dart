@@ -110,9 +110,4 @@ enum SessionListSort {
 }
 
 /// Filter options for session list
-enum SessionListFilter {
-  all,
-  upcoming,
-  past,
-  shared,
-}
+enum SessionListFilter { all, upcoming, past, shared }

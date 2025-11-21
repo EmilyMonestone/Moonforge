@@ -34,7 +34,7 @@ class CharacterCalculations {
     bool hasExpertise = false,
   }) {
     final abilityMod = calculateAbilityModifier(abilityScore);
-    
+
     if (hasExpertise) {
       return abilityMod + (proficiencyBonus * 2);
     } else if (isProficient) {

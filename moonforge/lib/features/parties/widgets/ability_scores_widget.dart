@@ -54,30 +54,22 @@ class AbilityScoresWidget extends StatelessWidget {
       width: 80,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            ability,
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
+          Text(ability, style: Theme.of(context).textTheme.labelSmall),
           const SizedBox(height: 4),
           Text(
             modifierText,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
-          Text(
-            score.toString(),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          Text(score.toString(), style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

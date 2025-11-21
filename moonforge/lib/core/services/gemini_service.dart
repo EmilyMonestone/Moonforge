@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:moonforge/core/models/ai/generation_request.dart';
 import 'package:moonforge/core/models/ai/generation_response.dart';
-import 'package:moonforge/core/models/ai/story_context.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// Service for integrating with Google's Gemini AI
@@ -13,9 +12,7 @@ class GeminiService {
   GeminiService(this._gemini);
 
   /// Continue/complete existing story content
-  Future<GenerationResponse> continueStory(
-    CompletionRequest request,
-  ) async {
+  Future<GenerationResponse> continueStory(CompletionRequest request) async {
     try {
       final prompt = _buildCompletionPrompt(request);
       logger.d('Sending completion request to Gemini');
@@ -132,7 +129,7 @@ class GeminiService {
     buffer.writeln('You are a creative dungeon master and storyteller.');
     buffer.writeln();
     buffer.writeln('Campaign: ${context.campaignName}');
-    
+
     if (context.campaignDescription != null) {
       buffer.writeln('Campaign Description: ${context.campaignDescription}');
     }
@@ -195,12 +192,16 @@ class GeminiService {
       buffer.writeln();
     }
 
-    buffer.writeln('Continue the story from where it left off. Maintain consistency with the established characters, setting, and tone. Write in an engaging, descriptive style suitable for a tabletop RPG campaign.');
-    
+    buffer.writeln(
+      'Continue the story from where it left off. Maintain consistency with the established characters, setting, and tone. Write in an engaging, descriptive style suitable for a tabletop RPG campaign.',
+    );
+
     // Add language instruction
     if (context.language != null && context.language != 'English') {
       buffer.writeln();
-      buffer.writeln('IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.');
+      buffer.writeln(
+        'IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.',
+      );
     }
 
     return buffer.toString();
@@ -214,7 +215,7 @@ class GeminiService {
     buffer.writeln('You are a creative dungeon master and storyteller.');
     buffer.writeln();
     buffer.writeln('Campaign: ${context.campaignName}');
-    
+
     if (context.campaignDescription != null) {
       buffer.writeln('Campaign Description: ${context.campaignDescription}');
     }
@@ -255,7 +256,9 @@ class GeminiService {
     }
 
     buffer.writeln();
-    buffer.writeln('Generate a new ${request.sectionType} titled: ${request.title}');
+    buffer.writeln(
+      'Generate a new ${request.sectionType} titled: ${request.title}',
+    );
 
     if (request.outline != null) {
       buffer.writeln();
@@ -272,14 +275,20 @@ class GeminiService {
     }
 
     buffer.writeln();
-    buffer.writeln('Write a complete ${request.sectionType} that fits naturally into the campaign. Maintain consistency with established lore, characters, and tone. Include vivid descriptions, engaging dialogue, and clear plot progression. Write in a style suitable for a tabletop RPG campaign.');
+    buffer.writeln(
+      'Write a complete ${request.sectionType} that fits naturally into the campaign. Maintain consistency with established lore, characters, and tone. Include vivid descriptions, engaging dialogue, and clear plot progression. Write in a style suitable for a tabletop RPG campaign.',
+    );
     buffer.writeln();
-    buffer.writeln('Format your response in Markdown. Use headers (##, ###), bold, italic, lists, blockquotes, and other Markdown formatting as appropriate for better readability.');
-    
+    buffer.writeln(
+      'Format your response in Markdown. Use headers (##, ###), bold, italic, lists, blockquotes, and other Markdown formatting as appropriate for better readability.',
+    );
+
     // Add language instruction
     if (context.language != null && context.language != 'English') {
       buffer.writeln();
-      buffer.writeln('IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.');
+      buffer.writeln(
+        'IMPORTANT: Write your response in ${context.language}. The campaign is written in ${context.language}, so maintain the same language throughout.',
+      );
     }
 
     return buffer.toString();
@@ -290,10 +299,12 @@ class GeminiService {
     final context = request.context;
     final buffer = StringBuffer();
 
-    buffer.writeln('You are a creative dungeon master creating NPCs for a D&D campaign.');
+    buffer.writeln(
+      'You are a creative dungeon master creating NPCs for a D&D campaign.',
+    );
     buffer.writeln();
     buffer.writeln('Campaign: ${context.campaignName}');
-    
+
     if (context.campaignDescription != null) {
       buffer.writeln('Campaign Description: ${context.campaignDescription}');
     }
@@ -339,7 +350,9 @@ class GeminiService {
     }
 
     buffer.writeln();
-    buffer.writeln('IMPORTANT: Return ONLY a valid JSON object with no additional text, markdown, or code blocks.');
+    buffer.writeln(
+      'IMPORTANT: Return ONLY a valid JSON object with no additional text, markdown, or code blocks.',
+    );
     buffer.writeln('Use this exact structure:');
     buffer.writeln('{');
     buffer.writeln('  "name": "Character name",');
@@ -351,12 +364,16 @@ class GeminiService {
     buffer.writeln('  "secrets": "Hidden information or plot hooks"');
     buffer.writeln('}');
     buffer.writeln();
-    buffer.writeln('Make the NPC memorable, fit naturally into the campaign setting, and provide interesting roleplay opportunities.');
-    
+    buffer.writeln(
+      'Make the NPC memorable, fit naturally into the campaign setting, and provide interesting roleplay opportunities.',
+    );
+
     // Add language instruction
     if (context.language != null && context.language != 'English') {
       buffer.writeln();
-      buffer.writeln('IMPORTANT: Write all text fields in ${context.language}. The campaign is written in ${context.language}, so the NPC information must be in the same language.');
+      buffer.writeln(
+        'IMPORTANT: Write all text fields in ${context.language}. The campaign is written in ${context.language}, so the NPC information must be in the same language.',
+      );
     }
 
     return buffer.toString();
@@ -379,72 +396,82 @@ class GeminiService {
 
       // Parse JSON
       final decoded = jsonDecode(jsonStr);
-      
+
       // Ensure it's a Map
       if (decoded is Map<String, dynamic>) {
         return decoded;
       } else if (decoded is Map) {
         return Map<String, dynamic>.from(decoded);
       } else {
-        throw FormatException('Expected JSON object, got ${decoded.runtimeType}');
+        throw FormatException(
+          'Expected JSON object, got ${decoded.runtimeType}',
+        );
       }
     } catch (e) {
       logger.e('Failed to parse NPC JSON response: $e');
       logger.d('Content was: $content');
-      
+
       // Fallback to regex parsing
       final result = <String, dynamic>{};
 
-      final nameMatch = RegExp(r'NAME:\s*(.+?)(?=\n|$)', caseSensitive: false)
-          .firstMatch(content);
+      final nameMatch = RegExp(
+        r'NAME:\s*(.+?)(?=\n|$)',
+        caseSensitive: false,
+      ).firstMatch(content);
       if (nameMatch != null) {
         result['name'] = nameMatch.group(1)?.trim();
       }
 
-      final appearanceMatch =
-          RegExp(r'APPEARANCE:\s*(.+?)(?=\n(?:NAME|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final appearanceMatch = RegExp(
+        r'APPEARANCE:\s*(.+?)(?=\n(?:NAME|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (appearanceMatch != null) {
         result['appearance'] = appearanceMatch.group(1)?.trim();
       }
 
-      final personalityMatch =
-          RegExp(r'PERSONALITY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final personalityMatch = RegExp(
+        r'PERSONALITY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|BACKSTORY|ROLE|MOTIVATIONS|SECRETS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (personalityMatch != null) {
         result['personality'] = personalityMatch.group(1)?.trim();
       }
 
-      final backstoryMatch =
-          RegExp(r'BACKSTORY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|ROLE|MOTIVATIONS|SECRETS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final backstoryMatch = RegExp(
+        r'BACKSTORY:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|ROLE|MOTIVATIONS|SECRETS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (backstoryMatch != null) {
         result['backstory'] = backstoryMatch.group(1)?.trim();
       }
 
-      final roleMatch =
-          RegExp(r'ROLE:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|MOTIVATIONS|SECRETS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final roleMatch = RegExp(
+        r'ROLE:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|MOTIVATIONS|SECRETS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (roleMatch != null) {
         result['role'] = roleMatch.group(1)?.trim();
       }
 
-      final motivationsMatch =
-          RegExp(r'MOTIVATIONS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|SECRETS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final motivationsMatch = RegExp(
+        r'MOTIVATIONS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|SECRETS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (motivationsMatch != null) {
         result['motivations'] = motivationsMatch.group(1)?.trim();
       }
 
-      final secretsMatch =
-          RegExp(r'SECRETS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS):|$)', 
-              caseSensitive: false, dotAll: true)
-              .firstMatch(content);
+      final secretsMatch = RegExp(
+        r'SECRETS:\s*(.+?)(?=\n(?:NAME|APPEARANCE|PERSONALITY|BACKSTORY|ROLE|MOTIVATIONS):|$)',
+        caseSensitive: false,
+        dotAll: true,
+      ).firstMatch(content);
       if (secretsMatch != null) {
         result['secrets'] = secretsMatch.group(1)?.trim();
       }

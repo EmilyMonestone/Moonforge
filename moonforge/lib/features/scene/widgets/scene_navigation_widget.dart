@@ -70,7 +70,9 @@ class SceneNavigationWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   // Progress bar
                   LinearProgressIndicator(
-                    value: totalScenes > 0 ? (currentIndex + 1) / totalScenes : 0,
+                    value: totalScenes > 0
+                        ? (currentIndex + 1) / totalScenes
+                        : 0,
                     backgroundColor: theme.colorScheme.surfaceContainerHighest,
                   ),
                 ],

@@ -1,12 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:uuid/uuid.dart';
 
 import '../app_db.dart';
 import '../tables.dart';
 
 part 'outbox_dao.g.dart';
-
-const _uuid = Uuid();
 
 @DriftAccessor(tables: [OutboxEntries])
 class OutboxDao extends DatabaseAccessor<AppDb> with _$OutboxDaoMixin {

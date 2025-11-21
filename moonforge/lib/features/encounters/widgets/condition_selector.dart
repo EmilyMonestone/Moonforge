@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 class ConditionSelector extends StatefulWidget {
   final List<String> currentConditions;
 
-  const ConditionSelector({
-    super.key,
-    this.currentConditions = const [],
-  });
+  const ConditionSelector({super.key, this.currentConditions = const []});
 
   @override
   State<ConditionSelector> createState() => _ConditionSelectorState();
@@ -94,8 +91,7 @@ Future<List<String>?> showConditionSelector(
 }) {
   return showDialog<List<String>>(
     context: context,
-    builder: (context) => ConditionSelector(
-      currentConditions: currentConditions,
-    ),
+    builder: (context) =>
+        ConditionSelector(currentConditions: currentConditions),
   );
 }

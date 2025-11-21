@@ -18,11 +18,11 @@ class SessionTimerService extends ChangeNotifier {
   /// Start the session timer
   void start() {
     if (_isRunning) return;
-    
+
     _isRunning = true;
     _isPaused = false;
     _startTime = DateTime.now();
-    
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!_isPaused) {
         _elapsed = DateTime.now().difference(_startTime!) - _pausedDuration;
@@ -34,7 +34,7 @@ class SessionTimerService extends ChangeNotifier {
   /// Pause the session timer
   void pause() {
     if (!_isRunning || _isPaused) return;
-    
+
     _isPaused = true;
     // Calculate current elapsed time before pausing
     _elapsed = DateTime.now().difference(_startTime!) - _pausedDuration;
@@ -44,7 +44,7 @@ class SessionTimerService extends ChangeNotifier {
   /// Resume the session timer
   void resume() {
     if (!_isRunning || !_isPaused) return;
-    
+
     _isPaused = false;
     // Store the paused duration and reset start time
     _pausedDuration = _elapsed;
@@ -55,19 +55,19 @@ class SessionTimerService extends ChangeNotifier {
   /// Stop the session timer and return total duration
   Duration stop() {
     if (!_isRunning) return _elapsed;
-    
+
     _timer?.cancel();
     _timer = null;
     _isRunning = false;
     _isPaused = false;
-    
+
     final totalDuration = _elapsed;
-    
+
     // Reset state
     _elapsed = Duration.zero;
     _startTime = null;
     _pausedDuration = Duration.zero;
-    
+
     notifyListeners();
     return totalDuration;
   }

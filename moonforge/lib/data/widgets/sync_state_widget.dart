@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 enum SyncState {
   /// All data is synchronized
   synced,
-  
+
   /// Currently synchronizing data
   syncing,
-  
+
   /// There are pending changes to sync
   pendingSync,
-  
+
   /// Sync error occurred
   error,
-  
+
   /// Offline mode (no connection)
   offline,
 }
@@ -45,11 +45,7 @@ class SyncStateWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            _getIcon(),
-            color: _getColor(colorScheme),
-            size: 20,
-          ),
+          child: Icon(_getIcon(), color: _getColor(colorScheme), size: 20),
         ),
       ),
     );
@@ -93,7 +89,7 @@ class SyncStateWidget extends StatelessWidget {
         return 'Syncing changes...';
       case SyncState.pendingSync:
         final count = pendingCount ?? 0;
-        return count > 0 
+        return count > 0
             ? 'Pending: $count ${count == 1 ? 'change' : 'changes'}'
             : 'Pending sync';
       case SyncState.error:
@@ -120,7 +116,8 @@ class AnimatedSyncStateWidget extends StatefulWidget {
   });
 
   @override
-  State<AnimatedSyncStateWidget> createState() => _AnimatedSyncStateWidgetState();
+  State<AnimatedSyncStateWidget> createState() =>
+      _AnimatedSyncStateWidgetState();
 }
 
 class _AnimatedSyncStateWidgetState extends State<AnimatedSyncStateWidget>
@@ -181,11 +178,7 @@ class _AnimatedSyncStateWidgetState extends State<AnimatedSyncStateWidget>
                     size: 20,
                   ),
                 )
-              : Icon(
-                  _getIcon(),
-                  color: _getColor(colorScheme),
-                  size: 20,
-                ),
+              : Icon(_getIcon(), color: _getColor(colorScheme), size: 20),
         ),
       ),
     );
@@ -229,7 +222,7 @@ class _AnimatedSyncStateWidgetState extends State<AnimatedSyncStateWidget>
         return 'Syncing changes...';
       case SyncState.pendingSync:
         final count = widget.pendingCount ?? 0;
-        return count > 0 
+        return count > 0
             ? 'Pending: $count ${count == 1 ? 'change' : 'changes'}'
             : 'Pending sync';
       case SyncState.error:

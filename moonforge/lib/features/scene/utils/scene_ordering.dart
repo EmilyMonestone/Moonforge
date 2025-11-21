@@ -15,9 +15,9 @@ class SceneOrdering {
   static int getNextOrder(List<Scene> scenes) {
     if (scenes.isEmpty) return 1;
 
-    final maxOrder = scenes.map((s) => s.order).reduce(
-      (max, order) => order > max ? order : max,
-    );
+    final maxOrder = scenes
+        .map((s) => s.order)
+        .reduce((max, order) => order > max ? order : max);
     return maxOrder + 1;
   }
 
@@ -100,7 +100,11 @@ class SceneOrdering {
   }
 
   /// Insert a scene at a specific position
-  static List<Scene> insertAt(List<Scene> scenes, Scene newScene, int position) {
+  static List<Scene> insertAt(
+    List<Scene> scenes,
+    Scene newScene,
+    int position,
+  ) {
     final sorted = sortByOrder(scenes);
     final updated = <Scene>[];
 
@@ -119,14 +123,14 @@ class SceneOrdering {
   /// Remove a scene and adjust orders
   static List<Scene> removeScene(List<Scene> scenes, String sceneId) {
     final sorted = sortByOrder(scenes);
-    
+
     // Find the scene to remove
     final sceneIndex = sorted.indexWhere((s) => s.id == sceneId);
     if (sceneIndex == -1) {
       // Scene not found, return original list
       return scenes;
     }
-    
+
     final scene = sorted[sceneIndex];
     final removedOrder = scene.order;
 
@@ -153,12 +157,12 @@ class SceneOrdering {
   ) {
     final scene1Index = scenes.indexWhere((s) => s.id == sceneId1);
     final scene2Index = scenes.indexWhere((s) => s.id == sceneId2);
-    
+
     if (scene1Index == -1 || scene2Index == -1) {
       // One or both scenes not found, return original list
       return scenes;
     }
-    
+
     final scene1 = scenes[scene1Index];
     final scene2 = scenes[scene2Index];
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -18,7 +17,12 @@ import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-Future<void> createScene(BuildContext context, Campaign campaign) async {
+Future<void> createScene(
+  BuildContext context,
+  Campaign campaign, {
+  String? chapterId,
+  String? adventureId,
+}) async {
   final l10n = AppLocalizations.of(context)!;
   final chapterRepo = context.read<ChapterRepository>();
   final adventureRepo = context.read<AdventureRepository>();
@@ -40,7 +44,12 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     }
     return;
   }
-  var selectedChapter = chapters.first;
+  var selectedChapter = chapterId != null
+      ? chapters.firstWhere(
+          (c) => c.id == chapterId,
+          orElse: () => chapters.first,
+        )
+      : chapters.first;
 
   // Load adventures for selected chapter
   Future<List<Adventure>> loadAdventures(String chapterId) async =>
@@ -53,7 +62,12 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     }
     return;
   }
-  var selectedAdventure = adventures.first;
+  var selectedAdventure = adventureId != null
+      ? adventures.firstWhere(
+          (a) => a.id == adventureId,
+          orElse: () => adventures.first,
+        )
+      : adventures.first;
 
   // Compute next order in adventure
   Future<int> computeNextOrder(String adventureId) async {
@@ -84,6 +98,7 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
 
     if (!context.mounted) return;
 
+    // ignore: use_build_context_synchronously
     final aiResult = await showAiCreationDialog(
       context,
       storyContext: storyContext,
@@ -98,6 +113,7 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
     // Manual creation - show existing dialog
     final titleController = TextEditingController();
 
+    // ignore: use_build_context_synchronously
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) {
@@ -107,41 +123,48 @@ Future<void> createScene(BuildContext context, Campaign campaign) async {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                DropdownButtonFormField<String>(
-                  initialValue: selectedChapter.id,
-                  decoration: InputDecoration(labelText: l10n.selectChapter),
-                  items: [
-                    for (final c in chapters)
-                      DropdownMenuItem(value: c.id, child: Text(c.name)),
-                  ],
-                  onChanged: (id) async {
-                    if (id == null) return;
-                    final ch = chapters.firstWhere((c) => c.id == id);
-                    setState(() => selectedChapter = ch);
-                    adventures = await loadAdventures(ch.id);
-                    if (adventures.isNotEmpty) {
-                      setState(() => selectedAdventure = adventures.first);
-                      nextOrder = await computeNextOrder(selectedAdventure.id);
-                    } else {
-                      setState(() => adventures = <Adventure>[]);
-                    }
-                  },
-                ),
+                if (chapterId == null)
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedChapter.id,
+                    decoration: InputDecoration(labelText: l10n.selectChapter),
+                    items: [
+                      for (final c in chapters)
+                        DropdownMenuItem(value: c.id, child: Text(c.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final ch = chapters.firstWhere((c) => c.id == id);
+                      setState(() => selectedChapter = ch);
+                      // ignore: use_build_context_synchronously
+                      adventures = await loadAdventures(ch.id);
+                      if (adventures.isNotEmpty) {
+                        setState(() => selectedAdventure = adventures.first);
+                        nextOrder = await computeNextOrder(
+                          selectedAdventure.id,
+                        );
+                      } else {
+                        setState(() => adventures = <Adventure>[]);
+                      }
+                    },
+                  ),
                 const SizedBox(height: 12),
-                DropdownButtonFormField<String>(
-                  initialValue: selectedAdventure.id,
-                  decoration: InputDecoration(labelText: l10n.selectAdventure),
-                  items: [
-                    for (final a in adventures)
-                      DropdownMenuItem(value: a.id, child: Text(a.name)),
-                  ],
-                  onChanged: (id) async {
-                    if (id == null) return;
-                    final adv = adventures.firstWhere((a) => a.id == id);
-                    setState(() => selectedAdventure = adv);
-                    nextOrder = await computeNextOrder(selectedAdventure.id);
-                  },
-                ),
+                if (adventureId == null)
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedAdventure.id,
+                    decoration: InputDecoration(
+                      labelText: l10n.selectAdventure,
+                    ),
+                    items: [
+                      for (final a in adventures)
+                        DropdownMenuItem(value: a.id, child: Text(a.name)),
+                    ],
+                    onChanged: (id) async {
+                      if (id == null) return;
+                      final adv = adventures.firstWhere((a) => a.id == id);
+                      setState(() => selectedAdventure = adv);
+                      nextOrder = await computeNextOrder(selectedAdventure.id);
+                    },
+                  ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: titleController,

@@ -77,8 +77,8 @@ class _SceneListState extends State<SceneList> {
                 Text(
                   widget.emptyMessage,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

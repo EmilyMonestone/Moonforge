@@ -35,11 +35,7 @@ class PlayerProvider with ChangeNotifier {
   }
 
   /// Update HP (current, max, or temp)
-  Future<void> updateHp({
-    int? current,
-    int? max,
-    int? temp,
-  }) async {
+  Future<void> updateHp({int? current, int? max, int? temp}) async {
     if (_currentPlayer == null) return;
 
     final updatedPlayer = Player(
@@ -117,7 +113,7 @@ class PlayerProvider with ChangeNotifier {
     final currentHp = _currentPlayer!.hpCurrent ?? 0;
     final maxHp = _currentPlayer!.hpMax ?? 0;
     final newHp = (currentHp + amount).clamp(0, maxHp);
-    
+
     await updateHp(current: newHp);
   }
 
@@ -182,7 +178,7 @@ class PlayerProvider with ChangeNotifier {
     if (_currentPlayer == null) return;
 
     final newLevel = _currentPlayer!.level + 1;
-    
+
     final updatedPlayer = Player(
       id: _currentPlayer!.id,
       campaignId: _currentPlayer!.campaignId,

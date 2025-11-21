@@ -22,10 +22,7 @@ class SkillListWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Skills',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Skills', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             ListView.builder(
               shrinkWrap: true,
@@ -59,9 +56,9 @@ class SkillListWidget extends StatelessWidget {
       subtitle: Text(ability),
       trailing: Text(
         modifierText,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }

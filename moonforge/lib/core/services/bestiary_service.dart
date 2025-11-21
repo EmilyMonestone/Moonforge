@@ -50,7 +50,7 @@ class BestiaryService {
     }
     final stored = _persistence.read<String>(_dataKey, boxName: _boxName);
     if (stored == null) return [];
-    
+
     try {
       final decoded = jsonDecode(stored);
       if (decoded is Map && decoded.containsKey('monster')) {
@@ -68,9 +68,10 @@ class BestiaryService {
     final all = await getAll(ensureFresh: false);
     try {
       return all.firstWhere(
-        (monster) => (monster as Map<String, dynamic>)['name'] == name,
-        orElse: () => null,
-      ) as Map<String, dynamic>?;
+            (monster) => (monster as Map<String, dynamic>)['name'] == name,
+            orElse: () => null,
+          )
+          as Map<String, dynamic>?;
     } catch (e) {
       return null;
     }
@@ -81,18 +82,23 @@ class BestiaryService {
 
   /// Check if data needs syncing and trigger background sync if needed
   Future<void> _maybeBackgroundSync() async {
-    final lastSyncMillis =
-        _persistence.read<int>(_lastSyncKey, boxName: _boxName);
+    final lastSyncMillis = _persistence.read<int>(
+      _lastSyncKey,
+      boxName: _boxName,
+    );
     if (lastSyncMillis == null ||
-        DateTime.now()
-                .difference(DateTime.fromMillisecondsSinceEpoch(lastSyncMillis)) >
+        DateTime.now().difference(
+              DateTime.fromMillisecondsSinceEpoch(lastSyncMillis),
+            ) >
             staleThreshold) {
       // Fire and forget - don't await
-      _fetchAndStore().then((_) {
-        logger.d('Background bestiary sync completed');
-      }).catchError((e) {
-        logger.w('Background bestiary sync failed: $e');
-      });
+      _fetchAndStore()
+          .then((_) {
+            logger.d('Background bestiary sync completed');
+          })
+          .catchError((e) {
+            logger.w('Background bestiary sync failed: $e');
+          });
     }
   }
 
@@ -143,8 +149,10 @@ class BestiaryService {
 
   /// Get the last sync timestamp
   DateTime? getLastSyncTime() {
-    final lastSyncMillis =
-        _persistence.read<int>(_lastSyncKey, boxName: _boxName);
+    final lastSyncMillis = _persistence.read<int>(
+      _lastSyncKey,
+      boxName: _boxName,
+    );
     if (lastSyncMillis == null) return null;
     return DateTime.fromMillisecondsSinceEpoch(lastSyncMillis);
   }

@@ -35,10 +35,8 @@ class DnDBeyondImportService {
   final PlayerRepository _playerRepository;
   final http.Client? _httpClient;
 
-  DnDBeyondImportService(
-    this._playerRepository, {
-    http.Client? httpClient,
-  })  : _httpClient = httpClient;
+  DnDBeyondImportService(this._playerRepository, {http.Client? httpClient})
+    : _httpClient = httpClient;
 
   /// Extract character ID from a D&D Beyond URL or ID string
   /// Supports formats:
@@ -110,8 +108,8 @@ class DnDBeyondImportService {
   int getAbilityScoreById(Map<String, dynamic> characterData, int statId) {
     try {
       // Try to find stats in the response
-      final data = characterData['data'] as Map<String, dynamic>? ??
-          characterData;
+      final data =
+          characterData['data'] as Map<String, dynamic>? ?? characterData;
       final stats = data['stats'] as List<dynamic>?;
       if (stats == null) return 10; // Default ability score
 
@@ -125,7 +123,7 @@ class DnDBeyondImportService {
           statMap[id] = value;
         }
       }
-      
+
       return statMap[statId] ?? 10;
     } catch (e) {
       logger.w('Error extracting ability score for stat ID $statId: $e');
@@ -139,21 +137,25 @@ class DnDBeyondImportService {
     String campaignId,
     String ddbCharacterId,
   ) {
-    final data = characterData['data'] as Map<String, dynamic>? ??
+    final data =
+        characterData['data'] as Map<String, dynamic>? ??
         characterData; // Handle both wrapped and unwrapped formats
 
     // Extract basic info
     final name = data['name'] as String? ?? 'Unknown Character';
     final level =
         data['classes']?[0]?['level'] as int? ?? 1; // First class level
-    final race = data['race']?['fullName'] as String? ??
+    final race =
+        data['race']?['fullName'] as String? ??
         data['race']?['baseRaceName'] as String?;
-    final className = data['classes']?[0]?['definition']?['name'] as String? ??
+    final className =
+        data['classes']?[0]?['definition']?['name'] as String? ??
         data['classes']?[0]?['name'] as String?;
-    final subclass = data['classes']?[0]?['subclassDefinition']?['name']
-            as String? ??
+    final subclass =
+        data['classes']?[0]?['subclassDefinition']?['name'] as String? ??
         data['classes']?[0]?['subclass']?['name'] as String?;
-    final background = data['background']?['definition']?['name'] as String? ??
+    final background =
+        data['background']?['definition']?['name'] as String? ??
         data['background']?['name'] as String?;
 
     // Extract ability scores using the mapping
@@ -168,7 +170,8 @@ class DnDBeyondImportService {
     final hpMax = data['baseHitPoints'] as int? ?? 0;
     final hpCurrent = data['currentHitPoints'] as int? ?? hpMax;
     final ac = data['armorClass'] as int?;
-    final speed = data['speed'] as int? ??
+    final speed =
+        data['speed'] as int? ??
         (data['race']?['weightSpeeds']?['normal']?['walk'] as int?);
 
     // Proficiency bonus calculation (standard D&D 5e formula)
@@ -210,7 +213,9 @@ class DnDBeyondImportService {
       ac: ac,
       proficiencyBonus: proficiencyBonus,
       speed: speed,
-      savingThrowProficiencies: savingThrowProfs.isEmpty ? null : savingThrowProfs,
+      savingThrowProficiencies: savingThrowProfs.isEmpty
+          ? null
+          : savingThrowProfs,
       skillProficiencies: skillProfs.isEmpty ? null : skillProfs,
       languages: languages.isEmpty ? null : languages,
       equipment: null,
@@ -269,8 +274,9 @@ class DnDBeyondImportService {
       }
 
       // Check if character already exists
-      final existingPlayer =
-          await _playerRepository.getByDdbCharacterId(characterId);
+      final existingPlayer = await _playerRepository.getByDdbCharacterId(
+        characterId,
+      );
       if (existingPlayer != null) {
         return DnDBeyondImportResult.error(
           'Character already imported. Use update instead.',
@@ -297,9 +303,7 @@ class DnDBeyondImportService {
         error: e,
         stackTrace: stackTrace,
       );
-      return DnDBeyondImportResult.error(
-        'Unexpected error: ${e.toString()}',
-      );
+      return DnDBeyondImportResult.error('Unexpected error: ${e.toString()}');
     }
   }
 
@@ -376,7 +380,9 @@ class DnDBeyondImportService {
 
       await _playerRepository.update(playerToUpdate);
 
-      logger.i('Successfully updated D&D Beyond character: ${playerToUpdate.name}');
+      logger.i(
+        'Successfully updated D&D Beyond character: ${playerToUpdate.name}',
+      );
       return DnDBeyondImportResult.success(playerToUpdate.id);
     } catch (e, stackTrace) {
       logger.e(
@@ -384,9 +390,7 @@ class DnDBeyondImportService {
         error: e,
         stackTrace: stackTrace,
       );
-      return DnDBeyondImportResult.error(
-        'Unexpected error: ${e.toString()}',
-      );
+      return DnDBeyondImportResult.error('Unexpected error: ${e.toString()}');
     }
   }
 }

@@ -17,9 +17,11 @@ class PlayerCharacterService {
   /// Get saving throw modifier
   int getSavingThrowModifier(Player player, String ability) {
     final abilityScore = _getAbilityScore(player, ability);
-    final isProficient = player.savingThrowProficiencies?.contains(ability) ?? false;
-    final proficiencyBonus = player.proficiencyBonus ?? 
-      CharacterCalculations.calculateProficiencyBonus(player.level);
+    final isProficient =
+        player.savingThrowProficiencies?.contains(ability) ?? false;
+    final proficiencyBonus =
+        player.proficiencyBonus ??
+        CharacterCalculations.calculateProficiencyBonus(player.level);
 
     return CharacterCalculations.calculateSavingThrowModifier(
       abilityScore: abilityScore,
@@ -33,8 +35,9 @@ class PlayerCharacterService {
     final ability = CharacterCalculations.getSkillAbility(skill);
     final abilityScore = _getAbilityScore(player, ability);
     final isProficient = player.skillProficiencies?.contains(skill) ?? false;
-    final proficiencyBonus = player.proficiencyBonus ?? 
-      CharacterCalculations.calculateProficiencyBonus(player.level);
+    final proficiencyBonus =
+        player.proficiencyBonus ??
+        CharacterCalculations.calculateProficiencyBonus(player.level);
 
     return CharacterCalculations.calculateSkillModifier(
       abilityScore: abilityScore,
@@ -45,9 +48,11 @@ class PlayerCharacterService {
 
   /// Get passive perception
   int getPassivePerception(Player player) {
-    final isProficient = player.skillProficiencies?.contains('Perception') ?? false;
-    final proficiencyBonus = player.proficiencyBonus ?? 
-      CharacterCalculations.calculateProficiencyBonus(player.level);
+    final isProficient =
+        player.skillProficiencies?.contains('Perception') ?? false;
+    final proficiencyBonus =
+        player.proficiencyBonus ??
+        CharacterCalculations.calculateProficiencyBonus(player.level);
 
     return CharacterCalculations.calculatePassivePerception(
       wisdom: player.wis,
@@ -64,17 +69,28 @@ class PlayerCharacterService {
   /// Calculate maximum HP for level up (returns suggested HP increase)
   int calculateHpIncrease(Player player, int hitDie) {
     // Average HP increase: (hitDie / 2) + 1 + CON modifier
-    final conModifier = CharacterCalculations.calculateAbilityModifier(player.con);
+    final conModifier = CharacterCalculations.calculateAbilityModifier(
+      player.con,
+    );
     return ((hitDie / 2).floor() + 1 + conModifier).clamp(1, 999);
   }
 
   /// Perform a short rest (restore some HP and abilities)
-  Future<Player> performShortRest(Player player, int hitDiceUsed, int hitDie) async {
-    final conModifier = CharacterCalculations.calculateAbilityModifier(player.con);
-    final hpRestored = (hitDiceUsed * (hitDie ~/ 2 + 1)) + (hitDiceUsed * conModifier);
-    
-    final newCurrentHp = ((player.hpCurrent ?? 0) + hpRestored)
-      .clamp(0, player.hpMax ?? 0);
+  Future<Player> performShortRest(
+    Player player,
+    int hitDiceUsed,
+    int hitDie,
+  ) async {
+    final conModifier = CharacterCalculations.calculateAbilityModifier(
+      player.con,
+    );
+    final hpRestored =
+        (hitDiceUsed * (hitDie ~/ 2 + 1)) + (hitDiceUsed * conModifier);
+
+    final newCurrentHp = ((player.hpCurrent ?? 0) + hpRestored).clamp(
+      0,
+      player.hpMax ?? 0,
+    );
 
     final updatedPlayer = Player(
       id: player.id,

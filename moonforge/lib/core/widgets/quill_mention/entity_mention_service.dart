@@ -29,23 +29,26 @@ class EntityMentionService {
       final allEntities = await entityRepository.getAll();
 
       // Filter by non-deleted, matching kinds, and query
-      var filteredEntities = allEntities.where((e) {
-        // Skip deleted entities
-        if (e.deleted) return false;
+      var filteredEntities = allEntities
+          .where((e) {
+            // Skip deleted entities
+            if (e.deleted) return false;
 
-        // Filter by kind if specified
-        if (kindList.isNotEmpty && kindList.first.isNotEmpty) {
-          if (!kindList.contains(e.kind)) return false;
-        }
+            // Filter by kind if specified
+            if (kindList.isNotEmpty && kindList.first.isNotEmpty) {
+              if (!kindList.contains(e.kind)) return false;
+            }
 
-        // Filter by query if provided
-        if (query.isNotEmpty) {
-          final lowerQuery = query.toLowerCase();
-          if (!e.name.toLowerCase().contains(lowerQuery)) return false;
-        }
+            // Filter by query if provided
+            if (query.isNotEmpty) {
+              final lowerQuery = query.toLowerCase();
+              if (!e.name.toLowerCase().contains(lowerQuery)) return false;
+            }
 
-        return true;
-      }).take(limit).toList();
+            return true;
+          })
+          .take(limit)
+          .toList();
 
       return filteredEntities;
     } catch (e) {

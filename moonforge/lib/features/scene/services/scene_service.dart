@@ -34,11 +34,11 @@ class SceneService {
   Future<SceneStatistics> getSceneStatistics(String adventureId) async {
     try {
       final scenes = await getScenesByAdventure(adventureId);
-      
+
       final totalScenes = scenes.length;
       final completedScenes = 0; // TODO: Implement completion tracking
       final totalDuration = Duration.zero; // TODO: Implement duration tracking
-      
+
       return SceneStatistics(
         totalScenes: totalScenes,
         completedScenes: completedScenes,
@@ -55,24 +55,21 @@ class SceneService {
   Future<void> reorderScenes(String adventureId, List<String> sceneIds) async {
     try {
       final scenes = await _repository.getByAdventure(adventureId);
-      
+
       // Create a map of scene ID to scene
       final sceneMap = {for (var s in scenes) s.id: s};
-      
+
       // Update order for each scene
       for (var i = 0; i < sceneIds.length; i++) {
         final sceneId = sceneIds[i];
         final scene = sceneMap[sceneId];
-        
+
         if (scene != null && scene.order != i + 1) {
-          final updatedScene = scene.copyWith(
-            order: i + 1,
-            rev: scene.rev + 1,
-          );
+          final updatedScene = scene.copyWith(order: i + 1, rev: scene.rev + 1);
           await _repository.update(updatedScene);
         }
       }
-      
+
       logger.i('Reordered ${sceneIds.length} scenes in adventure $adventureId');
     } catch (e) {
       logger.e('Error reordering scenes: $e');
@@ -95,15 +92,15 @@ class SceneService {
         updatedAt: DateTime.now(),
         rev: 0,
       );
-      
+
       await _repository.create(duplicate);
-      
+
       // Adjust order of subsequent scenes
       final scenes = await getScenesByAdventure(original.adventureId);
       final scenesToUpdate = scenes.where(
         (s) => s.order > original.order && s.id != duplicate.id,
       );
-      
+
       for (final scene in scenesToUpdate) {
         final updated = scene.copyWith(
           order: scene.order + 1,
@@ -111,7 +108,7 @@ class SceneService {
         );
         await _repository.update(updated);
       }
-      
+
       logger.i('Duplicated scene ${original.id} to ${duplicate.id}');
       return duplicate;
     } catch (e) {
@@ -125,11 +122,11 @@ class SceneService {
     try {
       final scenes = await getScenesByAdventure(currentScene.adventureId);
       final currentIndex = scenes.indexWhere((s) => s.id == currentScene.id);
-      
+
       if (currentIndex >= 0 && currentIndex < scenes.length - 1) {
         return scenes[currentIndex + 1];
       }
-      
+
       return null;
     } catch (e) {
       logger.e('Error getting next scene: $e');
@@ -142,11 +139,11 @@ class SceneService {
     try {
       final scenes = await getScenesByAdventure(currentScene.adventureId);
       final currentIndex = scenes.indexWhere((s) => s.id == currentScene.id);
-      
+
       if (currentIndex > 0) {
         return scenes[currentIndex - 1];
       }
-      
+
       return null;
     } catch (e) {
       logger.e('Error getting previous scene: $e');
@@ -159,10 +156,10 @@ class SceneService {
     try {
       final scenes = await getScenesByAdventure(adventureId);
       if (scenes.isEmpty) return 1;
-      
-      final maxOrder = scenes.map((s) => s.order).reduce(
-        (a, b) => a > b ? a : b,
-      );
+
+      final maxOrder = scenes
+          .map((s) => s.order)
+          .reduce((a, b) => a > b ? a : b);
       return maxOrder + 1;
     } catch (e) {
       logger.e('Error getting next order: $e');
@@ -175,10 +172,11 @@ class SceneService {
     try {
       final scenes = await getScenesByAdventure(adventureId);
       final lowerQuery = query.toLowerCase();
-      
+
       return scenes.where((scene) {
         final nameMatch = scene.name.toLowerCase().contains(lowerQuery);
-        final summaryMatch = scene.summary?.toLowerCase().contains(lowerQuery) ?? false;
+        final summaryMatch =
+            scene.summary?.toLowerCase().contains(lowerQuery) ?? false;
         return nameMatch || summaryMatch;
       }).toList();
     } catch (e) {

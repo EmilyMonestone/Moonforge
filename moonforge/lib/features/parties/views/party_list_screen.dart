@@ -72,10 +72,7 @@ class PartyListScreen extends StatelessWidget {
               future: _getMemberCount(playerRepo, party),
               builder: (context, memberSnapshot) {
                 final memberCount = memberSnapshot.data ?? 0;
-                return PartyCard(
-                  party: party,
-                  memberCount: memberCount,
-                );
+                return PartyCard(party: party, memberCount: memberCount);
               },
             );
           },

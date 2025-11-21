@@ -35,7 +35,7 @@ enum DomainType {
   mediaAsset,
 
   // Entity kinds - different types of entities in the game world
-  
+
   /// An NPC (Non-Player Character) entity
   entityNpc,
 

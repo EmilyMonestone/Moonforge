@@ -40,10 +40,7 @@ class AuthValidators {
   ///
   /// [password] is the original password to match against.
   /// Returns null if valid, error message if invalid.
-  static String? validatePasswordConfirmation(
-    String? value,
-    String password,
-  ) {
+  static String? validatePasswordConfirmation(String? value, String password) {
     if (value == null || value.isEmpty) {
       return 'Please confirm your password';
     }

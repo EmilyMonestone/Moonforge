@@ -86,7 +86,10 @@ class SafeDataParser {
 
       // If it's a List of any type, convert to strings
       if (value is List) {
-        return value.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+        return value
+            .map((e) => e?.toString() ?? '')
+            .where((s) => s.isNotEmpty)
+            .toList();
       }
 
       // If it's a JSON string, parse it
@@ -94,7 +97,10 @@ class SafeDataParser {
         if (value.trim().isEmpty) return [];
         final decoded = jsonDecode(value);
         if (decoded is List) {
-          return decoded.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+          return decoded
+              .map((e) => e?.toString() ?? '')
+              .where((s) => s.isNotEmpty)
+              .toList();
         }
       }
 

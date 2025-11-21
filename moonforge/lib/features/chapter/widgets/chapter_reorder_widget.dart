@@ -93,10 +93,7 @@ class _ChapterReorderWidgetState extends State<ChapterReorderWidget> {
                 ),
               ],
             ),
-            title: Text(
-              chapter.name,
-              style: theme.textTheme.titleMedium,
-            ),
+            title: Text(chapter.name, style: theme.textTheme.titleMedium),
             subtitle: chapter.summary != null && chapter.summary!.isNotEmpty
                 ? Text(
                     chapter.summary!,

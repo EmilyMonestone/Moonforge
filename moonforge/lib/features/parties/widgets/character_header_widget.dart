@@ -5,10 +5,7 @@ import 'package:moonforge/data/db/app_db.dart';
 class CharacterHeaderWidget extends StatelessWidget {
   final Player player;
 
-  const CharacterHeaderWidget({
-    super.key,
-    required this.player,
-  });
+  const CharacterHeaderWidget({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +17,9 @@ class CharacterHeaderWidget extends StatelessWidget {
           children: [
             Text(
               player.name,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Wrap(
@@ -34,23 +31,11 @@ class CharacterHeaderWidget extends StatelessWidget {
                   'Level ${player.level}',
                   Icons.trending_up,
                 ),
-                _buildInfoChip(
-                  context,
-                  player.className,
-                  Icons.shield,
-                ),
+                _buildInfoChip(context, player.className, Icons.shield),
                 if (player.subclass != null && player.subclass!.isNotEmpty)
-                  _buildInfoChip(
-                    context,
-                    player.subclass!,
-                    Icons.auto_awesome,
-                  ),
+                  _buildInfoChip(context, player.subclass!, Icons.auto_awesome),
                 if (player.race != null && player.race!.isNotEmpty)
-                  _buildInfoChip(
-                    context,
-                    player.race!,
-                    Icons.person,
-                  ),
+                  _buildInfoChip(context, player.race!, Icons.person),
                 if (player.background != null && player.background!.isNotEmpty)
                   _buildInfoChip(
                     context,

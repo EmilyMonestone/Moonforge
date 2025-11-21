@@ -230,12 +230,14 @@ class _SceneEditScreenState extends State<SceneEditScreen> {
         );
         final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
         final contentDelta = mdToDelta.convert(response.content!);
-        
+
         // Insert generated content at the end
         final length = _contentController.document.length;
         _contentController.document.insert(length - 1, '\n\n');
         _contentController.document.compose(
-          quill_delta.Delta()..retain(length + 1)..concat(contentDelta),
+          quill_delta.Delta()
+            ..retain(length + 1)
+            ..concat(contentDelta),
           ChangeSource.local,
         );
 

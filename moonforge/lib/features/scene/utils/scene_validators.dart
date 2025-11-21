@@ -67,9 +67,9 @@ class SceneValidators {
   static bool isNameUniqueInAdventure(
     String name,
     String adventureId,
-    List<Scene> existingScenes,
-    {String? excludeSceneId}
-  ) {
+    List<Scene> existingScenes, {
+    String? excludeSceneId,
+  }) {
     final normalizedName = name.trim().toLowerCase();
 
     for (final scene in existingScenes) {

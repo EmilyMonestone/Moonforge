@@ -35,8 +35,8 @@ class InitiativeOrderList extends StatelessWidget {
             Text(
               'No combatants in this encounter',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),

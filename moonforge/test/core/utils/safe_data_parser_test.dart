@@ -130,7 +130,7 @@ void main() {
     test('handles List<Map<String, dynamic>> directly', () {
       final input = [
         {'x': 1},
-        {'y': 2}
+        {'y': 2},
       ];
       final result = SafeDataParser.tryParseMapList(input);
       expect(result, hasLength(2));
@@ -142,7 +142,7 @@ void main() {
         {'a': 1},
         'not-a-map',
         123,
-        {'b': 2}
+        {'b': 2},
       ]);
       expect(result, hasLength(2));
       expect(result[0], equals({'a': 1}));

@@ -61,9 +61,6 @@ class EntityGatherer {
   final EncounterRepository encounterRepo;
   final EntityRepository entityRepo;
 
-  // Internal origin resolver for consistent resolution
-  late final OriginResolver _originResolver;
-
   EntityGatherer({
     required this.campaignRepo,
     required this.chapterRepo,
@@ -71,15 +68,7 @@ class EntityGatherer {
     required this.sceneRepo,
     required this.encounterRepo,
     required this.entityRepo,
-  }) {
-    _originResolver = OriginResolver(
-      campaignRepo: campaignRepo,
-      chapterRepo: chapterRepo,
-      adventureRepo: adventureRepo,
-      sceneRepo: sceneRepo,
-      encounterRepo: encounterRepo,
-    );
-  }
+  });
 
   /// Gather entities from a campaign and all its children
   Future<List<EntityWithOrigin>> gatherFromCampaign(String campaignId) async {
@@ -106,7 +95,13 @@ class EntityGatherer {
       );
     }
 
-    // Gather from all chapters in this campaign
+    return _gatherChaptersAndEncounters(entitiesWithOrigin, campaignId);
+  }
+
+  Future<List<EntityWithOrigin>> _gatherChaptersAndEncounters(
+    List<EntityWithOrigin> entitiesWithOrigin,
+    String campaignId,
+  ) async {
     final chapters = await chapterRepo.getByCampaign(campaignId);
     chapters.sort((a, b) => a.order.compareTo(b.order));
 
@@ -120,7 +115,6 @@ class EntityGatherer {
       entitiesWithOrigin.addAll(chapterEntities);
     }
 
-    // Gather from all encounters with originId = campaignId
     final encounters = await encounterRepo.getByOrigin(campaignId);
     for (final encounter in encounters) {
       if (encounter.entityIds.isNotEmpty) {
@@ -169,7 +163,6 @@ class EntityGatherer {
   ) async {
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from chapter
     if (chapter.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(chapter.entityIds);
       entitiesWithOrigin.addAll(
@@ -187,7 +180,6 @@ class EntityGatherer {
       );
     }
 
-    // Gather from all adventures in this chapter
     final adventures = await adventureRepo.getByChapter(chapter.id);
     adventures.sort((a, b) => a.order.compareTo(b.order));
 
@@ -242,7 +234,6 @@ class EntityGatherer {
   ) async {
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from adventure
     if (adventure.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(adventure.entityIds);
       entitiesWithOrigin.addAll(
@@ -260,7 +251,6 @@ class EntityGatherer {
       );
     }
 
-    // Gather from all scenes in this adventure
     final scenes = await sceneRepo.getByAdventure(adventure.id);
     scenes.sort((a, b) => a.order.compareTo(b.order));
 
@@ -315,7 +305,6 @@ class EntityGatherer {
     final scene = scenes[sceneIndex];
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from scene with proper origin
     if (scene.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(scene.entityIds);
       final chapterNumber = chapterIndex + 1;
@@ -349,7 +338,6 @@ class EntityGatherer {
 
     final entitiesWithOrigin = <EntityWithOrigin>[];
 
-    // Add entities directly from encounter with proper origin
     if (encounter.entityIds.isNotEmpty) {
       final entities = await _fetchEntities(encounter.entityIds);
       entitiesWithOrigin.addAll(

@@ -15,12 +15,12 @@ class GenerationResponse {
   });
 
   Map<String, dynamic> toJson() => {
-        'success': success,
-        'content': content,
-        'error': error,
-        'tokensUsed': tokensUsed,
-        'generatedAt': generatedAt?.toIso8601String(),
-      };
+    'success': success,
+    'content': content,
+    'error': error,
+    'tokensUsed': tokensUsed,
+    'generatedAt': generatedAt?.toIso8601String(),
+  };
 
   factory GenerationResponse.fromJson(Map<String, dynamic> json) =>
       GenerationResponse(
@@ -65,19 +65,19 @@ class NpcGenerationResponse {
   });
 
   Map<String, dynamic> toJson() => {
-        'success': success,
-        'name': name,
-        'appearance': appearance,
-        'personality': personality,
-        'backstory': backstory,
-        'role': role,
-        'motivations': motivations,
-        'secrets': secrets,
-        'statblock': statblock,
-        'error': error,
-        'tokensUsed': tokensUsed,
-        'generatedAt': generatedAt?.toIso8601String(),
-      };
+    'success': success,
+    'name': name,
+    'appearance': appearance,
+    'personality': personality,
+    'backstory': backstory,
+    'role': role,
+    'motivations': motivations,
+    'secrets': secrets,
+    'statblock': statblock,
+    'error': error,
+    'tokensUsed': tokensUsed,
+    'generatedAt': generatedAt?.toIso8601String(),
+  };
 
   factory NpcGenerationResponse.fromJson(Map<String, dynamic> json) =>
       NpcGenerationResponse(

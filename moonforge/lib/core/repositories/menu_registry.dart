@@ -9,20 +9,16 @@ import 'package:moonforge/features/adventure/utils/create_adventure.dart'
     as adventure_utils;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/utils/create_campaign.dart';
-import 'package:moonforge/features/chapter/utils/create_adventure_in_chapter.dart';
 import 'package:moonforge/features/chapter/utils/create_chapter.dart'
     as chapter_utils;
-import 'package:moonforge/features/chapter/utils/create_scene_in_chapter.dart';
 import 'package:moonforge/features/encounters/utils/create_encounter.dart'
     as encounter_utils;
-import 'package:moonforge/features/encounters/utils/create_encounter_in_adventure.dart';
-import 'package:moonforge/features/encounters/utils/create_encounter_in_chapter.dart';
-import 'package:moonforge/features/encounters/utils/create_encounter_in_scene.dart';
+import 'package:moonforge/features/encounters/utils/create_encounter.dart'
+    show EncounterCreationScope;
 import 'package:moonforge/features/entities/utils/create_entity.dart'
     as entity_utils;
-import 'package:moonforge/features/entities/utils/create_entity_in_adventure.dart';
-import 'package:moonforge/features/entities/utils/create_entity_in_chapter.dart';
-import 'package:moonforge/features/entities/utils/create_entity_in_scene.dart';
+import 'package:moonforge/features/entities/utils/create_entity.dart'
+    show EntityCreationScope;
 import 'package:moonforge/features/scene/utils/create_scene.dart'
     as scene_utils;
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -213,32 +209,47 @@ class MenuRegistry {
         // Determine context by current route to link to correct parent
         final loc = GoRouterState.of(ctx).uri;
         final segs = loc.pathSegments;
-        if (segs.length >= 6 &&
-            segs[0] == 'campaign' &&
-            segs[1] == 'chapter' &&
-            segs[3] == 'adventure' &&
-            segs[5] == 'scene') {
-          final sceneId = segs[6];
-          // Prefer the most specific parent: Scene
-          createEntityInScene(ctx, campaign, sceneId);
+        if (segs.length >= 7 &&
+            segs.take(6).toList().join('/') ==
+                'campaign/chapter/${segs[2]}/adventure/${segs[4]}/scene') {
+          entity_utils.createEntity(
+            ctx,
+            campaign,
+            scope: EntityCreationScope.scene,
+            chapterId: segs[2],
+            adventureId: segs[4],
+            sceneId: segs[6],
+          );
           return;
         }
-        if (segs.length >= 4 &&
-            segs[0] == 'campaign' &&
-            segs[1] == 'chapter' &&
-            segs[3] == 'adventure') {
-          final adventureId = segs[4];
-          createEntityInAdventure(ctx, campaign, adventureId);
+        if (segs.length >= 5 &&
+            segs.take(4).toList().join('/') ==
+                'campaign/chapter/${segs[2]}/adventure') {
+          entity_utils.createEntity(
+            ctx,
+            campaign,
+            scope: EntityCreationScope.adventure,
+            chapterId: segs[2],
+            adventureId: segs[4],
+          );
           return;
         }
         if (segs.length >= 3 && segs[0] == 'campaign' && segs[1] == 'chapter') {
-          final chapterId = segs[2];
-          createEntityInChapter(ctx, campaign, chapterId);
+          entity_utils.createEntity(
+            ctx,
+            campaign,
+            scope: EntityCreationScope.chapter,
+            chapterId: segs[2],
+          );
           return;
         }
 
         // Fallback: create as campaign-level entity
-        entity_utils.createEntity(ctx, campaign);
+        entity_utils.createEntity(
+          ctx,
+          campaign,
+          scope: EntityCreationScope.campaign,
+        );
       },
     );
   }
@@ -324,7 +335,7 @@ class MenuRegistry {
           notification.info(ctx, title: Text(l10n.noCampaignSelected));
           return;
         }
-        createAdventureInChapter(ctx, campaign, chapterId);
+        adventure_utils.createAdventure(ctx, campaign, chapterId: chapterId);
       },
     );
   }
@@ -345,7 +356,7 @@ class MenuRegistry {
           notification.info(ctx, title: Text(l10n.noCampaignSelected));
           return;
         }
-        createSceneInChapter(ctx, campaign, chapterId);
+        scene_utils.createScene(ctx, campaign, chapterId: chapterId);
       },
     );
   }
@@ -382,15 +393,13 @@ class MenuRegistry {
             segs[1] == 'chapter' &&
             segs[3] == 'adventure' &&
             segs[5] == 'scene') {
-          final chapterId = segs[2];
-          final adventureId = segs[4];
-          final sceneId = segs[6];
-          createEncounterInScene(
+          encounter_utils.createEncounter(
             ctx,
             campaign,
-            chapterId,
-            adventureId,
-            sceneId,
+            scope: EncounterCreationScope.scene,
+            chapterId: segs[2],
+            adventureId: segs[4],
+            sceneId: segs[6],
           );
           return;
         }
@@ -398,19 +407,31 @@ class MenuRegistry {
             segs[0] == 'campaign' &&
             segs[1] == 'chapter' &&
             segs[3] == 'adventure') {
-          final chapterId = segs[2];
-          final adventureId = segs[4];
-          createEncounterInAdventure(ctx, campaign, chapterId, adventureId);
+          encounter_utils.createEncounter(
+            ctx,
+            campaign,
+            scope: EncounterCreationScope.adventure,
+            chapterId: segs[2],
+            adventureId: segs[4],
+          );
           return;
         }
         if (segs.length >= 3 && segs[0] == 'campaign' && segs[1] == 'chapter') {
-          final chapterId = segs[2];
-          createEncounterInChapter(ctx, campaign, chapterId);
+          encounter_utils.createEncounter(
+            ctx,
+            campaign,
+            scope: EncounterCreationScope.chapter,
+            chapterId: segs[2],
+          );
           return;
         }
 
         // Fallback (campaign-level)
-        encounter_utils.createEncounter(ctx, campaign);
+        encounter_utils.createEncounter(
+          ctx,
+          campaign,
+          scope: EncounterCreationScope.campaign,
+        );
       },
     );
   }

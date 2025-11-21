@@ -47,10 +47,10 @@ class SceneProvider with ChangeNotifier {
     if (scene != null) {
       _persistence.write(_currentSceneKey, scene.id);
       logger.i('Persisted scene ID: ${scene.id}');
-      
+
       // Load scenes in the same adventure for navigation
       await _loadScenesInAdventure(scene.adventureId);
-      
+
       // Check completion status
       _isCompleted = _checkSceneCompletion(scene);
     } else {
@@ -134,9 +134,7 @@ class SceneProvider with ChangeNotifier {
   int getCurrentSceneIndex() {
     if (_currentScene == null || _scenesInAdventure.isEmpty) return -1;
 
-    return _scenesInAdventure.indexWhere(
-      (s) => s.id == _currentScene!.id,
-    );
+    return _scenesInAdventure.indexWhere((s) => s.id == _currentScene!.id);
   }
 
   /// Toggle scene completion status

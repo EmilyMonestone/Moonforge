@@ -2,7 +2,8 @@
 
 ## Introduction
 
-This refactoring guide provides a comprehensive, step-by-step plan to improve the Moonforge Flutter application's code quality, structure, and maintainability **without changing any user-facing behavior or public APIs**. The goal is to make the codebase cleaner, more consistent, easier to test, and simpler to maintain and extend.
+This refactoring guide provides a comprehensive, step-by-step plan to improve the Moonforge Flutter application's code quality, structure, and maintainability **without changing
+any user-facing behavior or public APIs**. The goal is to make the codebase cleaner, more consistent, easier to test, and simpler to maintain and extend.
 
 ### Why This Refactor?
 
@@ -25,31 +26,37 @@ While Moonforge already has a solid foundation with feature-first architecture a
 This guide systematically addresses the following areas:
 
 ### 1. Architecture & Layering
+
 - Strengthen feature boundaries and reduce cross-feature dependencies
 - Clarify the separation between presentation, domain, and data concerns
 - Reduce "god classes" and overly large widgets
 
 ### 2. State Management Cleanup
+
 - Normalize Provider patterns across features
 - Standardize async state handling (loading, error, success)
 - Improve error handling consistency
 
 ### 3. UI/Widget Structure & Duplication Removal
+
 - Extract common UI patterns into reusable widgets
 - Consolidate repeated layouts and styling
 - Break down large widget trees into smaller, focused components
 
 ### 4. Data & Service Layer Cleanup
+
 - Standardize repository patterns
 - Consolidate service layer patterns
 - Improve dependency injection consistency
 
 ### 5. Testing & Tooling Improvements
+
 - Add missing unit tests for business logic
 - Introduce widget tests for complex screens
 - Strengthen linting rules
 
 ### 6. Naming, Style & Documentation Consistency
+
 - Enforce consistent naming conventions
 - Remove outdated comments
 - Add documentation for complex logic
@@ -59,18 +66,18 @@ This guide systematically addresses the following areas:
 
 The refactoring is divided into 10 focused steps, ordered from low-risk to high-impact changes:
 
-| Step | Title | Priority | Effort | Description |
-|------|-------|----------|--------|-------------|
-| [1](step-1.md) | Code Formatting and Linting Cleanup | High | S | Standardize code style with dart format and fix lint issues |
-| [2](step-2.md) | File and Folder Organization Consistency | High | M | Ensure consistent feature structure and naming conventions |
-| [3](step-3.md) | Extract Common Widget Patterns | High | M | Create reusable widgets for repeated UI patterns |
-| [4](step-4.md) | Consolidate Theme and Style Utilities | Medium | M | Centralize colors, text styles, and spacing constants |
-| [5](step-5.md) | Standardize Async State Management | High | L | Normalize loading/error/success patterns across features |
-| [6](step-6.md) | Repository Pattern Consistency | Medium | M | Standardize data access patterns and error handling |
-| [7](step-7.md) | Service Layer Consolidation | Medium | M | Reduce service duplication and clarify responsibilities |
-| [8](step-8.md) | Widget Tree Simplification | Medium | L | Break down large widgets into smaller, testable components |
-| [9](step-9.md) | Testing Infrastructure Enhancement | Medium | L | Add unit tests for business logic and widget tests for complex UI |
-| [10](step-10.md) | Documentation and Code Comments | Low | M | Update documentation and add useful code comments |
+| Step             | Title                                    | Priority | Effort | Description                                                                                |
+|------------------|------------------------------------------|----------|--------|--------------------------------------------------------------------------------------------|
+| [1](step-1.md)   | Code Formatting and Linting Cleanup      | High     | S      | Standardize code style with dart format and fix lint issues                                |
+| [2](step-2.md)   | File and Folder Organization Consistency | High     | M      | Ensure consistent feature structure and naming conventions; consolidate creation utilities |
+| [3](step-3.md)   | Extract Common Widget Patterns           | High     | M      | Create reusable widgets for repeated UI patterns                                           |
+| [4](step-4.md)   | Consolidate Theme and Style Utilities    | Medium   | M      | Centralize colors, text styles, and spacing constants                                      |
+| [5](step-5.md)   | Standardize Async State Management       | High     | L      | Normalize loading/error/success patterns across features                                   |
+| [6](step-6.md)   | Repository Pattern Consistency           | Medium   | M      | Standardize data access patterns and error handling                                        |
+| [7](step-7.md)   | Service Layer Consolidation              | Medium   | M      | Reduce service duplication and clarify responsibilities                                    |
+| [8](step-8.md)   | Widget Tree Simplification               | Medium   | L      | Break down large widgets into smaller, testable components                                 |
+| [9](step-9.md)   | Testing Infrastructure Enhancement       | Medium   | L      | Add unit tests for business logic and widget tests for complex UI                          |
+| [10](step-10.md) | Documentation and Code Comments          | Low      | M      | Update documentation and add useful code comments                                          |
 
 ## General Guidelines
 
@@ -146,6 +153,7 @@ If you discover issues after completing a step:
 - **Expected duration**: 6-10 weeks for complete refactor
 
 Individual step estimates:
+
 - **S (Small)**: 1-2 days
 - **M (Medium)**: 3-5 days
 - **L (Large)**: 6-10 days

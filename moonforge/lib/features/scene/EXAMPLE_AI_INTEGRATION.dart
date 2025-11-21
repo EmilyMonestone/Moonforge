@@ -1,5 +1,5 @@
 /// EXAMPLE: How to integrate AI assistance into the Scene Edit Screen
-/// 
+///
 /// This file shows how to add Gemini AI assistance to the scene editor.
 /// Follow these steps to enable AI content generation in your editor.
 
@@ -25,7 +25,7 @@ Step 3: Build the story context in _loadScene() method after loading the scene:
     setState(() => _isLoading = true);
     try {
       // ... existing code to load scene ...
-      
+
       // Build story context for AI
       final contextBuilder = StoryContextBuilder(
         campaignRepo: context.read<CampaignRepository>(),
@@ -34,9 +34,9 @@ Step 3: Build the story context in _loadScene() method after loading the scene:
         sceneRepo: context.read<SceneRepository>(),
         entityRepo: context.read<EntityRepository>(),
       );
-      
+
       _storyContext = await contextBuilder.buildForScene(widget.sceneId);
-      
+
       // ... rest of existing code ...
     } catch (e) {
       // ... existing error handling ...
@@ -46,7 +46,7 @@ Step 3: Build the story context in _loadScene() method after loading the scene:
   }
 
 
-Step 4: Add the AI assistance widget in the build method, 
+Step 4: Add the AI assistance widget in the build method,
         after line 280 (below the "Rich text content of the scene" text):
 
             const SizedBox(height: 12),
@@ -62,7 +62,7 @@ Step 4: Add the AI assistance widget in the build method,
                     // Insert generated text at the end of current content
                     final length = _contentController.document.length;
                     _contentController.document.insert(length - 1, '\n\n$generatedText');
-                    
+
                     // Show success message
                     toastification.show(
                       type: ToastificationType.success,

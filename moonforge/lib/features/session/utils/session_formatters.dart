@@ -47,7 +47,7 @@ class SessionFormatters {
   /// Format session status based on datetime
   static String formatSessionStatus(DateTime? datetime) {
     if (datetime == null) return 'Unscheduled';
-    
+
     final now = DateTime.now();
     if (datetime.isAfter(now)) {
       return 'Upcoming';
@@ -60,7 +60,7 @@ class SessionFormatters {
   static String formatTimeUntilSession(DateTime datetime) {
     final now = DateTime.now();
     final difference = datetime.difference(now);
-    
+
     if (difference.isNegative) {
       final absDiff = difference.abs();
       if (absDiff.inDays > 0) {
@@ -73,7 +73,7 @@ class SessionFormatters {
         return 'just now';
       }
     }
-    
+
     if (difference.inDays > 0) {
       return 'in ${difference.inDays} day${difference.inDays > 1 ? 's' : ''}';
     } else if (difference.inHours > 0) {

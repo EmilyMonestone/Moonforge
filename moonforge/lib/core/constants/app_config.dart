@@ -40,5 +40,3 @@ String get displayVersion =>
 
 /// Returns the app description
 String get appDescriptionText => appDescription;
-
-

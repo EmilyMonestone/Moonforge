@@ -74,14 +74,14 @@ class DeepLinkService {
 
     // Route based on the first path segment
     final type = pathSegments.first;
-    
+
     switch (type) {
       case 'campaign':
         // Campaign navigation currently goes to campaign root
         // TODO: Support campaign-specific navigation with IDs in the future
         router.go('/campaign');
         break;
-      
+
       case 'party':
         if (pathSegments.length > 1) {
           final partyId = pathSegments[1];
@@ -90,11 +90,11 @@ class DeepLinkService {
           router.go('/party');
         }
         break;
-      
+
       case 'settings':
         router.go('/settings');
         break;
-      
+
       default:
         // Unknown path, navigate to home
         debugPrint('Unknown deep link path: $type');

@@ -21,11 +21,11 @@ class CardList<T> extends StatelessWidget {
   final int subtitleMaxLines;
   final void Function(T item)? onTap;
   final Color? backgroundColor;
-  
+
   /// Optional route provider for context menu support.
   /// If provided with [enableContextMenu] = true, enables "Open in new window".
   final String Function(T item)? routeOf;
-  
+
   /// Whether to enable the context menu for opening items in new windows.
   final bool enableContextMenu;
 
@@ -42,7 +42,7 @@ class CardList<T> extends StatelessWidget {
         final item = items[index];
         final title = titleOf(item);
         final subtitle = subtitleOf != null ? subtitleOf!(item) : '';
-        
+
         final card = Card(
           color:
               backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
@@ -58,15 +58,12 @@ class CardList<T> extends StatelessWidget {
             onTap: onTap != null ? () => onTap!(item) : null,
           ),
         );
-        
+
         // Wrap with context menu if enabled and route provider is available
         if (enableContextMenu && routeOf != null) {
-          return LinkContextMenu(
-            route: routeOf!(item),
-            child: card,
-          );
+          return LinkContextMenu(route: routeOf!(item), child: card);
         }
-        
+
         return card;
       },
     );

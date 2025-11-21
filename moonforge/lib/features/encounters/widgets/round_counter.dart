@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 class RoundCounter extends StatelessWidget {
   final int round;
 
-  const RoundCounter({
-    super.key,
-    required this.round,
-  });
+  const RoundCounter({super.key, required this.round});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +20,7 @@ class RoundCounter extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.restore,
-            size: 20,
-            color: colorScheme.onPrimaryContainer,
-          ),
+          Icon(Icons.restore, size: 20, color: colorScheme.onPrimaryContainer),
           const SizedBox(width: 8),
           Text(
             'Round $round',

@@ -6,31 +6,43 @@
 
 ## Goal
 
-Ensure consistent folder structure and file naming across all features. This makes the codebase more navigable and helps developers quickly find related code. A consistent structure also reduces cognitive load when switching between features.
+Ensure consistent folder structure and file naming across all features. This makes the codebase more navigable and helps developers quickly find related code. A consistent
+structure also reduces cognitive load when switching between features.
 
 By the end of this step:
+
 - All features follow the same organizational pattern
 - Files are named consistently
 - Empty or redundant directories are removed
 - Related files are colocated appropriately
+- Creation utilities (e.g., `create_adventure.dart`, `create_entity_in_scene.dart`) are consolidated into single, well-scoped modules per domain to eliminate divergence
+- ✅ Entities/Scenes/Adventures/Encounters now expose a single `create_*.dart` entry that accepts context via parameters. Legacy `*_in_*` helpers were removed and
+  `menu_registry.dart` rewired accordingly.
+- ⚠️ Feature folder audit in progress (e.g., `editor/` removed only after verifying it was a no-op stub; `scene/EXAMPLE_AI_INTEGRATION.dart` needs to relocate into docs).
 
 ## Scope
 
 **What's included:**
+
 - All directories under `lib/features/`
 - Core utilities in `lib/core/`
 - File naming conventions
 
 **What's excluded:**
+
 - Generated files and build artifacts
 - Platform-specific code (android/, ios/, etc.)
 - Third-party packages
 
 **Types of changes allowed:**
+
 - Moving files between directories
 - Renaming files for consistency
 - Removing empty directories
 - Updating import statements
+- Consolidating duplicated creation helpers into unified entry points (one file per create flow per domain)
+- Documenting progress in this guide (note what was merged, what still needs attention)
+- Removing empty scaffolds (e.g., unused features) once verified they contain no code; document rationale in README so history stays clear
 
 ## Instructions
 
@@ -47,6 +59,7 @@ done
 ```
 
 Identify inconsistencies:
+
 - ✅ Features with all subdirectories (views, widgets, controllers, services, utils)
 - ⚠️ Features missing standard directories
 - ⚠️ Non-standard directory names
@@ -67,6 +80,7 @@ lib/features/<feature_name>/
 ```
 
 **Notes:**
+
 - Not every feature needs every directory (e.g., some may not need `utils/`)
 - Create directories only when needed
 - Remove empty directories
@@ -76,9 +90,11 @@ lib/features/<feature_name>/
 Apply consistent naming conventions:
 
 #### Views (Screens)
+
 **Pattern**: `<feature>_<screen>_view.dart` or `<screen>_view.dart`
 
 **Examples:**
+
 ```
 login_view.dart
 campaign_details_view.dart
@@ -86,6 +102,7 @@ encounter_list_view.dart
 ```
 
 **Before:**
+
 ```
 lib/features/campaign/views/CampaignScreen.dart
 lib/features/campaign/views/campaign_page.dart
@@ -93,15 +110,18 @@ lib/features/campaign/views/details.dart
 ```
 
 **After:**
+
 ```
 lib/features/campaign/views/campaign_list_view.dart
 lib/features/campaign/views/campaign_details_view.dart
 ```
 
 #### Widgets
+
 **Pattern**: `<descriptive_name>_widget.dart` or `<name>.dart`
 
 **Examples:**
+
 ```
 campaign_card.dart
 entity_avatar.dart
@@ -109,9 +129,11 @@ hp_bar_widget.dart
 ```
 
 #### Controllers
+
 **Pattern**: `<feature>_controller.dart` or `<feature>_provider.dart`
 
 **Examples:**
+
 ```
 campaign_controller.dart
 encounter_provider.dart
@@ -119,22 +141,25 @@ initiative_tracker_controller.dart
 ```
 
 #### Services
+
 **Pattern**: `<feature>_service.dart` or `<domain>_service.dart`
 
 **Examples:**
+
 ```
 campaign_service.dart
 encounter_difficulty_service.dart
 auth_service.dart
 ```
 
-### 4. Reorganize Misplaced Files
+### 4. Reorganize Misplaced Files and Consolidate Creation Utilities
 
 Common issues to fix:
 
 #### a) Widgets in views folder
 
 **Before:**
+
 ```
 lib/features/campaign/views/
   ├── campaign_list_view.dart
@@ -143,6 +168,7 @@ lib/features/campaign/views/
 ```
 
 **After:**
+
 ```
 lib/features/campaign/views/
   └── campaign_list_view.dart
@@ -155,6 +181,7 @@ lib/features/campaign/widgets/
 #### b) Services with mixed responsibilities
 
 **Before:**
+
 ```
 lib/features/campaign/services/
   ├── campaign_service.dart        # API calls
@@ -163,6 +190,7 @@ lib/features/campaign/services/
 ```
 
 **After:**
+
 ```
 lib/features/campaign/services/
   └── campaign_service.dart        # API calls and business logic
@@ -172,9 +200,57 @@ lib/features/campaign/utils/
   └── campaign_validator.dart      # Validation logic
 ```
 
-#### c) Controllers with unclear names
+#### c) Creation utilities spread across multiple files
+
+Many features currently duplicate “create” flows across several near-identical files (e.g., `create_adventure.dart`, `create_adventure_in_chapter.dart`,
+`create_scene_in_chapter.dart`, `create_entity*.dart`).
+
+**Goal:** Collapse each domain’s creation logic into a single, well-organized module while delegating context-specific tweaks to lightweight helpers. This prevents rot where one
+variant diverges from the others.
+
+**Approach:**
+
+1. **Audit current create helpers**
+    - Adventure: `create_adventure.dart`, `create_adventure_in_chapter.dart`
+    - Scene: `create_scene.dart`, `create_scene_in_chapter.dart`
+    - Entities: `create_entity.dart`, `create_entity_in_adventure.dart`, `create_entity_in_chapter.dart`, `create_entity_in_scene.dart`
+2. **Define desired API**
+    - One public entry point per domain (e.g., `create_adventure.dart`, `create_scene.dart`, `create_entity.dart`).
+    - Additional context (campaign/chapter/scene) supplied via parameters instead of separate files.
+3. **Refactor shared logic into private helpers**
+    - Keep UI prompts, story context building, and repository operations consistent.
+    - Extract repeated dialog patterns (manual vs. AI creation) into reusable functions or widgets.
+4. **Delete/merge legacy files**
+    - Remove old `create_*_in_*` files once their logic lives inside the primary module.
+    - Update imports wherever these helpers are used.
+
+**Example structure after consolidation:**
+
+```
+ lib/features/adventure/utils/
+ ├── create_adventure.dart        # Exposes `createAdventure(...)`
+ └── create_adventure_helpers.dart (optional, private)
+
+ lib/features/scene/utils/
+ └── create_scene.dart            # Handles chapter/adventure context via params
+
+ lib/features/entities/utils/
+ └── create_entity.dart           # Accepts parent context enum or IDs
+
+ lib/features/encounters/utils/
+ └── create_encounter.dart        # Uses EncounterCreationScope
+```
+
+**Benefits:**
+
+- Single source of truth for creation flows
+- Less duplication when updating UI (e.g., AI integration, validation)
+- Clearer ownership: each feature owns exactly one creation entry point
+
+#### d) Controllers with unclear names
 
 **Before:**
+
 ```
 lib/features/campaign/controllers/
   ├── provider.dart               ❌ Too generic
@@ -183,6 +259,7 @@ lib/features/campaign/controllers/
 ```
 
 **After:**
+
 ```
 lib/features/campaign/controllers/
   └── campaign_provider.dart      ✅
@@ -197,6 +274,7 @@ After moving files, update all imports. Use your IDE's refactoring tools:
 **Manual**: Use find/replace with regex
 
 Example search and replace:
+
 ```bash
 # Find old import
 import 'package:moonforge/features/campaign/views/campaign_card.dart';
@@ -210,6 +288,7 @@ import 'package:moonforge/features/campaign/widgets/campaign_card.dart';
 For features with many files, consider adding barrel exports:
 
 **lib/features/campaign/campaign.dart:**
+
 ```dart
 /// Campaign feature exports
 library campaign;
@@ -230,6 +309,7 @@ export 'services/campaign_service.dart';
 ```
 
 **Usage:**
+
 ```dart
 // Before: Multiple imports
 import 'package:moonforge/features/campaign/views/campaign_list_view.dart';
@@ -258,6 +338,7 @@ find lib/features -type d -empty -delete
 If features have README files, update them to reflect new structure:
 
 **lib/features/campaign/README.md:**
+
 ```markdown
 # Campaign Feature
 
@@ -297,6 +378,10 @@ After each batch of moves:
 - [ ] App builds successfully
 - [ ] File names follow conventions
 - [ ] No empty directories remain
+- [ ] Update docs/README with the new structure overview (include notes on removed `editor/` feature stub and relocated AI example)
+- [ ] Rename remaining `*_screen.dart` files (campaign, entities, etc.) to `*_view.dart` and update imports/tests
+- [ ] Ensure every feature has a `README.md` describing its structure (campaign currently missing)
+- [ ] Move `scene/EXAMPLE_AI_INTEGRATION.dart` content into docs (e.g., `docs/gemini_integration.md`) and replace with README guidance
 
 ### Testing Strategy
 
@@ -330,25 +415,31 @@ git commit -m "refactor: update imports after file moves"
 ```
 
 **PR description template**:
+
 ```markdown
 ## Refactor Step 2: File and Folder Organization Consistency
 
 ### Changes
+
 - Standardized feature folder structure across all features
 - Renamed X files for consistency
 - Moved Y widgets from views/ to widgets/
 - Removed Z empty directories
 
 ### Structure Changes
+
 **Before:**
+
 - Mixed conventions across features
 - Inconsistent file naming
 
 **After:**
+
 - All features follow standard structure
 - Consistent naming: `*_view.dart`, `*_widget.dart`, etc.
 
 ### Verification
+
 - [x] All imports updated and working
 - [x] `flutter analyze` passes
 - [x] `flutter test` passes
@@ -377,6 +468,7 @@ A: Document the exception and the reason. Not everything needs to be forced into
 
 **Q: Should tests follow the same structure as source files?**  
 A: Yes, mirror the structure in `test/` to make tests easy to find:
+
 ```
 lib/features/campaign/views/campaign_list_view.dart
 test/features/campaign/views/campaign_list_view_test.dart

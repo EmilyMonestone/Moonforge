@@ -74,7 +74,7 @@ class ChapterValidation {
     String? excludeChapterId,
   }) {
     final normalizedName = name.trim().toLowerCase();
-    
+
     return !existingChapters.any(
       (c) =>
           c.campaignId == campaignId &&

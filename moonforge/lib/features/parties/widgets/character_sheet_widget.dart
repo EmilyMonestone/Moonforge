@@ -29,7 +29,7 @@ class CharacterSheetWidget extends StatelessWidget {
         children: [
           // Character Header (Name, Level, Class, Race)
           CharacterHeaderWidget(player: player),
-          
+
           const SizedBox(height: 16),
 
           // Core Stats Row
@@ -37,16 +37,12 @@ class CharacterSheetWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // HP Tracker
-              Expanded(
-                child: HpTrackerWidget(player: player),
-              ),
-              
+              Expanded(child: HpTrackerWidget(player: player)),
+
               const SizedBox(width: 16),
 
               // Core Combat Stats
-              Expanded(
-                child: _buildCombatStatsCard(context),
-              ),
+              Expanded(child: _buildCombatStatsCard(context)),
             ],
           ),
 
@@ -82,7 +78,7 @@ class CharacterSheetWidget extends StatelessWidget {
           // Additional Info
           if (player.features != null && player.features!.isNotEmpty)
             _buildFeaturesCard(context),
-          
+
           if (player.equipment != null && player.equipment!.isNotEmpty) ...[
             const SizedBox(height: 16),
             _buildEquipmentCard(context),
@@ -100,8 +96,8 @@ class CharacterSheetWidget extends StatelessWidget {
   Widget _buildCombatStatsCard(BuildContext context) {
     final initiative = characterService.getInitiativeModifier(player);
     final passivePerception = characterService.getPassivePerception(player);
-    final proficiencyBonus = player.proficiencyBonus ?? 
-      ((player.level - 1) ~/ 4) + 2;
+    final proficiencyBonus =
+        player.proficiencyBonus ?? ((player.level - 1) ~/ 4) + 2;
 
     return Card(
       child: Padding(
@@ -114,11 +110,23 @@ class CharacterSheetWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 16),
-            _buildStatRow(context, 'Armor Class', player.ac?.toString() ?? '10'),
-            _buildStatRow(context, 'Initiative', initiative >= 0 ? '+$initiative' : '$initiative'),
+            _buildStatRow(
+              context,
+              'Armor Class',
+              player.ac?.toString() ?? '10',
+            ),
+            _buildStatRow(
+              context,
+              'Initiative',
+              initiative >= 0 ? '+$initiative' : '$initiative',
+            ),
             _buildStatRow(context, 'Speed', '${player.speed ?? 30} ft'),
             _buildStatRow(context, 'Proficiency Bonus', '+$proficiencyBonus'),
-            _buildStatRow(context, 'Passive Perception', passivePerception.toString()),
+            _buildStatRow(
+              context,
+              'Passive Perception',
+              passivePerception.toString(),
+            ),
           ],
         ),
       ),
@@ -134,9 +142,9 @@ class CharacterSheetWidget extends StatelessWidget {
           Text(label),
           Text(
             value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -155,13 +163,15 @@ class CharacterSheetWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            ...player.features!.map((feature) => ListTile(
-              dense: true,
-              title: Text(feature['name'] ?? 'Unknown Feature'),
-              subtitle: feature['description'] != null
-                ? Text(feature['description'])
-                : null,
-            )),
+            ...player.features!.map(
+              (feature) => ListTile(
+                dense: true,
+                title: Text(feature['name'] ?? 'Unknown Feature'),
+                subtitle: feature['description'] != null
+                    ? Text(feature['description'])
+                    : null,
+              ),
+            ),
           ],
         ),
       ),
@@ -175,16 +185,15 @@ class CharacterSheetWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Equipment',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Equipment', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            ...player.equipment!.map((item) => ListTile(
-              dense: true,
-              leading: Icon(DomainType.entityItem.icon, size: 20),
-              title: Text(item),
-            )),
+            ...player.equipment!.map(
+              (item) => ListTile(
+                dense: true,
+                leading: Icon(DomainType.entityItem.icon, size: 20),
+                title: Text(item),
+              ),
+            ),
           ],
         ),
       ),
@@ -198,16 +207,15 @@ class CharacterSheetWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Spells',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Spells', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            ...player.spells!.map((spell) => ListTile(
-              dense: true,
-              leading: const Icon(Icons.auto_fix_high, size: 20),
-              title: Text(spell),
-            )),
+            ...player.spells!.map(
+              (spell) => ListTile(
+                dense: true,
+                leading: const Icon(Icons.auto_fix_high, size: 20),
+                title: Text(spell),
+              ),
+            ),
           ],
         ),
       ),

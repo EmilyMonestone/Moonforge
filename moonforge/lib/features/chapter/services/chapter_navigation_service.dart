@@ -6,23 +6,28 @@ class ChapterNavigationService {
   final ChapterRepository _repository;
 
   ChapterNavigationService({required ChapterRepository repository})
-      : _repository = repository;
+    : _repository = repository;
 
   /// Get the next chapter in the campaign
   Future<Chapter?> getNextChapter(String currentChapterId) async {
     final currentChapter = await _repository.getById(currentChapterId);
     if (currentChapter == null) return null;
 
-    final allChapters = await _repository.getByCampaign(currentChapter.campaignId);
-    
+    final allChapters = await _repository.getByCampaign(
+      currentChapter.campaignId,
+    );
+
     // Find next chapter by order
-    final sortedChapters = allChapters..sort((a, b) => a.order.compareTo(b.order));
-    final currentIndex = sortedChapters.indexWhere((c) => c.id == currentChapterId);
-    
+    final sortedChapters = allChapters
+      ..sort((a, b) => a.order.compareTo(b.order));
+    final currentIndex = sortedChapters.indexWhere(
+      (c) => c.id == currentChapterId,
+    );
+
     if (currentIndex == -1 || currentIndex >= sortedChapters.length - 1) {
       return null;
     }
-    
+
     return sortedChapters[currentIndex + 1];
   }
 
@@ -31,16 +36,21 @@ class ChapterNavigationService {
     final currentChapter = await _repository.getById(currentChapterId);
     if (currentChapter == null) return null;
 
-    final allChapters = await _repository.getByCampaign(currentChapter.campaignId);
-    
+    final allChapters = await _repository.getByCampaign(
+      currentChapter.campaignId,
+    );
+
     // Find previous chapter by order
-    final sortedChapters = allChapters..sort((a, b) => a.order.compareTo(b.order));
-    final currentIndex = sortedChapters.indexWhere((c) => c.id == currentChapterId);
-    
+    final sortedChapters = allChapters
+      ..sort((a, b) => a.order.compareTo(b.order));
+    final currentIndex = sortedChapters.indexWhere(
+      (c) => c.id == currentChapterId,
+    );
+
     if (currentIndex <= 0) {
       return null;
     }
-    
+
     return sortedChapters[currentIndex - 1];
   }
 
@@ -48,7 +58,7 @@ class ChapterNavigationService {
   Future<Chapter?> getFirstChapter(String campaignId) async {
     final chapters = await _repository.getByCampaign(campaignId);
     if (chapters.isEmpty) return null;
-    
+
     chapters.sort((a, b) => a.order.compareTo(b.order));
     return chapters.first;
   }
@@ -57,7 +67,7 @@ class ChapterNavigationService {
   Future<Chapter?> getLastChapter(String campaignId) async {
     final chapters = await _repository.getByCampaign(campaignId);
     if (chapters.isEmpty) return null;
-    
+
     chapters.sort((a, b) => a.order.compareTo(b.order));
     return chapters.last;
   }
@@ -68,8 +78,9 @@ class ChapterNavigationService {
     if (chapter == null) return null;
 
     final allChapters = await _repository.getByCampaign(chapter.campaignId);
-    final sortedChapters = allChapters..sort((a, b) => a.order.compareTo(b.order));
-    
+    final sortedChapters = allChapters
+      ..sort((a, b) => a.order.compareTo(b.order));
+
     final index = sortedChapters.indexWhere((c) => c.id == chapterId);
     return index >= 0 ? index + 1 : null;
   }
@@ -93,7 +104,7 @@ class ChapterNavigationService {
 
     final total = await getTotalChapters(chapter.campaignId);
     final position = await getChapterPosition(chapterId);
-    
+
     return position == total;
   }
 }

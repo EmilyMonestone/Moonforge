@@ -9,10 +9,7 @@ import 'package:moonforge/features/parties/controllers/player_provider.dart';
 class HpTrackerWidget extends StatefulWidget {
   final Player player;
 
-  const HpTrackerWidget({
-    super.key,
-    required this.player,
-  });
+  const HpTrackerWidget({super.key, required this.player});
 
   @override
   State<HpTrackerWidget> createState() => _HpTrackerWidgetState();
@@ -46,12 +43,9 @@ class _HpTrackerWidgetState extends State<HpTrackerWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Hit Points',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Hit Points', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 16),
-            
+
             // HP Bar
             Column(
               children: [
@@ -164,10 +158,10 @@ class _HpTrackerWidgetState extends State<HpTrackerWidget> {
       final provider = Provider.of<PlayerProvider>(context, listen: false);
       provider.takeDamage(damage);
       _damageController.clear();
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Applied $damage damage')),
-      );
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Applied $damage damage')));
     }
   }
 
@@ -177,10 +171,10 @@ class _HpTrackerWidgetState extends State<HpTrackerWidget> {
       final provider = Provider.of<PlayerProvider>(context, listen: false);
       provider.heal(healing);
       _healController.clear();
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Healed $healing HP')),
-      );
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Healed $healing HP')));
     }
   }
 
@@ -190,10 +184,10 @@ class _HpTrackerWidgetState extends State<HpTrackerWidget> {
       final provider = Provider.of<PlayerProvider>(context, listen: false);
       provider.updateHp(temp: tempHp);
       _tempHpController.clear();
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Added $tempHp temporary HP')),
-      );
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Added $tempHp temporary HP')));
     }
   }
 

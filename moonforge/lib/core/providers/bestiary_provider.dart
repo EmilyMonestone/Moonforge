@@ -13,7 +13,8 @@ class BestiaryProvider extends ChangeNotifier {
   DateTime? _lastSync;
 
   BestiaryProvider({BestiaryService? bestiaryService})
-      : _bestiaryService = bestiaryService ?? BestiaryService(PersistenceService()) {
+    : _bestiaryService =
+          bestiaryService ?? BestiaryService(PersistenceService()) {
     // Load cached data on initialization
     _loadCachedData();
   }

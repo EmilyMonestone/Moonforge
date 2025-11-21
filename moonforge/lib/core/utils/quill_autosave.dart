@@ -7,7 +7,7 @@ import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// A utility class for autosaving Quill editor content
-/// 
+///
 /// Usage:
 /// ```dart
 /// final autosave = QuillAutosave(
@@ -19,15 +19,15 @@ import 'package:moonforge/core/utils/logger.dart';
 ///     await saveToCampaign(content);
 ///   },
 /// );
-/// 
+///
 /// // Manually restore autosaved content if needed
 /// if (autosave.hasAutosavedContent()) {
 ///   // Show dialog or restore automatically
 /// }
-/// 
+///
 /// // Start autosaving
 /// autosave.start();
-/// 
+///
 /// // Stop autosaving when done
 /// autosave.dispose();
 /// ```
@@ -38,7 +38,7 @@ class QuillAutosave {
   final Future<void> Function(String content)? onSave;
   final VoidCallback? onError;
   final bool autoRestore;
-  
+
   final PersistenceService _persistence = PersistenceService();
   Timer? _debounceTimer;
   StreamSubscription<DocChange>? _changeSubscription;
@@ -85,10 +85,10 @@ class QuillAutosave {
   /// Handle document changes
   void _onDocumentChange(DocChange change) {
     if (_isDisposed) return;
-    
+
     // Cancel previous timer if exists
     _debounceTimer?.cancel();
-    
+
     // Start new timer
     _debounceTimer = Timer(delay, _save);
   }
@@ -101,7 +101,7 @@ class QuillAutosave {
       // Convert document to Delta JSON
       final delta = controller.document.toDelta();
       final content = jsonEncode(delta.toJson());
-      
+
       // Don't save if content hasn't changed
       if (content == _lastSavedContent) {
         return;
@@ -110,7 +110,7 @@ class QuillAutosave {
       // Save to local storage
       await _persistence.write(storageKey, content);
       _lastSavedContent = content;
-      
+
       logger.d('Autosaved content for key: $storageKey');
 
       // Call optional save callback

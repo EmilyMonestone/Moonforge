@@ -100,7 +100,10 @@ void main() {
     group('getErrorCode', () {
       test('returns the error code', () {
         final exception = FirebaseAuthException(code: 'invalid-email');
-        expect(AuthErrorHandler.getErrorCode(exception), equals('invalid-email'));
+        expect(
+          AuthErrorHandler.getErrorCode(exception),
+          equals('invalid-email'),
+        );
       });
     });
 

@@ -18,21 +18,10 @@ class SceneTemplates {
   /// Get template categories
   static Map<String, List<SceneTemplate>> getTemplatesByCategory() {
     return {
-      'Combat': [
-        _getTemplate('combat')!,
-        _getTemplate('boss')!,
-      ],
-      'Social': [
-        _getTemplate('social')!,
-      ],
-      'Exploration': [
-        _getTemplate('exploration')!,
-        _getTemplate('puzzle')!,
-      ],
-      'Other': [
-        _getTemplate('rest')!,
-        _getTemplate('cutscene')!,
-      ],
+      'Combat': [_getTemplate('combat')!, _getTemplate('boss')!],
+      'Social': [_getTemplate('social')!],
+      'Exploration': [_getTemplate('exploration')!, _getTemplate('puzzle')!],
+      'Other': [_getTemplate('rest')!, _getTemplate('cutscene')!],
     };
   }
 

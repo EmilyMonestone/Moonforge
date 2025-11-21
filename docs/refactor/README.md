@@ -31,20 +31,21 @@ docs/refactor/
 
 ## 🎯 Step Overview
 
-| # | Step | Priority | Effort | Focus Area |
-|---|------|----------|--------|------------|
-| 1 | [Formatting & Linting](step-1.md) | 🔴 High | S | Code consistency |
-| 2 | [File Organization](step-2.md) | 🔴 High | M | Structure |
-| 3 | [Common Widgets](step-3.md) | 🔴 High | M | Duplication removal |
-| 4 | [Theme & Styles](step-4.md) | 🟡 Medium | M | Styling |
-| 5 | [Async State](step-5.md) | 🔴 High | L | State management |
-| 6 | [Repository Pattern](step-6.md) | 🟡 Medium | M | Data layer |
-| 7 | [Service Layer](step-7.md) | 🟡 Medium | M | Business logic |
-| 8 | [Widget Simplification](step-8.md) | 🟡 Medium | L | UI structure |
-| 9 | [Testing](step-9.md) | 🟡 Medium | L | Quality assurance |
-| 10 | [Documentation](step-10.md) | 🟢 Low | M | Maintainability |
+| #  | Step                               | Priority  | Effort | Focus Area                     |
+|----|------------------------------------|-----------|--------|--------------------------------|
+| 1  | [Formatting & Linting](step-1.md)  | 🔴 High   | S      | Code consistency               |
+| 2  | [File Organization](step-2.md)     | 🔴 High   | M      | Structure & creation utilities |
+| 3  | [Common Widgets](step-3.md)        | 🔴 High   | M      | Duplication removal            |
+| 4  | [Theme & Styles](step-4.md)        | 🟡 Medium | M      | Styling                        |
+| 5  | [Async State](step-5.md)           | 🔴 High   | L      | State management               |
+| 6  | [Repository Pattern](step-6.md)    | 🟡 Medium | M      | Data layer                     |
+| 7  | [Service Layer](step-7.md)         | 🟡 Medium | M      | Business logic                 |
+| 8  | [Widget Simplification](step-8.md) | 🟡 Medium | L      | UI structure                   |
+| 9  | [Testing](step-9.md)               | 🟡 Medium | L      | Quality assurance              |
+| 10 | [Documentation](step-10.md)        | 🟢 Low    | M      | Maintainability                |
 
-**Legend:**  
+**Legend:**
+
 - **Priority:** 🔴 High | 🟡 Medium | 🟢 Low
 - **Effort:** S (1-2 days) | M (3-5 days) | L (6-10 days)
 
@@ -53,12 +54,14 @@ docs/refactor/
 Use this checklist to track your refactoring progress:
 
 ### Phase 1: Foundation (High Priority)
-- [ ] Step 1: Code Formatting and Linting Cleanup
-- [ ] Step 2: File and Folder Organization Consistency
+
+- [X] Step 1: Code Formatting and Linting Cleanup
+- [ ] Step 2: File and Folder Organization Consistency (creation helpers consolidated; folder audit still in progress)
 - [ ] Step 3: Extract Common Widget Patterns
 - [ ] Step 5: Standardize Async State Management
 
 ### Phase 2: Enhancement (Medium Priority)
+
 - [ ] Step 4: Consolidate Theme and Style Utilities
 - [ ] Step 6: Repository Pattern Consistency
 - [ ] Step 7: Service Layer Consolidation
@@ -66,6 +69,7 @@ Use this checklist to track your refactoring progress:
 - [ ] Step 9: Testing Infrastructure Enhancement
 
 ### Phase 3: Polish (Lower Priority)
+
 - [ ] Step 10: Documentation and Code Comments
 
 ## 💡 What You'll Learn
@@ -86,18 +90,21 @@ Each step teaches practical refactoring patterns:
 ## ⚡ Quick Tips
 
 ### Before Starting
+
 - ✅ Commit any pending work
 - ✅ Create a feature branch
 - ✅ Read the full step guide
 - ✅ Understand the scope
 
 ### During Refactoring
+
 - ✅ Make small, incremental changes
 - ✅ Run tests frequently
 - ✅ Commit often with clear messages
 - ✅ Don't skip verification steps
 
 ### After Completing a Step
+
 - ✅ Run `flutter analyze`
 - ✅ Run `flutter test`
 - ✅ Test manually
@@ -107,23 +114,28 @@ Each step teaches practical refactoring patterns:
 ## 🎓 Learning Path
 
 ### For Beginners
+
 Start with high-priority steps (1, 2, 3, 5) which provide the most value and are easier to understand.
 
 ### For Experienced Developers
+
 You can work through steps in parallel where they don't overlap (e.g., Step 4 and Step 6 are independent).
 
 ### For Teams
+
 Assign different steps to different team members, but maintain the order for merging to avoid conflicts.
 
 ## 📊 Expected Benefits
 
 ### After Phase 1 (Foundation)
+
 - Consistent code formatting
 - Clear project structure
 - Reduced UI duplication
 - Predictable async handling
 
 ### After Phase 2 (Enhancement)
+
 - Centralized styling
 - Clean data access layer
 - Testable business logic
@@ -131,6 +143,7 @@ Assign different steps to different team members, but maintain the order for mer
 - Good test coverage
 
 ### After Phase 3 (Polish)
+
 - Well-documented codebase
 - Easy onboarding for new developers
 - Clear architecture understanding

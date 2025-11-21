@@ -6,7 +6,8 @@ class SettingsService {
   static const String _keyThemeMode = 'settings.themeMode';
   static const String _keyLocale = 'settings.locale';
   static const String _keyRailNavExtended = 'settings.railNavExtended';
-  static const String _keyNotificationsEnabled = 'settings.notificationsEnabled';
+  static const String _keyNotificationsEnabled =
+      'settings.notificationsEnabled';
   static const String _keyAnalyticsEnabled = 'settings.analyticsEnabled';
 
   final SharedPreferences _prefs;

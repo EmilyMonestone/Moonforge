@@ -37,7 +37,7 @@ class SessionValidators {
       if (session.shareToken == null || session.shareToken!.isEmpty) {
         errors.add('Share token is required when sharing is enabled');
       }
-      
+
       if (session.shareExpiresAt != null) {
         if (session.shareExpiresAt!.isBefore(DateTime.now())) {
           errors.add('Share expiration date must be in the future');

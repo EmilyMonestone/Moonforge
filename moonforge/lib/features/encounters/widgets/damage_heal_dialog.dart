@@ -35,19 +35,14 @@ class _DamageHealDialogState extends State<DamageHealDialog> {
     final theme = Theme.of(context);
 
     return AlertDialog(
-      title: Text(
-        widget.isDamage ? 'Apply Damage' : 'Heal',
-      ),
+      title: Text(widget.isDamage ? 'Apply Damage' : 'Heal'),
       content: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.combatantName,
-              style: theme.textTheme.titleMedium,
-            ),
+            Text(widget.combatantName, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(
               'Current HP: ${widget.currentHp} / ${widget.maxHp}',
@@ -62,9 +57,7 @@ class _DamageHealDialogState extends State<DamageHealDialog> {
                 suffixText: 'HP',
               ),
               keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               autofocus: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {

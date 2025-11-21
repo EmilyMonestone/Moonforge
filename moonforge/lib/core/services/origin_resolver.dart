@@ -49,7 +49,7 @@ class OriginResolver {
     } else {
       // Composite ID - parse and validate
       result = await _resolveCompositeId(originId);
-      
+
       // Fallback: If composite resolution fails due to missing data (not malformed format),
       // try to extract and resolve the leaf ID
       if (result == null && _isWellFormedComposite(originId)) {
@@ -57,7 +57,8 @@ class OriginResolver {
           '[OriginResolver] Composite resolution failed for $originId, attempting fallback to leaf ID',
         );
         final tokens = originId.split('-').where((t) => t.isNotEmpty).toList();
-        bool isIdToken(String t) => RegExp(r'^\d+$').hasMatch(t) && t.length >= 6;
+        bool isIdToken(String t) =>
+            RegExp(r'^\d+$').hasMatch(t) && t.length >= 6;
         final firstIdIndex = tokens.indexWhere(isIdToken);
         if (firstIdIndex != -1) {
           final idTokens = tokens.sublist(firstIdIndex);
@@ -84,7 +85,7 @@ class OriginResolver {
   }
 
   /// Resolve a plain (non-composite) originId
-  /// 
+  ///
   /// Tries both the originId as-is and with type prefixes (e.g., "campaign-123")
   /// since IDs may be stored with prefixes in the database
   Future<EntityOrigin?> _resolvePlainId(String originId) async {
@@ -96,7 +97,7 @@ class OriginResolver {
       // Try with originId as-is first
       var result = await lookup(originId);
       if (result != null) return result;
-      
+
       // If originId doesn't already start with prefix, try adding it
       if (!originId.startsWith('$prefix-')) {
         result = await lookup('$prefix-$originId');
@@ -229,12 +230,20 @@ class OriginResolver {
     final idTokens = tokens.sublist(firstIdIndex);
 
     // Must have equal or more IDs than types
-    if (typeTokens.isEmpty || idTokens.isEmpty || idTokens.length < typeTokens.length) {
+    if (typeTokens.isEmpty ||
+        idTokens.isEmpty ||
+        idTokens.length < typeTokens.length) {
       return false;
     }
 
     // Must have at least one valid type token
-    const validTypes = {'campaign', 'chapter', 'adventure', 'scene', 'encounter'};
+    const validTypes = {
+      'campaign',
+      'chapter',
+      'adventure',
+      'scene',
+      'encounter',
+    };
     final filteredTypes = typeTokens.where(validTypes.contains).toList();
     return filteredTypes.isNotEmpty;
   }
@@ -262,14 +271,22 @@ class OriginResolver {
     final typeTokens = tokens.sublist(0, firstIdIndex);
     final idTokens = tokens.sublist(firstIdIndex);
 
-    if (typeTokens.isEmpty || idTokens.isEmpty || idTokens.length < typeTokens.length) {
+    if (typeTokens.isEmpty ||
+        idTokens.isEmpty ||
+        idTokens.length < typeTokens.length) {
       logger.w(
         '[OriginResolver] Invalid token structure in: $originId (types: ${typeTokens.length}, ids: ${idTokens.length})',
       );
       return null;
     }
 
-    const validTypes = {'campaign', 'chapter', 'adventure', 'scene', 'encounter'};
+    const validTypes = {
+      'campaign',
+      'chapter',
+      'adventure',
+      'scene',
+      'encounter',
+    };
     final filteredTypes = typeTokens.where(validTypes.contains).toList();
     if (filteredTypes.isEmpty) {
       logger.w('[OriginResolver] No valid type tokens in: $originId');
@@ -306,13 +323,12 @@ class OriginResolver {
   Future<EntityOrigin?> _tryResolveMapping(
     String originId,
     List<String> typeTokens,
-    List<String> idTokens,
-    {required bool leafFirst,
+    List<String> idTokens, {
+    required bool leafFirst,
   }) async {
     // Build type->id mapping
     final mapping = <String, String>{};
     final lenTypes = typeTokens.length;
-    final lenIds = idTokens.length;
 
     // Both leaf-first and root-first use direct positional mapping
     // Leaf-first: adventure-chapter-campaign-advId-chapterId-campaignId
@@ -371,9 +387,9 @@ class OriginResolver {
           final campaign = await campaignRepo.getById(leafId);
           if (campaign == null) return false;
           // If more specific types exist in mapping, campaign cannot be the leaf
-          if (mapping.containsKey('chapter') || 
-              mapping.containsKey('adventure') || 
-              mapping.containsKey('scene') || 
+          if (mapping.containsKey('chapter') ||
+              mapping.containsKey('adventure') ||
+              mapping.containsKey('scene') ||
               mapping.containsKey('encounter')) {
             return false;
           }
@@ -388,8 +404,8 @@ class OriginResolver {
             return false;
           }
           // If more specific types exist in mapping, chapter cannot be the leaf
-          if (mapping.containsKey('adventure') || 
-              mapping.containsKey('scene') || 
+          if (mapping.containsKey('adventure') ||
+              mapping.containsKey('scene') ||
               mapping.containsKey('encounter')) {
             return false;
           }
@@ -427,7 +443,8 @@ class OriginResolver {
             }
           }
           // If more specific types exist in mapping, adventure cannot be the leaf
-          if (mapping.containsKey('scene') || mapping.containsKey('encounter')) {
+          if (mapping.containsKey('scene') ||
+              mapping.containsKey('encounter')) {
             return false;
           }
           return true;

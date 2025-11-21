@@ -5,10 +5,7 @@ import 'package:moonforge/features/auth/utils/auth_validators.dart';
 ///
 /// Shows a progress bar and label indicating the strength of the password.
 class PasswordStrengthIndicator extends StatelessWidget {
-  const PasswordStrengthIndicator({
-    super.key,
-    required this.password,
-  });
+  const PasswordStrengthIndicator({super.key, required this.password});
 
   final String password;
 

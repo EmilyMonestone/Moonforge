@@ -31,7 +31,9 @@ class SceneNavigationService {
       _sceneHistory.add(sceneId);
       _currentHistoryIndex = _sceneHistory.length - 1;
 
-      logger.i('Navigated to scene $sceneId (history index: $_currentHistoryIndex)');
+      logger.i(
+        'Navigated to scene $sceneId (history index: $_currentHistoryIndex)',
+      );
     } catch (e) {
       logger.e('Error navigating to scene: $e');
       rethrow;
@@ -44,7 +46,9 @@ class SceneNavigationService {
 
     _currentHistoryIndex--;
     final sceneId = _sceneHistory[_currentHistoryIndex];
-    logger.i('Navigated back to scene $sceneId (history index: $_currentHistoryIndex)');
+    logger.i(
+      'Navigated back to scene $sceneId (history index: $_currentHistoryIndex)',
+    );
     return sceneId;
   }
 
@@ -54,7 +58,9 @@ class SceneNavigationService {
 
     _currentHistoryIndex++;
     final sceneId = _sceneHistory[_currentHistoryIndex];
-    logger.i('Navigated forward to scene $sceneId (history index: $_currentHistoryIndex)');
+    logger.i(
+      'Navigated forward to scene $sceneId (history index: $_currentHistoryIndex)',
+    );
     return sceneId;
   }
 
@@ -77,7 +83,8 @@ class SceneNavigationService {
 
   /// Get the current scene ID from history
   String? getCurrentSceneId() {
-    if (_currentHistoryIndex >= 0 && _currentHistoryIndex < _sceneHistory.length) {
+    if (_currentHistoryIndex >= 0 &&
+        _currentHistoryIndex < _sceneHistory.length) {
       return _sceneHistory[_currentHistoryIndex];
     }
     return null;
@@ -91,15 +98,15 @@ class SceneNavigationService {
 
       // Find scenes that appear in history
       final visitedSceneIds = _sceneHistory.toSet();
-      final visitedScenes = scenes.where(
-        (s) => visitedSceneIds.contains(s.id),
-      ).toList();
+      final visitedScenes = scenes
+          .where((s) => visitedSceneIds.contains(s.id))
+          .toList();
 
       // Calculate progression
       final totalScenes = scenes.length;
       final visitedCount = visitedScenes.length;
       final currentSceneId = getCurrentSceneId();
-      
+
       Scene? currentScene;
       if (currentSceneId != null) {
         final sceneIndex = scenes.indexWhere((s) => s.id == currentSceneId);

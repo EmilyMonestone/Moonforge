@@ -26,7 +26,7 @@ class AppSettingsProvider with ChangeNotifier {
   /// Load settings from persistent storage on initialization.
   void _loadSettings() {
     if (_settingsService == null) return;
-    
+
     _themeMode = _settingsService.loadThemeMode();
     _locale = _settingsService.loadLocale();
     _railNavExtended = _settingsService.loadRailNavExtended();

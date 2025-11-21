@@ -50,39 +50,40 @@ class StoryContext {
   });
 
   Map<String, dynamic> toJson() => {
-        'campaignName': campaignName,
-        'campaignDescription': campaignDescription,
-        'chapterName': chapterName,
-        'chapterSummary': chapterSummary,
-        'adventureName': adventureName,
-        'adventureSummary': adventureSummary,
-        'sceneName': sceneName,
-        'sceneSummary': sceneSummary,
-        'recentContent': recentContent,
-        'entities': entities.map((e) => e.toJson()).toList(),
-        'worldNotes': worldNotes,
-        'styleNotes': styleNotes,
-        'language': language,
-      };
+    'campaignName': campaignName,
+    'campaignDescription': campaignDescription,
+    'chapterName': chapterName,
+    'chapterSummary': chapterSummary,
+    'adventureName': adventureName,
+    'adventureSummary': adventureSummary,
+    'sceneName': sceneName,
+    'sceneSummary': sceneSummary,
+    'recentContent': recentContent,
+    'entities': entities.map((e) => e.toJson()).toList(),
+    'worldNotes': worldNotes,
+    'styleNotes': styleNotes,
+    'language': language,
+  };
 
   factory StoryContext.fromJson(Map<String, dynamic> json) => StoryContext(
-        campaignName: json['campaignName'] as String,
-        campaignDescription: json['campaignDescription'] as String?,
-        chapterName: json['chapterName'] as String?,
-        chapterSummary: json['chapterSummary'] as String?,
-        adventureName: json['adventureName'] as String?,
-        adventureSummary: json['adventureSummary'] as String?,
-        sceneName: json['sceneName'] as String?,
-        sceneSummary: json['sceneSummary'] as String?,
-        recentContent: json['recentContent'] as String?,
-        entities: (json['entities'] as List?)
-                ?.map((e) => EntityInfo.fromJson(e as Map<String, dynamic>))
-                .toList() ??
-            const [],
-        worldNotes: json['worldNotes'] as String?,
-        styleNotes: json['styleNotes'] as String?,
-        language: json['language'] as String?,
-      );
+    campaignName: json['campaignName'] as String,
+    campaignDescription: json['campaignDescription'] as String?,
+    chapterName: json['chapterName'] as String?,
+    chapterSummary: json['chapterSummary'] as String?,
+    adventureName: json['adventureName'] as String?,
+    adventureSummary: json['adventureSummary'] as String?,
+    sceneName: json['sceneName'] as String?,
+    sceneSummary: json['sceneSummary'] as String?,
+    recentContent: json['recentContent'] as String?,
+    entities:
+        (json['entities'] as List?)
+            ?.map((e) => EntityInfo.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    worldNotes: json['worldNotes'] as String?,
+    styleNotes: json['styleNotes'] as String?,
+    language: json['language'] as String?,
+  );
 }
 
 /// Information about an entity (NPC, location, item, etc.)
@@ -102,18 +103,18 @@ class EntityInfo {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'kind': kind,
-        'summary': summary,
-        'tags': tags,
-      };
+    'id': id,
+    'name': name,
+    'kind': kind,
+    'summary': summary,
+    'tags': tags,
+  };
 
   factory EntityInfo.fromJson(Map<String, dynamic> json) => EntityInfo(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        kind: json['kind'] as String,
-        summary: json['summary'] as String?,
-        tags: (json['tags'] as List?)?.cast<String>() ?? const [],
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    kind: json['kind'] as String,
+    summary: json['summary'] as String?,
+    tags: (json['tags'] as List?)?.cast<String>() ?? const [],
+  );
 }

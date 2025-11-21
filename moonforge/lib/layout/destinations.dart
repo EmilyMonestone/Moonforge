@@ -17,7 +17,11 @@ class TabSpec {
 
 final List<TabSpec> kPrimaryTabs = <TabSpec>[
   TabSpec(label: 'Home', icon: Icons.home_outlined, location: '/'),
-  TabSpec(label: 'Campaign', icon: DomainType.campaign.icon, location: '/campaign'),
+  TabSpec(
+    label: 'Campaign',
+    icon: DomainType.campaign.icon,
+    location: '/campaign',
+  ),
   TabSpec(label: 'Party', icon: DomainType.party.icon, location: '/party'),
   TabSpec(
     label: 'Settings',

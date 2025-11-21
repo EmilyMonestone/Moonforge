@@ -32,8 +32,8 @@ class EncounterList extends StatelessWidget {
                 Text(
                   'No encounters yet',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -46,8 +46,9 @@ class EncounterList extends StatelessWidget {
         final encounter = encounters[index];
         return EncounterCard(
           encounter: encounter,
-          onTap:
-              onEncounterTap != null ? () => onEncounterTap!(encounter) : null,
+          onTap: onEncounterTap != null
+              ? () => onEncounterTap!(encounter)
+              : null,
         );
       },
     );

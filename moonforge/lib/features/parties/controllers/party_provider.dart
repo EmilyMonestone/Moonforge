@@ -86,10 +86,12 @@ class PartyProvider with ChangeNotifier {
   Future<void> addMember(String playerId) async {
     if (_currentParty == null) return;
 
-    final updatedMemberIds = List<String>.from(_currentParty!.memberPlayerIds ?? []);
+    final updatedMemberIds = List<String>.from(
+      _currentParty!.memberPlayerIds ?? [],
+    );
     if (!updatedMemberIds.contains(playerId)) {
       updatedMemberIds.add(playerId);
-      
+
       final updatedParty = Party(
         id: _currentParty!.id,
         campaignId: _currentParty!.campaignId,
@@ -113,10 +115,12 @@ class PartyProvider with ChangeNotifier {
   Future<void> removeMember(String playerId) async {
     if (_currentParty == null) return;
 
-    final updatedMemberIds = List<String>.from(_currentParty!.memberPlayerIds ?? []);
+    final updatedMemberIds = List<String>.from(
+      _currentParty!.memberPlayerIds ?? [],
+    );
     if (updatedMemberIds.contains(playerId)) {
       updatedMemberIds.remove(playerId);
-      
+
       final updatedParty = Party(
         id: _currentParty!.id,
         campaignId: _currentParty!.campaignId,

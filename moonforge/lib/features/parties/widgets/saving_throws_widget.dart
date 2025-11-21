@@ -45,7 +45,8 @@ class SavingThrowsWidget extends StatelessWidget {
   Widget _buildSavingThrowItem(BuildContext context, String ability) {
     final modifier = characterService.getSavingThrowModifier(player, ability);
     final modifierText = CharacterCalculations.formatModifier(modifier);
-    final isProficient = player.savingThrowProficiencies?.contains(ability) ?? false;
+    final isProficient =
+        player.savingThrowProficiencies?.contains(ability) ?? false;
     final abilityName = CharacterCalculations.getAbilityName(ability);
 
     return ListTile(
@@ -58,9 +59,9 @@ class SavingThrowsWidget extends StatelessWidget {
       title: Text(abilityName),
       trailing: Text(
         modifierText,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }

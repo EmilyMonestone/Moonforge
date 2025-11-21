@@ -15,11 +15,11 @@ class GenerationRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'context': context.toJson(),
-        'type': type.toString(),
-        'additionalInstructions': additionalInstructions,
-        'maxTokens': maxTokens,
-      };
+    'context': context.toJson(),
+    'type': type.toString(),
+    'additionalInstructions': additionalInstructions,
+    'maxTokens': maxTokens,
+  };
 
   factory GenerationRequest.fromJson(Map<String, dynamic> json) =>
       GenerationRequest(
@@ -33,13 +33,7 @@ class GenerationRequest {
 }
 
 /// Type of content to generate
-enum GenerationType {
-  completion,
-  chapter,
-  adventure,
-  scene,
-  npc,
-}
+enum GenerationType { completion, chapter, adventure, scene, npc }
 
 /// Request for completing/continuing existing content
 class CompletionRequest {
@@ -56,11 +50,11 @@ class CompletionRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'context': context.toJson(),
-        'currentContent': currentContent,
-        'desiredDirection': desiredDirection,
-        'maxTokens': maxTokens,
-      };
+    'context': context.toJson(),
+    'currentContent': currentContent,
+    'desiredDirection': desiredDirection,
+    'maxTokens': maxTokens,
+  };
 
   factory CompletionRequest.fromJson(Map<String, dynamic> json) =>
       CompletionRequest(
@@ -92,14 +86,14 @@ class SectionGenerationRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'context': context.toJson(),
-        'sectionType': sectionType,
-        'title': title,
-        'outline': outline,
-        'previousSectionSummary': previousSectionSummary,
-        'keyElements': keyElements,
-        'maxTokens': maxTokens,
-      };
+    'context': context.toJson(),
+    'sectionType': sectionType,
+    'title': title,
+    'outline': outline,
+    'previousSectionSummary': previousSectionSummary,
+    'keyElements': keyElements,
+    'maxTokens': maxTokens,
+  };
 
   factory SectionGenerationRequest.fromJson(Map<String, dynamic> json) =>
       SectionGenerationRequest(
@@ -108,8 +102,7 @@ class SectionGenerationRequest {
         title: json['title'] as String,
         outline: json['outline'] as String?,
         previousSectionSummary: json['previousSectionSummary'] as String?,
-        keyElements:
-            (json['keyElements'] as List?)?.cast<String>() ?? const [],
+        keyElements: (json['keyElements'] as List?)?.cast<String>() ?? const [],
         maxTokens: json['maxTokens'] as int? ?? 1500,
       );
 }
@@ -137,15 +130,15 @@ class NpcGenerationRequest {
   });
 
   Map<String, dynamic> toJson() => {
-        'context': context.toJson(),
-        'role': role,
-        'species': species,
-        'alignment': alignment,
-        'relationshipToParty': relationshipToParty,
-        'traits': traits,
-        'backstory': backstory,
-        'maxTokens': maxTokens,
-      };
+    'context': context.toJson(),
+    'role': role,
+    'species': species,
+    'alignment': alignment,
+    'relationshipToParty': relationshipToParty,
+    'traits': traits,
+    'backstory': backstory,
+    'maxTokens': maxTokens,
+  };
 
   factory NpcGenerationRequest.fromJson(Map<String, dynamic> json) =>
       NpcGenerationRequest(

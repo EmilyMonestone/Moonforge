@@ -62,31 +62,35 @@ class ChapterProvider with ChangeNotifier {
   /// Navigate to next chapter in the list
   Chapter? getNextChapter() {
     if (_currentChapter == null || _chapters.isEmpty) return null;
-    
-    final currentIndex = _chapters.indexWhere((c) => c.id == _currentChapter!.id);
+
+    final currentIndex = _chapters.indexWhere(
+      (c) => c.id == _currentChapter!.id,
+    );
     if (currentIndex == -1 || currentIndex >= _chapters.length - 1) {
       return null;
     }
-    
+
     return _chapters[currentIndex + 1];
   }
 
   /// Navigate to previous chapter in the list
   Chapter? getPreviousChapter() {
     if (_currentChapter == null || _chapters.isEmpty) return null;
-    
-    final currentIndex = _chapters.indexWhere((c) => c.id == _currentChapter!.id);
+
+    final currentIndex = _chapters.indexWhere(
+      (c) => c.id == _currentChapter!.id,
+    );
     if (currentIndex <= 0) {
       return null;
     }
-    
+
     return _chapters[currentIndex - 1];
   }
 
   /// Get the current chapter's position in the list
   int? getCurrentChapterIndex() {
     if (_currentChapter == null || _chapters.isEmpty) return null;
-    
+
     final index = _chapters.indexWhere((c) => c.id == _currentChapter!.id);
     return index >= 0 ? index : null;
   }

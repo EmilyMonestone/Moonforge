@@ -71,7 +71,11 @@ class _EntityListScreenState extends State<EntityListScreen> {
                     icon: const Icon(Icons.add),
                     label: Text(l10n.createEntity),
                     onPressed: () async {
-                      await createEntity(context, campaign);
+                      await createEntity(
+                        context,
+                        campaign,
+                        scope: EntityCreationScope.campaign,
+                      );
                       _controller.loadEntities();
                     },
                   ),

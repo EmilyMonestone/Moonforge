@@ -11,7 +11,7 @@ This guide helps new developers set up their development environment and underst
    flutter --version
    # Should show Flutter 3.x or later
    ```
-   
+
    Install from: https://docs.flutter.dev/get-started/install
 
 2. **Dart SDK** (included with Flutter)
@@ -29,9 +29,9 @@ This guide helps new developers set up their development environment and underst
 - **VS Code** or **Android Studio** with Flutter extensions
 - **Firebase CLI** for Firebase configuration (if modifying backend)
 - **Platform-specific tools** (see [Platform-Specific Guide](development/platform-specific.md)):
-  - **Windows**: Visual Studio 2022 with C++ workload
-  - **macOS**: Xcode 14+ and command line tools
-  - **Linux**: GTK 3 development libraries
+    - **Windows**: Visual Studio 2022 with C++ workload
+    - **macOS**: Xcode 14+ and command line tools
+    - **Linux**: GTK 3 development libraries
 
 ## Initial Setup
 
@@ -77,6 +77,7 @@ dart run build_runner build --delete-conflicting-outputs
 ```
 
 This generates:
+
 - `*.g.dart` files (JSON serialization, Firestore ODM)
 - `*.freezed.dart` files (immutable models)
 - `*.gr.dart` files (go_router routes)
@@ -158,12 +159,11 @@ See [Folder Structure Reference](reference/folder-structure.md) for details.
 Understanding these will help you navigate the codebase:
 
 - **[Flutter](https://flutter.dev/)** - UI framework
-- **[Riverpod](https://riverpod.dev/)** - State management ([guide](architecture/state-management.md))
+- **[Provider]** - State management
 - **[go_router](https://pub.dev/packages/go_router)** - Navigation ([guide](architecture/routing.md))
 - **[Freezed](https://pub.dev/packages/freezed)** - Immutable models
 - **[Drift](https://drift.simonbinder.eu/)** - SQLite for offline-first ([guide](architecture/offline-sync.md))
 - **[Firebase](https://firebase.google.com/)** - Backend (Auth, Firestore, Storage) ([guide](architecture/data-layer.md))
-- **[Firestore ODM](https://pub.dev/packages/cloud_firestore_odm)** - Type-safe Firestore access
 
 ## Development Workflow
 
@@ -200,18 +200,21 @@ Understanding these will help you navigate the codebase:
 ### Common Tasks
 
 #### Adding a New Screen
+
 1. Create route in `lib/core/services/app_router.dart`
 2. Run `dart run build_runner build --delete-conflicting-outputs`
 3. Create view in appropriate feature folder
 4. Add to navigation (see [Routing Guide](architecture/routing.md))
 
 #### Adding a New Model
+
 1. Create model in `lib/core/models/` or feature-specific folder
 2. Add Freezed and JSON annotations
 3. Run code generation
 4. Update Drift tables if needed (see [Offline Sync Guide](architecture/offline-sync.md))
 
 #### Adding Localized Strings
+
 1. Add strings to `lib/l10n/app_en.arb`
 2. Add translations to `lib/l10n/app_de.arb` (if applicable)
 3. Run `flutter pub get` to regenerate
@@ -238,6 +241,7 @@ Now that you're set up, explore:
 ## Common Issues
 
 ### Code generation fails
+
 ```bash
 # Clean and regenerate
 dart run build_runner clean
@@ -245,14 +249,17 @@ dart run build_runner build --delete-conflicting-outputs
 ```
 
 ### Import errors after generation
+
 - Restart your IDE/analyzer
 - Run `flutter pub get`
 
 ### Firebase connection issues
+
 - Check your `.env` file has the correct API key
 - Verify Firebase project is configured correctly
 
 ### Platform-specific build failures
+
 See [Platform-Specific Guide](development/platform-specific.md) for detailed troubleshooting.
 
 ## Resources

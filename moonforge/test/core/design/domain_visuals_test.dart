@@ -152,36 +152,23 @@ void main() {
       expect(label, equals('Party'));
     });
 
-    testWidgets('extension toIcon creates valid Icon widget',
-        (WidgetTester tester) async {
+    testWidgets('extension toIcon creates valid Icon widget', (
+      WidgetTester tester,
+    ) async {
       final icon = DomainType.campaign.toIcon();
       expect(icon, isA<Icon>());
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: icon,
-          ),
-        ),
-      );
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: icon)));
 
       expect(find.byIcon(Icons.book_outlined), findsOneWidget);
     });
 
-    testWidgets('extension toIcon respects custom size and color',
-        (WidgetTester tester) async {
-      final icon = DomainType.chapter.toIcon(
-        size: 32,
-        color: Colors.red,
-      );
+    testWidgets('extension toIcon respects custom size and color', (
+      WidgetTester tester,
+    ) async {
+      final icon = DomainType.chapter.toIcon(size: 32, color: Colors.red);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: icon,
-          ),
-        ),
-      );
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: icon)));
 
       final iconWidget = tester.widget<Icon>(find.byType(Icon));
       expect(iconWidget.size, equals(32));
@@ -191,9 +178,7 @@ void main() {
 
   group('DomainVisualConfig', () {
     test('can be created with icon only', () {
-      const config = DomainVisualConfig(
-        icon: Icons.star,
-      );
+      const config = DomainVisualConfig(icon: Icons.star);
       expect(config.icon, equals(Icons.star));
       expect(config.color, isNull);
       expect(config.semanticLabel, isNull);

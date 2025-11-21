@@ -45,14 +45,20 @@ void main() {
     group('validatePasswordConfirmation', () {
       test('returns null when passwords match', () {
         expect(
-          AuthValidators.validatePasswordConfirmation('password123', 'password123'),
+          AuthValidators.validatePasswordConfirmation(
+            'password123',
+            'password123',
+          ),
           isNull,
         );
       });
 
       test('returns error when passwords do not match', () {
         expect(
-          AuthValidators.validatePasswordConfirmation('password123', 'different'),
+          AuthValidators.validatePasswordConfirmation(
+            'password123',
+            'different',
+          ),
           isNotNull,
         );
       });
@@ -111,7 +117,9 @@ void main() {
       });
 
       test('caps score at 4', () {
-        final score = AuthValidators.getPasswordStrength('VeryLongP@ssw0rd123!WithSpecialChars');
+        final score = AuthValidators.getPasswordStrength(
+          'VeryLongP@ssw0rd123!WithSpecialChars',
+        );
         expect(score, lessThanOrEqualTo(4));
       });
     });

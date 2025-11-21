@@ -67,7 +67,7 @@ class BreadcrumbService {
 
     // Get current campaign from provider
     final campaign = context.read<CampaignProvider>().currentCampaign;
-    
+
     // Get repositories
     final chapterRepo = context.read<ChapterRepository>();
     final adventureRepo = context.read<AdventureRepository>();

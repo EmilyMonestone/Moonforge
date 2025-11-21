@@ -30,10 +30,7 @@ class AdventureValidation {
       errors.add('Adventure summary is too long (max 1000 characters)');
     }
 
-    return AdventureValidationResult(
-      isValid: errors.isEmpty,
-      errors: errors,
-    );
+    return AdventureValidationResult(isValid: errors.isEmpty, errors: errors);
   }
 
   /// Validate adventure name
@@ -59,10 +56,7 @@ class AdventureValidationResult {
   final bool isValid;
   final List<String> errors;
 
-  AdventureValidationResult({
-    required this.isValid,
-    required this.errors,
-  });
+  AdventureValidationResult({required this.isValid, required this.errors});
 
   /// Get all errors as a single message
   String get message => errors.join('\n');

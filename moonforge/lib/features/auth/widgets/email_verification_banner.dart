@@ -8,10 +8,7 @@ import 'package:toastification/toastification.dart';
 ///
 /// Shows a dismissible alert with option to resend verification email.
 class EmailVerificationBanner extends StatefulWidget {
-  const EmailVerificationBanner({
-    super.key,
-    required this.user,
-  });
+  const EmailVerificationBanner({super.key, required this.user});
 
   final User user;
 
@@ -92,10 +89,7 @@ class _EmailVerificationBannerState extends State<EmailVerificationBanner> {
                   ),
           ),
           IconButton(
-            icon: Icon(
-              Icons.close,
-              color: theme.colorScheme.onErrorContainer,
-            ),
+            icon: Icon(Icons.close, color: theme.colorScheme.onErrorContainer),
             onPressed: () {
               setState(() {
                 _isDismissed = true;

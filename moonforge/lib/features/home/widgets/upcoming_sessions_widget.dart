@@ -40,7 +40,7 @@ class UpcomingSessionsWidget extends StatelessWidget {
         }
 
         final sessions = snapshot.data ?? [];
-        
+
         if (sessions.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -82,7 +82,7 @@ class _SessionCard extends StatelessWidget {
     final timeFormat = DateFormat.jm();
 
     final sessionDate = session.datetime;
-    final dateStr = sessionDate != null 
+    final dateStr = sessionDate != null
         ? dateFormat.format(sessionDate.toLocal())
         : 'Date TBD';
     final timeStr = sessionDate != null
@@ -93,10 +93,7 @@ class _SessionCard extends StatelessWidget {
       elevation: 0,
       color: theme.colorScheme.surfaceContainerHigh,
       child: ListTile(
-        leading: Icon(
-          Icons.calendar_today,
-          color: theme.colorScheme.primary,
-        ),
+        leading: Icon(Icons.calendar_today, color: theme.colorScheme.primary),
         title: Text(
           session.id.substring(0, 8),
           style: theme.textTheme.titleSmall,

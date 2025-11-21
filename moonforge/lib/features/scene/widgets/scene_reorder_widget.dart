@@ -96,10 +96,7 @@ class _SceneReorderWidgetState extends State<SceneReorderWidget> {
                 ),
               ),
             ),
-            title: Text(
-              scene.name,
-              style: theme.textTheme.titleSmall,
-            ),
+            title: Text(scene.name, style: theme.textTheme.titleSmall),
             subtitle: scene.summary != null && scene.summary!.isNotEmpty
                 ? Text(
                     scene.summary!,
