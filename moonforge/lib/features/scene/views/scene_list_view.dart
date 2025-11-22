@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/router_config.dart';
+import 'package:moonforge/core/widgets/empty_state.dart';
+import 'package:moonforge/core/widgets/error_display.dart';
+import 'package:moonforge/core/widgets/loading_indicator.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -7,6 +10,7 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/widgets/scene_card.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// Screen for browsing all scenes across all adventures in a campaign
@@ -38,7 +42,7 @@ class _SceneListViewState extends State<SceneListView> {
       final campaign = context.read<CampaignProvider>().currentCampaign;
       if (campaign == null) {
         setState(() {
-          _errorMessage = 'No campaign selected';
+          _errorMessage = AppLocalizations.of(context)!.noCampaignSelected;
           _isLoading = false;
         });
         return;
@@ -91,7 +95,7 @@ class _SceneListViewState extends State<SceneListView> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error loading scenes: $e';
+        _errorMessage = e.toString();
         _isLoading = false;
       });
     }
@@ -100,51 +104,23 @@ class _SceneListViewState extends State<SceneListView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SurfaceContainer(
-      title: Text('All Scenes', style: theme.textTheme.displaySmall),
+      title: Text(l10n.scenes, style: theme.textTheme.displaySmall),
       child: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? LoadingIndicator(message: l10n.loadingMessage)
           : _errorMessage != null
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    _errorMessage!,
-                    style: theme.textTheme.titleMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    onPressed: _loadAllScenes,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Retry'),
-                  ),
-                ],
-              ),
+          ? ErrorDisplay(
+              title: l10n.errorSomethingWentWrong,
+              message: _errorMessage,
+              onRetry: _loadAllScenes,
             )
           : _scenes.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.movie_outlined,
-                    size: 64,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No scenes found',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
+          ? EmptyState(
+              icon: Icons.movie_outlined,
+              title: l10n.noScenesYet,
+              message: l10n.emptyStateGenericMessage,
             )
           : ListView.builder(
               itemCount: _scenes.length,

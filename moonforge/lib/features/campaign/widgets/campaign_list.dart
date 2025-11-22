@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/widgets/empty_state.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
+import 'package:moonforge/features/campaign/utils/create_campaign.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_card.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// Widget for displaying a list or grid of campaigns
@@ -23,18 +26,15 @@ class CampaignList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (campaigns.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.campaign_outlined, size: 64),
-            SizedBox(height: 16),
-            Text('No campaigns found'),
-            SizedBox(height: 8),
-            Text('Create a new campaign to get started'),
-          ],
-        ),
+      return EmptyState(
+        icon: Icons.campaign_outlined,
+        title: l10n.emptyStateNoItems,
+        message: l10n.emptyStateGenericMessage,
+        actionLabel: l10n.createCampaignCta,
+        onAction: () => createCampaignAndOpenEditor(context),
       );
     }
 

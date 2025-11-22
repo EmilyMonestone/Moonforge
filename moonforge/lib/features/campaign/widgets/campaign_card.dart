@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 
 /// A card widget for displaying a campaign in a list or grid
 class CampaignCard extends StatelessWidget {
@@ -25,6 +26,7 @@ class CampaignCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final lastUpdated = campaign.updatedAt ?? campaign.createdAt;
 
     return Card(

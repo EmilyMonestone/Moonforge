@@ -527,4 +527,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updated => 'Updated';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String emptyStateMessage(Object description, Object title) {
+    return '$title\n$description';
+  }
+
+  @override
+  String get emptyStateNoItems => 'Nothing here yet';
+
+  @override
+  String get emptyStateGenericMessage =>
+      'Try changing filters or create a new entry.';
+
+  @override
+  String get errorSomethingWentWrong => 'Something went wrong';
+
+  @override
+  String get errorLoadFailed => 'Failed to load data. Please try again.';
+
+  @override
+  String get loadBestiary => 'Load Bestiary';
+
+  @override
+  String get loadingMessage => 'Loading...';
+
+  @override
+  String get scenes => 'Scenes';
+
+  @override
+  String get noScenesYet => 'No scenes yet';
+
+  @override
+  String get createCampaignCta => 'Create Campaign';
+
+  @override
+  String get createEncounterCta => 'Create Encounter';
+
+  @override
+  String get createSessionCta => 'Create Session';
+
+  @override
+  String get searchCampaignsHint => 'Search campaigns...';
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get sortAscending => 'Ascending';
+
+  @override
+  String get sortDescending => 'Descending';
+
+  @override
+  String get encounters => 'Encounters';
+
+  @override
+  String get noEncountersYet => 'No encounters yet';
+
+  @override
+  String get damageDialogTitle => 'Apply Damage';
+
+  @override
+  String get damageAmountField => 'Damage amount';
+
+  @override
+  String get healDialogTitle => 'Heal';
+
+  @override
+  String get healAmountField => 'Healing amount';
+
+  @override
+  String fieldRequired(String field) {
+    return '$field is required';
+  }
+
+  @override
+  String get enterPositiveNumber => 'Enter a positive number';
+
+  @override
+  String get enterValidNumber => 'Enter a valid number';
 }

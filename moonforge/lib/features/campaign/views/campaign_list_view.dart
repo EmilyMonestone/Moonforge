@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:m3e_collection/m3e_collection.dart'
-    show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/router_config.dart';
+import 'package:moonforge/core/widgets/action_button.dart';
+import 'package:moonforge/core/widgets/loading_indicator.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
@@ -79,14 +79,10 @@ class _CampaignListViewState extends State<CampaignListView> {
                   },
                 ),
                 const SizedBox(width: 8),
-                ButtonM3E(
-                  style: ButtonM3EStyle.filled,
-                  shape: ButtonM3EShape.square,
-                  icon: const Icon(Icons.add),
-                  label: Text(l10n.menuNewCampaign),
-                  onPressed: () {
-                    createCampaignAndOpenEditor(context);
-                  },
+                ActionButton(
+                  label: l10n.createCampaignCta,
+                  icon: Icons.add,
+                  onPressed: () => createCampaignAndOpenEditor(context),
                 ),
               ],
             ),
@@ -100,7 +96,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Search campaigns...',
+                      hintText: l10n.searchCampaignsHint,
                       prefixIcon: const Icon(Icons.search),
                       border: const OutlineInputBorder(),
                       suffixIcon: Consumer<CampaignListController>(
@@ -125,7 +121,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                   builder: (context, controller, _) {
                     return PopupMenuButton<String>(
                       icon: const Icon(Icons.sort),
-                      tooltip: 'Sort',
+                      tooltip: l10n.sort,
                       onSelected: (value) {
                         if (value == 'direction') {
                           controller.toggleSortDirection();
@@ -187,8 +183,8 @@ class _CampaignListViewState extends State<CampaignListView> {
                               const SizedBox(width: 8),
                               Text(
                                 controller.descending
-                                    ? 'Descending'
-                                    : 'Ascending',
+                                    ? l10n.sortDescending
+                                    : l10n.sortAscending,
                               ),
                             ],
                           ),
@@ -211,7 +207,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                   future: controller.getFilteredCampaigns(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return LoadingIndicator(message: l10n.loadingMessage);
                     }
 
                     final filteredCampaigns = snapshot.data ?? campaigns;
@@ -237,20 +233,23 @@ class _CampaignListViewState extends State<CampaignListView> {
                         final confirmed = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Delete Campaign'),
-                            content: Text(
-                              'Are you sure you want to delete "${campaign.name}"? This action cannot be undone.',
-                            ),
+                            title: Text(l10n.deleteConfirmation),
+                            content: Text(l10n.deleteConfirmationMessage),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.of(context).pop(false),
-                                child: const Text('Cancel'),
+                                child: Text(l10n.cancel),
                               ),
                               TextButton(
                                 onPressed: () =>
                                     Navigator.of(context).pop(true),
-                                child: const Text('Delete'),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.error,
+                                ),
+                                child: Text(l10n.delete),
                               ),
                             ],
                           ),

@@ -4,8 +4,8 @@ import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/widgets/section_header.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 /// A reusable widget that displays entities grouped by kind

@@ -8,6 +8,7 @@ import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
+import 'package:moonforge/core/widgets/section_header.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -17,7 +18,6 @@ import 'package:moonforge/features/campaign/services/campaign_service.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_header.dart';
 import 'package:moonforge/features/campaign/widgets/campaign_stats_dashboard.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
-import 'package:moonforge/features/home/widgets/section_header.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 

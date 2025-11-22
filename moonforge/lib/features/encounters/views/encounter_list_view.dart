@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/router_config.dart';
+import 'package:moonforge/core/widgets/action_button.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
@@ -31,17 +32,16 @@ class EncounterListView extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                'Encounters',
+                l10n.encounters,
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               const Spacer(),
-              FilledButton.icon(
+              ActionButton(
+                label: l10n.createEncounter,
+                icon: Icons.add,
                 onPressed: () {
                   // TODO: Implement create encounter action
-                  // encounter_utils.createEncounter(context, campaign);
                 },
-                icon: const Icon(Icons.add),
-                label: const Text('New Encounter'),
               ),
             ],
           ),
@@ -52,6 +52,11 @@ class EncounterListView extends StatelessWidget {
             encounters: campaignEncounters,
             onEncounterTap: (encounter) {
               EncounterRouteData(encounterId: encounter.id).go(context);
+            },
+            emptyStateTitle: l10n.noEncountersYet,
+            emptyStateMessage: l10n.emptyStateGenericMessage,
+            onCreateEncounter: () {
+              // TODO: Hook up encounter creation
             },
           ),
         ),

@@ -692,6 +692,20 @@ class ContentCard extends StatelessWidget {
 }
 ```
 
+## Implementation Summary
+
+- Added reusable `SectionHeader`, `ActionButton` enhancements, and strengthened existing `EmptyState`, `ErrorDisplay`, and `LoadingIndicator` widgets under `lib/core/widgets/`.
+- Updated campaign, chapter, adventure, entity, and encounter features to consume the shared widgets so repeated button/header/empty-state code is gone.
+- Localized new encounter dialogs and empty states by filling both `app_en.arb` and `app_de.arb`.
+- Left truly feature-specific widgets (complex editors, Quill integrations) untouched per scope guardrails.
+
+## Verification
+
+- `flutter gen-l10n`
+- `flutter analyze`
+- `flutter test`
+- Manual UI smoke test for campaign list, chapter list, and encounter list (desktop build)
+
 ## Safety & Verification
 
 ### Potential Pitfalls

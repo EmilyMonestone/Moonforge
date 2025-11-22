@@ -11,8 +11,8 @@ import 'package:moonforge/features/campaign/views/campaign_analytics_view.dart';
 import 'package:moonforge/features/campaign/views/campaign_edit_view.dart';
 import 'package:moonforge/features/campaign/views/campaign_list_view.dart';
 import 'package:moonforge/features/campaign/views/campaign_members_view.dart';
-import 'package:moonforge/features/campaign/views/campaign_view.dart';
 import 'package:moonforge/features/campaign/views/campaign_settings_view.dart';
+import 'package:moonforge/features/campaign/views/campaign_view.dart';
 import 'package:moonforge/features/chapter/views/chapter_edit_view.dart';
 import 'package:moonforge/features/chapter/views/chapter_list_view.dart';
 import 'package:moonforge/features/chapter/views/chapter_view.dart';
@@ -31,8 +31,8 @@ import 'package:moonforge/features/parties/views/party_list_view.dart';
 import 'package:moonforge/features/parties/views/party_view.dart';
 import 'package:moonforge/features/scene/views/scene_edit_view.dart';
 import 'package:moonforge/features/scene/views/scene_list_view.dart';
-import 'package:moonforge/features/scene/views/scene_view.dart';
 import 'package:moonforge/features/scene/views/scene_templates_view.dart';
+import 'package:moonforge/features/scene/views/scene_view.dart';
 import 'package:moonforge/features/session/views/session_edit_view.dart';
 import 'package:moonforge/features/session/views/session_list_view.dart';
 import 'package:moonforge/features/session/views/session_public_share_view.dart';
@@ -193,7 +193,7 @@ class HomeRouteData extends GoRouteData with $HomeRouteData {
   const HomeRouteData();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) => const HomeView();
 }
 
 @immutable
@@ -201,8 +201,7 @@ class LoginRouteData extends GoRouteData with $LoginRouteData {
   const LoginRouteData();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const LoginScreen();
+  Widget build(BuildContext context, GoRouterState state) => const LoginView();
 }
 
 @immutable
@@ -211,7 +210,7 @@ class RegisterRouteData extends GoRouteData with $RegisterRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const RegisterScreen();
+      const RegisterView();
 }
 
 @immutable
@@ -221,7 +220,7 @@ class ForgotPasswordRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const ForgotPasswordScreen();
+      const ForgotPasswordView();
 }
 
 // Campaign Branch Routes
@@ -231,7 +230,7 @@ class CampaignsListRouteData extends GoRouteData with $CampaignsListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignListScreen();
+      const CampaignListView();
 }
 
 @immutable
@@ -240,7 +239,7 @@ class CampaignRouteData extends GoRouteData with $CampaignRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignScreen();
+      const CampaignView();
 }
 
 @immutable
@@ -249,7 +248,7 @@ class CampaignEditRouteData extends GoRouteData with $CampaignEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignEditScreen();
+      const CampaignEditView();
 }
 
 @immutable
@@ -259,7 +258,7 @@ class CampaignSettingsRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignSettingsScreen();
+      const CampaignSettingsView();
 }
 
 @immutable
@@ -269,7 +268,7 @@ class CampaignAnalyticsRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignAnalyticsScreen();
+      const CampaignAnalyticsView();
 }
 
 @immutable
@@ -279,7 +278,7 @@ class CampaignMembersRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const CampaignMembersScreen();
+      const CampaignMembersView();
 }
 
 @immutable
@@ -288,7 +287,7 @@ class ChaptersListRouteData extends GoRouteData with $ChaptersListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const ChapterListScreen();
+      const ChapterListView();
 }
 
 @immutable
@@ -299,7 +298,7 @@ class ChapterRouteData extends GoRouteData with $ChapterRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      ChapterScreen(chapterId: chapterId);
+      ChapterView(chapterId: chapterId);
 }
 
 @immutable
@@ -310,7 +309,7 @@ class ChapterEditRouteData extends GoRouteData with $ChapterEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      ChapterEditScreen(chapterId: chapterId);
+      ChapterEditView(chapterId: chapterId);
 }
 
 @immutable
@@ -319,7 +318,7 @@ class AdventureListRouteData extends GoRouteData with $AdventureListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const AdventureListScreen();
+      const AdventureListView();
 }
 
 @immutable
@@ -334,7 +333,7 @@ class AdventureRouteData extends GoRouteData with $AdventureRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      AdventureScreen(chapterId: chapterId, adventureId: adventureId);
+      AdventureView(chapterId: chapterId, adventureId: adventureId);
 }
 
 @immutable
@@ -349,7 +348,7 @@ class AdventureEditRouteData extends GoRouteData with $AdventureEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      AdventureEditScreen(chapterId: chapterId, adventureId: adventureId);
+      AdventureEditView(chapterId: chapterId, adventureId: adventureId);
 }
 
 @immutable
@@ -365,7 +364,7 @@ class SceneRouteData extends GoRouteData with $SceneRouteData {
   final String sceneId;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => SceneScreen(
+  Widget build(BuildContext context, GoRouterState state) => SceneView(
     chapterId: chapterId,
     adventureId: adventureId,
     sceneId: sceneId,
@@ -385,7 +384,7 @@ class SceneEditRouteData extends GoRouteData with $SceneEditRouteData {
   final String sceneId;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => SceneEditScreen(
+  Widget build(BuildContext context, GoRouterState state) => SceneEditView(
     chapterId: chapterId,
     adventureId: adventureId,
     sceneId: sceneId,
@@ -399,7 +398,7 @@ class EncountersListRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const EncounterListScreen();
+      const EncounterListView();
 }
 
 @immutable
@@ -408,7 +407,7 @@ class ScenesListRouteData extends GoRouteData with $ScenesListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const SceneListScreen();
+      const SceneListView();
 }
 
 @immutable
@@ -418,7 +417,7 @@ class SceneTemplatesRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const SceneTemplatesScreen();
+      const SceneTemplatesView();
 }
 
 @immutable
@@ -429,7 +428,7 @@ class EncounterRouteData extends GoRouteData with $EncounterRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      EncounterScreen(encounterId: encounterId);
+      EncounterView(encounterId: encounterId);
 }
 
 @immutable
@@ -440,7 +439,7 @@ class EncounterEditRouteData extends GoRouteData with $EncounterEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      EncounterEditScreen(encounterId: encounterId);
+      EncounterEditView(encounterId: encounterId);
 }
 
 @immutable
@@ -452,7 +451,7 @@ class InitiativeTrackerRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const InitiativeTrackerScreen(
+    return const InitiativeTrackerView(
       initialCombatants: [],
       encounterName: 'Initiative Tracker',
     );
@@ -465,7 +464,7 @@ class EntitiesListRouteData extends GoRouteData with $EntitiesListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const EntityListScreen();
+      const EntityListView();
 }
 
 @immutable
@@ -476,7 +475,7 @@ class EntityRouteData extends GoRouteData with $EntityRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      EntityScreen(entityId: entityId);
+      EntityView(entityId: entityId);
 }
 
 @immutable
@@ -487,7 +486,7 @@ class EntityEditRouteData extends GoRouteData with $EntityEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      EntityEditScreen(entityId: entityId);
+      EntityEditView(entityId: entityId);
 }
 
 // Party Branch Routes
@@ -497,7 +496,7 @@ class PartyRootRouteData extends GoRouteData with $PartyRootRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const PartyListScreen();
+      const PartyListView();
 }
 
 @immutable
@@ -508,7 +507,7 @@ class PartyRouteData extends GoRouteData with $PartyRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      PartyScreen(partyId: partyId);
+      PartyView(partyId: partyId);
 }
 
 @immutable
@@ -519,7 +518,7 @@ class PartyEditRouteData extends GoRouteData with $PartyEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      PartyEditScreen(partyId: partyId);
+      PartyEditView(partyId: partyId);
 }
 
 @immutable
@@ -531,7 +530,7 @@ class MemberRouteData extends GoRouteData with $MemberRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      MemberScreen(partyId: partyId, memberId: memberId);
+      MemberView(partyId: partyId, memberId: memberId);
 }
 
 @immutable
@@ -543,7 +542,7 @@ class MemberEditRouteData extends GoRouteData with $MemberEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      MemberEditScreen(partyId: partyId, memberId: memberId);
+      MemberEditView(partyId: partyId, memberId: memberId);
 }
 
 @immutable
@@ -554,7 +553,7 @@ class SessionListRouteData extends GoRouteData with $SessionListRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      SessionListScreen(partyId: partyId);
+      SessionListView(partyId: partyId);
 }
 
 @immutable
@@ -566,7 +565,7 @@ class SessionRouteData extends GoRouteData with $SessionRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      SessionScreen(partyId: partyId, sessionId: sessionId);
+      SessionView(partyId: partyId, sessionId: sessionId);
 }
 
 @immutable
@@ -578,7 +577,7 @@ class SessionEditRouteData extends GoRouteData with $SessionEditRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      SessionEditScreen(partyId: partyId, sessionId: sessionId);
+      SessionEditView(partyId: partyId, sessionId: sessionId);
 }
 
 // Settings Branch Routes
@@ -588,7 +587,7 @@ class SettingsRouteData extends GoRouteData with $SettingsRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const SettingsScreen();
+      const SettingsView();
 }
 
 @immutable
@@ -597,7 +596,7 @@ class ProfileRouteData extends GoRouteData with $ProfileRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const ProfileScreen();
+      const ProfileView();
 }
 
 // Public routes (outside shell)
@@ -611,5 +610,5 @@ class SessionPublicShareRouteData extends GoRouteData
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      SessionPublicShareScreen(token: token);
+      SessionPublicShareView(token: token);
 }

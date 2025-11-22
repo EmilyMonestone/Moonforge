@@ -234,121 +234,121 @@ class AppLocalizationsDe extends AppLocalizations {
   String get createEncounter => 'Begegnung erstellen';
 
   @override
-  String get encounterBuilder => 'Begegnungsbauer';
+  String get encounterBuilder => 'Encounter Builder';
 
   @override
-  String get initiativeTracker => 'Initiativ-Tracker';
+  String get initiativeTracker => 'Initiative Tracker';
 
   @override
-  String get addCombatant => 'Kämpfer hinzufügen';
+  String get addCombatant => 'Add Combatant';
 
   @override
-  String get partySelection => 'Gruppenauswahl';
+  String get partySelection => 'Party Selection';
 
   @override
-  String get customPlayerGroup => 'Benutzerdefinierte Spielergruppe';
+  String get customPlayerGroup => 'Custom Player Group';
 
   @override
-  String get encounterDifficulty => 'Begegnungsschwierigkeit';
+  String get encounterDifficulty => 'Encounter Difficulty';
 
   @override
-  String get xpBudget => 'EP-Budget';
+  String get xpBudget => 'XP Budget';
 
   @override
-  String get adjustedXp => 'Angepasste EP';
+  String get adjustedXp => 'Adjusted XP';
 
   @override
-  String get easy => 'Leicht';
+  String get easy => 'Easy';
 
   @override
-  String get medium => 'Mittel';
+  String get medium => 'Medium';
 
   @override
-  String get hard => 'Schwer';
+  String get hard => 'Hard';
 
   @override
-  String get deadly => 'Tödlich';
+  String get deadly => 'Deadly';
 
   @override
   String get trivial => 'Trivial';
 
   @override
-  String get challengeRating => 'Herausforderungsgrad';
+  String get challengeRating => 'Challenge Rating';
 
   @override
   String get initiative => 'Initiative';
 
   @override
-  String get hitPoints => 'Trefferpunkte';
+  String get hitPoints => 'Hit Points';
 
   @override
-  String get armorClass => 'Rüstungsklasse';
+  String get armorClass => 'Armor Class';
 
   @override
-  String get conditions => 'Zustände';
+  String get conditions => 'Conditions';
 
   @override
-  String get addCondition => 'Zustand hinzufügen';
+  String get addCondition => 'Add Condition';
 
   @override
-  String get nextTurn => 'Nächster Zug';
+  String get nextTurn => 'Next Turn';
 
   @override
-  String get previousTurn => 'Vorheriger Zug';
+  String get previousTurn => 'Previous Turn';
 
   @override
-  String get round => 'Runde';
+  String get round => 'Round';
 
   @override
-  String get startEncounter => 'Begegnung starten';
+  String get startEncounter => 'Start Encounter';
 
   @override
-  String get endEncounter => 'Begegnung beenden';
+  String get endEncounter => 'End Encounter';
 
   @override
-  String get ally => 'Verbündeter';
+  String get ally => 'Ally';
 
   @override
-  String get enemy => 'Gegner';
+  String get enemy => 'Enemy';
 
   @override
-  String get player => 'Spieler';
+  String get player => 'Player';
 
   @override
   String get monster => 'Monster';
 
   @override
-  String get npc => 'NSC';
+  String get npc => 'NPC';
 
   @override
-  String get rollInitiative => 'Initiative würfeln';
+  String get rollInitiative => 'Roll Initiative';
 
   @override
-  String get sortByInitiative => 'Nach Initiative sortieren';
+  String get sortByInitiative => 'Sort by Initiative';
 
   @override
-  String get fromBestiary => 'Aus Bestiarium';
+  String get fromBestiary => 'From Bestiary';
 
   @override
-  String get fromCampaign => 'Aus Kampagne';
+  String get fromCampaign => 'From Campaign';
 
   @override
-  String get selectMonster => 'Monster auswählen';
+  String get selectMonster => 'Select Monster';
 
   @override
-  String get selectParty => 'Gruppe auswählen';
+  String get selectParty => 'Select Party';
 
   @override
-  String get noPartySelected => 'Keine Gruppe ausgewählt';
+  String get noPartySelected => 'No party selected';
 
   @override
-  String get partySize => 'Gruppengröße';
+  String get partySize => 'Party Size';
 
   @override
-  String get addPlayer => 'Spieler hinzufügen';
+  String get addPlayer => 'Add Player';
 
   @override
-  String get playerLevel => 'Spielerstufe';
+  String get playerLevel => 'Player Level';
 
   @override
   String get shareSettings => 'Share Settings';
@@ -357,7 +357,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get entities => 'Entitäten';
+  String get entities => 'Entities';
 
   @override
   String get noEntitiesYet => 'Noch keine Entitäten';
@@ -531,4 +531,88 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get updated => 'Aktualisiert';
+
+  @override
+  String get retry => 'Erneut versuchen';
+
+  @override
+  String emptyStateMessage(Object description, Object title) {
+    return '$title\n$description';
+  }
+
+  @override
+  String get emptyStateNoItems => 'Hier gibt es noch nichts';
+
+  @override
+  String get emptyStateGenericMessage =>
+      'Passe Filter an oder lege einen neuen Eintrag an.';
+
+  @override
+  String get errorSomethingWentWrong => 'Etwas ist schiefgelaufen';
+
+  @override
+  String get errorLoadFailed =>
+      'Daten konnten nicht geladen werden. Bitte versuche es erneut.';
+
+  @override
+  String get loadBestiary => 'Bestiarium laden';
+
+  @override
+  String get loadingMessage => 'Lade...';
+
+  @override
+  String get scenes => 'Szenen';
+
+  @override
+  String get noScenesYet => 'Noch keine Szenen';
+
+  @override
+  String get createCampaignCta => 'Kampagne erstellen';
+
+  @override
+  String get createEncounterCta => 'Begegnung erstellen';
+
+  @override
+  String get createSessionCta => 'Sitzung erstellen';
+
+  @override
+  String get searchCampaignsHint => 'Kampagnen durchsuchen...';
+
+  @override
+  String get sort => 'Sortieren';
+
+  @override
+  String get sortAscending => 'Aufsteigend';
+
+  @override
+  String get sortDescending => 'Absteigend';
+
+  @override
+  String get encounters => 'Begegnungen';
+
+  @override
+  String get noEncountersYet => 'Noch keine Begegnungen';
+
+  @override
+  String get damageDialogTitle => 'Schaden anwenden';
+
+  @override
+  String get damageAmountField => 'Schadensmenge';
+
+  @override
+  String get healDialogTitle => 'Heilen';
+
+  @override
+  String get healAmountField => 'Heilungsmenge';
+
+  @override
+  String fieldRequired(String field) {
+    return '$field ist erforderlich';
+  }
+
+  @override
+  String get enterPositiveNumber => 'Gib eine positive Zahl ein';
+
+  @override
+  String get enterValidNumber => 'Gib eine gültige Zahl ein';
 }

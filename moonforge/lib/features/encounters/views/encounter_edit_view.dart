@@ -1,6 +1,9 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
+import 'package:moonforge/core/widgets/empty_state.dart';
+import 'package:moonforge/core/widgets/error_display.dart';
+import 'package:moonforge/core/widgets/loading_indicator.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
@@ -219,7 +222,7 @@ class _EncounterEditViewState extends State<EncounterEditView> {
                         border: const OutlineInputBorder(),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null || value.trim().isEmpty) {
                           return l10n.nameRequired;
                         }
                         return null;
@@ -779,42 +782,26 @@ class _BestiaryMonsterList extends StatelessWidget {
     final bestiaryProvider = Provider.of<BestiaryProvider>(context);
 
     if (bestiaryProvider.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return LoadingIndicator(message: l10n.loadingMessage);
     }
 
     if (bestiaryProvider.hasError) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(l10n.error),
-            const SizedBox(height: 8),
-            Text(bestiaryProvider.errorMessage ?? ''),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => bestiaryProvider.loadMonsters(forceSync: true),
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
+      return ErrorDisplay(
+        title: l10n.errorSomethingWentWrong,
+        message: bestiaryProvider.errorMessage,
+        onRetry: () => bestiaryProvider.loadMonsters(forceSync: true),
       );
     }
 
     final monsters = bestiaryProvider.monsters;
 
     if (monsters.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('No monsters loaded'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => bestiaryProvider.loadMonsters(forceSync: true),
-              child: const Text('Load Bestiary'),
-            ),
-          ],
-        ),
+      return EmptyState(
+        icon: Icons.pets_outlined,
+        title: l10n.emptyStateNoItems,
+        message: l10n.emptyStateGenericMessage,
+        actionLabel: l10n.loadBestiary,
+        onAction: () => bestiaryProvider.loadMonsters(forceSync: true),
       );
     }
 

@@ -692,5 +692,118 @@
   "updated": "Updated",
   "@updated": {
     "description": "Label for updated timestamp"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Generic retry button label"
+  },
+  "emptyStateMessage": "{title}\n{description}",
+  "@emptyStateMessage": {
+    "description": "Generic helper string for empty state subtitles"
+  },
+  "emptyStateNoItems": "Nothing here yet",
+  "@emptyStateNoItems": {
+    "description": "Generic title for empty state widgets"
+  },
+  "emptyStateGenericMessage": "Try changing filters or create a new entry.",
+  "@emptyStateGenericMessage": {
+    "description": "Generic description for empty state widgets"
+  },
+  "errorSomethingWentWrong": "Something went wrong",
+  "@errorSomethingWentWrong": {
+    "description": "Generic error title"
+  },
+  "errorLoadFailed": "Failed to load data. Please try again.",
+  "@errorLoadFailed": {
+    "description": "Generic error description"
+  },
+  "loadBestiary": "Load Bestiary",
+  "@loadBestiary": {
+    "description": "Button label to load bestiary data"
+  },
+  "loadingMessage": "Loading...",
+  "@loadingMessage": {
+    "description": "Generic loading message"
+  },
+  "scenes": "Scenes",
+  "@scenes": {
+    "description": "Label for scene lists"
+  },
+  "noScenesYet": "No scenes yet",
+  "@noScenesYet": {
+    "description": "Message shown when no scenes exist"
+  },
+  "createCampaignCta": "Create Campaign",
+  "@createCampaignCta": {
+    "description": "CTA label for creating a campaign"
+  },
+  "createEncounterCta": "Create Encounter",
+  "@createEncounterCta": {
+    "description": "CTA label for creating an encounter"
+  },
+  "createSessionCta": "Create Session",
+  "@createSessionCta": {
+    "description": "CTA label for creating a session"
+  },
+  "searchCampaignsHint": "Search campaigns...",
+  "@searchCampaignsHint": {
+    "description": "Placeholder for campaign search field"
+  },
+  "sort": "Sort",
+  "@sort": {
+    "description": "Tooltip for sort button"
+  },
+  "sortAscending": "Ascending",
+  "@sortAscending": {
+    "description": "Label for ascending sort order"
+  },
+  "sortDescending": "Descending",
+  "@sortDescending": {
+    "description": "Label for descending sort order"
+  },
+  "encounters": "Encounters",
+  "@encounters": {
+    "description": "Label for encounters sections"
+  },
+  "createEncounter": "Create Encounter",
+  "@createEncounter": {
+    "description": "Button label to create an encounter"
+  },
+  "noEncountersYet": "No encounters yet",
+  "@noEncountersYet": {
+    "description": "Shown when the encounter list is empty"
+  },
+  "damageDialogTitle": "Apply Damage",
+  "@damageDialogTitle": {
+    "description": "Title for the damage dialog"
+  },
+  "damageAmountField": "Damage amount",
+  "@damageAmountField": {
+    "description": "Label for damage amount field"
+  },
+  "healDialogTitle": "Heal",
+  "@healDialogTitle": {
+    "description": "Title for heal dialog"
+  },
+  "healAmountField": "Healing amount",
+  "@healAmountField": {
+    "description": "Label for healing amount field"
+  },
+  "fieldRequired": "{field} is required",
+  "@fieldRequired": {
+    "description": "Validation message for required fields",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "enterPositiveNumber": "Enter a positive number",
+  "@enterPositiveNumber": {
+    "description": "Validation message for positive numbers"
+  },
+  "enterValidNumber": "Enter a valid number",
+  "@enterValidNumber": {
+    "description": "Validation message for numeric input"
   }
 }

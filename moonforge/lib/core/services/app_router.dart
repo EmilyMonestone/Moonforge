@@ -11,7 +11,7 @@ class AppRouter {
     initialLocation: const HomeRouteData().location,
     routes: $appRoutes,
     errorBuilder: (BuildContext context, GoRouterState state) =>
-        const UnknownPathScreen(),
+        const UnknownPathView(),
     debugLogDiagnostics: false,
   );
 }

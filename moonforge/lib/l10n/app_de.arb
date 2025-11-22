@@ -37,7 +37,7 @@
   },
   "scene": "Szene",
   "@scene": {
-    "description": "Beschriftung für den Bereich Szene"
+    "description": "Beschriftung für Szene"
   },
   "encounter": "Begegnung",
   "@encounter": {
@@ -297,169 +297,50 @@
   "@noContentProvided": {
     "description": "Angezeigt, wenn kein Inhalt vorhanden ist"
   },
+  "encounters": "Begegnungen",
+  "@encounters": {
+    "description": "Bezeichnung für Begegnungsabschnitte"
+  },
   "createEncounter": "Begegnung erstellen",
   "@createEncounter": {
-    "description": "Label für das Erstellen einer neuen Begegnung"
+    "description": "Schaltfläche zum Erstellen einer Begegnung"
   },
-  "encounterBuilder": "Begegnungsbauer",
-  "@encounterBuilder": {
-    "description": "Titel für Begegnungsbauer-Bildschirm"
+  "noEncountersYet": "Noch keine Begegnungen",
+  "@noEncountersYet": {
+    "description": "Hinweis, wenn keine Begegnungen existieren"
   },
-  "initiativeTracker": "Initiativ-Tracker",
-  "@initiativeTracker": {
-    "description": "Titel für Initiativ-Tracker"
+  "damageDialogTitle": "Schaden anwenden",
+  "@damageDialogTitle": {
+    "description": "Titel für den Schadensdialog"
   },
-  "addCombatant": "Kämpfer hinzufügen",
-  "@addCombatant": {
-    "description": "Label für das Hinzufügen eines Kämpfers"
+  "damageAmountField": "Schadensmenge",
+  "@damageAmountField": {
+    "description": "Beschriftung für das Schadensfeld"
   },
-  "partySelection": "Gruppenauswahl",
-  "@partySelection": {
-    "description": "Label für Gruppenauswahl"
+  "healDialogTitle": "Heilen",
+  "@healDialogTitle": {
+    "description": "Titel für den Heilungsdialog"
   },
-  "customPlayerGroup": "Benutzerdefinierte Spielergruppe",
-  "@customPlayerGroup": {
-    "description": "Label für benutzerdefinierte Spielergruppe"
+  "healAmountField": "Heilungsmenge",
+  "@healAmountField": {
+    "description": "Beschriftung für das Heilungsfeld"
   },
-  "encounterDifficulty": "Begegnungsschwierigkeit",
-  "@encounterDifficulty": {
-    "description": "Label für Begegnungsschwierigkeit"
+  "fieldRequired": "{field} ist erforderlich",
+  "@fieldRequired": {
+    "description": "Validierungsfehler für Pflichtfelder",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
   },
-  "xpBudget": "EP-Budget",
-  "@xpBudget": {
-    "description": "Label für EP-Budget"
+  "enterPositiveNumber": "Gib eine positive Zahl ein",
+  "@enterPositiveNumber": {
+    "description": "Validierung für positive Zahlen"
   },
-  "adjustedXp": "Angepasste EP",
-  "@adjustedXp": {
-    "description": "Label für angepassten EP-Wert"
-  },
-  "easy": "Leicht",
-  "@easy": {
-    "description": "Leichter Schwierigkeitsgrad"
-  },
-  "medium": "Mittel",
-  "@medium": {
-    "description": "Mittlerer Schwierigkeitsgrad"
-  },
-  "hard": "Schwer",
-  "@hard": {
-    "description": "Schwerer Schwierigkeitsgrad"
-  },
-  "deadly": "Tödlich",
-  "@deadly": {
-    "description": "Tödlicher Schwierigkeitsgrad"
-  },
-  "trivial": "Trivial",
-  "@trivial": {
-    "description": "Trivialer Schwierigkeitsgrad"
-  },
-  "challengeRating": "Herausforderungsgrad",
-  "@challengeRating": {
-    "description": "Label für Herausforderungsgrad (HG)"
-  },
-  "initiative": "Initiative",
-  "@initiative": {
-    "description": "Label für Initiative"
-  },
-  "hitPoints": "Trefferpunkte",
-  "@hitPoints": {
-    "description": "Label für Trefferpunkte (TP)"
-  },
-  "armorClass": "Rüstungsklasse",
-  "@armorClass": {
-    "description": "Label für Rüstungsklasse (RK)"
-  },
-  "conditions": "Zustände",
-  "@conditions": {
-    "description": "Label für Zustände/Statuseffekte"
-  },
-  "addCondition": "Zustand hinzufügen",
-  "@addCondition": {
-    "description": "Label für das Hinzufügen eines Zustands"
-  },
-  "nextTurn": "Nächster Zug",
-  "@nextTurn": {
-    "description": "Label für Nächster-Zug-Button"
-  },
-  "previousTurn": "Vorheriger Zug",
-  "@previousTurn": {
-    "description": "Label für Vorheriger-Zug-Button"
-  },
-  "round": "Runde",
-  "@round": {
-    "description": "Label für Kampfrunde"
-  },
-  "startEncounter": "Begegnung starten",
-  "@startEncounter": {
-    "description": "Label für das Starten einer Begegnung"
-  },
-  "endEncounter": "Begegnung beenden",
-  "@endEncounter": {
-    "description": "Label für das Beenden einer Begegnung"
-  },
-  "ally": "Verbündeter",
-  "@ally": {
-    "description": "Label für verbündeten Kämpfer"
-  },
-  "enemy": "Gegner",
-  "@enemy": {
-    "description": "Label für feindlichen Kämpfer"
-  },
-  "player": "Spieler",
-  "@player": {
-    "description": "Label für Spielercharakter"
-  },
-  "monster": "Monster",
-  "@monster": {
-    "description": "Label für Monster"
-  },
-  "npc": "NSC",
-  "@npc": {
-    "description": "Label für Nicht-Spieler-Charakter"
-  },
-  "rollInitiative": "Initiative würfeln",
-  "@rollInitiative": {
-    "description": "Label für Initiative würfeln"
-  },
-  "sortByInitiative": "Nach Initiative sortieren",
-  "@sortByInitiative": {
-    "description": "Label für Sortieren nach Initiative"
-  },
-  "fromBestiary": "Aus Bestiarium",
-  "@fromBestiary": {
-    "description": "Label für Auswahl aus Bestiarium"
-  },
-  "fromCampaign": "Aus Kampagne",
-  "@fromCampaign": {
-    "description": "Label für Auswahl aus Kampagnenentitäten"
-  },
-  "selectMonster": "Monster auswählen",
-  "@selectMonster": {
-    "description": "Label für Monsterauswahl"
-  },
-  "selectParty": "Gruppe auswählen",
-  "@selectParty": {
-    "description": "Label für Gruppenauswahl"
-  },
-  "noPartySelected": "Keine Gruppe ausgewählt",
-  "@noPartySelected": {
-    "description": "Nachricht, wenn keine Gruppe ausgewählt ist"
-  },
-  "partySize": "Gruppengröße",
-  "@partySize": {
-    "description": "Label für Gruppengröße"
-  },
-  "addPlayer": "Spieler hinzufügen",
-  "@addPlayer": {
-    "description": "Label für das Hinzufügen eines Spielers"
-  },
-  "playerLevel": "Spielerstufe",
-  "@playerLevel": {
-    "description": "Label für Spielerstufe"
-  },
-  "entities": "Entitäten",
-  "@entities": {
-    "description": "Label für Entitätenfunktion"
+  "enterValidNumber": "Gib eine gültige Zahl ein",
+  "@enterValidNumber": {
+    "description": "Validierung für numerische Eingaben"
   },
   "noEntitiesYet": "Noch keine Entitäten",
   "@noEntitiesYet": {
@@ -684,5 +565,69 @@
   "updated": "Aktualisiert",
   "@updated": {
     "description": "Bezeichnung für Aktualisierungszeitpunkt"
+  },
+  "emptyStateNoItems": "Hier gibt es noch nichts",
+  "@emptyStateNoItems": {
+    "description": "Allgemeiner Titel für leere Zustände"
+  },
+  "emptyStateGenericMessage": "Passe Filter an oder lege einen neuen Eintrag an.",
+  "@emptyStateGenericMessage": {
+    "description": "Allgemeine Beschreibung für leere Zustände"
+  },
+  "errorSomethingWentWrong": "Etwas ist schiefgelaufen",
+  "@errorSomethingWentWrong": {
+    "description": "Allgemeiner Fehlertitel"
+  },
+  "errorLoadFailed": "Daten konnten nicht geladen werden. Bitte versuche es erneut.",
+  "@errorLoadFailed": {
+    "description": "Allgemeine Fehlerbeschreibung"
+  },
+  "retry": "Erneut versuchen",
+  "@retry": {
+    "description": "Allgemeines Label für Wiederholen"
+  },
+  "loadBestiary": "Bestiarium laden",
+  "@loadBestiary": {
+    "description": "Button-Beschriftung zum Laden des Bestiariums"
+  },
+  "loadingMessage": "Lade...",
+  "@loadingMessage": {
+    "description": "Allgemeine Lade-Nachricht"
+  },
+  "scenes": "Szenen",
+  "@scenes": {
+    "description": "Bezeichnung für Szenenlisten"
+  },
+  "noScenesYet": "Noch keine Szenen",
+  "@noScenesYet": {
+    "description": "Nachricht wenn keine Szenen vorhanden sind"
+  },
+  "createCampaignCta": "Kampagne erstellen",
+  "@createCampaignCta": {
+    "description": "CTA-Label für Kampagne erstellen"
+  },
+  "createEncounterCta": "Begegnung erstellen",
+  "@createEncounterCta": {
+    "description": "CTA-Label für Begegnung erstellen"
+  },
+  "createSessionCta": "Sitzung erstellen",
+  "@createSessionCta": {
+    "description": "CTA-Label für Sitzung erstellen"
+  },
+  "searchCampaignsHint": "Kampagnen durchsuchen...",
+  "@searchCampaignsHint": {
+    "description": "Platzhalter für Kampagnensuche"
+  },
+  "sort": "Sortieren",
+  "@sort": {
+    "description": "Tooltip für Sortiermenü"
+  },
+  "sortAscending": "Aufsteigend",
+  "@sortAscending": {
+    "description": "Label für aufsteigende Sortierung"
+  },
+  "sortDescending": "Absteigend",
+  "@sortDescending": {
+    "description": "Label für absteigende Sortierung"
   }
 }

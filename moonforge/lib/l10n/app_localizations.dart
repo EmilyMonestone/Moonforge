@@ -536,7 +536,7 @@ abstract class AppLocalizations {
   /// **'No content provided'**
   String get noContentProvided;
 
-  /// Label for creating a new encounter
+  /// Button label to create an encounter
   ///
   /// In en, this message translates to:
   /// **'Create Encounter'**
@@ -1129,6 +1129,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Updated'**
   String get updated;
+
+  /// Generic retry button label
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Generic helper string for empty state subtitles
+  ///
+  /// In en, this message translates to:
+  /// **'{title}\n{description}'**
+  String emptyStateMessage(Object description, Object title);
+
+  /// Generic title for empty state widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get emptyStateNoItems;
+
+  /// Generic description for empty state widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Try changing filters or create a new entry.'**
+  String get emptyStateGenericMessage;
+
+  /// Generic error title
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorSomethingWentWrong;
+
+  /// Generic error description
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data. Please try again.'**
+  String get errorLoadFailed;
+
+  /// Button label to load bestiary data
+  ///
+  /// In en, this message translates to:
+  /// **'Load Bestiary'**
+  String get loadBestiary;
+
+  /// Generic loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loadingMessage;
+
+  /// Label for scene lists
+  ///
+  /// In en, this message translates to:
+  /// **'Scenes'**
+  String get scenes;
+
+  /// Message shown when no scenes exist
+  ///
+  /// In en, this message translates to:
+  /// **'No scenes yet'**
+  String get noScenesYet;
+
+  /// CTA label for creating a campaign
+  ///
+  /// In en, this message translates to:
+  /// **'Create Campaign'**
+  String get createCampaignCta;
+
+  /// CTA label for creating an encounter
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encounter'**
+  String get createEncounterCta;
+
+  /// CTA label for creating a session
+  ///
+  /// In en, this message translates to:
+  /// **'Create Session'**
+  String get createSessionCta;
+
+  /// Placeholder for campaign search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search campaigns...'**
+  String get searchCampaignsHint;
+
+  /// Tooltip for sort button
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sort;
+
+  /// Label for ascending sort order
+  ///
+  /// In en, this message translates to:
+  /// **'Ascending'**
+  String get sortAscending;
+
+  /// Label for descending sort order
+  ///
+  /// In en, this message translates to:
+  /// **'Descending'**
+  String get sortDescending;
+
+  /// Label for encounters sections
+  ///
+  /// In en, this message translates to:
+  /// **'Encounters'**
+  String get encounters;
+
+  /// Shown when the encounter list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No encounters yet'**
+  String get noEncountersYet;
+
+  /// Title for the damage dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Damage'**
+  String get damageDialogTitle;
+
+  /// Label for damage amount field
+  ///
+  /// In en, this message translates to:
+  /// **'Damage amount'**
+  String get damageAmountField;
+
+  /// Title for heal dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Heal'**
+  String get healDialogTitle;
+
+  /// Label for healing amount field
+  ///
+  /// In en, this message translates to:
+  /// **'Healing amount'**
+  String get healAmountField;
+
+  /// Validation message for required fields
+  ///
+  /// In en, this message translates to:
+  /// **'{field} is required'**
+  String fieldRequired(String field);
+
+  /// Validation message for positive numbers
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a positive number'**
+  String get enterPositiveNumber;
+
+  /// Validation message for numeric input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number'**
+  String get enterValidNumber;
 }
 
 class _AppLocalizationsDelegate

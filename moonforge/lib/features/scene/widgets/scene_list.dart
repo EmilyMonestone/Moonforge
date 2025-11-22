@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/widgets/empty_state.dart';
+import 'package:moonforge/core/widgets/error_display.dart';
+import 'package:moonforge/core/widgets/loading_indicator.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/scene/widgets/scene_card.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays a list of scenes for an adventure
@@ -31,57 +35,29 @@ class _SceneListState extends State<SceneList> {
   @override
   Widget build(BuildContext context) {
     final sceneRepo = context.watch<SceneRepository>();
+    final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<List<Scene>>(
       stream: sceneRepo.watchByAdventure(widget.adventureId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return LoadingIndicator(message: l10n.loadingMessage);
         }
 
         if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
-                Text(
-                  'Error loading scenes',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${snapshot.error}',
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+          return ErrorDisplay(
+            title: l10n.errorSomethingWentWrong,
+            message: snapshot.error?.toString(),
           );
         }
 
         final scenes = snapshot.data ?? [];
 
         if (scenes.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.movie_outlined,
-                  size: 64,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  widget.emptyMessage,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
+          return EmptyState(
+            icon: Icons.movie_outlined,
+            title: widget.emptyMessage,
+            message: l10n.emptyStateGenericMessage,
           );
         }
 
