@@ -1,15 +1,14 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 
 /// Controller for managing entity list state, filters, and search
-class EntityListController with ChangeNotifier {
+class EntityListController extends BaseAsyncProvider<List<Entity>> {
   final EntityRepository _repository;
 
   List<Entity> _entities = [];
   List<Entity> _filteredEntities = [];
-  bool _isLoading = false;
   String _searchQuery = '';
   String? _selectedKind;
   final List<String> _selectedTags = [];
@@ -17,8 +16,6 @@ class EntityListController with ChangeNotifier {
   bool _sortAscending = true;
 
   List<Entity> get entities => _filteredEntities;
-
-  bool get isLoading => _isLoading;
 
   String get searchQuery => _searchQuery;
 
@@ -34,16 +31,11 @@ class EntityListController with ChangeNotifier {
 
   /// Load all entities
   Future<void> loadEntities() async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
+    await executeAsync(() async {
       _entities = await _repository.getAll();
       _applyFiltersAndSort();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+      return _filteredEntities;
+    });
   }
 
   /// Set search query

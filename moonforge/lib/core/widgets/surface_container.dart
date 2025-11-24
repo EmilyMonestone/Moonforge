@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/widgets/error_boundary.dart';
 
 /// Enum representing different types of surface background colors.
@@ -126,10 +127,7 @@ class SurfaceContainer extends StatelessWidget {
 
     Widget buildContainerContent() {
       if (title == null) {
-        return Padding(
-          padding: padding ?? const EdgeInsets.all(16.0),
-          child: child,
-        );
+        return Padding(padding: padding ?? AppSpacing.paddingLg, child: child);
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +162,7 @@ class SurfaceContainer extends StatelessWidget {
     }
 
     Widget container = Padding(
-      padding: margin ?? const EdgeInsets.all(8.0),
+      padding: margin ?? AppSpacing.paddingMd,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: minWidth ?? 0,
@@ -175,9 +173,7 @@ class SurfaceContainer extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.all(
-              context.m3e.shapes.square.md.topLeft,
-            ),
+            borderRadius: AppBorders.borderRadiusLg,
           ),
           child: buildContainerContent(),
         ),

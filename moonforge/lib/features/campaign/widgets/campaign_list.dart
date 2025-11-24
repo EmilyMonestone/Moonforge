@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/widgets/empty_state.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
@@ -42,7 +43,7 @@ class CampaignList extends StatelessWidget {
 
     if (viewMode == ViewMode.grid) {
       return GridView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: AppSpacing.paddingLg,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 400,
           childAspectRatio: 1.5,
@@ -69,8 +70,8 @@ class CampaignList extends StatelessWidget {
     }
 
     // List view
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
+    return ListView.separated(
+      padding: AppSpacing.paddingLg,
       itemCount: campaigns.length,
       itemBuilder: (context, index) {
         final campaign = campaigns[index];
@@ -90,6 +91,7 @@ class CampaignList extends StatelessWidget {
           ),
         );
       },
+      separatorBuilder: (context, _) => const SizedBox(height: AppSpacing.sm),
     );
   }
 }

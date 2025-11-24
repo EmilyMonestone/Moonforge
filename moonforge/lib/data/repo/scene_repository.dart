@@ -1,32 +1,46 @@
+import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
+import 'package:moonforge/data/db/daos/scene_dao.dart';
+import 'package:moonforge/data/repo/base_repository.dart';
 
 import '../db/app_db.dart';
 import '../db/tables.dart';
 
 /// Repository for Scene operations
-class SceneRepository {
-  final AppDb _db;
-
+class SceneRepository extends BaseRepository<Scene, String> {
   SceneRepository(this._db);
 
+  final AppDb _db;
+
+  SceneDao get _dao => _db.sceneDao;
+
+  @override
+  Future<Scene?> getById(String id) =>
+      handleError(() => _dao.getById(id), context: 'scene.getById');
+
+  @override
+  Future<List<Scene>> getAll() =>
+      handleError(() => _dao.watchAll().first, context: 'scene.getAll');
+
   /// Watch scenes for an adventure
-  Stream<List<Scene>> watchByAdventure(String adventureId) =>
-      _db.sceneDao.watchByAdventure(adventureId);
+  Stream<List<Scene>> watchByAdventure(String adventureId) => handleStreamError(
+    () => _dao.watchByAdventure(adventureId),
+    context: 'scene.watchByAdventure',
+  );
 
   /// List scenes for an adventure
-  Future<List<Scene>> getByAdventure(String adventureId) =>
-      _db.sceneDao.customQuery(
-        filter: (s) => s.adventureId.equals(adventureId),
-        sort: [(s) => OrderingTerm.asc(s.order)],
-      );
+  Future<List<Scene>> getByAdventure(String adventureId) => handleError(
+    () => _dao.customQuery(
+      filter: (s) => s.adventureId.equals(adventureId),
+      sort: [(s) => OrderingTerm.asc(s.order)],
+    ),
+    context: 'scene.getByAdventure',
+  );
 
-  /// Get a single scene by ID
-  Future<Scene?> getById(String id) => _db.sceneDao.getById(id);
-
-  /// Create a new scene
-  Future<void> create(Scene scene) async {
+  @override
+  Future<Scene> create(Scene scene) => handleError(() async {
     await _db.transaction(() async {
-      await _db.sceneDao.upsert(
+      await _dao.upsert(
         ScenesCompanion.insert(
           id: Value(scene.id),
           adventureId: scene.adventureId,
@@ -40,19 +54,19 @@ class SceneRepository {
           rev: scene.rev,
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'scenes',
         rowId: scene.id,
         op: 'upsert',
       );
     });
-  }
+    return scene;
+  }, context: 'scene.create');
 
-  /// Update an existing scene
-  Future<void> update(Scene scene) async {
+  @override
+  Future<Scene> update(Scene scene) => handleError(() async {
     await _db.transaction(() async {
-      await _db.sceneDao.upsert(
+      await _dao.upsert(
         ScenesCompanion(
           id: Value(scene.id),
           adventureId: Value(scene.adventureId),
@@ -65,18 +79,37 @@ class SceneRepository {
           rev: Value(scene.rev + 1),
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'scenes',
         rowId: scene.id,
         op: 'upsert',
       );
     });
-  }
+    return scene;
+  }, context: 'scene.update');
+
+  @override
+  Future<void> delete(String id) => handleError(() async {
+    await _db.transaction(() async {
+      await _dao.deleteById(id);
+      await _db.outboxDao.enqueue(table: 'scenes', rowId: id, op: 'delete');
+    });
+  }, context: 'scene.delete');
+
+  @override
+  Stream<Scene?> watchById(String id) => handleStreamError(
+    () =>
+        _dao.watchAll().map((list) => list.firstWhereOrNull((s) => s.id == id)),
+    context: 'scene.watchById',
+  );
+
+  @override
+  Stream<List<Scene>> watchAll() =>
+      handleStreamError(_dao.watchAll, context: 'scene.watchAll');
 
   /// Optimistic local upsert (no rev bump here)
-  Future<void> upsertLocal(Scene scene) async {
-    await _db.sceneDao.upsert(
+  Future<void> upsertLocal(Scene scene) => handleError(() async {
+    await _dao.upsert(
       ScenesCompanion(
         id: Value(scene.id),
         adventureId: Value(scene.adventureId),
@@ -91,23 +124,15 @@ class SceneRepository {
       ),
     );
     await _db.outboxDao.enqueue(table: 'scenes', rowId: scene.id, op: 'upsert');
-  }
+  }, context: 'scene.upsertLocal');
 
-  /// Delete a scene
-  Future<void> delete(String id) async {
-    await _db.transaction(() async {
-      await _db.sceneDao.deleteById(id);
-
-      await _db.outboxDao.enqueue(table: 'scenes', rowId: id, op: 'delete');
-    });
-  }
-
-  /// Custom query with custom filter, custom sort and custom limit
+  /// Custom query passthrough
   Future<List<Scene>> customQuery({
     Expression<bool> Function(Scenes s)? filter,
     List<OrderingTerm Function(Scenes s)>? sort,
     int? limit,
-  }) {
-    return _db.sceneDao.customQuery(filter: filter, sort: sort, limit: limit);
-  }
+  }) => handleError(
+    () => _dao.customQuery(filter: filter, sort: sort, limit: limit),
+    context: 'scene.customQuery',
+  );
 }

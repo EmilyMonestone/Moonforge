@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Provider for managing scene state and navigation
-class SceneProvider with ChangeNotifier {
+class SceneProvider extends BaseAsyncProvider<Scene?> {
   static const String _currentSceneKey = 'current_scene_id';
   final PersistenceService _persistence = PersistenceService();
   final SceneRepository _sceneRepository;
@@ -14,7 +15,7 @@ class SceneProvider with ChangeNotifier {
   List<Scene> _scenesInAdventure = [];
   bool _isCompleted = false;
 
-  Scene? get currentScene => _currentScene;
+  Scene? get currentScene => state.dataOrNull;
   List<Scene> get scenesInAdventure => _scenesInAdventure;
   bool get isCompleted => _isCompleted;
 
@@ -53,11 +54,13 @@ class SceneProvider with ChangeNotifier {
 
       // Check completion status
       _isCompleted = _checkSceneCompletion(scene);
+      updateState(AsyncState.data(scene));
     } else {
       _persistence.remove(_currentSceneKey);
       _scenesInAdventure = [];
       _isCompleted = false;
       logger.i('Removed persisted scene ID');
+      reset();
     }
 
     notifyListeners();

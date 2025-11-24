@@ -279,7 +279,7 @@ Future<void> _attachToParent({
       final ids = List<String>.from(chapter.entityIds);
       if (ids.contains(entityId)) return;
       ids.add(entityId);
-      await chapterRepo.upsertLocal(
+      await chapterRepo.update(
         chapter.copyWith(entityIds: ids, updatedAt: Value(DateTime.now())),
       );
       break;

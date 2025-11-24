@@ -12,7 +12,7 @@ releases:
   - name: production
     jobs:
       # Windows executable (MSIX or portable EXE)
-      - name: release-windows
+      - name: release-windows-github
         package:
           platform: windows
           target: exe
@@ -22,19 +22,8 @@ releases:
               APP_ENV: production
         publish_to: github
 
-      # macOS DMG
-      - name: release-macos
-        package:
-          platform: macos
-          target: dmg
-          build_args:
-            dart-define:
-              APP_NAME: Moonforge
-              APP_ENV: production
-        publish_to: github
-
       # Linux AppImage
-      - name: release-linux-appimage
+      - name: release-linux-appimage-github
         package:
           platform: linux
           target: appimage
@@ -45,11 +34,22 @@ releases:
         publish_to: github
 
       # Linux DEB package
-      - name: release-linux-deb
+      - name: release-linux-deb-github
         package:
           platform: linux
           target: deb
           build_args:
+            dart-define:
+              APP_NAME: Moonforge
+              APP_ENV: production
+        publish_to: github
+
+      - name: release-android-github
+        package:
+          platform: android
+          target: apk
+          build_args:
+            target-platform: android-arm,android-arm64
             dart-define:
               APP_NAME: Moonforge
               APP_ENV: production
@@ -67,18 +67,7 @@ releases:
             dart-define:
               APP_NAME: Moonforge Beta
               APP_ENV: beta
-        publish_to: github
-
-      # macOS beta
-      - name: release-beta-macos
-        package:
-          platform: macos
-          target: dmg
-          build_args:
-            dart-define:
-              APP_NAME: Moonforge Beta
-              APP_ENV: beta
-        publish_to: github
+        publish_to: github-beta
 
       # Linux AppImage beta
       - name: release-beta-linux-appimage
@@ -89,7 +78,18 @@ releases:
             dart-define:
               APP_NAME: Moonforge Beta
               APP_ENV: beta
-        publish_to: github
+        publish_to: github-beta
+
+      - name: release-beta-android
+        package:
+          platform: android
+          target: apk
+          build_args:
+            target-platform: android-arm,android-arm64
+            dart-define:
+              APP_NAME: Moonforge Beta
+              APP_ENV: beta
+        publish_to: github-beta
 
   # Development/dev Android Play Store release configuration
   - name: dev
@@ -115,3 +115,7 @@ publishers:
     repo: EmilyMoonstone/Moonforge
     draft: false
     prerelease: false
+  github-beta:
+    repo: EmilyMoonstone/Moonforge
+    draft: false
+    prerelease: true

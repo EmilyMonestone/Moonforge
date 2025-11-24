@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/services/router_config.dart';
+import 'package:moonforge/core/widgets/async_state_builder.dart';
+import 'package:moonforge/core/widgets/error_display.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
@@ -50,10 +52,6 @@ class _EntityListViewState extends State<EntityListView> {
     return ListenableBuilder(
       listenable: _controller,
       builder: (context, _) {
-        if (_controller.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         return Column(
           children: [
             // Header with search and create button
@@ -110,8 +108,19 @@ class _EntityListViewState extends State<EntityListView> {
             const SizedBox(height: 16),
             // Entity list
             Expanded(
-              child: _controller.entities.isEmpty
-                  ? Center(
+              child: AsyncStateBuilder<List<Entity>>(
+                state: _controller.state,
+                onRetry: () => _controller.loadEntities(),
+                onError: (context, error) => ErrorDisplay(
+                  title: l10n.errorSomethingWentWrong,
+                  message: error.toString(),
+                  onRetry: () => _controller.loadEntities(),
+                ),
+                onLoading: (context) =>
+                    const Center(child: CircularProgressIndicator()),
+                builder: (context, data) {
+                  if (_controller.entities.isEmpty) {
+                    return Center(
                       child: Text(
                         _controller.searchQuery.isNotEmpty ||
                                 _controller.selectedKind != null ||
@@ -120,19 +129,23 @@ class _EntityListViewState extends State<EntityListView> {
                             : l10n.noEntitiesYet,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: _controller.entities.length,
-                      itemBuilder: (context, index) {
-                        final entity = _controller.entities[index];
-                        return _EntityListItem(
-                          entity: entity,
-                          onTap: () {
-                            EntityRouteData(entityId: entity.id).push(context);
-                          },
-                        );
-                      },
-                    ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: _controller.entities.length,
+                    itemBuilder: (context, index) {
+                      final entity = _controller.entities[index];
+                      return _EntityListItem(
+                        entity: entity,
+                        onTap: () {
+                          EntityRouteData(entityId: entity.id).push(context);
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         );

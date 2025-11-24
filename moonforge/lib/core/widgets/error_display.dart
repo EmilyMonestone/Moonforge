@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 
 /// Centered error view with optional retry action.
 ///
@@ -26,14 +27,14 @@ class ErrorDisplay extends StatelessWidget {
     final theme = Theme.of(context);
     final children = <Widget>[
       Icon(Icons.error_outline, size: 64, color: theme.colorScheme.error),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.xl),
       Text(
         title,
         style: theme.textTheme.titleMedium,
         textAlign: TextAlign.center,
       ),
       if (message != null) ...[
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Text(
           message!,
           style: theme.textTheme.bodyMedium,
@@ -41,7 +42,7 @@ class ErrorDisplay extends StatelessWidget {
         ),
       ],
       if (onRetry != null) ...[
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xl),
         FilledButton.icon(
           onPressed: onRetry,
           icon: const Icon(Icons.refresh),
@@ -52,7 +53,7 @@ class ErrorDisplay extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: AppSpacing.paddingXxl,
         child: Column(mainAxisSize: MainAxisSize.min, children: children),
       ),
     );

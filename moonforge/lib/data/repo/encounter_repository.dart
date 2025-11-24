@@ -1,29 +1,43 @@
+import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
+import 'package:moonforge/data/db/daos/encounter_dao.dart';
+import 'package:moonforge/data/repo/base_repository.dart';
 
 import '../db/app_db.dart';
 import '../db/tables.dart';
 
 /// Repository for Encounter operations
-class EncounterRepository {
-  final AppDb _db;
-
+class EncounterRepository extends BaseRepository<Encounter, String> {
   EncounterRepository(this._db);
 
+  final AppDb _db;
+
+  EncounterDao get _dao => _db.encounterDao;
+
   /// Watch encounters for an origin (campaign/chapter/adventure/scene)
-  Stream<List<Encounter>> watchByOrigin(String originId) =>
-      _db.encounterDao.watchByOrigin(originId);
+  Stream<List<Encounter>> watchByOrigin(String originId) => handleStreamError(
+    () => _dao.watchByOrigin(originId),
+    context: 'encounter.watchByOrigin',
+  );
 
   /// List encounters for an origin
-  Future<List<Encounter>> getByOrigin(String originId) =>
-      _db.encounterDao.getByOrigin(originId);
+  Future<List<Encounter>> getByOrigin(String originId) => handleError(
+    () => _dao.getByOrigin(originId),
+    context: 'encounter.getByOrigin',
+  );
 
-  /// Get a single encounter by ID
-  Future<Encounter?> getById(String id) => _db.encounterDao.getById(id);
+  @override
+  Future<Encounter?> getById(String id) =>
+      handleError(() => _dao.getById(id), context: 'encounter.getById');
 
-  /// Create a new encounter
-  Future<void> create(Encounter encounter) async {
+  @override
+  Future<List<Encounter>> getAll() =>
+      handleError(() => _dao.watchAll().first, context: 'encounter.getAll');
+
+  @override
+  Future<Encounter> create(Encounter encounter) => handleError(() async {
     await _db.transaction(() async {
-      await _db.encounterDao.upsert(
+      await _dao.upsert(
         EncountersCompanion.insert(
           id: Value(encounter.id),
           name: encounter.name,
@@ -38,19 +52,19 @@ class EncounterRepository {
           rev: encounter.rev,
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'encounters',
         rowId: encounter.id,
         op: 'upsert',
       );
     });
-  }
+    return encounter;
+  }, context: 'encounter.create');
 
-  /// Update an existing encounter
-  Future<void> update(Encounter encounter) async {
+  @override
+  Future<Encounter> update(Encounter encounter) => handleError(() async {
     await _db.transaction(() async {
-      await _db.encounterDao.upsert(
+      await _dao.upsert(
         EncountersCompanion(
           id: Value(encounter.id),
           name: Value(encounter.name),
@@ -64,18 +78,18 @@ class EncounterRepository {
           rev: Value(encounter.rev + 1),
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'encounters',
         rowId: encounter.id,
         op: 'upsert',
       );
     });
-  }
+    return encounter;
+  }, context: 'encounter.update');
 
   /// Optimistic local upsert (no rev bump here)
-  Future<void> upsertLocal(Encounter encounter) async {
-    await _db.encounterDao.upsert(
+  Future<void> upsertLocal(Encounter encounter) => handleError(() async {
+    await _dao.upsert(
       EncountersCompanion(
         id: Value(encounter.id),
         name: Value(encounter.name),
@@ -95,27 +109,34 @@ class EncounterRepository {
       rowId: encounter.id,
       op: 'upsert',
     );
-  }
+  }, context: 'encounter.upsertLocal');
 
-  /// Delete an encounter
-  Future<void> delete(String id) async {
+  @override
+  Future<void> delete(String id) => handleError(() async {
     await _db.transaction(() async {
-      await _db.encounterDao.deleteById(id);
-
+      await _dao.deleteById(id);
       await _db.outboxDao.enqueue(table: 'encounters', rowId: id, op: 'delete');
     });
-  }
+  }, context: 'encounter.delete');
 
-  /// Custom query with custom filter, custom sort and custom limit
+  @override
+  Stream<List<Encounter>> watchAll() =>
+      handleStreamError(_dao.watchAll, context: 'encounter.watchAll');
+
+  @override
+  Stream<Encounter?> watchById(String id) => handleStreamError(
+    () =>
+        _dao.watchAll().map((list) => list.firstWhereOrNull((e) => e.id == id)),
+    context: 'encounter.watchById',
+  );
+
+  /// Custom query passthrough
   Future<List<Encounter>> customQuery({
     Expression<bool> Function(Encounters e)? filter,
     List<OrderingTerm Function(Encounters e)>? sort,
     int? limit,
-  }) {
-    return _db.encounterDao.customQuery(
-      filter: filter,
-      sort: sort,
-      limit: limit,
-    );
-  }
+  }) => handleError(
+    () => _dao.customQuery(filter: filter, sort: sort, limit: limit),
+    context: 'encounter.customQuery',
+  );
 }

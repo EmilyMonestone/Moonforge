@@ -1,18 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 
 /// Provider for managing current party state and party switching
-class PartyProvider with ChangeNotifier {
+class PartyProvider extends BaseAsyncProvider<Party?> {
   static const String _currentPartyKey = 'current_party_id';
   final PersistenceService _persistence = PersistenceService();
   final PartyRepository _repository;
-
-  Party? _currentParty;
-
-  Party? get currentParty => _currentParty;
 
   PartyProvider(this._repository) {
     _loadPersistedPartyId();
@@ -37,8 +34,7 @@ class PartyProvider with ChangeNotifier {
     try {
       final party = await _repository.getById(partyId);
       if (party != null) {
-        _currentParty = party;
-        notifyListeners();
+        updateState(AsyncState.data(party));
       }
     } catch (e) {
       logger.e('Failed to load party: $e');
@@ -52,7 +48,11 @@ class PartyProvider with ChangeNotifier {
 
   /// Set the current party
   void setCurrentParty(Party? party) {
-    _currentParty = party;
+    if (party == null) {
+      reset();
+    } else {
+      updateState(AsyncState.data(party));
+    }
 
     // Persist the party ID
     if (party != null) {
@@ -69,7 +69,7 @@ class PartyProvider with ChangeNotifier {
   /// Switch to a different party
   Future<void> switchParty(String partyId) async {
     await _loadParty(partyId);
-    if (_currentParty != null) {
+    if (state.dataOrNull != null) {
       _persistence.write(_currentPartyKey, partyId);
       logger.i('Switched to party: $partyId');
     }
@@ -78,65 +78,65 @@ class PartyProvider with ChangeNotifier {
   /// Clear the persisted party
   void clearPersistedParty() {
     _persistence.remove(_currentPartyKey);
-    _currentParty = null;
+    reset();
     notifyListeners();
   }
 
   /// Add a member to the current party
   Future<void> addMember(String playerId) async {
-    if (_currentParty == null) return;
+    final current = currentParty;
+    if (current == null) return;
 
-    final updatedMemberIds = List<String>.from(
-      _currentParty!.memberPlayerIds ?? [],
-    );
+    final updatedMemberIds = List<String>.from(current.memberPlayerIds ?? []);
     if (!updatedMemberIds.contains(playerId)) {
       updatedMemberIds.add(playerId);
 
       final updatedParty = Party(
-        id: _currentParty!.id,
-        campaignId: _currentParty!.campaignId,
-        name: _currentParty!.name,
-        summary: _currentParty!.summary,
-        memberEntityIds: _currentParty!.memberEntityIds,
+        id: current.id,
+        campaignId: current.campaignId,
+        name: current.name,
+        summary: current.summary,
+        memberEntityIds: current.memberEntityIds,
         memberPlayerIds: updatedMemberIds,
-        createdAt: _currentParty!.createdAt,
+        createdAt: current.createdAt,
         updatedAt: DateTime.now(),
-        rev: _currentParty!.rev,
+        rev: current.rev,
       );
 
       await _repository.update(updatedParty);
-      _currentParty = updatedParty;
+      updateState(AsyncState.data(updatedParty));
       notifyListeners();
-      logger.i('Added member $playerId to party ${_currentParty!.id}');
+      logger.i('Added member $playerId to party ${updatedParty.id}');
     }
   }
 
   /// Remove a member from the current party
   Future<void> removeMember(String playerId) async {
-    if (_currentParty == null) return;
+    final current = currentParty;
+    if (current == null) return;
 
-    final updatedMemberIds = List<String>.from(
-      _currentParty!.memberPlayerIds ?? [],
-    );
+    final updatedMemberIds = List<String>.from(current.memberPlayerIds ?? []);
     if (updatedMemberIds.contains(playerId)) {
       updatedMemberIds.remove(playerId);
 
       final updatedParty = Party(
-        id: _currentParty!.id,
-        campaignId: _currentParty!.campaignId,
-        name: _currentParty!.name,
-        summary: _currentParty!.summary,
-        memberEntityIds: _currentParty!.memberEntityIds,
+        id: current.id,
+        campaignId: current.campaignId,
+        name: current.name,
+        summary: current.summary,
+        memberEntityIds: current.memberEntityIds,
         memberPlayerIds: updatedMemberIds,
-        createdAt: _currentParty!.createdAt,
+        createdAt: current.createdAt,
         updatedAt: DateTime.now(),
-        rev: _currentParty!.rev,
+        rev: current.rev,
       );
 
       await _repository.update(updatedParty);
-      _currentParty = updatedParty;
+      updateState(AsyncState.data(updatedParty));
       notifyListeners();
-      logger.i('Removed member $playerId from party ${_currentParty!.id}');
+      logger.i('Removed member $playerId from party ${updatedParty.id}');
     }
   }
+
+  Party? get currentParty => state.dataOrNull;
 }

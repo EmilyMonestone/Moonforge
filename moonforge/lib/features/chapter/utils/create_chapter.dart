@@ -115,7 +115,7 @@ Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
       rev: 0,
     );
 
-    await repository.upsertLocal(chapter);
+    await repository.update(chapter);
 
     if (!context.mounted) return;
     notification.success(context, title: Text(l10n.createChapter));

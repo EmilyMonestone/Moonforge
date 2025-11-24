@@ -43,4 +43,36 @@ class CampaignDao extends DatabaseAccessor<AppDb> with _$CampaignDaoMixin {
 
     return query.get();
   }
+
+  Stream<Campaign?> watchById(String id) =>
+      (select(campaigns)..where((c) => c.id.equals(id))).watchSingleOrNull();
+
+  Future<List<Campaign>> getAll() =>
+      (select(campaigns)..orderBy([(c) => OrderingTerm.asc(c.name)])).get();
+
+  Future<List<Campaign>> getPaginated({
+    required int limit,
+    required int offset,
+  }) {
+    final query = select(campaigns)
+      ..orderBy([(c) => OrderingTerm.asc(c.name)])
+      ..limit(limit, offset: offset);
+    return query.get();
+  }
+
+  Future<int> count() => customSelect(
+    'SELECT COUNT(*) as cnt FROM campaigns',
+  ).getSingle().then((row) => row.read<int>('cnt'));
+
+  Future<List<Campaign>> getCampaignsByUser(String userId) =>
+      (select(campaigns)..where(
+            (c) => c.ownerUid.equals(userId) | c.memberUids.like('%$userId%'),
+          ))
+          .get();
+
+  Stream<List<Campaign>> watchCampaignsByUser(String userId) =>
+      (select(campaigns)..where(
+            (c) => c.ownerUid.equals(userId) | c.memberUids.like('%$userId%'),
+          ))
+          .watch();
 }

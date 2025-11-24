@@ -85,9 +85,7 @@ class StoryContextBuilder {
 
     final entities = await _getEntitiesInfo(campaign.entityIds);
     final contentText = _extractQuillText(campaign.content);
-    final language = _detectLanguage(
-      contentText ?? campaign.description ?? campaign.name,
-    );
+    final language = _detectLanguage(contentText ?? campaign.description);
 
     return StoryContext(
       campaignName: campaign.name,
@@ -116,7 +114,7 @@ class StoryContextBuilder {
 
     final contentText = _extractQuillText(chapter.content);
     final language = _detectLanguage(
-      contentText ?? chapter.summary ?? campaign.description ?? campaign.name,
+      contentText ?? chapter.summary ?? campaign.description,
     );
 
     return StoryContext(
@@ -160,8 +158,7 @@ class StoryContextBuilder {
       contentText ??
           adventure.summary ??
           chapter.summary ??
-          campaign.description ??
-          campaign.name,
+          campaign.description,
     );
 
     return StoryContext(
@@ -215,14 +212,7 @@ class StoryContextBuilder {
 
     // Detect language from scene content or fallback to campaign content
     final sceneText = _extractQuillText(scene.content);
-    final language = _detectLanguage(
-      sceneText ??
-          recentContent ??
-          scene.summary ??
-          adventure.summary ??
-          campaign.description ??
-          campaign.name,
-    );
+    final language = _detectLanguage(sceneText ?? recentContent);
 
     return StoryContext(
       campaignName: campaign.name,

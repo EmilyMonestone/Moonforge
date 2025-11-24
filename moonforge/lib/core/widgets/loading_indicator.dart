@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 
 /// A reusable centered loading indicator that optionally shows a message.
 ///
@@ -15,7 +16,7 @@ class LoadingIndicator extends StatelessWidget {
     final columnChildren = <Widget>[
       const CircularProgressIndicator(),
       if (message != null) ...[
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.md),
         Text(
           message!,
           style: Theme.of(context).textTheme.bodyMedium,
@@ -26,7 +27,7 @@ class LoadingIndicator extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: AppSpacing.paddingXl,
         child: Column(mainAxisSize: MainAxisSize.min, children: columnChildren),
       ),
     );
@@ -47,14 +48,13 @@ class InlineLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return SizedBox(
       width: size,
       height: size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Theme.of(context).colorScheme.onPrimary,
-        ),
+        valueColor: AlwaysStoppedAnimation<Color>(scheme.onPrimary),
       ),
     );
   }

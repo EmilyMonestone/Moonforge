@@ -1,61 +1,70 @@
+import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
-import 'package:moonforge/data/db/tables.dart';
+import 'package:moonforge/data/db/daos/player_dao.dart';
+import 'package:moonforge/data/repo/base_repository.dart';
 
 import '../db/app_db.dart';
+import '../db/tables.dart';
 
-/// Repository for Player operations
-class PlayerRepository {
-  final AppDb _db;
-
+class PlayerRepository extends BaseRepository<Player, String> {
   PlayerRepository(this._db);
 
-  Stream<List<Player>> watchAll() => _db.playerDao.watchAll();
+  final AppDb _db;
 
-  /// Watch players for a campaign
-  Stream<List<Player>> watchByCampaign(String campaignId) =>
-      _db.playerDao.watchByCampaign(campaignId);
+  PlayerDao get _dao => _db.playerDao;
 
-  /// Get a single player by ID
-  Future<Player?> getById(String id) => _db.playerDao.getById(id);
+  @override
+  Future<Player?> getById(String id) =>
+      handleError(() => _dao.getById(id), context: 'player.getById');
 
-  /// Get a player by D&D Beyond character ID
-  Future<Player?> getByDdbCharacterId(String ddbCharacterId) async {
-    final players = await _db.playerDao.customQuery(
-      filter: (p) => p.ddbCharacterId.equals(ddbCharacterId),
-      limit: 1,
-    );
-    return players.isEmpty ? null : players.first;
-  }
+  @override
+  Future<List<Player>> getAll() =>
+      handleError(() => _dao.watchAll().first, context: 'player.getAll');
 
-  /// Create a new player
-  Future<void> create(Player player) async {
+  @override
+  Stream<List<Player>> watchAll() =>
+      handleStreamError(_dao.watchAll, context: 'player.watchAll');
+
+  Stream<List<Player>> watchByCampaign(String campaignId) => handleStreamError(
+    () => _dao.watchByCampaign(campaignId),
+    context: 'player.watchByCampaign',
+  );
+
+  Future<Player?> getByDdbCharacterId(String ddbCharacterId) =>
+      handleError(() async {
+        final players = await _dao.customQuery(
+          filter: (p) => p.ddbCharacterId.equals(ddbCharacterId),
+          limit: 1,
+        );
+        return players.isEmpty ? null : players.first;
+      }, context: 'player.getByDdbCharacterId');
+
+  @override
+  Future<Player> create(Player player) => handleError(() async {
     await _db.transaction(() async {
-      await _db.playerDao.upsert(_buildPlayerCompanion(player, isCreate: true));
-
+      await _dao.upsert(_buildPlayerCompanion(player, isCreate: true));
       await _db.outboxDao.enqueue(
         table: 'players',
         rowId: player.id,
         op: 'upsert',
       );
     });
-  }
+    return player;
+  }, context: 'player.create');
 
-  /// Update an existing player
-  Future<void> update(Player player) async {
+  @override
+  Future<Player> update(Player player) => handleError(() async {
     await _db.transaction(() async {
-      await _db.playerDao.upsert(
-        _buildPlayerCompanion(player, isCreate: false),
-      );
-
+      await _dao.upsert(_buildPlayerCompanion(player, isCreate: false));
       await _db.outboxDao.enqueue(
         table: 'players',
         rowId: player.id,
         op: 'upsert',
       );
     });
-  }
+    return player;
+  }, context: 'player.update');
 
-  /// Build a PlayersCompanion from a Player object
   PlayersCompanion _buildPlayerCompanion(
     Player player, {
     required bool isCreate,
@@ -140,28 +149,27 @@ class PlayerRepository {
     }
   }
 
-  /// Delete a player (soft delete)
-  Future<void> delete(String id) async {
+  @override
+  Future<void> delete(String id) => handleError(() async {
     await _db.transaction(() async {
-      // Soft delete by setting deleted flag
-      await _db.playerDao.upsert(
-        PlayersCompanion(
-          id: Value(id),
-          deleted: Value(true),
-          updatedAt: Value(DateTime.now()),
-        ),
-      );
-
+      await _dao.softDeleteById(id);
       await _db.outboxDao.enqueue(table: 'players', rowId: id, op: 'delete');
     });
-  }
+  }, context: 'player.delete');
 
-  /// Custom query with custom filter, custom sort and custom limit
+  @override
+  Stream<Player?> watchById(String id) => handleStreamError(
+    () =>
+        _dao.watchAll().map((list) => list.firstWhereOrNull((p) => p.id == id)),
+    context: 'player.watchById',
+  );
+
   Future<List<Player>> customQuery({
     Expression<bool> Function(Players p)? filter,
     List<OrderingTerm Function(Players p)>? sort,
     int? limit,
-  }) {
-    return _db.playerDao.customQuery(filter: filter, sort: sort, limit: limit);
-  }
+  }) => handleError(
+    () => _dao.customQuery(filter: filter, sort: sort, limit: limit),
+    context: 'player.customQuery',
+  );
 }

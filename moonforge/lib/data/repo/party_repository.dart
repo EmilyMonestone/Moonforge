@@ -1,27 +1,51 @@
+import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
-import 'package:moonforge/data/db/tables.dart';
+import 'package:moonforge/data/db/daos/party_dao.dart';
+import 'package:moonforge/data/repo/base_repository.dart';
 
 import '../db/app_db.dart';
+import '../db/tables.dart';
 
-/// Repository for Party operations
-class PartyRepository {
-  final AppDb _db;
-
+class PartyRepository extends BaseRepository<Party, String> {
   PartyRepository(this._db);
 
-  Stream<List<Party>> watchAll() => _db.partyDao.watchAll();
+  final AppDb _db;
 
-  /// Watch parties for a campaign
-  Stream<List<Party>> watchByCampaign(String campaignId) =>
-      _db.partyDao.watchByCampaign(campaignId);
+  PartyDao get _dao => _db.partyDao;
 
-  /// Get a single party by ID
-  Future<Party?> getById(String id) => _db.partyDao.getById(id);
+  @override
+  Future<Party?> getById(String id) =>
+      handleError(() => _dao.getById(id), context: 'party.getById');
 
-  /// Create a new party
-  Future<void> create(Party party) async {
+  @override
+  Future<List<Party>> getAll() =>
+      handleError(() => _dao.watchAll().first, context: 'party.getAll');
+
+  @override
+  Stream<List<Party>> watchAll() =>
+      handleStreamError(_dao.watchAll, context: 'party.watchAll');
+
+  Stream<List<Party>> watchByCampaign(String campaignId) => handleStreamError(
+    () => _dao.watchByCampaign(campaignId),
+    context: 'party.watchByCampaign',
+  );
+
+  Future<List<Party>> getByCampaign(String campaignId) => handleError(
+    () => _dao.customQuery(filter: (p) => p.campaignId.equals(campaignId)),
+    context: 'party.getByCampaign',
+  );
+
+  @override
+  Stream<Party?> watchById(String id) => handleStreamError(
+    () =>
+        _dao.watchAll().map((list) => list.firstWhereOrNull((p) => p.id == id)),
+    context: 'party.watchById',
+  );
+
+  @override
+  Future<Party> create(Party party) => handleError(() async {
     await _db.transaction(() async {
-      await _db.partyDao.upsert(
+      await _dao.upsert(
         PartiesCompanion.insert(
           id: Value(party.id),
           campaignId: party.campaignId,
@@ -33,19 +57,19 @@ class PartyRepository {
           rev: party.rev,
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'parties',
         rowId: party.id,
         op: 'upsert',
       );
     });
-  }
+    return party;
+  }, context: 'party.create');
 
-  /// Update an existing party
-  Future<void> update(Party party) async {
+  @override
+  Future<Party> update(Party party) => handleError(() async {
     await _db.transaction(() async {
-      await _db.partyDao.upsert(
+      await _dao.upsert(
         PartiesCompanion(
           id: Value(party.id),
           campaignId: Value(party.campaignId),
@@ -56,30 +80,29 @@ class PartyRepository {
           rev: Value(party.rev + 1),
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'parties',
         rowId: party.id,
         op: 'upsert',
       );
     });
-  }
+    return party;
+  }, context: 'party.update');
 
-  /// Delete a party
-  Future<void> delete(String id) async {
+  @override
+  Future<void> delete(String id) => handleError(() async {
     await _db.transaction(() async {
-      await _db.partyDao.deleteById(id);
-
+      await _dao.deleteById(id);
       await _db.outboxDao.enqueue(table: 'parties', rowId: id, op: 'delete');
     });
-  }
+  }, context: 'party.delete');
 
-  /// Custom query with custom filter, custom sort and custom limit
   Future<List<Party>> customQuery({
     Expression<bool> Function(Parties p)? filter,
     List<OrderingTerm Function(Parties p)>? sort,
     int? limit,
-  }) {
-    return _db.partyDao.customQuery(filter: filter, sort: sort, limit: limit);
-  }
+  }) => handleError(
+    () => _dao.customQuery(filter: filter, sort: sort, limit: limit),
+    context: 'party.customQuery',
+  );
 }

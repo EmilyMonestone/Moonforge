@@ -89,6 +89,7 @@ class _CampaignViewState extends State<CampaignView> {
     final l10n = AppLocalizations.of(context)!;
     final campaign = context.watch<CampaignProvider>().currentCampaign;
     if (campaign == null) {
+      // TODO: show select of available campaigns
       return Center(child: Text(l10n.noCampaignSelected));
     }
 

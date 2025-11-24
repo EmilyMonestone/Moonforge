@@ -1,32 +1,31 @@
+import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
+import 'package:moonforge/data/db/daos/adventure_dao.dart';
+import 'package:moonforge/data/repo/base_repository.dart';
 
 import '../db/app_db.dart';
 import '../db/tables.dart';
 
 /// Repository for Adventure operations
-class AdventureRepository {
-  final AppDb _db;
-
+class AdventureRepository extends BaseRepository<Adventure, String> {
   AdventureRepository(this._db);
 
-  /// Watch adventures for a chapter
-  Stream<List<Adventure>> watchByChapter(String chapterId) =>
-      _db.adventureDao.watchByChapter(chapterId);
+  final AppDb _db;
 
-  /// List adventures for a chapter (ordered by order)
-  Future<List<Adventure>> getByChapter(String chapterId) =>
-      _db.adventureDao.customQuery(
-        filter: (a) => a.chapterId.equals(chapterId),
-        sort: [(a) => OrderingTerm.asc(a.order)],
-      );
+  AdventureDao get _dao => _db.adventureDao;
 
-  /// Get a single adventure by ID
-  Future<Adventure?> getById(String id) => _db.adventureDao.getById(id);
+  @override
+  Future<Adventure?> getById(String id) =>
+      handleError(() => _dao.getById(id), context: 'adventure.getById');
 
-  /// Create a new adventure
-  Future<void> create(Adventure adventure) async {
+  @override
+  Future<List<Adventure>> getAll() =>
+      handleError(() => _dao.watchAll().first, context: 'adventure.getAll');
+
+  @override
+  Future<Adventure> create(Adventure adventure) => handleError(() async {
     await _db.transaction(() async {
-      await _db.adventureDao.upsert(
+      await _dao.upsert(
         AdventuresCompanion.insert(
           id: Value(adventure.id),
           chapterId: adventure.chapterId,
@@ -40,19 +39,19 @@ class AdventureRepository {
           rev: adventure.rev,
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'adventures',
         rowId: adventure.id,
         op: 'upsert',
       );
     });
-  }
+    return adventure;
+  }, context: 'adventure.create');
 
-  /// Update an existing adventure
-  Future<void> update(Adventure adventure) async {
+  @override
+  Future<Adventure> update(Adventure adventure) => handleError(() async {
     await _db.transaction(() async {
-      await _db.adventureDao.upsert(
+      await _dao.upsert(
         AdventuresCompanion(
           id: Value(adventure.id),
           chapterId: Value(adventure.chapterId),
@@ -65,18 +64,53 @@ class AdventureRepository {
           rev: Value(adventure.rev + 1),
         ),
       );
-
       await _db.outboxDao.enqueue(
         table: 'adventures',
         rowId: adventure.id,
         op: 'upsert',
       );
     });
-  }
+    return adventure;
+  }, context: 'adventure.update');
 
-  /// Optimistic local upsert (no rev bump here)
-  Future<void> upsertLocal(Adventure adventure) async {
-    await _db.adventureDao.upsert(
+  @override
+  Future<void> delete(String id) => handleError(() async {
+    await _db.transaction(() async {
+      await _dao.deleteById(id);
+      await _db.outboxDao.enqueue(table: 'adventures', rowId: id, op: 'delete');
+    });
+  }, context: 'adventure.delete');
+
+  @override
+  Stream<Adventure?> watchById(String id) => handleStreamError(
+    () => _dao.watchAll().map(
+      (list) => list.firstWhereOrNull((adv) => adv.id == id),
+    ),
+    context: 'adventure.watchById',
+  );
+
+  @override
+  Stream<List<Adventure>> watchAll() =>
+      handleStreamError(_dao.watchAll, context: 'adventure.watchAll');
+
+  /// Watch adventures for a specific chapter.
+  Stream<List<Adventure>> watchByChapter(String chapterId) => handleStreamError(
+    () => _dao.watchByChapter(chapterId),
+    context: 'adventure.watchByChapter',
+  );
+
+  /// Fetch adventures for a chapter ordered by `order`.
+  Future<List<Adventure>> getByChapter(String chapterId) => handleError(
+    () => _dao.customQuery(
+      filter: (a) => a.chapterId.equals(chapterId),
+      sort: [(a) => OrderingTerm.asc(a.order)],
+    ),
+    context: 'adventure.getByChapter',
+  );
+
+  /// Optimistic local upsert (no rev bump).
+  Future<void> upsertLocal(Adventure adventure) => handleError(() async {
+    await _dao.upsert(
       AdventuresCompanion(
         id: Value(adventure.id),
         chapterId: Value(adventure.chapterId),
@@ -95,27 +129,15 @@ class AdventureRepository {
       rowId: adventure.id,
       op: 'upsert',
     );
-  }
+  }, context: 'adventure.upsertLocal');
 
-  /// Delete an adventure
-  Future<void> delete(String id) async {
-    await _db.transaction(() async {
-      await _db.adventureDao.deleteById(id);
-
-      await _db.outboxDao.enqueue(table: 'adventures', rowId: id, op: 'delete');
-    });
-  }
-
-  /// Custom query with custom filter, custom sort and custom limit
+  /// Custom query passthrough for advanced filters.
   Future<List<Adventure>> customQuery({
     Expression<bool> Function(Adventures a)? filter,
     List<OrderingTerm Function(Adventures a)>? sort,
     int? limit,
-  }) {
-    return _db.adventureDao.customQuery(
-      filter: filter,
-      sort: sort,
-      limit: limit,
-    );
-  }
+  }) => handleError(
+    () => _dao.customQuery(filter: filter, sort: sort, limit: limit),
+    context: 'adventure.customQuery',
+  );
 }

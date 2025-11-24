@@ -10,22 +10,33 @@ class PlayerDao extends DatabaseAccessor<AppDb> with _$PlayerDaoMixin {
   PlayerDao(super.db);
 
   Stream<List<Player>> watchAll() =>
-      (select(players)..orderBy([(p) => OrderingTerm.asc(p.name)])).watch();
+      (select(players)
+        ..orderBy([(p) => OrderingTerm.asc(p.name)])).watch();
 
   Stream<List<Player>> watchByCampaign(String campaignId) =>
       (select(players)
-            ..where((p) => p.campaignId.equals(campaignId))
-            ..orderBy([(p) => OrderingTerm.asc(p.name)]))
+        ..where((p) => p.campaignId.equals(campaignId))
+        ..orderBy([(p) => OrderingTerm.asc(p.name)]))
           .watch();
 
   Future<Player?> getById(String id) =>
-      (select(players)..where((p) => p.id.equals(id))).getSingleOrNull();
+      (select(players)
+        ..where((p) => p.id.equals(id))).getSingleOrNull();
 
   Future<void> upsert(PlayersCompanion data) async =>
       into(players).insertOnConflictUpdate(data);
 
   Future<int> deleteById(String id) =>
-      (delete(players)..where((p) => p.id.equals(id))).go();
+      (delete(players)
+        ..where((p) => p.id.equals(id))).go();
+
+  /// Soft-delete by setting the `deleted` flag to true and updating `updatedAt`.
+  Future<int> softDeleteById(String id) =>
+      (update(players)
+        ..where((p) => p.id.equals(id))).write(
+        PlayersCompanion(
+            deleted: Value(true), updatedAt: Value(DateTime.now())),
+      );
 
   Future<List<Player>> customQuery({
     Expression<bool> Function(Players p)? filter,

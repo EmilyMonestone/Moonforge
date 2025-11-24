@@ -1,0 +1,30 @@
+display_name: Moonforge
+package_name: moonforge
+maintainer:
+  name: EmilyMoonstone
+  email: emily@bruckcode.de
+priority: optional
+section: x11
+#installed_size: 6604
+essential: false
+icon: assets/logo.png
+
+postinstall_scripts:
+  - echo "Installed Moonforge"
+postuninstall_scripts:
+  - echo "Uninstalled Moonforge"
+
+keywords:
+  - Moonforge
+  - Dungeons & Dragons
+  - Campaign Manager
+
+generic_name: DnD Campaign Manager
+
+categories:
+  - Utility
+
+startup_notify: true
+# You can also specify [metainfo](https://freedesktop.org/software/appstream/docs/chap-Quickstart.html) file
+# which contains metadata of the app.
+# metainfo: linux/packaging/myappid.appdata.xml

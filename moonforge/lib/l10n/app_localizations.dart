@@ -1208,6 +1208,66 @@ abstract class AppLocalizations {
   /// **'Create Session'**
   String get createSessionCta;
 
+  /// Pluralized count label for campaign entities
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No entities} =1 {1 entity} other {{count} entities}}'**
+  String campaignEntitiesCount(int count);
+
+  /// Pluralized count label for campaign members
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {No members} =1 {1 member} other {{count} members}}'**
+  String campaignMembersCount(int count);
+
+  /// Label for showing when a campaign was updated
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {relativeTime}'**
+  String campaignUpdatedRelative(String relativeTime);
+
+  /// Relative time label for immediate updates
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get relativeJustNow;
+
+  /// Relative time label for minutes
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 minute ago} other {{count} minutes ago}}'**
+  String relativeMinutes(int count);
+
+  /// Relative time label for hours
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 hour ago} other {{count} hours ago}}'**
+  String relativeHours(int count);
+
+  /// Relative time label for days
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 day ago} other {{count} days ago}}'**
+  String relativeDays(int count);
+
+  /// Relative time label for weeks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 week ago} other {{count} weeks ago}}'**
+  String relativeWeeks(int count);
+
+  /// Relative time label for months
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 month ago} other {{count} months ago}}'**
+  String relativeMonths(int count);
+
+  /// Relative time label for years
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 year ago} other {{count} years ago}}'**
+  String relativeYears(int count);
+
   /// Placeholder for campaign search field
   ///
   /// In en, this message translates to:

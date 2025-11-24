@@ -1,49 +1,35 @@
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 
 /// Provider for managing current entity state
-class EntityProvider with ChangeNotifier {
+class EntityProvider extends BaseAsyncProvider<Entity?> {
   final EntityRepository _repository;
 
-  Entity? _currentEntity;
-  bool _isLoading = false;
-
-  Entity? get currentEntity => _currentEntity;
-  bool get isLoading => _isLoading;
+  Entity? get currentEntity => state.dataOrNull;
+  bool get isLoading => state.isLoading;
 
   EntityProvider(this._repository);
 
   /// Load an entity by ID
   Future<void> loadEntity(String id) async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      final entity = await _repository.getById(id);
-      _currentEntity = entity;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+    await executeAsync(() => _repository.getById(id));
   }
 
   /// Set the current entity
   void setCurrentEntity(Entity? entity) {
-    _currentEntity = entity;
-    notifyListeners();
+    updateState(AsyncState.data(entity));
   }
 
   /// Clear the current entity
   void clearCurrentEntity() {
-    _currentEntity = null;
-    notifyListeners();
+    reset();
   }
 
   /// Update the current entity
   Future<void> updateCurrentEntity(Entity entity) async {
     await _repository.update(entity);
-    _currentEntity = entity;
-    notifyListeners();
+    updateState(AsyncState.data(entity));
   }
 }

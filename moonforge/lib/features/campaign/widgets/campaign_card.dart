@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
@@ -38,7 +39,7 @@ class CampaignCard extends StatelessWidget {
         onTap: onTap,
         onLongPress: onSelectionToggle,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: AppSpacing.paddingLg,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,7 +47,7 @@ class CampaignCard extends StatelessWidget {
                 children: [
                   if (selected)
                     Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                      padding: const EdgeInsets.only(right: AppSpacing.sm),
                       child: Icon(
                         Icons.check_circle,
                         color: theme.colorScheme.primary,
@@ -72,24 +73,24 @@ class CampaignCard extends StatelessWidget {
                       },
                       itemBuilder: (context) => [
                         if (onEdit != null)
-                          const PopupMenuItem(
+                          PopupMenuItem(
                             value: 'edit',
                             child: Row(
                               children: [
-                                Icon(Icons.edit_outlined),
-                                SizedBox(width: 8),
-                                Text('Edit'),
+                                const Icon(Icons.edit_outlined),
+                                const SizedBox(width: 8),
+                                Text(l10n.edit),
                               ],
                             ),
                           ),
                         if (onDelete != null)
-                          const PopupMenuItem(
+                          PopupMenuItem(
                             value: 'delete',
                             child: Row(
                               children: [
-                                Icon(Icons.delete_outlined),
-                                SizedBox(width: 8),
-                                Text('Delete'),
+                                const Icon(Icons.delete_outlined),
+                                const SizedBox(width: 8),
+                                Text(l10n.delete),
                               ],
                             ),
                           ),
@@ -97,35 +98,41 @@ class CampaignCard extends StatelessWidget {
                     ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 campaign.description.isEmpty
-                    ? 'No description provided'
+                    ? l10n.noDescriptionProvided
                     : campaign.description,
                 style: theme.textTheme.bodyMedium,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Wrap(
                 spacing: 8,
                 runSpacing: 4,
                 children: [
                   _StatChip(
                     icon: DomainType.entityGeneric.icon,
-                    label: '${campaign.entityIds.length} entities',
+                    label: l10n.campaignEntitiesCount(
+                      campaign.entityIds.length,
+                    ),
                   ),
                   if ((campaign.memberUids?.isNotEmpty ?? false))
                     _StatChip(
                       icon: DomainType.party.icon,
-                      label: '${campaign.memberUids?.length ?? 0} members',
+                      label: l10n.campaignMembersCount(
+                        campaign.memberUids?.length ?? 0,
+                      ),
                     ),
                 ],
               ),
               if (lastUpdated != null) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
-                  'Updated ${_formatRelative(lastUpdated)}',
+                  l10n.campaignUpdatedRelative(
+                    _relativeTimeLabel(l10n, lastUpdated),
+                  ),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -153,21 +160,35 @@ class _StatChip extends StatelessWidget {
       label: Text(label),
       visualDensity: VisualDensity.compact,
       labelStyle: theme.textTheme.bodySmall,
-      padding: EdgeInsets.zero,
+      padding: AppSpacing.horizontalSm,
     );
   }
 }
 
-String _formatRelative(DateTime dt) {
+String _relativeTimeLabel(AppLocalizations l10n, DateTime dt) {
   final now = DateTime.now();
   final diff = now.difference(dt);
-  if (diff.inSeconds < 60) return 'just now';
-  if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-  if (diff.inHours < 24) return '${diff.inHours}h ago';
-  if (diff.inDays < 7) return '${diff.inDays}d ago';
-  if (diff.inDays < 30) return '${(diff.inDays / 7).floor()}w ago';
+  if (diff.inSeconds < 60) return l10n.relativeJustNow;
+  if (diff.inMinutes < 60) {
+    final minutes = diff.inMinutes;
+    return l10n.relativeMinutes(minutes);
+  }
+  if (diff.inHours < 24) {
+    final hours = diff.inHours;
+    return l10n.relativeHours(hours);
+  }
+  if (diff.inDays < 7) {
+    final days = diff.inDays;
+    return l10n.relativeDays(days);
+  }
+  if (diff.inDays < 30) {
+    final weeks = (diff.inDays / 7).floor().clamp(1, diff.inDays);
+    return l10n.relativeWeeks(weeks);
+  }
   final months = (diff.inDays / 30).floor();
-  if (months < 12) return '${months}mo ago';
+  if (months < 12) {
+    return l10n.relativeMonths(months);
+  }
   final years = (diff.inDays / 365).floor();
-  return '${years}y ago';
+  return l10n.relativeYears(years);
 }

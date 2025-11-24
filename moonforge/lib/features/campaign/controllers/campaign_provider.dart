@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 
-class CampaignProvider with ChangeNotifier {
+class CampaignProvider extends BaseAsyncProvider<Campaign> {
   static const String _currentCampaignKey = 'current_campaign_id';
   final PersistenceService _persistence = PersistenceService();
 
-  Campaign? _currentCampaign;
-
-  Campaign? get currentCampaign => _currentCampaign;
+  Campaign? get currentCampaign => state.dataOrNull;
 
   CampaignProvider() {
     _loadPersistedCampaignId();
@@ -26,11 +25,11 @@ class CampaignProvider with ChangeNotifier {
           constructDb(),
         ).getById(campaignId);
         if (campaign != null) {
-          _currentCampaign = campaign;
+          updateState(AsyncState.data(campaign));
         } else {
           logger.w('No campaign found with ID: $campaignId');
+          reset();
         }
-        notifyListeners();
       }
     } catch (e) {
       logger.e('Failed to load persisted campaign ID: $e');
@@ -43,7 +42,11 @@ class CampaignProvider with ChangeNotifier {
   }
 
   void setCurrentCampaign(Campaign? campaign) {
-    _currentCampaign = campaign;
+    if (campaign == null) {
+      reset();
+    } else {
+      updateState(AsyncState.data(campaign));
+    }
 
     // Persist the campaign ID
     if (campaign != null) {
@@ -59,7 +62,7 @@ class CampaignProvider with ChangeNotifier {
   /// Clear the persisted campaign
   void clearPersistedCampaign() {
     _persistence.remove(_currentCampaignKey);
-    _currentCampaign = null;
+    reset();
     notifyListeners();
   }
 }

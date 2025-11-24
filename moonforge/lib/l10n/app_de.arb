@@ -614,6 +614,91 @@
   "@createSessionCta": {
     "description": "CTA-Label für Sitzung erstellen"
   },
+  "campaignEntitiesCount": "{count, plural, =0 {Keine Entitäten} =1 {1 Entität} other {{count} Entitäten}}",
+  "@campaignEntitiesCount": {
+    "description": "Pluralisierte Anzeige für Entitätenanzahl",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "campaignMembersCount": "{count, plural, =0 {Keine Mitglieder} =1 {1 Mitglied} other {{count} Mitglieder}}",
+  "@campaignMembersCount": {
+    "description": "Pluralisierte Anzeige für Mitgliederanzahl",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "campaignUpdatedRelative": "Aktualisiert {relativeTime}",
+  "@campaignUpdatedRelative": {
+    "description": "Label für relative Aktualisierungszeit",
+    "placeholders": {
+      "relativeTime": {
+        "type": "String"
+      }
+    }
+  },
+  "relativeJustNow": "soeben",
+  "@relativeJustNow": {
+    "description": "Relative Anzeige für gerade eben"
+  },
+  "relativeMinutes": "{count, plural, =1 {vor 1 Minute} other {vor {count} Minuten}}",
+  "@relativeMinutes": {
+    "description": "Relative Anzeige für Minuten",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeHours": "{count, plural, =1 {vor 1 Stunde} other {vor {count} Stunden}}",
+  "@relativeHours": {
+    "description": "Relative Anzeige für Stunden",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeDays": "{count, plural, =1 {vor 1 Tag} other {vor {count} Tagen}}",
+  "@relativeDays": {
+    "description": "Relative Anzeige für Tage",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeWeeks": "{count, plural, =1 {vor 1 Woche} other {vor {count} Wochen}}",
+  "@relativeWeeks": {
+    "description": "Relative Anzeige für Wochen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeMonths": "{count, plural, =1 {vor 1 Monat} other {vor {count} Monaten}}",
+  "@relativeMonths": {
+    "description": "Relative Anzeige für Monate",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeYears": "{count, plural, =1 {vor 1 Jahr} other {vor {count} Jahren}}",
+  "@relativeYears": {
+    "description": "Relative Anzeige für Jahre",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "searchCampaignsHint": "Kampagnen durchsuchen...",
   "@searchCampaignsHint": {
     "description": "Platzhalter für Kampagnensuche"

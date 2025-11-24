@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/data/repo/combatant_repository.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/media_asset_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
+import 'package:moonforge/data/repo/player_repository.dart';
+import 'package:moonforge/data/repo/repository_factory.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +22,14 @@ List<SingleChildWidget> dbProviders(AppDb db) => [
   // Database instance
   Provider<AppDb>.value(value: db),
 
+  // Repository factory
+  Provider<RepositoryFactory>(
+    create: (_) => RepositoryFactory(db, firestore: FirebaseFirestore.instance),
+  ),
+
   // Sync coordinator
   Provider<SyncCoordinator>(
-    create: (_) => SyncCoordinator(db, FirebaseFirestore.instance)..start(),
+    create: (ctx) => SyncCoordinator(db, FirebaseFirestore.instance)..start(),
     dispose: (_, sync) => sync.stop(),
   ),
 
@@ -69,14 +77,38 @@ List<SingleChildWidget> dbProviders(AppDb db) => [
     initialData: const <MediaAsset>[],
   ),
 
-  // Repositories
-  Provider<CampaignRepository>(create: (_) => CampaignRepository(db)),
-  Provider<ChapterRepository>(create: (_) => ChapterRepository(db)),
-  Provider<AdventureRepository>(create: (_) => AdventureRepository(db)),
-  Provider<SceneRepository>(create: (_) => SceneRepository(db)),
-  Provider<PartyRepository>(create: (_) => PartyRepository(db)),
-  Provider<EncounterRepository>(create: (_) => EncounterRepository(db)),
-  Provider<EntityRepository>(create: (_) => EntityRepository(db)),
-  Provider<MediaAssetRepository>(create: (_) => MediaAssetRepository(db)),
-  Provider<SessionRepository>(create: (_) => SessionRepository(db)),
+  // Repositories (constructed via factory for consistency)
+  Provider<CampaignRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().campaignRepo(),
+  ),
+  Provider<ChapterRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().chapterRepo(),
+  ),
+  Provider<AdventureRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().adventureRepo(),
+  ),
+  Provider<SceneRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().sceneRepo(),
+  ),
+  Provider<PartyRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().partyRepo(),
+  ),
+  Provider<EncounterRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().encounterRepo(),
+  ),
+  Provider<EntityRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().entityRepo(),
+  ),
+  Provider<MediaAssetRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().mediaRepo(),
+  ),
+  Provider<SessionRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().sessionRepo(),
+  ),
+  Provider<PlayerRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().playerRepo(),
+  ),
+  Provider<CombatantRepository>(
+    create: (ctx) => ctx.read<RepositoryFactory>().combatantRepo(),
+  ),
 ];

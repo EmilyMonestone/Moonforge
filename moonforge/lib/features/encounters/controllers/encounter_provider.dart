@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
 
 /// Provider for managing encounter state
-class EncounterProvider with ChangeNotifier {
+class EncounterProvider extends BaseAsyncProvider<List<Encounter>> {
   final EncounterRepository _repository;
 
   Encounter? _currentEncounter;
-  List<Encounter>? _encounters;
-
   Encounter? get currentEncounter => _currentEncounter;
-  List<Encounter>? get encounters => _encounters;
+  List<Encounter> get encounters => state.dataOrNull ?? const [];
 
   EncounterProvider(this._repository);
 
@@ -22,8 +21,7 @@ class EncounterProvider with ChangeNotifier {
 
   /// Load encounters by origin (campaign, chapter, adventure, scene)
   Future<void> loadEncountersByOrigin(String originId) async {
-    _encounters = await _repository.getByOrigin(originId);
-    notifyListeners();
+    await executeAsync(() => _repository.getByOrigin(originId));
   }
 
   /// Load a specific encounter
@@ -53,9 +51,7 @@ class EncounterProvider with ChangeNotifier {
     if (_currentEncounter?.id == id) {
       _currentEncounter = null;
     }
-    if (_encounters != null) {
-      _encounters = _encounters!.where((e) => e.id != id).toList();
-    }
+    updateState(AsyncState.data(encounters.where((e) => e.id != id).toList()));
     notifyListeners();
   }
 

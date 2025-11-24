@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -55,7 +56,7 @@ class ChapterListView extends StatelessWidget {
           ),
           child: chapters.isEmpty
               ? Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: AppSpacing.paddingXl,
                   child: Column(
                     children: [
                       Icon(
@@ -63,14 +64,14 @@ class ChapterListView extends StatelessWidget {
                         size: 64,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpacing.xl),
                       Text(
                         'No chapters yet',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppSpacing.sm),
                       Text(
                         'Create your first chapter to organize your campaign story',
                         textAlign: TextAlign.center,

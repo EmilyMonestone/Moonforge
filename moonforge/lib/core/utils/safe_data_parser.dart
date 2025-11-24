@@ -59,7 +59,17 @@ class SafeDataParser {
         // Try parsing as epoch (seconds or milliseconds)
         final epochValue = int.tryParse(cleaned);
         if (epochValue != null) {
-          // If value looks like seconds (< year 3000 in seconds), convert to ms
+          // For string inputs, prefer digit-length heuristic: 10 digits => seconds,
+          // 13 digits => milliseconds. This avoids edge cases with very large ints.
+          if (cleaned.length <= 10) {
+            return DateTime.fromMillisecondsSinceEpoch(epochValue * 1000);
+          }
+
+          if (cleaned.length <= 13) {
+            return DateTime.fromMillisecondsSinceEpoch(epochValue);
+          }
+
+          // Fallback to threshold-based check for extremely long numbers
           if (epochValue < 32503680000) {
             return DateTime.fromMillisecondsSinceEpoch(epochValue * 1000);
           }

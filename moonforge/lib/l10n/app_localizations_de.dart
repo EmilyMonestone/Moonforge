@@ -576,6 +576,104 @@ class AppLocalizationsDe extends AppLocalizations {
   String get createSessionCta => 'Sitzung erstellen';
 
   @override
+  String campaignEntitiesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Entitäten',
+      one: '1 Entität',
+      zero: 'Keine Entitäten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String campaignMembersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mitglieder',
+      one: '1 Mitglied',
+      zero: 'Keine Mitglieder',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String campaignUpdatedRelative(String relativeTime) {
+    return 'Aktualisiert $relativeTime';
+  }
+
+  @override
+  String get relativeJustNow => 'soeben';
+
+  @override
+  String relativeMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Minuten',
+      one: 'vor 1 Minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Stunden',
+      one: 'vor 1 Stunde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Tagen',
+      one: 'vor 1 Tag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Wochen',
+      one: 'vor 1 Woche',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Monaten',
+      one: 'vor 1 Monat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String relativeYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Jahren',
+      one: 'vor 1 Jahr',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get searchCampaignsHint => 'Kampagnen durchsuchen...';
 
   @override

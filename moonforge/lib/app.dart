@@ -6,6 +6,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -41,12 +42,22 @@ class _AppState extends State<App> {
             theme: ThemeData(
               colorScheme: lightDynamic ?? App._defaultLightColorScheme,
               useMaterial3: true,
+              extensions: [
+                AppThemeExtension.light(
+                  lightDynamic ?? App._defaultLightColorScheme,
+                ),
+              ],
             ).colorScheme.toM3EThemeData(),
 
             darkTheme: ThemeData(
               colorScheme: darkDynamic ?? App._defaultDarkColorScheme,
               useMaterial3: true,
               brightness: Brightness.dark,
+              extensions: [
+                AppThemeExtension.dark(
+                  darkDynamic ?? App._defaultDarkColorScheme,
+                ),
+              ],
             ).colorScheme.toM3EThemeData(),
 
             themeMode: appSettings.themeMode,

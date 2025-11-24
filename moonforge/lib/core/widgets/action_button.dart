@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 
 /// Primary action button with consistent padding/theme surface.
 ///
@@ -107,7 +108,10 @@ class _ActionButtonState extends State<ActionButton> {
     return ElevatedButton.styleFrom(
       backgroundColor: scheme.primary,
       foregroundColor: scheme.onPrimary,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xl,
+        vertical: AppSpacing.md,
+      ),
       textStyle: Theme.of(context).textTheme.titleMedium,
     );
   }

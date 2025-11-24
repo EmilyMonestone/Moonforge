@@ -745,6 +745,91 @@
   "@createSessionCta": {
     "description": "CTA label for creating a session"
   },
+  "campaignEntitiesCount": "{count, plural, =0 {No entities} =1 {1 entity} other {{count} entities}}",
+  "@campaignEntitiesCount": {
+    "description": "Pluralized count label for campaign entities",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "campaignMembersCount": "{count, plural, =0 {No members} =1 {1 member} other {{count} members}}",
+  "@campaignMembersCount": {
+    "description": "Pluralized count label for campaign members",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "campaignUpdatedRelative": "Updated {relativeTime}",
+  "@campaignUpdatedRelative": {
+    "description": "Label for showing when a campaign was updated",
+    "placeholders": {
+      "relativeTime": {
+        "type": "String"
+      }
+    }
+  },
+  "relativeJustNow": "just now",
+  "@relativeJustNow": {
+    "description": "Relative time label for immediate updates"
+  },
+  "relativeMinutes": "{count, plural, =1 {1 minute ago} other {{count} minutes ago}}",
+  "@relativeMinutes": {
+    "description": "Relative time label for minutes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeHours": "{count, plural, =1 {1 hour ago} other {{count} hours ago}}",
+  "@relativeHours": {
+    "description": "Relative time label for hours",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeDays": "{count, plural, =1 {1 day ago} other {{count} days ago}}",
+  "@relativeDays": {
+    "description": "Relative time label for days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeWeeks": "{count, plural, =1 {1 week ago} other {{count} weeks ago}}",
+  "@relativeWeeks": {
+    "description": "Relative time label for weeks",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeMonths": "{count, plural, =1 {1 month ago} other {{count} months ago}}",
+  "@relativeMonths": {
+    "description": "Relative time label for months",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relativeYears": "{count, plural, =1 {1 year ago} other {{count} years ago}}",
+  "@relativeYears": {
+    "description": "Relative time label for years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "searchCampaignsHint": "Search campaigns...",
   "@searchCampaignsHint": {
     "description": "Placeholder for campaign search field"

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/widgets/link_context_menu.dart';
 
 /// Generic card list used to render simple lists with title/subtitle and a chevron.
@@ -47,6 +48,7 @@ class CardList<T> extends StatelessWidget {
           color:
               backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
           child: ListTile(
+            contentPadding: AppSpacing.horizontalLg,
             title: Text(title, style: textTheme.titleMedium),
             subtitle: Text(
               subtitle,
@@ -56,6 +58,7 @@ class CardList<T> extends StatelessWidget {
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: onTap != null ? () => onTap!(item) : null,
+            titleAlignment: ListTileTitleAlignment.titleHeight,
           ),
         );
 

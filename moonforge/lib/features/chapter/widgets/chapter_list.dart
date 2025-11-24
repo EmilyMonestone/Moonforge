@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/chapter/widgets/chapter_card.dart';
@@ -25,7 +26,7 @@ class ChapterList extends StatelessWidget {
     if (chapters.isEmpty) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: AppSpacing.paddingXl,
           child: Text(
             emptyMessage ?? 'No chapters yet',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -47,7 +48,7 @@ class ChapterList extends StatelessWidget {
           final chapter = chapters[index];
           return Padding(
             key: ValueKey(chapter.id),
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: ChapterCard(
               chapter: chapter,
               showOrder: showOrder,
@@ -67,7 +68,7 @@ class ChapterList extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: chapters.length,
-      separatorBuilder: (context, _) => const SizedBox(height: 8),
+      separatorBuilder: (context, _) => const SizedBox(height: AppSpacing.sm),
       itemBuilder: (context, index) {
         final chapter = chapters[index];
         return ChapterCard(

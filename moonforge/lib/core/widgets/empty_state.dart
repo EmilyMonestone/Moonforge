@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 /// Displays an empty/placeholder state with icon, title, optional message & action.
@@ -33,14 +34,14 @@ class EmptyState extends StatelessWidget {
     final theme = Theme.of(context);
     final widgets = <Widget>[
       Icon(icon, size: 64, color: theme.colorScheme.onSurfaceVariant),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.xl),
       Text(
         title,
         style: theme.textTheme.titleMedium,
         textAlign: TextAlign.center,
       ),
       if (message != null) ...[
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         Text(
           message!,
           style: theme.textTheme.bodyMedium,
@@ -48,14 +49,14 @@ class EmptyState extends StatelessWidget {
         ),
       ],
       if (actionLabel != null && onAction != null) ...[
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xl),
         FilledButton(onPressed: onAction, child: Text(actionLabel!)),
       ],
     ];
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: AppSpacing.paddingXxl,
         child: Column(mainAxisSize: MainAxisSize.min, children: widgets),
       ),
     );

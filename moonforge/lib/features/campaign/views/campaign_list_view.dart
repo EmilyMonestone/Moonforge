@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/action_button.dart';
 import 'package:moonforge/core/widgets/loading_indicator.dart';
@@ -49,7 +50,7 @@ class _CampaignListViewState extends State<CampaignListView> {
         children: [
           // Header with title and actions
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: AppSpacing.paddingLg,
             child: Row(
               children: [
                 Text(
@@ -139,7 +140,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                               else
                                 const SizedBox(width: 16),
                               const SizedBox(width: 8),
-                              const Text('Name'),
+                              Text(l10n.name),
                             ],
                           ),
                         ),
@@ -152,7 +153,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                               else
                                 const SizedBox(width: 16),
                               const SizedBox(width: 8),
-                              const Text('Last Updated'),
+                              Text(l10n.lastActivity),
                             ],
                           ),
                         ),
@@ -165,7 +166,7 @@ class _CampaignListViewState extends State<CampaignListView> {
                               else
                                 const SizedBox(width: 16),
                               const SizedBox(width: 8),
-                              const Text('Created'),
+                              Text(l10n.created),
                             ],
                           ),
                         ),

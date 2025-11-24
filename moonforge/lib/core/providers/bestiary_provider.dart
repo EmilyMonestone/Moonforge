@@ -1,15 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'package:moonforge/core/models/async_state.dart';
+import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/bestiary_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
 /// Provider for managing bestiary data
-class BestiaryProvider extends ChangeNotifier {
+class BestiaryProvider extends BaseAsyncProvider<List<dynamic>> {
   final BestiaryService _bestiaryService;
-  List<dynamic> _monsters = [];
-  bool _isLoading = false;
-  bool _hasError = false;
-  String? _errorMessage;
   DateTime? _lastSync;
 
   BestiaryProvider({BestiaryService? bestiaryService})
@@ -20,16 +17,16 @@ class BestiaryProvider extends ChangeNotifier {
   }
 
   /// Get all monsters
-  List<dynamic> get monsters => _monsters;
+  List<dynamic> get monsters => state.dataOrNull ?? const [];
 
   /// Check if data is currently loading
-  bool get isLoading => _isLoading;
+  bool get isLoading => state.isLoading;
 
   /// Check if there was an error
-  bool get hasError => _hasError;
+  bool get hasError => state.hasError;
 
   /// Get error message if any
-  String? get errorMessage => _errorMessage;
+  String? get errorMessage => state.errorOrNull?.toString();
 
   /// Get last sync timestamp
   DateTime? get lastSync => _lastSync;
@@ -42,9 +39,9 @@ class BestiaryProvider extends ChangeNotifier {
     if (!_bestiaryService.isCached()) return;
 
     try {
-      _monsters = await _bestiaryService.getAll(ensureFresh: false);
+      final cached = await _bestiaryService.getAll(ensureFresh: false);
+      updateState(AsyncState.data(cached));
       _lastSync = _bestiaryService.getLastSyncTime();
-      notifyListeners();
     } catch (e) {
       // Silent failure is acceptable for cached data loading during initialization
       // The user can still trigger a manual load later
@@ -54,30 +51,25 @@ class BestiaryProvider extends ChangeNotifier {
 
   /// Load monsters with optional fresh sync
   Future<void> loadMonsters({bool forceSync = false}) async {
-    _isLoading = true;
-    _hasError = false;
-    _errorMessage = null;
-    notifyListeners();
-
+    updateState(const AsyncState.loading());
     try {
       if (forceSync) {
         final success = await _bestiaryService.forceSync();
         if (!success) {
-          _hasError = true;
-          _errorMessage = 'Failed to sync bestiary data';
+          updateState(const AsyncState.error('Failed to sync bestiary data'));
+          return;
         }
       }
 
-      _monsters = await _bestiaryService.getAll(ensureFresh: !forceSync);
+      final monsters = await _bestiaryService.getAll(ensureFresh: !forceSync);
+      updateState(AsyncState.data(monsters));
       _lastSync = _bestiaryService.getLastSyncTime();
-      _hasError = false;
-      _errorMessage = null;
-    } catch (e) {
-      _hasError = true;
-      _errorMessage = e.toString();
+    } catch (e, st) {
+      updateState(AsyncState.error(e, st));
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      if (!state.hasData && !state.hasError) {
+        reset();
+      }
     }
   }
 
@@ -94,8 +86,7 @@ class BestiaryProvider extends ChangeNotifier {
   /// Clear cached data
   Future<void> clearCache() async {
     await _bestiaryService.clearCache();
-    _monsters = [];
+    reset();
     _lastSync = null;
-    notifyListeners();
   }
 }
