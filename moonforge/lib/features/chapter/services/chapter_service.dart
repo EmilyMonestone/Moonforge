@@ -1,12 +1,16 @@
 import 'package:drift/drift.dart' show Value;
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:uuid/uuid.dart';
 
 /// Service for chapter operations, statistics, and progression
-class ChapterService {
+class ChapterService extends BaseService {
   final ChapterRepository _repository;
   final AppDb _db;
+
+  @override
+  String get serviceName => 'ChapterService';
 
   ChapterService({required ChapterRepository repository, required AppDb db})
     : _repository = repository,
@@ -14,47 +18,51 @@ class ChapterService {
 
   /// Get chapter statistics
   Future<ChapterStats> getChapterStats(String chapterId) async {
-    final chapter = await _repository.getById(chapterId);
-    if (chapter == null) {
-      throw Exception('Chapter not found: $chapterId');
-    }
+    return execute(() async {
+      final chapter = await _repository.getById(chapterId);
+      if (chapter == null) {
+        throw Exception('Chapter not found: $chapterId');
+      }
 
-    // Get adventures in this chapter
-    final adventures = await _db.adventureDao.customQuery(
-      filter: (a) => a.chapterId.equals(chapterId),
-    );
-
-    // Get scenes across all adventures in the chapter
-    int totalScenes = 0;
-    for (final adventure in adventures) {
-      final scenes = await _db.sceneDao.customQuery(
-        filter: (s) => s.adventureId.equals(adventure.id),
+      // Get adventures in this chapter
+      final adventures = await _db.adventureDao.customQuery(
+        filter: (a) => a.chapterId.equals(chapterId),
       );
-      totalScenes += scenes.length;
-    }
 
-    // Count entities
-    final entityCount = chapter.entityIds.length;
+      // Get scenes across all adventures in the chapter
+      int totalScenes = 0;
+      for (final adventure in adventures) {
+        final scenes = await _db.sceneDao.customQuery(
+          filter: (s) => s.adventureId.equals(adventure.id),
+        );
+        totalScenes += scenes.length;
+      }
 
-    return ChapterStats(
-      chapterId: chapterId,
-      adventureCount: adventures.length,
-      sceneCount: totalScenes,
-      entityCount: entityCount,
-    );
+      // Count entities
+      final entityCount = chapter.entityIds.length;
+
+      return ChapterStats(
+        chapterId: chapterId,
+        adventureCount: adventures.length,
+        sceneCount: totalScenes,
+        entityCount: entityCount,
+      );
+    }, operationName: 'getChapterStats');
   }
 
   /// Calculate chapter progression (completed adventures vs total)
   Future<double> calculateProgression(String chapterId) async {
-    final adventures = await _db.adventureDao.customQuery(
-      filter: (a) => a.chapterId.equals(chapterId),
-    );
+    return execute(() async {
+      final adventures = await _db.adventureDao.customQuery(
+        filter: (a) => a.chapterId.equals(chapterId),
+      );
 
-    if (adventures.isEmpty) return 0.0;
+      if (adventures.isEmpty) return 0.0;
 
-    // For now, we don't have a "completed" flag on adventures
-    // This is a placeholder that could be extended when that feature is added
-    return 0.0;
+      // For now, we don't have a "completed" flag on adventures
+      // This is a placeholder that could be extended when that feature is added
+      return 0.0;
+    }, operationName: 'calculateProgression');
   }
 
   /// Get total word count for chapter content
@@ -84,24 +92,26 @@ class ChapterService {
 
   /// Duplicate a chapter with a new name
   Future<Chapter> duplicateChapter(Chapter source, String newName) async {
-    final newId = const Uuid().v7();
+    return execute(() async {
+      final newId = const Uuid().v4();
 
-    final newChapter = Chapter(
-      id: newId,
-      campaignId: source.campaignId,
-      name: newName,
-      order: source.order + 1,
-      // Place after the source chapter
-      summary: source.summary,
-      content: source.content,
-      entityIds: source.entityIds,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      rev: 0,
-    );
+      final newChapter = Chapter(
+        id: newId,
+        campaignId: source.campaignId,
+        name: newName,
+        order: source.order + 1,
+        // Place after the source chapter
+        summary: source.summary,
+        content: source.content,
+        entityIds: source.entityIds,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        rev: 0,
+      );
 
-    await _repository.create(newChapter);
-    return newChapter;
+      await _repository.create(newChapter);
+      return newChapter;
+    }, operationName: 'duplicateChapter');
   }
 
   /// Reorder chapters in a campaign
@@ -109,20 +119,22 @@ class ChapterService {
     String campaignId,
     List<String> chapterIds,
   ) async {
-    final chapters = await _repository.getByCampaign(campaignId);
+    return execute(() async {
+      final chapters = await _repository.getByCampaign(campaignId);
 
-    for (int i = 0; i < chapterIds.length; i++) {
-      final chapterId = chapterIds[i];
-      final chapter = chapters.firstWhere((c) => c.id == chapterId);
+      for (int i = 0; i < chapterIds.length; i++) {
+        final chapterId = chapterIds[i];
+        final chapter = chapters.firstWhere((c) => c.id == chapterId);
 
-      if (chapter.order != i) {
-        final updated = chapter.copyWith(
-          order: i,
-          updatedAt: Value(DateTime.now()),
-        );
-        await _repository.update(updated);
+        if (chapter.order != i) {
+          final updated = chapter.copyWith(
+            order: i,
+            updatedAt: Value(DateTime.now()),
+          );
+          await _repository.update(updated);
+        }
       }
-    }
+    }, operationName: 'reorderChapters');
   }
 }
 

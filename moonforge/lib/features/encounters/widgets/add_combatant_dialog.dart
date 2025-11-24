@@ -1,195 +1,254 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:moonforge/core/providers/bestiary_provider.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
+import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/encounters/services/encounter_difficulty_service.dart';
+import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
-/// Dialog for adding a new combatant to an encounter
+/// Dialog that allows selecting a combatant from the Bestiary or from campaign entities.
 class AddCombatantDialog extends StatefulWidget {
-  const AddCombatantDialog({super.key});
+  final Function(db.Combatant) onAdd;
+
+  const AddCombatantDialog({super.key, required this.onAdd});
 
   @override
   State<AddCombatantDialog> createState() => _AddCombatantDialogState();
 }
 
 class _AddCombatantDialogState extends State<AddCombatantDialog> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _hpController = TextEditingController();
-  final _acController = TextEditingController();
-  final _initiativeModController = TextEditingController(text: '0');
-  bool _isAlly = false;
-  String _type = 'monster';
-
-  final List<String> _combatantTypes = ['monster', 'player', 'npc'];
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _hpController.dispose();
-    _acController.dispose();
-    _initiativeModController.dispose();
-    super.dispose();
-  }
+  int _selectedTab = 0; // 0: Bestiary, 1: Campaign Entities
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
-    return AlertDialog(
-      title: const Text('Add Combatant'),
-      content: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Name field
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
+    return Dialog(
+      child: Container(
+        width: 600,
+        height: 600,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.selectMonster,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+
+            // Tab selector
+            SegmentedButton<int>(
+              segments: [
+                ButtonSegment(
+                  value: 0,
+                  label: Text(l10n.fromBestiary),
+                  icon: const Icon(Icons.book),
                 ),
-                autofocus: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              // Type dropdown
-              DropdownButtonFormField<String>(
-                initialValue: _type,
-                decoration: const InputDecoration(
-                  labelText: 'Type',
-                  border: OutlineInputBorder(),
+                ButtonSegment(
+                  value: 1,
+                  label: Text(l10n.fromCampaign),
+                  icon: const Icon(Icons.campaign),
                 ),
-                items: _combatantTypes.map((type) {
-                  return DropdownMenuItem(
-                    value: type,
-                    child: Text(type.toUpperCase()),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _type = value ?? 'monster';
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              // HP field
-              TextFormField(
-                controller: _hpController,
-                decoration: const InputDecoration(
-                  labelText: 'Hit Points',
-                  border: OutlineInputBorder(),
-                  suffixText: 'HP',
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter HP';
-                  }
-                  final hp = int.tryParse(value);
-                  if (hp == null || hp <= 0) {
-                    return 'Please enter a valid positive number';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              // AC field
-              TextFormField(
-                controller: _acController,
-                decoration: const InputDecoration(
-                  labelText: 'Armor Class',
-                  border: OutlineInputBorder(),
-                  suffixText: 'AC',
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter AC';
-                  }
-                  final ac = int.tryParse(value);
-                  if (ac == null || ac < 0) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              // Initiative modifier field
-              TextFormField(
-                controller: _initiativeModController,
-                decoration: const InputDecoration(
-                  labelText: 'Initiative Modifier',
-                  border: OutlineInputBorder(),
-                  prefixText: '+',
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter initiative modifier';
-                  }
-                  final mod = int.tryParse(value);
-                  if (mod == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              // Is ally checkbox
-              CheckboxListTile(
-                title: const Text('Ally'),
-                subtitle: const Text('Is this combatant an ally of the party?'),
-                value: _isAlly,
-                onChanged: (value) {
-                  setState(() {
-                    _isAlly = value ?? false;
-                  });
-                },
-                contentPadding: EdgeInsets.zero,
-              ),
-            ],
-          ),
+              ],
+              selected: {_selectedTab},
+              onSelectionChanged: (Set<int> newSelection) {
+                setState(() {
+                  _selectedTab = newSelection.first;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+
+            // Content based on selected tab
+            Expanded(
+              child: _selectedTab == 0
+                  ? BestiaryMonsterList(onAdd: widget.onAdd)
+                  : CampaignEntityList(onAdd: widget.onAdd),
+            ),
+          ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(onPressed: _submit, child: const Text('Add')),
-      ],
     );
-  }
-
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      final data = {
-        'name': _nameController.text,
-        'type': _type,
-        'hp': int.parse(_hpController.text),
-        'ac': int.parse(_acController.text),
-        'initiativeMod': int.parse(_initiativeModController.text),
-        'isAlly': _isAlly,
-      };
-      Navigator.of(context).pop(data);
-    }
   }
 }
 
-/// Show add combatant dialog and return combatant data
-Future<Map<String, dynamic>?> showAddCombatantDialog(BuildContext context) {
-  return showDialog<Map<String, dynamic>>(
-    context: context,
-    builder: (context) => const AddCombatantDialog(),
-  );
+/// Stateless list rendering bestiary monsters and translating into Combatant objects.
+class BestiaryMonsterList extends StatelessWidget {
+  final Function(db.Combatant) onAdd;
+
+  const BestiaryMonsterList({super.key, required this.onAdd});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final bestiaryProvider = Provider.of<BestiaryProvider>(context);
+
+    if (bestiaryProvider.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (bestiaryProvider.hasError) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.errorSomethingWentWrong),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => bestiaryProvider.loadMonsters(forceSync: true),
+              child: Text(l10n.retry),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final monsters = bestiaryProvider.monsters;
+
+    if (monsters.isEmpty) {
+      return Center(child: Text(l10n.emptyStateNoItems));
+    }
+
+    return ListView.builder(
+      itemCount: monsters.length,
+      itemBuilder: (context, index) {
+        final monster = monsters[index] as Map<String, dynamic>;
+        final name = monster['name'] as String? ?? 'Unknown';
+        final cr = monster['cr'] as String? ?? '0';
+        final xp = EncounterDifficultyService.getXpForCr(cr);
+        final hp = _parseHp(monster['hp']);
+        final ac = _parseAc(monster['ac']);
+
+        return ListTile(
+          title: Text(name),
+          subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
+          trailing: IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            onPressed: () {
+              final combatant = db.Combatant(
+                id: 'monster_${const Uuid().v4()}',
+                encounterId: 'local',
+                name: name,
+                type: 'monster',
+                isAlly: false,
+                currentHp: hp,
+                maxHp: hp,
+                armorClass: ac,
+                initiative: null,
+                initiativeModifier: 0,
+                entityId: null,
+                bestiaryName: name,
+                cr: cr,
+                xp: xp,
+                conditions: const <String>[],
+                notes: null,
+                order: DateTime.now().microsecondsSinceEpoch % 1000000,
+              );
+              onAdd(combatant);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  int _parseHp(dynamic hp) {
+    if (hp == null) return 10;
+    if (hp is int) return hp;
+    if (hp is Map) {
+      final average = hp['average'];
+      if (average is int) return average;
+    }
+    return 10;
+  }
+
+  int _parseAc(dynamic ac) {
+    if (ac == null) return 10;
+    if (ac is int) return ac;
+    if (ac is List && ac.isNotEmpty) {
+      final first = ac[0];
+      if (first is int) return first;
+      if (first is Map) {
+        final acValue = first['ac'];
+        if (acValue is int) return acValue;
+      }
+    }
+    return 10;
+  }
+}
+
+/// Stateless list rendering campaign entities (monsters/npcs with statblocks)
+class CampaignEntityList extends StatelessWidget {
+  final Function(db.Combatant) onAdd;
+
+  const CampaignEntityList({super.key, required this.onAdd});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final campaign = Provider.of<CampaignProvider>(context).currentCampaign;
+
+    if (campaign == null) {
+      return Center(child: Text(l10n.noCampaignSelected));
+    }
+
+    // Expect a StreamProvider<List<db.Entity>> to be in scope where this widget is used.
+    final allEntities = context.watch<List<db.Entity>>();
+
+    final entities = allEntities.where((e) {
+      return (e.kind == 'monster' || e.kind == 'npc') && e.statblock.isNotEmpty;
+    }).toList();
+
+    if (entities.isEmpty) {
+      return const Center(
+        child: Text('No monsters or NPCs with statblocks found in campaign'),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: entities.length,
+      itemBuilder: (context, index) {
+        final entity = entities[index];
+        final statblock = entity.statblock;
+        final cr = statblock['cr'] as String? ?? '0';
+        final xp = EncounterDifficultyService.getXpForCr(cr);
+        final hp = (statblock['hp'] as int?) ?? 10;
+        final ac = (statblock['ac'] as int?) ?? 10;
+
+        return ListTile(
+          title: Text(entity.name),
+          subtitle: Text('CR $cr • $xp XP • HP $hp • AC $ac'),
+          trailing: IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            onPressed: () {
+              final combatant = db.Combatant(
+                id: 'entity_${const Uuid().v4()}',
+                encounterId: 'local',
+                name: entity.name,
+                type: entity.kind == 'npc' ? 'npc' : 'monster',
+                isAlly: false,
+                currentHp: hp,
+                maxHp: hp,
+                armorClass: ac,
+                initiative: null,
+                initiativeModifier: 0,
+                entityId: entity.id,
+                bestiaryName: null,
+                cr: cr,
+                xp: xp,
+                conditions: const <String>[],
+                notes: null,
+                order: DateTime.now().microsecondsSinceEpoch % 1000000,
+              );
+              onAdd(combatant);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
 
 /// A quick action that can be performed from the dashboard
@@ -19,7 +20,10 @@ class QuickAction {
 }
 
 /// Service for managing quick actions and frequently used operations
-class QuickActionsService {
+class QuickActionsService extends BaseService {
+  @override
+  String get serviceName => 'QuickActionsService';
+
   /// Get default quick actions for the dashboard
   List<QuickAction> getDefaultActions() {
     return [

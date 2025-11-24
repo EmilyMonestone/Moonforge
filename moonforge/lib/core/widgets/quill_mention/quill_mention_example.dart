@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/quill_toolbar.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
-import 'package:provider/provider.dart';
 
 /// Example screen demonstrating the Quill mention feature.
 ///
@@ -116,8 +116,8 @@ class _QuillMentionExampleViewState extends State<QuillMentionExampleScreen> {
                 controller: _editorController,
                 keyForPosition: _editorKey,
                 onSearchEntities: (kind, query) async {
-                  // Fetch entities from the database via repository-backed service
-                  final entityRepo = context.read<EntityRepository>();
+                  // Fetch entities from the database via DI-registered repository
+                  final entityRepo = getIt<EntityRepository>();
                   final service = EntityMentionService(
                     entityRepository: entityRepo,
                   );

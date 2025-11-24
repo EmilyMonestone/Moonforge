@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/sync/sync_coordinator.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -28,7 +29,7 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       try {
         // Accessing it ensures the provider is created and started
-        final _ = context.read<SyncCoordinator>();
+        final _ = getIt<SyncCoordinator>();
       } catch (e) {
         logger.w(
           'Failed to ensure SyncCoordinator from AppStateInitializer: $e',
@@ -46,7 +47,7 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
 
       if (campaignId != null) {
         // Load the campaign from Drift via repository
-        final campaignRepository = context.read<CampaignRepository>();
+        final campaignRepository = getIt<CampaignRepository>();
         try {
           final campaign = await campaignRepository.getById(campaignId);
           if (campaign != null) {

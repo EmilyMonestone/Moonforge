@@ -5,6 +5,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
@@ -116,8 +117,7 @@ class _EntityEditViewState extends State<EntityEditView> {
       }
       _campaignId = campaign.id;
 
-      final repo = context.read<EntityRepository>();
-      final entity = await repo.getById(widget.entityId);
+      final entity = await getIt<EntityRepository>().getById(widget.entityId);
 
       if (entity != null) {
         Document document;
@@ -203,8 +203,7 @@ class _EntityEditViewState extends State<EntityEditView> {
 
   Future<void> _loadTagOptions() async {
     try {
-      final repo = context.read<EntityRepository>();
-      final all = await repo.getAll();
+      final all = await getIt<EntityRepository>().getAll();
       final set = <String>{};
       for (final e in all) {
         final list = e.tags ?? const <String>[];
@@ -227,7 +226,7 @@ class _EntityEditViewState extends State<EntityEditView> {
     if (_campaignId == null) return;
     setState(() => _loadingOriginLists = true);
     try {
-      final chapterRepo = context.read<ChapterRepository>();
+      final chapterRepo = getIt<ChapterRepository>();
       _chapters = await chapterRepo.getByCampaign(_campaignId!);
 
       // Determine if originId matches a scene, adventure, or chapter
@@ -255,7 +254,7 @@ class _EntityEditViewState extends State<EntityEditView> {
 
       // If not a chapter, need to search adventures in chapters
       if (matchedChapter == null) {
-        final adventureRepo = context.read<AdventureRepository>();
+        final adventureRepo = getIt<AdventureRepository>();
         for (final ch in _chapters) {
           final advs = await adventureRepo.getByChapter(ch.id);
           for (final adv in advs) {
@@ -272,8 +271,8 @@ class _EntityEditViewState extends State<EntityEditView> {
 
       // If still not found, search scenes
       if (matchedAdventure == null) {
-        final sceneRepo = context.read<SceneRepository>();
-        final adventureRepo = context.read<AdventureRepository>();
+        final sceneRepo = getIt<SceneRepository>();
+        final adventureRepo = getIt<AdventureRepository>();
         for (final ch in _chapters) {
           final advs = await adventureRepo.getByChapter(ch.id);
           for (final adv in advs) {
@@ -302,13 +301,13 @@ class _EntityEditViewState extends State<EntityEditView> {
 
       // If we have a chapter but no adventures loaded yet (chapter-level origin)
       if (_selectedChapterId != null && _selectedAdventureId == null) {
-        final adventureRepo = context.read<AdventureRepository>();
+        final adventureRepo = getIt<AdventureRepository>();
         _adventures = await adventureRepo.getByChapter(_selectedChapterId!);
       }
 
       // If we have adventure but no scenes loaded yet
       if (_selectedAdventureId != null && _selectedSceneId == null) {
-        final sceneRepo = context.read<SceneRepository>();
+        final sceneRepo = getIt<SceneRepository>();
         _scenes = await sceneRepo.getByAdventure(_selectedAdventureId!);
       }
     } catch (e) {
@@ -327,7 +326,7 @@ class _EntityEditViewState extends State<EntityEditView> {
       _scenes = [];
     });
     if (chapterId == null) return;
-    final adventureRepo = context.read<AdventureRepository>();
+    final adventureRepo = getIt<AdventureRepository>();
     _adventures = await adventureRepo.getByChapter(chapterId);
     setState(() {});
   }
@@ -339,7 +338,7 @@ class _EntityEditViewState extends State<EntityEditView> {
       _scenes = [];
     });
     if (adventureId == null) return;
-    final sceneRepo = context.read<SceneRepository>();
+    final sceneRepo = getIt<SceneRepository>();
     _scenes = await sceneRepo.getByAdventure(adventureId);
     setState(() {});
   }
@@ -379,7 +378,7 @@ class _EntityEditViewState extends State<EntityEditView> {
       final delta = _contentController.document.toDelta();
       final contentMap = {'ops': delta.toJson()};
 
-      final repo = context.read<EntityRepository>();
+      final repo = getIt<EntityRepository>();
       // Get tags from chips controller instead of parsing text
       final tags = List<String>.from(_tagsChipsController.chips);
 

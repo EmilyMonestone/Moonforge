@@ -4,6 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
@@ -75,8 +76,9 @@ class _ChapterEditViewState extends State<ChapterEditView> {
         return;
       }
 
-      final repo = context.read<ChapterRepository>();
-      final chapter = await repo.getById(widget.chapterId);
+      final chapter = await getIt<ChapterRepository>().getById(
+        widget.chapterId,
+      );
 
       if (chapter != null) {
         Document document;
@@ -135,7 +137,7 @@ class _ChapterEditViewState extends State<ChapterEditView> {
         throw Exception('No campaign selected');
       }
 
-      final repo = context.read<ChapterRepository>();
+      final repo = getIt<ChapterRepository>();
 
       final delta = _contentController.document.toDelta();
       final deltaMap = <String, dynamic>{'ops': delta.toJson()};
@@ -313,7 +315,7 @@ class _ChapterEditViewState extends State<ChapterEditView> {
                   final campaign = _campaignProvider.currentCampaign;
                   if (campaign == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read<EntityRepository>(),
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: campaign.id,

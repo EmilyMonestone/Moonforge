@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/empty_state.dart';
 import 'package:moonforge/core/widgets/error_display.dart';
@@ -48,9 +49,9 @@ class _SceneListViewState extends State<SceneListView> {
         return;
       }
 
-      final chapterRepo = context.read<ChapterRepository>();
-      final adventureRepo = context.read<AdventureRepository>();
-      final sceneRepo = context.read<SceneRepository>();
+      final chapterRepo = getIt<ChapterRepository>();
+      final adventureRepo = getIt<AdventureRepository>();
+      final sceneRepo = getIt<SceneRepository>();
 
       // Load all chapters
       final chapters = await chapterRepo.getByCampaign(campaign.id);

@@ -15,6 +15,7 @@ import 'package:moonforge/features/home/widgets/stats_overview_widget.dart';
 import 'package:moonforge/features/home/widgets/upcoming_sessions_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -28,9 +29,9 @@ class HomeView extends StatelessWidget {
       listen: false,
     );
 
-    final campaignsRepo = context.read<CampaignRepository>();
-    final sessionsRepo = context.read<SessionRepository>();
-    final partiesRepo = context.read<PartyRepository>();
+    final campaignsRepo = getIt<CampaignRepository>();
+    final sessionsRepo = getIt<SessionRepository>();
+    final partiesRepo = getIt<PartyRepository>();
 
     return WrapLayout(
       minWidth: 420,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
@@ -91,7 +92,7 @@ class _SessionListViewState extends State<SessionListView> {
             ),
             Expanded(
               child: StreamBuilder<List<Session>>(
-                stream: context.read<SessionRepository>().watchAll(),
+                stream: getIt<SessionRepository>().watchAll(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());

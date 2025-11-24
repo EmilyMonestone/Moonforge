@@ -64,8 +64,8 @@ Use this checklist to track your refactoring progress:
 
 - [X] Step 4: Consolidate Theme and Style Utilities
 - [X] Step 6: Repository Pattern Consistency
-- [ ] Step 7: Service Layer Consolidation
-- [ ] Step 8: Widget Tree Simplification
+- [X] Step 7: Service Layer Consolidation
+- [X] Step 8: Widget Tree Simplification (code changes complete; tests deferred)
 - [ ] Step 9: Testing Infrastructure Enhancement
 
 ### Phase 3: Polish (Lower Priority)

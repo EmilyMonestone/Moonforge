@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
@@ -121,7 +122,7 @@ class _CampaignEditViewState extends State<CampaignEditView> {
 
     setState(() => _isSaving = true);
     try {
-      final repository = context.read<CampaignRepository>();
+      final repository = getIt<CampaignRepository>();
 
       // Save as Delta JSON
       final delta = _contentController.document.toDelta();
@@ -140,6 +141,7 @@ class _CampaignEditViewState extends State<CampaignEditView> {
       // Fetch updated campaign and update provider with latest data
       final refreshed = await repository.getById(_campaign!.id);
       if (refreshed != null && mounted) {
+        // Update provider's campaign instance
         context.read<CampaignProvider>().setCurrentCampaign(refreshed);
       }
 
@@ -289,7 +291,7 @@ class _CampaignEditViewState extends State<CampaignEditView> {
                 onSearchEntities: (kind, query) async {
                   if (_campaign == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read() as EntityRepository,
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: _campaign!.id,

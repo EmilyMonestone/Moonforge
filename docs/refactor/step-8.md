@@ -1,8 +1,29 @@
 # Step 8: Widget Tree Simplification
 
-**Priority**: Medium  
-**Effort**: L (6-10 days)  
-**Branch**: `refactor/08-widget-simplification`
+**Status**: Partially completed — UI has been refactored and large widgets decomposed; widget tests were intentionally not added in this pass (per request).
+
+**Completed tasks (code changes only)**: The following representative files were created or refactored as part of this step (not exhaustive):
+
+- lib/features/campaign/widgets/chapters_section.dart
+- lib/features/campaign/widgets/recent_chapters_section.dart
+- lib/features/campaign/widgets/recent_adventures_section.dart
+- lib/features/campaign/widgets/recent_scenes_section.dart
+- lib/features/campaign/widgets/recent_sessions_section.dart
+- lib/features/encounters/widgets/combatant_card.dart
+- lib/features/encounters/widgets/combat_log_widget.dart
+- lib/features/encounters/widgets/add_combatant_dialog.dart
+- lib/features/encounters/widgets/edit_combatant_dialog.dart
+- lib/features/encounters/widgets/initiative_order_list.dart
+- lib/core/widgets/entities/entity_deduper.dart
+- lib/core/widgets/entities/entity_group_widget.dart
+- lib/core/widgets/entities/entity_badges.dart
+- lib/core/widgets/entities/gathered_entities_widget.dart
+- lib/core/widgets/window_top_bar_widgets.dart
+- lib/core/widgets/window_top_bar.dart (refactored to use WindowCenterArea)
+- lib/features/session/widgets/dm_notes_panel.dart
+- lib/features/session/widgets/session_log_panel.dart
+
+These changes follow the pattern described below in this document.
 
 ## Goal
 
@@ -77,7 +98,7 @@ class CampaignDetailView extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Stats section - 40 lines
             Card(
               child: Padding(
@@ -89,7 +110,7 @@ class CampaignDetailView extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Chapters section - 50 lines
             Card(
               child: Column(
@@ -213,8 +234,7 @@ class _CampaignStats extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(
-    BuildContext context, {
+  Widget _buildStatItem(BuildContext context, {
     required IconData icon,
     required String label,
     required String value,
@@ -271,9 +291,10 @@ class _CampaignChaptersList extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: chapters.length,
                 separatorBuilder: (_, __) => Divider(),
-                itemBuilder: (context, index) => ChapterListItem(
-                  chapter: chapters[index],
-                ),
+                itemBuilder: (context, index) =>
+                    ChapterListItem(
+                      chapter: chapters[index],
+                    ),
               );
             },
           ),
@@ -297,7 +318,7 @@ Each widget should have one clear purpose:
 ```dart
 class CampaignCard extends StatelessWidget {
   final Campaign campaign;
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -448,9 +469,10 @@ class IconTextRow extends StatelessWidget {
 }
 
 // Usage
-IconTextRow(
-  icon: Icons.calendar_today,
-  text: 'Created ${formatDate(campaign.createdAt)}',
+IconTextRow
+(
+icon: Icons.calendar_today,
+text: 'Created ${formatDate(campaign.createdAt)}',
 );
 ```
 

@@ -1,38 +1,35 @@
-import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Service for scene operations and business logic
-class SceneService {
+class SceneService extends BaseService {
   final SceneRepository _repository;
+
+  @override
+  String get serviceName => 'SceneService';
 
   SceneService(this._repository);
 
   /// Get scenes by adventure
   Future<List<Scene>> getScenesByAdventure(String adventureId) async {
-    try {
+    return execute(() async {
       final scenes = await _repository.getByAdventure(adventureId);
       scenes.sort((a, b) => a.order.compareTo(b.order));
       return scenes;
-    } catch (e) {
-      logger.e('Error getting scenes by adventure: $e');
-      rethrow;
-    }
+    }, operationName: 'getScenesByAdventure');
   }
 
   /// Get a single scene by ID
   Future<Scene?> getSceneById(String sceneId) async {
-    try {
+    return execute(() async {
       return await _repository.getById(sceneId);
-    } catch (e) {
-      logger.e('Error getting scene by ID: $e');
-      rethrow;
-    }
+    }, operationName: 'getSceneById');
   }
 
   /// Calculate scene statistics for an adventure
   Future<SceneStatistics> getSceneStatistics(String adventureId) async {
-    try {
+    return execute(() async {
       final scenes = await getScenesByAdventure(adventureId);
 
       final totalScenes = scenes.length;
@@ -45,15 +42,12 @@ class SceneService {
         remainingScenes: totalScenes - completedScenes,
         estimatedDuration: totalDuration,
       );
-    } catch (e) {
-      logger.e('Error calculating scene statistics: $e');
-      rethrow;
-    }
+    }, operationName: 'getSceneStatistics');
   }
 
   /// Reorder scenes within an adventure
   Future<void> reorderScenes(String adventureId, List<String> sceneIds) async {
-    try {
+    return execute(() async {
       final scenes = await _repository.getByAdventure(adventureId);
 
       // Create a map of scene ID to scene
@@ -70,16 +64,13 @@ class SceneService {
         }
       }
 
-      logger.i('Reordered ${sceneIds.length} scenes in adventure $adventureId');
-    } catch (e) {
-      logger.e('Error reordering scenes: $e');
-      rethrow;
-    }
+      logInfo('Reordered ${sceneIds.length} scenes in adventure $adventureId');
+    }, operationName: 'reorderScenes');
   }
 
   /// Duplicate a scene
   Future<Scene> duplicateScene(Scene original, String newId) async {
-    try {
+    return execute(() async {
       final duplicate = Scene(
         id: newId,
         adventureId: original.adventureId,
@@ -109,17 +100,14 @@ class SceneService {
         await _repository.update(updated);
       }
 
-      logger.i('Duplicated scene ${original.id} to ${duplicate.id}');
+      logInfo('Duplicated scene ${original.id} to ${duplicate.id}');
       return duplicate;
-    } catch (e) {
-      logger.e('Error duplicating scene: $e');
-      rethrow;
-    }
+    }, operationName: 'duplicateScene');
   }
 
   /// Get the next scene in order
   Future<Scene?> getNextScene(Scene currentScene) async {
-    try {
+    return execute(() async {
       final scenes = await getScenesByAdventure(currentScene.adventureId);
       final currentIndex = scenes.indexWhere((s) => s.id == currentScene.id);
 
@@ -128,15 +116,12 @@ class SceneService {
       }
 
       return null;
-    } catch (e) {
-      logger.e('Error getting next scene: $e');
-      rethrow;
-    }
+    }, operationName: 'getNextScene');
   }
 
   /// Get the previous scene in order
   Future<Scene?> getPreviousScene(Scene currentScene) async {
-    try {
+    return execute(() async {
       final scenes = await getScenesByAdventure(currentScene.adventureId);
       final currentIndex = scenes.indexWhere((s) => s.id == currentScene.id);
 
@@ -145,15 +130,12 @@ class SceneService {
       }
 
       return null;
-    } catch (e) {
-      logger.e('Error getting previous scene: $e');
-      rethrow;
-    }
+    }, operationName: 'getPreviousScene');
   }
 
   /// Calculate the next order number for a new scene
   Future<int> getNextOrder(String adventureId) async {
-    try {
+    return execute(() async {
       final scenes = await getScenesByAdventure(adventureId);
       if (scenes.isEmpty) return 1;
 
@@ -161,15 +143,12 @@ class SceneService {
           .map((s) => s.order)
           .reduce((a, b) => a > b ? a : b);
       return maxOrder + 1;
-    } catch (e) {
-      logger.e('Error getting next order: $e');
-      rethrow;
-    }
+    }, operationName: 'getNextOrder');
   }
 
   /// Search scenes by name or content
   Future<List<Scene>> searchScenes(String adventureId, String query) async {
-    try {
+    return execute(() async {
       final scenes = await getScenesByAdventure(adventureId);
       final lowerQuery = query.toLowerCase();
 
@@ -179,10 +158,7 @@ class SceneService {
             scene.summary?.toLowerCase().contains(lowerQuery) ?? false;
         return nameMatch || summaryMatch;
       }).toList();
-    } catch (e) {
-      logger.e('Error searching scenes: $e');
-      rethrow;
-    }
+    }, operationName: 'searchScenes');
   }
 }
 

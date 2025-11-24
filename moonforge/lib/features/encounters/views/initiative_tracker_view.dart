@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/encounters/services/initiative_tracker_service.dart';
+import 'package:moonforge/features/encounters/widgets/combat_log_widget.dart';
+import 'package:moonforge/features/encounters/widgets/combatant_card.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 
 class InitiativeTrackerView extends StatefulWidget {
@@ -18,8 +20,7 @@ class InitiativeTrackerView extends StatefulWidget {
   });
 
   @override
-  State<InitiativeTrackerView> createState() =>
-      _InitiativeTrackerViewState();
+  State<InitiativeTrackerView> createState() => _InitiativeTrackerViewState();
 }
 
 class _InitiativeTrackerViewState extends State<InitiativeTrackerView> {
@@ -204,121 +205,14 @@ class _InitiativeTrackerViewState extends State<InitiativeTrackerView> {
                       final isCurrent =
                           _hasRolledInitiative && index == _currentIndex;
 
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        color: isCurrent
-                            ? Theme.of(context).colorScheme.primaryContainer
-                            : combatant.currentHp > 0
-                            ? null
-                            : Colors.grey.shade300,
-                        child: ExpansionTile(
-                          leading: CircleAvatar(
-                            backgroundColor: combatant.isAlly
-                                ? Colors.blue
-                                : Colors.red,
-                            child: Text(
-                              combatant.initiative?.toString() ?? '?',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            combatant.name,
-                            style: TextStyle(
-                              fontWeight: isCurrent
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                              decoration: combatant.currentHp > 0
-                                  ? null
-                                  : TextDecoration.lineThrough,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'HP: ${combatant.currentHp}/${combatant.maxHp} • AC: ${combatant.armorClass}',
-                              ),
-                              if (combatant.conditions.isNotEmpty)
-                                Wrap(
-                                  spacing: 4,
-                                  children: combatant.conditions
-                                      .map(
-                                        (c) => Chip(
-                                          label: Text(
-                                            c,
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          visualDensity: VisualDensity.compact,
-                                          onDeleted: () =>
-                                              _removeCondition(index, c),
-                                          deleteIconColor: Colors.red,
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                            ],
-                          ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  // HP Management
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton.icon(
-                                          onPressed: combatant.currentHp > 0
-                                              ? () => _showDamageDialog(index)
-                                              : null,
-                                          icon: const Icon(Icons.remove),
-                                          label: const Text('Damage'),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                Colors.red.shade100,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: ElevatedButton.icon(
-                                          onPressed: combatant.currentHp > 0
-                                              ? () => _showHealDialog(index)
-                                              : null,
-                                          icon: const Icon(Icons.add),
-                                          label: const Text('Heal'),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                Colors.green.shade100,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-
-                                  // Condition Management
-                                  ElevatedButton.icon(
-                                    onPressed: combatant.currentHp > 0
-                                        ? () => _showAddConditionDialog(index)
-                                        : null,
-                                    icon: const Icon(Icons.add),
-                                    label: Text(l10n.addCondition),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      return CombatantCard(
+                        combatant: combatant,
+                        isCurrent: isCurrent,
+                        index: index,
+                        onDamage: (i, _) => _showDamageDialog(i),
+                        onHeal: (i, _) => _showHealDialog(i),
+                        onAddCondition: (i) => _showAddConditionDialog(i),
+                        onRemoveCondition: (i, c) => _removeCondition(i, c),
                       );
                     },
                   ),
@@ -330,37 +224,7 @@ class _InitiativeTrackerViewState extends State<InitiativeTrackerView> {
           // Combat Log
           Expanded(
             flex: 1,
-            child: SurfaceContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Combat Log',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  const Divider(),
-                  Expanded(
-                    child: ListView.builder(
-                      reverse: true,
-                      itemCount: _combatLog.length,
-                      itemBuilder: (context, index) {
-                        final logIndex = _combatLog.length - 1 - index;
-                        return ListTile(
-                          dense: true,
-                          title: Text(
-                            _combatLog[logIndex],
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: SurfaceContainer(child: CombatLogWidget(log: _combatLog)),
           ),
         ],
       ),

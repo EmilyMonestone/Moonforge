@@ -1,12 +1,15 @@
-import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:uuid/uuid.dart';
 
 /// Service for entity operations and business logic
-class EntityService {
+class EntityService extends BaseService {
   final EntityRepository _repository;
   final Uuid _uuid = const Uuid();
+
+  @override
+  String get serviceName => 'EntityService';
 
   EntityService(this._repository);
 
@@ -26,42 +29,48 @@ class EntityService {
     List<Map<String, dynamic>>? images,
     List<String>? members,
   }) async {
-    final entity = Entity(
-      id: _uuid.v4(),
-      kind: kind,
-      name: name,
-      originType: originType,
-      originId: originId,
-      summary: summary,
-      tags: tags,
-      statblock: statblock ?? const {},
-      placeType: placeType,
-      parentPlaceId: parentPlaceId,
-      coords: coords ?? const {},
-      content: content,
-      images: images,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      rev: 0,
-      deleted: false,
-      members: members,
-    );
+    return execute(() async {
+      final entity = Entity(
+        id: _uuid.v4(),
+        kind: kind,
+        name: name,
+        originType: originType,
+        originId: originId,
+        summary: summary,
+        tags: tags,
+        statblock: statblock ?? const {},
+        placeType: placeType,
+        parentPlaceId: parentPlaceId,
+        coords: coords ?? const {},
+        content: content,
+        images: images,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        rev: 0,
+        deleted: false,
+        members: members,
+      );
 
-    await _repository.create(entity);
-    logger.i('Created entity: ${entity.id} (${entity.name})');
-    return entity;
+      await _repository.create(entity);
+      logInfo('Created entity: ${entity.id} (${entity.name})');
+      return entity;
+    }, operationName: 'createEntity');
   }
 
   /// Update an entity
   Future<void> updateEntity(Entity entity) async {
-    await _repository.update(entity);
-    logger.i('Updated entity: ${entity.id} (${entity.name})');
+    return execute(() async {
+      await _repository.update(entity);
+      logInfo('Updated entity: ${entity.id} (${entity.name})');
+    }, operationName: 'updateEntity');
   }
 
   /// Delete an entity (soft delete)
   Future<void> deleteEntity(String id) async {
-    await _repository.delete(id);
-    logger.i('Deleted entity: $id');
+    return execute(() async {
+      await _repository.delete(id);
+      logInfo('Deleted entity: $id');
+    }, operationName: 'deleteEntity');
   }
 
   /// Get entity by ID
@@ -82,30 +91,32 @@ class EntityService {
 
   /// Duplicate an entity
   Future<Entity> duplicateEntity(Entity original, {String? newName}) async {
-    final entity = Entity(
-      id: _uuid.v4(),
-      kind: original.kind,
-      name: newName ?? '${original.name} (Copy)',
-      originType: original.originType,
-      originId: original.originId,
-      summary: original.summary,
-      tags: original.tags,
-      statblock: original.statblock,
-      placeType: original.placeType,
-      parentPlaceId: original.parentPlaceId,
-      coords: original.coords,
-      content: original.content,
-      images: original.images,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      rev: 0,
-      deleted: false,
-      members: original.members,
-    );
+    return execute(() async {
+      final entity = Entity(
+        id: _uuid.v4(),
+        kind: original.kind,
+        name: newName ?? '${original.name} (Copy)',
+        originType: original.originType,
+        originId: original.originId,
+        summary: original.summary,
+        tags: original.tags,
+        statblock: original.statblock,
+        placeType: original.placeType,
+        parentPlaceId: original.parentPlaceId,
+        coords: original.coords,
+        content: original.content,
+        images: original.images,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        rev: 0,
+        deleted: false,
+        members: original.members,
+      );
 
-    await _repository.create(entity);
-    logger.i('Duplicated entity: ${original.id} -> ${entity.id}');
-    return entity;
+      await _repository.create(entity);
+      logInfo('Duplicated entity: ${original.id} -> ${entity.id}');
+      return entity;
+    }, operationName: 'duplicateEntity');
   }
 
   /// Move entity to different origin
@@ -114,35 +125,37 @@ class EntityService {
     String newOriginId,
     String newOriginType,
   ) async {
-    final entity = await _repository.getById(entityId);
-    if (entity == null) {
-      logger.e('Entity not found: $entityId');
-      return;
-    }
+    return execute(() async {
+      final entity = await _repository.getById(entityId);
+      if (entity == null) {
+        logError('Entity not found: $entityId');
+        return;
+      }
 
-    final updated = Entity(
-      id: entity.id,
-      kind: entity.kind,
-      name: entity.name,
-      originType: newOriginType,
-      originId: newOriginId,
-      summary: entity.summary,
-      tags: entity.tags,
-      statblock: entity.statblock,
-      placeType: entity.placeType,
-      parentPlaceId: entity.parentPlaceId,
-      coords: entity.coords,
-      content: entity.content,
-      images: entity.images,
-      createdAt: entity.createdAt,
-      updatedAt: DateTime.now(),
-      rev: entity.rev,
-      deleted: entity.deleted,
-      members: entity.members,
-    );
+      final updated = Entity(
+        id: entity.id,
+        kind: entity.kind,
+        name: entity.name,
+        originType: newOriginType,
+        originId: newOriginId,
+        summary: entity.summary,
+        tags: entity.tags,
+        statblock: entity.statblock,
+        placeType: entity.placeType,
+        parentPlaceId: entity.parentPlaceId,
+        coords: entity.coords,
+        content: entity.content,
+        images: entity.images,
+        createdAt: entity.createdAt,
+        updatedAt: DateTime.now(),
+        rev: entity.rev,
+        deleted: entity.deleted,
+        members: entity.members,
+      );
 
-    await _repository.update(updated);
-    logger.i('Moved entity $entityId to origin $newOriginId');
+      await _repository.update(updated);
+      logInfo('Moved entity $entityId to origin $newOriginId');
+    }, operationName: 'moveEntity');
   }
 
   /// Add tag to entity

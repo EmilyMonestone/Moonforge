@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
@@ -26,11 +26,14 @@ class DashboardStats {
 }
 
 /// Service for aggregating dashboard data and statistics
-class DashboardService {
+class DashboardService extends BaseService {
   final CampaignRepository _campaignRepo;
   final SessionRepository _sessionRepo;
   final PartyRepository _partyRepo;
   final EntityRepository _entityRepo;
+
+  @override
+  String get serviceName => 'DashboardService';
 
   DashboardService({
     required CampaignRepository campaignRepo,
@@ -44,7 +47,7 @@ class DashboardService {
 
   /// Fetch dashboard statistics for the current user
   Future<DashboardStats> fetchStats(String? userId) async {
-    try {
+    return execute(() async {
       if (userId == null) {
         return const DashboardStats(
           totalCampaigns: 0,
@@ -74,10 +77,7 @@ class DashboardService {
         upcomingSessions: results[4],
         lastActivity: lastActivity,
       );
-    } catch (e) {
-      logger.e('Error fetching dashboard stats: $e');
-      rethrow;
-    }
+    }, operationName: 'fetchStats');
   }
 
   Future<int> _fetchCampaignCount(String userId) async {
@@ -88,7 +88,7 @@ class DashboardService {
       );
       return campaigns.length;
     } catch (e) {
-      logger.e('Error fetching campaign count: $e');
+      logError('Error fetching campaign count: $e');
       return 0;
     }
   }
@@ -98,7 +98,7 @@ class DashboardService {
       final sessions = await _sessionRepo.customQuery();
       return sessions.length;
     } catch (e) {
-      logger.e('Error fetching session count: $e');
+      logError('Error fetching session count: $e');
       return 0;
     }
   }
@@ -108,7 +108,7 @@ class DashboardService {
       final parties = await _partyRepo.customQuery();
       return parties.length;
     } catch (e) {
-      logger.e('Error fetching party count: $e');
+      logError('Error fetching party count: $e');
       return 0;
     }
   }
@@ -118,7 +118,7 @@ class DashboardService {
       final entities = await _entityRepo.customQuery();
       return entities.length;
     } catch (e) {
-      logger.e('Error fetching entity count: $e');
+      logError('Error fetching entity count: $e');
       return 0;
     }
   }
@@ -131,7 +131,7 @@ class DashboardService {
       );
       return sessions.length;
     } catch (e) {
-      logger.e('Error fetching upcoming session count: $e');
+      logError('Error fetching upcoming session count: $e');
       return 0;
     }
   }
@@ -152,7 +152,7 @@ class DashboardService {
       }
       return null;
     } catch (e) {
-      logger.e('Error fetching last activity time: $e');
+      logError('Error fetching last activity time: $e');
       return null;
     }
   }
@@ -170,7 +170,7 @@ class DashboardService {
       );
       return sessions;
     } catch (e) {
-      logger.e('Error fetching upcoming sessions: $e');
+      logError('Error fetching upcoming sessions: $e');
       return [];
     }
   }
@@ -193,7 +193,7 @@ class DashboardService {
       );
       return campaigns;
     } catch (e) {
-      logger.e('Error fetching recent activity: $e');
+      logError('Error fetching recent activity: $e');
       return [];
     }
   }

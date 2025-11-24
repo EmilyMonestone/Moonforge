@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -14,8 +13,7 @@ class CampaignAnalyticsView extends StatefulWidget {
   const CampaignAnalyticsView({super.key});
 
   @override
-  State<CampaignAnalyticsView> createState() =>
-      _CampaignAnalyticsViewState();
+  State<CampaignAnalyticsView> createState() => _CampaignAnalyticsViewState();
 }
 
 class _CampaignAnalyticsViewState extends State<CampaignAnalyticsView> {
@@ -24,8 +22,7 @@ class _CampaignAnalyticsViewState extends State<CampaignAnalyticsView> {
   @override
   void initState() {
     super.initState();
-    final db = context.read<AppDb>();
-    _service = CampaignService(CampaignRepository(db));
+    _service = getIt<CampaignService>();
   }
 
   @override

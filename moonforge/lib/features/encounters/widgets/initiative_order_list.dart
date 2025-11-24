@@ -6,9 +6,11 @@ import 'package:moonforge/features/encounters/widgets/combatant_card.dart';
 class InitiativeOrderList extends StatelessWidget {
   final List<Combatant> combatants;
   final int currentIndex;
-  final Function(int)? onCombatantTap;
-  final Function(int)? onDamage;
-  final Function(int)? onHeal;
+  final OnDamage? onDamage;
+  final OnHeal? onHeal;
+  final OnAddCondition? onAddCondition;
+  final void Function(int index, String condition)? onRemoveCondition;
+  final void Function(int index)? onCombatantTap;
 
   const InitiativeOrderList({
     super.key,
@@ -17,6 +19,8 @@ class InitiativeOrderList extends StatelessWidget {
     this.onCombatantTap,
     this.onDamage,
     this.onHeal,
+    this.onAddCondition,
+    this.onRemoveCondition,
   });
 
   @override
@@ -49,10 +53,12 @@ class InitiativeOrderList extends StatelessWidget {
         final combatant = combatants[index];
         return CombatantCard(
           combatant: combatant,
-          isCurrentTurn: index == currentIndex,
-          onTap: onCombatantTap != null ? () => onCombatantTap!(index) : null,
-          onDamage: onDamage != null ? () => onDamage!(index) : null,
-          onHeal: onHeal != null ? () => onHeal!(index) : null,
+          isCurrent: index == currentIndex,
+          index: index,
+          onDamage: onDamage ?? (i, dmg) {},
+          onHeal: onHeal ?? (i, amt) {},
+          onAddCondition: onAddCondition ?? (i) {},
+          onRemoveCondition: onRemoveCondition ?? (i, c) {},
         );
       },
     );

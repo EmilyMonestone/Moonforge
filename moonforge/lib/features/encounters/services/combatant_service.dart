@@ -1,12 +1,16 @@
 import 'package:drift/drift.dart' show Value;
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/combatant_repository.dart';
 import 'package:uuid/uuid.dart';
 
 /// Service for managing combatant operations
-class CombatantService {
+class CombatantService extends BaseService {
   final CombatantRepository _repository;
   final Uuid _uuid = const Uuid();
+
+  @override
+  String get serviceName => 'CombatantService';
 
   CombatantService(this._repository);
 
@@ -28,28 +32,30 @@ class CombatantService {
     String? notes,
     int order = 0,
   }) async {
-    final combatant = Combatant(
-      id: _uuid.v4(),
-      encounterId: encounterId,
-      name: name,
-      type: type,
-      isAlly: isAlly,
-      currentHp: maxHp,
-      maxHp: maxHp,
-      armorClass: armorClass,
-      initiative: initiative,
-      initiativeModifier: initiativeModifier,
-      entityId: entityId,
-      bestiaryName: bestiaryName,
-      cr: cr,
-      xp: xp,
-      conditions: conditions,
-      notes: notes,
-      order: order,
-    );
+    return execute(() async {
+      final combatant = Combatant(
+        id: _uuid.v4(),
+        encounterId: encounterId,
+        name: name,
+        type: type,
+        isAlly: isAlly,
+        currentHp: maxHp,
+        maxHp: maxHp,
+        armorClass: armorClass,
+        initiative: initiative,
+        initiativeModifier: initiativeModifier,
+        entityId: entityId,
+        bestiaryName: bestiaryName,
+        cr: cr,
+        xp: xp,
+        conditions: conditions,
+        notes: notes,
+        order: order,
+      );
 
-    await _repository.create(combatant);
-    return combatant;
+      await _repository.create(combatant);
+      return combatant;
+    }, operationName: 'createCombatant');
   }
 
   /// Apply damage to a combatant
@@ -151,27 +157,29 @@ class CombatantService {
     Combatant combatant,
     String newName,
   ) async {
-    final duplicate = Combatant(
-      id: _uuid.v4(),
-      encounterId: combatant.encounterId,
-      name: newName,
-      type: combatant.type,
-      isAlly: combatant.isAlly,
-      currentHp: combatant.maxHp,
-      maxHp: combatant.maxHp,
-      armorClass: combatant.armorClass,
-      initiative: null,
-      initiativeModifier: combatant.initiativeModifier,
-      entityId: combatant.entityId,
-      bestiaryName: combatant.bestiaryName,
-      cr: combatant.cr,
-      xp: combatant.xp,
-      conditions: [],
-      notes: combatant.notes,
-      order: combatant.order + 1,
-    );
+    return execute(() async {
+      final duplicate = Combatant(
+        id: _uuid.v4(),
+        encounterId: combatant.encounterId,
+        name: newName,
+        type: combatant.type,
+        isAlly: combatant.isAlly,
+        currentHp: combatant.maxHp,
+        maxHp: combatant.maxHp,
+        armorClass: combatant.armorClass,
+        initiative: null,
+        initiativeModifier: combatant.initiativeModifier,
+        entityId: combatant.entityId,
+        bestiaryName: combatant.bestiaryName,
+        cr: combatant.cr,
+        xp: combatant.xp,
+        conditions: [],
+        notes: combatant.notes,
+        order: combatant.order + 1,
+      );
 
-    await _repository.create(duplicate);
-    return duplicate;
+      await _repository.create(duplicate);
+      return duplicate;
+    }, operationName: 'duplicateCombatant');
   }
 }

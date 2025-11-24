@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/encounter_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 enum EncounterCreationScope { campaign, chapter, adventure, scene }
@@ -18,7 +18,7 @@ Future<void> createEncounter(
   String? adventureId,
   String? sceneId,
 }) async {
-  final repository = Provider.of<EncounterRepository>(context, listen: false);
+  final repository = getIt<EncounterRepository>();
   final l10n = AppLocalizations.of(context)!;
 
   final originId = switch (scope) {
@@ -30,7 +30,7 @@ Future<void> createEncounter(
   };
 
   final encounter = db.Encounter(
-    id: const Uuid().v7(),
+    id: const Uuid().v4(),
     name: 'New Encounter',
     originId: originId,
     preset: false,

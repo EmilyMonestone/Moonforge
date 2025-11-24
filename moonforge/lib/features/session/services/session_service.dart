@@ -1,12 +1,16 @@
 import 'dart:math';
 
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 
 /// Service for session lifecycle management and operations
-class SessionService {
+class SessionService extends BaseService {
   final SessionRepository _repository;
+
+  @override
+  String get serviceName => 'SessionService';
 
   SessionService(this._repository);
 
@@ -22,33 +26,39 @@ class SessionService {
 
   /// Enable sharing for a session
   Future<Session> enableSharing(Session session, {DateTime? expiresAt}) async {
-    final token = generateShareToken();
-    final updated = session.copyWith(
-      shareToken: Value(token),
-      shareEnabled: true,
-      shareExpiresAt: Value(expiresAt),
-    );
-    await _repository.update(updated);
-    return updated;
+    return execute(() async {
+      final token = generateShareToken();
+      final updated = session.copyWith(
+        shareToken: Value(token),
+        shareEnabled: true,
+        shareExpiresAt: Value(expiresAt),
+      );
+      await _repository.update(updated);
+      return updated;
+    }, operationName: 'enableSharing');
   }
 
   /// Disable sharing for a session
   Future<Session> disableSharing(Session session) async {
-    final updated = session.copyWith(
-      shareEnabled: false,
-      shareToken: const Value(null),
-      shareExpiresAt: const Value(null),
-    );
-    await _repository.update(updated);
-    return updated;
+    return execute(() async {
+      final updated = session.copyWith(
+        shareEnabled: false,
+        shareToken: const Value(null),
+        shareExpiresAt: const Value(null),
+      );
+      await _repository.update(updated);
+      return updated;
+    }, operationName: 'disableSharing');
   }
 
   /// Regenerate share token for a session
   Future<Session> regenerateShareToken(Session session) async {
-    final token = generateShareToken();
-    final updated = session.copyWith(shareToken: Value(token));
-    await _repository.update(updated);
-    return updated;
+    return execute(() async {
+      final token = generateShareToken();
+      final updated = session.copyWith(shareToken: Value(token));
+      await _repository.update(updated);
+      return updated;
+    }, operationName: 'regenerateShareToken');
   }
 
   /// Check if a session share has expired
@@ -87,32 +97,38 @@ class SessionService {
     DateTime startDate,
     DateTime endDate,
   ) async {
-    return await _repository.customQuery(
-      filter: (s) =>
-          s.datetime.isBiggerOrEqualValue(startDate) &
-          s.datetime.isSmallerOrEqualValue(endDate),
-      sort: [(s) => OrderingTerm.desc(s.datetime)],
-    );
+    return execute(() async {
+      return await _repository.customQuery(
+        filter: (s) =>
+            s.datetime.isBiggerOrEqualValue(startDate) &
+            s.datetime.isSmallerOrEqualValue(endDate),
+        sort: [(s) => OrderingTerm.desc(s.datetime)],
+      );
+    }, operationName: 'getSessionsByDateRange');
   }
 
   /// Get upcoming sessions
   Future<List<Session>> getUpcomingSessions({int limit = 5}) async {
-    final now = DateTime.now();
-    return await _repository.customQuery(
-      filter: (s) => s.datetime.isBiggerOrEqualValue(now),
-      sort: [(s) => OrderingTerm.asc(s.datetime)],
-      limit: limit,
-    );
+    return execute(() async {
+      final now = DateTime.now();
+      return await _repository.customQuery(
+        filter: (s) => s.datetime.isBiggerOrEqualValue(now),
+        sort: [(s) => OrderingTerm.asc(s.datetime)],
+        limit: limit,
+      );
+    }, operationName: 'getUpcomingSessions');
   }
 
   /// Get past sessions
   Future<List<Session>> getPastSessions({int limit = 10}) async {
-    final now = DateTime.now();
-    return await _repository.customQuery(
-      filter: (s) => s.datetime.isSmallerThanValue(now),
-      sort: [(s) => OrderingTerm.desc(s.datetime)],
-      limit: limit,
-    );
+    return execute(() async {
+      final now = DateTime.now();
+      return await _repository.customQuery(
+        filter: (s) => s.datetime.isSmallerThanValue(now),
+        sort: [(s) => OrderingTerm.desc(s.datetime)],
+        limit: limit,
+      );
+    }, operationName: 'getPastSessions');
   }
 }
 

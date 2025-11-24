@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/widgets/empty_state.dart';
 import 'package:moonforge/core/widgets/error_display.dart';
 import 'package:moonforge/core/widgets/loading_indicator.dart';
@@ -6,7 +7,6 @@ import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/scene/widgets/scene_card.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 /// A widget that displays a list of scenes for an adventure
 class SceneList extends StatefulWidget {
@@ -34,7 +34,7 @@ class SceneList extends StatefulWidget {
 class _SceneListState extends State<SceneList> {
   @override
   Widget build(BuildContext context) {
-    final sceneRepo = context.watch<SceneRepository>();
+    final sceneRepo = getIt<SceneRepository>();
     final l10n = AppLocalizations.of(context)!;
 
     return StreamBuilder<List<Scene>>(

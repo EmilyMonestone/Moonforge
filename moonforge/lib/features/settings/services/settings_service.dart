@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Service for persisting and loading app settings using SharedPreferences.
-class SettingsService {
+class SettingsService extends BaseService {
+  @override
+  String get serviceName => 'SettingsService';
+
   static const String _keyThemeMode = 'settings.themeMode';
   static const String _keyLocale = 'settings.locale';
   static const String _keyRailNavExtended = 'settings.railNavExtended';
@@ -26,7 +30,9 @@ class SettingsService {
 
   /// Save theme mode to storage.
   Future<void> saveThemeMode(ThemeMode mode) async {
-    await _prefs.setString(_keyThemeMode, mode.name);
+    return execute(() async {
+      await _prefs.setString(_keyThemeMode, mode.name);
+    }, operationName: 'saveThemeMode');
   }
 
   /// Load locale from storage. Returns null for system locale.
@@ -38,11 +44,13 @@ class SettingsService {
 
   /// Save locale to storage. Pass null to use system locale.
   Future<void> saveLocale(Locale? locale) async {
-    if (locale == null) {
-      await _prefs.remove(_keyLocale);
-    } else {
-      await _prefs.setString(_keyLocale, locale.languageCode);
-    }
+    return execute(() async {
+      if (locale == null) {
+        await _prefs.remove(_keyLocale);
+      } else {
+        await _prefs.setString(_keyLocale, locale.languageCode);
+      }
+    }, operationName: 'saveLocale');
   }
 
   /// Load rail navigation extended state.
@@ -52,7 +60,9 @@ class SettingsService {
 
   /// Save rail navigation extended state.
   Future<void> saveRailNavExtended(bool extended) async {
-    await _prefs.setBool(_keyRailNavExtended, extended);
+    return execute(() async {
+      await _prefs.setBool(_keyRailNavExtended, extended);
+    }, operationName: 'saveRailNavExtended');
   }
 
   /// Load notifications enabled state.
@@ -62,7 +72,9 @@ class SettingsService {
 
   /// Save notifications enabled state.
   Future<void> saveNotificationsEnabled(bool enabled) async {
-    await _prefs.setBool(_keyNotificationsEnabled, enabled);
+    return execute(() async {
+      await _prefs.setBool(_keyNotificationsEnabled, enabled);
+    }, operationName: 'saveNotificationsEnabled');
   }
 
   /// Load analytics enabled state.
@@ -72,15 +84,19 @@ class SettingsService {
 
   /// Save analytics enabled state.
   Future<void> saveAnalyticsEnabled(bool enabled) async {
-    await _prefs.setBool(_keyAnalyticsEnabled, enabled);
+    return execute(() async {
+      await _prefs.setBool(_keyAnalyticsEnabled, enabled);
+    }, operationName: 'saveAnalyticsEnabled');
   }
 
   /// Clear all settings and restore defaults.
   Future<void> clearAll() async {
-    await _prefs.remove(_keyThemeMode);
-    await _prefs.remove(_keyLocale);
-    await _prefs.remove(_keyRailNavExtended);
-    await _prefs.remove(_keyNotificationsEnabled);
-    await _prefs.remove(_keyAnalyticsEnabled);
+    return execute(() async {
+      await _prefs.remove(_keyThemeMode);
+      await _prefs.remove(_keyLocale);
+      await _prefs.remove(_keyRailNavExtended);
+      await _prefs.remove(_keyNotificationsEnabled);
+      await _prefs.remove(_keyAnalyticsEnabled);
+    }, operationName: 'clearAll');
   }
 }

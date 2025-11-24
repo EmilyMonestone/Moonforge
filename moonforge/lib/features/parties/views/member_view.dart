@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/parties/services/player_character_service.dart';
 import 'package:moonforge/features/parties/widgets/character_sheet_widget.dart';
-import 'package:provider/provider.dart';
 
 class MemberView extends StatelessWidget {
-  const MemberView({
-    super.key,
-    required this.partyId,
-    required this.memberId,
-  });
+  const MemberView({super.key, required this.partyId, required this.memberId});
 
   final String partyId;
   final String memberId;
 
   @override
   Widget build(BuildContext context) {
-    final playerRepo = Provider.of<PlayerRepository>(context, listen: false);
-    final characterService = PlayerCharacterService(playerRepo);
+    final characterService = getIt<PlayerCharacterService>();
+    final playerRepo = getIt<PlayerRepository>();
 
     return FutureBuilder<Player?>(
       future: playerRepo.getById(memberId),

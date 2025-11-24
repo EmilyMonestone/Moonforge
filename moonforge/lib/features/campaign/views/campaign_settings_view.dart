@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
-import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -22,8 +21,7 @@ class _CampaignSettingsViewState extends State<CampaignSettingsView> {
   @override
   void initState() {
     super.initState();
-    final db = context.read<AppDb>();
-    _service = CampaignService(CampaignRepository(db));
+    _service = getIt<CampaignService>();
   }
 
   @override
@@ -235,9 +233,9 @@ class _CampaignSettingsViewState extends State<CampaignSettingsView> {
                       campaign.name,
                     );
                     if (confirmed == true && context.mounted) {
-                      await CampaignRepository(
-                        context.read<AppDb>(),
-                      ).delete(campaign.id);
+                      await getIt<CampaignService>().deleteCampaign(
+                        campaign.id,
+                      );
                       if (context.mounted) {
                         context
                             .read<CampaignProvider>()

@@ -1,59 +1,71 @@
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 
 import 'session_service.dart';
 
 /// Service for managing session sharing and permissions
-class SessionSharingService {
+class SessionSharingService extends BaseService {
   final SessionRepository _repository;
+
+  @override
+  String get serviceName => 'SessionSharingService';
 
   SessionSharingService(this._repository);
 
   /// Enable sharing for a session with optional expiration
   Future<String> enableSharing(Session session, {DateTime? expiresAt}) async {
-    String? token = session.shareToken;
+    return execute(() async {
+      String? token = session.shareToken;
 
-    // Generate new token if not exists
-    if (token == null || token.isEmpty) {
-      token = SessionService.generateShareToken();
-    }
+      // Generate new token if not exists
+      if (token == null || token.isEmpty) {
+        token = SessionService.generateShareToken();
+      }
 
-    final updatedSession = session.copyWith(
-      shareToken: Value(token),
-      shareEnabled: true,
-      shareExpiresAt: Value(expiresAt),
-    );
+      final updatedSession = session.copyWith(
+        shareToken: Value(token),
+        shareEnabled: true,
+        shareExpiresAt: Value(expiresAt),
+      );
 
-    await _repository.update(updatedSession);
-    return token;
+      await _repository.update(updatedSession);
+      return token;
+    }, operationName: 'enableSharing');
   }
 
   /// Disable sharing for a session
   Future<void> disableSharing(Session session) async {
-    final updatedSession = session.copyWith(shareEnabled: false);
-    await _repository.update(updatedSession);
+    return execute(() async {
+      final updatedSession = session.copyWith(shareEnabled: false);
+      await _repository.update(updatedSession);
+    }, operationName: 'disableSharing');
   }
 
   /// Regenerate share token
   Future<String> regenerateToken(Session session) async {
-    final newToken = SessionService.generateShareToken();
-    final updatedSession = session.copyWith(
-      shareToken: Value(newToken),
-      shareEnabled: true,
-    );
-    await _repository.update(updatedSession);
-    return newToken;
+    return execute(() async {
+      final newToken = SessionService.generateShareToken();
+      final updatedSession = session.copyWith(
+        shareToken: Value(newToken),
+        shareEnabled: true,
+      );
+      await _repository.update(updatedSession);
+      return newToken;
+    }, operationName: 'regenerateToken');
   }
 
   /// Revoke share access by disabling and clearing token
   Future<void> revokeAccess(Session session) async {
-    final updatedSession = session.copyWith(
-      shareEnabled: false,
-      shareToken: const Value(null),
-      shareExpiresAt: const Value(null),
-    );
-    await _repository.update(updatedSession);
+    return execute(() async {
+      final updatedSession = session.copyWith(
+        shareEnabled: false,
+        shareToken: const Value(null),
+        shareExpiresAt: const Value(null),
+      );
+      await _repository.update(updatedSession);
+    }, operationName: 'revokeAccess');
   }
 
   /// Check if sharing is enabled and not expired
@@ -70,19 +82,21 @@ class SessionSharingService {
 
   /// Get session by share token
   Future<Session?> getSessionByToken(String token) async {
-    final sessions = await _repository.customQuery(
-      filter: (s) => s.shareToken.equals(token),
-      limit: 1,
-    );
+    return execute(() async {
+      final sessions = await _repository.customQuery(
+        filter: (s) => s.shareToken.equals(token),
+        limit: 1,
+      );
 
-    if (sessions.isEmpty) return null;
+      if (sessions.isEmpty) return null;
 
-    final session = sessions.first;
+      final session = sessions.first;
 
-    // Check if share is valid
-    if (!canAccess(session)) return null;
+      // Check if share is valid
+      if (!canAccess(session)) return null;
 
-    return session;
+      return session;
+    }, operationName: 'getSessionByToken');
   }
 
   /// Get share URL for a session
@@ -93,16 +107,20 @@ class SessionSharingService {
 
   /// Update share expiration
   Future<void> updateExpiration(Session session, DateTime? expiresAt) async {
-    final updatedSession = session.copyWith(shareExpiresAt: Value(expiresAt));
-    await _repository.update(updatedSession);
+    return execute(() async {
+      final updatedSession = session.copyWith(shareExpiresAt: Value(expiresAt));
+      await _repository.update(updatedSession);
+    }, operationName: 'updateExpiration');
   }
 
   /// Get all shared sessions
   Future<List<Session>> getSharedSessions() async {
-    return await _repository.customQuery(
-      filter: (s) => s.shareEnabled.equals(true),
-      sort: [(s) => OrderingTerm.desc(s.datetime)],
-    );
+    return execute(() async {
+      return await _repository.customQuery(
+        filter: (s) => s.shareEnabled.equals(true),
+        sort: [(s) => OrderingTerm.desc(s.datetime)],
+      );
+    }, operationName: 'getSharedSessions');
   }
 
   /// Check if share will expire soon (within 24 hours)

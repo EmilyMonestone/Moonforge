@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:moonforge/core/di/di_providers.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/providers/bestiary_provider.dart';
@@ -42,7 +44,11 @@ class MultiProviderWrapper extends StatelessWidget {
         }
 
         final prefs = snapshot.data!;
+        // Register SettingsService with DI so it can be injected via get_it
         final settingsService = SettingsService(prefs);
+        if (!getIt.isRegistered<SettingsService>()) {
+          getIt.registerSingleton<SettingsService>(settingsService);
+        }
 
         // Initialize Gemini if API key is available
         final geminiApiKey = dotenv.env['GEMINI_API_KEY'];
@@ -61,11 +67,16 @@ class MultiProviderWrapper extends StatelessWidget {
         );
         CampaignProvider campaignProvider = CampaignProvider();
         BestiaryProvider bestiaryProvider = BestiaryProvider();
-        PartyProvider partyProvider = PartyProvider(PartyRepository(db));
-        PlayerProvider playerProvider = PlayerProvider(PlayerRepository(db));
+        // Use DI-registered repositories instead of direct construction
+        PartyProvider partyProvider = PartyProvider(getIt<PartyRepository>());
+        PlayerProvider playerProvider = PlayerProvider(
+          getIt<PlayerRepository>(),
+        );
 
         return MultiProvider(
           providers: [
+            // expose DI-registered services via Provider for compatibility
+            ...diProviders(),
             ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
             ChangeNotifierProxyProvider<AuthProvider, AppSettingsProvider>(
               create: (BuildContext context) {
@@ -95,12 +106,12 @@ class MultiProviderWrapper extends StatelessWidget {
                 create: (context) =>
                     GeminiProvider(GeminiService(Gemini.instance)),
               ),
+            // dbProviders may include repository providers that expect db; keep them for now
             ...dbProviders(db),
             ChangeNotifierProxyProvider<SceneRepository, SceneProvider>(
-              create: (context) =>
-                  SceneProvider(context.read<SceneRepository>()),
+              create: (context) => SceneProvider(getIt<SceneRepository>()),
               update: (context, sceneRepo, previous) =>
-                  previous ?? SceneProvider(sceneRepo),
+                  previous ?? SceneProvider(getIt<SceneRepository>()),
             ),
           ],
           child: child,

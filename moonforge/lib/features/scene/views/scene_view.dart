@@ -9,6 +9,7 @@ import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/controllers/scene_provider.dart';
 import 'package:moonforge/features/scene/widgets/scene_completion_indicator.dart';
@@ -52,8 +53,7 @@ class _SceneViewState extends State<SceneView> {
   Future<void> _loadScene() async {
     setState(() => _isLoading = true);
     try {
-      final sceneRepo = context.read<SceneRepository>();
-      final scene = await sceneRepo.getById(widget.sceneId);
+      final scene = await getIt<SceneRepository>().getById(widget.sceneId);
 
       if (scene != null && scene.content != null) {
         try {
@@ -76,7 +76,7 @@ class _SceneViewState extends State<SceneView> {
 
       // Update scene provider
       if (scene != null && mounted) {
-        final sceneProvider = context.read<SceneProvider>();
+        final sceneProvider = getIt<SceneProvider>();
         await sceneProvider.setCurrentScene(scene);
       }
     } catch (e) {
@@ -98,7 +98,7 @@ class _SceneViewState extends State<SceneView> {
       return Center(child: Text(l10n.error));
     }
 
-    final sceneProvider = context.watch<SceneProvider>();
+    final sceneProvider = getIt<SceneProvider>();
 
     return Column(
       children: [

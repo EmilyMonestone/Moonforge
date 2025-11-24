@@ -3,12 +3,13 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/origin_resolver.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/core/widgets/entities_widget.dart';
+import 'package:moonforge/core/widgets/entities/entity_badges.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
@@ -58,8 +59,7 @@ class _EntityViewState extends State<EntityView> {
         return;
       }
 
-      final repo = context.read<EntityRepository>();
-      final entity = await repo.getById(widget.entityId);
+      final entity = await getIt<EntityRepository>().getById(widget.entityId);
 
       if (entity != null && entity.content != null) {
         final ops = entity.content!['ops'] as List<dynamic>?;
@@ -73,11 +73,11 @@ class _EntityViewState extends State<EntityView> {
       EntityOrigin? resolved;
       if (entity != null) {
         final resolver = OriginResolver(
-          campaignRepo: context.read<CampaignRepository>(),
-          chapterRepo: context.read<ChapterRepository>(),
-          adventureRepo: context.read<AdventureRepository>(),
-          sceneRepo: context.read<SceneRepository>(),
-          encounterRepo: context.read<EncounterRepository>(),
+          campaignRepo: getIt<CampaignRepository>(),
+          chapterRepo: getIt<ChapterRepository>(),
+          adventureRepo: getIt<AdventureRepository>(),
+          sceneRepo: getIt<SceneRepository>(),
+          encounterRepo: getIt<EncounterRepository>(),
         );
         resolved = await resolver.resolve(entity.originId);
         logger.d(

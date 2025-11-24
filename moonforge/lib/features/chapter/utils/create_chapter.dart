@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -14,15 +15,16 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   final l10n = AppLocalizations.of(context)!;
-  final repository = context.read<ChapterRepository>();
+  final repository = getIt<ChapterRepository>();
 
   // Ask user: Manual or AI?
-  final geminiProvider = context.read<GeminiProvider?>();
+  final geminiProvider = getIt.isRegistered<GeminiProvider>()
+      ? getIt<GeminiProvider>()
+      : null;
   final creationMethod = geminiProvider != null
       ? await showCreationMethodDialog(context, itemType: 'Chapter')
       : CreationMethod.manual;
@@ -40,11 +42,11 @@ Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   if (creationMethod == CreationMethod.ai) {
     // AI-assisted creation
     final contextBuilder = StoryContextBuilder(
-      campaignRepo: context.read<CampaignRepository>(),
+      campaignRepo: getIt<CampaignRepository>(),
       chapterRepo: repository,
-      adventureRepo: context.read<AdventureRepository>(),
-      sceneRepo: context.read<SceneRepository>(),
-      entityRepo: context.read<EntityRepository>(),
+      adventureRepo: getIt<AdventureRepository>(),
+      sceneRepo: getIt<SceneRepository>(),
+      entityRepo: getIt<EntityRepository>(),
     );
 
     final storyContext = await contextBuilder.buildForCampaign(campaign.id);
@@ -93,7 +95,7 @@ Future<void> createChapter(BuildContext context, db.Campaign campaign) async {
   }
 
   try {
-    final chapterId = const Uuid().v7();
+    final chapterId = const Uuid().v4();
 
     // Convert AI content to Quill document if provided
     Map<String, dynamic>? contentDelta;

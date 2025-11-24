@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/design/design_system.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/action_button.dart';
 import 'package:moonforge/core/widgets/loading_indicator.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_list_controller.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
@@ -28,8 +28,7 @@ class _CampaignListViewState extends State<CampaignListView> {
   @override
   void initState() {
     super.initState();
-    final db = context.read<AppDb>();
-    _service = CampaignService(CampaignRepository(db));
+    _service = getIt<CampaignService>();
     _controller = CampaignListController(_service);
   }
 
@@ -257,9 +256,9 @@ class _CampaignListViewState extends State<CampaignListView> {
                         );
 
                         if (confirmed == true && context.mounted) {
-                          await CampaignRepository(
-                            context.read<AppDb>(),
-                          ).delete(campaign.id);
+                          await getIt<CampaignService>().deleteCampaign(
+                            campaign.id,
+                          );
                         }
                       },
                     );

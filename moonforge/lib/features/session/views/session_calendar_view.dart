@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/session/widgets/session_calendar_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -48,7 +49,7 @@ class _SessionCalendarViewState extends State<SessionCalendarView> {
         ],
       ),
       body: StreamBuilder<List<Session>>(
-        stream: context.read<SessionRepository>().watchAll(),
+        stream: getIt<SessionRepository>().watchAll(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

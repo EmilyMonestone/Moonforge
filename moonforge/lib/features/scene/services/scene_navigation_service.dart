@@ -1,12 +1,15 @@
-import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Service for managing scene navigation and progression
-class SceneNavigationService {
+class SceneNavigationService extends BaseService {
   final SceneRepository _repository;
   final List<String> _sceneHistory = [];
   int _currentHistoryIndex = -1;
+
+  @override
+  String get serviceName => 'SceneNavigationService';
 
   SceneNavigationService(this._repository);
 
@@ -18,7 +21,7 @@ class SceneNavigationService {
 
   /// Navigate to a scene and add it to history
   Future<void> navigateToScene(String sceneId) async {
-    try {
+    return execute(() async {
       // Remove any forward history if we're not at the end
       if (_currentHistoryIndex < _sceneHistory.length - 1) {
         _sceneHistory.removeRange(
@@ -31,13 +34,10 @@ class SceneNavigationService {
       _sceneHistory.add(sceneId);
       _currentHistoryIndex = _sceneHistory.length - 1;
 
-      logger.i(
+      logInfo(
         'Navigated to scene $sceneId (history index: $_currentHistoryIndex)',
       );
-    } catch (e) {
-      logger.e('Error navigating to scene: $e');
-      rethrow;
-    }
+    }, operationName: 'navigateToScene');
   }
 
   /// Navigate back in history
@@ -46,7 +46,7 @@ class SceneNavigationService {
 
     _currentHistoryIndex--;
     final sceneId = _sceneHistory[_currentHistoryIndex];
-    logger.i(
+    logInfo(
       'Navigated back to scene $sceneId (history index: $_currentHistoryIndex)',
     );
     return sceneId;
@@ -58,7 +58,7 @@ class SceneNavigationService {
 
     _currentHistoryIndex++;
     final sceneId = _sceneHistory[_currentHistoryIndex];
-    logger.i(
+    logInfo(
       'Navigated forward to scene $sceneId (history index: $_currentHistoryIndex)',
     );
     return sceneId;
@@ -78,7 +78,7 @@ class SceneNavigationService {
   void clearHistory() {
     _sceneHistory.clear();
     _currentHistoryIndex = -1;
-    logger.i('Cleared scene navigation history');
+    logInfo('Cleared scene navigation history');
   }
 
   /// Get the current scene ID from history
@@ -92,7 +92,7 @@ class SceneNavigationService {
 
   /// Track scene progression through an adventure
   Future<SceneProgression> getProgression(String adventureId) async {
-    try {
+    return execute(() async {
       final scenes = await _repository.getByAdventure(adventureId);
       scenes.sort((a, b) => a.order.compareTo(b.order));
 
@@ -121,15 +121,12 @@ class SceneNavigationService {
         currentScene: currentScene,
         scenes: scenes,
       );
-    } catch (e) {
-      logger.e('Error getting scene progression: $e');
-      rethrow;
-    }
+    }, operationName: 'getProgression');
   }
 
   /// Get the next unvisited scene in order
   Future<Scene?> getNextUnvisitedScene(String adventureId) async {
-    try {
+    return execute(() async {
       final scenes = await _repository.getByAdventure(adventureId);
       scenes.sort((a, b) => a.order.compareTo(b.order));
 
@@ -143,10 +140,7 @@ class SceneNavigationService {
       }
 
       return null; // All scenes visited
-    } catch (e) {
-      logger.e('Error getting next unvisited scene: $e');
-      rethrow;
-    }
+    }, operationName: 'getNextUnvisitedScene');
   }
 
   /// Check if a scene has been visited

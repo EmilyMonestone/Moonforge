@@ -4,6 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/quill_autosave.dart';
@@ -75,8 +76,9 @@ class _AdventureEditViewState extends State<AdventureEditView> {
   Future<void> _loadAdventure() async {
     setState(() => _isLoading = true);
     try {
-      final repo = context.read<AdventureRepository>();
-      final adventure = await repo.getById(widget.adventureId);
+      final adventure = await getIt<AdventureRepository>().getById(
+        widget.adventureId,
+      );
 
       if (adventure != null) {
         Document document;
@@ -135,7 +137,7 @@ class _AdventureEditViewState extends State<AdventureEditView> {
 
     setState(() => _isSaving = true);
     try {
-      final repo = context.read<AdventureRepository>();
+      final repo = getIt<AdventureRepository>();
       final delta = _contentController.document.toDelta();
       final contentMap = {'ops': delta.toJson()};
 
@@ -292,7 +294,7 @@ class _AdventureEditViewState extends State<AdventureEditView> {
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read<EntityRepository>(),
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: _campaignId!,

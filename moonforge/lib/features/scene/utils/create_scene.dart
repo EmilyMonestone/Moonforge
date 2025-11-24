@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -14,7 +15,6 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> createScene(
@@ -24,12 +24,14 @@ Future<void> createScene(
   String? adventureId,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  final chapterRepo = context.read<ChapterRepository>();
-  final adventureRepo = context.read<AdventureRepository>();
-  final sceneRepo = context.read<SceneRepository>();
+  final chapterRepo = getIt<ChapterRepository>();
+  final adventureRepo = getIt<AdventureRepository>();
+  final sceneRepo = getIt<SceneRepository>();
 
   // Ask user: Manual or AI?
-  final geminiProvider = context.read<GeminiProvider?>();
+  final geminiProvider = getIt.isRegistered<GeminiProvider>()
+      ? getIt<GeminiProvider>()
+      : null;
   final creationMethod = geminiProvider != null
       ? await showCreationMethodDialog(context, itemType: 'Scene')
       : CreationMethod.manual;
@@ -85,11 +87,11 @@ Future<void> createScene(
   if (creationMethod == CreationMethod.ai) {
     // AI-assisted creation
     final contextBuilder = StoryContextBuilder(
-      campaignRepo: context.read<CampaignRepository>(),
+      campaignRepo: getIt<CampaignRepository>(),
       chapterRepo: chapterRepo,
       adventureRepo: adventureRepo,
       sceneRepo: sceneRepo,
-      entityRepo: context.read<EntityRepository>(),
+      entityRepo: getIt<EntityRepository>(),
     );
 
     final storyContext = await contextBuilder.buildForAdventure(
@@ -193,7 +195,7 @@ Future<void> createScene(
 
   // Create the scene with title and optional AI content
   try {
-    final newId = const Uuid().v7();
+    final newId = const Uuid().v4();
 
     // Convert AI content to Quill document if provided
     Map<String, dynamic>? contentDelta;

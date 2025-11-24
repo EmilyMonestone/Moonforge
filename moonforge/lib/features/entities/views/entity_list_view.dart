@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/async_state_builder.dart';
 import 'package:moonforge/core/widgets/error_display.dart';
@@ -28,7 +29,7 @@ class _EntityListViewState extends State<EntityListView> {
   @override
   void initState() {
     super.initState();
-    final repository = context.read<EntityRepository>();
+    final repository = getIt<EntityRepository>();
     _controller = EntityListController(repository);
     _controller.loadEntities();
   }

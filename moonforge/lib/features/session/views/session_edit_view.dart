@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/permissions_utils.dart';
@@ -78,7 +79,7 @@ class _SessionEditViewState extends State<SessionEditView> {
 
     setState(() => _isLoading = true);
     try {
-      final repo = context.read<SessionRepository>();
+      final repo = getIt<SessionRepository>();
       final session = await repo.getById(widget.sessionId);
 
       if (session != null) {
@@ -164,7 +165,7 @@ class _SessionEditViewState extends State<SessionEditView> {
 
     setState(() => _isSaving = true);
     try {
-      final repo = context.read<SessionRepository>();
+      final repo = getIt<SessionRepository>();
 
       // Convert info to JSON Map
       final infoDelta = _infoController.document.toDelta();
@@ -339,7 +340,7 @@ class _SessionEditViewState extends State<SessionEditView> {
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read() as EntityRepository,
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: _campaignId!,
@@ -399,7 +400,7 @@ class _SessionEditViewState extends State<SessionEditView> {
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read() as EntityRepository,
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: _campaignId!,

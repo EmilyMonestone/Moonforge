@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/features/auth/utils/auth_error_handler.dart';
+import 'package:moonforge/core/services/base_service.dart';
 
 /// Service class that wraps Firebase Authentication operations.
 ///
 /// Provides a clean interface for authentication operations with
 /// consistent error handling and logging.
-class AuthService {
+class AuthService extends BaseService {
   final FirebaseAuth _auth;
+
+  @override
+  String get serviceName => 'AuthService';
 
   AuthService({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
@@ -24,8 +26,8 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    try {
-      logger.d('Attempting sign in for: $email');
+    return execute(() async {
+      logInfo('Attempting sign in for: $email');
       final credential = await _auth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
@@ -38,12 +40,9 @@ class AuthService {
         );
       }
 
-      logger.i('User signed in successfully: ${credential.user!.email}');
+      logInfo('User signed in successfully: ${credential.user!.email}');
       return credential.user!;
-    } on FirebaseAuthException catch (e) {
-      logger.e('Sign in failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+    }, operationName: 'signInWithEmailAndPassword');
   }
 
   /// Registers a new user with email and password.
@@ -53,8 +52,8 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    try {
-      logger.d('Attempting registration for: $email');
+    return execute(() async {
+      logInfo('Attempting registration for: $email');
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password,
@@ -67,40 +66,31 @@ class AuthService {
         );
       }
 
-      logger.i('User registered successfully: ${credential.user!.email}');
+      logInfo('User registered successfully: ${credential.user!.email}');
       return credential.user!;
-    } on FirebaseAuthException catch (e) {
-      logger.e('Registration failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+    }, operationName: 'registerWithEmailAndPassword');
   }
 
   /// Sends a password reset email to the specified email address.
   ///
   /// Throws [FirebaseAuthException] on failure.
   Future<void> sendPasswordResetEmail({required String email}) async {
-    try {
-      logger.d('Sending password reset email to: $email');
+    return execute(() async {
+      logInfo('Sending password reset email to: $email');
       await _auth.sendPasswordResetEmail(email: email.trim());
-      logger.i('Password reset email sent to: $email');
-    } on FirebaseAuthException catch (e) {
-      logger.e('Password reset failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+      logInfo('Password reset email sent to: $email');
+    }, operationName: 'sendPasswordResetEmail');
   }
 
   /// Signs out the current user.
   ///
   /// Throws [FirebaseAuthException] on failure.
   Future<void> signOut() async {
-    try {
-      logger.d('Signing out user: ${_auth.currentUser?.email}');
+    return execute(() async {
+      logInfo('Signing out user: ${_auth.currentUser?.email}');
       await _auth.signOut();
-      logger.i('User signed out successfully');
-    } on FirebaseAuthException catch (e) {
-      logger.e('Sign out failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+      logInfo('User signed out successfully');
+    }, operationName: 'signOut');
   }
 
   /// Sends an email verification to the current user.
@@ -116,20 +106,15 @@ class AuthService {
     }
 
     if (user.emailVerified) {
-      logger.d('Email already verified for: ${user.email}');
+      logInfo('Email already verified for: ${user.email}');
       return;
     }
 
-    try {
-      logger.d('Sending email verification to: ${user.email}');
+    return execute(() async {
+      logInfo('Sending email verification to: ${user.email}');
       await user.sendEmailVerification();
-      logger.i('Email verification sent to: ${user.email}');
-    } on FirebaseAuthException catch (e) {
-      logger.e(
-        'Email verification failed: ${AuthErrorHandler.getErrorCode(e)}',
-      );
-      rethrow;
-    }
+      logInfo('Email verification sent to: ${user.email}');
+    }, operationName: 'sendEmailVerification');
   }
 
   /// Reloads the current user's information from Firebase.
@@ -144,13 +129,10 @@ class AuthService {
       );
     }
 
-    try {
+    return execute(() async {
       await user.reload();
-      logger.d('User data reloaded');
-    } on FirebaseAuthException catch (e) {
-      logger.e('User reload failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+      logInfo('User data reloaded');
+    }, operationName: 'reloadUser');
   }
 
   /// Updates the current user's display name.
@@ -165,17 +147,12 @@ class AuthService {
       );
     }
 
-    try {
-      logger.d('Updating display name to: $displayName');
+    return execute(() async {
+      logInfo('Updating display name to: $displayName');
       await user.updateDisplayName(displayName.trim());
       await user.reload();
-      logger.i('Display name updated successfully');
-    } on FirebaseAuthException catch (e) {
-      logger.e(
-        'Display name update failed: ${AuthErrorHandler.getErrorCode(e)}',
-      );
-      rethrow;
-    }
+      logInfo('Display name updated successfully');
+    }, operationName: 'updateDisplayName');
   }
 
   /// Updates the current user's photo URL.
@@ -190,15 +167,12 @@ class AuthService {
       );
     }
 
-    try {
-      logger.d('Updating photo URL');
+    return execute(() async {
+      logInfo('Updating photo URL');
       await user.updatePhotoURL(photoURL.trim());
       await user.reload();
-      logger.i('Photo URL updated successfully');
-    } on FirebaseAuthException catch (e) {
-      logger.e('Photo URL update failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+      logInfo('Photo URL updated successfully');
+    }, operationName: 'updatePhotoURL');
   }
 
   /// Deletes the current user's account.
@@ -214,13 +188,10 @@ class AuthService {
       );
     }
 
-    try {
-      logger.d('Deleting account for: ${user.email}');
+    return execute(() async {
+      logInfo('Deleting account for: ${user.email}');
       await user.delete();
-      logger.i('Account deleted successfully');
-    } on FirebaseAuthException catch (e) {
-      logger.e('Account deletion failed: ${AuthErrorHandler.getErrorCode(e)}');
-      rethrow;
-    }
+      logInfo('Account deleted successfully');
+    }, operationName: 'deleteAccount');
   }
 }

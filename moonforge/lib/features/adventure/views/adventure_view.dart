@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -44,7 +45,7 @@ class _AdventureViewState extends State<AdventureView> {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
-    final adventureRepo = context.read<AdventureRepository>();
+    final adventureRepo = getIt<AdventureRepository>();
 
     return FutureBuilder<Adventure?>(
       future: adventureRepo.getById(widget.adventureId),
@@ -156,7 +157,7 @@ class _ScenesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final sceneRepo = context.read<SceneRepository>();
+    final sceneRepo = getIt<SceneRepository>();
 
     return SurfaceContainer(
       title: SectionHeader(

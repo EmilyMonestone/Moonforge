@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/return_message.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
@@ -28,7 +29,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
     context,
     listen: false,
   );
-  final repository = Provider.of<CampaignRepository>(context, listen: false);
+  final repository = getIt<CampaignRepository>();
 
   try {
     final ownerUid = authProvider.firebaseUser?.uid;
@@ -40,7 +41,7 @@ Future<ReturnMessage<Campaign?>> createCampaignAndOpenEditor(
     final location = const CampaignEditRouteData().location;
 
     // Generate a unique ID for the campaign
-    final campaignId = const Uuid().v7();
+    final campaignId = const Uuid().v4();
 
     final data = Campaign(
       id: campaignId,

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
-import 'package:moonforge/data/repo/entity_repository.dart';
-import 'package:moonforge/data/repo/party_repository.dart';
-import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/home/services/dashboard_service.dart';
 import 'package:moonforge/features/home/widgets/placeholders.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 /// Widget displaying upcoming game sessions
 class UpcomingSessionsWidget extends StatelessWidget {
@@ -20,12 +16,7 @@ class UpcomingSessionsWidget extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    final dashboardService = DashboardService(
-      campaignRepo: context.read<CampaignRepository>(),
-      sessionRepo: context.read<SessionRepository>(),
-      partyRepo: context.read<PartyRepository>(),
-      entityRepo: context.read<EntityRepository>(),
-    );
+    final dashboardService = getIt<DashboardService>();
 
     return FutureBuilder<List<Session>>(
       future: dashboardService.fetchUpcomingSessions(),

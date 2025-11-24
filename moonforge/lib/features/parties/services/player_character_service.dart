@@ -1,10 +1,14 @@
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/parties/utils/character_calculations.dart';
 
 /// Service for player character operations with D&D 5e calculations
-class PlayerCharacterService {
+class PlayerCharacterService extends BaseService {
   final PlayerRepository _repository;
+
+  @override
+  String get serviceName => 'PlayerCharacterService';
 
   PlayerCharacterService(this._repository);
 

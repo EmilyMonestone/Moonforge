@@ -102,6 +102,7 @@ dependencies:
   # Utilities
   uuid: ^4.5.2
   logger: ^2.6.2
+  get_it: ^8.1.0
   flutter_quill_extensions: ^11.0.0
   auto_updater: ^1.0.0
   local_notifier: ^0.1.6

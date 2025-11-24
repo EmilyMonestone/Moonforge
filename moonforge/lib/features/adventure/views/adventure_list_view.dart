@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
@@ -28,8 +29,8 @@ class _AdventureListViewState extends State<AdventureListView> {
       return Center(child: Text(l10n.noCampaignSelected));
     }
 
-    final adventureRepo = context.read<AdventureRepository>();
-    final chapterRepo = context.read<ChapterRepository>();
+    final adventureRepo = getIt<AdventureRepository>();
+    final chapterRepo = getIt<ChapterRepository>();
 
     return Column(
       children: [

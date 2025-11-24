@@ -1,3 +1,4 @@
+import 'package:dart_quill_delta/dart_quill_delta.dart' as quill_delta;
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -5,6 +6,7 @@ import 'package:m3e_collection/m3e_collection.dart'
     show ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/ai/generation_request.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/story_context_builder.dart';
@@ -22,7 +24,6 @@ import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:dart_quill_delta/dart_quill_delta.dart' as quill_delta;
 import 'package:toastification/toastification.dart';
 
 class SceneEditView extends StatefulWidget {
@@ -93,8 +94,7 @@ class _SceneEditViewState extends State<SceneEditView> {
       }
       _campaignId = campaign.id;
 
-      final repo = context.read<SceneRepository>();
-      final scene = await repo.getById(widget.sceneId);
+      final scene = await getIt<SceneRepository>().getById(widget.sceneId);
 
       if (scene != null) {
         Document document;
@@ -154,7 +154,7 @@ class _SceneEditViewState extends State<SceneEditView> {
 
     setState(() => _isSaving = true);
     try {
-      final repo = context.read<SceneRepository>();
+      final repo = getIt<SceneRepository>();
 
       final delta = _contentController.document.toDelta();
       final contentMap = {'ops': delta.toJson()};
@@ -192,7 +192,9 @@ class _SceneEditViewState extends State<SceneEditView> {
   }
 
   Future<void> _continueStoryWithAi() async {
-    final geminiProvider = context.read<GeminiProvider?>();
+    final geminiProvider = getIt.isRegistered<GeminiProvider>()
+        ? getIt<GeminiProvider>()
+        : null;
     if (geminiProvider == null) return;
 
     setState(() => _isGeneratingAi = true);
@@ -200,11 +202,11 @@ class _SceneEditViewState extends State<SceneEditView> {
     try {
       // Build story context
       final contextBuilder = StoryContextBuilder(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       );
 
       final storyContext = await contextBuilder.buildForScene(widget.sceneId);
@@ -406,7 +408,7 @@ class _SceneEditViewState extends State<SceneEditView> {
                 onSearchEntities: (kind, query) async {
                   if (_campaignId == null) return [];
                   final service = EntityMentionService(
-                    entityRepository: context.read<EntityRepository>(),
+                    entityRepository: getIt<EntityRepository>(),
                   );
                   return await service.searchEntities(
                     campaignId: _campaignId!,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
-import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/core/widgets/entities_widget.dart';
+import 'package:moonforge/core/widgets/entities/gathered_entities_widget.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -47,32 +47,15 @@ class CampaignEntitiesWidget extends StatelessWidget {
     }
 
     // Use EntityGatherer to traverse hierarchy via repositories and deduplicate with consistent origins
-    return FutureBuilder<List<EntityWithOrigin>>(
+    return GatheredEntitiesWidget(
       future: EntityGatherer(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        encounterRepo: context.read<EncounterRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        encounterRepo: getIt<EncounterRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       ).gatherFromCampaign(campaignId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          logger.e('Error gathering campaign entities: ${snapshot.error}');
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final result = snapshot.data ?? const <EntityWithOrigin>[];
-        // Log gathered entities with their origins for troubleshooting
-        for (final ewo in result) {
-          logger.w(
-            '[CampaignEntitiesWidget] entity=${ewo.entity.id} name="${ewo.entity.name}" originId=${ewo.entity.originId} gatheredOrigin=${ewo.origin?.partType}:${ewo.origin?.partId} label="${ewo.origin?.label}"',
-          );
-        }
-        return EntitiesWidget(entities: result);
-      },
     );
   }
 }
@@ -96,26 +79,15 @@ class ChapterEntitiesWidget extends StatelessWidget {
     context.watch<List<Scene>>();
     context.watch<List<Entity>>();
 
-    return FutureBuilder<List<EntityWithOrigin>>(
+    return GatheredEntitiesWidget(
       future: EntityGatherer(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        encounterRepo: context.read<EncounterRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        encounterRepo: getIt<EncounterRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       ).gatherFromChapter(campaignId, chapterId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          logger.e('Error gathering chapter entities: ${snapshot.error}');
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final result = snapshot.data ?? const <EntityWithOrigin>[];
-        return EntitiesWidget(entities: result);
-      },
     );
   }
 }
@@ -140,26 +112,15 @@ class AdventureEntitiesWidget extends StatelessWidget {
     context.watch<List<Scene>>();
     context.watch<List<Entity>>();
 
-    return FutureBuilder<List<EntityWithOrigin>>(
+    return GatheredEntitiesWidget(
       future: EntityGatherer(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        encounterRepo: context.read<EncounterRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        encounterRepo: getIt<EncounterRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       ).gatherFromAdventure(campaignId, chapterId, adventureId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          logger.e('Error gathering adventure entities: ${snapshot.error}');
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final result = snapshot.data ?? const <EntityWithOrigin>[];
-        return EntitiesWidget(entities: result);
-      },
     );
   }
 }
@@ -185,26 +146,15 @@ class SceneEntitiesWidget extends StatelessWidget {
     context.watch<List<Scene>>();
     context.watch<List<Entity>>();
 
-    return FutureBuilder<List<EntityWithOrigin>>(
+    return GatheredEntitiesWidget(
       future: EntityGatherer(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        encounterRepo: context.read<EncounterRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        encounterRepo: getIt<EncounterRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       ).gatherFromScene(campaignId, chapterId, adventureId, sceneId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          logger.e('Error gathering scene entities: ${snapshot.error}');
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final result = snapshot.data ?? const <EntityWithOrigin>[];
-        return EntitiesWidget(entities: result);
-      },
     );
   }
 }
@@ -222,26 +172,15 @@ class EncounterEntitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<EntityWithOrigin>>(
+    return GatheredEntitiesWidget(
       future: EntityGatherer(
-        campaignRepo: context.read<CampaignRepository>(),
-        chapterRepo: context.read<ChapterRepository>(),
-        adventureRepo: context.read<AdventureRepository>(),
-        sceneRepo: context.read<SceneRepository>(),
-        encounterRepo: context.read<EncounterRepository>(),
-        entityRepo: context.read<EntityRepository>(),
+        campaignRepo: getIt<CampaignRepository>(),
+        chapterRepo: getIt<ChapterRepository>(),
+        adventureRepo: getIt<AdventureRepository>(),
+        sceneRepo: getIt<SceneRepository>(),
+        encounterRepo: getIt<EncounterRepository>(),
+        entityRepo: getIt<EntityRepository>(),
       ).gatherFromEncounter(campaignId, encounterId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          logger.e('Error gathering encounter entities: ${snapshot.error}');
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final result = snapshot.data ?? const <EntityWithOrigin>[];
-        return EntitiesWidget(entities: result);
-      },
     );
   }
 }

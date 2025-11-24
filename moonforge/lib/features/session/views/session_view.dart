@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/auth_providers.dart';
-import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/utils/permissions_utils.dart';
-import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/share_settings_dialog.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/session/widgets/dm_notes_panel.dart';
+import 'package:moonforge/features/session/widgets/session_log_panel.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class _SessionViewState extends State<SessionView> {
     db.Session session,
     db.Campaign campaign,
   ) async {
-    final repo = context.read<SessionRepository>();
+    final repo = getIt<SessionRepository>();
     await showDialog(
       context: context,
       builder: (context) => ShareSettingsDialog(
@@ -71,7 +72,7 @@ class _SessionViewState extends State<SessionView> {
     final isDM = PermissionsUtils.isDM(campaign, currentUserUid);
 
     return FutureBuilder<db.Session?>(
-      future: context.read<SessionRepository>().getById(widget.sessionId),
+      future: getIt<SessionRepository>().getById(widget.sessionId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -148,66 +149,12 @@ class _SessionViewState extends State<SessionView> {
                 children: [
                   // DM-only info section
                   if (isDM) ...[
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.admin_panel_settings_outlined,
-                          size: 20,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'DM Notes (Private)',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
-                    ),
-                    if (session.info == null || session.info!.isEmpty)
-                      Text(
-                        'No DM notes yet',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      )
-                    else
-                      CustomQuillViewer(
-                        controller: _infoController,
-                        onMentionTap: (entityId, mentionType) async {
-                          EntityRouteData(entityId: entityId).push(context);
-                        },
-                      ),
+                    DmNotesPanel(controller: _infoController),
                     const Divider(height: 32),
                   ],
 
                   // Shared log section
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.article_outlined,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Session Log',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                  if (session.log == null || session.log!.isEmpty)
-                    Text(
-                      'No session log yet',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    )
-                  else
-                    CustomQuillViewer(
-                      controller: _logController,
-                      onMentionTap: (entityId, mentionType) async {
-                        EntityRouteData(entityId: entityId).push(context);
-                      },
-                    ),
+                  SessionLogPanel(controller: _logController),
                 ],
               ),
             ),

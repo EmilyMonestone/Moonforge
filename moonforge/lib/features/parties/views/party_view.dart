@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
-import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/parties/services/party_service.dart';
 import 'package:moonforge/features/parties/widgets/character_card.dart';
 import 'package:moonforge/features/parties/widgets/party_composition_widget.dart';
 import 'package:moonforge/features/parties/widgets/party_stats_widget.dart';
-import 'package:provider/provider.dart';
 
 class PartyView extends StatelessWidget {
   const PartyView({super.key, required this.partyId});
@@ -15,9 +14,8 @@ class PartyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final partyRepo = Provider.of<PartyRepository>(context, listen: false);
-    final playerRepo = Provider.of<PlayerRepository>(context, listen: false);
-    final partyService = PartyService(partyRepo, playerRepo);
+    final partyService = getIt<PartyService>();
+    final partyRepo = getIt<PartyRepository>();
 
     return FutureBuilder<Party?>(
       future: partyRepo.getById(partyId),

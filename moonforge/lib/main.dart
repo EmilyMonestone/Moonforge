@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moonforge/app.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/providers.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
@@ -47,6 +48,9 @@ Future<void> main(List<String> args) async {
 
   // Initialize get_storage for persistence
   await PersistenceService.init();
+
+  // Initialize service locator with AppDb
+  await setupServiceLocator(db: db);
 
   if (!(kIsWeb ||
       Platform.isAndroid ||

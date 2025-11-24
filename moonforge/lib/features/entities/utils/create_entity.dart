@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/providers/gemini_provider.dart';
 import 'package:moonforge/core/services/notification_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
@@ -30,10 +31,10 @@ Future<void> createEntity(
   String? encounterId,
 }) async {
   final l10n = AppLocalizations.of(context)!;
-  final entityRepo = context.read<EntityRepository>();
-  final chapterRepo = context.read<ChapterRepository>();
-  final adventureRepo = context.read<AdventureRepository>();
-  final sceneRepo = context.read<SceneRepository>();
+  final entityRepo = getIt<EntityRepository>();
+  final chapterRepo = getIt<ChapterRepository>();
+  final adventureRepo = getIt<AdventureRepository>();
+  final sceneRepo = getIt<SceneRepository>();
 
   // Ask user: Manual or AI?
   final geminiProvider = context.read<GeminiProvider?>();
@@ -50,10 +51,10 @@ Future<void> createEntity(
   if (creationMethod == CreationMethod.ai) {
     // AI-assisted creation
     final contextBuilder = StoryContextBuilder(
-      campaignRepo: context.read<CampaignRepository>(),
-      chapterRepo: context.read<ChapterRepository>(),
-      adventureRepo: context.read<AdventureRepository>(),
-      sceneRepo: context.read<SceneRepository>(),
+      campaignRepo: getIt<CampaignRepository>(),
+      chapterRepo: chapterRepo,
+      adventureRepo: adventureRepo,
+      sceneRepo: sceneRepo,
       entityRepo: entityRepo,
     );
 
@@ -153,7 +154,7 @@ Future<void> createEntity(
   }
 
   try {
-    final entityId = const Uuid().v7();
+    final entityId = const Uuid().v4();
     final summary = npcStructuredData?['backstory'] as String? ?? '';
     final statblock = npcStructuredData ?? const <String, dynamic>{};
 

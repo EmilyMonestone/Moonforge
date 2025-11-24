@@ -1,10 +1,14 @@
 import 'package:drift/drift.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 
 /// Service for managing session scheduling and calendar operations
-class SessionCalendarService {
+class SessionCalendarService extends BaseService {
   final SessionRepository _repository;
+
+  @override
+  String get serviceName => 'SessionCalendarService';
 
   SessionCalendarService(this._repository);
 
@@ -13,19 +17,21 @@ class SessionCalendarService {
     DateTime startDate,
     DateTime endDate,
   ) async {
-    return await _repository.customQuery(
-      filter: (s) =>
-          s.datetime.isBiggerOrEqualValue(startDate) &
-          s.datetime.isSmallerOrEqualValue(endDate),
-      sort: [(s) => OrderingTerm.asc(s.datetime)],
-    );
+    return execute(() async {
+      return await _repository.customQuery(
+        filter: (s) =>
+            s.datetime.isBiggerOrEqualValue(startDate) &
+            s.datetime.isSmallerOrEqualValue(endDate),
+        sort: [(s) => OrderingTerm.asc(s.datetime)],
+      );
+    }, operationName: 'getSessionsInRange');
   }
 
   /// Get sessions for a specific month
   Future<List<Session>> getSessionsForMonth(int year, int month) async {
     final startDate = DateTime(year, month, 1);
     final endDate = DateTime(year, month + 1, 0, 23, 59, 59);
-    return await getSessionsInRange(startDate, endDate);
+    return getSessionsInRange(startDate, endDate);
   }
 
   /// Get sessions for a specific week
@@ -34,45 +40,51 @@ class SessionCalendarService {
     final endOfWeek = startOfWeek.add(
       const Duration(days: 6, hours: 23, minutes: 59, seconds: 59),
     );
-    return await getSessionsInRange(startOfWeek, endOfWeek);
+    return getSessionsInRange(startOfWeek, endOfWeek);
   }
 
   /// Get sessions for a specific day
   Future<List<Session>> getSessionsForDay(DateTime date) async {
     final startOfDay = DateTime(date.year, date.month, date.day);
     final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
-    return await getSessionsInRange(startOfDay, endOfDay);
+    return getSessionsInRange(startOfDay, endOfDay);
   }
 
   /// Schedule a session for a specific date/time
   Future<void> scheduleSession(Session session, DateTime dateTime) async {
-    final updatedSession = session.copyWith(datetime: Value(dateTime));
-    await _repository.update(updatedSession);
+    return execute(() async {
+      final updatedSession = session.copyWith(datetime: Value(dateTime));
+      await _repository.update(updatedSession);
+    }, operationName: 'scheduleSession');
   }
 
   /// Reschedule a session to a new date/time
   Future<void> rescheduleSession(Session session, DateTime newDateTime) async {
-    await scheduleSession(session, newDateTime);
+    return scheduleSession(session, newDateTime);
   }
 
   /// Get upcoming sessions (future sessions only)
   Future<List<Session>> getUpcomingSessions({int limit = 10}) async {
-    final now = DateTime.now();
-    return await _repository.customQuery(
-      filter: (s) => s.datetime.isBiggerOrEqualValue(now),
-      sort: [(s) => OrderingTerm.asc(s.datetime)],
-      limit: limit,
-    );
+    return execute(() async {
+      final now = DateTime.now();
+      return await _repository.customQuery(
+        filter: (s) => s.datetime.isBiggerOrEqualValue(now),
+        sort: [(s) => OrderingTerm.asc(s.datetime)],
+        limit: limit,
+      );
+    }, operationName: 'getUpcomingSessions');
   }
 
   /// Get past sessions (historical sessions only)
   Future<List<Session>> getPastSessions({int limit = 10}) async {
-    final now = DateTime.now();
-    return await _repository.customQuery(
-      filter: (s) => s.datetime.isSmallerThanValue(now),
-      sort: [(s) => OrderingTerm.desc(s.datetime)],
-      limit: limit,
-    );
+    return execute(() async {
+      final now = DateTime.now();
+      return await _repository.customQuery(
+        filter: (s) => s.datetime.isSmallerThanValue(now),
+        sort: [(s) => OrderingTerm.desc(s.datetime)],
+        limit: limit,
+      );
+    }, operationName: 'getPastSessions');
   }
 
   /// Get the next scheduled session
@@ -95,21 +107,23 @@ class SessionCalendarService {
 
   /// Get days with sessions in a month
   Future<List<DateTime>> getDaysWithSessionsInMonth(int year, int month) async {
-    final sessions = await getSessionsForMonth(year, month);
-    final daysWithSessions = <DateTime>{};
+    return execute(() async {
+      final sessions = await getSessionsForMonth(year, month);
+      final daysWithSessions = <DateTime>{};
 
-    for (final session in sessions) {
-      if (session.datetime != null) {
-        final date = DateTime(
-          session.datetime!.year,
-          session.datetime!.month,
-          session.datetime!.day,
-        );
-        daysWithSessions.add(date);
+      for (final session in sessions) {
+        if (session.datetime != null) {
+          final date = DateTime(
+            session.datetime!.year,
+            session.datetime!.month,
+            session.datetime!.day,
+          );
+          daysWithSessions.add(date);
+        }
       }
-    }
 
-    return daysWithSessions.toList()..sort();
+      return daysWithSessions.toList()..sort();
+    }, operationName: 'getDaysWithSessionsInMonth');
   }
 
   /// Calculate average time between sessions

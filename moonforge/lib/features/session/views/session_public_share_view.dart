@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -8,7 +9,6 @@ import 'package:moonforge/core/utils/share_token_utils.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/session_repository.dart';
-import 'package:provider/provider.dart';
 
 /// Public read-only view of a session log via share token.
 /// This screen is accessible without authentication.
@@ -18,8 +18,7 @@ class SessionPublicShareView extends StatefulWidget {
   final String token;
 
   @override
-  State<SessionPublicShareView> createState() =>
-      _SessionPublicShareViewState();
+  State<SessionPublicShareView> createState() => _SessionPublicShareViewState();
 }
 
 class _SessionPublicShareViewState extends State<SessionPublicShareView> {
@@ -34,7 +33,7 @@ class _SessionPublicShareViewState extends State<SessionPublicShareView> {
   Future<db.Session?> _findSessionByToken() async {
     try {
       // In offline-first mode, look up all sessions locally and match share token
-      final repo = Provider.of<SessionRepository>(context, listen: false);
+      final repo = getIt<SessionRepository>();
       // No direct index by token; do a full scan as a stopgap
       final sessions = await repo.customQuery();
       for (final s in sessions) {

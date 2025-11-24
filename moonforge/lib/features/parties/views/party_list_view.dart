@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/features/parties/widgets/party_card.dart';
-import 'package:provider/provider.dart';
 
 /// Screen displaying a list of all parties
 class PartyListView extends StatelessWidget {
@@ -13,8 +13,8 @@ class PartyListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final partyRepo = Provider.of<PartyRepository>(context, listen: false);
-    final playerRepo = Provider.of<PlayerRepository>(context, listen: false);
+    final partyRepo = getIt<PartyRepository>();
+    final playerRepo = getIt<PlayerRepository>();
 
     return StreamBuilder<List<Party>>(
       stream: partyRepo.watchAll(),

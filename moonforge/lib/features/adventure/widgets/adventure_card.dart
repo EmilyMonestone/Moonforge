@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/datetime_utils.dart';
 import 'package:moonforge/core/widgets/link_context_menu.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
-import 'package:provider/provider.dart';
 
 /// A card widget that displays an adventure summary
 class AdventureCard extends StatelessWidget {
@@ -22,7 +22,7 @@ class AdventureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final sceneRepo = context.read<SceneRepository>();
+    final sceneRepo = getIt<SceneRepository>();
 
     final card = Card(
       color: Theme.of(context).colorScheme.surfaceContainer,

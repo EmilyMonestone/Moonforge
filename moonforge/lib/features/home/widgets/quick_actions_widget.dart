@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/features/home/services/quick_actions_service.dart';
 
 /// Widget displaying quick action buttons for common operations
@@ -8,7 +9,7 @@ class QuickActionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final quickActionsService = QuickActionsService();
+    final quickActionsService = getIt<QuickActionsService>();
     final actions = quickActionsService.getDefaultActions();
 
     return Padding(

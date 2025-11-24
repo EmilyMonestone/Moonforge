@@ -1,19 +1,22 @@
-import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:uuid/uuid.dart';
 
 /// Service for campaign lifecycle management and operations
-class CampaignService {
+class CampaignService extends BaseService {
   final CampaignRepository _repository;
+
+  @override
+  String get serviceName => 'CampaignService';
 
   CampaignService(this._repository);
 
   /// Duplicate a campaign with a new name
   Future<Campaign?> duplicateCampaign(Campaign campaign, String newName) async {
-    try {
+    return execute(() async {
       final newCampaign = Campaign(
-        id: const Uuid().v7(),
+        id: const Uuid().v4(),
         name: newName,
         description: campaign.description,
         content: campaign.content,
@@ -26,51 +29,44 @@ class CampaignService {
       );
 
       await _repository.create(newCampaign);
-      logger.i('Campaign duplicated: ${campaign.id} -> ${newCampaign.id}');
+      logInfo('Campaign duplicated: ${campaign.id} -> ${newCampaign.id}');
       return newCampaign;
-    } catch (e) {
-      logger.e('Failed to duplicate campaign: $e');
-      return null;
-    }
+    }, operationName: 'duplicateCampaign');
   }
 
   /// Archive a campaign (soft delete by adding archived flag in description or metadata)
   /// Note: Since there's no archived field in the schema, we could use a naming convention
   /// or add it to content. For now, this is a placeholder.
   Future<bool> archiveCampaign(Campaign campaign) async {
-    try {
+    return execute(() async {
       // In a real implementation, you'd add an 'archived' field to the schema
       // For now, we'll just log it
-      logger.i('Campaign archived: ${campaign.id}');
+      logInfo('Campaign archived: ${campaign.id}');
       return true;
-    } catch (e) {
-      logger.e('Failed to archive campaign: $e');
-      return false;
-    }
+    }, operationName: 'archiveCampaign');
   }
 
   /// Restore an archived campaign
   Future<bool> restoreCampaign(Campaign campaign) async {
-    try {
-      logger.i('Campaign restored: ${campaign.id}');
+    return execute(() async {
+      logInfo('Campaign restored: ${campaign.id}');
       return true;
-    } catch (e) {
-      logger.e('Failed to restore campaign: $e');
-      return false;
-    }
+    }, operationName: 'restoreCampaign');
   }
 
   /// Calculate campaign statistics
   Future<CampaignStats> getCampaignStats(Campaign campaign) async {
     // This would query related entities, chapters, sessions, etc.
     // For now, return basic stats
-    return CampaignStats(
-      campaignId: campaign.id,
-      chapterCount: 0,
-      entityCount: campaign.entityIds.length,
-      sessionCount: 0,
-      totalPlayTimeMinutes: 0,
-    );
+    return execute(() async {
+      return CampaignStats(
+        campaignId: campaign.id,
+        chapterCount: 0,
+        entityCount: campaign.entityIds.length,
+        sessionCount: 0,
+        totalPlayTimeMinutes: 0,
+      );
+    }, operationName: 'getCampaignStats');
   }
 
   /// Get all campaigns for the current user
@@ -118,6 +114,14 @@ class CampaignService {
     }
 
     return filtered;
+  }
+
+  /// Delete a campaign by id
+  Future<void> deleteCampaign(String id) async {
+    return execute(() async {
+      await _repository.delete(id);
+      logInfo('Deleted campaign: $id');
+    }, operationName: 'deleteCampaign');
   }
 }
 

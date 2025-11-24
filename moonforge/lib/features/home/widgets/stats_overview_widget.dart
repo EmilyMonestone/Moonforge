@@ -1,14 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
-import 'package:moonforge/data/repo/entity_repository.dart';
-import 'package:moonforge/data/repo/party_repository.dart';
-import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/home/services/dashboard_service.dart';
 import 'package:moonforge/features/home/widgets/placeholders.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 /// Widget displaying campaign statistics summary on the dashboard
 class StatsOverviewWidget extends StatelessWidget {
@@ -20,12 +16,7 @@ class StatsOverviewWidget extends StatelessWidget {
     final uid = fb_auth.FirebaseAuth.instance.currentUser?.uid;
     final theme = Theme.of(context);
 
-    final dashboardService = DashboardService(
-      campaignRepo: context.read<CampaignRepository>(),
-      sessionRepo: context.read<SessionRepository>(),
-      partyRepo: context.read<PartyRepository>(),
-      entityRepo: context.read<EntityRepository>(),
-    );
+    final dashboardService = getIt<DashboardService>();
 
     return FutureBuilder<DashboardStats>(
       future: dashboardService.fetchStats(uid),

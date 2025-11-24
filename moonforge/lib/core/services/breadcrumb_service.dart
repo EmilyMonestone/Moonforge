@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:moonforge/data/repo/chapter_repository.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
-import 'package:moonforge/data/repo/scene_repository.dart';
-import 'package:moonforge/data/repo/entity_repository.dart';
+import 'package:moonforge/data/repo/chapter_repository.dart';
 import 'package:moonforge/data/repo/encounter_repository.dart';
+import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:moonforge/data/repo/party_repository.dart';
+import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -68,14 +69,14 @@ class BreadcrumbService {
     // Get current campaign from provider
     final campaign = context.read<CampaignProvider>().currentCampaign;
 
-    // Get repositories
-    final chapterRepo = context.read<ChapterRepository>();
-    final adventureRepo = context.read<AdventureRepository>();
-    final sceneRepo = context.read<SceneRepository>();
-    final entityRepo = context.read<EntityRepository>();
-    final encounterRepo = context.read<EncounterRepository>();
-    final partyRepo = context.read<PartyRepository>();
-    final sessionRepo = context.read<SessionRepository>();
+    // Get repositories from DI
+    final chapterRepo = getIt<ChapterRepository>();
+    final adventureRepo = getIt<AdventureRepository>();
+    final sceneRepo = getIt<SceneRepository>();
+    final entityRepo = getIt<EntityRepository>();
+    final encounterRepo = getIt<EncounterRepository>();
+    final partyRepo = getIt<PartyRepository>();
+    final sessionRepo = getIt<SessionRepository>();
 
     int i = 0;
     while (i < segments.length) {
