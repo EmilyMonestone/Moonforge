@@ -7,7 +7,6 @@ entities, sessions, media, and more — all synchronized across devices.
   <a href="https://flutter.dev"><img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
   <img alt="Platforms" src="https://img.shields.io/badge/Platforms-Desktop%20%7C%20Web%20%7C%20Mobile-6a5acd">
-  <img alt="State" src="https://img.shields.io/badge/State-Riverpod-0aa">
   <img alt="Router" src="https://img.shields.io/badge/Routing-go__router-blueviolet">
   <img alt="Backend" src="https://img.shields.io/badge/Backend-Firebase-orange">
 </p>
