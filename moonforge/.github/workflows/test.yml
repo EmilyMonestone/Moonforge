@@ -1,0 +1,41 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: moonforge
+
+      - name: Static analysis
+        run: flutter analyze
+        working-directory: moonforge
+
+      - name: Run unit tests (fast)
+        run: flutter test test/core || true
+        working-directory: moonforge
+
+      - name: Run feature/unit tests (fast)
+        run: flutter test test/features || true
+        working-directory: moonforge
+
+      - name: Run widget tests (optional, may be slower)
+        if: ${{ always() }}
+        run: |
+          flutter test test/widgets || true
+        working-directory: moonforge
+

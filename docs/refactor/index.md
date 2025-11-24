@@ -69,8 +69,8 @@ The refactoring is divided into 10 focused steps, ordered from low-risk to high-
 | Step             | Title                                    | Priority | Effort | Description                                                                                |
 |------------------|------------------------------------------|----------|--------|--------------------------------------------------------------------------------------------|
 | [1](step-1.md)   | Code Formatting and Linting Cleanup      | High     | S      | Standardize code style with dart format and fix lint issues                                |
-| [2](step-2.md)   | File and Folder Organization Consistency | High     | M      | Ensure consistent feature structure and naming conventions; consolidate creation utilities | ✅ |
-| [3](step-3.md)   | Extract Common Widget Patterns           | High     | M      | Create reusable widgets for repeated UI patterns                                           | ✅ |
+| [2](step-2.md)   | File and Folder Organization Consistency | High     | M      | Ensure consistent feature structure and naming conventions; consolidate creation utilities |
+| [3](step-3.md)   | Extract Common Widget Patterns           | High     | M      | Create reusable widgets for repeated UI patterns                                           | 
 | [4](step-4.md)   | Consolidate Theme and Style Utilities    | Medium   | M      | Centralize colors, text styles, and spacing constants                                      |
 | [5](step-5.md)   | Standardize Async State Management       | High     | L      | Normalize loading/error/success patterns across features                                   |
 | [6](step-6.md)   | Repository Pattern Consistency           | Medium   | M      | Standardize data access patterns and error handling                                        |
