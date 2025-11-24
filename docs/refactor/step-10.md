@@ -8,6 +8,7 @@
 
 Improve code documentation and comments to make the codebase more understandable and maintainable. Focus on public APIs, complex logic, and architectural decisions while removing
 outdated or unhelpful comments.
+Also update docs/ to reflect the latest changes.
 
 By the end of this step:
 
@@ -102,17 +103,15 @@ Add comments for non-obvious algorithms:
 /// 4. Compare to party thresholds
 ///
 /// See: DMG p.82 for full rules
-EncounterDifficulty calculateDifficulty(
-  List<Character> party,
-  List<Monster> monsters,
-) {
+EncounterDifficulty calculateDifficulty(List<Character> party,
+    List<Monster> monsters,) {
   // Calculate XP threshold for the party
   final thresholds = _calculatePartyThresholds(party);
 
   // Sum monster XP
   var totalXp = monsters.fold<int>(
     0,
-    (sum, monster) => sum + monster.xpValue,
+        (sum, monster) => sum + monster.xpValue,
   );
 
   // Apply multiplier based on number of monsters
@@ -245,9 +244,7 @@ provider.createCampaign
 ('My Campaign
 '
 ,
-'
-Description
-'
+'Description'
 );
 ```
 
@@ -454,6 +451,7 @@ See `docs/architecture/overview.md` for detailed architecture.
 ## Coding Conventions
 
 ### Naming
+
 - Classes: `PascalCase`
 - Files: `snake_case.dart`
 - Variables: `camelCase`
@@ -461,11 +459,13 @@ See `docs/architecture/overview.md` for detailed architecture.
 - Private members: prefix with `_`
 
 ### File Organization
+
 - One class per file
 - File name matches class name
 - Group imports: Flutter SDK, packages, local
 
 ### Comments
+
 - Document all public APIs
 - Explain complex logic
 - Remove outdated TODOs
@@ -487,12 +487,14 @@ See `test/README.md` for testing guidelines.
 ## Common Tasks
 
 ### Adding a new feature
+
 1. Create directory in `lib/features/<feature_name>/`
 2. Follow standard structure (controllers, services, views, widgets)
 3. Add tests in `test/features/<feature_name>/`
 4. Update routing if needed
 
 ### Adding a new model
+
 1. Create in `lib/core/models/`
 2. Add Freezed annotations
 3. Run code generation
@@ -500,6 +502,7 @@ See `test/README.md` for testing guidelines.
 5. Write tests
 
 ### Updating dependencies
+
 1. Update `pubspec.yaml`
 2. Run `flutter pub get`
 3. Check for breaking changes

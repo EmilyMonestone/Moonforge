@@ -6,6 +6,11 @@ import 'package:moonforge/core/widgets/command_palette.dart';
 import 'package:moonforge/layout/adaptive_scaffold.dart';
 import 'package:moonforge/layout/destinations.dart';
 
+/// Root layout wrapper that initializes app state, hotkeys, and command palette
+/// then renders the adaptive scaffold with the provided navigation shell.
+///
+/// This widget is the top-level container for app chrome and should be used
+/// by the top-level router to embed the `StatefulNavigationShell`.
 class LayoutShell extends StatelessWidget {
   const LayoutShell({super.key, required this.navigationShell});
 

@@ -10,13 +10,29 @@ import 'package:moonforge/data/widgets/sync_state_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+/// A scaffold optimized for wide/desktop layouts.
+///
+/// Renders a persistent navigation rail (Material 3 Expressive variant) on the
+/// left and places content on the right. Includes an extended trailing area
+/// for user/profile controls and sync status.
 class AdaptiveWideScaffold extends StatelessWidget {
+  /// The list of tabs (objects with `icon` and `label`) shown in the rail.
   final List tabs;
+
+  /// The primary content widget for the scaffold body.
   final Widget body;
+
+  /// The currently selected tab index.
   final int selectedIndex;
+
+  /// Callback when the user selects a tab. Receives the `BuildContext` and
+  /// the selected tab index.
   final void Function(BuildContext, int) onSelect;
+
+  /// Widget used to render breadcrumbs in the top bar.
   final Widget breadcrumbs;
 
+  /// Create an adaptive wide scaffold.
   const AdaptiveWideScaffold({
     super.key,
     required this.tabs,

@@ -4,13 +4,31 @@ import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 
+/// A scaffold optimized for compact/phone layouts.
+///
+/// Uses a `WindowTopBar` for the app bar area and adapts navigation to a
+/// `NavigationBar` with optional overflow handling via a `NavigationRail` and
+/// bottom sheet for additional actions. The scaffold keeps a consistent
+/// visual chrome and supports breadcrumb injection.
 class AdaptiveCompactScaffold extends StatelessWidget {
+  /// The list of tabs (objects with `icon` and `label`) shown in the
+  /// navigation bar or overflow rail.
   final List tabs;
+
+  /// The primary content widget for the scaffold body.
   final Widget body;
+
+  /// The currently selected tab index.
   final int selectedIndex;
+
+  /// Callback when the user selects a tab. Receives the `BuildContext` and
+  /// the selected tab index.
   final void Function(BuildContext, int) onSelect;
+
+  /// Widget used to render breadcrumbs in the top bar.
   final Widget breadcrumbs;
 
+  /// Create an adaptive compact scaffold.
   const AdaptiveCompactScaffold({
     super.key,
     required this.tabs,

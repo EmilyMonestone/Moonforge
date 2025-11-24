@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
@@ -15,8 +16,11 @@ import 'package:moonforge/features/home/widgets/stats_overview_widget.dart';
 import 'package:moonforge/features/home/widgets/upcoming_sessions_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:moonforge/core/di/service_locator.dart';
 
+/// Home view showing dashboard widgets for recent activity, stats and quick actions.
+///
+/// This is the app's landing screen containing compact overview widgets and
+/// navigation to core features like campaigns, sessions and entities.
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 

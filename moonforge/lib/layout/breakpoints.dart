@@ -10,18 +10,23 @@ class AppSizeClass {
   static const double compactMax = 600; // phones (portrait-first)
   static const double mediumMax = 1024; // small tablets / landscape phones
 
-  /// Derive a size class from a width in logical pixels
+  /// Derive a size class from a width in logical pixels.
+  ///
+  /// Use this in responsive code to branch behavior based on the current
+  /// window width.
   static SizeClass fromWidth(double width) {
     if (width < compactMax) return SizeClass.compact;
     if (width < mediumMax) return SizeClass.medium;
     return SizeClass.expanded;
   }
 
-  /// Convenience helper from BuildContext
+  /// Convenience helper to derive size class from [BuildContext].
   static SizeClass of(BuildContext context) =>
       fromWidth(MediaQuery.sizeOf(context).width);
 
   /// Whether we should try to show a split (two‑pane) layout.
-  /// You can tune this threshold per your content needs.
+  ///
+  /// The threshold (840) is tuned for our typical content; adjust as needed
+  /// when implementing more split views.
   static bool prefersTwoPane(double width) => width >= 840;
 }

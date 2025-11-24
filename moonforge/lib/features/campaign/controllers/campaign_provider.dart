@@ -3,20 +3,29 @@ import 'package:moonforge/core/models/async_state.dart';
 import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/campaign_repository.dart';
 
+/// Provider that holds the currently selected campaign and exposes helper
+/// methods to persist and clear the persisted campaign selection.
+///
+/// The provider initializes by attempting to load a persisted campaign ID
+/// from [PersistenceService] and resolving it through [CampaignRepository].
 class CampaignProvider extends BaseAsyncProvider<Campaign> {
   static const String _currentCampaignKey = 'current_campaign_id';
   final PersistenceService _persistence = PersistenceService();
 
+  /// Returns the currently selected campaign or `null` when none is set.
   Campaign? get currentCampaign => state.dataOrNull;
 
   CampaignProvider() {
     _loadPersistedCampaignId();
   }
 
-  /// Load the persisted campaign ID on initialization
+  /// Attempt to load persisted campaign ID and update provider state.
+  ///
+  /// This is called automatically during construction; errors are logged and
+  /// do not rethrow to avoid failing app startup.
   Future<void> _loadPersistedCampaignId() async {
     try {
       final campaignId = _persistence.read<String>(_currentCampaignKey);
@@ -35,11 +44,14 @@ class CampaignProvider extends BaseAsyncProvider<Campaign> {
     }
   }
 
-  /// Get the persisted campaign ID
+  /// Read the persisted campaign ID from storage.
   String? getPersistedCampaignId() {
     return _persistence.read<String>(_currentCampaignKey);
   }
 
+  /// Set the currently selected campaign and persist the selection.
+  ///
+  /// Passing `null` clears the selection and removes the persisted value.
   void setCurrentCampaign(Campaign? campaign) {
     if (campaign == null) {
       reset();
@@ -58,7 +70,7 @@ class CampaignProvider extends BaseAsyncProvider<Campaign> {
     notifyListeners();
   }
 
-  /// Clear the persisted campaign
+  /// Clear persisted campaign selection and reset the provider state.
   void clearPersistedCampaign() {
     _persistence.remove(_currentCampaignKey);
     reset();

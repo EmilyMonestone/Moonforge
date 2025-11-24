@@ -18,20 +18,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactoring - step 8">
-      <change afterPath="$PROJECT_DIR$/moonforge/.github/workflows/test.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/core/validation_service_test.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/features/campaign/controllers/campaign_provider_test.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/features/campaign/services/campaign_service_test.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/features/campaign/widgets/campaign_card_test.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/helpers/test_helpers.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/mocks/mock_dependencies.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/test/test_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactoring - step 9">
+      <change afterPath="$PROJECT_DIR$/moonforge/docs/architecture/overview.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/docs/development/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/docs/refactor/step-10.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/refactor/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/refactor/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/refactor/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/refactor/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/refactor/step-10.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/refactor/step-10.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/controllers/campaign_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/services/campaign_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/services/campaign_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/views/home_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/party_stats_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/parties/widgets/party_stats_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/breakpoints.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/breakpoints.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/layout_shell.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/layout_shell.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/two_pane_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/two_pane_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_compact_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_compact_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_wide_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_wide_scaffold.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,14 +199,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00057" summary="feat: add initial project files including configuration and asset manifests">
-      <option name="closed" value="true" />
-      <created>1761506494182</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1761506494182</updated>
     </task>
     <task id="LOCAL-00058" summary="feat: add initial project files including configuration and asset manifests">
       <option name="closed" value="true" />
@@ -589,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764014601781</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="refactoring - step 9">
+      <option name="closed" value="true" />
+      <created>1764018814575</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1764018814575</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -616,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: rename implementation summary to dnd_beyond_import for clarity" />
     <MESSAGE value="chore: clear CHANGELOG" />
     <MESSAGE value="chore: rename documentation files for improved organization and clarity" />
     <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
@@ -641,7 +643,8 @@
     <MESSAGE value="refactoring - step 3" />
     <MESSAGE value="refactoring - step 4, step 5 and step 6" />
     <MESSAGE value="refactoring - step 8" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring - step 8" />
+    <MESSAGE value="refactoring - step 9" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring - step 9" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1246,6 +1249,12 @@
           <option name="totalLines" value="13825079" />
           <option name="info" value="refactoring - step 8" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1764018827426" />
+          <option name="linesCode" value="271496" />
+          <option name="totalLines" value="13825403" />
+          <option name="info" value="refactoring - step 9" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1377,9 +1386,9 @@
           <option name="info" value="Nov 22, 2025" />
         </TimePoint>
         <TimePoint>
-          <option name="timestamp" value="1764014614749" />
-          <option name="linesCode" value="271298" />
-          <option name="totalLines" value="13825079" />
+          <option name="timestamp" value="1764018827426" />
+          <option name="linesCode" value="271496" />
+          <option name="totalLines" value="13825403" />
           <option name="info" value="Nov 24, 2025" />
         </TimePoint>
       </list>

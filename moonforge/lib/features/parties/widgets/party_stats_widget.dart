@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/features/parties/services/party_service.dart';
 
-/// Widget displaying party statistics
+/// Displays summarized statistics for a party, fetching data from [PartyService].
+///
+/// Shows member count, average level, total HP and average AC. Handles loading
+/// and error states internally.
 class PartyStatsWidget extends StatelessWidget {
   final String partyId;
   final PartyService partyService;

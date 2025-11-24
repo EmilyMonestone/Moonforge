@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 
+/// A responsive two-pane layout that shows a master/detail pair side-by-side
+/// on wide screens and falls back to a single-pane master view on compact
+/// screens. On compact screens the detail pane can be presented as a modal
+/// bottom sheet when `showDetail` is true and `useBottomSheetOnCompact` is
+/// enabled.
 class TwoPaneLayout extends StatefulWidget {
   const TwoPaneLayout({
     super.key,
@@ -14,9 +19,17 @@ class TwoPaneLayout extends StatefulWidget {
     this.sheetSettings,
   });
 
+  /// The master widget (typically a list or navigator)
   final Widget master;
+
+  /// The detail widget (content shown when an item is selected)
   final Widget detail;
+
+  /// Whether the detail pane should be shown (if supported by layout)
   final bool showDetail;
+
+  /// Fraction of the total width allocated to the master pane when two-pane
+  /// layout is active (0..1).
   final double splitRatio; // 0..1 fraction for master width
   final double gap;
 
@@ -159,6 +172,8 @@ class _TwoPaneLayoutState extends State<TwoPaneLayout>
   }
 }
 
+/// Configuration options for the bottom sheet used by [TwoPaneLayout] when
+/// presenting the detail pane on compact devices.
 class BottomSheetSettings {
   const BottomSheetSettings({
     this.isScrollControlled = true,

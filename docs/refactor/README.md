@@ -70,7 +70,7 @@ Use this checklist to track your refactoring progress:
 
 ### Phase 3: Polish (Lower Priority)
 
-- [ ] Step 10: Documentation and Code Comments
+- [~] Step 10: Documentation and Code Comments (in progress)
 
 ## 💡 What You'll Learn
 
