@@ -1,6 +1,15 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
+enum StorageBox {
+  defaultBox('moonforge_storage'),
+  bestiary('bestiary');
+
+  final String boxName;
+
+  const StorageBox(this.boxName);
+}
+
 /// Simple persistence service wrapper around `get_storage` used by the app to
 /// persist small, local key/value settings and lightweight app state.
 ///
@@ -29,6 +38,13 @@ class PersistenceService {
       logger.e('Failed to initialize PersistenceService: $e');
       rethrow;
     }
+  }
+
+  GetStorage _getBox(String boxName) {
+    if (!_boxes.containsKey(boxName)) {
+      _boxes[boxName] = GetStorage(boxName);
+    }
+    return _boxes[boxName]!;
   }
 
   /// Get the default storage box instance.
@@ -75,11 +91,10 @@ class PersistenceService {
   /// Listen to a key's changes in the underlying storage box. This delegates
   /// to `GetStorage.listenKey` and is useful for reactive UI that depends on
   /// persisted values.
-  void listenKey(
-    String key,
-    void Function(dynamic) callback, {
-    String? boxName,
-  }) {
+  void listenKey(String key,
+      void Function(dynamic) callback, {
+        String? boxName,
+      }) {
     boxName ??= _defaultBoxName;
     try {
       _getBox(boxName).listenKey(key, callback);
