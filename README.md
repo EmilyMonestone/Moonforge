@@ -59,7 +59,7 @@ entities, sessions, media, and more — all synchronized across devices.
 ## Architecture & Tech Stack
 
 - Flutter + Dart (stable channel)
-- State management: Riverpod (flutter_riverpod)
+- State management: custom in-house providers/controllers (see docs/architecture/overview.md)
 - Navigation: go_router with type-safe routes via go_router_builder
 - Deep linking: app_links for cross-platform deep linking support
 - Data: Firebase (Auth, Firestore, Storage, Remote Config), offline-first patterns
@@ -99,6 +99,19 @@ Prerequisites:
 - Flutter SDK (stable). Install and set up per https://docs.flutter.dev/get-started/install
 - A configured Firebase project (optional to run read-only features; required for sync/auth)
 
+### Quickstart (three commands)
+
+Run these from the project root to get a working development environment quickly:
+
+```powershell
+cd moonforge
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter run -d windows   # or -d chrome / -d linux / -d macos / -d <device_id>
+```
+
+> Tip: On some systems `dart run build_runner ...` is equivalent; we recommend `flutter pub run build_runner` when working inside Flutter projects.
+
 ### Setup
 
 **1\. Install dependencies**
@@ -122,12 +135,41 @@ Then edit `.env` and add your Firebase Web API key:
 FIREBASE_API_KEY=your-firebase-web-api-key-here
 ```
 
-> **Note:** The `.env` file is gitignored for security. Get your API key from the [Firebase Console](https://console.firebase.google.com/) under Project Settings > General > Your apps > Web apps > Config.
+> **Note:** The `.env` file is gitignored for security. Get your API key from the [Firebase Console](https://console.firebase.google.com/) under Project Settings > General > Your
+> apps > Web apps > Config.
 
 **3\. Generate code (models, router, assets)**
 
 ```sh
+# Recommended: use the Flutter pub wrapper so tool versions match the Flutter SDK
+flutter pub run build_runner build --delete-conflicting-outputs
+# Alternatively (works in many environments):
 dart run build_runner build --delete-conflicting-outputs
+```
+
+Additions:
+
+## Generated files (do not edit)
+
+The project relies on generated code for serialization, routing, and database helpers. Do not edit these files by hand — update the source annotations and re-run code generation.
+
+Common generated file patterns:
+
+- `*.g.dart` (JSON serialization, Firestore ODM)
+- `*.freezed.dart` (Freezed data classes)
+- `*.gr.dart` (generated router code, e.g., `app_router.gr.dart`)
+- Drift-related generated files (e.g., `*.drift.dart` or generated database helpers)
+
+To regenerate generated sources:
+
+```powershell
+cd moonforge
+flutter pub run build_runner build --delete-conflicting-outputs
+# For a clean rebuild:
+dart run build_runner clean && flutter pub run build_runner build --delete-conflicting-outputs
+# Drift setup helpers (if needed):
+# ./drift_setup.sh   (Linux/macOS)
+# scripts\drift_setup.ps1  (Windows PowerShell if present)
 ```
 
 **4\. Run the app**
@@ -191,7 +233,8 @@ See [docs/README.md](docs/README.md) for the complete documentation index.
 
 ## Routing
 
-Moonforge uses go_router with type-safe route definitions and supports deep linking across all platforms. See [docs/architecture/routing.md](docs/architecture/routing.md) for details.
+Moonforge uses go_router with type-safe route definitions and supports deep linking across all platforms. See [docs/architecture/routing.md](docs/architecture/routing.md) for
+details.
 
 ## Data & Firebase Schema
 
@@ -234,10 +277,10 @@ For maintainers and contributors interested in packaging:
 ### Supported Platforms
 
 | Platform | Package Formats |
-|----------|----------------|
-| Windows  | EXE installer  |
-| macOS    | DMG disk image |
-| Linux    | AppImage, DEB  |
+|----------|-----------------|
+| Windows  | EXE installer   |
+| macOS    | DMG disk image  |
+| Linux    | AppImage, DEB   |
 
 ### Automatic Updates
 

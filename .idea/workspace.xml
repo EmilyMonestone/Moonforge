@@ -18,7 +18,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="refactoring - step 10" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="update documentation structure and fix markdown formatting">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/getting-started.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/getting-started.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -95,35 +100,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter Test.tests in origin_resolver_test.dart.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;PowerShell.build.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter Test.tests in origin_resolver_test.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "PowerShell.build.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\emily\\AppData\\Roaming\\JetBrains\\IdeaIC2025.2\\plugins\\Shell Script\\shellcheck.exe",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "io.flutter.reload.alreadyRun": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Nextcloud/04 BruckCode/Projekte/Moonforge/website/assets/img",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\website\assets\img" />
@@ -131,8 +137,8 @@
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\lib\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs" />
+      <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\moonforge" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\temp" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\features" />
       <recent name="D:\Nextcloud\04 BruckCode\Projekte\Moonforge\docs\migration_temp" />
@@ -182,14 +188,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00059" summary="feat: enhance hero section with new decorations and adjust logo size">
-      <option name="closed" value="true" />
-      <created>1761510862497</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1761510862497</updated>
     </task>
     <task id="LOCAL-00060" summary="feat: integrate SyncStateProvider and SyncStateWidget for improved synchronization status display">
       <option name="closed" value="true" />
@@ -575,7 +573,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764021178463</updated>
     </task>
-    <option name="localTasksCounter" value="108" />
+    <task id="LOCAL-00108" summary="update documentation structure and fix markdown formatting">
+      <option name="closed" value="true" />
+      <created>1764145822811</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1764145822811</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -602,7 +608,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chore: rename documentation files for improved organization and clarity" />
     <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
     <MESSAGE value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
     <MESSAGE value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
@@ -627,7 +632,8 @@
     <MESSAGE value="refactoring - step 8" />
     <MESSAGE value="refactoring - step 9" />
     <MESSAGE value="refactoring - step 10" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring - step 10" />
+    <MESSAGE value="update documentation structure and fix markdown formatting" />
+    <option name="LAST_COMMIT_MESSAGE" value="update documentation structure and fix markdown formatting" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1244,6 +1250,12 @@
           <option name="totalLines" value="14998841" />
           <option name="info" value="refactoring - step 10" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1764145838519" />
+          <option name="linesCode" value="1200368" />
+          <option name="totalLines" value="14998867" />
+          <option name="info" value="update documentation structure and fix markdown fo" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1379,6 +1391,12 @@
           <option name="linesCode" value="1200357" />
           <option name="totalLines" value="14998841" />
           <option name="info" value="Nov 24, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1764145838519" />
+          <option name="linesCode" value="1200368" />
+          <option name="totalLines" value="14998867" />
+          <option name="info" value="Nov 26, 2025" />
         </TimePoint>
       </list>
     </option>

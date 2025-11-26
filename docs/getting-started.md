@@ -37,14 +37,14 @@ This guide helps new developers set up their development environment and underst
 
 ### 1. Clone the Repository
 
-```bash
+```powershell
 git clone https://github.com/EmilyMoonstone/Moonforge.git
 cd Moonforge/moonforge
 ```
 
 ### 2. Install Dependencies
 
-```bash
+```powershell
 flutter pub get
 ```
 
@@ -72,8 +72,12 @@ The `.env` file is gitignored for security.
 
 Moonforge uses code generation extensively for models, routes, and assets:
 
-```bash
-dart run build_runner build --delete-conflicting-outputs
+```powershell
+# Recommended: use the flutter pub wrapper so tool versions match the Flutter SDK
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# Alternatively (works in many environments):
+# dart run build_runner build --delete-conflicting-outputs
 ```
 
 This generates:
@@ -85,8 +89,8 @@ This generates:
 
 **For continuous development**, use watch mode:
 
-```bash
-dart run build_runner watch --delete-conflicting-outputs
+```powershell
+flutter pub run build_runner watch --delete-conflicting-outputs
 ```
 
 ### 5. Run the App
@@ -134,7 +138,7 @@ moonforge/
 │   ├── core/              # Core app functionality
 │   │   ├── models/        # Data models (Campaign, Entity, etc.)
 │   │   ├── services/      # Services (router, auth, storage, etc.)
-│   │   ├── providers/     # Riverpod providers
+│   │   ├── providers/     # in-house providers/controllers
 │   │   ├── widgets/       # Reusable UI components
 │   │   └── utils/         # Utility functions
 │   ├── features/          # Feature modules
@@ -159,7 +163,7 @@ See [Folder Structure Reference](reference/folder-structure.md) for details.
 Understanding these will help you navigate the codebase:
 
 - **[Flutter](https://flutter.dev/)** - UI framework
-- **[Provider]** - State management
+- **[Riverpod](https://riverpod.dev/)** - State management (project uses flutter_riverpod)
 - **[go_router](https://pub.dev/packages/go_router)** - Navigation ([guide](architecture/routing.md))
 - **[Freezed](https://pub.dev/packages/freezed)** - Immutable models
 - **[Drift](https://drift.simonbinder.eu/)** - SQLite for offline-first ([guide](architecture/offline-sync.md))
@@ -170,15 +174,15 @@ Understanding these will help you navigate the codebase:
 ### Making Changes
 
 1. **Create a feature branch**:
-   ```bash
+   ```powershell
    git checkout -b feature/your-feature-name
    ```
 
 2. **Make your changes** following our [code style guidelines](../CONTRIBUTING.md)
 
 3. **Generate code** if you modified models/routes:
-   ```bash
-   dart run build_runner build --delete-conflicting-outputs
+   ```powershell
+   flutter pub run build_runner build --delete-conflicting-outputs
    ```
 
 4. **Test your changes**:

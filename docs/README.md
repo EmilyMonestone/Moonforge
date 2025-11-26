@@ -15,7 +15,7 @@ Flutter.
 - **[Data Layer](architecture/data-layer.md)** - Firebase, Firestore, and sync patterns
 - **[Offline Sync](architecture/offline-sync.md)** - Drift offline-first implementation
 - **[Routing](architecture/routing.md)** - go_router, deep linking, and navigation
-- **[State Management](architecture/state-management.md)** - Riverpod patterns and providers
+- **[State Management](architecture/overview.md)** - In-house state controllers and provider classes (see Architecture Overview)
 
 ### Features
 
@@ -36,7 +36,7 @@ Flutter.
 ### Deployment
 
 - **[Building](deployment/building.md)** - Building for different platforms
-- **[Packaging](deployment/packaging.md)** - Fastforge packaging and distribution
+- **[Packaging](deployment/packaging-quickref.md)** - Fastforge packaging and distribution (quickref)
 - **[Releases](deployment/releases.md)** - Release workflow and channels
 - **[CI/CD](deployment/ci-cd.md)** - GitHub Actions and automation
 
@@ -59,8 +59,7 @@ Flutter.
 
 - Understand the [Data Layer](architecture/data-layer.md) and [Offline Sync](architecture/offline-sync.md)
 - Review relevant feature docs in [Features](features/)
-- Check [State Management](architecture/state-management.md) patterns
-- See [Missing Features](missing/) for gaps and implementation needs
+- Check [Architecture Overview](architecture/overview.md) for state management patterns
 
 ### For Platform Work
 
@@ -70,14 +69,28 @@ Flutter.
 
 ### For Releases
 
-- Read [Packaging](deployment/packaging.md) guide
+- Read [Packaging](deployment/packaging-quickref.md) guide
 - Understand [Release Workflow](deployment/releases.md)
 - Check [CI/CD](deployment/ci-cd.md) automation
+
+## 🔧 Generated code & files (important)
+
+Moonforge relies on generated sources for models, routing, localization, and database helpers. These files are often committed to the repository but should not be edited manually —
+instead update the source annotations and re-run the project's code generation steps.
+
+Common generated patterns:
+
+- `*.g.dart` (JSON serialization, Firestore ODM)
+- `*.freezed.dart` (Freezed data classes)
+- `*.gr.dart` (generated router code)
+- Drift-generated database helpers
+- `lib/gen/` (FlutterGen asset helpers)
+
+See [CODEGEN_REQUIRED.md](CODEGEN_REQUIRED.md) and the Code Generation guide for commands and troubleshooting.
 
 ## 📖 External Resources
 
 - [Flutter Documentation](https://docs.flutter.dev/)
-- [Riverpod Documentation](https://riverpod.dev/)
 - [Firebase Documentation](https://firebase.google.com/docs)
 - [Drift Documentation](https://drift.simonbinder.eu/)
 - [go_router Documentation](https://pub.dev/packages/go_router)
@@ -89,7 +102,7 @@ Flutter.
 - **Build failing?** → See [Troubleshooting](reference/troubleshooting.md)
 - **New to the codebase?** → Follow [Getting Started](getting-started.md)
 - **Making a release?** → Read [Deployment](deployment/) guides
-- **Feature incomplete?** → Check [Missing Features](missing/) analysis
+- **Feature incomplete?** → Check relevant feature docs in [Features](features/) for gaps and implementation needs
 
 ## 💡 Documentation Principles
 
