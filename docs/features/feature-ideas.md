@@ -9,6 +9,8 @@ Ideas for high-impact improvements that fit Moonforge’s existing architecture 
 ## Player experience upgrades
 - Shareable Player View links with fine-grained permissions (per scene/entity/handout).
 - “GM reveal” toggles to progressively expose content during a session.
+- “Open in sidebar” option to keep reference scenes/entities pinned while navigating.
+- In-page table of contents for long scenes/handouts to jump between sections quickly.
 
 ## Session scheduling and reminders
 - Session calendar with RSVP tracking, reminders, and time zone handling.
@@ -23,8 +25,10 @@ Ideas for high-impact improvements that fit Moonforge’s existing architecture 
 - Starter campaigns and “add via template” actions in creation dialogs.
 
 ## Search and command palette expansion
-- Unified search across campaigns, scenes, entities, media, and notes with filters.
-- Command palette actions for “jump to scene”, “start session”, or “add entity link”.
+- Unified search across campaigns, scenes, entities, media, and notes with filters (type, tag, owner, last edited).
+- Deep-linkable search results and saved searches for frequently used filters.
+- Command palette actions for “jump to scene”, “start session”, “add entity link”, and “open in sidebar”.
+- Inline command palette help/cheatsheet and recent actions to speed repetition.
 
 ## Media and handout tooling
 - Built-in PDF/handout viewer with annotations and redactions.
@@ -35,8 +39,10 @@ Ideas for high-impact improvements that fit Moonforge’s existing architecture 
 - Private GM-only notes alongside shared content to avoid accidental exposure.
 
 ## Sync resilience and diagnostics
-- Human-friendly conflict resolution UI that shows field-level changes.
-- Sync status dashboard with recent errors and retry controls for offline-first flows.
+- Human-friendly conflict resolution UI that shows field-level changes and lets users pick per-field resolutions.
+- Background sync retry queue with visibility into pending operations and error reasons.
+- Sync status dashboard with recent errors, connectivity state, and retry controls for offline-first flows.
+- Exportable sync diagnostics bundle to share with support/debugging.
 
 ## Activity timeline
 - Campaign-level activity feed (edits, uploads, reveals) with user/time context.
