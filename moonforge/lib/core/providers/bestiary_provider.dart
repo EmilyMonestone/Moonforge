@@ -3,9 +3,10 @@ import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/bestiary_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/data/models/monster.dart';
 
 /// Provider for managing bestiary data
-class BestiaryProvider extends BaseAsyncProvider<List<dynamic>> {
+class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
   final BestiaryService _bestiaryService;
   DateTime? _lastSync;
 
@@ -17,7 +18,7 @@ class BestiaryProvider extends BaseAsyncProvider<List<dynamic>> {
   }
 
   /// Get all monsters
-  List<dynamic> get monsters => state.dataOrNull ?? const [];
+  List<Monster> get monsters => state.dataOrNull ?? const [];
 
   /// Check if data is currently loading
   bool get isLoading => state.isLoading;
@@ -74,8 +75,8 @@ class BestiaryProvider extends BaseAsyncProvider<List<dynamic>> {
   }
 
   /// Get a specific monster by name
-  Future<Map<String, dynamic>?> getMonsterByName(String name) async {
-    return await _bestiaryService.getByName(name);
+  Future<Monster?> getMonsterByName(String name) {
+    return _bestiaryService.getByName(name);
   }
 
   /// Force refresh from remote

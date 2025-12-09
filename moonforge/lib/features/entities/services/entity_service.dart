@@ -3,6 +3,8 @@ import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/entity_repository.dart';
 import 'package:uuid/uuid.dart';
 
+const List<String> _emptyStringList = <String>[];
+
 /// Service for entity operations and business logic
 class EntityService extends BaseService {
   final EntityRepository _repository;
@@ -163,8 +165,9 @@ class EntityService extends BaseService {
     final entity = await _repository.getById(entityId);
     if (entity == null) return;
 
-    if (!(entity.tags ?? const []).contains(tag)) {
-      final updatedTags = [...(entity.tags ?? const []), tag];
+    final currentTags = entity.tags ?? _emptyStringList;
+    if (!currentTags.contains(tag)) {
+      final updatedTags = [...currentTags, tag];
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,
@@ -194,8 +197,8 @@ class EntityService extends BaseService {
     final entity = await _repository.getById(entityId);
     if (entity == null) return;
 
-    if ((entity.tags ?? const []).contains(tag)) {
-      final updatedTags = (entity.tags ?? const [])
+    if ((entity.tags ?? _emptyStringList).contains(tag)) {
+      final updatedTags = (entity.tags ?? _emptyStringList)
           .where((t) => t != tag)
           .toList();
       final updated = Entity(
@@ -227,8 +230,9 @@ class EntityService extends BaseService {
     final entity = await _repository.getById(entityId);
     if (entity == null || entity.kind != 'group') return;
 
-    if (!(entity.members ?? const []).contains(memberId)) {
-      final updatedMembers = [...(entity.members ?? const []), memberId];
+    final currentMembers = entity.members ?? _emptyStringList;
+    if (!currentMembers.contains(memberId)) {
+      final updatedMembers = [...currentMembers, memberId];
       final updated = Entity(
         id: entity.id,
         kind: entity.kind,
@@ -258,8 +262,9 @@ class EntityService extends BaseService {
     final entity = await _repository.getById(entityId);
     if (entity == null || entity.kind != 'group') return;
 
-    if ((entity.members ?? const []).contains(memberId)) {
-      final updatedMembers = (entity.members ?? const [])
+    final currentMembers = entity.members ?? _emptyStringList;
+    if (currentMembers.contains(memberId)) {
+      final updatedMembers = currentMembers
           .where((m) => m != memberId)
           .toList();
       final updated = Entity(
