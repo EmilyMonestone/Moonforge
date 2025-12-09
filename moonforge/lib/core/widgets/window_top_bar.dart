@@ -192,11 +192,13 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                             // WindowCenterArea handles available width allocation.
 
                             // Build center area using WindowCenterArea (it handles layout)
-                            Widget centerArea = WindowCenterArea(
-                              leading: widget.leading,
-                              trailing: widget.trailing,
-                              actionItems: actionItems,
-                              showLabels: showLabels,
+                            final Widget centerArea = Expanded(
+                              child: WindowCenterArea(
+                                leading: widget.leading,
+                                trailing: widget.trailing,
+                                actionItems: actionItems,
+                                showLabels: showLabels,
+                              ),
                             );
 
                             return Row(
