@@ -1,7 +1,6 @@
 # Feature Ideas (Not Yet Implemented)
 
-Ideas for high-impact improvements that fit Moonforge’s existing architecture and feature set. These are not planned or built yet, but capture opportunities to make the app better
-for Game Masters and players.
+Ideas for high-impact improvements that fit Moonforge’s existing architecture and feature set. These are not planned or built yet, but capture opportunities to make the app better for Game Masters and players.
 
 ## Real-time collaboration
 - Presence indicators, live cursors, and inline comments to let co-GMs edit together safely.
