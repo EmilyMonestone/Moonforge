@@ -67,10 +67,6 @@ class AppNavigationRail extends StatelessWidget {
       // TOC section if available
       if (tocEntries != null && tocEntries.isNotEmpty)
         NavigationRailM3ESection(
-          header: Text(
-            AppLocalizations.of(context)!.tableOfContents,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
           destinations: [
             for (final entry in tocEntries)
               NavigationRailM3EDestination(
