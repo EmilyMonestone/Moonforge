@@ -10,11 +10,19 @@ import 'package:moonforge/data/widgets/sync_state_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+/// @deprecated This widget has been superseded by platform-specific scaffolds.
+/// Use [MobileWideScaffold] or [DesktopWideScaffold] instead.
+/// See docs/architecture/layout-widgets.md for details.
+///
 /// A scaffold optimized for wide/desktop layouts.
 ///
 /// Renders a persistent navigation rail (Material 3 Expressive variant) on the
 /// left and places content on the right. Includes an extended trailing area
 /// for user/profile controls and sync status.
+@Deprecated(
+  'Use MobileWideScaffold or DesktopWideScaffold instead. '
+  'See docs/architecture/layout-widgets.md for migration guide.',
+)
 class AdaptiveWideScaffold extends StatelessWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the rail.
   final List tabs;

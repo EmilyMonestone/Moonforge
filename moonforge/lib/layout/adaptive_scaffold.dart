@@ -7,11 +7,20 @@ import 'package:moonforge/core/widgets/adaptive_breadcrumb.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:moonforge/layout/breakpoints.dart';
 import 'package:moonforge/layout/destinations.dart';
-import 'package:moonforge/layout/widgets/adaptive_compact_scaffold.dart';
-import 'package:moonforge/layout/widgets/adaptive_wide_scaffold.dart';
+import 'package:moonforge/layout/platform_detector.dart';
+import 'package:moonforge/layout/widgets/desktop_compact_scaffold.dart';
+import 'package:moonforge/layout/widgets/desktop_wide_scaffold.dart';
+import 'package:moonforge/layout/widgets/mobile_compact_scaffold.dart';
+import 'package:moonforge/layout/widgets/mobile_wide_scaffold.dart';
 
 /// AdaptiveScaffold builds a responsive Scaffold that switches between
-/// NavigationBar (compact) and NavigationRail (medium/expanded).
+/// platform-specific layouts (mobile vs desktop) and size classes (compact vs wide).
+///
+/// Platform detection is used to determine the appropriate scaffold variant:
+/// - Mobile platforms (Android, iOS, Fuchsia): Use mobile-optimized scaffolds
+/// - Desktop platforms (Windows, macOS, Linux, Web): Use desktop-optimized scaffolds
+///
+/// Size classes determine compact vs wide layouts within each platform variant.
 class AdaptiveScaffold extends StatefulWidget {
   const AdaptiveScaffold({
     super.key,
@@ -91,22 +100,44 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
 
         switch (size) {
           case SizeClass.compact:
-            return AdaptiveCompactScaffold(
-              tabs: widget.tabs,
-              body: widget.body,
-              selectedIndex: _selectedIndex,
-              onSelect: _onSelect,
-              breadcrumbs: breadcrumbs,
-            );
+            // Use platform-specific compact scaffold
+            if (PlatformDetector.isMobilePlatform) {
+              return MobileCompactScaffold(
+                tabs: widget.tabs,
+                body: widget.body,
+                selectedIndex: _selectedIndex,
+                onSelect: _onSelect,
+                breadcrumbs: breadcrumbs,
+              );
+            } else {
+              return DesktopCompactScaffold(
+                tabs: widget.tabs,
+                body: widget.body,
+                selectedIndex: _selectedIndex,
+                onSelect: _onSelect,
+                breadcrumbs: breadcrumbs,
+              );
+            }
           case SizeClass.medium:
           case SizeClass.expanded:
-            return AdaptiveWideScaffold(
-              tabs: widget.tabs,
-              body: widget.body,
-              selectedIndex: _selectedIndex,
-              onSelect: _onSelect,
-              breadcrumbs: breadcrumbs,
-            );
+            // Use platform-specific wide scaffold
+            if (PlatformDetector.isMobilePlatform) {
+              return MobileWideScaffold(
+                tabs: widget.tabs,
+                body: widget.body,
+                selectedIndex: _selectedIndex,
+                onSelect: _onSelect,
+                breadcrumbs: breadcrumbs,
+              );
+            } else {
+              return DesktopWideScaffold(
+                tabs: widget.tabs,
+                body: widget.body,
+                selectedIndex: _selectedIndex,
+                onSelect: _onSelect,
+                breadcrumbs: breadcrumbs,
+              );
+            }
         }
       },
     );
@@ -116,10 +147,4 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
 
   void _onSelect(BuildContext context, int index) =>
       widget.navigationShell.goBranch(index);
-
-  // Phones: NavigationBar + optional persistent side NavigationRail for overflow (>5)
-  // The compact and wide builders were moved to dedicated widgets under layout/widgets.
-
-  // Tablets/Desktops: NavigationRail (extended on expanded)
-  // See layout/widgets/adaptive_wide_scaffold.dart for implementation.
 }
