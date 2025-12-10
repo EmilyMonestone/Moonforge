@@ -60,9 +60,7 @@ class _DesktopWideScaffoldState extends State<DesktopWideScaffold> {
         ),
         Expanded(
           child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-            ),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(12)),
             child: ScrollableBody(child: widget.body),
           ),
         ),
@@ -79,9 +77,7 @@ class _DesktopWideScaffoldState extends State<DesktopWideScaffold> {
         centerTitle: false,
         titleSpacing: 0,
         automaticallyImplyLeading: false,
-        flexibleSpace: topbar.WindowTopBar(
-          leading: widget.breadcrumbs,
-        ),
+        flexibleSpace: topbar.WindowTopBar(leading: widget.breadcrumbs),
       ),
       body: SafeArea(
         child: NotificationListener<TocEntriesNotification>(
@@ -96,14 +92,10 @@ class _DesktopWideScaffoldState extends State<DesktopWideScaffold> {
             return true;
           },
           child: _tocEntries != null && _tocEntries!.isNotEmpty
-              ? TocDeclaration(
-                  entries: _tocEntries!,
-                  child: scaffoldBody,
-                )
+              ? TocDeclaration(entries: _tocEntries!, child: scaffoldBody)
               : scaffoldBody,
         ),
       ),
     );
   }
-}
 }

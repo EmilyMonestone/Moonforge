@@ -64,9 +64,13 @@ class AppNavigationRail extends StatelessWidget {
             ),
         ],
       ),
-      // TOC section if available
-      if (tocEntries != null && tocEntries.isNotEmpty)
+      // TOC section if available // TODO: Re-enable TOC navigation rail section and fix scrolling
+      /*if (tocEntries != null && tocEntries.isNotEmpty)
         NavigationRailM3ESection(
+          header: Text(
+            AppLocalizations.of(context)!.tableOfContents,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           destinations: [
             for (final entry in tocEntries)
               NavigationRailM3EDestination(
@@ -78,7 +82,7 @@ class AppNavigationRail extends StatelessWidget {
                     : entry.title,
               ),
           ],
-        ),
+        ),*/
     ];
 
     logger.d('AppNavigationRail: Created ${sections.length} sections');
@@ -95,7 +99,9 @@ class AppNavigationRail extends StatelessWidget {
         if (tocController != null && tocEntries != null && i >= tabs.length) {
           final tocIndex = i - tabs.length;
           if (tocIndex < tocEntries.length) {
-            logger.d('AppNavigationRail: Scrolling to TOC entry at index $tocIndex');
+            logger.d(
+              'AppNavigationRail: Scrolling to TOC entry at index $tocIndex',
+            );
             tocController.scrollToEntry(tocEntries[tocIndex]);
             return; // Don't trigger navigation for TOC items
           }
