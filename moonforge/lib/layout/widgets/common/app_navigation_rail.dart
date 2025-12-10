@@ -99,10 +99,10 @@ class AppNavigationRail extends StatelessWidget {
           final tocIndex = i - tabs.length;
           if (tocIndex < tocEntries.length) {
             tocController.scrollToEntry(tocEntries[tocIndex]);
+            return; // Don't trigger navigation for TOC items
           }
-        } else {
-          onSelect(context, i);
         }
+        onSelect(context, i);
       },
       sections: sections,
       scrollable: true,
