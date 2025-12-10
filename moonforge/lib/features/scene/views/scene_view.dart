@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
@@ -9,9 +10,9 @@ import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
-import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/scene/controllers/scene_provider.dart';
+import 'package:moonforge/features/scene/services/scene_navigation_service.dart';
 import 'package:moonforge/features/scene/widgets/scene_completion_indicator.dart';
 import 'package:moonforge/features/scene/widgets/scene_navigation_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -99,21 +100,15 @@ class _SceneViewState extends State<SceneView> {
     }
 
     final sceneProvider = getIt<SceneProvider>();
+    final navigationService = getIt<SceneNavigationService>();
+    final navigationFooter = sceneProvider.scenesInAdventure.length > 1
+        ? SceneNavigationWidget(navigationService: navigationService)
+        : const SizedBox.shrink();
 
     return Column(
       children: [
-        // Scene navigation widget
         if (sceneProvider.scenesInAdventure.length > 1)
-          SceneNavigationWidget(
-            currentScene: _scene!,
-            onNavigate: (scene) {
-              SceneRouteData(
-                chapterId: widget.chapterId,
-                adventureId: widget.adventureId,
-                sceneId: scene.id,
-              ).go(context);
-            },
-          ),
+          SceneNavigationWidget(navigationService: navigationService),
         SurfaceContainer(
           title: Row(
             children: [
@@ -192,6 +187,7 @@ class _SceneViewState extends State<SceneView> {
           adventureId: widget.adventureId,
           sceneId: widget.sceneId,
         ),
+        navigationFooter,
       ],
     );
   }

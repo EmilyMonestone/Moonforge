@@ -1,17 +1,28 @@
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
 import 'package:moonforge/core/services/base_service.dart';
+import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 
 /// Service for managing scene navigation and progression
 class SceneNavigationService extends BaseService {
   final SceneRepository _repository;
+  final AdventureRepository _adventureRepository;
   final List<String> _sceneHistory = [];
   int _currentHistoryIndex = -1;
+  final _stateController = StreamController<SceneNavState>.broadcast();
 
   @override
   String get serviceName => 'SceneNavigationService';
 
-  SceneNavigationService(this._repository);
+  SceneNavigationService({
+    required SceneRepository sceneRepository,
+    required AdventureRepository adventureRepository,
+  }) : _repository = sceneRepository,
+       _adventureRepository = adventureRepository;
 
   /// Get the scene history
   List<String> get history => List.unmodifiable(_sceneHistory);
@@ -33,6 +44,7 @@ class SceneNavigationService extends BaseService {
       // Add the new scene to history
       _sceneHistory.add(sceneId);
       _currentHistoryIndex = _sceneHistory.length - 1;
+      await _emitState();
 
       logInfo(
         'Navigated to scene $sceneId (history index: $_currentHistoryIndex)',
@@ -46,6 +58,7 @@ class SceneNavigationService extends BaseService {
 
     _currentHistoryIndex--;
     final sceneId = _sceneHistory[_currentHistoryIndex];
+    await _emitState();
     logInfo(
       'Navigated back to scene $sceneId (history index: $_currentHistoryIndex)',
     );
@@ -58,6 +71,7 @@ class SceneNavigationService extends BaseService {
 
     _currentHistoryIndex++;
     final sceneId = _sceneHistory[_currentHistoryIndex];
+    await _emitState();
     logInfo(
       'Navigated forward to scene $sceneId (history index: $_currentHistoryIndex)',
     );
@@ -78,6 +92,7 @@ class SceneNavigationService extends BaseService {
   void clearHistory() {
     _sceneHistory.clear();
     _currentHistoryIndex = -1;
+    _emitState();
     logInfo('Cleared scene navigation history');
   }
 
@@ -152,6 +167,76 @@ class SceneNavigationService extends BaseService {
   int getVisitCount(String sceneId) {
     return _sceneHistory.where((id) => id == sceneId).length;
   }
+
+  Stream<SceneNavState> get stateStream => _stateController.stream;
+
+  Future<void> _emitState() async {
+    final currentId = getCurrentSceneId();
+    if (currentId == null) {
+      _stateController.add(SceneNavState.empty());
+      return;
+    }
+    final currentScene = await _repository.getById(currentId);
+    if (currentScene == null) {
+      _stateController.add(SceneNavState.empty());
+      return;
+    }
+    final scenes = await _repository.getByAdventure(currentScene.adventureId);
+    scenes.sort((a, b) => a.order.compareTo(b.order));
+    final index = scenes.indexWhere((s) => s.id == currentScene.id);
+    _stateController.add(
+      SceneNavState(
+        currentName: currentScene.name,
+        position: index >= 0 ? index + 1 : 1,
+        total: scenes.length,
+        hasPrevious: index > 0,
+        hasNext: index < scenes.length - 1,
+        adventureId: currentScene.adventureId,
+      ),
+    );
+  }
+
+  Future<void> goToPrevious(BuildContext context) async {
+    final state = await stateStream.first;
+    if (!state.hasPrevious) return;
+    final scenes = await _repository.getByAdventure(state.adventureId);
+    scenes.sort((a, b) => a.order.compareTo(b.order));
+    final prevScene = scenes[state.position - 2];
+    await navigateToScene(prevScene.id);
+    if (context.mounted) {
+      final adventure = await _adventureRepository.getById(
+        prevScene.adventureId,
+      );
+      if (adventure != null) {
+        SceneRouteData(
+          chapterId: adventure.chapterId,
+          adventureId: prevScene.adventureId,
+          sceneId: prevScene.id,
+        ).go(context);
+      }
+    }
+  }
+
+  Future<void> goToNext(BuildContext context) async {
+    final state = await stateStream.first;
+    if (!state.hasNext) return;
+    final scenes = await _repository.getByAdventure(state.adventureId);
+    scenes.sort((a, b) => a.order.compareTo(b.order));
+    final nextScene = scenes[state.position];
+    await navigateToScene(nextScene.id);
+    if (context.mounted) {
+      final adventure = await _adventureRepository.getById(
+        nextScene.adventureId,
+      );
+      if (adventure != null) {
+        SceneRouteData(
+          chapterId: adventure.chapterId,
+          adventureId: nextScene.adventureId,
+          sceneId: nextScene.id,
+        ).go(context);
+      }
+    }
+  }
 }
 
 /// Scene progression data class
@@ -178,4 +263,31 @@ class SceneProgression {
   int? get currentSceneOrder => currentScene?.order;
 
   bool get isComplete => visitedScenes >= totalScenes;
+}
+
+class SceneNavState {
+  SceneNavState({
+    required this.currentName,
+    required this.position,
+    required this.total,
+    required this.hasPrevious,
+    required this.hasNext,
+    required this.adventureId,
+  });
+
+  factory SceneNavState.empty() => SceneNavState(
+    currentName: '',
+    position: 0,
+    total: 0,
+    hasPrevious: false,
+    hasNext: false,
+    adventureId: '',
+  );
+
+  final String currentName;
+  final int position;
+  final int total;
+  final bool hasPrevious;
+  final bool hasNext;
+  final String adventureId;
 }

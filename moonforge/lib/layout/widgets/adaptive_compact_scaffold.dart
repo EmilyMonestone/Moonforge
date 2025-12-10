@@ -82,8 +82,21 @@ class AdaptiveCompactScaffold extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         flexibleSpace: topbar.WindowTopBar(
-          leading: breadcrumbs,
-          trailing: const SizedBox.shrink(),
+          isCompact: true,
+          leading: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = constraints.maxWidth.isFinite
+                  ? constraints.maxWidth
+                  : MediaQuery.of(context).size.width - 32;
+              return SizedBox(
+                width: maxWidth,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: breadcrumbs,
+                ),
+              );
+            },
+          ),
         ),
         centerTitle: false,
         titleSpacing: 0,

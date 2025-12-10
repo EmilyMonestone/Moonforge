@@ -11,9 +11,11 @@ import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
 import 'package:moonforge/core/widgets/section_header.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
-import 'package:moonforge/data/db/app_db.dart';
+import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
+import 'package:moonforge/features/adventure/services/adventure_navigation_service.dart';
+import 'package:moonforge/features/adventure/widgets/adventure_navigation_widget.dart';
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -47,7 +49,7 @@ class _AdventureViewState extends State<AdventureView> {
 
     final adventureRepo = getIt<AdventureRepository>();
 
-    return FutureBuilder<Adventure?>(
+    return FutureBuilder<db.Adventure?>(
       future: adventureRepo.getById(widget.adventureId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -139,6 +141,11 @@ class _AdventureViewState extends State<AdventureView> {
                   chapterId: widget.chapterId,
                   adventureId: widget.adventureId,
                 ),
+                AdventureNavigationWidget(
+                  chapterId: widget.chapterId,
+                  adventureId: widget.adventureId,
+                  navigationService: getIt<AdventureNavigationService>(),
+                ),
               ],
             ),
           ],
@@ -164,7 +171,7 @@ class _ScenesSection extends StatelessWidget {
         title: l10n.recentScenes,
         icon: Icons.movie_outlined,
       ),
-      child: FutureBuilder<List<Scene>>(
+      child: FutureBuilder<List<db.Scene>>(
         future: sceneRepo.getByAdventure(adventureId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -174,7 +181,7 @@ class _ScenesSection extends StatelessWidget {
             logger.e('Error fetching scenes: ${snapshot.error}');
             return Text('Error: ${snapshot.error}');
           }
-          final scenes = snapshot.data ?? const <Scene>[];
+          final scenes = snapshot.data ?? const <db.Scene>[];
           if (scenes.isEmpty) {
             return Text('No scenes yet');
           }
@@ -184,7 +191,7 @@ class _ScenesSection extends StatelessWidget {
             final ub = b.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
             return ub.compareTo(ua);
           });
-          return CardList<Scene>(
+          return CardList<db.Scene>(
             items: scenes,
             titleOf: (s) => s.name,
             subtitleOf: (s) => formatDateTime(s.updatedAt),

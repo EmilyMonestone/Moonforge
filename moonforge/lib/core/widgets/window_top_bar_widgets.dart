@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart' as mb_actions;
-import 'package:moonforge/core/widgets/fair_split_row.dart';
-import 'package:moonforge/core/widgets/window_top_bar.dart' show kTitleWidth;
 import 'package:window_manager/window_manager.dart';
 
 /// Small widget that renders platform window buttons (min/max/close) when
@@ -132,60 +130,28 @@ class WindowCenterArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Calculate available width for breadcrumbs and buttons
-        final hasWindowButtons =
-            !(kIsWeb ||
-                Platform.isAndroid ||
-                Platform.isIOS ||
-                Platform.isFuchsia ||
-                Platform.isMacOS);
-        const windowButtonsWidth = (3 * 46) + 16;
-        final availableWidth =
-            constraints.maxWidth -
-            kTitleWidth -
-            (hasWindowButtons ? windowButtonsWidth : 0);
-
-        final adaptiveTrailing =
-            trailing ??
-            (actionItems.isEmpty
-                ? const SizedBox.shrink()
-                : ActionGroupM3E(actions: actionItems, showLabels: showLabels));
-
-        final hasLeading = leading != null;
-        final hasTrailing = trailing != null || actionItems.isNotEmpty;
-
-        Widget centerArea = const SizedBox.shrink();
-        if (availableWidth > 0) {
-          if (hasLeading && hasTrailing) {
-            centerArea = SizedBox(
-              width: availableWidth,
-              child: FairSplitRow(
-                left: leading!,
-                right: adaptiveTrailing,
-                minLeft: 100,
-                minRight: 100,
-              ),
-            );
-          } else if (hasLeading) {
-            centerArea = SizedBox(
-              width: availableWidth,
-              child: Align(alignment: Alignment.centerLeft, child: leading!),
-            );
-          } else if (hasTrailing) {
-            centerArea = SizedBox(
-              width: availableWidth,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: adaptiveTrailing,
-              ),
-            );
-          }
-        }
-
-        return centerArea;
-      },
+    final trailingContent =
+        trailing ??
+        (actionItems.isEmpty
+            ? const SizedBox.shrink()
+            : ActionGroupM3E(actions: actionItems, showLabels: showLabels));
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        if (leading != null)
+          Flexible(
+            child: Align(alignment: Alignment.centerLeft, child: leading!),
+          ),
+        if (leading != null && (trailing != null || actionItems.isNotEmpty))
+          const SizedBox(width: 8),
+        if (trailing != null || actionItems.isNotEmpty)
+          Flexible(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: trailingContent,
+            ),
+          ),
+      ],
     );
   }
 }

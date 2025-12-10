@@ -40,79 +40,75 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
 
     // Build breadcrumbs from the current location using the new service.
     // Use the URI path as a key to ensure we only rebuild when the route changes
-    return SafeArea(
-      top: true,
-      bottom: false,
-      child: FutureBuilder<List<breadcrumb_service.BreadcrumbItem>>(
-        key: ValueKey(state.uri.path),
-        future: breadcrumb_service.BreadcrumbService.buildBreadcrumbs(
-          context,
-          state,
-        ),
-        builder: (context, snapshot) {
-          Widget breadcrumbs;
+    return FutureBuilder<List<breadcrumb_service.BreadcrumbItem>>(
+      key: ValueKey(state.uri.path),
+      future: breadcrumb_service.BreadcrumbService.buildBreadcrumbs(
+        context,
+        state,
+      ),
+      builder: (context, snapshot) {
+        Widget breadcrumbs;
 
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              !snapshot.hasData) {
-            // Show a minimal loading breadcrumb
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
+          // Show a minimal loading breadcrumb
+          breadcrumbs = AdaptiveBreadcrumb(
+            items: [
+              AdaptiveBreadcrumbItem(
+                content: Text(AppLocalizations.of(context)!.ellipsis),
+              ),
+            ],
+            divider: const Icon(Icons.chevron_right, size: 16),
+          );
+        } else {
+          final items = snapshot.data!;
+          if (items.isEmpty) {
             breadcrumbs = AdaptiveBreadcrumb(
               items: [
                 AdaptiveBreadcrumbItem(
-                  content: Text(AppLocalizations.of(context)!.ellipsis),
+                  content: Text(AppLocalizations.of(context)!.home),
+                  onTap: () => const HomeRouteData().go(context),
                 ),
               ],
               divider: const Icon(Icons.chevron_right, size: 16),
             );
           } else {
-            final items = snapshot.data!;
-            if (items.isEmpty) {
-              breadcrumbs = AdaptiveBreadcrumb(
-                items: [
-                  AdaptiveBreadcrumbItem(
-                    content: Text(AppLocalizations.of(context)!.home),
-                    onTap: () => const HomeRouteData().go(context),
+            breadcrumbs = AdaptiveBreadcrumb(
+              items: items.map((item) {
+                return AdaptiveBreadcrumbItem(
+                  content: Text(
+                    item.text,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                ],
-                divider: const Icon(Icons.chevron_right, size: 16),
-              );
-            } else {
-              breadcrumbs = AdaptiveBreadcrumb(
-                items: items.map((item) {
-                  return AdaptiveBreadcrumbItem(
-                    content: Text(
-                      item.text,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    onTap: () => context.go(item.path),
-                  );
-                }).toList(),
-                divider: const Icon(Icons.chevron_right, size: 16),
-              );
-            }
+                  onTap: () => context.go(item.path),
+                );
+              }).toList(),
+              divider: const Icon(Icons.chevron_right, size: 16),
+            );
           }
+        }
 
-          switch (size) {
-            case SizeClass.compact:
-              return AdaptiveCompactScaffold(
-                tabs: widget.tabs,
-                body: widget.body,
-                selectedIndex: _selectedIndex,
-                onSelect: _onSelect,
-                breadcrumbs: breadcrumbs,
-              );
-            case SizeClass.medium:
-            case SizeClass.expanded:
-              return AdaptiveWideScaffold(
-                tabs: widget.tabs,
-                body: widget.body,
-                selectedIndex: _selectedIndex,
-                onSelect: _onSelect,
-                breadcrumbs: breadcrumbs,
-              );
-          }
-        },
-      ),
+        switch (size) {
+          case SizeClass.compact:
+            return AdaptiveCompactScaffold(
+              tabs: widget.tabs,
+              body: widget.body,
+              selectedIndex: _selectedIndex,
+              onSelect: _onSelect,
+              breadcrumbs: breadcrumbs,
+            );
+          case SizeClass.medium:
+          case SizeClass.expanded:
+            return AdaptiveWideScaffold(
+              tabs: widget.tabs,
+              body: widget.body,
+              selectedIndex: _selectedIndex,
+              onSelect: _onSelect,
+              breadcrumbs: breadcrumbs,
+            );
+        }
+      },
     );
   }
 

@@ -108,6 +108,11 @@ class AdventureRepository extends BaseRepository<Adventure, String> {
     context: 'adventure.getByChapter',
   );
 
+  Future<int> countByChapter(String chapterId) => handleError(
+    () => _dao.countByChapter(chapterId),
+    context: 'adventure.countByChapter',
+  );
+
   /// Optimistic local upsert (no rev bump).
   Future<void> upsertLocal(Adventure adventure) => handleError(() async {
     await _dao.upsert(

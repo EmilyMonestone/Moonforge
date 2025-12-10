@@ -58,8 +58,7 @@ class AdaptiveWideScaffold extends StatelessWidget {
         titleSpacing: 0,
         automaticallyImplyLeading: false,
         flexibleSpace: topbar.WindowTopBar(
-          /*title: appBarTitleText ?? const Text('Moonforge'),*/
-          leading: breadcrumbs,
+          isCompact: !settings.isRailNavExtended,
         ),
       ),
       body: SafeArea(

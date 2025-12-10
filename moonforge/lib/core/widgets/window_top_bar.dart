@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart' as mb_actions;
 import 'package:moonforge/core/repositories/menu_registry.dart';
+import 'package:moonforge/core/widgets/navigation_history_controls.dart';
 import 'package:moonforge/core/widgets/window_top_bar_widgets.dart';
 import 'package:moonforge/gen/assets.gen.dart';
 import 'package:window_manager/window_manager.dart';
@@ -21,6 +22,7 @@ class WindowTopBar extends StatefulWidget {
     this.leading,
     this.trailing,
     this.showDragArea = true,
+    this.isCompact = false,
   });
 
   final Widget? title;
@@ -31,6 +33,7 @@ class WindowTopBar extends StatefulWidget {
   final Widget? trailing;
 
   final bool showDragArea;
+  final bool isCompact;
 
   @override
   State<WindowTopBar> createState() => _WindowTopBarState();
@@ -63,13 +66,12 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    final isCompact = MediaQuery.of(context).size.width < 600;
     final actionItems =
         (MenuRegistry.resolve(context, GoRouterState.of(context).uri) ??
                 const <mb_actions.MenuBarAction>[])
             .where((a) => a.onPressed != null)
             .toList();
-    final showLabels = !isCompact;
+    final showLabels = !widget.isCompact;
 
     final buttons = WindowButtonGroup(brightness: widget.brightness);
 
@@ -83,15 +85,27 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
             Assets.icon.moonforgeLogoPurple.moonforgeLogoPurple256.path,
             height: 40,
           ),
-          if (widget.title != null) ...[
-            const SizedBox(width: 18),
-            widget.title!,
-          ],
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth <= 0) {
+                    return const SizedBox(width: 8);
+                  }
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+                    child: NavigationHistoryControls(),
+                  );
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
 
-    return SizedBox(
+    final topBarContent = SizedBox(
       height:
           ((kIsWeb ||
                   Platform.isAndroid ||
@@ -100,7 +114,7 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
               widget.leading == null &&
               widget.trailing == null)
           ? 0
-          : isCompact
+          : widget.isCompact
           ? kWindowCaptionHeight * 2
           : kWindowCaptionHeight,
       width: double.infinity,
@@ -128,24 +142,18 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
                       ),
                     ],
                   ),
-                  isCompact
+                  widget.isCompact
                       ? Column(
                           children: [
-                            SizedBox(
-                              height: kWindowCaptionHeight,
-                              child: Row(
-                                children: [
-                                  titleWidget,
-                                  const Spacer(),
-                                  if (!(kIsWeb ||
-                                      Platform.isAndroid ||
-                                      Platform.isIOS ||
-                                      Platform.isFuchsia ||
-                                      Platform.isMacOS))
-                                    buttons,
-                                ],
+                            if (!(kIsWeb ||
+                                Platform.isAndroid ||
+                                Platform.isIOS ||
+                                Platform.isFuchsia ||
+                                Platform.isMacOS))
+                              SizedBox(
+                                height: kWindowCaptionHeight,
+                                child: buttons,
                               ),
-                            ),
                             SizedBox(
                               height: kWindowCaptionHeight,
                               child: Row(
@@ -248,6 +256,16 @@ class _WindowTopBarState extends State<WindowTopBar> with WindowListener {
               ),
       ),
     );
+
+    return Platform.isAndroid
+        ? SafeArea(
+            top: true,
+            bottom: false,
+            left: false,
+            right: false,
+            child: topBarContent,
+          )
+        : topBarContent;
   }
 
   @override

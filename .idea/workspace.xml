@@ -18,17 +18,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="update documentation structure and fix markdown formatting">
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/services/persistence_interface.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/data/models/dnd_helpers.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/moonforge/lib/data/models/monster.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="fcd2fc98-015c-486b-a6cf-950839cda9cb" name="Changes" comment="add safe area">
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/navigation_history_controls.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/navigation_history_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/navigation_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/services/adventure_navigation_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/widgets/adventure_navigation_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plan-navigationEnhancements.prompt.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/providers/bestiary_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/providers/bestiary_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/bestiary_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/bestiary_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/di/service_locator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/di/service_locator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/app_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/notification_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/notification_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/app_state_initializer.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/entities/services/entity_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/entities/services/entity_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/window_top_bar_widgets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/db/daos/adventure_dao.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/data/repo/adventure_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/services/chapter_navigation_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/services/chapter_navigation_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/widgets/chapter_navigation_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/controllers/scene_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/controllers/scene_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/services/scene_navigation_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/services/scene_navigation_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/views/scene_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_navigation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/scene/widgets/scene_navigation_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/adaptive_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/layout_shell.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/layout_shell.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_compact_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_compact_scaffold.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_wide_scaffold.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/widgets/adaptive_wide_scaffold.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +150,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -194,30 +214,6 @@
       <workItem from="1760374933898" duration="399000" />
       <workItem from="1760375656227" duration="295000" />
       <workItem from="1760376017637" duration="5000000" />
-    </task>
-    <task id="LOCAL-00061" summary="fix: update .gitignore to ignore all workspace.xml files">
-      <option name="closed" value="true" />
-      <created>1761602376431</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1761602376431</updated>
-    </task>
-    <task id="LOCAL-00062" summary="fix: refine .gitignore to exclude specific IDE and Flutter ephemeral directories">
-      <option name="closed" value="true" />
-      <created>1761602479323</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1761602479323</updated>
-    </task>
-    <task id="LOCAL-00063" summary="refactor: rename documentation files for improved organization">
-      <option name="closed" value="true" />
-      <created>1761603815723</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1761603815723</updated>
     </task>
     <task id="LOCAL-00064" summary="feat: add beta badge to indicate beta version in adaptive scaffold">
       <option name="closed" value="true" />
@@ -587,7 +583,31 @@
       <option name="project" value="LOCAL" />
       <updated>1764148204733</updated>
     </task>
-    <option name="localTasksCounter" value="110" />
+    <task id="LOCAL-00110" summary="refactor: update bestiary provider and service to use strong typing for monsters">
+      <option name="closed" value="true" />
+      <created>1765280563027</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1765280563027</updated>
+    </task>
+    <task id="LOCAL-00111" summary="refactor: wrap WindowCenterArea in Expanded for proper layout handling">
+      <option name="closed" value="true" />
+      <created>1765280571782</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1765280571782</updated>
+    </task>
+    <task id="LOCAL-00112" summary="add safe area">
+      <option name="closed" value="true" />
+      <created>1765293203805</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1765293203805</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -614,9 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: update localization strings for improved clarity and consistency" />
-    <MESSAGE value="feat: enhance code readability and maintainability with consistent formatting and null safety improvements" />
-    <MESSAGE value="feat: update CHANGELOG for version 0.6.0 with new features, enhancements, and fixes" />
     <MESSAGE value="feat: implement safe data storage with improved null safety and context navigation" />
     <MESSAGE value="feat: enhance logger configuration with improved PrettyPrinter settings" />
     <MESSAGE value="feat: remove QuickActionsWidget from home screen for improved layout" />
@@ -639,7 +656,10 @@
     <MESSAGE value="refactoring - step 9" />
     <MESSAGE value="refactoring - step 10" />
     <MESSAGE value="update documentation structure and fix markdown formatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="update documentation structure and fix markdown formatting" />
+    <MESSAGE value="refactor: update bestiary provider and service to use strong typing for monsters" />
+    <MESSAGE value="refactor: wrap WindowCenterArea in Expanded for proper layout handling" />
+    <MESSAGE value="add safe area" />
+    <option name="LAST_COMMIT_MESSAGE" value="add safe area" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -1268,6 +1288,18 @@
           <option name="totalLines" value="14998927" />
           <option name="info" value="update documentation structure and fix markdown fo" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1765280576639" />
+          <option name="linesCode" value="1201587" />
+          <option name="totalLines" value="20250653" />
+          <option name="info" value="refactor: wrap WindowCenterArea in Expanded for pr" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1765293221821" />
+          <option name="linesCode" value="1201591" />
+          <option name="totalLines" value="20250657" />
+          <option name="info" value="add safe area" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
@@ -1409,6 +1441,12 @@
           <option name="linesCode" value="1200399" />
           <option name="totalLines" value="14998927" />
           <option name="info" value="Nov 26, 2025" />
+        </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1765293221821" />
+          <option name="linesCode" value="1201591" />
+          <option name="totalLines" value="20250657" />
+          <option name="info" value="Dec 9, 2025" />
         </TimePoint>
       </list>
     </option>

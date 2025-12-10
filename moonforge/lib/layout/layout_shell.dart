@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/hotkey/hotkey_global_wrapper.dart';
 import 'package:moonforge/core/widgets/app_state_initializer.dart';
 import 'package:moonforge/core/widgets/command_palette.dart';
+import 'package:moonforge/core/widgets/navigation_history_service.dart';
 import 'package:moonforge/layout/adaptive_scaffold.dart';
 import 'package:moonforge/layout/destinations.dart';
 
@@ -19,14 +21,25 @@ class LayoutShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = kPrimaryTabs[navigationShell.currentIndex].label;
-    return AppStateInitializer(
-      child: HotkeyGlobalWrapper(
-        child: CommandPalette(
-          child: AdaptiveScaffold(
-            navigationShell: navigationShell,
-            tabs: kPrimaryTabs,
-            appBarTitleText: Text(title),
-            body: navigationShell,
+    final history = AppRouter.navigationHistory;
+    final location = navigationShell.shellRouteContext.routerState.uri
+        .toString();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (history.current != location) {
+        history.push(location);
+      }
+    });
+    return NavigationHistoryScope(
+      notifier: history,
+      child: AppStateInitializer(
+        child: HotkeyGlobalWrapper(
+          child: CommandPalette(
+            child: AdaptiveScaffold(
+              navigationShell: navigationShell,
+              tabs: kPrimaryTabs,
+              appBarTitleText: Text(title),
+              body: navigationShell,
+            ),
           ),
         ),
       ),

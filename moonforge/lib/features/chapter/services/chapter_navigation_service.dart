@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:moonforge/core/services/base_service.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
@@ -5,6 +7,7 @@ import 'package:moonforge/data/repo/chapter_repository.dart';
 /// Service for navigating between chapters and tracking progress
 class ChapterNavigationService extends BaseService {
   final ChapterRepository _repository;
+  final _stateController = StreamController<ChapterNavState>.broadcast();
 
   @override
   String get serviceName => 'ChapterNavigationService';
@@ -127,4 +130,62 @@ class ChapterNavigationService extends BaseService {
       return position == total;
     }, operationName: 'isLastChapter');
   }
+
+  Stream<ChapterNavState> watchState(String chapterId) async* {
+    yield await _buildState(chapterId);
+    yield* _stateController.stream.where(
+      (state) => state.chapterId == chapterId,
+    );
+  }
+
+  Future<void> refreshState(String chapterId) async {
+    final state = await _buildState(chapterId);
+    _stateController.add(state);
+  }
+
+  Future<ChapterNavState> _buildState(String chapterId) async {
+    final chapter = await _repository.getById(chapterId);
+    if (chapter == null) {
+      return ChapterNavState.empty();
+    }
+    final total = await getTotalChapters(chapter.campaignId);
+    final position = await getChapterPosition(chapterId) ?? 1;
+    final isFirst = await isFirstChapter(chapterId);
+    final isLast = await isLastChapter(chapterId);
+    return ChapterNavState(
+      chapterId: chapterId,
+      currentName: chapter.name,
+      position: position,
+      total: total,
+      hasPrevious: !isFirst,
+      hasNext: !isLast,
+    );
+  }
+}
+
+class ChapterNavState {
+  ChapterNavState({
+    required this.chapterId,
+    required this.currentName,
+    required this.position,
+    required this.total,
+    required this.hasPrevious,
+    required this.hasNext,
+  });
+
+  factory ChapterNavState.empty() => ChapterNavState(
+    chapterId: '',
+    currentName: '',
+    position: 0,
+    total: 0,
+    hasPrevious: false,
+    hasNext: false,
+  );
+
+  final String chapterId;
+  final String currentName;
+  final int position;
+  final int total;
+  final bool hasPrevious;
+  final bool hasNext;
 }
