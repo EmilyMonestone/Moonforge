@@ -67,6 +67,10 @@ class AppNavigationRail extends StatelessWidget {
       // TOC section if available
       if (tocEntries != null && tocEntries.isNotEmpty)
         NavigationRailM3ESection(
+          header: Text(
+            AppLocalizations.of(context)!.tableOfContents,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           destinations: [
             for (final entry in tocEntries)
               NavigationRailM3EDestination(
@@ -105,7 +109,7 @@ class AppNavigationRail extends StatelessWidget {
       onTypeChanged: (NavigationRailM3EType type) {},
       trailingAtBottom: true,
       trailing: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
         child: Builder(
           builder: (context) {
             String appVersion = AppVersion.getVersion();

@@ -714,5 +714,9 @@
   "sortDescending": "Absteigend",
   "@sortDescending": {
     "description": "Label für absteigende Sortierung"
+  },
+  "tableOfContents": "Seiten Inhalte",
+  "@tableOfContents": {
+  "description": "Label für tableOfContents"
   }
 }

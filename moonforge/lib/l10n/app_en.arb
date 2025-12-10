@@ -890,5 +890,9 @@
   "enterValidNumber": "Enter a valid number",
   "@enterValidNumber": {
     "description": "Validation message for numeric input"
+  },
+    "tableOfContents": "Page Content",
+  "@tableOfContents": {
+  "description": "Label for tableOfContents"
   }
 }
