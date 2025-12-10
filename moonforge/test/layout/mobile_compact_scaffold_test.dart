@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/mobile_compact_scaffold.dart';
 
 void main() {
@@ -7,8 +8,8 @@ void main() {
     tester,
   ) async {
     final tabs = [
-      {'icon': Icons.home, 'label': 'Home'},
-      {'icon': Icons.settings, 'label': 'Settings'},
+      const TabSpec(icon: Icons.home, label: 'Home', location: '/'),
+      const TabSpec(icon: Icons.settings, label: 'Settings', location: '/settings'),
     ];
 
     await tester.pumpWidget(
@@ -33,12 +34,12 @@ void main() {
     tester,
   ) async {
     final tabs = [
-      {'icon': Icons.home, 'label': 'Home'},
-      {'icon': Icons.settings, 'label': 'Settings'},
-      {'icon': Icons.search, 'label': 'Search'},
-      {'icon': Icons.person, 'label': 'Profile'},
-      {'icon': Icons.notifications, 'label': 'Notifications'},
-      {'icon': Icons.message, 'label': 'Messages'},
+      const TabSpec(icon: Icons.home, label: 'Home', location: '/'),
+      const TabSpec(icon: Icons.settings, label: 'Settings', location: '/settings'),
+      const TabSpec(icon: Icons.search, label: 'Search', location: '/search'),
+      const TabSpec(icon: Icons.person, label: 'Profile', location: '/profile'),
+      const TabSpec(icon: Icons.notifications, label: 'Notifications', location: '/notifications'),
+      const TabSpec(icon: Icons.message, label: 'Messages', location: '/messages'),
     ];
 
     await tester.pumpWidget(

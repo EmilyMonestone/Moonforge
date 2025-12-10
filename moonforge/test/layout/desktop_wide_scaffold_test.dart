@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:m3e_collection/m3e_collection.dart';
+import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/desktop_wide_scaffold.dart';
 
 void main() {
   testWidgets('DesktopWideScaffold builds rail', (tester) async {
     final tabs = [
-      {'icon': Icons.home, 'label': 'Home'},
-      {'icon': Icons.settings, 'label': 'Settings'},
+      const TabSpec(icon: Icons.home, label: 'Home', location: '/'),
+      const TabSpec(icon: Icons.settings, label: 'Settings', location: '/settings'),
     ];
 
     await tester.pumpWidget(
@@ -31,8 +32,8 @@ void main() {
     tester,
   ) async {
     final tabs = [
-      {'icon': Icons.home, 'label': 'Home'},
-      {'icon': Icons.settings, 'label': 'Settings'},
+      const TabSpec(icon: Icons.home, label: 'Home', location: '/'),
+      const TabSpec(icon: Icons.settings, label: 'Settings', location: '/settings'),
     ];
 
     await tester.pumpWidget(
