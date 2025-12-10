@@ -3,6 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
+import 'package:moonforge/layout/destinations.dart';
+
+/// Maximum number of tabs to show in the bottom navigation bar before using
+/// an overflow navigation rail.
+const int kMaxBottomNavTabs = 5;
 
 /// A scaffold optimized for compact/phone layouts on mobile platforms
 /// (Android, iOS, Fuchsia).
@@ -14,7 +19,7 @@ import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 class MobileCompactScaffold extends StatelessWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the
   /// navigation bar or overflow rail.
-  final List tabs;
+  final List<TabSpec> tabs;
 
   /// The primary content widget for the scaffold body.
   final Widget body;
@@ -73,9 +78,11 @@ class MobileCompactScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = tabs.length <= 5 ? tabs : tabs.take(5).toList();
-    final overflow =
-        tabs.length > 5 ? tabs.skip(5).toList() : const <dynamic>[];
+    final primary =
+        tabs.length <= kMaxBottomNavTabs ? tabs : tabs.take(kMaxBottomNavTabs).toList();
+    final overflow = tabs.length > kMaxBottomNavTabs
+        ? tabs.skip(kMaxBottomNavTabs).toList()
+        : const <TabSpec>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -111,8 +118,8 @@ class MobileCompactScaffold extends StatelessWidget {
                 children: [
                   NavigationRail(
                     selectedIndex:
-                        selectedIndex >= 5 ? selectedIndex - 5 : null,
-                    onDestinationSelected: (i) => onSelect(context, 5 + i),
+                        selectedIndex >= kMaxBottomNavTabs ? selectedIndex - kMaxBottomNavTabs : null,
+                    onDestinationSelected: (i) => onSelect(context, kMaxBottomNavTabs + i),
                     labelType: NavigationRailLabelType.all,
                     scrollable: true,
                     destinations: [

@@ -8,6 +8,7 @@ import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/data/providers/sync_state_provider.dart';
 import 'package:moonforge/data/widgets/sync_state_widget.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
+import 'package:moonforge/layout/destinations.dart';
 import 'package:provider/provider.dart';
 
 /// A scaffold optimized for wide/desktop layouts on desktop platforms
@@ -19,7 +20,7 @@ import 'package:provider/provider.dart';
 /// Designed for mouse/keyboard interactions typical of desktop environments.
 class DesktopWideScaffold extends StatelessWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the rail.
-  final List tabs;
+  final List<TabSpec> tabs;
 
   /// The primary content widget for the scaffold body.
   final Widget body;

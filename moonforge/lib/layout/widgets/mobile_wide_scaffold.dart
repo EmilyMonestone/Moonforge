@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
+import 'package:moonforge/layout/destinations.dart';
 
 /// A scaffold optimized for wide/tablet layouts on mobile platforms
 /// (Android, iOS, Fuchsia).
@@ -12,7 +13,7 @@ import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 /// interactions.
 class MobileWideScaffold extends StatelessWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the rail.
-  final List tabs;
+  final List<TabSpec> tabs;
 
   /// The primary content widget for the scaffold body.
   final Widget body;
