@@ -141,12 +141,12 @@ class _AdventureViewState extends State<AdventureView> {
                   chapterId: widget.chapterId,
                   adventureId: widget.adventureId,
                 ),
-                AdventureNavigationWidget(
-                  chapterId: widget.chapterId,
-                  adventureId: widget.adventureId,
-                  navigationService: getIt<AdventureNavigationService>(),
-                ),
               ],
+            ),
+            AdventureNavigationWidget(
+              chapterId: widget.chapterId,
+              adventureId: widget.adventureId,
+              navigationService: getIt<AdventureNavigationService>(),
             ),
           ],
         );

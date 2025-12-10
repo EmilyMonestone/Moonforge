@@ -179,7 +179,7 @@ class _CampaignViewState extends State<CampaignView> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      SelectableText(
                         // Show description when non-empty; otherwise the fallback.
                         campaign.description.trim().isNotEmpty
                             ? campaign.description
@@ -209,15 +209,11 @@ class _CampaignViewState extends State<CampaignView> {
               ),
               Container(
                 key: _recentKey,
-                child: Column(
-                  children: [
-                    RecentChaptersSection(campaign: campaign),
-                    RecentAdventuresSection(campaign: campaign),
-                    RecentScenesSection(campaign: campaign),
-                    RecentSessionsSection(campaign: campaign),
-                  ],
-                ),
+                child: RecentChaptersSection(campaign: campaign),
               ),
+              RecentAdventuresSection(campaign: campaign),
+              RecentScenesSection(campaign: campaign),
+              RecentSessionsSection(campaign: campaign),
             ],
           ),
         ],

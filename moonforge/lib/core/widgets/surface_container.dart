@@ -146,14 +146,27 @@ class SurfaceContainer extends StatelessWidget {
                 ),
                 child: Padding(
                   padding:
-                      paddingTitle ?? const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      paddingTitle ??
+                      const EdgeInsets.fromLTRB(
+                        AppSpacing.lg,
+                        AppSpacing.lg,
+                        AppSpacing.lg,
+                        AppSpacing.sm,
+                      ),
                   child: title,
                 ),
               ),
             ),
             const Divider(),
             Padding(
-              padding: padding ?? const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              padding:
+                  padding ??
+                  const EdgeInsets.fromLTRB(
+                    AppSpacing.lg,
+                    AppSpacing.sm,
+                    AppSpacing.lg,
+                    AppSpacing.lg,
+                  ),
               child: child,
             ),
           ],
@@ -162,7 +175,7 @@ class SurfaceContainer extends StatelessWidget {
     }
 
     Widget container = Padding(
-      padding: margin ?? AppSpacing.paddingMd,
+      padding: margin ?? AppSpacing.paddingSm,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: minWidth ?? 0,

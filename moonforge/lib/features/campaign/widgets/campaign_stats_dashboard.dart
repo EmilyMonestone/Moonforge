@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/design/app_spacing.dart';
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
+import 'package:moonforge/layout/breakpoints.dart';
 
 /// Dashboard widget showing campaign statistics and overview
 class CampaignStatsDashboard extends StatelessWidget {
@@ -34,8 +36,8 @@ class CampaignStatsDashboard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(4.0),
           child: Wrap(
-            spacing: 16,
-            runSpacing: 16,
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
             children: [
               _StatCard(
                 icon: DomainType.chapter.icon,
@@ -107,20 +109,27 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appSize = AppSizeClass.of(context);
+
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: AppSpacing.paddingLg,
         child: SizedBox(
-          width: 120,
+          width: appSize == SizeClass.compact ? 80 : 120,
           child: Column(
             children: [
-              Icon(icon, size: 32, color: color),
-              const SizedBox(height: 8),
-              Text(
-                value,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(icon, size: 32, color: color),
+                  const SizedBox(height: 8),
+                  Text(
+                    value,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 4),
               Text(

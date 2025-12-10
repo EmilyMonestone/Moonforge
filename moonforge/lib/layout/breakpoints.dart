@@ -21,6 +21,12 @@ class AppSizeClass {
   }
 
   /// Convenience helper to derive size class from [BuildContext].
+  ///
+  /// Example:
+  /// ```dart
+  /// final sizeClass = AppSizeClass.of(context);
+  /// if (sizeClass == SizeClass.compact) {
+  /// ```
   static SizeClass of(BuildContext context) =>
       fromWidth(MediaQuery.sizeOf(context).width);
 

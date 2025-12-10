@@ -6,7 +6,6 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart';
-import 'package:moonforge/core/design/design_system.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/widgets/navigation_history_service.dart';
@@ -17,12 +16,14 @@ import 'package:toastification/toastification.dart';
 class App extends StatefulWidget {
   const App({super.key});
 
-  static final _defaultLightColorScheme = ColorScheme.fromSwatch(
-    primarySwatch: Colors.purple,
+  static final _defaultLightColorScheme = ColorScheme.fromSeed(
+    //seedColor: Color(0xFFA855F7).toMaterialColor,
+    seedColor: Colors.purpleAccent,
   );
 
-  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
-    primarySwatch: Colors.purple,
+  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
+    //seedColor: Color(0xFFA855F7).toMaterialColor,
+    seedColor: Colors.purpleAccent,
     brightness: Brightness.dark,
   );
 
@@ -43,24 +44,24 @@ class _AppState extends State<App> {
               onGenerateTitle: (context) =>
                   AppLocalizations.of(context)!.appTitle,
               theme: ThemeData(
-                colorScheme: lightDynamic ?? App._defaultLightColorScheme,
+                colorScheme: App._defaultLightColorScheme,
                 useMaterial3: true,
-                extensions: [
+                /*                extensions: [
                   AppThemeExtension.light(
                     lightDynamic ?? App._defaultLightColorScheme,
                   ),
-                ],
+                ],*/
               ).colorScheme.toM3EThemeData(),
 
               darkTheme: ThemeData(
-                colorScheme: darkDynamic ?? App._defaultDarkColorScheme,
+                colorScheme: App._defaultDarkColorScheme,
                 useMaterial3: true,
                 brightness: Brightness.dark,
-                extensions: [
+                /*                extensions: [
                   AppThemeExtension.dark(
                     darkDynamic ?? App._defaultDarkColorScheme,
                   ),
-                ],
+                ],*/
               ).colorScheme.toM3EThemeData(),
 
               themeMode: appSettings.themeMode,
