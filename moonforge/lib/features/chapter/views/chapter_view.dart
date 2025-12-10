@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart'
     show BuildContextM3EX, ButtonM3E, ButtonM3EStyle, ButtonM3EShape;
 import 'package:moonforge/core/design/domain_visuals.dart';
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -13,6 +14,8 @@ import 'package:moonforge/core/widgets/surface_container.dart';
 import 'package:moonforge/core/widgets/wrap_layout.dart';
 import 'package:moonforge/data/db/app_db.dart' as db;
 import 'package:moonforge/features/campaign/controllers/campaign_provider.dart';
+import 'package:moonforge/features/chapter/services/chapter_navigation_service.dart';
+import 'package:moonforge/features/chapter/widgets/chapter_navigation_widget.dart';
 import 'package:moonforge/features/home/widgets/card_list.dart';
 import 'package:moonforge/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -97,6 +100,7 @@ class _ChapterViewState extends State<ChapterView> {
     }
 
     _controller.readOnly = true;
+    final chapterNav = getIt<ChapterNavigationService>();
 
     return Column(
       children: [
@@ -155,6 +159,25 @@ class _ChapterViewState extends State<ChapterView> {
               campaignId: campaign.id,
               chapterId: widget.chapterId,
             ),
+            FutureBuilder<int?>(
+              future: chapterNav.getChapterPosition(widget.chapterId),
+              builder: (context, snapshot) {
+                final position = snapshot.data;
+                return FutureBuilder<int>(
+                  future: chapterNav.getTotalChapters(campaign.id),
+                  builder: (context, totalSnapshot) {
+                    if (position == null || !totalSnapshot.hasData) {
+                      return const SizedBox.shrink();
+                    }
+                    return ChapterNavigationWidget(
+                      currentChapter: chapter,
+                      currentPosition: position,
+                      totalChapters: totalSnapshot.data,
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ],
@@ -196,7 +219,7 @@ class _AdventuresSection extends StatelessWidget {
           }
           return CardList<db.Adventure>(
             items: adventures,
-            titleOf: (a) => a.name,
+            titleOf: (a) => '${(a.order ?? 0) + 1}. ${a.name}',
             subtitleOf: (a) => a.summary ?? '',
             onTap: (a) => AdventureRouteData(
               chapterId: chapterId,

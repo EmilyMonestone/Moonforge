@@ -27,6 +27,15 @@ class AdventureDao extends DatabaseAccessor<AppDb> with _$AdventureDaoMixin {
   Future<int> deleteById(String id) =>
       (delete(adventures)..where((a) => a.id.equals(id))).go();
 
+  Future<int> countByChapter(String chapterId) async {
+    final countExpr = adventures.id.count();
+    final query = selectOnly(adventures)
+      ..where(adventures.chapterId.equals(chapterId))
+      ..addColumns([countExpr]);
+    final row = await query.getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
   /// Custom query with custom filter, custom sort and custom limit
   Future<List<Adventure>> customQuery({
     Expression<bool> Function(Adventures a)? filter,

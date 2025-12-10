@@ -430,18 +430,22 @@ class NotificationService {
         break;
     }
 
-    toastification.show(
-      context: context,
-      type: type,
-      style: ToastificationStyle.flatColored,
-      title: title,
-      description: description,
-      autoCloseDuration: duration,
-      pauseOnHover: true,
-      dragToClose: true,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      primaryColor: primaryColor,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final element = context is Element ? context : null;
+      if (element != null && !element.mounted) return;
+      toastification.show(
+        context: context,
+        type: type,
+        style: ToastificationStyle.flatColored,
+        title: title,
+        description: description,
+        autoCloseDuration: duration,
+        pauseOnHover: true,
+        dragToClose: true,
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        primaryColor: primaryColor,
+      );
+    });
   }
 }

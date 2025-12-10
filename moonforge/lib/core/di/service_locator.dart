@@ -10,6 +10,7 @@ import 'package:moonforge/data/repo/party_repository.dart';
 import 'package:moonforge/data/repo/player_repository.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
 import 'package:moonforge/data/repo/session_repository.dart';
+import 'package:moonforge/features/adventure/services/adventure_navigation_service.dart';
 import 'package:moonforge/features/adventure/services/adventure_service.dart';
 import 'package:moonforge/features/campaign/services/campaign_service.dart';
 import 'package:moonforge/features/chapter/services/chapter_navigation_service.dart';
@@ -144,7 +145,10 @@ Future<void> setupServiceLocator({required AppDb db}) async {
   }
   if (!getIt.isRegistered<SceneNavigationService>()) {
     getIt.registerLazySingleton<SceneNavigationService>(
-      () => SceneNavigationService(getIt<SceneRepository>()),
+      () => SceneNavigationService(
+        sceneRepository: getIt<SceneRepository>(),
+        adventureRepository: getIt<AdventureRepository>(),
+      ),
     );
   }
   if (!getIt.isRegistered<SessionSharingService>()) {
@@ -155,6 +159,11 @@ Future<void> setupServiceLocator({required AppDb db}) async {
   if (!getIt.isRegistered<CombatantService>()) {
     getIt.registerLazySingleton<CombatantService>(
       () => CombatantService(getIt<CombatantRepository>()),
+    );
+  }
+  if (!getIt.isRegistered<AdventureNavigationService>()) {
+    getIt.registerLazySingleton<AdventureNavigationService>(
+      () => AdventureNavigationService(getIt<AdventureRepository>()),
     );
   }
 }

@@ -27,6 +27,12 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
 
     // Ensure SyncCoordinator provider is realized even if laziness interferes
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!getIt.isRegistered<SyncCoordinator>()) {
+        logger.w(
+          'SyncCoordinator provider not registered in AppStateInitializer.',
+        );
+        return;
+      }
       try {
         // Accessing it ensures the provider is created and started
         final _ = getIt<SyncCoordinator>();

@@ -70,26 +70,17 @@ class CampaignHeader extends StatelessWidget {
                       const CampaignSettingsRouteData().go(context);
                     },
                   ),
-                ButtonGroupM3EAction(
-                  label: Text(l10n.analytics),
-                  icon: const Icon(Icons.analytics_outlined),
-                  onPressed: () {},
-                ),
-                ButtonGroupM3EAction(
+                //TODO: Implement duplicate and export actions
+                /*                ButtonGroupM3EAction(
                   label: Text(l10n.duplicate),
                   icon: const Icon(Icons.content_copy_outlined),
                   onPressed: () {},
-                ),
-                ButtonGroupM3EAction(
-                  label: Text(l10n.archive),
-                  icon: const Icon(Icons.archive_outlined),
-                  onPressed: () {},
-                ),
-                ButtonGroupM3EAction(
+                ),*/
+                /*                ButtonGroupM3EAction(
                   label: Text(l10n.export),
                   icon: const Icon(Icons.download_outlined),
                   onPressed: () {},
-                ),
+                ),*/
               ],
             ),
           ),

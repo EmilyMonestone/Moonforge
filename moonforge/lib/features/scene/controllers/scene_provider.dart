@@ -1,15 +1,19 @@
+import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/async_state.dart';
 import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/scene_repository.dart';
+import 'package:moonforge/features/scene/services/scene_navigation_service.dart';
 
 /// Provider for managing scene state and navigation
 class SceneProvider extends BaseAsyncProvider<Scene?> {
   static const String _currentSceneKey = 'current_scene_id';
   final PersistenceService _persistence = PersistenceService();
   final SceneRepository _sceneRepository;
+  final SceneNavigationService _navigationService =
+      getIt<SceneNavigationService>();
 
   Scene? _currentScene;
   List<Scene> _scenesInAdventure = [];
@@ -43,15 +47,10 @@ class SceneProvider extends BaseAsyncProvider<Scene?> {
   /// Set the current scene
   Future<void> setCurrentScene(Scene? scene) async {
     _currentScene = scene;
-
-    // Persist the scene ID
     if (scene != null) {
       _persistence.write(_currentSceneKey, scene.id);
-      logger.i('Persisted scene ID: ${scene.id}');
-
-      // Load scenes in the same adventure for navigation
       await _loadScenesInAdventure(scene.adventureId);
-
+      await _navigationService.navigateToScene(scene.id);
       // Check completion status
       _isCompleted = _checkSceneCompletion(scene);
       updateState(AsyncState.data(scene));
