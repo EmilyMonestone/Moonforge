@@ -79,6 +79,7 @@ class DesktopCompactScaffold extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         surfaceTintColor: Theme.of(context).colorScheme.surface,
         flexibleSpace: topbar.WindowTopBar(
+          isCompact: true,
           leading: breadcrumbs,
         ),
         centerTitle: false,

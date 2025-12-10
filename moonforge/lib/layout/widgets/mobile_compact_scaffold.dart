@@ -89,6 +89,7 @@ class MobileCompactScaffold extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         foregroundColor: Theme.of(context).colorScheme.onSurface,
         flexibleSpace: topbar.WindowTopBar(
+          isCompact: true,
           leading: breadcrumbs,
           trailing: const SizedBox.shrink(),
         ),
