@@ -43,7 +43,7 @@ class DesktopCompactScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     // Check if TOC is available
     final tocController = TocProvider.of(context);
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -53,7 +53,7 @@ class DesktopCompactScaffold extends StatelessWidget {
         flexibleSpace: topbar.WindowTopBar(
           isCompact: true,
           leading: breadcrumbs,
-          trailing: tocController != null
+          trailing: tocController != null && tocController.entries.isNotEmpty
               ? TocButton(controller: tocController)
               : null,
         ),
@@ -78,9 +78,7 @@ class DesktopCompactScaffold extends StatelessWidget {
               ],
             ),
             const VerticalDivider(width: 1),
-            Expanded(
-              child: ScrollableBody(child: body),
-            ),
+            Expanded(child: ScrollableBody(child: body)),
           ],
         ),
       ),

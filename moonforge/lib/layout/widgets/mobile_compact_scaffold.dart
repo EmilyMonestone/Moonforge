@@ -46,8 +46,9 @@ class MobileCompactScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary =
-        tabs.length <= kMaxBottomNavTabs ? tabs : tabs.take(kMaxBottomNavTabs).toList();
+    final primary = tabs.length <= kMaxBottomNavTabs
+        ? tabs
+        : tabs.take(kMaxBottomNavTabs).toList();
     final overflow = tabs.length > kMaxBottomNavTabs
         ? tabs.skip(kMaxBottomNavTabs).toList()
         : const <TabSpec>[];
@@ -65,7 +66,7 @@ class MobileCompactScaffold extends StatelessWidget {
         automaticallyImplyLeading: false,
         toolbarHeight: 56,
         actions: [
-          if (tocController != null)
+          if (tocController != null && tocController.entries.isNotEmpty)
             TocButton(controller: tocController),
         ],
       ),
@@ -75,9 +76,11 @@ class MobileCompactScaffold extends StatelessWidget {
             : Row(
                 children: [
                   NavigationRail(
-                    selectedIndex:
-                        selectedIndex >= kMaxBottomNavTabs ? selectedIndex - kMaxBottomNavTabs : null,
-                    onDestinationSelected: (i) => onSelect(context, kMaxBottomNavTabs + i),
+                    selectedIndex: selectedIndex >= kMaxBottomNavTabs
+                        ? selectedIndex - kMaxBottomNavTabs
+                        : null,
+                    onDestinationSelected: (i) =>
+                        onSelect(context, kMaxBottomNavTabs + i),
                     labelType: NavigationRailLabelType.all,
                     scrollable: true,
                     destinations: [
@@ -89,9 +92,7 @@ class MobileCompactScaffold extends StatelessWidget {
                     ],
                   ),
                   const VerticalDivider(width: 1),
-                  Expanded(
-                    child: ScrollableBody(child: body),
-                  ),
+                  Expanded(child: ScrollableBody(child: body)),
                 ],
               ),
       ),
