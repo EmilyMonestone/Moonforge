@@ -4,12 +4,20 @@ import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/repositories/menu_registry.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 
+/// @deprecated This widget has been superseded by platform-specific scaffolds.
+/// Use [MobileCompactScaffold] or [DesktopCompactScaffold] instead.
+/// See docs/architecture/layout-widgets.md for details.
+///
 /// A scaffold optimized for compact/phone layouts.
 ///
 /// Uses a `WindowTopBar` for the app bar area and adapts navigation to a
 /// `NavigationBar` with optional overflow handling via a `NavigationRail` and
 /// bottom sheet for additional actions. The scaffold keeps a consistent
 /// visual chrome and supports breadcrumb injection.
+@Deprecated(
+  'Use MobileCompactScaffold or DesktopCompactScaffold instead. '
+  'See docs/architecture/layout-widgets.md for migration guide.',
+)
 class AdaptiveCompactScaffold extends StatelessWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the
   /// navigation bar or overflow rail.
