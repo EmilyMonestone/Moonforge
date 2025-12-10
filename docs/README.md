@@ -25,6 +25,7 @@ Flutter.
 - **[Sessions](features/sessions.md)** - Session planning and logs
 - **[Media](features/media.md)** - Media library and Firebase Storage
 - **[Multi-Window](features/multi-window.md)** - Multi-window support (desktop/web)
+- **[Feature Ideas](features/feature-ideas.md)** - Potential future enhancements (not yet implemented)
 
 ### Development
 
