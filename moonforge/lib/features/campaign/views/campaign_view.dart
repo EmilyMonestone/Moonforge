@@ -34,7 +34,6 @@ class _CampaignViewState extends State<CampaignView> {
 
   // Keep dedicated controllers/nodes to dispose properly.
   final ScrollController _quillScrollController = ScrollController();
-  final ScrollController _mainScrollController = ScrollController();
   final FocusNode _quillFocusNode = FocusNode();
 
   Campaign? _lastCampaign;
@@ -130,7 +129,6 @@ class _CampaignViewState extends State<CampaignView> {
   @override
   void dispose() {
     _quillScrollController.dispose();
-    _mainScrollController.dispose();
     _quillFocusNode.dispose();
     _controller.dispose();
     super.dispose();
@@ -148,79 +146,75 @@ class _CampaignViewState extends State<CampaignView> {
     final service = getIt<CampaignService>();
 
     return TocScope(
-      scrollController: _mainScrollController,
       entries: _tocEntries,
-      child: SingleChildScrollView(
-        controller: _mainScrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              key: _overviewKey,
-              child: CampaignHeader(campaign: campaign),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            key: _overviewKey,
+            child: CampaignHeader(campaign: campaign),
+          ),
+          Container(
+            key: _statsKey,
+            child: CampaignStatsDashboard(campaign: campaign, service: service),
+          ),
+          Container(
+            key: _descriptionKey,
+            child: SurfaceContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.shortDescription,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        // Show description when non-empty; otherwise the fallback.
+                        campaign.description.trim().isNotEmpty
+                            ? campaign.description
+                            : l10n.noDescriptionProvided,
+                      ),
+                    ],
+                  ),
+                  CustomQuillViewer(
+                    controller: _controller,
+                    onMentionTap: (entityId, mentionType) async {
+                      EntityRouteData(entityId: entityId).push(context);
+                    },
+                  ),
+                ],
+              ),
             ),
-            Container(
-              key: _statsKey,
-              child: CampaignStatsDashboard(campaign: campaign, service: service),
-            ),
-            Container(
-              key: _descriptionKey,
-              child: SurfaceContainer(
+          ),
+          WrapLayout(
+            children: [
+              Container(
+                key: _chaptersKey,
+                child: ChaptersSection(campaign: campaign),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: CampaignEntitiesWidget(campaignId: campaign.id),
+              ),
+              Container(
+                key: _recentKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: context.m3e.spacing.sm,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.shortDescription,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          // Show description when non-empty; otherwise the fallback.
-                          campaign.description.trim().isNotEmpty
-                              ? campaign.description
-                              : l10n.noDescriptionProvided,
-                        ),
-                      ],
-                    ),
-                    CustomQuillViewer(
-                      controller: _controller,
-                      onMentionTap: (entityId, mentionType) async {
-                        EntityRouteData(entityId: entityId).push(context);
-                      },
-                    ),
+                    RecentChaptersSection(campaign: campaign),
+                    RecentAdventuresSection(campaign: campaign),
+                    RecentScenesSection(campaign: campaign),
+                    RecentSessionsSection(campaign: campaign),
                   ],
                 ),
               ),
-            ),
-            WrapLayout(
-              children: [
-                Container(
-                  key: _chaptersKey,
-                  child: ChaptersSection(campaign: campaign),
-                ),
-                Container(
-                  key: _entitiesKey,
-                  child: CampaignEntitiesWidget(campaignId: campaign.id),
-                ),
-                Container(
-                  key: _recentKey,
-                  child: Column(
-                    children: [
-                      RecentChaptersSection(campaign: campaign),
-                      RecentAdventuresSection(campaign: campaign),
-                      RecentScenesSection(campaign: campaign),
-                      RecentSessionsSection(campaign: campaign),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

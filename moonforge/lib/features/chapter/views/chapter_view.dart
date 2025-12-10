@@ -34,7 +34,6 @@ class ChapterView extends StatefulWidget {
 class _ChapterViewState extends State<ChapterView> {
   QuillController _controller = QuillController.basic();
   db.Chapter? _lastChapter;
-  final ScrollController _mainScrollController = ScrollController();
 
   // TOC section keys
   final _chapterKey = GlobalKey();
@@ -79,7 +78,6 @@ class _ChapterViewState extends State<ChapterView> {
 
   @override
   void dispose() {
-    _mainScrollController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -154,102 +152,98 @@ class _ChapterViewState extends State<ChapterView> {
     final chapterNav = getIt<ChapterNavigationService>();
 
     return TocScope(
-      scrollController: _mainScrollController,
       entries: _tocEntries,
-      child: SingleChildScrollView(
-        controller: _mainScrollController,
-        child: Column(
-          children: [
-            Container(
-              key: _chapterKey,
-              child: SurfaceContainer(
-                title: Row(
-                  children: [
-                    Text(
-                      chapter.name,
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                    Spacer(),
-                    ButtonM3E(
-                      style: ButtonM3EStyle.tonal,
-                      shape: ButtonM3EShape.square,
-                      icon: Icon(Icons.edit_outlined),
-                      label: Text(l10n.edit),
-                      onPressed: () {
-                        ChapterEditRouteData(chapterId: widget.chapterId).go(context);
-                      },
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: context.m3e.spacing.sm,
-                  children: [
-                    if ((chapter.summary ?? '').trim().isNotEmpty)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Summary',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(chapter.summary ?? ''),
-                        ],
-                      ),
-                    if (chapter.content != null && (_controller.document.length > 0))
-                      CustomQuillViewer(
-                        controller: _controller,
-                        onMentionTap: (entityId, mentionType) async {
-                          EntityRouteData(entityId: entityId).push(context);
-                        },
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            WrapLayout(
-              children: [
-                Container(
-                  key: _adventuresKey,
-                  child: _AdventuresSection(
-                    campaignId: campaign.id,
-                    chapterId: widget.chapterId,
+      child: Column(
+        children: [
+          Container(
+            key: _chapterKey,
+            child: SurfaceContainer(
+              title: Row(
+                children: [
+                  Text(
+                    chapter.name,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
-                ),
-                Container(
-                  key: _entitiesKey,
-                  child: ChapterEntitiesWidget(
-                    campaignId: campaign.id,
-                    chapterId: widget.chapterId,
-                  ),
-                ),
-                Container(
-                  key: _navigationKey,
-                  child: FutureBuilder<int?>(
-                    future: chapterNav.getChapterPosition(widget.chapterId),
-                    builder: (context, snapshot) {
-                      final position = snapshot.data;
-                      return FutureBuilder<int>(
-                        future: chapterNav.getTotalChapters(campaign.id),
-                        builder: (context, totalSnapshot) {
-                          if (position == null || !totalSnapshot.hasData) {
-                            return const SizedBox.shrink();
-                          }
-                          return ChapterNavigationWidget(
-                            currentChapter: chapter,
-                            currentPosition: position,
-                            totalChapters: totalSnapshot.data,
-                          );
-                        },
-                      );
+                  Spacer(),
+                  ButtonM3E(
+                    style: ButtonM3EStyle.tonal,
+                    shape: ButtonM3EShape.square,
+                    icon: Icon(Icons.edit_outlined),
+                    label: Text(l10n.edit),
+                    onPressed: () {
+                      ChapterEditRouteData(chapterId: widget.chapterId).go(context);
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
+                children: [
+                  if ((chapter.summary ?? '').trim().isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Summary',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(chapter.summary ?? ''),
+                      ],
+                    ),
+                  if (chapter.content != null && (_controller.document.length > 0))
+                    CustomQuillViewer(
+                      controller: _controller,
+                      onMentionTap: (entityId, mentionType) async {
+                        EntityRouteData(entityId: entityId).push(context);
+                      },
+                    ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          WrapLayout(
+            children: [
+              Container(
+                key: _adventuresKey,
+                child: _AdventuresSection(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: ChapterEntitiesWidget(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _navigationKey,
+                child: FutureBuilder<int?>(
+                  future: chapterNav.getChapterPosition(widget.chapterId),
+                  builder: (context, snapshot) {
+                    final position = snapshot.data;
+                    return FutureBuilder<int>(
+                      future: chapterNav.getTotalChapters(campaign.id),
+                      builder: (context, totalSnapshot) {
+                        if (position == null || !totalSnapshot.hasData) {
+                          return const SizedBox.shrink();
+                        }
+                        return ChapterNavigationWidget(
+                          currentChapter: chapter,
+                          currentPosition: position,
+                          totalChapters: totalSnapshot.data,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

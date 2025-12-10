@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/data/providers/sync_state_provider.dart';
 import 'package:moonforge/data/widgets/sync_state_widget.dart';
@@ -39,9 +41,41 @@ class AppNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = Provider.of<AppSettingsProvider>(context);
     final syncState = Provider.of<SyncStateProvider>(context);
+    final tocController = TocProvider.of(context);
+
+    logger.d('AppNavigationRail: Building - TOC controller: ${tocController != null ? "found with ${tocController.entries.length} entries" : "null"}');
 
     // For mobile compact, always use collapsed. Otherwise, respect user settings.
     final shouldExpand = !forceCollapsed && settings.isRailNavExtended;
+
+    // Build destinations sections
+    final sections = <NavigationRailM3ESection>[
+      // Main navigation section
+      NavigationRailM3ESection(
+        destinations: [
+          for (final tab in tabs)
+            NavigationRailM3EDestination(
+              icon: Icon(tab.icon),
+              label: tab.label,
+            ),
+        ],
+      ),
+      // TOC section if available
+      if (tocController != null && tocController.entries.isNotEmpty)
+        NavigationRailM3ESection(
+          title: shouldExpand ? Text('Contents') : null,
+          destinations: [
+            for (final entry in tocController.entries)
+              NavigationRailM3EDestination(
+                icon: entry.icon != null ? Icon(entry.icon) : const Icon(Icons.article_outlined),
+                label: entry.title,
+                padding: EdgeInsets.only(left: entry.level * 12.0),
+              ),
+          ],
+        ),
+    ];
+
+    logger.d('AppNavigationRail: Created ${sections.length} sections');
 
     return NavigationRailM3E(
       type: shouldExpand
@@ -49,18 +83,18 @@ class AppNavigationRail extends StatelessWidget {
           : NavigationRailM3EType.collapsed,
       selectedIndex: selectedIndex,
       expandedWidth: 300,
-      onDestinationSelected: (i) => onSelect(context, i),
-      sections: [
-        NavigationRailM3ESection(
-          destinations: [
-            for (final tab in tabs)
-              NavigationRailM3EDestination(
-                icon: Icon(tab.icon),
-                label: tab.label,
-              ),
-          ],
-        ),
-      ],
+      onDestinationSelected: (i) {
+        // Check if this is a TOC item
+        if (tocController != null && i >= tabs.length) {
+          final tocIndex = i - tabs.length;
+          if (tocIndex < tocController.entries.length) {
+            tocController.scrollToEntry(tocController.entries[tocIndex]);
+          }
+        } else {
+          onSelect(context, i);
+        }
+      },
+      sections: sections,
       scrollable: true,
       onTypeChanged: (NavigationRailM3EType type) {},
       trailingAtBottom: true,
