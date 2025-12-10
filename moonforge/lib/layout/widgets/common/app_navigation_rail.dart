@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart';
+import 'package:moonforge/core/models/toc_declaration.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
 import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
@@ -41,10 +42,11 @@ class AppNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = Provider.of<AppSettingsProvider>(context);
     final syncState = Provider.of<SyncStateProvider>(context);
+    final tocEntries = TocDeclaration.of(context);
     final tocController = TocProvider.of(context);
 
     logger.d(
-      'AppNavigationRail: Building - TOC controller: ${tocController != null ? "found with ${tocController.entries.length} entries" : "null"}',
+      'AppNavigationRail: Building - TOC entries: ${tocEntries != null ? "${tocEntries.length} from TocDeclaration" : "null"}, controller: ${tocController != null ? "found" : "null"}',
     );
 
     // For mobile compact, always use collapsed. Otherwise, respect user settings.
@@ -63,10 +65,10 @@ class AppNavigationRail extends StatelessWidget {
         ],
       ),
       // TOC section if available
-      if (tocController != null && tocController.entries.isNotEmpty)
+      if (tocEntries != null && tocEntries.isNotEmpty)
         NavigationRailM3ESection(
           destinations: [
-            for (final entry in tocController.entries)
+            for (final entry in tocEntries)
               NavigationRailM3EDestination(
                 icon: entry.icon != null
                     ? Icon(entry.icon)
@@ -89,10 +91,10 @@ class AppNavigationRail extends StatelessWidget {
       expandedWidth: 300,
       onDestinationSelected: (i) {
         // Check if this is a TOC item
-        if (tocController != null && i >= tabs.length) {
+        if (tocController != null && tocEntries != null && i >= tabs.length) {
           final tocIndex = i - tabs.length;
-          if (tocIndex < tocController.entries.length) {
-            tocController.scrollToEntry(tocController.entries[tocIndex]);
+          if (tocIndex < tocEntries.length) {
+            tocController.scrollToEntry(tocEntries[tocIndex]);
           }
         } else {
           onSelect(context, i);
