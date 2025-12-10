@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/controllers/toc_controller.dart';
 import 'package:moonforge/core/models/toc_entry.dart';
 import 'package:moonforge/core/utils/logger.dart';
+import 'package:moonforge/layout/widgets/common/scrollable_body.dart';
 
 /// Provider for managing Table of Contents entries for the current page.
 ///
@@ -36,7 +37,7 @@ class TocProvider extends InheritedNotifier<TocController> {
 /// the active TOC entry as the user scrolls.
 /// 
 /// Note: The scroll controller will be provided by the ScrollableBody in the
-/// layout. Do not wrap this in a SingleChildScrollView.
+/// layout via ScrollControllerProvider. Do not wrap this in a SingleChildScrollView.
 class TocScope extends StatefulWidget {
   const TocScope({
     super.key,
@@ -46,7 +47,7 @@ class TocScope extends StatefulWidget {
   });
 
   /// Optional scroll controller for the page content.
-  /// If null, will attempt to get it from _ScrollControllerProvider in the widget tree.
+  /// If null, will attempt to get it from ScrollControllerProvider in the widget tree.
   final ScrollController? scrollController;
 
   /// The list of TOC entries for this page
@@ -69,7 +70,7 @@ class _TocScopeState extends State<TocScope> {
     
     // Get scroll controller from widget or context
     final scrollController = widget.scrollController ?? 
-        context.dependOnInheritedWidgetOfExactType<_ScrollControllerProvider>()?.scrollController;
+        ScrollControllerProvider.of(context);
     
     logger.d('TocScope: didChangeDependencies - scrollController: ${scrollController != null ? "found" : "null"}, entries: ${widget.entries.length}');
     
@@ -131,21 +132,5 @@ class _TocScopeState extends State<TocScope> {
       controller: _controller!,
       child: widget.child,
     );
-  }
-}
-
-/// InheritedWidget to provide scroll controller to TocScope
-/// This is used by ScrollableBody to inject its scroll controller
-class _ScrollControllerProvider extends InheritedWidget {
-  final ScrollController scrollController;
-
-  const _ScrollControllerProvider({
-    required this.scrollController,
-    required super.child,
-  });
-
-  @override
-  bool updateShouldNotify(_ScrollControllerProvider oldWidget) {
-    return scrollController != oldWidget.scrollController;
   }
 }

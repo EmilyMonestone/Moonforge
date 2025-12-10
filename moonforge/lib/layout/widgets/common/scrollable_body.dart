@@ -92,7 +92,7 @@ class _InjectScrollController extends StatelessWidget {
   Widget build(BuildContext context) {
     // The child will be the page content, potentially wrapped in TocScope
     // We need to provide the scroll controller to TocScope
-    return _ScrollControllerProvider(
+    return ScrollControllerProvider(
       scrollController: scrollController,
       child: child,
     );
@@ -100,22 +100,24 @@ class _InjectScrollController extends StatelessWidget {
 }
 
 /// InheritedWidget to provide scroll controller to TocScope
-class _ScrollControllerProvider extends InheritedWidget {
+/// This is used by ScrollableBody to inject its scroll controller
+class ScrollControllerProvider extends InheritedWidget {
   final ScrollController scrollController;
 
-  const _ScrollControllerProvider({
+  const ScrollControllerProvider({
+    super.key,
     required this.scrollController,
     required super.child,
   });
 
   static ScrollController? of(BuildContext context) {
     return context
-        .dependOnInheritedWidgetOfExactType<_ScrollControllerProvider>()
+        .dependOnInheritedWidgetOfExactType<ScrollControllerProvider>()
         ?.scrollController;
   }
 
   @override
-  bool updateShouldNotify(_ScrollControllerProvider oldWidget) {
+  bool updateShouldNotify(ScrollControllerProvider oldWidget) {
     return scrollController != oldWidget.scrollController;
   }
 }
