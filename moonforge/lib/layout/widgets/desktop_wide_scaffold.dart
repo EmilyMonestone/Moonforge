@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
+import 'package:moonforge/core/widgets/table_of_contents.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/common/app_navigation_rail.dart';
@@ -40,6 +42,10 @@ class DesktopWideScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if TOC is available
+    final tocController = TocProvider.of(context);
+    final showToc = tocController != null && tocController.entries.isNotEmpty;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -71,6 +77,14 @@ class DesktopWideScaffold extends StatelessWidget {
                 child: ScrollableBody(child: body),
               ),
             ),
+            // TOC sidebar on the right
+            if (showToc) ...[
+              const VerticalDivider(width: 1),
+              Container(
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: TableOfContents(controller: tocController),
+              ),
+            ],
           ],
         ),
       ),
