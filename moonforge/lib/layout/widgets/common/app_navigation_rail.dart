@@ -43,7 +43,9 @@ class AppNavigationRail extends StatelessWidget {
     final syncState = Provider.of<SyncStateProvider>(context);
     final tocController = TocProvider.of(context);
 
-    logger.d('AppNavigationRail: Building - TOC controller: ${tocController != null ? "found with ${tocController.entries.length} entries" : "null"}');
+    logger.d(
+      'AppNavigationRail: Building - TOC controller: ${tocController != null ? "found with ${tocController.entries.length} entries" : "null"}',
+    );
 
     // For mobile compact, always use collapsed. Otherwise, respect user settings.
     final shouldExpand = !forceCollapsed && settings.isRailNavExtended;
@@ -63,11 +65,13 @@ class AppNavigationRail extends StatelessWidget {
       // TOC section if available
       if (tocController != null && tocController.entries.isNotEmpty)
         NavigationRailM3ESection(
-          title: shouldExpand ? Text('Contents') : null,
+          header: shouldExpand ? Text('Contents') : null,
           destinations: [
             for (final entry in tocController.entries)
               NavigationRailM3EDestination(
-                icon: entry.icon != null ? Icon(entry.icon) : const Icon(Icons.article_outlined),
+                icon: entry.icon != null
+                    ? Icon(entry.icon)
+                    : const Icon(Icons.article_outlined),
                 label: entry.title,
                 padding: EdgeInsets.only(left: entry.level * 12.0),
               ),
@@ -112,10 +116,7 @@ class AppNavigationRail extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        right: 8.0,
-                      ),
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: SyncStateWidget(
                         state: syncState.state,
                         pendingCount: syncState.pendingCount,
@@ -125,24 +126,25 @@ class AppNavigationRail extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.versionWithNumber(appVersion),
+                      AppLocalizations.of(
+                        context,
+                      )!.versionWithNumber(appVersion),
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     if (AutoUpdaterService.instance.isBeta)
                       Padding(
-                        padding: const EdgeInsets.only(
-                          left: 4.0,
-                          right: 4.0,
-                        ),
+                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                         child: Badge(
                           label: Text(
                             'BETA',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          textColor:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                       ),
                   ],
