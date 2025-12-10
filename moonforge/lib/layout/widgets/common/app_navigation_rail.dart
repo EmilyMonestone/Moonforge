@@ -65,15 +65,15 @@ class AppNavigationRail extends StatelessWidget {
       // TOC section if available
       if (tocController != null && tocController.entries.isNotEmpty)
         NavigationRailM3ESection(
-          header: shouldExpand ? Text('Contents') : null,
           destinations: [
             for (final entry in tocController.entries)
               NavigationRailM3EDestination(
                 icon: entry.icon != null
                     ? Icon(entry.icon)
                     : const Icon(Icons.article_outlined),
-                label: entry.title,
-                padding: EdgeInsets.only(left: entry.level * 12.0),
+                label: entry.level > 0
+                    ? '${"  " * entry.level}${entry.title}'
+                    : entry.title,
               ),
           ],
         ),
