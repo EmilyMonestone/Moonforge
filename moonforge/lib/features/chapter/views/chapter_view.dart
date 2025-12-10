@@ -5,8 +5,8 @@ import 'package:m3e_collection/m3e_collection.dart'
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
-import 'package:moonforge/core/models/toc_declaration.dart';
 import 'package:moonforge/core/models/toc_entry.dart';
+import 'package:moonforge/core/models/toc_notification.dart';
 import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
@@ -152,102 +152,104 @@ class _ChapterViewState extends State<ChapterView> {
     _controller.readOnly = true;
     final chapterNav = getIt<ChapterNavigationService>();
 
-    return TocDeclaration(
+    // Send TOC notification to scaffold
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TocEntriesNotification(_tocEntries).dispatch(context);
+    });
+
+    return TocScope(
       entries: _tocEntries,
-      child: TocScope(
-        entries: _tocEntries,
-        child: Column(
-          children: [
-            Container(
-              key: _chapterKey,
-              child: SurfaceContainer(
-                title: Row(
-                  children: [
-                    Text(
-                      chapter.name,
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                    Spacer(),
-                    ButtonM3E(
-                      style: ButtonM3EStyle.tonal,
-                      shape: ButtonM3EShape.square,
-                      icon: Icon(Icons.edit_outlined),
-                      label: Text(l10n.edit),
-                      onPressed: () {
-                        ChapterEditRouteData(chapterId: widget.chapterId).go(context);
-                      },
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: context.m3e.spacing.sm,
-                  children: [
-                    if ((chapter.summary ?? '').trim().isNotEmpty)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Summary',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(chapter.summary ?? ''),
-                        ],
-                      ),
-                    if (chapter.content != null && (_controller.document.length > 0))
-                      CustomQuillViewer(
-                        controller: _controller,
-                        onMentionTap: (entityId, mentionType) async {
-                          EntityRouteData(entityId: entityId).push(context);
-                        },
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            WrapLayout(
-              children: [
-                Container(
-                  key: _adventuresKey,
-                  child: _AdventuresSection(
-                    campaignId: campaign.id,
-                    chapterId: widget.chapterId,
+      child: Column(
+        children: [
+          Container(
+            key: _chapterKey,
+            child: SurfaceContainer(
+              title: Row(
+                children: [
+                  Text(
+                    chapter.name,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
-                ),
-                Container(
-                  key: _entitiesKey,
-                  child: ChapterEntitiesWidget(
-                    campaignId: campaign.id,
-                    chapterId: widget.chapterId,
-                  ),
-                ),
-                Container(
-                  key: _navigationKey,
-                  child: FutureBuilder<int?>(
-                    future: chapterNav.getChapterPosition(widget.chapterId),
-                    builder: (context, snapshot) {
-                      final position = snapshot.data;
-                      return FutureBuilder<int>(
-                        future: chapterNav.getTotalChapters(campaign.id),
-                        builder: (context, totalSnapshot) {
-                          if (position == null || !totalSnapshot.hasData) {
-                            return const SizedBox.shrink();
-                          }
-                          return ChapterNavigationWidget(
-                            currentChapter: chapter,
-                            currentPosition: position,
-                            totalChapters: totalSnapshot.data,
-                          );
-                        },
-                      );
+                  Spacer(),
+                  ButtonM3E(
+                    style: ButtonM3EStyle.tonal,
+                    shape: ButtonM3EShape.square,
+                    icon: Icon(Icons.edit_outlined),
+                    label: Text(l10n.edit),
+                    onPressed: () {
+                      ChapterEditRouteData(chapterId: widget.chapterId).go(context);
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
+                children: [
+                  if ((chapter.summary ?? '').trim().isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Summary',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(chapter.summary ?? ''),
+                      ],
+                    ),
+                  if (chapter.content != null && (_controller.document.length > 0))
+                    CustomQuillViewer(
+                      controller: _controller,
+                      onMentionTap: (entityId, mentionType) async {
+                        EntityRouteData(entityId: entityId).push(context);
+                      },
+                    ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          WrapLayout(
+            children: [
+              Container(
+                key: _adventuresKey,
+                child: _AdventuresSection(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: ChapterEntitiesWidget(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _navigationKey,
+                child: FutureBuilder<int?>(
+                  future: chapterNav.getChapterPosition(widget.chapterId),
+                  builder: (context, snapshot) {
+                    final position = snapshot.data;
+                    return FutureBuilder<int>(
+                      future: chapterNav.getTotalChapters(campaign.id),
+                      builder: (context, totalSnapshot) {
+                        if (position == null || !totalSnapshot.hasData) {
+                          return const SizedBox.shrink();
+                        }
+                        return ChapterNavigationWidget(
+                          currentChapter: chapter,
+                          currentPosition: position,
+                          totalChapters: totalSnapshot.data,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
 import 'package:moonforge/core/di/service_locator.dart';
-import 'package:moonforge/core/models/toc_declaration.dart';
 import 'package:moonforge/core/models/toc_entry.dart';
+import 'package:moonforge/core/models/toc_notification.dart';
 import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
@@ -146,79 +146,81 @@ class _CampaignViewState extends State<CampaignView> {
 
     final service = getIt<CampaignService>();
 
-    return TocDeclaration(
+    // Send TOC notification to scaffold
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TocEntriesNotification(_tocEntries).dispatch(context);
+    });
+
+    return TocScope(
       entries: _tocEntries,
-      child: TocScope(
-        entries: _tocEntries,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              key: _overviewKey,
-              child: CampaignHeader(campaign: campaign),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            key: _overviewKey,
+            child: CampaignHeader(campaign: campaign),
+          ),
+          Container(
+            key: _statsKey,
+            child: CampaignStatsDashboard(campaign: campaign, service: service),
+          ),
+          Container(
+            key: _descriptionKey,
+            child: SurfaceContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.shortDescription,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        // Show description when non-empty; otherwise the fallback.
+                        campaign.description.trim().isNotEmpty
+                            ? campaign.description
+                            : l10n.noDescriptionProvided,
+                      ),
+                    ],
+                  ),
+                  CustomQuillViewer(
+                    controller: _controller,
+                    onMentionTap: (entityId, mentionType) async {
+                      EntityRouteData(entityId: entityId).push(context);
+                    },
+                  ),
+                ],
+              ),
             ),
-            Container(
-              key: _statsKey,
-              child: CampaignStatsDashboard(campaign: campaign, service: service),
-            ),
-            Container(
-              key: _descriptionKey,
-              child: SurfaceContainer(
+          ),
+          WrapLayout(
+            children: [
+              Container(
+                key: _chaptersKey,
+                child: ChaptersSection(campaign: campaign),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: CampaignEntitiesWidget(campaignId: campaign.id),
+              ),
+              Container(
+                key: _recentKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: context.m3e.spacing.sm,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.shortDescription,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          // Show description when non-empty; otherwise the fallback.
-                          campaign.description.trim().isNotEmpty
-                              ? campaign.description
-                              : l10n.noDescriptionProvided,
-                        ),
-                      ],
-                    ),
-                    CustomQuillViewer(
-                      controller: _controller,
-                      onMentionTap: (entityId, mentionType) async {
-                        EntityRouteData(entityId: entityId).push(context);
-                      },
-                    ),
+                    RecentChaptersSection(campaign: campaign),
+                    RecentAdventuresSection(campaign: campaign),
+                    RecentScenesSection(campaign: campaign),
+                    RecentSessionsSection(campaign: campaign),
                   ],
                 ),
               ),
-            ),
-            WrapLayout(
-              children: [
-                Container(
-                  key: _chaptersKey,
-                  child: ChaptersSection(campaign: campaign),
-                ),
-                Container(
-                  key: _entitiesKey,
-                  child: CampaignEntitiesWidget(campaignId: campaign.id),
-                ),
-                Container(
-                  key: _recentKey,
-                  child: Column(
-                    children: [
-                      RecentChaptersSection(campaign: campaign),
-                      RecentAdventuresSection(campaign: campaign),
-                      RecentScenesSection(campaign: campaign),
-                      RecentSessionsSection(campaign: campaign),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
