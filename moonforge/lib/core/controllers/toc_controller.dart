@@ -52,8 +52,6 @@ class TocController extends ChangeNotifier {
   void updateActiveFromScroll() {
     if (_entries.isEmpty) return;
 
-    // Get the current scroll position
-    final scrollOffset = scrollController.offset;
     final viewportHeight = scrollController.position.viewportDimension;
 
     GlobalKey? newActiveKey;

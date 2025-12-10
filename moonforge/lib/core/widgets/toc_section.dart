@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moonforge/core/models/toc_entry.dart';
-import 'package:moonforge/core/providers/toc_provider.dart';
 
 /// A widget that wraps a section header and automatically registers it
 /// with the TOC system.
