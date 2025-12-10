@@ -5,6 +5,9 @@ import 'package:m3e_collection/m3e_collection.dart'
 import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/di/service_locator.dart';
 import 'package:moonforge/core/models/domain_type.dart';
+import 'package:moonforge/core/models/toc_entry.dart';
+import 'package:moonforge/core/models/toc_notification.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
@@ -32,6 +35,53 @@ class ChapterView extends StatefulWidget {
 class _ChapterViewState extends State<ChapterView> {
   QuillController _controller = QuillController.basic();
   db.Chapter? _lastChapter;
+
+  // TOC section keys
+  final _chapterKey = GlobalKey();
+  final _adventuresKey = GlobalKey();
+  final _entitiesKey = GlobalKey();
+  final _navigationKey = GlobalKey();
+
+  late final List<TocEntry> _tocEntries;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Initialize TOC entries
+    _tocEntries = [
+      TocEntry(
+        key: _chapterKey,
+        title: 'Chapter',
+        icon: Icons.book_outlined,
+        level: 0,
+      ),
+      TocEntry(
+        key: _adventuresKey,
+        title: 'Adventures',
+        icon: Icons.explore_outlined,
+        level: 0,
+      ),
+      TocEntry(
+        key: _entitiesKey,
+        title: 'Entities',
+        icon: Icons.people_outline,
+        level: 0,
+      ),
+      TocEntry(
+        key: _navigationKey,
+        title: 'Navigation',
+        icon: Icons.navigation_outlined,
+        level: 0,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
@@ -102,85 +152,105 @@ class _ChapterViewState extends State<ChapterView> {
     _controller.readOnly = true;
     final chapterNav = getIt<ChapterNavigationService>();
 
-    return Column(
-      children: [
-        SurfaceContainer(
-          title: Row(
-            children: [
-              Text(
-                chapter.name,
-                style: Theme.of(context).textTheme.displaySmall,
+    // Send TOC notification to scaffold
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TocEntriesNotification(_tocEntries).dispatch(context);
+    });
+
+    return TocScope(
+      entries: _tocEntries,
+      child: Column(
+        children: [
+          Container(
+            key: _chapterKey,
+            child: SurfaceContainer(
+              title: Row(
+                children: [
+                  Text(
+                    chapter.name,
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  Spacer(),
+                  ButtonM3E(
+                    style: ButtonM3EStyle.tonal,
+                    shape: ButtonM3EShape.square,
+                    icon: Icon(Icons.edit_outlined),
+                    label: Text(l10n.edit),
+                    onPressed: () {
+                      ChapterEditRouteData(chapterId: widget.chapterId).go(context);
+                    },
+                  ),
+                ],
               ),
-              Spacer(),
-              ButtonM3E(
-                style: ButtonM3EStyle.tonal,
-                shape: ButtonM3EShape.square,
-                icon: Icon(Icons.edit_outlined),
-                label: Text(l10n.edit),
-                onPressed: () {
-                  ChapterEditRouteData(chapterId: widget.chapterId).go(context);
-                },
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: context.m3e.spacing.sm,
-            children: [
-              if ((chapter.summary ?? '').trim().isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Summary',
-                      style: Theme.of(context).textTheme.titleMedium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
+                children: [
+                  if ((chapter.summary ?? '').trim().isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Summary',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(chapter.summary ?? ''),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(chapter.summary ?? ''),
-                  ],
-                ),
-              if (chapter.content != null && (_controller.document.length > 0))
-                CustomQuillViewer(
-                  controller: _controller,
-                  onMentionTap: (entityId, mentionType) async {
-                    EntityRouteData(entityId: entityId).push(context);
-                  },
-                ),
-            ],
+                  if (chapter.content != null && (_controller.document.length > 0))
+                    CustomQuillViewer(
+                      controller: _controller,
+                      onMentionTap: (entityId, mentionType) async {
+                        EntityRouteData(entityId: entityId).push(context);
+                      },
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-        WrapLayout(
-          children: [
-            _AdventuresSection(
-              campaignId: campaign.id,
-              chapterId: widget.chapterId,
-            ),
-            ChapterEntitiesWidget(
-              campaignId: campaign.id,
-              chapterId: widget.chapterId,
-            ),
-            FutureBuilder<int?>(
-              future: chapterNav.getChapterPosition(widget.chapterId),
-              builder: (context, snapshot) {
-                final position = snapshot.data;
-                return FutureBuilder<int>(
-                  future: chapterNav.getTotalChapters(campaign.id),
-                  builder: (context, totalSnapshot) {
-                    if (position == null || !totalSnapshot.hasData) {
-                      return const SizedBox.shrink();
-                    }
-                    return ChapterNavigationWidget(
-                      currentChapter: chapter,
-                      currentPosition: position,
-                      totalChapters: totalSnapshot.data,
+          WrapLayout(
+            children: [
+              Container(
+                key: _adventuresKey,
+                child: _AdventuresSection(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: ChapterEntitiesWidget(
+                  campaignId: campaign.id,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+              Container(
+                key: _navigationKey,
+                child: FutureBuilder<int?>(
+                  future: chapterNav.getChapterPosition(widget.chapterId),
+                  builder: (context, snapshot) {
+                    final position = snapshot.data;
+                    return FutureBuilder<int>(
+                      future: chapterNav.getTotalChapters(campaign.id),
+                      builder: (context, totalSnapshot) {
+                        if (position == null || !totalSnapshot.hasData) {
+                          return const SizedBox.shrink();
+                        }
+                        return ChapterNavigationWidget(
+                          currentChapter: chapter,
+                          currentPosition: position,
+                          totalChapters: totalSnapshot.data,
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ],
-        ),
-      ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

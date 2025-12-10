@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/models/toc_declaration.dart';
+import 'package:moonforge/core/models/toc_entry.dart';
+import 'package:moonforge/core/models/toc_notification.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/common/app_navigation_rail.dart';
@@ -11,7 +14,7 @@ import 'package:moonforge/layout/widgets/common/scrollable_body.dart';
 /// left with expandable/collapsible behavior and places content on the right.
 /// Includes an extended trailing area for user/profile controls and sync status.
 /// Designed for mouse/keyboard interactions typical of desktop environments.
-class DesktopWideScaffold extends StatelessWidget {
+class DesktopWideScaffold extends StatefulWidget {
   /// The list of tabs (objects with `icon` and `label`) shown in the rail.
   final List<TabSpec> tabs;
 
@@ -39,7 +42,31 @@ class DesktopWideScaffold extends StatelessWidget {
   });
 
   @override
+  State<DesktopWideScaffold> createState() => _DesktopWideScaffoldState();
+}
+
+class _DesktopWideScaffoldState extends State<DesktopWideScaffold> {
+  List<TocEntry>? _tocEntries;
+
+  @override
   Widget build(BuildContext context) {
+    final scaffoldBody = Row(
+      children: [
+        AppNavigationRail(
+          tabs: widget.tabs,
+          selectedIndex: widget.selectedIndex,
+          onSelect: widget.onSelect,
+          forceCollapsed: false,
+        ),
+        Expanded(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(12)),
+            child: ScrollableBody(child: widget.body),
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -50,28 +77,23 @@ class DesktopWideScaffold extends StatelessWidget {
         centerTitle: false,
         titleSpacing: 0,
         automaticallyImplyLeading: false,
-        flexibleSpace: topbar.WindowTopBar(
-          leading: breadcrumbs,
-        ),
+        flexibleSpace: topbar.WindowTopBar(leading: widget.breadcrumbs),
       ),
       body: SafeArea(
-        child: Row(
-          children: [
-            AppNavigationRail(
-              tabs: tabs,
-              selectedIndex: selectedIndex,
-              onSelect: onSelect,
-              forceCollapsed: false,
-            ),
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                ),
-                child: ScrollableBody(child: body),
-              ),
-            ),
-          ],
+        child: NotificationListener<TocEntriesNotification>(
+          onNotification: (notification) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                setState(() {
+                  _tocEntries = notification.entries;
+                });
+              }
+            });
+            return true;
+          },
+          child: _tocEntries != null && _tocEntries!.isNotEmpty
+              ? TocDeclaration(entries: _tocEntries!, child: scaffoldBody)
+              : scaffoldBody,
         ),
       ),
     );

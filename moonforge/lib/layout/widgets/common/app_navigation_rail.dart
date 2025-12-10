@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_collection/m3e_collection.dart';
+import 'package:moonforge/core/models/toc_declaration.dart';
 import 'package:moonforge/core/providers/app_settings_provider.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/core/widgets/auth_user_button.dart';
 import 'package:moonforge/data/providers/sync_state_provider.dart';
 import 'package:moonforge/data/widgets/sync_state_widget.dart';
@@ -39,9 +42,50 @@ class AppNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = Provider.of<AppSettingsProvider>(context);
     final syncState = Provider.of<SyncStateProvider>(context);
+    final tocEntries = TocDeclaration.of(context);
+    final tocController = TocProvider.of(context);
+
+    logger.d(
+      'AppNavigationRail: Building - TOC entries: ${tocEntries != null ? "${tocEntries.length} from TocDeclaration" : "null"}, controller: ${tocController != null ? "found" : "null"}',
+    );
 
     // For mobile compact, always use collapsed. Otherwise, respect user settings.
     final shouldExpand = !forceCollapsed && settings.isRailNavExtended;
+
+    // Build destinations sections
+    final sections = <NavigationRailM3ESection>[
+      // Main navigation section
+      NavigationRailM3ESection(
+        destinations: [
+          for (final tab in tabs)
+            NavigationRailM3EDestination(
+              icon: Icon(tab.icon),
+              label: tab.label,
+            ),
+        ],
+      ),
+      // TOC section if available // TODO: Re-enable TOC navigation rail section and fix scrolling
+      /*if (tocEntries != null && tocEntries.isNotEmpty)
+        NavigationRailM3ESection(
+          header: Text(
+            AppLocalizations.of(context)!.tableOfContents,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          destinations: [
+            for (final entry in tocEntries)
+              NavigationRailM3EDestination(
+                icon: entry.icon != null
+                    ? Icon(entry.icon)
+                    : const Icon(Icons.article_outlined),
+                label: entry.level > 0
+                    ? '${"  " * entry.level}${entry.title}'
+                    : entry.title,
+              ),
+          ],
+        ),*/
+    ];
+
+    logger.d('AppNavigationRail: Created ${sections.length} sections');
 
     return NavigationRailM3E(
       type: shouldExpand
@@ -49,23 +93,35 @@ class AppNavigationRail extends StatelessWidget {
           : NavigationRailM3EType.collapsed,
       selectedIndex: selectedIndex,
       expandedWidth: 300,
-      onDestinationSelected: (i) => onSelect(context, i),
-      sections: [
-        NavigationRailM3ESection(
-          destinations: [
-            for (final tab in tabs)
-              NavigationRailM3EDestination(
-                icon: Icon(tab.icon),
-                label: tab.label,
-              ),
-          ],
-        ),
-      ],
+      onDestinationSelected: (i) {
+        // Check if this is a TOC item
+        // TOC items start after the main navigation tabs
+        if (tocController != null && tocEntries != null && i >= tabs.length) {
+          final tocIndex = i - tabs.length;
+          if (tocIndex < tocEntries.length) {
+            logger.d(
+              'AppNavigationRail: Scrolling to TOC entry at index $tocIndex',
+            );
+            tocController.scrollToEntry(tocEntries[tocIndex]);
+            return; // Don't trigger navigation for TOC items
+          }
+        }
+        // Only call onSelect for main navigation tabs
+        if (i < tabs.length) {
+          onSelect(context, i);
+        } else {
+          final tocCount = tocEntries?.length ?? 0;
+          logger.w(
+            'AppNavigationRail: Invalid index $i - valid ranges: tabs [0-${tabs.length - 1}], TOC [${tabs.length}-${tabs.length + tocCount - 1}]',
+          );
+        }
+      },
+      sections: sections,
       scrollable: true,
       onTypeChanged: (NavigationRailM3EType type) {},
       trailingAtBottom: true,
       trailing: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
         child: Builder(
           builder: (context) {
             String appVersion = AppVersion.getVersion();
@@ -78,10 +134,7 @@ class AppNavigationRail extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        right: 8.0,
-                      ),
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: SyncStateWidget(
                         state: syncState.state,
                         pendingCount: syncState.pendingCount,
@@ -91,24 +144,25 @@ class AppNavigationRail extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.versionWithNumber(appVersion),
+                      AppLocalizations.of(
+                        context,
+                      )!.versionWithNumber(appVersion),
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     if (AutoUpdaterService.instance.isBeta)
                       Padding(
-                        padding: const EdgeInsets.only(
-                          left: 4.0,
-                          right: 4.0,
-                        ),
+                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                         child: Badge(
                           label: Text(
                             'BETA',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          textColor:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
+                          textColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                       ),
                   ],

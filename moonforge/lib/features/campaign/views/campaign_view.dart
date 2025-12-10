@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:m3e_collection/m3e_collection.dart' show BuildContextM3EX;
 import 'package:moonforge/core/di/service_locator.dart';
+import 'package:moonforge/core/models/toc_entry.dart';
+import 'package:moonforge/core/models/toc_notification.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/core/widgets/entity_widgets_wrappers.dart';
 import 'package:moonforge/core/widgets/quill_mention/quill_mention.dart';
@@ -36,10 +39,60 @@ class _CampaignViewState extends State<CampaignView> {
 
   Campaign? _lastCampaign;
 
+  // TOC section keys
+  final _overviewKey = GlobalKey();
+  final _statsKey = GlobalKey();
+  final _descriptionKey = GlobalKey();
+  final _chaptersKey = GlobalKey();
+  final _entitiesKey = GlobalKey();
+  final _recentKey = GlobalKey();
+
+  late final List<TocEntry> _tocEntries;
+
   @override
   void initState() {
     super.initState();
     _controller.readOnly = true; // ensure viewer only
+
+    // Initialize TOC entries
+    _tocEntries = [
+      TocEntry(
+        key: _overviewKey,
+        title: 'Overview',
+        icon: Icons.info_outline,
+        level: 0,
+      ),
+      TocEntry(
+        key: _statsKey,
+        title: 'Statistics',
+        icon: Icons.analytics_outlined,
+        level: 0,
+      ),
+      TocEntry(
+        key: _descriptionKey,
+        title: 'Description',
+        icon: Icons.description_outlined,
+        level: 0,
+      ),
+      TocEntry(
+        key: _chaptersKey,
+        title: 'Chapters',
+        icon: Icons.book_outlined,
+        level: 0,
+      ),
+      TocEntry(
+        key: _entitiesKey,
+        title: 'Entities',
+        icon: Icons.people_outline,
+        level: 0,
+      ),
+      TocEntry(
+        key: _recentKey,
+        title: 'Recent Activity',
+        icon: Icons.history,
+        level: 0,
+      ),
+    ];
   }
 
   @override
@@ -93,52 +146,82 @@ class _CampaignViewState extends State<CampaignView> {
 
     final service = getIt<CampaignService>();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CampaignHeader(campaign: campaign),
-        CampaignStatsDashboard(campaign: campaign, service: service),
-        SurfaceContainer(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: context.m3e.spacing.sm,
-            children: [
-              Column(
+    // Send TOC notification to scaffold
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TocEntriesNotification(_tocEntries).dispatch(context);
+    });
+
+    return TocScope(
+      entries: _tocEntries,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            key: _overviewKey,
+            child: CampaignHeader(campaign: campaign),
+          ),
+          Container(
+            key: _statsKey,
+            child: CampaignStatsDashboard(campaign: campaign, service: service),
+          ),
+          Container(
+            key: _descriptionKey,
+            child: SurfaceContainer(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: context.m3e.spacing.sm,
                 children: [
-                  Text(
-                    l10n.shortDescription,
-                    style: Theme.of(context).textTheme.titleMedium,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.shortDescription,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        // Show description when non-empty; otherwise the fallback.
+                        campaign.description.trim().isNotEmpty
+                            ? campaign.description
+                            : l10n.noDescriptionProvided,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    // Show description when non-empty; otherwise the fallback.
-                    campaign.description.trim().isNotEmpty
-                        ? campaign.description
-                        : l10n.noDescriptionProvided,
+                  CustomQuillViewer(
+                    controller: _controller,
+                    onMentionTap: (entityId, mentionType) async {
+                      EntityRouteData(entityId: entityId).push(context);
+                    },
                   ),
                 ],
               ),
-              CustomQuillViewer(
-                controller: _controller,
-                onMentionTap: (entityId, mentionType) async {
-                  EntityRouteData(entityId: entityId).push(context);
-                },
+            ),
+          ),
+          WrapLayout(
+            children: [
+              Container(
+                key: _chaptersKey,
+                child: ChaptersSection(campaign: campaign),
+              ),
+              Container(
+                key: _entitiesKey,
+                child: CampaignEntitiesWidget(campaignId: campaign.id),
+              ),
+              Container(
+                key: _recentKey,
+                child: Column(
+                  children: [
+                    RecentChaptersSection(campaign: campaign),
+                    RecentAdventuresSection(campaign: campaign),
+                    RecentScenesSection(campaign: campaign),
+                    RecentSessionsSection(campaign: campaign),
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-        WrapLayout(
-          children: [
-            ChaptersSection(campaign: campaign),
-            CampaignEntitiesWidget(campaignId: campaign.id),
-            RecentChaptersSection(campaign: campaign),
-            RecentAdventuresSection(campaign: campaign),
-            RecentScenesSection(campaign: campaign),
-            RecentSessionsSection(campaign: campaign),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

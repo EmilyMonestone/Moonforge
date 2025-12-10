@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
+import 'package:moonforge/core/widgets/table_of_contents.dart';
 import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/common/menu_sheet_builder.dart';
 import 'package:moonforge/layout/widgets/common/scrollable_body.dart';
@@ -44,11 +46,15 @@ class MobileCompactScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary =
-        tabs.length <= kMaxBottomNavTabs ? tabs : tabs.take(kMaxBottomNavTabs).toList();
+    final primary = tabs.length <= kMaxBottomNavTabs
+        ? tabs
+        : tabs.take(kMaxBottomNavTabs).toList();
     final overflow = tabs.length > kMaxBottomNavTabs
         ? tabs.skip(kMaxBottomNavTabs).toList()
         : const <TabSpec>[];
+
+    // Check if TOC is available
+    final tocController = TocProvider.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +65,10 @@ class MobileCompactScaffold extends StatelessWidget {
         titleSpacing: 16,
         automaticallyImplyLeading: false,
         toolbarHeight: 56,
+        actions: [
+          if (tocController != null && tocController.entries.isNotEmpty)
+            TocButton(controller: tocController),
+        ],
       ),
       body: SafeArea(
         child: overflow.isEmpty
@@ -66,9 +76,11 @@ class MobileCompactScaffold extends StatelessWidget {
             : Row(
                 children: [
                   NavigationRail(
-                    selectedIndex:
-                        selectedIndex >= kMaxBottomNavTabs ? selectedIndex - kMaxBottomNavTabs : null,
-                    onDestinationSelected: (i) => onSelect(context, kMaxBottomNavTabs + i),
+                    selectedIndex: selectedIndex >= kMaxBottomNavTabs
+                        ? selectedIndex - kMaxBottomNavTabs
+                        : null,
+                    onDestinationSelected: (i) =>
+                        onSelect(context, kMaxBottomNavTabs + i),
                     labelType: NavigationRailLabelType.all,
                     scrollable: true,
                     destinations: [
@@ -80,9 +92,7 @@ class MobileCompactScaffold extends StatelessWidget {
                     ],
                   ),
                   const VerticalDivider(width: 1),
-                  Expanded(
-                    child: ScrollableBody(child: body),
-                  ),
+                  Expanded(child: ScrollableBody(child: body)),
                 ],
               ),
       ),

@@ -713,4 +713,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enterValidNumber => 'Gib eine gültige Zahl ein';
+
+  @override
+  String get tableOfContents => 'Seiten Inhalte';
 }

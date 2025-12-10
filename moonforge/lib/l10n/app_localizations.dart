@@ -1345,6 +1345,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a valid number'**
   String get enterValidNumber;
+
+  /// Label for tableOfContents
+  ///
+  /// In en, this message translates to:
+  /// **'Page Content'**
+  String get tableOfContents;
 }
 
 class _AppLocalizationsDelegate

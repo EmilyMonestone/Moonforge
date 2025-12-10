@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moonforge/core/providers/toc_provider.dart';
+import 'package:moonforge/core/widgets/table_of_contents.dart';
 import 'package:moonforge/core/widgets/window_top_bar.dart' as topbar;
 import 'package:moonforge/layout/destinations.dart';
 import 'package:moonforge/layout/widgets/common/menu_sheet_builder.dart';
@@ -39,6 +41,9 @@ class DesktopCompactScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if TOC is available
+    final tocController = TocProvider.of(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -48,6 +53,9 @@ class DesktopCompactScaffold extends StatelessWidget {
         flexibleSpace: topbar.WindowTopBar(
           isCompact: true,
           leading: breadcrumbs,
+          trailing: tocController != null && tocController.entries.isNotEmpty
+              ? TocButton(controller: tocController)
+              : null,
         ),
         centerTitle: false,
         titleSpacing: 0,
@@ -70,9 +78,7 @@ class DesktopCompactScaffold extends StatelessWidget {
               ],
             ),
             const VerticalDivider(width: 1),
-            Expanded(
-              child: ScrollableBody(child: body),
-            ),
+            Expanded(child: ScrollableBody(child: body)),
           ],
         ),
       ),
