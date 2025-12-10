@@ -95,14 +95,21 @@ class AppNavigationRail extends StatelessWidget {
       expandedWidth: 300,
       onDestinationSelected: (i) {
         // Check if this is a TOC item
+        // TOC items start after the main navigation tabs
         if (tocController != null && tocEntries != null && i >= tabs.length) {
           final tocIndex = i - tabs.length;
-          if (tocIndex < tocEntries.length) {
+          if (tocIndex >= 0 && tocIndex < tocEntries.length) {
+            logger.d('AppNavigationRail: Scrolling to TOC entry at index $tocIndex');
             tocController.scrollToEntry(tocEntries[tocIndex]);
             return; // Don't trigger navigation for TOC items
           }
         }
-        onSelect(context, i);
+        // Only call onSelect for main navigation tabs
+        if (i < tabs.length) {
+          onSelect(context, i);
+        } else {
+          logger.w('AppNavigationRail: Invalid navigation index $i (max: ${tabs.length - 1})');
+        }
       },
       sections: sections,
       scrollable: true,
