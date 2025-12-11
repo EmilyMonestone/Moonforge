@@ -17,6 +17,10 @@ class InboundListener {
 
   /// Start listening to Firestore changes for the given user
   void start(String uid) {
+    logger.i(
+      'InboundListener: Starting for user $uid',
+      context: LogContext.sync,
+    );
     stop(); // Clean up any existing subscriptions
 
     // Listen to campaigns where user is owner or member
@@ -26,12 +30,21 @@ class InboundListener {
         .snapshots()
         .listen(_handleCampaignChanges, onError: _handleError);
 
+    logger.d(
+      'InboundListener: Subscribed to campaigns collection',
+      context: LogContext.sync,
+    );
+
     // For other collections, we could add more specific listeners
     // or use a more sophisticated approach based on campaign membership
   }
 
   /// Stop all listeners
   void stop() {
+    logger.i(
+      'InboundListener: Stopping (${_subscriptions.length} subscriptions)',
+      context: LogContext.sync,
+    );
     for (final sub in _subscriptions.values) {
       sub.cancel();
     }
@@ -39,10 +52,14 @@ class InboundListener {
   }
 
   void _handleError(Object error, StackTrace stackTrace) {
-    logger.e('Inbound sync error: $error');
+    logger.e('Inbound sync error: $error', context: LogContext.sync);
   }
 
   void _handleCampaignChanges(QuerySnapshot snapshot) async {
+    logger.d(
+      'InboundListener: Processing ${snapshot.docChanges.length} campaign changes',
+      context: LogContext.sync,
+    );
     for (final change in snapshot.docChanges) {
       final data = change.doc.data() as Map<String, dynamic>?;
       if (data == null) continue;
@@ -51,9 +68,17 @@ class InboundListener {
       final deleted = (data['deleted'] ?? false) as bool;
 
       if (deleted) {
+        logger.d(
+          'InboundListener: Deleting campaign $id',
+          context: LogContext.sync,
+        );
         // Handle soft delete
         await _db.campaignDao.deleteById(id);
       } else {
+        logger.d(
+          'InboundListener: Upserting campaign $id',
+          context: LogContext.sync,
+        );
         // Upsert campaign
         final companion = campaignFromFirestore(id, data);
         await _db.campaignDao.upsert(companion);
@@ -65,11 +90,20 @@ class InboundListener {
   }
 
   Future<void> _syncCampaignRelated(String campaignId) async {
+    logger.d(
+      'InboundListener: Syncing related data for campaign $campaignId',
+      context: LogContext.sync,
+    );
     // Sync chapters
     final chaptersSnap = await _firestore
         .collection('chapters')
         .where('campaignId', isEqualTo: campaignId)
         .get();
+
+    logger.d(
+      'InboundListener: Found ${chaptersSnap.docs.length} chapters for campaign $campaignId',
+      context: LogContext.sync,
+    );
 
     for (final doc in chaptersSnap.docs) {
       final data = doc.data();
@@ -92,6 +126,11 @@ class InboundListener {
         .where('campaignId', isEqualTo: campaignId)
         .get();
 
+    logger.d(
+      'InboundListener: Found ${partiesSnap.docs.length} parties for campaign $campaignId',
+      context: LogContext.sync,
+    );
+
     for (final doc in partiesSnap.docs) {
       final data = doc.data();
       final deleted = (data['deleted'] ?? false) as bool;
@@ -110,6 +149,11 @@ class InboundListener {
         .where('originId', isEqualTo: campaignId)
         .get();
 
+    logger.d(
+      'InboundListener: Found ${entitiesSnap.docs.length} entities for campaign $campaignId',
+      context: LogContext.sync,
+    );
+
     for (final doc in entitiesSnap.docs) {
       final data = doc.data();
       final companion = entityFromFirestore(doc.id, data);
@@ -121,6 +165,11 @@ class InboundListener {
         .collection('players')
         .where('campaignId', isEqualTo: campaignId)
         .get();
+
+    logger.d(
+      'InboundListener: Found ${playersSnap.docs.length} players for campaign $campaignId',
+      context: LogContext.sync,
+    );
 
     for (final doc in playersSnap.docs) {
       final data = doc.data();

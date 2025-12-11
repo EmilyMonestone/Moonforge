@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
 import 'package:moonforge/data/repo/chapter_repository.dart';
@@ -29,8 +30,14 @@ List<SingleChildWidget> dbProviders(AppDb db) => [
 
   // Sync coordinator
   Provider<SyncCoordinator>(
-    create: (ctx) => SyncCoordinator(db, FirebaseFirestore.instance)..start(),
-    dispose: (_, sync) => sync.stop(),
+    create: (ctx) {
+      logger.i('[dbProviders] Creating SyncCoordinator provider', context: LogContext.sync);
+      return SyncCoordinator(db, FirebaseFirestore.instance)..start();
+    },
+    dispose: (_, sync) {
+      logger.i('[dbProviders] Disposing SyncCoordinator provider', context: LogContext.sync);
+      sync.stop();
+    },
   ),
 
   // Sync state provider (polls outbox to show syncing/pending/error state)

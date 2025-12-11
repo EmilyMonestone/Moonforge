@@ -20,32 +20,42 @@ class SyncCoordinator {
   StreamSubscription<User?>? _authSubscription;
 
   SyncCoordinator(this._db, this._firestore) {
+    logger.i('SyncCoordinator: Initializing...', context: LogContext.sync);
     _outboxProcessor = OutboxProcessor(_db, _firestore);
     _inboundListener = InboundListener(_db, _firestore);
   }
 
   /// Start the sync coordinator
   void start() {
+    logger.i('SyncCoordinator: Starting...', context: LogContext.sync);
     // React to auth changes
     _authSubscription = FirebaseAuth.instance.authStateChanges().listen(
       (user) {
         if (user != null) {
+          logger.i(
+            'SyncCoordinator: User authenticated (uid: ${user.uid}), starting sync',
+            context: LogContext.sync,
+          );
           _inboundListener.start(user.uid);
           _startPushLoop();
         } else {
+          logger.i(
+            'SyncCoordinator: User logged out, stopping sync',
+            context: LogContext.sync,
+          );
           _inboundListener.stop();
           _pushTimer?.cancel();
         }
       },
       onError: (e, st) {
-        logger.e('SyncCoordinator: Auth state error: $e');
+        logger.e('SyncCoordinator: Auth state error: $e', context: LogContext.sync);
       },
     );
   }
 
   /// Stop the sync coordinator
   void stop() {
-    logger.i('SyncCoordinator: Stopping...');
+    logger.i('SyncCoordinator: Stopping...', context: LogContext.sync);
     _authSubscription?.cancel();
     _pushTimer?.cancel();
     _inboundListener.stop();
@@ -54,6 +64,11 @@ class SyncCoordinator {
   /// Start periodic push loop to flush outbox
   void _startPushLoop() {
     _pushTimer?.cancel();
+
+    logger.d(
+      'SyncCoordinator: Starting push loop (initial flush + every 5s)',
+      context: LogContext.sync,
+    );
 
     // Initial flush
     _flush();
@@ -66,14 +81,17 @@ class SyncCoordinator {
 
   Future<void> _flush() async {
     try {
+      logger.d('SyncCoordinator: Flushing outbox...', context: LogContext.sync);
       await _outboxProcessor.flush();
+      logger.d('SyncCoordinator: Flush completed', context: LogContext.sync);
     } catch (e) {
-      logger.e('SyncCoordinator: Flush error: $e');
+      logger.e('SyncCoordinator: Flush error: $e', context: LogContext.sync);
     }
   }
 
   /// Manually trigger a sync flush
   Future<void> triggerSync() async {
+    logger.i('SyncCoordinator: Manual sync triggered', context: LogContext.sync);
     await _flush();
   }
 }
