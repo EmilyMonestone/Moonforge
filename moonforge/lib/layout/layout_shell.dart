@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moonforge/core/services/app_router.dart';
 import 'package:moonforge/core/services/hotkey/hotkey_global_wrapper.dart';
+import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/widgets/app_state_initializer.dart';
 import 'package:moonforge/core/widgets/command_palette.dart';
 import 'package:moonforge/core/widgets/navigation_history_service.dart';
@@ -27,6 +28,8 @@ class LayoutShell extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (history.current != location) {
         history.push(location);
+        // Persist the current route for "continue where left off" feature
+        PersistenceService().write('last_visited_route', location);
       }
     });
     return NavigationHistoryScope(
