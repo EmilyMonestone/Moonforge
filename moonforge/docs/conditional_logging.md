@@ -183,6 +183,18 @@ flutter test test/core/utils/logger_test.dart
 4. **Use debug/trace for verbose logs**: These are filtered by level AND context
 5. **Always use error/fatal for errors**: They bypass context filtering for safety
 6. **Consider production**: In production builds, you may want to disable debug/trace logs entirely
+7. **Avoid expensive debug operations when context is disabled**:
+   ```dart
+   // ❌ BAD - Always computes expensive info even when not logging
+   logger.d('Data: ${computeExpensiveDebugInfo()}', context: LogContext.sync);
+   
+   // ✅ GOOD - Only computes when context is enabled
+   if (logger.isContextEnabled(LogContext.sync)) {
+     final debugInfo = computeExpensiveDebugInfo();
+     logger.d('Data: $debugInfo', context: LogContext.sync);
+   }
+   ```
+   This prevents performance overhead when contexts are disabled.
 
 ## Migration Guide
 

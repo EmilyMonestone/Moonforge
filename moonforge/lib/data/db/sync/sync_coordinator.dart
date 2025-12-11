@@ -19,6 +19,9 @@ class SyncCoordinator {
   Timer? _pushTimer;
   StreamSubscription<User?>? _authSubscription;
 
+  /// Interval for periodic outbox flushing
+  static const Duration _flushInterval = Duration(seconds: 5);
+
   SyncCoordinator(this._db, this._firestore) {
     logger.i('SyncCoordinator: Initializing...', context: LogContext.sync);
     _outboxProcessor = OutboxProcessor(_db, _firestore);
@@ -66,15 +69,15 @@ class SyncCoordinator {
     _pushTimer?.cancel();
 
     logger.d(
-      'SyncCoordinator: Starting push loop (initial flush + every 5s)',
+      'SyncCoordinator: Starting push loop (initial flush + every ${_flushInterval.inSeconds}s)',
       context: LogContext.sync,
     );
 
     // Initial flush
     _flush();
 
-    // Periodic flush every 5 seconds
-    _pushTimer = Timer.periodic(Duration(seconds: 5), (_) {
+    // Periodic flush
+    _pushTimer = Timer.periodic(_flushInterval, (_) {
       _flush();
     });
   }

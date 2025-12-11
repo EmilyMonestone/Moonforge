@@ -79,8 +79,13 @@ class OutboxProcessor {
       if (map != null) {
         await doc.set(map, SetOptions(merge: true));
       } else {
+        // Missing data during upsert could indicate:
+        // 1. Row was deleted locally after being queued for sync
+        // 2. Data integrity issue
+        // We log a warning but still remove the entry to avoid repeated failures.
+        // If this was a legitimate delete, it should have a separate delete entry.
         logger.w(
-          'OutboxProcessor: Could not load row ${entry.table}/${entry.rowId} for upsert',
+          'OutboxProcessor: Could not load row ${entry.table}/${entry.rowId} for upsert - row may have been deleted',
           context: LogContext.sync,
         );
       }
