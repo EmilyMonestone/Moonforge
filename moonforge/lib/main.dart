@@ -14,6 +14,7 @@ import 'package:moonforge/core/services/auto_updater_service.dart';
 import 'package:moonforge/core/services/deep_link_service.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/app_version.dart';
+import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/firebase_options.dart';
 import 'package:window_manager/window_manager.dart';
@@ -22,6 +23,11 @@ const kWindowsScheme = 'moonforge';
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize logger contexts
+  // Note: The logger instance is a singleton defined in lib/core/utils/logger.dart
+  // Enable contexts based on build mode for debugging
+  _initializeLogger();
 
   await dotenv.load(fileName: ".env");
 
@@ -102,4 +108,25 @@ Future clearFirestoreCache() async {
   } catch (e) {
     debugPrint("Failed to clear Firestore cache: $e");
   }
+}
+
+/// Initialize logger and enable contexts based on build mode
+/// The logger is a singleton instance defined in lib/core/utils/logger.dart
+void _initializeLogger() {
+  // In debug mode, enable additional logging contexts for development
+  if (kDebugMode) {
+    logger.enableContexts([
+      LogContext.sync,      // Enable sync logging to debug sync operations
+      LogContext.database,  // Enable database logging for query debugging
+      // LogContext.auth,      // Uncomment to debug authentication issues
+      // LogContext.navigation, // Uncomment to debug navigation issues
+      // LogContext.ui,        // Uncomment to debug UI state issues
+      // LogContext.network,   // Uncomment to debug network requests
+      // LogContext.data,      // Uncomment to debug data parsing issues
+    ]);
+    logger.i('Logger initialized with contexts: ${logger.enabledContexts}');
+  }
+  
+  // In release mode, only general context is enabled (default)
+  // This reduces log noise in production while keeping errors visible
 }

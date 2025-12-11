@@ -145,9 +145,14 @@ class ConditionalLogger {
 }
 
 /// Core logger instance with conditional logging support
-/// Use this throughout the app for consistent logging
+/// 
+/// **SINGLETON INSTANCE** - This is the single global logger instance used throughout the app.
+/// Import this logger from 'package:moonforge/core/utils/logger.dart' in all files that need logging.
+/// 
+/// **INITIALIZATION**: The logger is initialized in main.dart with default contexts enabled
+/// based on the build mode (debug/release). You can enable/disable contexts at runtime.
 ///
-/// Example:
+/// Example usage:
 ///  logger.i('Informational message');
 ///  logger.e('Error message', error: exception, stackTrace: stackTrace);
 ///  logger.d('Debug message');
@@ -157,9 +162,14 @@ class ConditionalLogger {
 ///  logger.d('Sync started', context: LogContext.sync);
 ///  logger.i('Database query', context: LogContext.database);
 ///
-/// To enable/disable contexts:
+/// To enable/disable contexts at runtime:
 ///  logger.enableContext(LogContext.sync);
 ///  logger.disableContext(LogContext.sync);
+///  
+/// Check if a context is enabled:
+///  if (logger.isContextEnabled(LogContext.sync)) {
+///    // Expensive debug operation
+///  }
 final ConditionalLogger logger = ConditionalLogger(
   Logger(
     printer: PrettyPrinter(

@@ -4,12 +4,21 @@
 
 Conditional logging lets you turn logging on/off for specific parts of the app (like sync, database, network) without changing code.
 
+## Logger Initialization
+
+The logger is a **singleton instance** automatically initialized in `lib/main.dart`:
+
+- **Debug mode**: Sync and database contexts are enabled by default for development
+- **Release mode**: Only general context is enabled (errors always log)
+
+You can enable/disable additional contexts at runtime as needed.
+
 ## Quick Example
 
 ```dart
 import 'package:moonforge/core/utils/logger.dart';
 
-// Enable sync logging
+// Enable sync logging (if not already enabled)
 logger.enableContext(LogContext.sync);
 
 // All sync logs will now appear
@@ -71,10 +80,24 @@ logger.disableContexts([
 
 ## Important Notes
 
-1. **Errors are always logged** - Even if a context is disabled, error and fatal messages still appear
-2. **General context is always on** - It can't be disabled
-3. **Enable temporarily** - Turn on contexts for debugging, turn off when done
-4. **No code changes needed** - Just enable/disable contexts at runtime
+1. **Singleton logger** - One instance across the app in `lib/core/utils/logger.dart`
+2. **Auto-initialized** - Configured in `main.dart` based on build mode (debug/release)
+3. **Errors are always logged** - Even if a context is disabled, error and fatal messages still appear
+4. **General context is always on** - It can't be disabled
+5. **Enable temporarily** - Turn on contexts for debugging, turn off when done
+6. **No code changes needed** - Just enable/disable contexts at runtime
+
+## Default Configuration
+
+**Debug Mode** (development):
+- ✅ `LogContext.general` - Always enabled
+- ✅ `LogContext.sync` - Enabled for debugging sync operations
+- ✅ `LogContext.database` - Enabled for debugging database queries
+- ❌ Other contexts disabled by default (can be enabled in `main.dart` or at runtime)
+
+**Release Mode** (production):
+- ✅ `LogContext.general` - Always enabled
+- ❌ All other contexts disabled (reduces log noise)
 
 ## Learn More
 

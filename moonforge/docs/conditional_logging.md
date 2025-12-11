@@ -4,13 +4,23 @@
 
 The conditional logging feature allows you to enable or disable logging for specific contexts without modifying code. This is particularly useful for debugging specific areas of the application (like sync operations) without being overwhelmed by logs from other areas.
 
+## Logger Initialization
+
+The logger is a **singleton instance** defined in `lib/core/utils/logger.dart` and initialized in `lib/main.dart`:
+
+- **Singleton Pattern**: One logger instance used throughout the entire application
+- **Auto-Configuration**: Contexts are enabled based on build mode
+  - **Debug mode**: `sync` and `database` contexts enabled for development debugging
+  - **Release mode**: Only `general` context enabled (reduces production log noise)
+- **Runtime Control**: You can enable/disable any context at runtime as needed
+
 ## LogContext Enum
 
 The following log contexts are available:
 
 - `LogContext.general` - General application logs (always enabled, cannot be disabled)
-- `LogContext.sync` - Sync-related operations (SyncCoordinator, InboundListener, OutboxProcessor)
-- `LogContext.database` - Database operations
+- `LogContext.sync` - Sync-related operations (SyncCoordinator, InboundListener, OutboxProcessor) - **Enabled in debug mode**
+- `LogContext.database` - Database operations - **Enabled in debug mode**
 - `LogContext.auth` - Authentication and user management
 - `LogContext.navigation` - Navigation and routing
 - `LogContext.ui` - UI state and widget lifecycle
@@ -54,7 +64,7 @@ You can enable or disable contexts at runtime:
 ```dart
 import 'package:moonforge/core/utils/logger.dart';
 
-// Enable sync logging to debug sync issues
+// Enable sync logging to debug sync issues (if not already enabled in debug mode)
 logger.enableContext(LogContext.sync);
 
 // Disable sync logging when done
@@ -76,6 +86,23 @@ logger.disableContexts([
 // Check if a context is enabled
 if (logger.isContextEnabled(LogContext.sync)) {
   print('Sync logging is enabled');
+}
+```
+
+### Changing Default Contexts
+
+To change which contexts are enabled by default, edit the `_initializeLogger()` function in `lib/main.dart`:
+
+```dart
+void _initializeLogger() {
+  if (kDebugMode) {
+    logger.enableContexts([
+      LogContext.sync,      // Enable sync logging
+      LogContext.database,  // Enable database logging
+      LogContext.auth,      // Uncomment to enable auth logging
+      // Add or remove contexts as needed
+    ]);
+  }
 }
 ```
 
