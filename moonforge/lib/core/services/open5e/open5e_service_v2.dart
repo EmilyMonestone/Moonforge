@@ -11,19 +11,22 @@ import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/models/monster.dart';
 
-/// Query options for Open5e API requests
+/// Query options for Open5e API v2 requests
 ///
 /// Supports filtering, searching, ordering, and pagination according to
-/// the official Open5e API documentation at https://open5e.com/api-docs
+/// the official Open5e API v2 documentation
 class Open5eQueryOptions {
-  /// Case-insensitive partial-word search
+  /// Case-insensitive name search (name__icontains parameter)
   final String? search;
 
-  /// Filter by source document slug (e.g., '5esrd', 'tob')
-  /// Use document__slug parameter for filtering by document
-  final String? documentSlug;
+  /// Filter by gamesystem key (e.g., '5e-2024', '5e-2014', 'a5e')
+  /// Defaults to '5e-2024' if not specified
+  final String? gameSystemKey;
 
-  /// Ordering field (e.g., 'name', 'challenge_rating', '-name' for descending)
+  /// Filter by source document key (e.g., 'srd-2024', 'tob')
+  final String? documentKey;
+
+  /// Ordering field (e.g., 'name', 'challenge_rating_decimal', '-name' for descending)
   final String? ordering;
 
   /// Page number (1-based)
@@ -32,27 +35,31 @@ class Open5eQueryOptions {
   /// Results per page (limit parameter)
   final int? limit;
 
-  /// Additional filter parameters (e.g., {'cr': '3'} for monsters)
+  /// Additional filter parameters (e.g., {'challenge_rating_decimal': '3'} for creatures)
   final Map<String, String>? filters;
 
   Open5eQueryOptions({
     this.search,
-    this.documentSlug,
+    this.gameSystemKey,
+    this.documentKey,
     this.ordering,
     this.page = 1,
     this.limit,
     this.filters,
   });
 
-  /// Convert to query parameters
+  /// Convert to query parameters with default gamesystem
   Map<String, String> toQueryParams() {
     final params = <String, String>{
-      'format': 'json',
+      'format': 'api',
       'page': page.toString(),
+      // Default to 5e-2024 gamesystem if not specified
+      'document__gamesystem__key__iexact': 
+          gameSystemKey ?? Open5eEndpoints.defaultGameSystem,
     };
 
-    if (search != null) params['search'] = search!;
-    if (documentSlug != null) params['document__slug'] = documentSlug!;
+    if (search != null) params['name__icontains'] = search!;
+    if (documentKey != null) params['document__key__iexact'] = documentKey!;
     if (ordering != null) params['ordering'] = ordering!;
     if (limit != null) params['limit'] = limit.toString();
     if (filters != null) params.addAll(filters!);

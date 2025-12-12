@@ -1,6 +1,6 @@
-/// Core data structures for Open5e API responses
+/// Core data structures for Open5e API v2 responses
 
-/// Generic paginated response wrapper used by most Open5e list endpoints
+/// Generic paginated response wrapper used by Open5e v2 list endpoints
 class PaginatedResponse<T> {
   final int count;
   final String? next;
@@ -39,88 +39,150 @@ class PaginatedResponse<T> {
   }
 }
 
-/// Manifest entry - represents an available API resource
-class ManifestEntry {
-  final String title;
-  final String description;
-  final String slug;
+/// GameSystem represents a D&D rule system
+class GameSystem {
   final String url;
+  final String key;
+  final String name;
+  final String desc;
+  final String contentPrefix;
 
-  ManifestEntry({
-    required this.title,
-    required this.description,
-    required this.slug,
+  GameSystem({
     required this.url,
+    required this.key,
+    required this.name,
+    required this.desc,
+    required this.contentPrefix,
   });
 
-  factory ManifestEntry.fromJson(Map<String, dynamic> json) {
-    return ManifestEntry(
-      title: json['title'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      slug: json['slug'] as String? ?? '',
+  factory GameSystem.fromJson(Map<String, dynamic> json) {
+    return GameSystem(
       url: json['url'] as String? ?? '',
+      key: json['key'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      desc: json['desc'] as String? ?? '',
+      contentPrefix: json['content_prefix'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'title': title,
-      'description': description,
-      'slug': slug,
       'url': url,
+      'key': key,
+      'name': name,
+      'desc': desc,
+      'content_prefix': contentPrefix,
     };
   }
 }
 
-/// Document - represents a rulebook or source
-class Document {
-  final String slug;
-  final String title;
-  final String desc;
-  final String? license;
-  final String? author;
-  final String? organization;
-  final String? version;
-  final String? url;
-  final String? copyright;
+/// Publisher represents a content publisher
+class Publisher {
+  final String url;
+  final String key;
+  final String name;
 
-  Document({
-    required this.slug,
-    required this.title,
-    required this.desc,
-    this.license,
-    this.author,
-    this.organization,
-    this.version,
-    this.url,
-    this.copyright,
+  Publisher({
+    required this.url,
+    required this.key,
+    required this.name,
   });
 
-  factory Document.fromJson(Map<String, dynamic> json) {
-    return Document(
-      slug: json['slug'] as String? ?? '',
-      title: json['title'] as String? ?? '',
-      desc: json['desc'] as String? ?? '',
-      license: json['license'] as String?,
-      author: json['author'] as String?,
-      organization: json['organization'] as String?,
-      version: json['version'] as String?,
-      url: json['url'] as String?,
-      copyright: json['copyright'] as String?,
+  factory Publisher.fromJson(Map<String, dynamic> json) {
+    return Publisher(
+      url: json['url'] as String? ?? '',
+      key: json['key'] as String? ?? '',
+      name: json['name'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'slug': slug,
-      'title': title,
-      'desc': desc,
-      'license': license,
-      'author': author,
-      'organization': organization,
-      'version': version,
       'url': url,
-      'copyright': copyright,
+      'key': key,
+      'name': name,
+    };
+  }
+}
+
+/// Document - represents a rulebook or source with nested gamesystem and publisher
+class Document {
+  final String name;
+  final String key;
+  final String type;
+  final String displayName;
+  final Publisher? publisher;
+  final GameSystem? gamesystem;
+  final String? permalink;
+
+  Document({
+    required this.name,
+    required this.key,
+    required this.type,
+    required this.displayName,
+    this.publisher,
+    this.gamesystem,
+    this.permalink,
+  });
+
+  factory Document.fromJson(Map<String, dynamic> json) {
+    return Document(
+      name: json['name'] as String? ?? '',
+      key: json['key'] as String? ?? '',
+      type: json['type'] as String? ?? '',
+      displayName: json['display_name'] as String? ?? '',
+      publisher: json['publisher'] != null
+          ? Publisher.fromJson(json['publisher'] as Map<String, dynamic>)
+          : null,
+      gamesystem: json['gamesystem'] != null
+          ? GameSystem.fromJson(json['gamesystem'] as Map<String, dynamic>)
+          : null,
+      permalink: json['permalink'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'key': key,
+      'type': type,
+      'display_name': displayName,
+      'publisher': publisher?.toJson(),
+      'gamesystem': gamesystem?.toJson(),
+      'permalink': permalink,
+    };
+  }
+}
+
+/// License represents a content license
+class License {
+  final String url;
+  final String key;
+  final String name;
+  final String? desc;
+
+  License({
+    required this.url,
+    required this.key,
+    required this.name,
+    this.desc,
+  });
+
+  factory License.fromJson(Map<String, dynamic> json) {
+    return License(
+      url: json['url'] as String? ?? '',
+      key: json['key'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      desc: json['desc'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'key': key,
+      'name': name,
+      'desc': desc,
     };
   }
 }
