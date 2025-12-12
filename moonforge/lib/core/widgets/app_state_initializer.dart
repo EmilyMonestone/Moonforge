@@ -30,15 +30,21 @@ class _AppStateInitializerState extends State<AppStateInitializer> {
       if (!getIt.isRegistered<SyncCoordinator>()) {
         logger.w(
           'SyncCoordinator provider not registered in AppStateInitializer.',
+          context: LogContext.sync,
         );
         return;
       }
       try {
+        logger.d(
+          'AppStateInitializer: Ensuring SyncCoordinator is started',
+          context: LogContext.sync,
+        );
         // Accessing it ensures the provider is created and started
         final _ = getIt<SyncCoordinator>();
       } catch (e) {
         logger.w(
           'Failed to ensure SyncCoordinator from AppStateInitializer: $e',
+          context: LogContext.sync,
         );
       }
     });
