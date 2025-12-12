@@ -4,6 +4,7 @@ import 'package:moonforge/core/design/domain_visuals.dart';
 import 'package:moonforge/core/models/domain_type.dart';
 import 'package:moonforge/core/models/menu_bar_actions.dart';
 import 'package:moonforge/core/services/notification_service.dart';
+import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/services/router_config.dart';
 import 'package:moonforge/features/adventure/utils/create_adventure.dart'
     as adventure_utils;
@@ -19,6 +20,8 @@ import 'package:moonforge/features/entities/utils/create_entity.dart'
     as entity_utils;
 import 'package:moonforge/features/entities/utils/create_entity.dart'
     show EntityCreationScope;
+import 'package:moonforge/features/parties/utils/create_party.dart'
+    as party_utils;
 import 'package:moonforge/features/scene/utils/create_scene.dart'
     as scene_utils;
 import 'package:moonforge/l10n/app_localizations.dart';
@@ -150,7 +153,17 @@ class MenuRegistry {
       helpText: l10n.continueWhereLeft,
       icon: Icons.play_arrow_rounded,
       onPressed: (ctx) {
-        // TODO: Navigate to the last visited route from persisted state
+        // Read last visited route from persistence
+        final persistenceService = PersistenceService();
+        final lastRoute = persistenceService.read<String>('last_visited_route');
+        
+        if (lastRoute != null && lastRoute.isNotEmpty) {
+          // Navigate to the persisted route
+          ctx.go(lastRoute);
+        } else {
+          // Fallback: show info message if no route is saved
+          notification.info(ctx, title: const Text('No recent activity'));
+        }
       },
     );
   }
@@ -186,8 +199,15 @@ class MenuRegistry {
       helpText: l10n.createParty,
       icon: Icons.group_add_outlined,
       onPressed: (ctx) {
-        // TODO: Implement party creation (navigate to edit/new flow)
-        const PartyRootRouteData().go(ctx);
+        final campaign = Provider.of<CampaignProvider>(
+          ctx,
+          listen: false,
+        ).currentCampaign;
+        if (campaign == null) {
+          notification.info(ctx, title: Text(l10n.noCampaignSelected));
+          return;
+        }
+        party_utils.createParty(ctx, campaign);
       },
     );
   }
