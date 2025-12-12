@@ -9,51 +9,51 @@ class Open5eEndpoints {
   static const String defaultGameSystem = '5e-2024';
   
   // Core content endpoints
-  static const String items = '$baseUrl/items/';
-  static const String magicItems = '$baseUrl/magicitems/';
-  static const String itemSets = '$baseUrl/itemsets/';
-  static const String itemCategories = '$baseUrl/itemcategories/';
-  static const String itemRarities = '$baseUrl/itemrarities/';
-  static const String weapons = '$baseUrl/weapons/';
-  static const String weaponProperties = '$baseUrl/weaponproperties/';
-  static const String armor = '$baseUrl/armor/';
+  static const String items = '$baseUrl/items/?format=api';
+  static const String magicItems = '$baseUrl/magicitems/?format=api';
+  static const String itemSets = '$baseUrl/itemsets/?format=api';
+  static const String itemCategories = '$baseUrl/itemcategories/?format=api';
+  static const String itemRarities = '$baseUrl/itemrarities/?format=api';
+  static const String weapons = '$baseUrl/weapons/?format=api';
+  static const String weaponProperties = '$baseUrl/weaponproperties/?format=api';
+  static const String armor = '$baseUrl/armor/?format=api';
   
   // Character options
-  static const String backgrounds = '$baseUrl/backgrounds/';
-  static const String feats = '$baseUrl/feats/';
-  static const String species = '$baseUrl/species/';
-  static const String classes = '$baseUrl/classes/';
-  static const String abilities = '$baseUrl/abilities/';
-  static const String skills = '$baseUrl/skills/';
+  static const String backgrounds = '$baseUrl/backgrounds/?format=api';
+  static const String feats = '$baseUrl/feats/?format=api';
+  static const String species = '$baseUrl/species/?format=api';
+  static const String classes = '$baseUrl/classes/?format=api';
+  static const String abilities = '$baseUrl/abilities/?format=api';
+  static const String skills = '$baseUrl/skills/?format=api';
   
   // Creatures
-  static const String creatures = '$baseUrl/creatures/';
-  static const String creatureTypes = '$baseUrl/creaturetypes/';
-  static const String creatureSets = '$baseUrl/creaturesets/';
+  static const String creatures = '$baseUrl/creatures/?format=api';
+  static const String creatureTypes = '$baseUrl/creaturetypes/?format=api';
+  static const String creatureSets = '$baseUrl/creaturesets/?format=api';
   
   // Spells
-  static const String spells = '$baseUrl/spells/';
-  static const String spellSchools = '$baseUrl/spellschools/';
+  static const String spells = '$baseUrl/spells/?format=api';
+  static const String spellSchools = '$baseUrl/spellschools/?format=api';
   
   // Game mechanics
-  static const String conditions = '$baseUrl/conditions/';
-  static const String damageTypes = '$baseUrl/damagetypes/';
-  static const String languages = '$baseUrl/languages/';
-  static const String alignments = '$baseUrl/alignments/';
-  static const String sizes = '$baseUrl/sizes/';
-  static const String environments = '$baseUrl/environments/';
+  static const String conditions = '$baseUrl/conditions/?format=api';
+  static const String damageTypes = '$baseUrl/damagetypes/?format=api';
+  static const String languages = '$baseUrl/languages/?format=api';
+  static const String alignments = '$baseUrl/alignments/?format=api';
+  static const String sizes = '$baseUrl/sizes/?format=api';
+  static const String environments = '$baseUrl/environments/?format=api';
   
   // Rules and documentation
-  static const String documents = '$baseUrl/documents/';
-  static const String licenses = '$baseUrl/licenses/';
-  static const String publishers = '$baseUrl/publishers/';
-  static const String gameSystems = '$baseUrl/gamesystems/';
-  static const String rules = '$baseUrl/rules/';
-  static const String ruleSets = '$baseUrl/rulesets/';
+  static const String documents = '$baseUrl/documents/?format=api';
+  static const String licenses = '$baseUrl/licenses/?format=api';
+  static const String publishers = '$baseUrl/publishers/?format=api';
+  static const String gameSystems = '$baseUrl/gamesystems/?format=api';
+  static const String rules = '$baseUrl/rules/?format=api';
+  static const String ruleSets = '$baseUrl/rulesets/?format=api';
   
   // Media
-  static const String images = '$baseUrl/images/';
-  static const String services = '$baseUrl/services/';
+  static const String images = '$baseUrl/images/?format=api';
+  static const String services = '$baseUrl/services/?format=api';
   
   /// Get endpoint URL by resource name
   static String? getEndpoint(String resourceName) {
