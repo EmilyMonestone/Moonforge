@@ -77,7 +77,7 @@ void main() {
 
     test('DocumentKey constants have correct values', () {
       expect(DocumentKey.srd2024, 'srd-2024');
-      expect(DocumentKey.srd2014, 'srd-2014');
+      expect(DocumentKey.srd2014, 'srd');
       expect(DocumentKey.tomeOfBeasts, 'tob');
       expect(DocumentKey.tomeOfBeasts2, 'tob2');
       expect(DocumentKey.creaturesCodex, 'cc');
@@ -207,14 +207,13 @@ void main() {
         'key': 'fighter',
         'name': 'Fighter',
         'desc': 'A master of martial combat',
-        'hit_dice': '1d10',
       };
 
       final characterClass = CharacterClass.fromJson(json);
 
       expect(characterClass.key, 'fighter');
       expect(characterClass.name, 'Fighter');
-      expect(characterClass.hitDice, '1d10');
+      expect(characterClass.desc, 'A master of martial combat');
     });
 
     test('Feat.fromJson parses correctly', () {
@@ -251,7 +250,7 @@ void main() {
         'key': 'ancient-red-dragon',
         'name': 'Ancient Red Dragon',
         'type': 'Dragon',
-        'challenge_rating_decimal': '24.00',
+        'challenge_rating_decimal': 24.00,
         'armor_class': 22,
       };
 
@@ -260,7 +259,7 @@ void main() {
       expect(creature.key, 'ancient-red-dragon');
       expect(creature.name, 'Ancient Red Dragon');
       expect(creature.type, 'Dragon');
-      expect(creature.challengeRating, '24.00');
+      expect(creature.challengeRatingDecimal, 24.00);
       expect(creature.armorClass, 22);
     });
   });

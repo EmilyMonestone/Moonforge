@@ -41,8 +41,10 @@ class DocumentKey {
   static const String tomeOfBeasts = 'tob';
   static const String tomeOfBeasts2 = 'tob2';
   static const String tomeOfBeasts3 = 'tob3';
-  static const String creatureCodex = 'cc';
+  static const String creaturesCodex = 'cc';
+  static const String creatureCodex = 'cc'; // Alias for creaturesCodex
   static const String menagerie = 'menagerie';
+  static const String midgardHeroes = 'dmag';
   
   /// Common document keys
   static const List<String> common = [srd2024, srd2014, tomeOfBeasts];
@@ -815,13 +817,13 @@ class Open5eService {
       );
 
   // Services
-  Future<PaginatedResponse<Open5eService>?> getServices({
+  Future<PaginatedResponse<Open5eServiceResource>?> getServices({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
         endpoint: Open5eEndpoints.services,
-        fromJson: Open5eService.fromJson,
+        fromJson: Open5eServiceResource.fromJson,
         options: options,
         useCache: useCache,
       );

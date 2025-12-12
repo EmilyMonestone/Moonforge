@@ -117,22 +117,25 @@ class Open5eImage {
   }
 }
 
-/// Service from Open5e API v2
-class Open5eService {
+/// Service resource from Open5e API v2
+/// 
+/// Renamed from Open5eService to Open5eServiceResource to avoid
+/// conflict with the main Open5eService class
+class Open5eServiceResource {
   final String url;
   final String key;
   final String name;
   final String desc;
 
-  Open5eService({
+  Open5eServiceResource({
     required this.url,
     required this.key,
     required this.name,
     required this.desc,
   });
 
-  factory Open5eService.fromJson(Map<String, dynamic> json) {
-    return Open5eService(
+  factory Open5eServiceResource.fromJson(Map<String, dynamic> json) {
+    return Open5eServiceResource(
       url: json['url'] as String? ?? '',
       key: json['key'] as String? ?? '',
       name: json['name'] as String? ?? '',
