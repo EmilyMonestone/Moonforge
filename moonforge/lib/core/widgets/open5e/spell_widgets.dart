@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moonforge/core/services/open5e/models/spells.dart';
 import 'package:moonforge/core/widgets/surface_container.dart';
 
-/// Widget to display a Spell from Open5e
+/// Widget to display a Spell from Open5e v2
 class SpellWidget extends StatelessWidget {
   final Open5eSpell spell;
 
@@ -22,7 +22,7 @@ class SpellWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Level ${spell.level} ${spell.school}${spell.ritual ? ' (ritual)' : ''}',
+            'Level ${spell.level ?? 0} ${spell.school ?? ''}${spell.ritual == true ? ' (ritual)' : ''}',
             style: theme.textTheme.labelLarge,
           ),
           const SizedBox(height: 16),
@@ -35,7 +35,7 @@ class SpellWidget extends StatelessWidget {
               child: Text(spell.material!, style: theme.textTheme.bodySmall),
             ),
           _buildSpellStat('Duration',
-              '${spell.duration}${spell.concentration ? ' (concentration)' : ''}',
+              '${spell.duration ?? ''}${spell.concentration == true ? ' (concentration)' : ''}',
               theme),
           const SizedBox(height: 16),
           Text(
@@ -49,15 +49,17 @@ class SpellWidget extends StatelessWidget {
               style: theme.textTheme.bodyMedium,
             ),
           ],
-          if (spell.dndClass.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Text('Classes', style: theme.textTheme.titleSmall),
-            Text(spell.dndClass.join(', ')),
-          ],
           if (spell.document != null) ...[
             const SizedBox(height: 16),
-            Text('Source: ${spell.document}',
-                style: theme.textTheme.labelSmall),
+            Text(
+              'Source: ${spell.document!.displayName}',
+              style: theme.textTheme.labelSmall,
+            ),
+            if (spell.document!.gamesystem != null)
+              Text(
+                'System: ${spell.document!.gamesystem!.name}',
+                style: theme.textTheme.labelSmall,
+              ),
           ],
         ],
       ),
@@ -65,7 +67,7 @@ class SpellWidget extends StatelessWidget {
   }
 
   Widget _buildSpellStat(String label, String? value, ThemeData theme) {
-    if (value == null) return const SizedBox.shrink();
+    if (value == null || value.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
