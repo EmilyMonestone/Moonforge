@@ -43,7 +43,7 @@ import 'package:moonforge/layout/layout_shell.dart';
 
 part 'router_config.g.dart';
 
-/// Main shell route with 4 branches: Home, Campaign, Party, Settings
+/// Main shell route with 5 branches: Home, Campaign, Party, Open5e, Settings
 @TypedStatefulShellRoute<AppShellRouteData>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     // Branch 0: Home/Auth
@@ -144,12 +144,17 @@ part 'router_config.g.dart';
         ),
       ],
     ),
-    // Branch 3: Settings / Profile
+    // Branch 3: Open5e Browser
+    TypedStatefulShellBranch<Open5eBranchData>(
+      routes: <TypedRoute<RouteData>>[
+        TypedGoRoute<Open5eBrowserRouteData>(path: '/open5e-browser'),
+      ],
+    ),
+    // Branch 4: Settings / Profile
     TypedStatefulShellBranch<SettingsBranchData>(
       routes: <TypedRoute<RouteData>>[
         TypedGoRoute<SettingsRouteData>(path: '/settings'),
         TypedGoRoute<ProfileRouteData>(path: '/profile'),
-        TypedGoRoute<Open5eBrowserRouteData>(path: '/open5e-browser'),
       ],
     ),
   ],
@@ -182,6 +187,11 @@ class CampaignBranchData extends StatefulShellBranchData {
 @immutable
 class PartyBranchData extends StatefulShellBranchData {
   const PartyBranchData();
+}
+
+@immutable
+class Open5eBranchData extends StatefulShellBranchData {
+  const Open5eBranchData();
 }
 
 @immutable

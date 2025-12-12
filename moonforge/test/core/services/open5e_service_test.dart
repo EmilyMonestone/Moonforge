@@ -12,16 +12,20 @@ void main() {
   group('Open5eEndpoints', () {
     test('getEndpoint returns correct URL for known resources', () {
       expect(
-        Open5eEndpoints.getEndpoint('monsters'),
-        'https://api.open5e.com/v1/monsters/',
+        Open5eEndpoints.getEndpoint('creatures'),
+        'https://api.open5e.com/v2/creatures/?format=api',
       );
       expect(
         Open5eEndpoints.getEndpoint('spells'),
-        'https://api.open5e.com/v2/spells/',
+        'https://api.open5e.com/v2/spells/?format=api',
       );
       expect(
         Open5eEndpoints.getEndpoint('weapons'),
-        'https://api.open5e.com/v2/weapons/',
+        'https://api.open5e.com/v2/weapons/?format=api',
+      );
+      expect(
+        Open5eEndpoints.getEndpoint('species'),
+        'https://api.open5e.com/v2/species/?format=api',
       );
     });
 
@@ -34,32 +38,50 @@ void main() {
     test('toQueryParams includes all parameters', () {
       final options = Open5eQueryOptions(
         search: 'dragon',
-        documentSlug: 'tob',
+        documentKey: DocumentKey.tomeOfBeasts,
+        gameSystemKey: GameSystemKey.edition2024,
         ordering: 'name',
         page: 2,
         limit: 50,
-        filters: {'cr': '3'},
+        filters: {'challenge_rating_decimal': '3'},
+        creatureType: 'dragon',
       );
 
       final params = options.toQueryParams();
 
-      expect(params['search'], 'dragon');
-      expect(params['document__slug'], 'tob');
+      expect(params['name__icontains'], 'dragon');
+      expect(params['document__key'], DocumentKey.tomeOfBeasts);
+      expect(params['document__gamesystem__key__iexact'], GameSystemKey.edition2024);
       expect(params['ordering'], 'name');
       expect(params['page'], '2');
       expect(params['limit'], '50');
-      expect(params['cr'], '3');
-      expect(params['format'], 'json');
+      expect(params['challenge_rating_decimal'], '3');
+      expect(params['type'], 'dragon');
     });
 
-    test('toQueryParams handles minimal options', () {
+    test('toQueryParams handles minimal options with defaults', () {
       final options = Open5eQueryOptions();
       final params = options.toQueryParams();
 
       expect(params['page'], '1');
-      expect(params['format'], 'json');
-      expect(params.containsKey('search'), false);
-      expect(params.containsKey('document__slug'), false);
+      expect(params['document__gamesystem__key__iexact'], GameSystemKey.edition2024);
+      expect(params.containsKey('name__icontains'), false);
+      expect(params.containsKey('document__key'), false);
+    });
+
+    test('GameSystemKey constants have correct values', () {
+      expect(GameSystemKey.edition2024, '5e-2024');
+      expect(GameSystemKey.edition2014, '5e-2014');
+      expect(GameSystemKey.advancedEdition, 'a5e');
+    });
+
+    test('DocumentKey constants have correct values', () {
+      expect(DocumentKey.srd2024, 'srd-2024');
+      expect(DocumentKey.srd2014, 'srd-2014');
+      expect(DocumentKey.tomeOfBeasts, 'tob');
+      expect(DocumentKey.tomeOfBeasts2, 'tob2');
+      expect(DocumentKey.creaturesCodex, 'cc');
+      expect(DocumentKey.midgardHeroes, 'dmag');
     });
   });
 
@@ -70,8 +92,18 @@ void main() {
         'next': 'https://api.example.com?page=2',
         'previous': null,
         'results': [
-          {'slug': 'test1', 'name': 'Test 1', 'desc': 'Description 1'},
-          {'slug': 'test2', 'name': 'Test 2', 'desc': 'Description 2'},
+          {
+            'url': 'https://api.open5e.com/v2/backgrounds/acolyte/',
+            'key': 'acolyte',
+            'name': 'Acolyte',
+            'desc': 'Description 1',
+          },
+          {
+            'url': 'https://api.open5e.com/v2/backgrounds/soldier/',
+            'key': 'soldier',
+            'name': 'Soldier',
+            'desc': 'Description 2',
+          },
         ],
       };
 
@@ -84,8 +116,8 @@ void main() {
       expect(response.next, 'https://api.example.com?page=2');
       expect(response.previous, isNull);
       expect(response.results.length, 2);
-      expect(response.results[0].slug, 'test1');
-      expect(response.results[1].name, 'Test 2');
+      expect(response.results[0].key, 'acolyte');
+      expect(response.results[1].name, 'Soldier');
     });
 
     test('fromJson handles empty results', () {
@@ -107,131 +139,129 @@ void main() {
   group('Open5eModels', () {
     test('Background.fromJson parses correctly', () {
       final json = {
-        'slug': 'acolyte',
+        'url': 'https://api.open5e.com/v2/backgrounds/acolyte/',
+        'key': 'acolyte',
         'name': 'Acolyte',
         'desc': 'A religious devotee',
-        'skill_proficiencies': ['Insight', 'Religion'],
-        'document': 'srd',
       };
 
       final background = Background.fromJson(json);
 
-      expect(background.slug, 'acolyte');
+      expect(background.key, 'acolyte');
       expect(background.name, 'Acolyte');
       expect(background.desc, 'A religious devotee');
-      expect(background.skillProficiencies, ['Insight', 'Religion']);
-      expect(background.document, 'srd');
     });
 
     test('Open5eSpell.fromJson parses correctly', () {
       final json = {
-        'slug': 'fireball',
+        'url': 'https://api.open5e.com/v2/spells/fireball/',
+        'key': 'fireball',
         'name': 'Fireball',
         'desc': 'A burst of flame',
         'level': 3,
         'school': 'Evocation',
-        'components': 'V,S,M',
-        'ritual': false,
-        'concentration': false,
-        'duration': 'Instantaneous',
-        'casting_time': '1 action',
-        'dnd_class': ['Wizard', 'Sorcerer'],
       };
 
       final spell = Open5eSpell.fromJson(json);
 
-      expect(spell.slug, 'fireball');
+      expect(spell.key, 'fireball');
       expect(spell.name, 'Fireball');
       expect(spell.level, 3);
       expect(spell.school, 'Evocation');
-      expect(spell.ritual, false);
-      expect(spell.concentration, false);
-      expect(spell.dndClass, ['Wizard', 'Sorcerer']);
     });
 
     test('Weapon.fromJson parses correctly', () {
       final json = {
-        'slug': 'longsword',
+        'url': 'https://api.open5e.com/v2/weapons/longsword/',
+        'key': 'longsword',
         'name': 'Longsword',
         'category': 'Martial Melee Weapon',
-        'damage': '1d8',
-        'damage_type': 'slashing',
-        'weight': '3 lb.',
-        'properties': 'Versatile (1d10)',
+        'type': 'Weapon',
       };
 
       final weapon = Weapon.fromJson(json);
 
-      expect(weapon.slug, 'longsword');
+      expect(weapon.key, 'longsword');
       expect(weapon.name, 'Longsword');
       expect(weapon.category, 'Martial Melee Weapon');
-      expect(weapon.damage, '1d8');
-      expect(weapon.damageType, 'slashing');
     });
 
-    test('Race.fromJson parses correctly', () {
+    test('Species.fromJson parses correctly', () {
       final json = {
-        'slug': 'elf',
+        'url': 'https://api.open5e.com/v2/species/elf/',
+        'key': 'elf',
         'name': 'Elf',
         'desc': 'Graceful and long-lived',
-        'asi': '+2 Dexterity',
-        'age': 'Mature at 100 years',
-        'size': 'Medium',
-        'speed': '30 ft.',
       };
 
-      final race = Race.fromJson(json);
+      final species = Species.fromJson(json);
 
-      expect(race.slug, 'elf');
-      expect(race.name, 'Elf');
-      expect(race.asi, '+2 Dexterity');
-      expect(race.size, 'Medium');
+      expect(species.key, 'elf');
+      expect(species.name, 'Elf');
+      expect(species.desc, 'Graceful and long-lived');
     });
 
     test('CharacterClass.fromJson parses correctly', () {
       final json = {
-        'slug': 'fighter',
+        'url': 'https://api.open5e.com/v2/classes/fighter/',
+        'key': 'fighter',
         'name': 'Fighter',
         'desc': 'A master of martial combat',
         'hit_dice': '1d10',
-        'prof_armor': 'All armor, shields',
-        'prof_weapons': 'Simple weapons, martial weapons',
       };
 
       final characterClass = CharacterClass.fromJson(json);
 
-      expect(characterClass.slug, 'fighter');
+      expect(characterClass.key, 'fighter');
       expect(characterClass.name, 'Fighter');
       expect(characterClass.hitDice, '1d10');
-      expect(characterClass.profArmor, 'All armor, shields');
     });
 
     test('Feat.fromJson parses correctly', () {
       final json = {
-        'slug': 'alert',
+        'url': 'https://api.open5e.com/v2/feats/alert/',
+        'key': 'alert',
         'name': 'Alert',
         'desc': 'Always on alert',
-        'prerequisite': 'None',
       };
 
       final feat = Feat.fromJson(json);
 
-      expect(feat.slug, 'alert');
+      expect(feat.key, 'alert');
       expect(feat.name, 'Alert');
-      expect(feat.prerequisite, 'None');
     });
 
     test('Condition.fromJson parses correctly', () {
       final json = {
-        'slug': 'blinded',
+        'url': 'https://api.open5e.com/v2/conditions/blinded/',
+        'key': 'blinded',
         'name': 'Blinded',
         'desc': 'Cannot see',
       };
 
       final condition = Condition.fromJson(json);
 
-      expect(condition.slug, 'blinded');
+      expect(condition.key, 'blinded');
       expect(condition.name, 'Blinded');
+    });
+
+    test('Creature.fromJson parses correctly', () {
+      final json = {
+        'url': 'https://api.open5e.com/v2/creatures/ancient-red-dragon/',
+        'key': 'ancient-red-dragon',
+        'name': 'Ancient Red Dragon',
+        'type': 'Dragon',
+        'challenge_rating_decimal': '24.00',
+        'armor_class': 22,
+      };
+
+      final creature = Creature.fromJson(json);
+
+      expect(creature.key, 'ancient-red-dragon');
+      expect(creature.name, 'Ancient Red Dragon');
+      expect(creature.type, 'Dragon');
+      expect(creature.challengeRating, '24.00');
+      expect(creature.armorClass, 22);
     });
   });
 
@@ -254,23 +284,55 @@ void main() {
           .thenAnswer((_) async => {});
     });
 
-    test('service methods are available and type-safe', () {
-      // Just verify that all methods exist and return the correct types
-      expect(service.getMonsters, isA<Function>());
+    test('service methods are available and type-safe for all 33 endpoints', () {
+      // Creatures
+      expect(service.getCreatures, isA<Function>());
+      expect(service.getCreatureByKey, isA<Function>());
+      expect(service.getCreatureTypes, isA<Function>());
+      expect(service.getCreatureSets, isA<Function>());
+      
+      // Spells
       expect(service.getSpells, isA<Function>());
+      expect(service.getSpellByKey, isA<Function>());
+      expect(service.getSpellSchools, isA<Function>());
+      
+      // Character
       expect(service.getBackgrounds, isA<Function>());
       expect(service.getFeats, isA<Function>());
-      expect(service.getConditions, isA<Function>());
-      expect(service.getRaces, isA<Function>());
+      expect(service.getSpecies, isA<Function>());
       expect(service.getClasses, isA<Function>());
+      expect(service.getAbilities, isA<Function>());
+      expect(service.getSkills, isA<Function>());
+      
+      // Equipment
+      expect(service.getItems, isA<Function>());
       expect(service.getMagicItems, isA<Function>());
       expect(service.getWeapons, isA<Function>());
       expect(service.getArmor, isA<Function>());
+      expect(service.getItemSets, isA<Function>());
+      expect(service.getItemCategories, isA<Function>());
+      expect(service.getItemRarities, isA<Function>());
+      expect(service.getWeaponProperties, isA<Function>());
+      
+      // Mechanics
+      expect(service.getConditions, isA<Function>());
+      expect(service.getDamageTypes, isA<Function>());
+      expect(service.getLanguages, isA<Function>());
+      expect(service.getAlignments, isA<Function>());
+      expect(service.getSizes, isA<Function>());
+      expect(service.getEnvironments, isA<Function>());
+      
+      // Documentation
       expect(service.getDocuments, isA<Function>());
-      expect(service.getPlanes, isA<Function>());
-      expect(service.getSections, isA<Function>());
-      expect(service.getSpellLists, isA<Function>());
-      expect(service.getManifest, isA<Function>());
+      expect(service.getGameSystems, isA<Function>());
+      expect(service.getPublishers, isA<Function>());
+      expect(service.getLicenses, isA<Function>());
+      
+      // Rules & Media
+      expect(service.getRules, isA<Function>());
+      expect(service.getRuleSets, isA<Function>());
+      expect(service.getImages, isA<Function>());
+      expect(service.getServices, isA<Function>());
     });
   });
 }
