@@ -4,12 +4,13 @@ import 'package:http/http.dart' show Client, Response;
 import 'package:moonforge/core/services/open5e/open5e_endpoints.dart';
 import 'package:moonforge/core/services/open5e/models/character.dart';
 import 'package:moonforge/core/services/open5e/models/common.dart';
+import 'package:moonforge/core/services/open5e/models/creatures.dart';
 import 'package:moonforge/core/services/open5e/models/equipment.dart';
 import 'package:moonforge/core/services/open5e/models/mechanics.dart';
+import 'package:moonforge/core/services/open5e/models/rules.dart';
 import 'package:moonforge/core/services/open5e/models/spells.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/models/monster.dart';
 
 /// Query options for Open5e API v2 requests
 ///
@@ -245,8 +246,11 @@ class Open5eClient {
     final buffer = StringBuffer('${endpoint}_page_${options.page}');
     if (options.limit != null) buffer.write('_limit_${options.limit}');
     if (options.search != null) buffer.write('_search_${options.search}');
-    if (options.documentSlug != null) {
-      buffer.write('_doc_${options.documentSlug}');
+    if (options.gameSystemKey != null) {
+      buffer.write('_gs_${options.gameSystemKey}');
+    }
+    if (options.documentKey != null) {
+      buffer.write('_doc_${options.documentKey}');
     }
     if (options.ordering != null) buffer.write('_order_${options.ordering}');
     if (options.filters != null && options.filters!.isNotEmpty) {
@@ -259,33 +263,58 @@ class Open5eClient {
   }
 }
 
-/// High-level service for accessing Open5e data
+/// High-level service for accessing Open5e v2 data
 ///
-/// Provides type-safe methods for all Open5e endpoints with caching,
-/// filtering, searching, and ordering support.
+/// Provides type-safe methods for all Open5e v2 endpoints with caching,
+/// filtering, searching, and ordering support. All requests default to
+/// 5e-2024 gamesystem unless specified otherwise.
 class Open5eService {
   final Open5eClient _client;
 
   Open5eService(PersistenceService persistence, {Client? httpClient})
       : _client = Open5eClient(persistence, httpClient: httpClient);
 
-  // Monsters
-  Future<PaginatedResponse<Monster>?> getMonsters({
+  // Creatures (formerly Monsters in v1)
+  Future<PaginatedResponse<Creature>?> getCreatures({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.monsters,
-        fromJson: Monster.fromOpen5eJson,
+        endpoint: Open5eEndpoints.creatures,
+        fromJson: Creature.fromJson,
         options: options,
         useCache: useCache,
       );
 
-  Future<Monster?> getMonsterBySlug(String slug, {bool useCache = true}) =>
+  Future<Creature?> getCreatureByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
-        endpoint: Open5eEndpoints.monsters,
-        slug: slug,
-        fromJson: Monster.fromOpen5eJson,
+        endpoint: Open5eEndpoints.creatures,
+        slug: key,
+        fromJson: Creature.fromJson,
+        useCache: useCache,
+      );
+
+  // Creature Types
+  Future<PaginatedResponse<CreatureType>?> getCreatureTypes({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.creatureTypes,
+        fromJson: CreatureType.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Creature Sets
+  Future<PaginatedResponse<CreatureSet>?> getCreatureSets({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.creatureSets,
+        fromJson: CreatureSet.fromJson,
+        options: options,
         useCache: useCache,
       );
 
@@ -301,11 +330,23 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Open5eSpell?> getSpellBySlug(String slug, {bool useCache = true}) =>
+  Future<Open5eSpell?> getSpellByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.spells,
-        slug: slug,
+        slug: key,
         fromJson: Open5eSpell.fromJson,
+        useCache: useCache,
+      );
+
+  // Spell Schools
+  Future<PaginatedResponse<SpellSchool>?> getSpellSchools({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.spellSchools,
+        fromJson: SpellSchool.fromJson,
+        options: options,
         useCache: useCache,
       );
 
@@ -321,11 +362,11 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Background?> getBackgroundBySlug(String slug,
+  Future<Background?> getBackgroundByKey(String key,
           {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.backgrounds,
-        slug: slug,
+        slug: key,
         fromJson: Background.fromJson,
         useCache: useCache,
       );
@@ -342,51 +383,31 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Feat?> getFeatBySlug(String slug, {bool useCache = true}) =>
+  Future<Feat?> getFeatByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.feats,
-        slug: slug,
+        slug: key,
         fromJson: Feat.fromJson,
         useCache: useCache,
       );
 
-  // Conditions
-  Future<PaginatedResponse<Condition>?> getConditions({
+  // Species (formerly Races in v1)
+  Future<PaginatedResponse<Species>?> getSpecies({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.conditions,
-        fromJson: Condition.fromJson,
+        endpoint: Open5eEndpoints.species,
+        fromJson: Species.fromJson,
         options: options,
         useCache: useCache,
       );
 
-  Future<Condition?> getConditionBySlug(String slug, {bool useCache = true}) =>
+  Future<Species?> getSpeciesByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
-        endpoint: Open5eEndpoints.conditions,
-        slug: slug,
-        fromJson: Condition.fromJson,
-        useCache: useCache,
-      );
-
-  // Races
-  Future<PaginatedResponse<Race>?> getRaces({
-    Open5eQueryOptions? options,
-    bool useCache = true,
-  }) =>
-      _client.fetchList(
-        endpoint: Open5eEndpoints.races,
-        fromJson: Race.fromJson,
-        options: options,
-        useCache: useCache,
-      );
-
-  Future<Race?> getRaceBySlug(String slug, {bool useCache = true}) =>
-      _client.fetchBySlug(
-        endpoint: Open5eEndpoints.races,
-        slug: slug,
-        fromJson: Race.fromJson,
+        endpoint: Open5eEndpoints.species,
+        slug: key,
+        fromJson: Species.fromJson,
         useCache: useCache,
       );
 
@@ -402,12 +423,56 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<CharacterClass?> getClassBySlug(String slug,
+  Future<CharacterClass?> getClassByKey(String key,
           {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.classes,
-        slug: slug,
+        slug: key,
         fromJson: CharacterClass.fromJson,
+        useCache: useCache,
+      );
+
+  // Abilities
+  Future<PaginatedResponse<Ability>?> getAbilities({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.abilities,
+        fromJson: Ability.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Skills
+  Future<PaginatedResponse<Skill>?> getSkills({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.skills,
+        fromJson: Skill.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Items
+  Future<PaginatedResponse<Item>?> getItems({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.items,
+        fromJson: Item.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  Future<Item?> getItemByKey(String key, {bool useCache = true}) =>
+      _client.fetchBySlug(
+        endpoint: Open5eEndpoints.items,
+        slug: key,
+        fromJson: Item.fromJson,
         useCache: useCache,
       );
 
@@ -423,11 +488,47 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<MagicItem?> getMagicItemBySlug(String slug, {bool useCache = true}) =>
+  Future<MagicItem?> getMagicItemByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.magicItems,
-        slug: slug,
+        slug: key,
         fromJson: MagicItem.fromJson,
+        useCache: useCache,
+      );
+
+  // Item Sets
+  Future<PaginatedResponse<ItemSet>?> getItemSets({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.itemSets,
+        fromJson: ItemSet.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Item Categories
+  Future<PaginatedResponse<ItemCategory>?> getItemCategories({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.itemCategories,
+        fromJson: ItemCategory.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Item Rarities
+  Future<PaginatedResponse<ItemRarity>?> getItemRarities({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.itemRarities,
+        fromJson: ItemRarity.fromJson,
+        options: options,
         useCache: useCache,
       );
 
@@ -443,11 +544,23 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Weapon?> getWeaponBySlug(String slug, {bool useCache = true}) =>
+  Future<Weapon?> getWeaponByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.weapons,
-        slug: slug,
+        slug: key,
         fromJson: Weapon.fromJson,
+        useCache: useCache,
+      );
+
+  // Weapon Properties
+  Future<PaginatedResponse<WeaponProperty>?> getWeaponProperties({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.weaponProperties,
+        fromJson: WeaponProperty.fromJson,
+        options: options,
         useCache: useCache,
       );
 
@@ -463,11 +576,91 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Armor?> getArmorBySlug(String slug, {bool useCache = true}) =>
+  Future<Armor?> getArmorByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.armor,
-        slug: slug,
+        slug: key,
         fromJson: Armor.fromJson,
+        useCache: useCache,
+      );
+
+  // Conditions
+  Future<PaginatedResponse<Condition>?> getConditions({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.conditions,
+        fromJson: Condition.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  Future<Condition?> getConditionByKey(String key, {bool useCache = true}) =>
+      _client.fetchBySlug(
+        endpoint: Open5eEndpoints.conditions,
+        slug: key,
+        fromJson: Condition.fromJson,
+        useCache: useCache,
+      );
+
+  // Damage Types
+  Future<PaginatedResponse<DamageType>?> getDamageTypes({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.damageTypes,
+        fromJson: DamageType.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Languages
+  Future<PaginatedResponse<Language>?> getLanguages({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.languages,
+        fromJson: Language.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Alignments
+  Future<PaginatedResponse<Alignment>?> getAlignments({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.alignments,
+        fromJson: Alignment.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Sizes
+  Future<PaginatedResponse<Size>?> getSizes({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.sizes,
+        fromJson: Size.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Environments
+  Future<PaginatedResponse<Environment>?> getEnvironments({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.environments,
+        fromJson: Environment.fromJson,
+        options: options,
         useCache: useCache,
       );
 
@@ -483,82 +676,110 @@ class Open5eService {
         useCache: useCache,
       );
 
-  Future<Document?> getDocumentBySlug(String slug, {bool useCache = true}) =>
+  Future<Document?> getDocumentByKey(String key, {bool useCache = true}) =>
       _client.fetchBySlug(
         endpoint: Open5eEndpoints.documents,
-        slug: slug,
+        slug: key,
         fromJson: Document.fromJson,
         useCache: useCache,
       );
 
-  // Planes
-  Future<PaginatedResponse<Plane>?> getPlanes({
+  // Licenses
+  Future<PaginatedResponse<License>?> getLicenses({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.planes,
-        fromJson: Plane.fromJson,
+        endpoint: Open5eEndpoints.licenses,
+        fromJson: License.fromJson,
         options: options,
         useCache: useCache,
       );
 
-  Future<Plane?> getPlaneBySlug(String slug, {bool useCache = true}) =>
-      _client.fetchBySlug(
-        endpoint: Open5eEndpoints.planes,
-        slug: slug,
-        fromJson: Plane.fromJson,
-        useCache: useCache,
-      );
-
-  // Sections
-  Future<PaginatedResponse<Section>?> getSections({
+  // Publishers
+  Future<PaginatedResponse<Publisher>?> getPublishers({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.sections,
-        fromJson: Section.fromJson,
+        endpoint: Open5eEndpoints.publishers,
+        fromJson: Publisher.fromJson,
         options: options,
         useCache: useCache,
       );
 
-  Future<Section?> getSectionBySlug(String slug, {bool useCache = true}) =>
-      _client.fetchBySlug(
-        endpoint: Open5eEndpoints.sections,
-        slug: slug,
-        fromJson: Section.fromJson,
-        useCache: useCache,
-      );
-
-  // Spell Lists
-  Future<PaginatedResponse<SpellList>?> getSpellLists({
+  // Game Systems
+  Future<PaginatedResponse<GameSystem>?> getGameSystems({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.spellList,
-        fromJson: SpellList.fromJson,
+        endpoint: Open5eEndpoints.gameSystems,
+        fromJson: GameSystem.fromJson,
         options: options,
         useCache: useCache,
       );
 
-  Future<SpellList?> getSpellListBySlug(String slug, {bool useCache = true}) =>
-      _client.fetchBySlug(
-        endpoint: Open5eEndpoints.spellList,
-        slug: slug,
-        fromJson: SpellList.fromJson,
-        useCache: useCache,
-      );
-
-  // Manifest
-  Future<PaginatedResponse<ManifestEntry>?> getManifest({
+  // Rules
+  Future<PaginatedResponse<Rule>?> getRules({
     Open5eQueryOptions? options,
     bool useCache = true,
   }) =>
       _client.fetchList(
-        endpoint: Open5eEndpoints.manifest,
-        fromJson: ManifestEntry.fromJson,
+        endpoint: Open5eEndpoints.rules,
+        fromJson: Rule.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  Future<Rule?> getRuleByKey(String key, {bool useCache = true}) =>
+      _client.fetchBySlug(
+        endpoint: Open5eEndpoints.rules,
+        slug: key,
+        fromJson: Rule.fromJson,
+        useCache: useCache,
+      );
+
+  // Rule Sets
+  Future<PaginatedResponse<RuleSet>?> getRuleSets({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.ruleSets,
+        fromJson: RuleSet.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  // Images
+  Future<PaginatedResponse<Open5eImage>?> getImages({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.images,
+        fromJson: Open5eImage.fromJson,
+        options: options,
+        useCache: useCache,
+      );
+
+  Future<Open5eImage?> getImageByKey(String key, {bool useCache = true}) =>
+      _client.fetchBySlug(
+        endpoint: Open5eEndpoints.images,
+        slug: key,
+        fromJson: Open5eImage.fromJson,
+        useCache: useCache,
+      );
+
+  // Services
+  Future<PaginatedResponse<Open5eService>?> getServices({
+    Open5eQueryOptions? options,
+    bool useCache = true,
+  }) =>
+      _client.fetchList(
+        endpoint: Open5eEndpoints.services,
+        fromJson: Open5eService.fromJson,
         options: options,
         useCache: useCache,
       );
