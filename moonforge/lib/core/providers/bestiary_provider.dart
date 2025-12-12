@@ -3,10 +3,9 @@ import 'package:moonforge/core/providers/base_async_provider.dart';
 import 'package:moonforge/core/services/open5e/index.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
-import 'package:moonforge/data/models/monster.dart';
 
-/// Provider for managing bestiary data using Open5e API
-class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
+/// Provider for managing bestiary data using Open5e API v2
+class BestiaryProvider extends BaseAsyncProvider<List<Creature>> {
   final Open5eService _open5eService;
   DateTime? _lastSync;
 
@@ -16,8 +15,8 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
     _loadCachedData();
   }
 
-  /// Get all monsters
-  List<Monster> get monsters => state.dataOrNull ?? const [];
+  /// Get all creatures
+  List<Creature> get creatures => state.dataOrNull ?? const [];
 
   /// Check if data is currently loading
   bool get isLoading => state.isLoading;
@@ -32,12 +31,12 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
   DateTime? get lastSync => _lastSync;
 
   /// Check if we have attempted to load data (not necessarily that cache exists)
-  bool get hasLoadedData => monsters.isNotEmpty || _lastSync != null;
+  bool get hasLoadedData => creatures.isNotEmpty || _lastSync != null;
 
   /// Load cached data without triggering sync
   Future<void> _loadCachedData() async {
     try {
-      final response = await _open5eService.getMonsters(
+      final response = await _open5eService.getCreatures(
         options: Open5eQueryOptions(page: 1),
         useCache: true,
       );
@@ -53,14 +52,14 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
     }
   }
 
-  /// Load monsters with optional query options
-  Future<void> loadMonsters({
+  /// Load creatures with optional query options
+  Future<void> loadCreatures({
     Open5eQueryOptions? options,
     bool forceSync = false,
   }) async {
     updateState(const AsyncState.loading());
     try {
-      final response = await _open5eService.getMonsters(
+      final response = await _open5eService.getCreatures(
         options: options ?? Open5eQueryOptions(page: 1),
         useCache: !forceSync,
       );
@@ -69,7 +68,7 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
         updateState(AsyncState.data(response.results));
         _lastSync = DateTime.now();
       } else {
-        updateState(const AsyncState.error('Failed to load monsters'));
+        updateState(const AsyncState.error('Failed to load creatures'));
       }
     } catch (e, st) {
       updateState(AsyncState.error(e, st));
@@ -80,14 +79,14 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
     }
   }
 
-  /// Get a specific monster by slug
-  Future<Monster?> getMonsterBySlug(String slug) {
-    return _open5eService.getMonsterBySlug(slug);
+  /// Get a specific creature by key
+  Future<Creature?> getCreatureByKey(String key) {
+    return _open5eService.getCreatureByKey(key);
   }
 
   /// Force refresh from remote
   Future<void> refresh() async {
-    await loadMonsters(forceSync: true);
+    await loadCreatures(forceSync: true);
   }
 
   /// Clear cached data
