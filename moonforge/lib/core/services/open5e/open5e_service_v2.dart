@@ -12,6 +12,42 @@ import 'package:moonforge/core/services/open5e/models/spells.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/utils/logger.dart';
 
+/// Type-safe game system keys for Open5e API v2
+///
+/// These values are used for filtering content by game system.
+/// Can be fetched dynamically from /v2/gamesystems/ endpoint.
+class GameSystemKey {
+  static const String edition2024 = '5e-2024';
+  static const String edition2014 = '5e-2014';
+  static const String advancedEdition = 'a5e';
+  
+  /// All available game system keys
+  static const List<String> all = [edition2024, edition2014, advancedEdition];
+}
+
+/// Type-safe document keys for Open5e API v2
+///
+/// These represent source documents/books. The full list can be fetched
+/// dynamically from /v2/documents/ endpoint for the most up-to-date values.
+class DocumentKey {
+  // 5e 2024 documents
+  static const String srd2024 = 'srd-2024';
+  
+  // 5e 2014 documents  
+  static const String srd2014 = 'srd';
+  static const String wotcSrd = 'wotc-srd';
+  
+  // Third-party documents
+  static const String tomeOfBeasts = 'tob';
+  static const String tomeOfBeasts2 = 'tob2';
+  static const String tomeOfBeasts3 = 'tob3';
+  static const String creatureCodex = 'cc';
+  static const String menagerie = 'menagerie';
+  
+  /// Common document keys
+  static const List<String> common = [srd2024, srd2014, tomeOfBeasts];
+}
+
 /// Query options for Open5e API v2 requests
 ///
 /// Supports filtering, searching, ordering, and pagination according to
@@ -20,12 +56,16 @@ class Open5eQueryOptions {
   /// Case-insensitive name search (name__icontains parameter)
   final String? search;
 
-  /// Filter by gamesystem key (e.g., '5e-2024', '5e-2014', 'a5e')
+  /// Filter by gamesystem key (use GameSystemKey constants)
   /// Defaults to '5e-2024' if not specified
   final String? gameSystemKey;
 
-  /// Filter by source document key (e.g., 'srd-2024', 'tob')
+  /// Filter by source document key (use DocumentKey constants)
   final String? documentKey;
+
+  /// Filter by creature type (e.g., 'dragon', 'undead', 'humanoid')
+  /// Only applicable for creatures endpoint. Get values from /v2/creaturetypes/
+  final String? creatureType;
 
   /// Ordering field (e.g., 'name', 'challenge_rating_decimal', '-name' for descending)
   final String? ordering;
@@ -43,6 +83,7 @@ class Open5eQueryOptions {
     this.search,
     this.gameSystemKey,
     this.documentKey,
+    this.creatureType,
     this.ordering,
     this.page = 1,
     this.limit,
@@ -61,6 +102,7 @@ class Open5eQueryOptions {
 
     if (search != null) params['name__icontains'] = search!;
     if (documentKey != null) params['document__key__iexact'] = documentKey!;
+    if (creatureType != null) params['type'] = creatureType!;
     if (ordering != null) params['ordering'] = ordering!;
     if (limit != null) params['limit'] = limit.toString();
     if (filters != null) params.addAll(filters!);
