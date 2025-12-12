@@ -30,6 +30,39 @@ void main() {
     });
   });
 
+  group('Open5eQueryOptions', () {
+    test('toQueryParams includes all parameters', () {
+      final options = Open5eQueryOptions(
+        search: 'dragon',
+        documentSlug: 'tob',
+        ordering: 'name',
+        page: 2,
+        limit: 50,
+        filters: {'cr': '3'},
+      );
+
+      final params = options.toQueryParams();
+
+      expect(params['search'], 'dragon');
+      expect(params['document__slug'], 'tob');
+      expect(params['ordering'], 'name');
+      expect(params['page'], '2');
+      expect(params['limit'], '50');
+      expect(params['cr'], '3');
+      expect(params['format'], 'json');
+    });
+
+    test('toQueryParams handles minimal options', () {
+      final options = Open5eQueryOptions();
+      final params = options.toQueryParams();
+
+      expect(params['page'], '1');
+      expect(params['format'], 'json');
+      expect(params.containsKey('search'), false);
+      expect(params.containsKey('document__slug'), false);
+    });
+  });
+
   group('PaginatedResponse', () {
     test('fromJson parses valid response', () {
       final json = {
@@ -213,9 +246,11 @@ void main() {
       service = Open5eService(mockPersistence, httpClient: mockClient);
 
       // Default stub for persistence methods
-      when(() => mockPersistence.read<String>(any(), boxName: any(named: 'boxName')))
+      when(() => mockPersistence.read<String>(any(),
+              boxName: any(named: 'boxName')))
           .thenReturn(null);
-      when(() => mockPersistence.write(any(), any(), boxName: any(named: 'boxName')))
+      when(() => mockPersistence.write(any(), any(),
+              boxName: any(named: 'boxName')))
           .thenAnswer((_) async => {});
     });
 
