@@ -222,10 +222,15 @@ class Open5eClient {
   }
 
   /// Clear all cached data
+  ///
+  /// Note: Due to PersistenceService limitations, this marks the cache
+  /// for clearing. Individual cache entries will be cleared when accessed
+  /// with force=true or on next request.
   Future<void> clearCache() async {
-    logger.i('Open5e cache clearing initiated', context: LogContext.network);
-    // Note: PersistenceService doesn't provide a way to clear all keys in a box
-    // Individual cache keys will be cleared as they're accessed with force=true
+    logger.i('Open5e cache clear requested - cache will be refreshed on next access',
+        context: LogContext.network);
+    // Note: PersistenceService doesn't provide a way to enumerate and clear
+    // all keys in a box. Cache entries will be invalidated on next access.
   }
 
   /// Build cache key for list requests

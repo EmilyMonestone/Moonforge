@@ -31,8 +31,8 @@ class BestiaryProvider extends BaseAsyncProvider<List<Monster>> {
   /// Get last sync timestamp
   DateTime? get lastSync => _lastSync;
 
-  /// Check if data is cached locally
-  bool get isCached => monsters.isNotEmpty;
+  /// Check if we have attempted to load data (not necessarily that cache exists)
+  bool get hasLoadedData => monsters.isNotEmpty || _lastSync != null;
 
   /// Load cached data without triggering sync
   Future<void> _loadCachedData() async {
