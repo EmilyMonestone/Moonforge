@@ -24,6 +24,7 @@ import 'package:moonforge/features/entities/views/entity_edit_view.dart';
 import 'package:moonforge/features/entities/views/entity_list_view.dart';
 import 'package:moonforge/features/entities/views/entity_view.dart';
 import 'package:moonforge/features/home/views/home_view.dart';
+import 'package:moonforge/features/open5e_browser/views/open5e_browser_view.dart';
 import 'package:moonforge/features/parties/views/member_edit_view.dart';
 import 'package:moonforge/features/parties/views/member_view.dart';
 import 'package:moonforge/features/parties/views/party_edit_view.dart';
@@ -148,6 +149,7 @@ part 'router_config.g.dart';
       routes: <TypedRoute<RouteData>>[
         TypedGoRoute<SettingsRouteData>(path: '/settings'),
         TypedGoRoute<ProfileRouteData>(path: '/profile'),
+        TypedGoRoute<Open5eBrowserRouteData>(path: '/open5e-browser'),
       ],
     ),
   ],
@@ -597,6 +599,16 @@ class ProfileRouteData extends GoRouteData with $ProfileRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ProfileView();
+}
+
+@immutable
+class Open5eBrowserRouteData extends GoRouteData
+    with $Open5eBrowserRouteData {
+  const Open5eBrowserRouteData();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const Open5eBrowserView();
 }
 
 // Public routes (outside shell)
