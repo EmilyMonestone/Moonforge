@@ -3,24 +3,34 @@
 /// A comprehensive, type-safe client for the Open5e API that provides:
 /// - Type-safe models for all major Open5e resources
 /// - Caching with ETag support
+/// - Filtering, searching, and ordering per official API docs
 /// - Pagination support
-/// - Search capabilities
+/// - Document filtering (e.g., filter by '5esrd', 'tob')
 /// - Easy-to-use service methods
 ///
 /// Usage:
 /// ```dart
 /// final service = Open5eService(persistenceService);
 ///
-/// // Fetch monsters
-/// final monsters = await service.getMonsters(page: 1);
+/// // Fetch monsters with Challenge Rating 3 from Tome of Beasts
+/// final monsters = await service.getMonsters(
+///   options: Open5eQueryOptions(
+///     filters: {'cr': '3'},
+///     documentSlug: 'tob',
+///     ordering: 'name',
+///   ),
+/// );
 ///
-/// // Get a specific monster
-/// final dragon = await service.getMonsterBySlug('ancient-red-dragon');
-///
-/// // Search for spells
-/// final fireSpells = await service.searchSpells('fire');
+/// // Search for fire-related spells
+/// final fireSpells = await service.getSpells(
+///   options: Open5eQueryOptions(search: 'fire'),
+/// );
 /// ```
 
 export 'open5e_endpoints.dart';
-export 'open5e_models.dart';
-export 'open5e_service.dart';
+export 'open5e_service_v2.dart';
+export 'models/character.dart';
+export 'models/common.dart';
+export 'models/equipment.dart';
+export 'models/mechanics.dart';
+export 'models/spells.dart';

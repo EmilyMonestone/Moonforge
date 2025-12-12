@@ -1,5 +1,5 @@
 /// Open5e API endpoint configuration
-/// 
+///
 /// Defines all available Open5e API endpoints with their base URLs.
 /// The API has both v1 and v2 versions of various resources.
 class Open5eEndpoints {
