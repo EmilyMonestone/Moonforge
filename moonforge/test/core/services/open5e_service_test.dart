@@ -50,7 +50,7 @@ void main() {
       final params = options.toQueryParams();
 
       expect(params['name__icontains'], 'dragon');
-      expect(params['document__key'], DocumentKey.tomeOfBeasts);
+      expect(params['document__key__iexact'], DocumentKey.tomeOfBeasts);
       expect(params['document__gamesystem__key__iexact'], GameSystemKey.edition2024);
       expect(params['ordering'], 'name');
       expect(params['page'], '2');
