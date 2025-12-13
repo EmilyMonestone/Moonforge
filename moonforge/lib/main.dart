@@ -116,8 +116,8 @@ void _initializeLogger() {
   // In debug mode, enable additional logging contexts for development
   if (kDebugMode) {
     logger.enableContexts([
-      LogContext.sync,      // Enable sync logging to debug sync operations
-      LogContext.database,  // Enable database logging for query debugging
+      LogContext.sync, // Enable sync logging to debug sync operations
+      LogContext.database, // Enable database logging for query debugging
       // LogContext.auth,      // Uncomment to debug authentication issues
       // LogContext.navigation, // Uncomment to debug navigation issues
       // LogContext.ui,        // Uncomment to debug UI state issues
@@ -126,7 +126,7 @@ void _initializeLogger() {
     ]);
     logger.i('Logger initialized with contexts: ${logger.enabledContexts}');
   }
-  
+
   // In release mode, only general context is enabled (default)
   // This reduces log noise in production while keeping errors visible
 }
