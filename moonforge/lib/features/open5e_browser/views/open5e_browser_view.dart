@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Alignment;
 import 'package:moonforge/core/services/open5e/index.dart';
 import 'package:moonforge/core/services/persistence_service.dart';
 import 'package:moonforge/core/widgets/open5e/character_widgets.dart';
@@ -268,7 +268,7 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
       case Open5eEndpointType.items:
         return ItemWidget(item: item as Item);
       case Open5eEndpointType.magicItems:
-        return MagicItemWidget(item: item as MagicItem);
+        return MagicItemWidget(magicItem: item as MagicItem);
       case Open5eEndpointType.weapons:
         return WeaponWidget(weapon: item as Weapon);
       case Open5eEndpointType.armor:
@@ -324,7 +324,7 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
 
   String? _getItemDescription(dynamic item) {
     if (item is Creature) {
-      return '${item.type ?? 'Unknown'} - CR ${item.challengeRating ?? '?'}';
+      return '${item.type ?? 'Unknown'} - CR ${item.challengeRatingText ?? item.challengeRatingDecimal?.toString() ?? '?'}';
     }
     if (item is Open5eSpell) {
       return 'Level ${item.level ?? '?'} ${item.school ?? 'Unknown'}';
@@ -340,12 +340,12 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
           ? '${desc.substring(0, 100)}...'
           : desc;
     }
-    if (item is CharacterClass) return item.hitDice;
+    if (item is CharacterClass) return item.desc.length > 100 ? '${item.desc.substring(0, 100)}...' : item.desc;
     if (item is MagicItem || item is Item) return item.type;
     if (item is Weapon) return item.category;
     if (item is Armor) return item.category;
     if (item is Ability) return item.fullName;
-    if (item is Skill) return item.abilityScore;
+    if (item is Skill) return item.ability;
     // For simple types, just return the first part of description
     final desc = item.desc;
     if (desc != null && desc.isNotEmpty) {

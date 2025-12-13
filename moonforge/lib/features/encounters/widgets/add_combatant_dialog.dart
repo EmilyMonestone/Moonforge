@@ -97,7 +97,7 @@ class BestiaryMonsterList extends StatelessWidget {
             Text(l10n.errorSomethingWentWrong),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => bestiaryProvider.loadMonsters(forceSync: true),
+              onPressed: () => bestiaryProvider.loadCreatures(forceSync: true),
               child: Text(l10n.retry),
             ),
           ],
@@ -105,21 +105,21 @@ class BestiaryMonsterList extends StatelessWidget {
       );
     }
 
-    final monsters = bestiaryProvider.monsters;
+    final creatures = bestiaryProvider.creatures;
 
-    if (monsters.isEmpty) {
+    if (creatures.isEmpty) {
       return Center(child: Text(l10n.emptyStateNoItems));
     }
 
     return ListView.builder(
-      itemCount: monsters.length,
+      itemCount: creatures.length,
       itemBuilder: (context, index) {
-        final monster = monsters[index] as Map<String, dynamic>;
-        final name = monster['name'] as String? ?? 'Unknown';
-        final cr = monster['cr'] as String? ?? '0';
+        final creature = creatures[index] as Map<String, dynamic>;
+        final name = creature['name'] as String? ?? 'Unknown';
+        final cr = creature['cr'] as String? ?? '0';
         final xp = EncounterDifficultyService.getXpForCr(cr);
-        final hp = _parseHp(monster['hp']);
-        final ac = _parseAc(monster['ac']);
+        final hp = _parseHp(creature['hp']);
+        final ac = _parseAc(creature['ac']);
 
         return ListTile(
           title: Text(name),
