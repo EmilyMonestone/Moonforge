@@ -158,9 +158,13 @@ class Open5eClient {
     }
 
     // Build URL with query parameters
-    final uri = Uri.parse(endpoint).replace(
-      queryParameters: queryOptions.toQueryParams(),
-    );
+    // Parse the endpoint URL and merge existing query params with new ones
+    final baseUri = Uri.parse(endpoint);
+    final mergedParams = <String, String>{
+      ...baseUri.queryParameters, // Keep existing params like format=api
+      ...queryOptions.toQueryParams(), // Add new params
+    };
+    final uri = baseUri.replace(queryParameters: mergedParams);
 
     // Add ETag if available
     final headers = <String, String>{};
