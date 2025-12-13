@@ -119,9 +119,9 @@ void _initializeLogger() {
       LogContext.sync, // Enable sync logging to debug sync operations
       LogContext.database, // Enable database logging for query debugging
       // LogContext.auth,      // Uncomment to debug authentication issues
-      // LogContext.navigation, // Uncomment to debug navigation issues
+      LogContext.navigation, // Uncomment to debug navigation issues
       // LogContext.ui,        // Uncomment to debug UI state issues
-      // LogContext.network,   // Uncomment to debug network requests
+      LogContext.network, // Uncomment to debug network requests
       // LogContext.data,      // Uncomment to debug data parsing issues
     ]);
     logger.i('Logger initialized with contexts: ${logger.enabledContexts}');
