@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a227b3-f246-41f0-b68a-c15bf89151b8" name="Changes" comment="refactor: clean up TOC navigation code and improve layout consistency">
+    <list default="true" id="14a227b3-f246-41f0-b68a-c15bf89151b8" name="Changes" comment="refactor: update color definitions and improve layout consistency across components">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/assets/color/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/assets/color/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/navigation_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/navigation_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/widgets/surface_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/widgets/surface_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/adventure/views/adventure_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/views/campaign_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/campaign/widgets/campaign_stats_dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/chapter/views/chapter_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/stats_overview_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/features/home/widgets/stats_overview_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/breakpoints.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/breakpoints.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/repositories/menu_registry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/core/services/router_config.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/core/services/router_config.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/gen/colors.gen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/layout/widgets/common/app_navigation_rail.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/layout/widgets/common/app_navigation_rail.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moonforge/test/core/services/origin_resolver_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/moonforge/test/core/services/origin_resolver_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plan-navigationEnhancements.prompt.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,29 +22,70 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="copilot/add-responsive-toc-component" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;EmilyMoonstone&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/EmilyMoonstone/Moonforge.git&quot;,
+    &quot;accountId&quot;: &quot;b98d26bd-cc39-4b73-bbe4-e0bbd2bd58ce&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="36hFUUnzQ5wfcAdxRkviheyJ5L3" />
   <component name="ProjectLevelVcsManager">
     <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Flutter Test.tests in open5e_service_test.dart.executor": "Run",
     "Flutter.main.dart.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "#73 on copilot/refactor-open5e-api-connection",
+    "ignore.virus.scanning.warn.message": "true",
     "io.flutter.reload.alreadyRun": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Flutter Test.tests in open5e_service_test.dart">
+    <configuration name="tests in open5e_service_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/moonforge/test/core/services/open5e_service_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter Test.tests in open5e_service_test.dart" />
       <item itemvalue="PowerShell.build" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.tests in open5e_service_test.dart" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="feat: enhance TOC button visibility and improve layout handling in compact scaffolds">
@@ -82,7 +120,22 @@
       <option name="project" value="LOCAL" />
       <updated>1765382012258</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refactor: update color definitions and improve layout consistency across components">
+      <option name="closed" value="true" />
+      <created>1765386115246</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765386115246</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="14a227b3-f246-41f0-b68a-c15bf89151b8" name="Changes" comment="refactor: update color definitions and improve layout consistency across components" />
+      <created>1765450913307</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765450913307</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -90,7 +143,8 @@
     <MESSAGE value="refactor: improve code formatting and readability in app_navigation_rail.dart" />
     <MESSAGE value="feat: add localization support for table of contents in English and German" />
     <MESSAGE value="refactor: clean up TOC navigation code and improve layout consistency" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: clean up TOC navigation code and improve layout consistency" />
+    <MESSAGE value="refactor: update color definitions and improve layout consistency across components" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: update color definitions and improve layout consistency across components" />
   </component>
   <component name="com.gk646.codestats.settings.Save">
     <option name="commitTimePoints">
@@ -119,17 +173,31 @@
           <option name="totalLines" value="31139988" />
           <option name="info" value="refactor: clean up TOC navigation code and improve" />
         </TimePoint>
+        <TimePoint>
+          <option name="timestamp" value="1765386134206" />
+          <option name="linesCode" value="1256667" />
+          <option name="totalLines" value="30939276" />
+          <option name="info" value="refactor: update color definitions and improve lay" />
+        </TimePoint>
       </list>
     </option>
     <option name="genericTimePoints">
       <list>
         <TimePoint>
-          <option name="timestamp" value="1765382032188" />
-          <option name="linesCode" value="1256675" />
-          <option name="totalLines" value="31139988" />
+          <option name="timestamp" value="1765386134206" />
+          <option name="linesCode" value="1256667" />
+          <option name="totalLines" value="30939276" />
           <option name="info" value="Dec 10, 2025" />
         </TimePoint>
       </list>
     </option>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

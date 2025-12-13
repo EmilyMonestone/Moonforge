@@ -4,12 +4,12 @@
 ///  FlutterGen
 /// *****************************************************
 
+import 'package:flutter/material.dart';
 // coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
 import 'package:flutter/painting.dart';
-import 'package:flutter/material.dart';
 
 class ColorName {
   ColorName._();
@@ -17,8 +17,8 @@ class ColorName {
   /// Color: #E8A6D4
   static const Color accent = Color(0xFFE8A6D4);
 
-  /// Color: #FF6EC1
-  static const Color brandPrimary = Color(0xFFFF6EC1);
+  /// Color: #A855F7
+  static const Color brandPrimary = Color(0xFFA855F7);
 
   /// Color: #4E3847
   static const Color brandSecondary = Color(0xFF4E3847);

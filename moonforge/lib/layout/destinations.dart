@@ -24,6 +24,11 @@ final List<TabSpec> kPrimaryTabs = <TabSpec>[
   ),
   TabSpec(label: 'Party', icon: DomainType.party.icon, location: '/party'),
   TabSpec(
+    label: 'Open5e Browser',
+    icon: Icons.library_books_outlined,
+    location: '/open5e-browser',
+  ),
+  TabSpec(
     label: 'Settings',
     icon: Icons.settings_outlined,
     location: '/settings',

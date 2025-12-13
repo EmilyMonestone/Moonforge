@@ -24,6 +24,7 @@ import 'package:moonforge/features/entities/views/entity_edit_view.dart';
 import 'package:moonforge/features/entities/views/entity_list_view.dart';
 import 'package:moonforge/features/entities/views/entity_view.dart';
 import 'package:moonforge/features/home/views/home_view.dart';
+import 'package:moonforge/features/open5e_browser/views/open5e_browser_view.dart';
 import 'package:moonforge/features/parties/views/member_edit_view.dart';
 import 'package:moonforge/features/parties/views/member_view.dart';
 import 'package:moonforge/features/parties/views/party_edit_view.dart';
@@ -42,7 +43,7 @@ import 'package:moonforge/layout/layout_shell.dart';
 
 part 'router_config.g.dart';
 
-/// Main shell route with 4 branches: Home, Campaign, Party, Settings
+/// Main shell route with 5 branches: Home, Campaign, Party, Open5e, Settings
 @TypedStatefulShellRoute<AppShellRouteData>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     // Branch 0: Home/Auth
@@ -143,7 +144,13 @@ part 'router_config.g.dart';
         ),
       ],
     ),
-    // Branch 3: Settings / Profile
+    // Branch 3: Open5e Browser
+    TypedStatefulShellBranch<Open5eBranchData>(
+      routes: <TypedRoute<RouteData>>[
+        TypedGoRoute<Open5eBrowserRouteData>(path: '/open5e-browser'),
+      ],
+    ),
+    // Branch 4: Settings / Profile
     TypedStatefulShellBranch<SettingsBranchData>(
       routes: <TypedRoute<RouteData>>[
         TypedGoRoute<SettingsRouteData>(path: '/settings'),
@@ -180,6 +187,11 @@ class CampaignBranchData extends StatefulShellBranchData {
 @immutable
 class PartyBranchData extends StatefulShellBranchData {
   const PartyBranchData();
+}
+
+@immutable
+class Open5eBranchData extends StatefulShellBranchData {
+  const Open5eBranchData();
 }
 
 @immutable
@@ -597,6 +609,16 @@ class ProfileRouteData extends GoRouteData with $ProfileRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const ProfileView();
+}
+
+@immutable
+class Open5eBrowserRouteData extends GoRouteData
+    with $Open5eBrowserRouteData {
+  const Open5eBrowserRouteData();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const Open5eBrowserView();
 }
 
 // Public routes (outside shell)

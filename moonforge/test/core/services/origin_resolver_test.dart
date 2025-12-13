@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
 import 'package:moonforge/core/services/entity_gatherer.dart';
 import 'package:moonforge/core/services/origin_resolver.dart';
-import 'package:moonforge/core/utils/logger.dart';
 import 'package:moonforge/data/db/app_db.dart';
 import 'package:moonforge/data/repo/adventure_repository.dart';
 import 'package:moonforge/data/repo/campaign_repository.dart';
@@ -117,7 +116,7 @@ class FakeEncounterRepository implements EncounterRepository {
 void main() {
   // Configure logger for testing - allow warnings to help debug
   setUpAll(() {
-    logger = Logger(
+    var logger = Logger(
       printer: SimplePrinter(),
       level: Level.warning, // Allow warnings to see what's failing
     );

@@ -45,10 +45,6 @@ class AppNavigationRail extends StatelessWidget {
     final tocEntries = TocDeclaration.of(context);
     final tocController = TocProvider.of(context);
 
-    logger.d(
-      'AppNavigationRail: Building - TOC entries: ${tocEntries != null ? "${tocEntries.length} from TocDeclaration" : "null"}, controller: ${tocController != null ? "found" : "null"}',
-    );
-
     // For mobile compact, always use collapsed. Otherwise, respect user settings.
     final shouldExpand = !forceCollapsed && settings.isRailNavExtended;
 
@@ -85,8 +81,6 @@ class AppNavigationRail extends StatelessWidget {
         ),*/
     ];
 
-    logger.d('AppNavigationRail: Created ${sections.length} sections');
-
     return NavigationRailM3E(
       type: shouldExpand
           ? NavigationRailM3EType.expanded
@@ -99,9 +93,6 @@ class AppNavigationRail extends StatelessWidget {
         if (tocController != null && tocEntries != null && i >= tabs.length) {
           final tocIndex = i - tabs.length;
           if (tocIndex < tocEntries.length) {
-            logger.d(
-              'AppNavigationRail: Scrolling to TOC entry at index $tocIndex',
-            );
             tocController.scrollToEntry(tocEntries[tocIndex]);
             return; // Don't trigger navigation for TOC items
           }
