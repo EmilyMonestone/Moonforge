@@ -153,6 +153,11 @@ class Open5eClient {
         } catch (e) {
           logger.w('Failed to parse cached data for $endpoint: $e',
               context: LogContext.network);
+          // Clear corrupted cache
+          _persistence.delete(cacheKey, boxName: _boxName);
+          _persistence.delete(etagKey, boxName: _boxName);
+          logger.d('Cleared corrupted cache for $endpoint',
+              context: LogContext.network);
         }
       }
     }

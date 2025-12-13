@@ -46,9 +46,16 @@ class BestiaryProvider extends BaseAsyncProvider<List<Creature>> {
         _lastSync = DateTime.now();
       }
     } catch (e) {
-      // Silent failure is acceptable for cached data loading during initialization
-      logger.d('Failed to load cached bestiary data during initialization: $e',
+      // If cache is corrupted, clear it and continue
+      logger.d('Failed to load cached bestiary data, clearing cache: $e',
           context: LogContext.network);
+      // Clear potentially corrupted cache
+      try {
+        await clearCache();
+      } catch (clearError) {
+        logger.w('Failed to clear cache: $clearError',
+            context: LogContext.database);
+      }
     }
   }
 
