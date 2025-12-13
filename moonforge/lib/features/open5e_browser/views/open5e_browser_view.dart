@@ -104,6 +104,7 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
   String _selectedGameSystem = GameSystemKey.edition2024;
   List<dynamic> _results = [];
   bool _isLoading = false;
+  String? _errorMessage;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
@@ -111,7 +112,10 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
   void initState() {
     super.initState();
     _service = Open5eService(PersistenceService());
-    _loadData();
+    // Use addPostFrameCallback to ensure widget is fully built before loading
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+    });
   }
 
   @override
@@ -121,7 +125,10 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
   }
 
   Future<void> _loadData() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
 
     try {
       final options = Open5eQueryOptions(
@@ -214,21 +221,33 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
         setState(() {
           _results = response.results;
           _isLoading = false;
+          _errorMessage = null;
         });
       } else {
         setState(() {
           _results = [];
           _isLoading = false;
+          _errorMessage = 'Failed to load data from Open5e API. Please check your network connection.';
         });
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Error loading Open5e data: $e');
+      print('Stack trace: $stackTrace');
       setState(() {
         _results = [];
         _isLoading = false;
+        _errorMessage = 'Error loading data: $e';
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading data: $e')),
+          SnackBar(
+            content: Text('Error loading data: $e'),
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Retry',
+              onPressed: _loadData,
+            ),
+          ),
         );
       }
     }
@@ -455,14 +474,42 @@ class _Open5eBrowserViewState extends State<Open5eBrowserView> {
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : _results.isEmpty
+                : _errorMessage != null
                     ? Center(
-                        child: Text(
-                          'No results found',
-                          style: theme.textTheme.bodyLarge,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                _errorMessage!,
+                                style: theme.textTheme.bodyLarge,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton.icon(
+                                onPressed: _loadData,
+                                icon: const Icon(Icons.refresh),
+                                label: const Text('Retry'),
+                              ),
+                            ],
+                          ),
                         ),
                       )
-                    : ListView.builder(
+                    : _results.isEmpty
+                        ? Center(
+                            child: Text(
+                              'No results found',
+                              style: theme.textTheme.bodyLarge,
+                            ),
+                          )
+                        : ListView.builder(
                         itemCount: _results.length,
                         itemBuilder: (context, index) {
                           final item = _results[index];
