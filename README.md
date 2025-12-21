@@ -1,3 +1,9 @@
+> [!CAUTION]
+> **This repository is no longer maintained.**
+> 
+> Active development has moved. Please use the current version here: 
+> https://github.com/EmilyMoonstone/Moonforge
+
 # Moonforge
 
 A multi-platform campaign manager for Dungeons & Dragons built with Flutter. Moonforge helps Game Masters plan, run, and archive entire campaigns: chapters, scenes, encounters,
