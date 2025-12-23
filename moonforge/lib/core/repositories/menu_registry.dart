@@ -156,7 +156,7 @@ class MenuRegistry {
         // Read last visited route from persistence
         final persistenceService = PersistenceService();
         final lastRoute = persistenceService.read<String>('last_visited_route');
-        
+
         if (lastRoute != null && lastRoute.isNotEmpty) {
           // Navigate to the persisted route
           ctx.go(lastRoute);

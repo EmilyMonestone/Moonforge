@@ -193,6 +193,14 @@ RouteBase get $appShellRouteData => StatefulShellRouteData.$route(
     StatefulShellBranchData.$branch(
       routes: [
         GoRouteData.$route(
+          path: '/open5e-browser',
+          factory: $Open5eBrowserRouteData._fromState,
+        ),
+      ],
+    ),
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(
           path: '/settings',
           factory: $SettingsRouteData._fromState,
         ),
@@ -1025,6 +1033,27 @@ mixin $SessionEditRouteData on GoRouteData {
   String get location => GoRouteData.$location(
     '/party/${Uri.encodeComponent(_self.partyId)}/session/${Uri.encodeComponent(_self.sessionId)}/edit',
   );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $Open5eBrowserRouteData on GoRouteData {
+  static Open5eBrowserRouteData _fromState(GoRouterState state) =>
+      const Open5eBrowserRouteData();
+
+  @override
+  String get location => GoRouteData.$location('/open5e-browser');
 
   @override
   void go(BuildContext context) => context.go(location);
